@@ -1,0 +1,88 @@
+in plantloop get:
+    demand inlet, outlet, branchlist
+    supply inlet, outlet, branchlist
+    
+supply barnchlist
+    branch1 -> inlet, outlet
+    branch2 -> inlet, outlet
+    branch3 -> inlet, outlet
+    
+splitters
+    inlet
+    outlet1
+    outlet2
+    
+mixer
+    outlet
+    inlet1
+    inlet2
+    
+supply barnchlist
+    branch1 -> inlet, outlet
+    branch2 -> inlet, outlet
+    branch3 -> inlet, outlet
+        
+CONNET INLET OUTLETS
+=====================================
+another attempt:
+plantloops
+Out[122]: 
+[['Hot_Water_Loop_Hot_Water_Loop',
+  'Hot Water Loop HW Supply Inlet',
+  'Hot Water Loop HW Supply Outlet',
+  'Hot_Water_Loop_HW_Supply_Side_Branches',
+  'Hot Water Loop HW Demand Inlet',
+  'Hot Water Loop HW Demand Outlet',
+  'Hot_Water_Loop_HW_Demand_Side_Branches'],
+ ['Chilled_Water_Loop_Chilled_Water_Loop',
+  'Chilled Water Loop ChW Supply Inlet',
+  'Chilled Water Loop ChW Supply Outlet',
+  'Chilled_Water_Loop_ChW_Supply_Side_Branches',
+  'Chilled Water Loop ChW Demand Inlet',
+  'Chilled Water Loop ChW Demand Outlet',
+  'Chilled_Water_Loop_ChW_Demand_Side_Branches']]
+
+for plantloop in plantloops:
+-
+with plantloop get:
+    supplybranchlist
+    demandbranchlist
+-
+with branchlist:
+    branches
+- 
+with branch in branches:
+    branch_i_o = {branchname:{"inlet":inlet_name, "outlet":outlet_name}}
+    edges = inlet_name -> branchname -> outlet_name
+- 
+# splitter lists it's branches
+# copy splitter to list it's nodes
+# connect splitter to it's nodes
+for splitter in splitters:
+    # splitter_inlet = inletbranch.node
+    splittername = splitter[0]
+    inletbranchname = splitter[1] 
+    splitter_inlet = branch_i_o[inletbranchname]["outlet"]
+    edges = splitter_inlet -> splittername
+    # splitter_outlets = ouletbranches.nodes
+    outletbranchnames = [br for br in splitter[2:]]
+    splitter_outlets = [branch_i_o[br]["inlet"] for br in outletbranchnames]
+    edges = [splittername -> outlet for outlet in splitter_outlets]
+# similarly for mixers
+for mixer in mixers:
+    # mixer_outlet = outletbranch.node
+    mixername = mixer[0]
+    outletbranchname = mixer[1] 
+    mixer_outlet = branch_i_o[outletbranchname]["inlet"]
+    edges = mixername -> mixer_outlet
+    # mixer_inlets = inletbranches.nodes
+    inletbranchnames = [br for br in mixer[2:]]
+    mixer_inlets = [branch_i_o[br]["outlet"] for br in inletbranchnames]
+    edges = [mixername -> inlet for inlet in mixer_inlets]
+# connect demand and supply side
+for plantloop in plantloops:
+    supplyinlet = plantloop[1]
+    supplyoutlet = plantloop[2]
+    demandinlet = plantloop[4]
+    demandoutlet = plantloop[5]
+    edges = [supplyoutlet -> demandinlet, demandoutlet -> supplyinlet]

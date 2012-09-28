@@ -1,0 +1,13 @@
+Django running notes
+====================
+2011-05-28
+----------
+TODO :
+- make hierarchy of templates - DONE
+- try css, and other formats
+- open file, save file
+- name and password
+- navigation bar - DONE(Link to home page)
+- multiple open files. - look at this next
+- respond to name changes that are referenced. - ONGOING
+- New, copy, paste

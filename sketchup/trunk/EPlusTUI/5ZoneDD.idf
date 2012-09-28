@@ -1,0 +1,4215 @@
+! 5ZoneDD.idf
+! Basic file description: 1 story building divided into 4 exterior and
+!   one interior conditioned zones and a return plenum.
+! Building: single floor rectangular building 100 ft x 50 ft. 5 zones -
+!           4 exterior, 1 interior, zone height 8 feet. Exterior zone
+!           depth is 12 feet. There is a 2 foot high return plenum: the
+!           overall building height is 10 feet. There are windows on
+!           all 4 facades; the south and north facades have glass doors.
+!           The south facing glass is shaded by overhangs. The walls
+!           are woodshingle over plywood, R11 insulation, and gypboard.
+!           The roof is a gravel built up roof with R-3 mineral board
+!           insulation and plywood sheathing. The floor slab is 4 inches
+!           of heavy concrete over 2 feet of dirt. The windows are double
+!           pane 6mm clear with 6mm air gap.  The window to wall ratio is
+!           approxomately 0.29.
+!
+!           The building is oriented 30 degrees east of north.
+!
+! Internal: lighting is 1.5 watts/ft2, office equip is 1.0 watts/ft2. There
+!           is 1 occupant per 100 ft2 of floor area. The infiltration is
+!           0.25 air changes per hour.
+ 
+  Version,
+    1.2.0;                   !- Version Identifier
+ 
+  BUILDING,
+    Building,                !- Building Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value {W}
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25;                      !- Maximum Number of Warmup Days
+ 
+  TIMESTEP IN HOUR,
+    4;                       !- Time Step in Hour
+ 
+  INSIDE CONVECTION ALGORITHM,
+    Simple;                  !- InsideConvectionValue
+ 
+  OUTSIDE CONVECTION ALGORITHM,
+    Simple;                  !- OutsideConvectionValue
+ 
+  SOLUTION ALGORITHM,
+    CTF;                     !- SolutionAlgo
+ 
+  ZONE VOLUME CAPACITANCE MULTIPLIER,
+    1;                       !- Capacitance Multiplier
+ 
+  SurfaceGeometry,
+    UpperLeftCorner,         !- SurfaceStartingPosition
+    CounterClockWise,        !- VertexEntry
+    relative;                !- SurfaceGeometryKey
+ 
+  ScheduleType,
+    Any Number;              !- ScheduleType Name
+ 
+  ScheduleType,
+    Fraction,                !- ScheduleType Name
+    0.0 : 1.0,               !- range
+    CONTINUOUS;              !- Numeric Type
+ 
+  ScheduleType,
+    Temperature,             !- ScheduleType Name
+    -60:200,                 !- range
+    CONTINUOUS;              !- Numeric Type
+ 
+  ScheduleType,
+    Control Type,            !- ScheduleType Name
+    0:4,                     !- range
+    DISCRETE;                !- Numeric Type
+ 
+  ScheduleType,
+    On/Off,                  !- ScheduleType Name
+    0:1,                     !- range
+    DISCRETE;                !- Numeric Type
+ 
+  ScheduleType,
+    FlowRate,                !- ScheduleType Name
+    0.0:10,                  !- range
+    CONTINUOUS;              !- Numeric Type
+ 
+  LOCATION,
+    Chicago,                 !- LocationName
+    42.0,                    !- Latitude {deg}
+    -88.0,                   !- Longitude {deg}
+    -6,                      !- TimeZone {hr}
+    186;                     !- Elevation {m}
+ 
+  RUN CONTROL,
+    No,                      !- Do the zone sizing calculation
+    No,                      !- Do the system sizing calculation
+    No,                      !- Do the plant sizing calculation
+    Yes,                     !- Do the design day simulations
+    No;                      !- Do the weather file simulation
+ 
+  DesignDay,
+    Chicago ILLINOIS SUMMER, !- DesignDayName
+    32.77778,                !- Maximum Dry-Bulb Temperature {C}
+    10.88889,                !- Daily Temperature Range {deltaC}
+    23.33333,                !- Humidity Indicating Temperature at Max Temp {C}
+    99433.54,                !- Barometric Pressure {Pa}
+    3.807968,                !- Wind Speed {m/s}
+    213.0000,                !- Wind Direction {deg}
+    0.9800000,               !- Sky Clearness
+    0,                       !- Rain Indicator
+    0,                       !- Snow Indicator
+    21,                      !- Day Of Month
+    7,                       !- Month
+    Tuesday,                 !- Day Type
+    0,                       !- Daylight Saving Time Indicator
+    Wet-Bulb;                !- Humidity Indicating Temperature Type
+ 
+  DesignDay,
+    Chicago ILLINOIS WINTER, !- DesignDayName
+    -21.11111,               !- Maximum Dry-Bulb Temperature {C}
+    0.0000000E+00,           !- Daily Temperature Range {deltaC}
+    -21.11111,               !- Humidity Indicating Temperature at Max Temp {C}
+    99782.25,                !- Barometric Pressure {Pa}
+    11.6,                    !- Wind Speed {m/s}
+    326.0000,                !- Wind Direction {deg}
+    0.0000000E+00,           !- Sky Clearness
+    0,                       !- Rain Indicator
+    0,                       !- Snow Indicator
+    21,                      !- Day Of Month
+    1,                       !- Month
+    Tuesday,                 !- Day Type
+    0,                       !- Daylight Saving Time Indicator
+    Wet-Bulb;                !- Humidity Indicating Temperature Type
+ 
+  GROUNDTEMPERATURES,
+    20.03,                   !- January Ground Temperature {C}
+    20.03,                   !- February Ground Temperature {C}
+    20.13,                   !- March Ground Temperature {C}
+    20.30,                   !- April Ground Temperature {C}
+    20.43,                   !- May Ground Temperature {C}
+    20.52,                   !- June Ground Temperature {C}
+    20.62,                   !- July Ground Temperature {C}
+    20.77,                   !- August Ground Temperature {C}
+    20.78,                   !- September Ground Temperature {C}
+    20.55,                   !- October Ground Temperature {C}
+    20.44,                   !- November Ground Temperature {C}
+    20.20;                   !- December Ground Temperature {C}
+ 
+  MATERIAL:REGULAR,
+    WD10,                    !- Name
+    MediumSmooth,            !- Roughness
+    0.667,                   !- Thickness {m}
+    0.115,                   !- Conductivity {W/m-K}
+    513,                     !- Density {kg/m3}
+    1381,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Absorptance:Thermal
+    0.78,                    !- Absorptance:Solar
+    0.78;                    !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    RG01,                    !- Name
+    Rough,                   !- Roughness
+    1.2700000E-02,           !- Thickness {m}
+    1.442000,                !- Conductivity {W/m-K}
+    881.0000,                !- Density {kg/m3}
+    1674.000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.6500000,               !- Absorptance:Solar
+    0.6500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    BR01,                    !- Name
+    VeryRough,               !- Roughness
+    9.4999997E-03,           !- Thickness {m}
+    0.1620000,               !- Conductivity {W/m-K}
+    1121.000,                !- Density {kg/m3}
+    1464.000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7000000,               !- Absorptance:Solar
+    0.7000000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    IN46,                    !- Name
+    VeryRough,               !- Roughness
+    7.6200001E-02,           !- Thickness {m}
+    2.3000000E-02,           !- Conductivity {W/m-K}
+    24.00000,                !- Density {kg/m3}
+    1590.000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.5000000,               !- Absorptance:Solar
+    0.5000000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    WD01,                    !- Name
+    MediumSmooth,            !- Roughness
+    1.9099999E-02,           !- Thickness {m}
+    0.1150000,               !- Conductivity {W/m-K}
+    513.0000,                !- Density {kg/m3}
+    1381.000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7800000,               !- Absorptance:Solar
+    0.7800000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    PW03,                    !- Name
+    MediumSmooth,            !- Roughness
+    1.2700000E-02,           !- Thickness {m}
+    0.1150000,               !- Conductivity {W/m-K}
+    545.0000,                !- Density {kg/m3}
+    1213.000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7800000,               !- Absorptance:Solar
+    0.7800000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    IN02,                    !- Name
+    Rough,                   !- Roughness
+    9.0099998E-02,           !- Thickness {m}
+    4.3000001E-02,           !- Conductivity {W/m-K}
+    10.00000,                !- Density {kg/m3}
+    837.0000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7500000,               !- Absorptance:Solar
+    0.7500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    GP01,                    !- Name
+    MediumSmooth,            !- Roughness
+    1.2700000E-02,           !- Thickness {m}
+    0.1600000,               !- Conductivity {W/m-K}
+    801.0000,                !- Density {kg/m3}
+    837.0000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7500000,               !- Absorptance:Solar
+    0.7500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    GP02,                    !- Name
+    MediumSmooth,            !- Roughness
+    1.5900001E-02,           !- Thickness {m}
+    0.1600000,               !- Conductivity {W/m-K}
+    801.0000,                !- Density {kg/m3}
+    837.0000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.7500000,               !- Absorptance:Solar
+    0.7500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular,
+    CC03,                    !- Name
+    MediumRough,             !- Roughness
+    0.1016000,               !- Thickness {m}
+    1.310000,                !- Conductivity {W/m-K}
+    2243.000,                !- Density {kg/m3}
+    837.0000,                !- Specific Heat {J/kg-K}
+    0.9000000,               !- Absorptance:Thermal
+    0.6500000,               !- Absorptance:Solar
+    0.6500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular-R,
+    CP01,                    !- Name
+    Rough,                   !- Roughness
+    0.3670000,               !- Thermal Resistance {m2-K/W}
+    0.9000000,               !- Absorptance:Thermal
+    0.7500000,               !- Absorptance:Solar
+    0.7500000;               !- Absorptance:Visible
+ 
+  MATERIAL:Regular-R,
+    MAT-SB-U,                !- Name
+    Rough,                   !- Roughness
+    0.117406666,             !- Thermal Resistance {m2-K/W}
+    0.65,                    !- Absorptance:Thermal
+    0.65,                    !- Absorptance:Solar
+    0.65;                    !- Absorptance:Visible
+ 
+  MATERIAL:Regular-R,
+    MAT-CLNG-1,              !- Name
+    Rough,                   !- Roughness
+    0.652259290,             !- Thermal Resistance {m2-K/W}
+    0.65,                    !- Absorptance:Thermal
+    0.65,                    !- Absorptance:Solar
+    0.65;                    !- Absorptance:Visible
+ 
+  MATERIAL:Regular-R,
+    MAT-FLOOR-1,             !- Name
+    Rough,                   !- Roughness
+    3.522199631,             !- Thermal Resistance {m2-K/W}
+    0.65,                    !- Absorptance:Thermal
+    0.65,                    !- Absorptance:Solar
+    0.65;                    !- Absorptance:Visible
+ 
+  MATERIAL:Air,
+    AL21,                    !- Name
+    0.1570000;               !- Thermal Resistance {m2-K/W}
+ 
+  MATERIAL:Air,
+    AL23,                    !- Name
+    0.1530000;               !- Thermal Resistance {m2-K/W}
+ 
+  CONSTRUCTION,
+    ROOF-1,                  !- Name
+    RG01,                    !- Outside Layer
+    BR01,                    !- Layer #2
+    IN46,                    !- Layer #3
+    WD01;                    !- Layer #4
+ 
+  CONSTRUCTION,
+    WALL-1,                  !- Name
+    WD01,                    !- Outside Layer
+    PW03,                    !- Layer #2
+    IN02,                    !- Layer #3
+    GP01;                    !- Layer #4
+ 
+  CONSTRUCTION,
+    CLNG-1,                  !- Name
+    MAT-CLNG-1;              !- Outside Layer
+ 
+  CONSTRUCTION,
+    SB-U,                    !- Name
+    MAT-SB-U;                !- Outside Layer
+ 
+  CONSTRUCTION,
+    FLOOR-1,                 !- Name
+    MAT-FLOOR-1;             !- Outside Layer
+ 
+  CONSTRUCTION,
+    FLOOR-SLAB-1,            !- Name
+    CC03;                    !- Outside Layer
+ 
+  CONSTRUCTION,
+    INT-WALL-1,              !- Name
+    GP02,                    !- Outside Layer
+    AL21,                    !- Layer #2
+    GP02;                    !- Layer #3
+ 
+  MATERIAL:WindowGas,
+    AIR 6MM,                 !- Name
+    Air,                     !- Gas Type
+    .0063;                   !- Thickness {m}
+ 
+  MATERIAL:WindowGas,
+    AIR 13MM,                !- Name
+    Air,                     !- Gas Type
+    .0127;                   !- Thickness {m}
+ 
+  MATERIAL:WindowGas,
+    ARGON 13MM,              !- Name
+    Argon,                   !- Gas Type
+    .0127;                   !- Thickness {m}
+ 
+  MATERIAL:WindowGlass,
+    CLEAR 3MM,               !- Name
+    SpectralAverage,         !- Optical Data Type
+    ,                        !- Name of Window Glass Spectral Data Set
+    .003,                    !- Thickness {m}
+    .837,                    !- Solar Transmittance at Normal Incidence
+    .075,                    !- Solar Reflectance at Normal Incidence: Front Side
+    .075,                    !- Solar Reflectance at Normal Incidence: Back Side
+    .898,                    !- Visible Transmittance at Normal Incidence
+    .081,                    !- Visible Reflectance at Normal Incidence: Front Side
+    .081,                    !- Visible Reflectance at Normal Incidence: Back Side
+    .0,                      !- IR Transmittance at Normal Incidence
+    .84,                     !- IR Hemispherical Emissivity: Front Side
+    .84,                     !- IR Hemispherical Emissivity: Back Side
+    .9;                      !- Conductivity {W/m-K}
+ 
+  MATERIAL:WindowGlass,
+    GREY 3MM,                !- Name
+    SpectralAverage,         !- Optical Data Type
+    ,                        !- Name of Window Glass Spectral Data Set
+    .003,                    !- Thickness {m}
+    .626,                    !- Solar Transmittance at Normal Incidence
+    .061,                    !- Solar Reflectance at Normal Incidence: Front Side
+    .061,                    !- Solar Reflectance at Normal Incidence: Back Side
+    .611,                    !- Visible Transmittance at Normal Incidence
+    .061,                    !- Visible Reflectance at Normal Incidence: Front Side
+    .061,                    !- Visible Reflectance at Normal Incidence: Back Side
+    .0,                      !- IR Transmittance at Normal Incidence
+    .84,                     !- IR Hemispherical Emissivity: Front Side
+    .84,                     !- IR Hemispherical Emissivity: Back Side
+    .9;                      !- Conductivity {W/m-K}
+ 
+  MATERIAL:WindowGlass,
+    CLEAR 6MM,               !- Name
+    SpectralAverage,         !- Optical Data Type
+    ,                        !- Name of Window Glass Spectral Data Set
+    .006,                    !- Thickness {m}
+    .775,                    !- Solar Transmittance at Normal Incidence
+    .071,                    !- Solar Reflectance at Normal Incidence: Front Side
+    .071,                    !- Solar Reflectance at Normal Incidence: Back Side
+    .881,                    !- Visible Transmittance at Normal Incidence
+    .080,                    !- Visible Reflectance at Normal Incidence: Front Side
+    .080,                    !- Visible Reflectance at Normal Incidence: Back Side
+    .0,                      !- IR Transmittance at Normal Incidence
+    .84,                     !- IR Hemispherical Emissivity: Front Side
+    .84,                     !- IR Hemispherical Emissivity: Back Side
+    .9;                      !- Conductivity {W/m-K}
+ 
+  MATERIAL:WindowGlass,
+    LoE CLEAR 6MM,           !- Name
+    SpectralAverage,         !- Optical Data Type
+    ,                        !- Name of Window Glass Spectral Data Set
+    .006,                    !- Thickness {m}
+    .600,                    !- Solar Transmittance at Normal Incidence
+    .170,                    !- Solar Reflectance at Normal Incidence: Front Side
+    .220,                    !- Solar Reflectance at Normal Incidence: Back Side
+    .840,                    !- Visible Transmittance at Normal Incidence
+    .055,                    !- Visible Reflectance at Normal Incidence: Front Side
+    .078,                    !- Visible Reflectance at Normal Incidence: Back Side
+    .0,                      !- IR Transmittance at Normal Incidence
+    .84,                     !- IR Hemispherical Emissivity: Front Side
+    .10,                     !- IR Hemispherical Emissivity: Back Side
+    .9;                      !- Conductivity {W/m-K}
+ 
+  CONSTRUCTION,
+    Dbl Clr 3mm/13mm Air,    !- Name
+    CLEAR 3MM,               !- Outside Layer
+    AIR 13MM,                !- Layer #2
+    CLEAR 3MM;               !- Layer #3
+ 
+  CONSTRUCTION,
+    Dbl Clr 3mm/13mm Arg,    !- Name
+    CLEAR 3MM,               !- Outside Layer
+    ARGON 13MM,              !- Layer #2
+    CLEAR 3MM;               !- Layer #3
+ 
+  CONSTRUCTION,
+    Sgl Grey 3mm,            !- Name
+    GREY 3MM;                !- Outside Layer
+ 
+  CONSTRUCTION,
+    Dbl Clr 6mm/6mm Air,     !- Name
+    CLEAR 6MM,               !- Outside Layer
+    AIR 6MM,                 !- Layer #2
+    CLEAR 6MM;               !- Layer #3
+ 
+  CONSTRUCTION,
+    Dbl LoE (e2=.1) Clr 6mm/6mm Air,  !- Name
+    LoE CLEAR 6MM,           !- Outside Layer
+    AIR 6MM,                 !- Layer #2
+    CLEAR 6MM;               !- Layer #3
+ 
+  DAYSCHEDULE,
+    OC-1,                    !- Name
+    Fraction,                !- ScheduleType
+    0.0,                     !- Hour 1
+    0.0,                     !- Hour 2
+    0.0,                     !- Hour 3
+    0.0,                     !- Hour 4
+    0.0,                     !- Hour 5
+    0.0,                     !- Hour 6
+    0.0,                     !- Hour 7
+    0.0,                     !- Hour 8
+    1.0,                     !- Hour 9
+    1.0,                     !- Hour 10
+    1.0,                     !- Hour 11
+    0.8,                     !- Hour 12
+    0.4,                     !- Hour 13
+    0.8,                     !- Hour 14
+    1.0,                     !- Hour 15
+    1.0,                     !- Hour 16
+    1.0,                     !- Hour 17
+    1.0,                     !- Hour 18
+    0.5,                     !- Hour 19
+    0.1,                     !- Hour 20
+    0.1,                     !- Hour 21
+    0.0,                     !- Hour 22
+    0.0,                     !- Hour 23
+    0.0;                     !- Hour 24
+ 
+  DAYSCHEDULE,
+    OC-2,                    !- Name
+    Fraction,                !- ScheduleType
+    0.0,                     !- Hour 1
+    0.0,                     !- Hour 2
+    0.0,                     !- Hour 3
+    0.0,                     !- Hour 4
+    0.0,                     !- Hour 5
+    0.0,                     !- Hour 6
+    0.0,                     !- Hour 7
+    0.0,                     !- Hour 8
+    0.0,                     !- Hour 9
+    0.0,                     !- Hour 10
+    0.0,                     !- Hour 11
+    0.0,                     !- Hour 12
+    0.0,                     !- Hour 13
+    0.0,                     !- Hour 14
+    0.0,                     !- Hour 15
+    0.0,                     !- Hour 16
+    0.0,                     !- Hour 17
+    0.0,                     !- Hour 18
+    0.0,                     !- Hour 19
+    0.0,                     !- Hour 20
+    0.0,                     !- Hour 21
+    0.0,                     !- Hour 22
+    0.0,                     !- Hour 23
+    0.0;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    OC-WEEK,                 !- Name
+    OC-2,                    !- Sunday DAYSCHEDULE Name
+    OC-1,                    !- Monday DAYSCHEDULE Name
+    OC-1,                    !- Tuesday DAYSCHEDULE Name
+    OC-1,                    !- Wednesday DAYSCHEDULE Name
+    OC-1,                    !- Thursday DAYSCHEDULE Name
+    OC-1,                    !- Friday DAYSCHEDULE Name
+    OC-2,                    !- Saturday DAYSCHEDULE Name
+    OC-2,                    !- Holiday DAYSCHEDULE Name
+    OC-1,                    !- SummerDesignDay DAYSCHEDULE Name
+    OC-2,                    !- WinterDesignDay DAYSCHEDULE Name
+    OC-1,                    !- CustomDay1 DAYSCHEDULE Name
+    OC-1;                    !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    OCCUPY-1,                !- Name
+    Fraction,                !- ScheduleType
+    OC-WEEK,                 !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    LT-1,                    !- Name
+    Fraction,                !- ScheduleType
+    0.05,                    !- Hour 1
+    0.05,                    !- Hour 2
+    0.05,                    !- Hour 3
+    0.05,                    !- Hour 4
+    0.05,                    !- Hour 5
+    0.05,                    !- Hour 6
+    0.05,                    !- Hour 7
+    0.05,                    !- Hour 8
+    0.9,                     !- Hour 9
+    0.95,                    !- Hour 10
+    1.0,                     !- Hour 11
+    0.95,                    !- Hour 12
+    0.8,                     !- Hour 13
+    0.9,                     !- Hour 14
+    1.0,                     !- Hour 15
+    1.0,                     !- Hour 16
+    1.0,                     !- Hour 17
+    1.0,                     !- Hour 18
+    0.6,                     !- Hour 19
+    0.2,                     !- Hour 20
+    0.2,                     !- Hour 21
+    0.05,                    !- Hour 22
+    0.05,                    !- Hour 23
+    0.05;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    LT-2,                    !- Name
+    Fraction,                !- ScheduleType
+    0.05,                    !- Hour 1
+    0.05,                    !- Hour 2
+    0.05,                    !- Hour 3
+    0.05,                    !- Hour 4
+    0.05,                    !- Hour 5
+    0.05,                    !- Hour 6
+    0.05,                    !- Hour 7
+    0.05,                    !- Hour 8
+    0.05,                    !- Hour 9
+    0.05,                    !- Hour 10
+    0.05,                    !- Hour 11
+    0.05,                    !- Hour 12
+    0.05,                    !- Hour 13
+    0.05,                    !- Hour 14
+    0.05,                    !- Hour 15
+    0.05,                    !- Hour 16
+    0.05,                    !- Hour 17
+    0.05,                    !- Hour 18
+    0.05,                    !- Hour 19
+    0.05,                    !- Hour 20
+    0.05,                    !- Hour 21
+    0.05,                    !- Hour 22
+    0.05,                    !- Hour 23
+    0.05;                    !- Hour 24
+ 
+  WEEKSCHEDULE,
+    LT-WEEK,                 !- Name
+    LT-2,                    !- Sunday DAYSCHEDULE Name
+    LT-1,                    !- Monday DAYSCHEDULE Name
+    LT-1,                    !- Tuesday DAYSCHEDULE Name
+    LT-1,                    !- Wednesday DAYSCHEDULE Name
+    LT-1,                    !- Thursday DAYSCHEDULE Name
+    LT-1,                    !- Friday DAYSCHEDULE Name
+    LT-2,                    !- Saturday DAYSCHEDULE Name
+    LT-2,                    !- Holiday DAYSCHEDULE Name
+    LT-1,                    !- SummerDesignDay DAYSCHEDULE Name
+    LT-2,                    !- WinterDesignDay DAYSCHEDULE Name
+    LT-1,                    !- CustomDay1 DAYSCHEDULE Name
+    LT-1;                    !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    LIGHTS-1,                !- Name
+    Fraction,                !- ScheduleType
+    LT-WEEK,                 !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    EQ-1,                    !- Name
+    Fraction,                !- ScheduleType
+    0.02,                    !- Hour 1
+    0.02,                    !- Hour 2
+    0.02,                    !- Hour 3
+    0.02,                    !- Hour 4
+    0.02,                    !- Hour 5
+    0.02,                    !- Hour 6
+    0.02,                    !- Hour 7
+    0.02,                    !- Hour 8
+    0.4,                     !- Hour 9
+    0.9,                     !- Hour 10
+    0.9,                     !- Hour 11
+    0.9,                     !- Hour 12
+    0.9,                     !- Hour 13
+    0.9,                     !- Hour 14
+    0.8,                     !- Hour 15
+    0.7,                     !- Hour 16
+    0.5,                     !- Hour 17
+    0.5,                     !- Hour 18
+    0.3,                     !- Hour 19
+    0.3,                     !- Hour 20
+    0.02,                    !- Hour 21
+    0.02,                    !- Hour 22
+    0.02,                    !- Hour 23
+    0.02;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    EQ-2,                    !- Name
+    Fraction,                !- ScheduleType
+    0.2,                     !- Hour 1
+    0.2,                     !- Hour 2
+    0.2,                     !- Hour 3
+    0.2,                     !- Hour 4
+    0.2,                     !- Hour 5
+    0.2,                     !- Hour 6
+    0.2,                     !- Hour 7
+    0.2,                     !- Hour 8
+    0.2,                     !- Hour 9
+    0.2,                     !- Hour 10
+    0.2,                     !- Hour 11
+    0.2,                     !- Hour 12
+    0.2,                     !- Hour 13
+    0.2,                     !- Hour 14
+    0.2,                     !- Hour 15
+    0.2,                     !- Hour 16
+    0.2,                     !- Hour 17
+    0.2,                     !- Hour 18
+    0.2,                     !- Hour 19
+    0.2,                     !- Hour 20
+    0.2,                     !- Hour 21
+    0.2,                     !- Hour 22
+    0.2,                     !- Hour 23
+    0.2;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    EQ-WEEK,                 !- Name
+    EQ-2,                    !- Sunday DAYSCHEDULE Name
+    EQ-1,                    !- Monday DAYSCHEDULE Name
+    EQ-1,                    !- Tuesday DAYSCHEDULE Name
+    EQ-1,                    !- Wednesday DAYSCHEDULE Name
+    EQ-1,                    !- Thursday DAYSCHEDULE Name
+    EQ-1,                    !- Friday DAYSCHEDULE Name
+    EQ-2,                    !- Saturday DAYSCHEDULE Name
+    EQ-2,                    !- Holiday DAYSCHEDULE Name
+    EQ-1,                    !- SummerDesignDay DAYSCHEDULE Name
+    EQ-2,                    !- WinterDesignDay DAYSCHEDULE Name
+    EQ-1,                    !- CustomDay1 DAYSCHEDULE Name
+    EQ-1;                    !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    EQUIP-1,                 !- Name
+    Fraction,                !- ScheduleType
+    EQ-WEEK,                 !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    INFIL-SCH-1-1,           !- Name
+    Fraction,                !- ScheduleType
+    1,                       !- Hour 1
+    1,                       !- Hour 2
+    1,                       !- Hour 3
+    1,                       !- Hour 4
+    1,                       !- Hour 5
+    1,                       !- Hour 6
+    1,                       !- Hour 7
+    1,                       !- Hour 8
+    1,                       !- Hour 9
+    1,                       !- Hour 10
+    1,                       !- Hour 11
+    1,                       !- Hour 12
+    1,                       !- Hour 13
+    1,                       !- Hour 14
+    1,                       !- Hour 15
+    1,                       !- Hour 16
+    1,                       !- Hour 17
+    1,                       !- Hour 18
+    1,                       !- Hour 19
+    1,                       !- Hour 20
+    1,                       !- Hour 21
+    1,                       !- Hour 22
+    1,                       !- Hour 23
+    1;                       !- Hour 24
+ 
+  WEEKSCHEDULE,
+    INFIL-SCH-1,             !- Name
+    INFIL-SCH-1-1,           !- Sunday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Monday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Tuesday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Wednesday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Thursday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Friday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Saturday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- Holiday DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- SummerDesignDay DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- WinterDesignDay DAYSCHEDULE Name
+    INFIL-SCH-1-1,           !- CustomDay1 DAYSCHEDULE Name
+    INFIL-SCH-1-1;           !- CustomDay2 DAYSCHEDULE Name
+ 
+  DAYSCHEDULE,
+    INFIL-SCH-2-1,           !- Name
+    Fraction,                !- ScheduleType
+    0,                       !- Hour 1
+    0,                       !- Hour 2
+    0,                       !- Hour 3
+    0,                       !- Hour 4
+    0,                       !- Hour 5
+    0,                       !- Hour 6
+    0,                       !- Hour 7
+    0,                       !- Hour 8
+    0,                       !- Hour 9
+    0,                       !- Hour 10
+    0,                       !- Hour 11
+    0,                       !- Hour 12
+    0,                       !- Hour 13
+    0,                       !- Hour 14
+    0,                       !- Hour 15
+    0,                       !- Hour 16
+    0,                       !- Hour 17
+    0,                       !- Hour 18
+    0,                       !- Hour 19
+    0,                       !- Hour 20
+    0,                       !- Hour 21
+    0,                       !- Hour 22
+    0,                       !- Hour 23
+    0;                       !- Hour 24
+ 
+  WEEKSCHEDULE,
+    INFIL-SCH-2,             !- Name
+    INFIL-SCH-2-1,           !- Sunday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Monday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Tuesday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Wednesday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Thursday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Friday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Saturday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- Holiday DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- SummerDesignDay DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- WinterDesignDay DAYSCHEDULE Name
+    INFIL-SCH-2-1,           !- CustomDay1 DAYSCHEDULE Name
+    INFIL-SCH-2-1;           !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    INFIL-SCH,               !- Name
+    Fraction,                !- ScheduleType
+    INFIL-SCH-1,             !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    INFIL-SCH-2,             !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    10,                      !- End Month 2
+    31,                      !- End Day 2
+    INFIL-SCH-1,             !- Name of WEEKSCHEDULE 3
+    11,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  DAYSCHEDULE,
+    ActDaySchd,              !- Name
+    Any Number,              !- ScheduleType
+    117.239997864,           !- Hour 1
+    117.239997864,           !- Hour 2
+    117.239997864,           !- Hour 3
+    117.239997864,           !- Hour 4
+    117.239997864,           !- Hour 5
+    117.239997864,           !- Hour 6
+    117.239997864,           !- Hour 7
+    117.239997864,           !- Hour 8
+    117.239997864,           !- Hour 9
+    117.239997864,           !- Hour 10
+    117.239997864,           !- Hour 11
+    117.239997864,           !- Hour 12
+    117.239997864,           !- Hour 13
+    117.239997864,           !- Hour 14
+    117.239997864,           !- Hour 15
+    117.239997864,           !- Hour 16
+    117.239997864,           !- Hour 17
+    117.239997864,           !- Hour 18
+    117.239997864,           !- Hour 19
+    117.239997864,           !- Hour 20
+    117.239997864,           !- Hour 21
+    117.239997864,           !- Hour 22
+    117.239997864,           !- Hour 23
+    117.239997864;           !- Hour 24
+ 
+  WEEKSCHEDULE,
+    ActWeekSchd,             !- Name
+    ActDaySchd,              !- Sunday DAYSCHEDULE Name
+    ActDaySchd,              !- Monday DAYSCHEDULE Name
+    ActDaySchd,              !- Tuesday DAYSCHEDULE Name
+    ActDaySchd,              !- Wednesday DAYSCHEDULE Name
+    ActDaySchd,              !- Thursday DAYSCHEDULE Name
+    ActDaySchd,              !- Friday DAYSCHEDULE Name
+    ActDaySchd,              !- Saturday DAYSCHEDULE Name
+    ActDaySchd,              !- Holiday DAYSCHEDULE Name
+    ActDaySchd,              !- SummerDesignDay DAYSCHEDULE Name
+    ActDaySchd,              !- WinterDesignDay DAYSCHEDULE Name
+    ActDaySchd,              !- CustomDay1 DAYSCHEDULE Name
+    ActDaySchd;              !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    ActSchd,                 !- Name
+    Any Number,              !- ScheduleType
+    ActWeekSchd,             !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    ShadeTransDaySch,        !- Name
+    Fraction,                !- ScheduleType
+    0.0,                     !- Hour 1
+    0.0,                     !- Hour 2
+    0.0,                     !- Hour 3
+    0.0,                     !- Hour 4
+    0.0,                     !- Hour 5
+    0.0,                     !- Hour 6
+    0.0,                     !- Hour 7
+    0.0,                     !- Hour 8
+    0.0,                     !- Hour 9
+    0.0,                     !- Hour 10
+    0.0,                     !- Hour 11
+    0.0,                     !- Hour 12
+    0.0,                     !- Hour 13
+    0.0,                     !- Hour 14
+    0.0,                     !- Hour 15
+    0.0,                     !- Hour 16
+    0.0,                     !- Hour 17
+    0.0,                     !- Hour 18
+    0.0,                     !- Hour 19
+    0.0,                     !- Hour 20
+    0.0,                     !- Hour 21
+    0.0,                     !- Hour 22
+    0.0,                     !- Hour 23
+    0.0;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    ShadeTransWeekSch,       !- Name
+    ShadeTransDaySch,        !- Sunday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Monday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Tuesday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Wednesday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Thursday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Friday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Saturday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- Holiday DAYSCHEDULE Name
+    ShadeTransDaySch,        !- SummerDesignDay DAYSCHEDULE Name
+    ShadeTransDaySch,        !- WinterDesignDay DAYSCHEDULE Name
+    ShadeTransDaySch,        !- CustomDay1 DAYSCHEDULE Name
+    ShadeTransDaySch;        !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    ShadeTransSch,           !- Name
+    Fraction,                !- ScheduleType
+    ShadeTransWeekSch,       !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  ZONE,
+    PLENUM-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    0.609600067,             !- Ceiling Height {m}
+    283.2;                   !- Volume {m3}
+ 
+  Surface:HeatTransfer,
+    WALL-1PF,                !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,0.0,3.0,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    30.5,0.0,3.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    WALL-1PR,                !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,0.0,3.0,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,3.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    WALL-1PB,                !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,15.2,3.0,  !- X,Y,Z ==> Vertex 1
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 3
+    0.0,15.2,3.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    WALL-1PL,                !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,15.2,3.0,  !- X,Y,Z ==> Vertex 1
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    0.0,0.0,3.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    TOP-1,                   !- User Supplied Surface Name
+    ROOF,                    !- Surface Type
+    ROOF-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.00000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,15.2,3.0,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,3.0,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,3.0,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,3.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C1-1P,                   !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C1-1,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C2-1P,                   !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C2-1,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C3-1P,                   !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C3-1,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C4-1P,                   !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C4-1,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C5-1P,                   !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    PLENUM-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C5-1,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 2
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE,
+    SPACE1-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    2.438400269,             !- Ceiling Height {m}
+    239.247360229;           !- Volume {m3}
+ 
+  INFILTRATION,
+    SPACE1-1,                !- Zone Name
+    INFIL-SCH,               !- SCHEDULE Name
+    0.0167,                  !- Design Volume Flow Rate {m3/s}
+    0,                       !- Constant Term Coefficient
+    0,                       !- Temperature Term Coefficient
+    0.2237,                  !- Velocity Term Coefficient
+    0;                       !- Velocity Squared Term Coefficient
+ 
+  PEOPLE,
+    SPACE1-1,                !- Zone Name
+    11,                      !- Number of People
+    OCCUPY-1,                !- Number of People SCHEDULE Name (real--fraction)
+    0.3,                     !- Fraction Radiant
+    ActSchd;                 !- Activity level SCHEDULE Name (units W/person, real)
+ 
+  LIGHTS,
+    SPACE1-1,                !- Zone Name
+    LIGHTS-1,                !- SCHEDULE Name
+    1584,                    !- Design Level {W}
+    0.2,                     !- Return Air Fraction
+    0.59,                    !- Fraction Radiant
+    0.2,                     !- Fraction Visible
+    0,                       !- Fraction Replaceable
+    GeneralLights;           !- LightsEndUseKey
+ 
+  ELECTRIC EQUIPMENT,
+    SPACE1-1,                !- Zone Name
+    EQUIP-1,                 !- SCHEDULE Name
+    1056,                    !- Design Level {W}
+    0,                       !- Fraction Latent
+    0.3,                     !- Fraction Radiant
+    0,                       !- Fraction Lost
+    0;                       !- End-Use Category
+ 
+  Surface:HeatTransfer,
+    FRONT-1,                 !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    30.5,0.0,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    WF-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Dbl Clr 3mm/13mm Air,    !- Construction Name of the Surface
+    FRONT-1,                 !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.0,0.0,2.1,  !- X,Y,Z ==> Vertex 1
+    3.0,0.0,0.9,  !- X,Y,Z ==> Vertex 2
+    16.8,0.0,0.9,  !- X,Y,Z ==> Vertex 3
+    16.8,0.0,2.1;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    DF-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Sgl Grey 3mm,            !- Construction Name of the Surface
+    FRONT-1,                 !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    21.3,0.0,2.4,  !- X,Y,Z ==> Vertex 1
+    21.3,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    23.8,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    23.8,0.0,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:Shading:Attached,
+    Main South Overhang,     !- User Supplied Surface Name
+    FRONT-1,                 !- Base Surface Name
+    ShadeTransSch,           !- TransSchedShadowSurf
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,-1.3,2.2,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,2.2,  !- X,Y,Z ==> Vertex 2
+    19.8,0.0,2.2,  !- X,Y,Z ==> Vertex 3
+    19.8,-1.3,2.2;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:Shading:Attached,
+    South Door Overhang,     !- User Supplied Surface Name
+    FRONT-1,                 !- Base Surface Name
+    ShadeTransSch,           !- TransSchedShadowSurf
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    21.0,-2.0,2.6,  !- X,Y,Z ==> Vertex 1
+    21.0,0.0,2.6,  !- X,Y,Z ==> Vertex 2
+    24.1,0.0,2.6,  !- X,Y,Z ==> Vertex 3
+    24.1,-2.0,2.6;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C1-1,                    !- User Supplied Surface Name
+    CEILING,                 !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C1-1P,                   !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    F1-1,                    !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    FLOOR-SLAB-1,            !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    Ground,                  !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,0.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB12,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB21,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB14,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB41,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    0.0,0.0,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB15,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE1-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB51,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE,
+    SPACE2-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    2.438400269,             !- Ceiling Height {m}
+    103.311355591;           !- Volume {m3}
+ 
+  INFILTRATION,
+    SPACE2-1,                !- Zone Name
+    INFIL-SCH,               !- SCHEDULE Name
+    .00717,                  !- Design Volume Flow Rate {m3/s}
+    0,                       !- Constant Term Coefficient
+    0,                       !- Temperature Term Coefficient
+    0.2237,                  !- Velocity Term Coefficient
+    0;                       !- Velocity Squared Term Coefficient
+ 
+  PEOPLE,
+    SPACE2-1,                !- Zone Name
+    5,                       !- Number of People
+    OCCUPY-1,                !- Number of People SCHEDULE Name (real--fraction)
+    0.3,                     !- Fraction Radiant
+    ActSchd;                 !- Activity level SCHEDULE Name (units W/person, real)
+ 
+  LIGHTS,
+    SPACE2-1,                !- Zone Name
+    LIGHTS-1,                !- SCHEDULE Name
+    684,                     !- Design Level {W}
+    0.2,                     !- Return Air Fraction
+    0.59,                    !- Fraction Radiant
+    0.2,                     !- Fraction Visible
+    0,                       !- Fraction Replaceable
+    GeneralLights;           !- LightsEndUseKey
+ 
+  ELECTRIC EQUIPMENT,
+    SPACE2-1,                !- Zone Name
+    EQUIP-1,                 !- SCHEDULE Name
+    456,                     !- Design Level {W}
+    0,                       !- Fraction Latent
+    0.3,                     !- Fraction Radiant
+    0,                       !- Fraction Lost
+    0;                       !- End-Use Category
+ 
+  Surface:HeatTransfer,
+    RIGHT-1,                 !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    30.5,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    WR-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Dbl Clr 3mm/13mm Air,    !- Construction Name of the Surface
+    RIGHT-1,                 !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,3.8,2.1,  !- X,Y,Z ==> Vertex 1
+    30.5,3.8,0.9,  !- X,Y,Z ==> Vertex 2
+    30.5,11.4,0.9,  !- X,Y,Z ==> Vertex 3
+    30.5,11.4,2.1;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C2-1,                    !- User Supplied Surface Name
+    CEILING,                 !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C2-1P,                   !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 2
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    F2-1,                    !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    FLOOR-SLAB-1,            !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    Ground,                  !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 1
+    30.5,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,0.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB21,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB12,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    30.5,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    30.5,0.0,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB23,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB32,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB25,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE2-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB52,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE,
+    SPACE3-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    2.438400269,             !- Ceiling Height {m}
+    239.247360229;           !- Volume {m3}
+ 
+  INFILTRATION,
+    SPACE3-1,                !- Zone Name
+    INFIL-SCH,               !- SCHEDULE Name
+    0.0167,                  !- Design Volume Flow Rate {m3/s}
+    0,                       !- Constant Term Coefficient
+    0,                       !- Temperature Term Coefficient
+    0.2237,                  !- Velocity Term Coefficient
+    0;                       !- Velocity Squared Term Coefficient
+ 
+  PEOPLE,
+    SPACE3-1,                !- Zone Name
+    11,                      !- Number of People
+    OCCUPY-1,                !- Number of People SCHEDULE Name (real--fraction)
+    0.3,                     !- Fraction Radiant
+    ActSchd;                 !- Activity level SCHEDULE Name (units W/person, real)
+ 
+  LIGHTS,
+    SPACE3-1,                !- Zone Name
+    LIGHTS-1,                !- SCHEDULE Name
+    1584,                    !- Design Level {W}
+    0.2,                     !- Return Air Fraction
+    0.59,                    !- Fraction Radiant
+    0.2,                     !- Fraction Visible
+    0,                       !- Fraction Replaceable
+    GeneralLights;           !- LightsEndUseKey
+ 
+  ELECTRIC EQUIPMENT,
+    SPACE3-1,                !- Zone Name
+    EQUIP-1,                 !- SCHEDULE Name
+    1056,                    !- Design Level {W}
+    0,                       !- Fraction Latent
+    0.3,                     !- Fraction Radiant
+    0,                       !- Fraction Lost
+    0;                       !- End-Use Category
+ 
+  Surface:HeatTransfer,
+    BACK-1,                  !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 1
+    30.5,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    0.0,15.2,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    WB-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Dbl Clr 3mm/13mm Air,    !- Construction Name of the Surface
+    BACK-1,                  !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    27.4,15.2,2.1,  !- X,Y,Z ==> Vertex 1
+    27.4,15.2,0.9,  !- X,Y,Z ==> Vertex 2
+    13.7,15.2,0.9,  !- X,Y,Z ==> Vertex 3
+    13.7,15.2,2.1;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    DB-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Sgl Grey 3mm,            !- Construction Name of the Surface
+    BACK-1,                  !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    9.1,15.2,2.1,  !- X,Y,Z ==> Vertex 1
+    9.1,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    7.0,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    7.0,15.2,2.1;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C3-1,                    !- User Supplied Surface Name
+    CEILING,                 !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C3-1P,                   !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    30.5,15.2,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 2
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    F3-1,                    !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    FLOOR-SLAB-1,            !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    Ground,                  !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 1
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,0.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB32,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB23,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    30.5,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    30.5,15.2,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB34,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB43,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB35,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE3-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB53,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE,
+    SPACE4-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    2.438400269,             !- Ceiling Height {m}
+    103.311355591;           !- Volume {m3}
+ 
+  INFILTRATION,
+    SPACE4-1,                !- Zone Name
+    INFIL-SCH,               !- SCHEDULE Name
+    .00717,                  !- Design Volume Flow Rate {m3/s}
+    0,                       !- Constant Term Coefficient
+    0,                       !- Temperature Term Coefficient
+    0.2237,                  !- Velocity Term Coefficient
+    0;                       !- Velocity Squared Term Coefficient
+ 
+  PEOPLE,
+    SPACE4-1,                !- Zone Name
+    5,                       !- Number of People
+    OCCUPY-1,                !- Number of People SCHEDULE Name (real--fraction)
+    0.3,                     !- Fraction Radiant
+    ActSchd;                 !- Activity level SCHEDULE Name (units W/person, real)
+ 
+  LIGHTS,
+    SPACE4-1,                !- Zone Name
+    LIGHTS-1,                !- SCHEDULE Name
+    684,                     !- Design Level {W}
+    0.2,                     !- Return Air Fraction
+    0.59,                    !- Fraction Radiant
+    0.2,                     !- Fraction Visible
+    0,                       !- Fraction Replaceable
+    GeneralLights;           !- LightsEndUseKey
+ 
+  ELECTRIC EQUIPMENT,
+    SPACE4-1,                !- Zone Name
+    EQUIP-1,                 !- SCHEDULE Name
+    456,                     !- Design Level {W}
+    0,                       !- Fraction Latent
+    0.3,                     !- Fraction Radiant
+    0,                       !- Fraction Lost
+    0;                       !- End-Use Category
+ 
+  Surface:HeatTransfer,
+    LEFT-1,                  !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    WALL-1,                  !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    ExteriorEnvironment,     !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    SunExposed,              !- Sun Exposure
+    WindExposed,             !- Wind Exposure
+    0.50000,                 !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 3
+    0.0,0.0,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer:Sub,
+    WL-1,                    !- User Supplied Surface Name
+    WINDOW,                  !- Surface Type
+    Dbl Clr 3mm/13mm Air,    !- Construction Name of the Surface
+    LEFT-1,                  !- Base Surface Name
+    ,                        !- OutsideFaceEnvironment Object
+    0.50000,                 !- View Factor to Ground
+    ,                        !- Name of shading control
+    ,                        !- WindowFrameAndDivider Name
+    1,                       !- Multiplier
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,11.4,2.1,  !- X,Y,Z ==> Vertex 1
+    0.0,11.4,0.9,  !- X,Y,Z ==> Vertex 2
+    0.0,3.8,0.9,  !- X,Y,Z ==> Vertex 3
+    0.0,3.8,2.1;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    C4-1,                    !- User Supplied Surface Name
+    CEILING,                 !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C4-1P,                   !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,15.2,2.4,  !- X,Y,Z ==> Vertex 2
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    F4-1,                    !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    FLOOR-SLAB-1,            !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    Ground,                  !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,0.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB41,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB14,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    0.0,0.0,2.4,  !- X,Y,Z ==> Vertex 1
+    0.0,0.0,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB43,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB34,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    0.0,15.2,0.0,  !- X,Y,Z ==> Vertex 3
+    0.0,15.2,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB45,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE4-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB54,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE,
+    SPACE5-1,                !- Zone Name
+    0,                       !- Relative North (to building) {deg}
+    0,                       !- X Origin {m}
+    0,                       !- Y Origin {m}
+    0,                       !- Z Origin {m}
+    1,                       !- Type
+    1,                       !- Multiplier
+    2.438400269,             !- Ceiling Height {m}
+    447.682556152;           !- Volume {m3}
+ 
+  INFILTRATION,
+    SPACE5-1,                !- Zone Name
+    INFIL-SCH,               !- SCHEDULE Name
+    .031089,                 !- Design Volume Flow Rate {m3/s}
+    0,                       !- Constant Term Coefficient
+    0,                       !- Temperature Term Coefficient
+    0.2237,                  !- Velocity Term Coefficient
+    0;                       !- Velocity Squared Term Coefficient
+ 
+  PEOPLE,
+    SPACE5-1,                !- Zone Name
+    20,                      !- Number of People
+    OCCUPY-1,                !- Number of People SCHEDULE Name (real--fraction)
+    0.3,                     !- Fraction Radiant
+    ActSchd;                 !- Activity level SCHEDULE Name (units W/person, real)
+ 
+  LIGHTS,
+    SPACE5-1,                !- Zone Name
+    LIGHTS-1,                !- SCHEDULE Name
+    2964,                    !- Design Level {W}
+    0.2,                     !- Return Air Fraction
+    0.59,                    !- Fraction Radiant
+    0.2,                     !- Fraction Visible
+    0,                       !- Fraction Replaceable
+    GeneralLights;           !- LightsEndUseKey
+ 
+  ELECTRIC EQUIPMENT,
+    SPACE5-1,                !- Zone Name
+    EQUIP-1,                 !- SCHEDULE Name
+    1976,                    !- Design Level {W}
+    0,                       !- Fraction Latent
+    0.3,                     !- Fraction Radiant
+    0,                       !- Fraction Lost
+    0;                       !- End-Use Category
+ 
+  Surface:HeatTransfer,
+    C5-1,                    !- User Supplied Surface Name
+    CEILING,                 !- Surface Type
+    CLNG-1,                  !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    C5-1P,                   !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 2
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    F5-1,                    !- User Supplied Surface Name
+    FLOOR,                   !- Surface Type
+    FLOOR-SLAB-1,            !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    Ground,                  !- OutsideFaceEnvironment
+    ,                        !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 1
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,0.0;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB51,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB15,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB52,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB25,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,3.7,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,3.7,0.0,  !- X,Y,Z ==> Vertex 2
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    26.8,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB53,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB35,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    26.8,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    26.8,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,11.6,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  Surface:HeatTransfer,
+    SB54,                    !- User Supplied Surface Name
+    WALL,                    !- Surface Type
+    INT-WALL-1,              !- Construction Name of the Surface
+    SPACE5-1,                !- InsideFaceEnvironment
+    OtherZone,               !- OutsideFaceEnvironment
+    SB45,                    !- OutsideFaceEnvironment Object
+    NoSun,                   !- Sun Exposure
+    NoWind,                  !- Wind Exposure
+    0.0,                     !- View Factor to Ground
+    4,                       !- Number of Surface Vertex Groups -- Number of (X,Y,Z) groups
+    3.7,11.6,2.4,  !- X,Y,Z ==> Vertex 1
+    3.7,11.6,0.0,  !- X,Y,Z ==> Vertex 2
+    3.7,3.7,0.0,  !- X,Y,Z ==> Vertex 3
+    3.7,3.7,2.4;  !- X,Y,Z ==> Vertex 4
+ 
+  ZONE SIZING,
+    PLENUM-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  ZONE SIZING,
+    SPACE1-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  ZONE SIZING,
+    SPACE2-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  ZONE SIZING,
+    SPACE3-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  ZONE SIZING,
+    SPACE4-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  ZONE SIZING,
+    SPACE5-1,                !- Name of a zone
+    14.,                     !- Zone cooling design supply air temperature {C}
+    50.,                     !- Zone heating design supply air temperature {C}
+    0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+    FLOW/PERSON,             !- outside air method
+    0.00944,                 !- outside air flow per person {m3/s}
+    0.0,                     !- outside air flow {m3/s}
+    0.0,                     !- zone sizing factor
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  SYSTEM SIZING,
+    VAV Sys 1,               !- name of an AIR PRIMARY LOOP object
+    sensible,                !- type of load to size on
+    autosize,                !- Design (minimum) outside air volumetric flow rate {m3/s}
+    0.3,                     !- minimum system air flow ratio
+    7.0,                     !- Preheat design set temperature {C}
+    12.8,                    !- Central cooling design supply air temperature {C}
+    16.7,                    !- Central heating design supply air temperature {C}
+    NONCOINCIDENT,           !- Sizing Option
+    NO,                      !- Cooling 100% Outside Air
+    NO,                      !- Heating 100% Outside Air
+    0.008,                   !- Central cooling design supply air humidity ratio {kg-H2O/kg-air}
+    0.008,                   !- Central heating design supply air humidity ratio {kg-H2O/kg-air}
+    design day,              !- cooling design air flow method
+    0,                       !- cooling design air flow rate {m3/s}
+    design day,              !- heating design air flow method
+    0;                       !- heating design air flow rate {m3/s}
+ 
+  DAYSCHEDULE,
+    Htg-SetP-DSch-Wd,        !- Name
+    Temperature,             !- ScheduleType
+    12.8,                    !- Hour 1
+    12.8,                    !- Hour 2
+    12.8,                    !- Hour 3
+    12.8,                    !- Hour 4
+    12.8,                    !- Hour 5
+    12.8,                    !- Hour 6
+    12.8,                    !- Hour 7
+    21.1,                    !- Hour 8
+    21.1,                    !- Hour 9
+    21.1,                    !- Hour 10
+    21.1,                    !- Hour 11
+    21.1,                    !- Hour 12
+    21.1,                    !- Hour 13
+    21.1,                    !- Hour 14
+    21.1,                    !- Hour 15
+    21.1,                    !- Hour 16
+    21.1,                    !- Hour 17
+    21.1,                    !- Hour 18
+    12.8,                    !- Hour 19
+    12.8,                    !- Hour 20
+    12.8,                    !- Hour 21
+    12.8,                    !- Hour 22
+    12.8,                    !- Hour 23
+    12.8;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    Htg-SetP-DSch-We,        !- Name
+    Temperature,             !- ScheduleType
+    12.8,                    !- Hour 1
+    12.8,                    !- Hour 2
+    12.8,                    !- Hour 3
+    12.8,                    !- Hour 4
+    12.8,                    !- Hour 5
+    12.8,                    !- Hour 6
+    12.8,                    !- Hour 7
+    21.1,                    !- Hour 8
+    21.1,                    !- Hour 9
+    21.1,                    !- Hour 10
+    21.1,                    !- Hour 11
+    21.1,                    !- Hour 12
+    21.1,                    !- Hour 13
+    12.8,                    !- Hour 14
+    12.8,                    !- Hour 15
+    12.8,                    !- Hour 16
+    12.8,                    !- Hour 17
+    12.8,                    !- Hour 18
+    12.8,                    !- Hour 19
+    12.8,                    !- Hour 20
+    12.8,                    !- Hour 21
+    12.8,                    !- Hour 22
+    12.8,                    !- Hour 23
+    12.8;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    Htg-SetP-DSch-WintDes,   !- Name
+    Temperature,             !- ScheduleType
+    21.1,                    !- Hour 1
+    21.1,                    !- Hour 2
+    21.1,                    !- Hour 3
+    21.1,                    !- Hour 4
+    21.1,                    !- Hour 5
+    21.1,                    !- Hour 6
+    21.1,                    !- Hour 7
+    21.1,                    !- Hour 8
+    21.1,                    !- Hour 9
+    21.1,                    !- Hour 10
+    21.1,                    !- Hour 11
+    21.1,                    !- Hour 12
+    21.1,                    !- Hour 13
+    21.1,                    !- Hour 14
+    21.1,                    !- Hour 15
+    21.1,                    !- Hour 16
+    21.1,                    !- Hour 17
+    21.1,                    !- Hour 18
+    21.1,                    !- Hour 19
+    21.1,                    !- Hour 20
+    21.1,                    !- Hour 21
+    21.1,                    !- Hour 22
+    21.1,                    !- Hour 23
+    21.1;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    Htg-SetP-DSch-LowLimit,  !- Name
+    Temperature,             !- ScheduleType
+    12.8,                    !- Hour 1
+    12.8,                    !- Hour 2
+    12.8,                    !- Hour 3
+    12.8,                    !- Hour 4
+    12.8,                    !- Hour 5
+    12.8,                    !- Hour 6
+    12.8,                    !- Hour 7
+    12.8,                    !- Hour 8
+    12.8,                    !- Hour 9
+    12.8,                    !- Hour 10
+    12.8,                    !- Hour 11
+    12.8,                    !- Hour 12
+    12.8,                    !- Hour 13
+    12.8,                    !- Hour 14
+    12.8,                    !- Hour 15
+    12.8,                    !- Hour 16
+    12.8,                    !- Hour 17
+    12.8,                    !- Hour 18
+    12.8,                    !- Hour 19
+    12.8,                    !- Hour 20
+    12.8,                    !- Hour 21
+    12.8,                    !- Hour 22
+    12.8,                    !- Hour 23
+    12.8;                    !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Htg-SetP-WSch,           !- Name
+    Htg-SetP-DSch-We,        !- Sunday DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- Monday DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- Tuesday DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- Wednesday DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- Thursday DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- Friday DAYSCHEDULE Name
+    Htg-SetP-DSch-We,        !- Saturday DAYSCHEDULE Name
+    Htg-SetP-DSch-We,        !- Holiday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- SummerDesignDay DAYSCHEDULE Name
+    Htg-SetP-DSch-WintDes,   !- WinterDesignDay DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd,        !- CustomDay1 DAYSCHEDULE Name
+    Htg-SetP-DSch-Wd;        !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    Htg-SetP-Sch,            !- Name
+    Temperature,             !- ScheduleType
+    Htg-SetP-WSch,           !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  WEEKSCHEDULE,
+    Htg-SetP-WSch-Plenum,    !- Name
+    Htg-SetP-DSch-LowLimit,  !- Sunday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Monday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Tuesday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Wednesday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Thursday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Friday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Saturday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- Holiday DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- SummerDesignDay DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- WinterDesignDay DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit,  !- CustomDay1 DAYSCHEDULE Name
+    Htg-SetP-DSch-LowLimit;  !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    PlenumHtg-SetP-Sch,      !- Name
+    Temperature,             !- ScheduleType
+    Htg-SetP-WSch-Plenum,    !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    Clg-SetP-DSch-Wd,        !- Name
+    Temperature,             !- ScheduleType
+    40,                      !- Hour 1
+    40,                      !- Hour 2
+    40,                      !- Hour 3
+    40,                      !- Hour 4
+    40,                      !- Hour 5
+    40,                      !- Hour 6
+    40,                      !- Hour 7
+    23.9,                    !- Hour 8
+    23.9,                    !- Hour 9
+    23.9,                    !- Hour 10
+    23.9,                    !- Hour 11
+    23.9,                    !- Hour 12
+    23.9,                    !- Hour 13
+    23.9,                    !- Hour 14
+    23.9,                    !- Hour 15
+    23.9,                    !- Hour 16
+    23.9,                    !- Hour 17
+    23.9,                    !- Hour 18
+    40,                      !- Hour 19
+    40,                      !- Hour 20
+    40,                      !- Hour 21
+    40,                      !- Hour 22
+    40,                      !- Hour 23
+    40;                      !- Hour 24
+ 
+  DAYSCHEDULE,
+    Clg-SetP-DSch-We,        !- Name
+    Temperature,             !- ScheduleType
+    40,                      !- Hour 1
+    40,                      !- Hour 2
+    40,                      !- Hour 3
+    40,                      !- Hour 4
+    40,                      !- Hour 5
+    40,                      !- Hour 6
+    40,                      !- Hour 7
+    23.9,                    !- Hour 8
+    23.9,                    !- Hour 9
+    23.9,                    !- Hour 10
+    23.9,                    !- Hour 11
+    23.9,                    !- Hour 12
+    23.9,                    !- Hour 13
+    32.2,                    !- Hour 14
+    32.2,                    !- Hour 15
+    32.2,                    !- Hour 16
+    32.2,                    !- Hour 17
+    32.2,                    !- Hour 18
+    32.2,                    !- Hour 19
+    32.2,                    !- Hour 20
+    32.2,                    !- Hour 21
+    32.2,                    !- Hour 22
+    32.2,                    !- Hour 23
+    32.2;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    Clg-SetP-DSch-SumDes,    !- Name
+    Temperature,             !- ScheduleType
+    23.9,                    !- Hour 1
+    23.9,                    !- Hour 2
+    23.9,                    !- Hour 3
+    23.9,                    !- Hour 4
+    23.9,                    !- Hour 5
+    23.9,                    !- Hour 6
+    23.9,                    !- Hour 7
+    23.9,                    !- Hour 8
+    23.9,                    !- Hour 9
+    23.9,                    !- Hour 10
+    23.9,                    !- Hour 11
+    23.9,                    !- Hour 12
+    23.9,                    !- Hour 13
+    23.9,                    !- Hour 14
+    23.9,                    !- Hour 15
+    23.9,                    !- Hour 16
+    23.9,                    !- Hour 17
+    23.9,                    !- Hour 18
+    23.9,                    !- Hour 19
+    23.9,                    !- Hour 20
+    23.9,                    !- Hour 21
+    23.9,                    !- Hour 22
+    23.9,                    !- Hour 23
+    23.9;                    !- Hour 24
+ 
+  DAYSCHEDULE,
+    Clg-SetP-DSch-HighLimit, !- Name
+    Temperature,             !- ScheduleType
+    40.0,                    !- Hour 1
+    40.0,                    !- Hour 2
+    40.0,                    !- Hour 3
+    40.0,                    !- Hour 4
+    40.0,                    !- Hour 5
+    40.0,                    !- Hour 6
+    40.0,                    !- Hour 7
+    40.0,                    !- Hour 8
+    40.0,                    !- Hour 9
+    40.0,                    !- Hour 10
+    40.0,                    !- Hour 11
+    40.0,                    !- Hour 12
+    40.0,                    !- Hour 13
+    40.0,                    !- Hour 14
+    40.0,                    !- Hour 15
+    40.0,                    !- Hour 16
+    40.0,                    !- Hour 17
+    40.0,                    !- Hour 18
+    40.0,                    !- Hour 19
+    40.0,                    !- Hour 20
+    40.0,                    !- Hour 21
+    40.0,                    !- Hour 22
+    40.0,                    !- Hour 23
+    40.0;                    !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Clg-SetP-Wsch,           !- Name
+    Clg-SetP-DSch-We,        !- Sunday DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- Monday DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- Tuesday DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- Wednesday DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- Thursday DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- Friday DAYSCHEDULE Name
+    Clg-SetP-DSch-We,        !- Saturday DAYSCHEDULE Name
+    Clg-SetP-DSch-We,        !- Holiday DAYSCHEDULE Name
+    Clg-SetP-DSch-SumDes,    !- SummerDesignDay DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- WinterDesignDay DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd,        !- CustomDay1 DAYSCHEDULE Name
+    Clg-SetP-DSch-Wd;        !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    Clg-SetP-Sch,            !- Name
+    Temperature,             !- ScheduleType
+    Clg-SetP-WSch,           !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  WEEKSCHEDULE,
+    Clg-SetP-WSch-Plenum,    !- Name
+    Clg-SetP-DSch-HighLimit, !- Sunday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Monday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Tuesday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Wednesday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Thursday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Friday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Saturday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- Holiday DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- SummerDesignDay DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- WinterDesignDay DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit, !- CustomDay1 DAYSCHEDULE Name
+    Clg-SetP-DSch-HighLimit; !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    PlenumClg-SetP-Sch,      !- Name
+    Temperature,             !- ScheduleType
+    Clg-SetP-WSch-Plenum,    !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    Dual Control Type Day Sch,  !- Name
+    Control Type,            !- ScheduleType
+    4,                       !- Hour 1
+    4,                       !- Hour 2
+    4,                       !- Hour 3
+    4,                       !- Hour 4
+    4,                       !- Hour 5
+    4,                       !- Hour 6
+    4,                       !- Hour 7
+    4,                       !- Hour 8
+    4,                       !- Hour 9
+    4,                       !- Hour 10
+    4,                       !- Hour 11
+    4,                       !- Hour 12
+    4,                       !- Hour 13
+    4,                       !- Hour 14
+    4,                       !- Hour 15
+    4,                       !- Hour 16
+    4,                       !- Hour 17
+    4,                       !- Hour 18
+    4,                       !- Hour 19
+    4,                       !- Hour 20
+    4,                       !- Hour 21
+    4,                       !- Hour 22
+    4,                       !- Hour 23
+    4;                       !- Hour 24
+ 
+  DAYSCHEDULE,
+    Winter Control Type Day Sch,  !- Name
+    Control Type,            !- ScheduleType
+    1,                       !- Hour 1
+    1,                       !- Hour 2
+    1,                       !- Hour 3
+    1,                       !- Hour 4
+    1,                       !- Hour 5
+    1,                       !- Hour 6
+    1,                       !- Hour 7
+    1,                       !- Hour 8
+    1,                       !- Hour 9
+    1,                       !- Hour 10
+    1,                       !- Hour 11
+    1,                       !- Hour 12
+    1,                       !- Hour 13
+    1,                       !- Hour 14
+    1,                       !- Hour 15
+    1,                       !- Hour 16
+    1,                       !- Hour 17
+    1,                       !- Hour 18
+    1,                       !- Hour 19
+    1,                       !- Hour 20
+    1,                       !- Hour 21
+    1,                       !- Hour 22
+    1,                       !- Hour 23
+    1;                       !- Hour 24
+ 
+  DAYSCHEDULE,
+    Summer Control Type Day Sch,  !- Name
+    Control Type,            !- ScheduleType
+    2,                       !- Hour 1
+    2,                       !- Hour 2
+    2,                       !- Hour 3
+    2,                       !- Hour 4
+    2,                       !- Hour 5
+    2,                       !- Hour 6
+    2,                       !- Hour 7
+    2,                       !- Hour 8
+    2,                       !- Hour 9
+    2,                       !- Hour 10
+    2,                       !- Hour 11
+    2,                       !- Hour 12
+    2,                       !- Hour 13
+    2,                       !- Hour 14
+    2,                       !- Hour 15
+    2,                       !- Hour 16
+    2,                       !- Hour 17
+    2,                       !- Hour 18
+    2,                       !- Hour 19
+    2,                       !- Hour 20
+    2,                       !- Hour 21
+    2,                       !- Hour 22
+    2,                       !- Hour 23
+    2;                       !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Control Type Week Sch,   !- Name
+    Dual Control Type Day Sch,  !- Sunday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Monday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Tuesday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Wednesday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Thursday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Friday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Saturday DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- Holiday DAYSCHEDULE Name
+    Summer Control Type Day Sch,  !- SummerDesignDay DAYSCHEDULE Name
+    Winter Control Type Day Sch,  !- WinterDesignDay DAYSCHEDULE Name
+    Dual Control Type Day Sch,  !- CustomDay1 DAYSCHEDULE Name
+    Dual Control Type Day Sch;  !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    Zone Control Type Sched, !- Name
+    Control Type,            !- ScheduleType
+    Control Type Week Sch,   !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    Min OA Weekday Day Sch,  !- Name
+    Fraction,                !- ScheduleType
+    .02,                     !- Hour 1
+    .02,                     !- Hour 2
+    .02,                     !- Hour 3
+    .02,                     !- Hour 4
+    .02,                     !- Hour 5
+    .02,                     !- Hour 6
+    1.,                      !- Hour 7
+    1.,                      !- Hour 8
+    1.,                      !- Hour 9
+    1.,                      !- Hour 10
+    1.,                      !- Hour 11
+    1.,                      !- Hour 12
+    1.,                      !- Hour 13
+    1.,                      !- Hour 14
+    1.,                      !- Hour 15
+    1.,                      !- Hour 16
+    1.,                      !- Hour 17
+    1.,                      !- Hour 18
+    .02,                     !- Hour 19
+    .02,                     !- Hour 20
+    .02,                     !- Hour 21
+    .02,                     !- Hour 22
+    .02,                     !- Hour 23
+    .02;                     !- Hour 24
+ 
+  DAYSCHEDULE,
+    Min OA Weekend Day Sch,  !- Name
+    Fraction,                !- ScheduleType
+    .02,                     !- Hour 1
+    .02,                     !- Hour 2
+    .02,                     !- Hour 3
+    .02,                     !- Hour 4
+    .02,                     !- Hour 5
+    .02,                     !- Hour 6
+    .02,                     !- Hour 7
+    .02,                     !- Hour 8
+    .02,                     !- Hour 9
+    .02,                     !- Hour 10
+    .02,                     !- Hour 11
+    .02,                     !- Hour 12
+    .02,                     !- Hour 13
+    .02,                     !- Hour 14
+    .02,                     !- Hour 15
+    .02,                     !- Hour 16
+    .02,                     !- Hour 17
+    .02,                     !- Hour 18
+    .02,                     !- Hour 19
+    .02,                     !- Hour 20
+    .02,                     !- Hour 21
+    .02,                     !- Hour 22
+    .02,                     !- Hour 23
+    .02;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Min OA Week Sch,         !- Name
+    Min OA Weekend Day Sch,  !- Sunday DAYSCHEDULE Name
+    Min OA Weekday Day Sch,  !- Monday DAYSCHEDULE Name
+    Min OA Weekday Day Sch,  !- Tuesday DAYSCHEDULE Name
+    Min OA Weekday Day Sch,  !- Wednesday DAYSCHEDULE Name
+    Min OA Weekday Day Sch,  !- Thursday DAYSCHEDULE Name
+    Min OA Weekday Day Sch,  !- Friday DAYSCHEDULE Name
+    Min OA Weekend Day Sch,  !- Saturday DAYSCHEDULE Name
+    Min OA Weekend Day Sch,  !- Holiday DAYSCHEDULE Name
+    Min OA Weekend Day Sch,  !- SummerDesignDay DAYSCHEDULE Name
+    Min OA Weekend Day Sch,  !- WinterDesignDay DAYSCHEDULE Name
+    Min OA Weekend Day Sch,  !- CustomDay1 DAYSCHEDULE Name
+    Min OA Weekend Day Sch;  !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    Min OA Sched,            !- Name
+    Fraction,                !- ScheduleType
+    Min OA Week Sch,         !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    FanDaySched1,            !- Name
+    Fraction,                !- ScheduleType
+    0.,                      !- Hour 1
+    0.,                      !- Hour 2
+    0.,                      !- Hour 3
+    0.,                      !- Hour 4
+    0.,                      !- Hour 5
+    0.,                      !- Hour 6
+    0.,                      !- Hour 7
+    1.,                      !- Hour 8
+    1.,                      !- Hour 9
+    1.,                      !- Hour 10
+    1.,                      !- Hour 11
+    1.,                      !- Hour 12
+    1.,                      !- Hour 13
+    1.,                      !- Hour 14
+    1.,                      !- Hour 15
+    1.,                      !- Hour 16
+    1.,                      !- Hour 17
+    0.,                      !- Hour 18
+    0.,                      !- Hour 19
+    0.,                      !- Hour 20
+    0.,                      !- Hour 21
+    0.,                      !- Hour 22
+    0.,                      !- Hour 23
+    0.;                      !- Hour 24
+ 
+  DAYSCHEDULE,
+    FanDaySched2,            !- Name
+    Fraction,                !- ScheduleType
+    0.,                      !- Hour 1
+    0.,                      !- Hour 2
+    0.,                      !- Hour 3
+    0.,                      !- Hour 4
+    0.,                      !- Hour 5
+    0.,                      !- Hour 6
+    0.,                      !- Hour 7
+    0.,                      !- Hour 8
+    0.,                      !- Hour 9
+    0.,                      !- Hour 10
+    0.,                      !- Hour 11
+    0.,                      !- Hour 12
+    0.,                      !- Hour 13
+    0.,                      !- Hour 14
+    0.,                      !- Hour 15
+    0.,                      !- Hour 16
+    0.,                      !- Hour 17
+    0.,                      !- Hour 18
+    0.,                      !- Hour 19
+    0.,                      !- Hour 20
+    0.,                      !- Hour 21
+    0.,                      !- Hour 22
+    0.,                      !- Hour 23
+    0.;                      !- Hour 24
+ 
+  DAYSCHEDULE,
+    FanDaySched3,            !- Name
+    Fraction,                !- ScheduleType
+    1.,                      !- Hour 1
+    1.,                      !- Hour 2
+    1.,                      !- Hour 3
+    1.,                      !- Hour 4
+    1.,                      !- Hour 5
+    1.,                      !- Hour 6
+    1.,                      !- Hour 7
+    1.,                      !- Hour 8
+    1.,                      !- Hour 9
+    1.,                      !- Hour 10
+    1.,                      !- Hour 11
+    1.,                      !- Hour 12
+    1.,                      !- Hour 13
+    1.,                      !- Hour 14
+    1.,                      !- Hour 15
+    1.,                      !- Hour 16
+    1.,                      !- Hour 17
+    1.,                      !- Hour 18
+    1.,                      !- Hour 19
+    1.,                      !- Hour 20
+    1.,                      !- Hour 21
+    1.,                      !- Hour 22
+    1.,                      !- Hour 23
+    1.;                      !- Hour 24
+ 
+  WEEKSCHEDULE,
+    FanWinterWeekSched,      !- Name
+    FanDaySched3,            !- Sunday DAYSCHEDULE Name
+    FanDaySched3,            !- Monday DAYSCHEDULE Name
+    FanDaySched3,            !- Tuesday DAYSCHEDULE Name
+    FanDaySched3,            !- Wednesday DAYSCHEDULE Name
+    FanDaySched3,            !- Thursday DAYSCHEDULE Name
+    FanDaySched3,            !- Friday DAYSCHEDULE Name
+    FanDaySched3,            !- Saturday DAYSCHEDULE Name
+    FanDaySched3,            !- Holiday DAYSCHEDULE Name
+    FanDaySched3,            !- SummerDesignDay DAYSCHEDULE Name
+    FanDaySched3,            !- WinterDesignDay DAYSCHEDULE Name
+    FanDaySched3,            !- CustomDay1 DAYSCHEDULE Name
+    FanDaySched3;            !- CustomDay2 DAYSCHEDULE Name
+ 
+  WEEKSCHEDULE,
+    FanSummerWeekSched,      !- Name
+    FanDaySched2,            !- Sunday DAYSCHEDULE Name
+    FanDaySched1,            !- Monday DAYSCHEDULE Name
+    FanDaySched1,            !- Tuesday DAYSCHEDULE Name
+    FanDaySched1,            !- Wednesday DAYSCHEDULE Name
+    FanDaySched1,            !- Thursday DAYSCHEDULE Name
+    FanDaySched1,            !- Friday DAYSCHEDULE Name
+    FanDaySched2,            !- Saturday DAYSCHEDULE Name
+    FanDaySched2,            !- Holiday DAYSCHEDULE Name
+    FanDaySched3,            !- SummerDesignDay DAYSCHEDULE Name
+    FanDaySched3,            !- WinterDesignDay DAYSCHEDULE Name
+    FanDaySched2,            !- CustomDay1 DAYSCHEDULE Name
+    FanDaySched2;            !- CustomDay2 DAYSCHEDULE Name
+ 
+  WEEKSCHEDULE,
+    FanOffWeekSched,         !- Name
+    FanDaySched2,            !- Sunday DAYSCHEDULE Name
+    FanDaySched2,            !- Monday DAYSCHEDULE Name
+    FanDaySched2,            !- Tuesday DAYSCHEDULE Name
+    FanDaySched2,            !- Wednesday DAYSCHEDULE Name
+    FanDaySched2,            !- Thursday DAYSCHEDULE Name
+    FanDaySched2,            !- Friday DAYSCHEDULE Name
+    FanDaySched2,            !- Saturday DAYSCHEDULE Name
+    FanDaySched2,            !- Holiday DAYSCHEDULE Name
+    FanDaySched2,            !- SummerDesignDay DAYSCHEDULE Name
+    FanDaySched2,            !- WinterDesignDay DAYSCHEDULE Name
+    FanDaySched2,            !- CustomDay1 DAYSCHEDULE Name
+    FanDaySched2;            !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    FanAvailSched,           !- Name
+    Fraction,                !- ScheduleType
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    FanSummerWeekSched,      !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    9,                       !- End Month 2
+    30,                      !- End Day 2
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 3
+    10,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  SCHEDULE,
+    CoolingCoilAvailSched,   !- Name
+    Fraction,                !- ScheduleType
+    FanOffWeekSched,         !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    FanSummerWeekSched,      !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    9,                       !- End Month 2
+    30,                      !- End Day 2
+    FanOffWeekSched,         !- Name of WEEKSCHEDULE 3
+    10,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  SCHEDULE,
+    ReheatCoilAvailSched,    !- Name
+    Fraction,                !- ScheduleType
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    FanSummerWeekSched,      !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    9,                       !- End Month 2
+    30,                      !- End Day 2
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 3
+    10,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  SCHEDULE,
+    HeatingCoilAvailSched,   !- Name
+    Fraction,                !- ScheduleType
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    FanOffWeekSched,         !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    9,                       !- End Month 2
+    30,                      !- End Day 2
+    FanWinterWeekSched,      !- Name of WEEKSCHEDULE 3
+    10,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  DAYSCHEDULE,
+    Chilled Water Loop Daily,!- Name
+    Temperature,             !- ScheduleType
+    6.67,                    !- Hour 1
+    6.67,                    !- Hour 2
+    6.67,                    !- Hour 3
+    6.67,                    !- Hour 4
+    6.67,                    !- Hour 5
+    6.67,                    !- Hour 6
+    6.67,                    !- Hour 7
+    6.67,                    !- Hour 8
+    6.67,                    !- Hour 9
+    6.67,                    !- Hour 10
+    6.67,                    !- Hour 11
+    6.67,                    !- Hour 12
+    6.67,                    !- Hour 13
+    6.67,                    !- Hour 14
+    6.67,                    !- Hour 15
+    6.67,                    !- Hour 16
+    6.67,                    !- Hour 17
+    6.67,                    !- Hour 18
+    6.67,                    !- Hour 19
+    6.67,                    !- Hour 20
+    6.67,                    !- Hour 21
+    6.67,                    !- Hour 22
+    6.67,                    !- Hour 23
+    6.67;                    !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Chilled Water Loop Weekly,  !- Name
+    Chilled Water Loop Daily,!- Sunday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Monday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Tuesday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Wednesday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Thursday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Friday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Saturday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- Holiday DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- SummerDesignDay DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- WinterDesignDay DAYSCHEDULE Name
+    Chilled Water Loop Daily,!- CustomDay1 DAYSCHEDULE Name
+    Chilled Water Loop Daily;!- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    CW Loop Temp Schedule,   !- Name
+    Temperature,             !- ScheduleType
+    Chilled Water Loop Weekly,  !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    Hot Water Loop Daily,    !- Name
+    Temperature,             !- ScheduleType
+    60.,                     !- Hour 1
+    60.,                     !- Hour 2
+    60.,                     !- Hour 3
+    60.,                     !- Hour 4
+    60.,                     !- Hour 5
+    60.,                     !- Hour 6
+    60.,                     !- Hour 7
+    60.,                     !- Hour 8
+    60.,                     !- Hour 9
+    60.,                     !- Hour 10
+    60.,                     !- Hour 11
+    60.,                     !- Hour 12
+    60.,                     !- Hour 13
+    60.,                     !- Hour 14
+    60.,                     !- Hour 15
+    60.,                     !- Hour 16
+    60.,                     !- Hour 17
+    60.,                     !- Hour 18
+    60.,                     !- Hour 19
+    60.,                     !- Hour 20
+    60.,                     !- Hour 21
+    60.,                     !- Hour 22
+    60.,                     !- Hour 23
+    60.;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Hot Water Loop Weekly,   !- Name
+    Hot Water Loop Daily,    !- Sunday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Monday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Tuesday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Wednesday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Thursday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Friday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Saturday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- Holiday DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- SummerDesignDay DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- WinterDesignDay DAYSCHEDULE Name
+    Hot Water Loop Daily,    !- CustomDay1 DAYSCHEDULE Name
+    Hot Water Loop Daily;    !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    HW Loop Temp Schedule,   !- Name
+    Temperature,             !- ScheduleType
+    Hot Water Loop Weekly,   !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    PlantDayOn,              !- Name
+    Fraction,                !- ScheduleType
+    1.,                      !- Hour 1
+    1.,                      !- Hour 2
+    1.,                      !- Hour 3
+    1.,                      !- Hour 4
+    1.,                      !- Hour 5
+    1.,                      !- Hour 6
+    1.,                      !- Hour 7
+    1.,                      !- Hour 8
+    1.,                      !- Hour 9
+    1.,                      !- Hour 10
+    1.,                      !- Hour 11
+    1.,                      !- Hour 12
+    1.,                      !- Hour 13
+    1.,                      !- Hour 14
+    1.,                      !- Hour 15
+    1.,                      !- Hour 16
+    1.,                      !- Hour 17
+    1.,                      !- Hour 18
+    1.,                      !- Hour 19
+    1.,                      !- Hour 20
+    1.,                      !- Hour 21
+    1.,                      !- Hour 22
+    1.,                      !- Hour 23
+    1.;                      !- Hour 24
+ 
+  WEEKSCHEDULE,
+    PlantWeekOn,             !- Name
+    PlantDayOn,              !- Sunday DAYSCHEDULE Name
+    PlantDayOn,              !- Monday DAYSCHEDULE Name
+    PlantDayOn,              !- Tuesday DAYSCHEDULE Name
+    PlantDayOn,              !- Wednesday DAYSCHEDULE Name
+    PlantDayOn,              !- Thursday DAYSCHEDULE Name
+    PlantDayOn,              !- Friday DAYSCHEDULE Name
+    PlantDayOn,              !- Saturday DAYSCHEDULE Name
+    PlantDayOn,              !- Holiday DAYSCHEDULE Name
+    PlantDayOn,              !- SummerDesignDay DAYSCHEDULE Name
+    PlantDayOn,              !- WinterDesignDay DAYSCHEDULE Name
+    PlantDayOn,              !- CustomDay1 DAYSCHEDULE Name
+    PlantDayOn;              !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    PlantOnSched,            !- Name
+    Fraction,                !- ScheduleType
+    PlantWeekOn,             !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    12,                      !- End Month 1
+    31;                      !- End Day 1
+ 
+  DAYSCHEDULE,
+    Summer Supply Air Temp Day Sch,  !- Name
+    Temperature,             !- ScheduleType
+    13.,                     !- Hour 1
+    13.,                     !- Hour 2
+    13.,                     !- Hour 3
+    13.,                     !- Hour 4
+    13.,                     !- Hour 5
+    13.,                     !- Hour 6
+    13.,                     !- Hour 7
+    13.,                     !- Hour 8
+    13.,                     !- Hour 9
+    13.,                     !- Hour 10
+    13.,                     !- Hour 11
+    13.,                     !- Hour 12
+    13.,                     !- Hour 13
+    13.,                     !- Hour 14
+    13.,                     !- Hour 15
+    13.,                     !- Hour 16
+    13.,                     !- Hour 17
+    13.,                     !- Hour 18
+    13.,                     !- Hour 19
+    13.,                     !- Hour 20
+    13.,                     !- Hour 21
+    13.,                     !- Hour 22
+    13.,                     !- Hour 23
+    13.;                     !- Hour 24
+ 
+  DAYSCHEDULE,
+    Winter Supply Air Temp Day Sch,  !- Name
+    Temperature,             !- ScheduleType
+    16.,                     !- Hour 1
+    16.,                     !- Hour 2
+    16.,                     !- Hour 3
+    16.,                     !- Hour 4
+    16.,                     !- Hour 5
+    16.,                     !- Hour 6
+    16.,                     !- Hour 7
+    16.,                     !- Hour 8
+    16.,                     !- Hour 9
+    16.,                     !- Hour 10
+    16.,                     !- Hour 11
+    16.,                     !- Hour 12
+    16.,                     !- Hour 13
+    16.,                     !- Hour 14
+    16.,                     !- Hour 15
+    16.,                     !- Hour 16
+    16.,                     !- Hour 17
+    16.,                     !- Hour 18
+    16.,                     !- Hour 19
+    16.,                     !- Hour 20
+    16.,                     !- Hour 21
+    16.,                     !- Hour 22
+    16.,                     !- Hour 23
+    16.;                     !- Hour 24
+ 
+  WEEKSCHEDULE,
+    Summer Supply Air Temp Week Sch,  !- Name
+    Summer Supply Air Temp Day Sch,  !- Sunday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Monday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Tuesday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Wednesday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Thursday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Friday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Saturday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- Holiday DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- SummerDesignDay DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- WinterDesignDay DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch,  !- CustomDay1 DAYSCHEDULE Name
+    Summer Supply Air Temp Day Sch;  !- CustomDay2 DAYSCHEDULE Name
+ 
+  WEEKSCHEDULE,
+    Winter Supply Air Temp Week Sch,  !- Name
+    Winter Supply Air Temp Day Sch,  !- Sunday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Monday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Tuesday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Wednesday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Thursday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Friday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Saturday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- Holiday DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- SummerDesignDay DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- WinterDesignDay DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch,  !- CustomDay1 DAYSCHEDULE Name
+    Winter Supply Air Temp Day Sch;  !- CustomDay2 DAYSCHEDULE Name
+ 
+  SCHEDULE,
+    Seasonal Reset Supply Air Temp Sch,  !- Name
+    Temperature,             !- ScheduleType
+    Winter Supply Air Temp Week Sch,  !- Name of WEEKSCHEDULE 1
+    1,                       !- Start Month 1
+    1,                       !- Start Day 1
+    3,                       !- End Month 1
+    31,                      !- End Day 1
+    Summer Supply Air Temp Week Sch,  !- Name of WEEKSCHEDULE 2
+    4,                       !- Start Month 2
+    1,                       !- Start Day 2
+    9,                       !- End Month 2
+    30,                      !- End Day 2
+    Winter Supply Air Temp Week Sch,  !- Name of WEEKSCHEDULE 3
+    10,                      !- Start Month 3
+    1,                       !- Start Day 3
+    12,                      !- End Month 3
+    31;                      !- End Day 3
+ 
+  OUTSIDE AIR INLET NODE LIST,
+    OutsideAirInletNodes;    !- 1st Node name or node list name
+ 
+  NODE LIST,
+    OutsideAirInletNodes,    !- Node List Name
+    Outside Air Inlet Node 1;!- Node_ID_1
+ 
+  NODE LIST,
+    SPACE1-1 In Nodes,       !- Node List Name
+    SPACE1-1 In Node;        !- Node_ID_1
+ 
+  NODE LIST,
+    SPACE2-1 In Nodes,       !- Node List Name
+    SPACE2-1 In Node;        !- Node_ID_1
+ 
+  NODE LIST,
+    SPACE3-1 In Nodes,       !- Node List Name
+    SPACE3-1 In Node;        !- Node_ID_1
+ 
+  NODE LIST,
+    SPACE4-1 In Nodes,       !- Node List Name
+    SPACE4-1 In Node;        !- Node_ID_1
+ 
+  NODE LIST,
+    SPACE5-1 In Nodes,       !- Node List Name
+    SPACE5-1 In Node;        !- Node_ID_1
+ 
+  CONTROLLED ZONE EQUIP CONFIGURATION,
+    SPACE1-1,                !- Zone Name
+    SPACE1-1 Eq,             !- List Name: Zone Equipment
+    SPACE1-1 In Nodes,       !- Node List or Node Name: Zone Air Inlet Node(s)
+    ,                        !- Node List or Node Name: Zone Air Exhaust Node(s)
+    SPACE1-1 Node,           !- Zone Air Node Name
+    SPACE1-1 Out Node;       !- Zone Return Air Node Name
+ 
+  CONTROLLED ZONE EQUIP CONFIGURATION,
+    SPACE2-1,                !- Zone Name
+    SPACE2-1 Eq,             !- List Name: Zone Equipment
+    SPACE2-1 In Nodes,       !- Node List or Node Name: Zone Air Inlet Node(s)
+    ,                        !- Node List or Node Name: Zone Air Exhaust Node(s)
+    SPACE2-1 Node,           !- Zone Air Node Name
+    SPACE2-1 Out Node;       !- Zone Return Air Node Name
+ 
+  CONTROLLED ZONE EQUIP CONFIGURATION,
+    SPACE3-1,                !- Zone Name
+    SPACE3-1 Eq,             !- List Name: Zone Equipment
+    SPACE3-1 In Nodes,       !- Node List or Node Name: Zone Air Inlet Node(s)
+    ,                        !- Node List or Node Name: Zone Air Exhaust Node(s)
+    SPACE3-1 Node,           !- Zone Air Node Name
+    SPACE3-1 Out Node;       !- Zone Return Air Node Name
+ 
+  CONTROLLED ZONE EQUIP CONFIGURATION,
+    SPACE4-1,                !- Zone Name
+    SPACE4-1 Eq,             !- List Name: Zone Equipment
+    SPACE4-1 In Nodes,       !- Node List or Node Name: Zone Air Inlet Node(s)
+    ,                        !- Node List or Node Name: Zone Air Exhaust Node(s)
+    SPACE4-1 Node,           !- Zone Air Node Name
+    SPACE4-1 Out Node;       !- Zone Return Air Node Name
+ 
+  CONTROLLED ZONE EQUIP CONFIGURATION,
+    SPACE5-1,                !- Zone Name
+    SPACE5-1 Eq,             !- List Name: Zone Equipment
+    SPACE5-1 In Nodes,       !- Node List or Node Name: Zone Air Inlet Node(s)
+    ,                        !- Node List or Node Name: Zone Air Exhaust Node(s)
+    SPACE5-1 Node,           !- Zone Air Node Name
+    SPACE5-1 Out Node;       !- Zone Return Air Node Name
+ 
+  ZONE CONTROL:THERMOSTATIC,
+    SPACE1-1 Control,        !- Thermostat Name
+    SPACE1-1,                !- Zone Name
+    Zone Control Type Sched, !- Control Type SCHEDULE Name
+    Single Cooling Setpoint, !- Control Type #1
+    CoolingSetPoint,         !- Control Type Name #1
+    Single Heating Setpoint, !- Control Type #2
+    HeatingSetpoint,         !- Control Type Name #2
+    Dual Setpoint with Deadband,  !- Control Type #3
+    DualSetPoint;            !- Control Type Name #3
+ 
+  ZONE CONTROL:THERMOSTATIC,
+    SPACE2-1 Control,        !- Thermostat Name
+    SPACE2-1,                !- Zone Name
+    Zone Control Type Sched, !- Control Type SCHEDULE Name
+    Single Cooling Setpoint, !- Control Type #1
+    CoolingSetPoint,         !- Control Type Name #1
+    Single Heating Setpoint, !- Control Type #2
+    HeatingSetpoint,         !- Control Type Name #2
+    Dual Setpoint with Deadband,  !- Control Type #3
+    DualSetPoint;            !- Control Type Name #3
+ 
+  ZONE CONTROL:THERMOSTATIC,
+    SPACE3-1 Control,        !- Thermostat Name
+    SPACE3-1,                !- Zone Name
+    Zone Control Type Sched, !- Control Type SCHEDULE Name
+    Single Cooling Setpoint, !- Control Type #1
+    CoolingSetPoint,         !- Control Type Name #1
+    Single Heating Setpoint, !- Control Type #2
+    HeatingSetpoint,         !- Control Type Name #2
+    Dual Setpoint with Deadband,  !- Control Type #3
+    DualSetPoint;            !- Control Type Name #3
+ 
+  ZONE CONTROL:THERMOSTATIC,
+    SPACE4-1 Control,        !- Thermostat Name
+    SPACE4-1,                !- Zone Name
+    Zone Control Type Sched, !- Control Type SCHEDULE Name
+    Single Cooling Setpoint, !- Control Type #1
+    CoolingSetPoint,         !- Control Type Name #1
+    Single Heating Setpoint, !- Control Type #2
+    HeatingSetpoint,         !- Control Type Name #2
+    Dual Setpoint with Deadband,  !- Control Type #3
+    DualSetPoint;            !- Control Type Name #3
+ 
+  ZONE CONTROL:THERMOSTATIC,
+    SPACE5-1 Control,        !- Thermostat Name
+    SPACE5-1,                !- Zone Name
+    Zone Control Type Sched, !- Control Type SCHEDULE Name
+    Single Cooling Setpoint, !- Control Type #1
+    CoolingSetPoint,         !- Control Type Name #1
+    Single Heating Setpoint, !- Control Type #2
+    HeatingSetpoint,         !- Control Type Name #2
+    Dual Setpoint with Deadband,  !- Control Type #3
+    DualSetPoint;            !- Control Type Name #3
+ 
+  SINGLE HEATING SETPOINT,
+    HeatingSetpoint,         !- Name
+    Htg-SetP-Sch;            !- Setpoint Temperature SCHEDULE Name
+ 
+  SINGLE COOLING SETPOINT,
+    CoolingSetpoint,         !- Name
+    Clg-SetP-Sch;            !- Setpoint Temperature SCHEDULE Name
+ 
+  SINGLE HEATING SETPOINT,
+    PlenumHeatingSetpoint,   !- Name
+    PlenumHtg-SetP-Sch;      !- Setpoint Temperature SCHEDULE Name
+ 
+  SINGLE COOLING SETPOINT,
+    PlenumCoolingSetpoint,   !- Name
+    PlenumClg-SetP-Sch;      !- Setpoint Temperature SCHEDULE Name
+ 
+  DUAL SETPOINT WITH DEADBAND,
+    DualSetPoint,            !- Name
+    Htg-SetP-Sch,            !- Heating Setpoint Temperature SCHEDULE Name
+    Clg-SetP-Sch;            !- Cooling Setpoint Temperature SCHEDULE Name
+ 
+  ZONE EQUIPMENT LIST,
+    SPACE1-1 Eq,             !- Name
+    AIR DISTRIBUTION UNIT,   !- KEY--Zone Equipment Type 1
+    SPACE1-1 ATU,            !- Type Name 1
+    1,                       !- Cooling Priority
+    1;                       !- Heating Priority
+ 
+  ZONE EQUIPMENT LIST,
+    SPACE2-1 Eq,             !- Name
+    AIR DISTRIBUTION UNIT,   !- KEY--Zone Equipment Type 1
+    SPACE2-1 ATU,            !- Type Name 1
+    1,                       !- Cooling Priority
+    1;                       !- Heating Priority
+ 
+  ZONE EQUIPMENT LIST,
+    SPACE3-1 Eq,             !- Name
+    AIR DISTRIBUTION UNIT,   !- KEY--Zone Equipment Type 1
+    SPACE3-1 ATU,            !- Type Name 1
+    1,                       !- Cooling Priority
+    1;                       !- Heating Priority
+ 
+  ZONE EQUIPMENT LIST,
+    SPACE4-1 Eq,             !- Name
+    AIR DISTRIBUTION UNIT,   !- KEY--Zone Equipment Type 1
+    SPACE4-1 ATU,            !- Type Name 1
+    1,                       !- Cooling Priority
+    1;                       !- Heating Priority
+ 
+  ZONE EQUIPMENT LIST,
+    SPACE5-1 Eq,             !- Name
+    AIR DISTRIBUTION UNIT,   !- KEY--Zone Equipment Type 1
+    SPACE5-1 ATU,            !- Type Name 1
+    1,                       !- Cooling Priority
+    1;                       !- Heating Priority
+ 
+  AIR DISTRIBUTION UNIT,
+    SPACE1-1 ATU,            !- Air Distribution Unit Name
+    SPACE1-1 In Node,        !- Air Dist Unit Outlet Node Name
+    SINGLE DUCT:VAV:REHEAT,  !- KEY--System Component Type 1
+    SPACE1-1 VAV Reheat;     !- Component Name 1
+ 
+  AIR DISTRIBUTION UNIT,
+    SPACE2-1 ATU,            !- Air Distribution Unit Name
+    SPACE2-1 In Node,        !- Air Dist Unit Outlet Node Name
+    SINGLE DUCT:VAV:REHEAT,  !- KEY--System Component Type 1
+    SPACE2-1 VAV Reheat;     !- Component Name 1
+ 
+  AIR DISTRIBUTION UNIT,
+    SPACE3-1 ATU,            !- Air Distribution Unit Name
+    SPACE3-1 In Node,        !- Air Dist Unit Outlet Node Name
+    SINGLE DUCT:VAV:REHEAT,  !- KEY--System Component Type 1
+    SPACE3-1 VAV Reheat;     !- Component Name 1
+ 
+  AIR DISTRIBUTION UNIT,
+    SPACE4-1 ATU,            !- Air Distribution Unit Name
+    SPACE4-1 In Node,        !- Air Dist Unit Outlet Node Name
+    SINGLE DUCT:VAV:REHEAT,  !- KEY--System Component Type 1
+    SPACE4-1 VAV Reheat;     !- Component Name 1
+ 
+  AIR DISTRIBUTION UNIT,
+    SPACE5-1 ATU,            !- Air Distribution Unit Name
+    SPACE5-1 In Node,        !- Air Dist Unit Outlet Node Name
+    SINGLE DUCT:VAV:REHEAT,  !- KEY--System Component Type 1
+    SPACE5-1 VAV Reheat;     !- Component Name 1
+ 
+  SINGLE DUCT:VAV:REHEAT,
+    SPACE1-1 VAV Reheat,     !- Name of System
+    ReheatCoilAvailSched,    !- System Availability schedule
+    SPACE1-1 Zone Coil Air In Node,  !- DAMPER Air Outlet Node
+    SPACE1-1 ATU In Node,    !- UNIT Air Inlet Node
+    0.33,                    !- Maximum air flow rate {m3/s}
+    0.3,                     !- Zone Minimum Air Flow Fraction
+    SPACE1-1 Zone Coil Water In Node,  !- Control node
+    COIL:Water:SimpleHeating,!- Reheat Component Object
+    SPACE1-1 Zone Coil,      !- Name of Reheat Component
+    0.0003,                  !- Max Reheat Water Flow {m3/s}
+    0.0,                     !- Min Reheat Water Flow {m3/s}
+    SPACE1-1 In Node,        !- UNIT Air Outlet Node
+    0.001,                   !- Convergence Tolerance
+    REVERSE ACTION;          !- Damper Heating Action
+ 
+  SINGLE DUCT:VAV:REHEAT,
+    SPACE2-1 VAV Reheat,     !- Name of System
+    ReheatCoilAvailSched,    !- System Availability schedule
+    SPACE2-1 Zone Coil Air In Node,  !- DAMPER Air Outlet Node
+    SPACE2-1 ATU In Node,    !- UNIT Air Inlet Node
+    0.25,                    !- Maximum air flow rate {m3/s}
+    0.3,                     !- Zone Minimum Air Flow Fraction
+    SPACE2-1 Zone Coil Water In Node,  !- Control node
+    COIL:Water:SimpleHeating,!- Reheat Component Object
+    SPACE2-1 Zone Coil,      !- Name of Reheat Component
+    0.0003,                  !- Max Reheat Water Flow {m3/s}
+    0.0,                     !- Min Reheat Water Flow {m3/s}
+    SPACE2-1 In Node,        !- UNIT Air Outlet Node
+    0.001,                   !- Convergence Tolerance
+    REVERSE ACTION;          !- Damper Heating Action
+ 
+  SINGLE DUCT:VAV:REHEAT,
+    SPACE3-1 VAV Reheat,     !- Name of System
+    ReheatCoilAvailSched,    !- System Availability schedule
+    SPACE3-1 Zone Coil Air In Node,  !- DAMPER Air Outlet Node
+    SPACE3-1 ATU In Node,    !- UNIT Air Inlet Node
+    0.34,                    !- Maximum air flow rate {m3/s}
+    0.3,                     !- Zone Minimum Air Flow Fraction
+    SPACE3-1 Zone Coil Water In Node,  !- Control node
+    COIL:Water:SimpleHeating,!- Reheat Component Object
+    SPACE3-1 Zone Coil,      !- Name of Reheat Component
+    0.0003,                  !- Max Reheat Water Flow {m3/s}
+    0.0,                     !- Min Reheat Water Flow {m3/s}
+    SPACE3-1 In Node,        !- UNIT Air Outlet Node
+    0.001,                   !- Convergence Tolerance
+    REVERSE ACTION;          !- Damper Heating Action
+ 
+  SINGLE DUCT:VAV:REHEAT,
+    SPACE4-1 VAV Reheat,     !- Name of System
+    ReheatCoilAvailSched,    !- System Availability schedule
+    SPACE4-1 Zone Coil Air In Node,  !- DAMPER Air Outlet Node
+    SPACE4-1 ATU In Node,    !- UNIT Air Inlet Node
+    0.27,                    !- Maximum air flow rate {m3/s}
+    0.3,                     !- Zone Minimum Air Flow Fraction
+    SPACE4-1 Zone Coil Water In Node,  !- Control node
+    COIL:Water:SimpleHeating,!- Reheat Component Object
+    SPACE4-1 Zone Coil,      !- Name of Reheat Component
+    0.0003,                  !- Max Reheat Water Flow {m3/s}
+    0.0,                     !- Min Reheat Water Flow {m3/s}
+    SPACE4-1 In Node,        !- UNIT Air Outlet Node
+    0.001,                   !- Convergence Tolerance
+    REVERSE ACTION;          !- Damper Heating Action
+ 
+  SINGLE DUCT:VAV:REHEAT,
+    SPACE5-1 VAV Reheat,     !- Name of System
+    ReheatCoilAvailSched,    !- System Availability schedule
+    SPACE5-1 Zone Coil Air In Node,  !- DAMPER Air Outlet Node
+    SPACE5-1 ATU In Node,    !- UNIT Air Inlet Node
+    0.37,                    !- Maximum air flow rate {m3/s}
+    0.3,                     !- Zone Minimum Air Flow Fraction
+    SPACE5-1 Zone Coil Water In Node,  !- Control node
+    COIL:Water:SimpleHeating,!- Reheat Component Object
+    SPACE5-1 Zone Coil,      !- Name of Reheat Component
+    0.0003,                  !- Max Reheat Water Flow {m3/s}
+    0.0,                     !- Min Reheat Water Flow {m3/s}
+    SPACE5-1 In Node,        !- UNIT Air Outlet Node
+    0.001,                   !- Convergence Tolerance
+    REVERSE ACTION;          !- Damper Heating Action
+ 
+  COIL:Water:SimpleHeating,
+    SPACE1-1 Zone Coil,      !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    300.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    SPACE1-1 Zone Coil Water In Node,  !- Coil_Water_Inlet_Node
+    SPACE1-1 Zone Coil Water Out Node,  !- Coil_Water_Outlet_Node
+    SPACE1-1 Zone Coil Air In Node,  !- Coil_Air_Inlet_Node
+    SPACE1-1 In Node;        !- Coil_Air_Outlet_Node
+ 
+  COIL:Water:SimpleHeating,
+    SPACE2-1 Zone Coil,      !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    150.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    SPACE2-1 Zone Coil Water In Node,  !- Coil_Water_Inlet_Node
+    SPACE2-1 Zone Coil Water Out Node,  !- Coil_Water_Outlet_Node
+    SPACE2-1 Zone Coil Air In Node,  !- Coil_Air_Inlet_Node
+    SPACE2-1 In Node;        !- Coil_Air_Outlet_Node
+ 
+  COIL:Water:SimpleHeating,
+    SPACE3-1 Zone Coil,      !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    300.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    SPACE3-1 Zone Coil Water In Node,  !- Coil_Water_Inlet_Node
+    SPACE3-1 Zone Coil Water Out Node,  !- Coil_Water_Outlet_Node
+    SPACE3-1 Zone Coil Air In Node,  !- Coil_Air_Inlet_Node
+    SPACE3-1 In Node;        !- Coil_Air_Outlet_Node
+ 
+  COIL:Water:SimpleHeating,
+    SPACE4-1 Zone Coil,      !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    150.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    SPACE4-1 Zone Coil Water In Node,  !- Coil_Water_Inlet_Node
+    SPACE4-1 Zone Coil Water Out Node,  !- Coil_Water_Outlet_Node
+    SPACE4-1 Zone Coil Air In Node,  !- Coil_Air_Inlet_Node
+    SPACE4-1 In Node;        !- Coil_Air_Outlet_Node
+ 
+  COIL:Water:SimpleHeating,
+    SPACE5-1 Zone Coil,      !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    300.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    SPACE5-1 Zone Coil Water In Node,  !- Coil_Water_Inlet_Node
+    SPACE5-1 Zone Coil Water Out Node,  !- Coil_Water_Outlet_Node
+    SPACE5-1 Zone Coil Air In Node,  !- Coil_Air_Inlet_Node
+    SPACE5-1 In Node;        !- Coil_Air_Outlet_Node
+ 
+  ZONE RETURN AIR PATH,
+    ReturnAirPath1,          !- Return Air Path Name
+    PLENUM-1 Out Node,       !- Return Air Path Outlet Node
+    Zone Return Plenum,      !- KEY--System Component Type 1
+    Return-Plenum-1;         !- Component Name 1
+ 
+  ZONE RETURN PLENUM,
+    Return-Plenum-1,         !- Zone Plenum Name
+    PLENUM-1,                !- Zone Name
+    PLENUM-1 Node,           !- Zone Node Name
+    PLENUM-1 Out Node,       !- Outlet_Node
+    SPACE1-1 Out Node,       !- Inlet_Node_1
+    SPACE2-1 Out Node,       !- Inlet_Node_2
+    SPACE3-1 Out Node,       !- Inlet_Node_3
+    SPACE4-1 Out Node,       !- Inlet_Node_4
+    SPACE5-1 Out Node;       !- Inlet_Node_5
+ 
+  ZONE SUPPLY AIR PATH,
+    Zone Supply Air Path 1,  !- Supply Air Path Name
+    Zone Eq In Node,         !- Supply Air Path Inlet Node
+    Zone Splitter,           !- KEY--System Component Type 1
+    Zone Supply Air Splitter 1;  !- Component Name 1
+ 
+  ZONE SPLITTER,
+    Zone Supply Air Splitter 1,  !- Splitter Name
+    Zone Eq In Node,         !- Inlet_Node
+    SPACE1-1 ATU In Node,    !- Outlet_Node_1
+    SPACE2-1 ATU In Node,    !- Outlet_Node_2
+    SPACE3-1 ATU In Node,    !- Outlet_Node_3
+    SPACE4-1 ATU In Node,    !- Outlet_Node_4
+    SPACE5-1 ATU In Node;    !- Outlet_Node_5
+ 
+  AIR PRIMARY LOOP,
+    VAV Sys 1,               !- Primary Air Loop Name
+    VAV Sys 1 Controllers,   !- Name: Controller List
+    VAV Sys 1 Avail List,    !- Name: System Availability Manager List
+    1.56,                    !- Primary air design volumetric flow rate {m3/s}
+    VAV Sys 1 Branches,      !- Air Loop Branch List Name
+    ,                        !- Air Loop Connector List Name
+    VAV Sys 1 Inlet Node,    !- ReturnAir AirLoop Inlet Node
+    PLENUM-1 Out Node,       !- ZoneEquipGroup Outlet Node
+    Zone Eq In Node,         !- SupplyAirPath ZoneEquipGroup Inlet Nodes
+    VAV Sys 1 Outlet Node;   !- AirLoop Outlet Nodes
+ 
+  CONTROLLER LIST,
+    VAV Sys 1 Controllers,   !- Name
+    Controller:Simple,       !- Controller Type 1
+    Central Cooling Coil Contoller 1,  !- Controller Name 1
+    Controller:Simple,       !- Controller Type 2
+    Central Heating Coil Contoller 1;  !- Controller Name 2
+ 
+  SYSTEM AVAILABILITY MANAGER LIST,
+    VAV Sys 1 Avail List,    !- Name
+    SYSTEM AVAILABILITY MANAGER:SCHEDULED,  !- System Availability Manager Type 1
+    VAV Sys 1 Avail;         !- System Availability Manager Name 1
+ 
+  SYSTEM AVAILABILITY MANAGER:SCHEDULED,
+    VAV Sys 1 Avail,         !- Name
+    FanAvailSched;           !- Schedule name
+ 
+  BRANCH LIST,
+    VAV Sys 1 Branches,      !- Branch List Name
+    VAV Sys 1 Main Branch;   !- Branch Name 1
+ 
+  BRANCH,
+    VAV Sys 1 Main Branch,   !- Branch Name
+    1.56,                    !- Maximum Branch Flow Rate {m3/s}
+    OUTSIDE AIR SYSTEM,      !- Comp1 Type
+    OA Sys 1,                !- Comp1 Name
+    VAV Sys 1 Inlet Node,    !- Comp1 Inlet Node Name
+    Mixed Air Node 1,        !- Comp1 Outlet Node Name
+    PASSIVE,                 !- Comp1 Branch Control Type
+    COIL:Water:DetailedFlatCooling,  !- Comp2 Type
+    Main Cooling Coil 1,     !- Comp2 Name
+    Mixed Air Node 1,        !- Comp2 Inlet Node Name
+    Main Cooling Coil 1 Outlet Node,  !- Comp2 Outlet Node Name
+    PASSIVE,                 !- Comp2 Branch Control Type
+    COIL:Water:SimpleHeating,!- Comp3 Type
+    Main Heating Coil 1,     !- Comp3 Name
+    Main Cooling Coil 1 Outlet Node,  !- Comp3 Inlet Node Name
+    Main Heating Coil 1 Outlet Node,  !- Comp3 Outlet Node Name
+    PASSIVE,                 !- Comp3 Branch Control Type
+    FAN:SIMPLE:VariableVolume,  !- Comp4 Type
+    Supply Fan 1,            !- Comp4 Name
+    Main Heating Coil 1 Outlet Node,  !- Comp4 Inlet Node Name
+    VAV Sys 1 Outlet Node,   !- Comp4 Outlet Node Name
+    ACTIVE;                  !- Comp4 Branch Control Type
+ 
+  OUTSIDE AIR SYSTEM,
+    OA Sys 1,                !- Name
+    OA Sys 1 Controllers,    !- Name: Controller List
+    OA Sys 1 Equipment,      !- Name of an Air Loop Equipment List
+    VAV Sys 1 Avail List;    !- Name of a System Availability Manager List
+ 
+  CONTROLLER LIST,
+    OA Sys 1 Controllers,    !- Name
+    CONTROLLER:OUTSIDE AIR,  !- Controller Type 1
+    OA Controller 1;         !- Controller Name 1
+ 
+  AIR LOOP EQUIPMENT LIST,
+    OA Sys 1 Equipment,      !- Name
+    OUTSIDE AIR MIXER,       !- KEY--System Component 1
+    OA Mixing Box 1;         !- Component Name 1
+ 
+  OUTSIDE AIR MIXER,
+    OA Mixing Box 1,         !- Name
+    Mixed Air Node 1,        !- Mixed_Air_Node
+    Outside Air Inlet Node 1,!- Outside_Air_Stream_Node
+    Relief Air Outlet Node 1,!- Relief_Air_Stream_Node
+    VAV Sys 1 Inlet Node;    !- Return_Air_Stream_Node
+ 
+  COIL:Water:DetailedFlatCooling,
+    Main Cooling Coil 1,     !- Coil Name
+    CoolingCoilAvailSched,   !- Available Schedule
+    0.0008,                  !- Max Water Flow Rate of Coil {m3/s}
+    6.23816,                 !- Tube Outside Surf Area {m2}
+    6.20007018,              !- Total Tube Inside Area {m2}
+    101.7158224,             !- Fin Surface Area {m2}
+    0.810606367,             !- Minimum Air Flow Area {m2}
+    0.165097968,             !- Coil Depth {m}
+    0.43507152,              !- Fin Diameter {m}
+    0.001499982,             !- Fin Thickness {m}
+    0.014449958,             !- Tube Inside Diameter {m}
+    0.015879775,             !- Tube Outside Diameter {m}
+    0.385764854,             !- Tube Thermal Conductivity {W/m-K}
+    0.203882537,             !- Fin Thermal Conductivity {W/m-K}
+    0.001814292,             !- Fin Spacing {m}
+    0.02589977,              !- Tube Depth Spacing {m}
+    6,                       !- Number of Tube Rows
+    16,                      !- Number of Tubes per Row
+    Main Cooling Coil 1 Water Inlet Node,  !- Coil_Water_Inlet_Node
+    Main Cooling Coil 1 Water Outlet Node,  !- Coil_Water_Outlet_Node
+    Mixed Air Node 1,        !- Coil_Air_Inlet_Node
+    Main Cooling Coil 1 Outlet Node;  !- Coil_Air_Outlet_Node
+ 
+  COIL:Water:SimpleHeating,
+    Main Heating Coil 1,     !- Coil Name
+    ReheatCoilAvailSched,    !- Available Schedule
+    500.,                    !- UA of the Coil {W/K}
+    0.0003,                  !- Max Water Flow Rate of Coil {m3/s}
+    Main Heating Coil 1 Water Inlet Node,  !- Coil_Water_Inlet_Node
+    Main Heating Coil 1 Water Outlet Node,  !- Coil_Water_Outlet_Node
+    Main Cooling Coil 1 Outlet Node,  !- Coil_Air_Inlet_Node
+    Main Heating Coil 1 Outlet Node;  !- Coil_Air_Outlet_Node
+ 
+  FAN:SIMPLE:VariableVolume,
+    Supply Fan 1,            !- Fan Name
+    FanAvailSched,           !- Available Schedule
+    0.7,                     !- Fan Total Efficiency
+    600.0,                   !- Delta Pressure {Pa}
+    1.56,                    !- Max Flow Rate {m3/s}
+    0.45,                    !- Min Flow Rate {m3/s}
+    0.9,                     !- Motor Efficiency
+    1.0,                     !- Motor In Airstream Fraction
+    0.35071223,              !- FanCoefficient 1
+    0.30850535,              !- FanCoefficient 2
+    -0.54137364,             !- FanCoefficient 3
+    0.87198823,              !- FanCoefficient 4
+    0.000,                   !- FanCoefficient 5
+    Main Heating Coil 1 Outlet Node,  !- Fan_Inlet_Node
+    VAV Sys 1 Outlet Node;   !- Fan_Outlet_Node
+ 
+  Controller:Simple,
+    Central Cooling Coil Contoller 1,  !- Name
+    TEMP,                    !- Control variable
+    Reverse,                 !- Action
+    FLOW,                    !- Actuator variable
+    VAV Sys 1 Outlet Node,   !- Control_Node
+    Main Cooling Coil 1 Water Inlet Node,  !- Actuator_Node
+    0.002,                   !- Controller Convergence Tolerance: delta temp from setpoint {deltaC}
+    0.0008,                  !- Max Actuated Flow {m3/s}
+    0.0;                     !- Min Actuated Flow {m3/s}
+ 
+  CONTROLLER:OUTSIDE AIR,
+    OA Controller 1,         !- Name
+    ECONOMIZER,              !- EconomizerChoice
+    NO RETURN AIR TEMP LIMIT,!- ReturnAirTempLimit
+    NO RETURN AIR ENTHALPY LIMIT,  !- ReturnAirEnthalpyLimit
+    NO LOCKOUT,              !- Lockout
+    FIXED MINIMUM,           !- MinimumLimit
+    Mixed Air Node 1,        !- Control_Node
+    Outside Air Inlet Node 1,!- Actuated_Node
+    0.468,                   !- minimum outside air flow rate {m3/s}
+    1.56,                    !- maximum outside air flow rate {m3/s}
+    19.,                     !- temperature limit {C}
+    4.,                      !- temperature lower limit {C}
+    0.0,                     !- enthalpy limit {J/kg}
+    Relief Air Outlet Node 1,!- Relief_Air_Outlet_Node
+    VAV Sys 1 Inlet Node,    !- Return_Air_Node
+    Min OA Sched;            !- Minimum Outside Air Schedule Name
+ 
+  Controller:Simple,
+    Central Heating Coil Contoller 1,  !- Name
+    TEMP,                    !- Control variable
+    Normal,                  !- Action
+    FLOW,                    !- Actuator variable
+    VAV Sys 1 Outlet Node,   !- Control_Node
+    Main Heating Coil 1 Water Inlet Node,  !- Actuator_Node
+    0.002,                   !- Controller Convergence Tolerance: delta temp from setpoint {deltaC}
+    0.0003,                  !- Max Actuated Flow {m3/s}
+    0.0;                     !- Min Actuated Flow {m3/s}
+ 
+  SET POINT MANAGER:SCHEDULED,
+    Supply Air Temp Manager 1,  !- Name
+    TEMP,                    !- Control variable
+    Seasonal Reset Supply Air Temp Sch,  !- Schedule Name
+    Supply Air Temp Nodes 1; !- Name of the set point Node or Node List
+ 
+  SET POINT MANAGER:MIXED AIR,
+    Mixed Air Temp Manager 1,!- Name
+    TEMP,                    !- Control variable:
+    VAV Sys 1 Outlet Node,   !- reference set point node name
+    Main Heating Coil 1 Outlet Node,  !- fan inlet node name
+    VAV Sys 1 Outlet Node,   !- fan outlet node name
+    Mixed Air Node 1;        !- Name of the set point Node or Node List
+ 
+  NODE LIST,
+    Supply Air Temp Nodes 1, !- Node List Name
+    VAV Sys 1 Outlet Node;   !- Node_ID_1
+ 
+  PLANT LOOP,
+    Hot Water Loop,          !- Plant Loop Name
+    Water,                   !- Fluid Type
+    Hot Loop Operation,      !- Plant Operation Scheme List Name
+    HW Supply Outlet Node,   !- Loop Temperature Setpoint Node Name
+    100,                     !- Maximum Loop Temperature {C}
+    10,                      !- Minimum Loop Temperature {C}
+    0.0019,                  !- Maximum Loop Volumetric Flow Rate {m3/s}
+    0.0,                     !- Minimum Loop Volumetric Flow Rate {m3/s}
+    autosize,                !- volume of the plant loop {m3}
+    HW Supply Inlet Node,    !- Plant Side Inlet Node Name
+    HW Supply Outlet Node,   !- Plant Side Outlet Node Name
+    Heating Supply Side Branches,  !- Plant Side Branch List Name
+    Heating Supply Side Connectors,  !- Plant Side Connector List Name
+    HW Demand Inlet Node,    !- Demand Side Inlet Node Name
+    HW Demand Outlet Node,   !- Demand Side Outlet Nodes Name
+    Heating Demand Side Branches,  !- Demand Side Branch List Name
+    Heating Demand Side Connectors,  !- Demand Side Connector List Name
+    Optimal;                 !- Load Distribution Scheme
+ 
+  SET POINT MANAGER:SCHEDULED,
+    Hot Water Loop Setpoint Manager,  !- Name
+    TEMP,                    !- Control variable
+    HW Loop Temp Schedule,   !- Schedule Name
+    Hot Water Loop Setpoint Node List;  !- Name of the set point Node or Node List
+ 
+  NODE LIST,
+    Hot Water Loop Setpoint Node List,  !- Node List Name
+    HW Supply Outlet Node;   !- Node_ID_1
+ 
+  BRANCH LIST,
+    Heating Supply Side Branches,  !- Branch List Name
+    Heating Supply Inlet Branch,  !- Branch Name 1
+    Heating Purchased Hot Water Branch,  !- Branch Name 2
+    Heating Supply Bypass Branch,  !- Branch Name 3
+    Heating Supply Outlet Branch;  !- Branch Name 4
+ 
+  CONNECTOR LIST,
+    Heating Supply Side Connectors,  !- Connector List Name
+    SPLITTER,                !- Type of Connector 1
+    Heating Supply Splitter, !- Name of Connector 1
+    MIXER,                   !- Type of Connector 2
+    Heating Supply Mixer;    !- Name of Connector 2
+ 
+  BRANCH,
+    Heating Supply Inlet Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PUMP:VARIABLE SPEED,     !- Comp1 Type
+    HW Circ Pump,            !- Comp1 Name
+    HW Supply Inlet Node,    !- Comp1 Inlet Node Name
+    HW Pump Outlet Node,     !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Heating Purchased Hot Water Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PURCHASED:HOT WATER,     !- Comp1 Type
+    Purchased Heating,       !- Comp1 Name
+    Purchased Heat Inlet Node,  !- Comp1 Inlet Node Name
+    Purchased Heat Outlet Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Heating Supply Bypass Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Heating Supply Side Bypass,  !- Comp1 Name
+    Heating Supply Bypass Inlet Node,  !- Comp1 Inlet Node Name
+    Heating Supply Bypass Outlet Node,  !- Comp1 Outlet Node Name
+    BYPASS;                  !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Heating Supply Side Bypass,  !- PipeName
+    Heating Supply Bypass Inlet Node,  !- Inlet Node Name
+    Heating Supply Bypass Outlet Node;  !- Outlet Node Name
+ 
+  BRANCH,
+    Heating Supply Outlet Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Heating Supply Outlet,   !- Comp1 Name
+    Heating Supply Exit Pipe Inlet Node,  !- Comp1 Inlet Node Name
+    HW Supply Outlet Node,   !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Heating Supply Outlet,   !- PipeName
+    Heating Supply Exit Pipe Inlet Node,  !- Inlet Node Name
+    HW Supply Outlet Node;   !- Outlet Node Name
+ 
+  BRANCH LIST,
+    Heating Demand Side Branches,  !- Branch List Name
+    Heating Demand Inlet Branch,  !- Branch Name 1
+    SPACE1-1 Reheat Branch,  !- Branch Name 2
+    SPACE2-1 Reheat Branch,  !- Branch Name 3
+    SPACE3-1 Reheat Branch,  !- Branch Name 4
+    SPACE4-1 Reheat Branch,  !- Branch Name 5
+    SPACE5-1 Reheat Branch,  !- Branch Name 6
+    Main Heating Coil 1 Branch,  !- Branch Name 7
+    Heating Demand Bypass Branch,  !- Branch Name 8
+    Heating Demand Outlet Branch;  !- Branch Name 9
+ 
+  CONNECTOR LIST,
+    Heating Demand Side Connectors,  !- Connector List Name
+    SPLITTER,                !- Type of Connector 1
+    Heating Demand Splitter, !- Name of Connector 1
+    MIXER,                   !- Type of Connector 2
+    Heating Demand Mixer;    !- Name of Connector 2
+ 
+  BRANCH,
+    Heating Demand Inlet Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Heating Demand Inlet Pipe,  !- Comp1 Name
+    HW Demand Inlet Node,    !- Comp1 Inlet Node Name
+    HW Demand Entrance Pipe Outlet Node,  !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Heating Demand Inlet Pipe,  !- PipeName
+    HW Demand Inlet Node,    !- Inlet Node Name
+    HW Demand Entrance Pipe Outlet Node;  !- Outlet Node Name
+ 
+  BRANCH,
+    Heating Demand Outlet Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Heating Demand Outlet Pipe,  !- Comp1 Name
+    HW Demand Exit Pipe Inlet Node,  !- Comp1 Inlet Node Name
+    HW Demand Outlet Node,   !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Heating Demand Outlet Pipe,  !- PipeName
+    HW Demand Exit Pipe Inlet Node,  !- Inlet Node Name
+    HW Demand Outlet Node;   !- Outlet Node Name
+ 
+  BRANCH,
+    SPACE1-1 Reheat Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    SPACE1-1 Zone Coil,      !- Comp1 Name
+    SPACE1-1 Zone Coil Water In Node,  !- Comp1 Inlet Node Name
+    SPACE1-1 Zone Coil Water Out Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    SPACE2-1 Reheat Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    SPACE2-1 Zone Coil,      !- Comp1 Name
+    SPACE2-1 Zone Coil Water In Node,  !- Comp1 Inlet Node Name
+    SPACE2-1 Zone Coil Water Out Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    SPACE3-1 Reheat Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    SPACE3-1 Zone Coil,      !- Comp1 Name
+    SPACE3-1 Zone Coil Water In Node,  !- Comp1 Inlet Node Name
+    SPACE3-1 Zone Coil Water Out Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    SPACE4-1 Reheat Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    SPACE4-1 Zone Coil,      !- Comp1 Name
+    SPACE4-1 Zone Coil Water In Node,  !- Comp1 Inlet Node Name
+    SPACE4-1 Zone Coil Water Out Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    SPACE5-1 Reheat Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    SPACE5-1 Zone Coil,      !- Comp1 Name
+    SPACE5-1 Zone Coil Water In Node,  !- Comp1 Inlet Node Name
+    SPACE5-1 Zone Coil Water Out Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Main Heating Coil 1 Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:SimpleHeating,!- Comp1 Type
+    Main Heating Coil 1,     !- Comp1 Name
+    Main Heating Coil 1 Water Inlet Node,  !- Comp1 Inlet Node Name
+    Main Heating Coil 1 Water Outlet Node,  !- Comp1 Outlet Node Name
+    ACTIVE;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Heating Demand Bypass Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Heating Demand Bypass,   !- Comp1 Name
+    Heating Demand Bypass Inlet Node,  !- Comp1 Inlet Node Name
+    Heating Demand Bypass Outlet Node,  !- Comp1 Outlet Node Name
+    BYPASS;                  !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Heating Demand Bypass,   !- PipeName
+    Heating Demand Bypass Inlet Node,  !- Inlet Node Name
+    Heating Demand Bypass Outlet Node;  !- Outlet Node Name
+ 
+  SPLITTER,
+    Heating Demand Splitter, !- SplitterName
+    Heating Demand Inlet Branch,  !- Inlet Branch Name
+    SPACE1-1 Reheat Branch,  !- Outlet Branch Name 1
+    SPACE2-1 Reheat Branch,  !- Outlet Branch Name 2
+    SPACE3-1 Reheat Branch,  !- Outlet Branch Name 3
+    SPACE4-1 Reheat Branch,  !- Outlet Branch Name 4
+    SPACE5-1 Reheat Branch,  !- Outlet Branch Name 5
+    Main Heating Coil 1 Branch,  !- Outlet Branch Name 6
+    Heating Demand Bypass Branch;  !- Outlet Branch Name 7
+ 
+  MIXER,
+    Heating Demand Mixer,    !- MixerName
+    Heating Demand Outlet Branch,  !- Outlet Branch Name
+    SPACE1-1 Reheat Branch,  !- Inlet Branch Name 1
+    SPACE2-1 Reheat Branch,  !- Inlet Branch Name 2
+    SPACE3-1 Reheat Branch,  !- Inlet Branch Name 3
+    SPACE4-1 Reheat Branch,  !- Inlet Branch Name 4
+    SPACE5-1 Reheat Branch,  !- Inlet Branch Name 5
+    Main Heating Coil 1 Branch,  !- Inlet Branch Name 6
+    Heating Demand Bypass Branch;  !- Inlet Branch Name 7
+ 
+  SPLITTER,
+    Heating Supply Splitter, !- SplitterName
+    Heating Supply Inlet Branch,  !- Inlet Branch Name
+    Heating Purchased Hot Water Branch,  !- Outlet Branch Name 1
+    Heating Supply Bypass Branch;  !- Outlet Branch Name 2
+ 
+  MIXER,
+    Heating Supply Mixer,    !- MixerName
+    Heating Supply Outlet Branch,  !- Outlet Branch Name
+    Heating Purchased Hot Water Branch,  !- Inlet Branch Name 1
+    Heating Supply Bypass Branch;  !- Inlet Branch Name 2
+ 
+  PLANT OPERATION SCHEMES,
+    Hot Loop Operation,      !- PlantOperationSchemeName
+    HEATING LOAD RANGE BASED OPERATION,  !- KEY--Control Scheme 1
+    Purchased Only,          !- Control Scheme Name 1
+    PlantOnSched;            !- Control Scheme Schedule 1
+ 
+  HEATING LOAD RANGE BASED OPERATION,
+    Purchased Only,          !- Name
+    0,                       !- Load Range Lower Limit 1 {W}
+    1000000,                 !- Load Range Upper Limit 1 {W}
+    heating plant;           !- Priority Control Equip List Name 1
+ 
+  PLANT EQUIPMENT LIST,
+    heating plant,           !- Equip List Name
+    PURCHASED:HOT WATER,     !- KEY--Plant Equip 1
+    Purchased Heating;       !- Equip Name 1
+ 
+  PUMP:VARIABLE SPEED,
+    HW Circ Pump,            !- Pump Name
+    HW Supply Inlet Node,    !- Inlet_Node
+    HW Pump Outlet Node,     !- Outlet_Node
+    .0013,                   !- Rated Volumetric Flow Rate {m3/s}
+    300000,                  !- Rated Pump Head {Pa}
+    560,                     !- Rated Power Consumption {W}
+    .87,                     !- Motor Efficiency
+    0.0,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                       !- Coefficient1 of the Part Load Performance Curve
+    1,                       !- Coefficient2 of the Part Load Performance Curve
+    0,                       !- Coefficient3 of the Part Load Performance Curve
+    0,                       !- Coefficient4 of the Part Load Performance Curve
+    0,                       !- Min Flow Rate while operating in variable flow capacity; {m3/s}
+    INTERMITTENT;            !- Pump Control Type
+ 
+  PURCHASED:HOT WATER,
+    Purchased Heating,       !- Purchased Hot Water Name
+    Purchased Heat Inlet Node,  !- Plant_Loop_Inlet_Node
+    Purchased Heat Outlet Node,  !- Plant_Loop_Outlet_Node
+    1000000;                 !- Nominal Capacity {W}
+ 
+  PLANT LOOP,
+    Chilled Water Loop,      !- Plant Loop Name
+    Water,                   !- Fluid Type
+    CW Loop Operation,       !- Plant Operation Scheme List Name
+    CW Supply Outlet Node,   !- Loop Temperature Setpoint Node Name
+    98,                      !- Maximum Loop Temperature {C}
+    1,                       !- Minimum Loop Temperature {C}
+    0.0009,                  !- Maximum Loop Volumetric Flow Rate {m3/s}
+    0,                       !- Minimum Loop Volumetric Flow Rate {m3/s}
+    autosize,                !- volume of the plant loop {m3}
+    CW Supply Inlet Node,    !- Plant Side Inlet Node Name
+    CW Supply Outlet Node,   !- Plant Side Outlet Node Name
+    Cooling Supply Side Branches,  !- Plant Side Branch List Name
+    Cooling Supply Side Connectors,  !- Plant Side Connector List Name
+    CW Demand Inlet Node,    !- Demand Side Inlet Node Name
+    CW Demand Outlet Node,   !- Demand Side Outlet Nodes Name
+    Cooling Demand Side Branches,  !- Demand Side Branch List Name
+    Cooling Demand Side Connectors,  !- Demand Side Connector List Name
+    Optimal;                 !- Load Distribution Scheme
+ 
+  SET POINT MANAGER:SCHEDULED,
+    Chilled Water Loop Setpoint Manager,  !- Name
+    TEMP,                    !- Control variable
+    CW Loop Temp Schedule,   !- Schedule Name
+    Chilled Water Loop Setpoint Node List;  !- Name of the set point Node or Node List
+ 
+  NODE LIST,
+    Chilled Water Loop Setpoint Node List,  !- Node List Name
+    CW Supply Outlet Node;   !- Node_ID_1
+ 
+  BRANCH LIST,
+    Cooling Supply Side Branches,  !- Branch List Name
+    CW Pump Branch,          !- Branch Name 1
+    Purchased Cooling Branch,!- Branch Name 2
+    Cooling Supply Bypass Branch,  !- Branch Name 3
+    Cooling Supply Outlet;   !- Branch Name 4
+ 
+  BRANCH LIST,
+    Cooling Demand Side Branches,  !- Branch List Name
+    Cooling Demand Inlet,    !- Branch Name 1
+    Cooling Coil Branch,     !- Branch Name 2
+    Cooling Demand Bypass Branch,  !- Branch Name 3
+    Cooling Demand Outlet;   !- Branch Name 4
+ 
+  CONNECTOR LIST,
+    Cooling Supply Side Connectors,  !- Connector List Name
+    SPLITTER,                !- Type of Connector 1
+    CW Loop Splitter,        !- Name of Connector 1
+    MIXER,                   !- Type of Connector 2
+    CW Loop Mixer;           !- Name of Connector 2
+ 
+  CONNECTOR LIST,
+    Cooling Demand Side Connectors,  !- Connector List Name
+    SPLITTER,                !- Type of Connector 1
+    CW Demand Splitter,      !- Name of Connector 1
+    MIXER,                   !- Type of Connector 2
+    CW Demand Mixer;         !- Name of Connector 2
+ 
+  BRANCH,
+    Cooling Demand Inlet,    !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Cooling Demand Side Inlet Pipe,  !- Comp1 Name
+    CW Demand Inlet Node,    !- Comp1 Inlet Node Name
+    CW Demand Entrance Pipe Outlet Node,  !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Cooling Demand Side Inlet Pipe,  !- PipeName
+    CW Demand Inlet Node,    !- Inlet Node Name
+    CW Demand Entrance Pipe Outlet Node;  !- Outlet Node Name
+ 
+  BRANCH,
+    Cooling Coil Branch,     !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    COIL:Water:DetailedFlatCooling,  !- Comp1 Type
+    Main Cooling Coil 1,     !- Comp1 Name
+    Main Cooling Coil 1 Water Inlet Node,  !- Comp1 Inlet Node Name
+    Main Cooling Coil 1 Water Outlet Node,  !- Comp1 Outlet Node Name
+    Active;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Cooling Demand Bypass Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Cooling Demand Side Bypass,  !- Comp1 Name
+    CW Demand Bypass Inlet Node,  !- Comp1 Inlet Node Name
+    CW Demand Bypass Outlet Node,  !- Comp1 Outlet Node Name
+    BYPASS;                  !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Cooling Demand Side Bypass,  !- PipeName
+    CW Demand Bypass Inlet Node,  !- Inlet Node Name
+    CW Demand Bypass Outlet Node;  !- Outlet Node Name
+ 
+  BRANCH,
+    Cooling Demand Outlet,   !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    CW Demand Side Outlet Pipe,  !- Comp1 Name
+    CW Demand Exit Pipe Inlet Node,  !- Comp1 Inlet Node Name
+    CW Demand Outlet Node,   !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    CW Demand Side Outlet Pipe,  !- PipeName
+    CW Demand Exit Pipe Inlet Node,  !- Inlet Node Name
+    CW Demand Outlet Node;   !- Outlet Node Name
+ 
+  BRANCH,
+    Cooling Supply Outlet,   !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Supply Side Outlet Pipe, !- Comp1 Name
+    Supply Side Exit Pipe Inlet Node,  !- Comp1 Inlet Node Name
+    CW Supply Outlet Node,   !- Comp1 Outlet Node Name
+    PASSIVE;                 !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Supply Side Outlet Pipe, !- PipeName
+    Supply Side Exit Pipe Inlet Node,  !- Inlet Node Name
+    CW Supply Outlet Node;   !- Outlet Node Name
+ 
+  BRANCH,
+    CW Pump Branch,          !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PUMP:VARIABLE SPEED,     !- Comp1 Type
+    CW Circ Pump,            !- Comp1 Name
+    CW Supply Inlet Node,    !- Comp1 Inlet Node Name
+    CW Pump Outlet Node,     !- Comp1 Outlet Node Name
+    Active;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Purchased Cooling Branch,!- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PURCHASED:CHILLED WATER, !- Comp1 Type
+    Purchased Cooling,       !- Comp1 Name
+    Purchased Cooling Inlet Node,  !- Comp1 Inlet Node Name
+    Purchased Cooling Outlet Node,  !- Comp1 Outlet Node Name
+    Active;                  !- Comp1 Branch Control Type
+ 
+  BRANCH,
+    Cooling Supply Bypass Branch,  !- Branch Name
+    0,                       !- Maximum Branch Flow Rate {m3/s}
+    PIPE,                    !- Comp1 Type
+    Supply Side Bypass,      !- Comp1 Name
+    CW Supply Bypass Inlet Node,  !- Comp1 Inlet Node Name
+    CW Supply Bypass Outlet Node,  !- Comp1 Outlet Node Name
+    BYPASS;                  !- Comp1 Branch Control Type
+ 
+  PIPE,
+    Supply Side Bypass,      !- PipeName
+    CW Supply Bypass Inlet Node,  !- Inlet Node Name
+    CW Supply Bypass Outlet Node;  !- Outlet Node Name
+ 
+  SPLITTER,
+    CW Loop Splitter,        !- SplitterName
+    CW Pump Branch,          !- Inlet Branch Name
+    Purchased Cooling Branch,!- Outlet Branch Name 1
+    Cooling Supply Bypass Branch;  !- Outlet Branch Name 2
+ 
+  MIXER,
+    CW Loop Mixer,           !- MixerName
+    Cooling Supply Outlet,   !- Outlet Branch Name
+    Purchased Cooling Branch,!- Inlet Branch Name 1
+    Cooling Supply Bypass Branch;  !- Inlet Branch Name 2
+ 
+  SPLITTER,
+    CW Demand Splitter,      !- SplitterName
+    Cooling Demand Inlet,    !- Inlet Branch Name
+    Cooling Coil Branch,     !- Outlet Branch Name 1
+    Cooling Demand Bypass Branch;  !- Outlet Branch Name 2
+ 
+  MIXER,
+    CW Demand Mixer,         !- MixerName
+    Cooling Demand Outlet,   !- Outlet Branch Name
+    Cooling Coil Branch,     !- Inlet Branch Name 1
+    Cooling Demand Bypass Branch;  !- Inlet Branch Name 2
+ 
+  PLANT OPERATION SCHEMES,
+    CW Loop Operation,       !- PlantOperationSchemeName
+    COOLING LOAD RANGE BASED OPERATION,  !- KEY--Control Scheme 1
+    CW Purchased Only,       !- Control Scheme Name 1
+    PlantOnSched;            !- Control Scheme Schedule 1
+ 
+  COOLING LOAD RANGE BASED OPERATION,
+    CW Purchased Only,       !- Name
+    0,                       !- Load Range Lower Limit 1 {W}
+    900000,                  !- Load Range Upper Limit 1 {W}
+    Cooling Plant;           !- Priority Control Equip List Name 1
+ 
+  PLANT EQUIPMENT LIST,
+    Cooling Plant,           !- Equip List Name
+    PURCHASED:CHILLED WATER, !- KEY--Plant Equip 1
+    Purchased Cooling;       !- Equip Name 1
+ 
+  PURCHASED:CHILLED WATER,
+    Purchased Cooling,       !- Purchased Chilled Water Name
+    Purchased Cooling Inlet Node,  !- Plant_Loop_Inlet_Node
+    Purchased Cooling Outlet Node,  !- Plant_Loop_Outlet_Node
+    900000;                  !- Nominal Capacity {W}
+ 
+  PUMP:VARIABLE SPEED,
+    CW Circ Pump,            !- Pump Name
+    CW Supply Inlet Node,    !- Inlet_Node
+    CW Pump Outlet Node,     !- Outlet_Node
+    .0009,                   !- Rated Volumetric Flow Rate {m3/s}
+    300000,                  !- Rated Pump Head {Pa}
+    385,                     !- Rated Power Consumption {W}
+    .87,                     !- Motor Efficiency
+    0.0,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0,                       !- Coefficient1 of the Part Load Performance Curve
+    1,                       !- Coefficient2 of the Part Load Performance Curve
+    0,                       !- Coefficient3 of the Part Load Performance Curve
+    0,                       !- Coefficient4 of the Part Load Performance Curve
+    0,                       !- Min Flow Rate while operating in variable flow capacity; {m3/s}
+    INTERMITTENT;            !- Pump Control Type
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Outdoor Dry Bulb,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Zone/Sys Air Temp,       !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Zone/Sys Sensible Cooling Rate,  !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Zone/Sys Sensible Heating Rate,  !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Total Water Heating Coil Rate,  !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 In Node,        !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 In Node,        !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 In Node,        !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 In Node,        !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 Zone Coil Water In Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 Zone Coil Water In Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 Zone Coil Water In Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 Zone Coil Water In Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 Zone Coil Water Out Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 Zone Coil Water Out Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE1-1 Zone Coil Water Out Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    SPACE2-1 Zone Coil Water Out Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Total Water Cooling Coil Rate,  !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Sensible Water Cooling Coil Rate,  !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Mixed Air Node 1,        !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Cooling Coil 1 Outlet Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Heating Coil 1 Outlet Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Heating Coil 1 Water Inlet Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Heating Coil 1 Water Outlet Node,  !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Heating Coil 1 Water Inlet Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    Main Heating Coil 1 Water Outlet Node,  !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    VAV Sys 1 Outlet Node,   !- Key_Value
+    System Node Temp,        !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    VAV Sys 1 Outlet Node,   !- Key_Value
+    System Node MassFlowRate,!- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report Variable,
+    *,                       !- Key_Value
+    Damper Position,         !- Variable_Name
+    hourly;                  !- Reporting_Frequency
+ 
+  Report,
+    Variable Dictionary;     !- Type_of_Report
+ 
+  report,
+    surfaces,                !- Type_of_Report
+    dxf;                     !- Name_of_Report
+ 
+  report,
+    surfaces,                !- Type_of_Report
+    lines;                   !- Name_of_Report
+ 
+  Report MeterFileOnly,
+    Electricity:Facility,    !- Meter_Name
+    monthly;                 !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:Building,    !- Meter_Name
+    monthly;                 !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    GeneralLights:Electricity,  !- Meter_Name
+    monthly;                 !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:HVAC,        !- Meter_Name
+    monthly;                 !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:Plant,       !- Meter_Name
+    monthly;                 !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:Facility,    !- Meter_Name
+    runperiod;               !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:Building,    !- Meter_Name
+    runperiod;               !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    GeneralLights:Electricity,  !- Meter_Name
+    runperiod;               !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:HVAC,        !- Meter_Name
+    runperiod;               !- Reporting_Frequency
+ 
+  Report MeterFileOnly,
+    Electricity:Plant,       !- Meter_Name
+    runperiod;               !- Reporting_Frequency
+ 

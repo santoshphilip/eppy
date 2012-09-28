@@ -1,0 +1,11 @@
+Only one idd file will be open, although you can switch the idd file
+
+need to make the data structure for multiple idf files to be open.
+    - the idf is in data
+    - we can have an array of data.
+    - or a dictionary of data with file name as key.
+    - or with (username, filename) as key.
+    -
+    - understand how this works in a django context
+    - is it in two threads ?
+

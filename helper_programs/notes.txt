@@ -1,0 +1,6 @@
+2011-02-10
+----------
+start to emulate the comfort program we did in excel for Kuykendall Hall.
+loop a list: Can a list be made as thoughit is circular. Can I sub class it ?
+may be too complex. 
+I can reach back in the list with -ve indices, how can I reach forward.

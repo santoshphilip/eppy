@@ -1,0 +1,3 @@
+2012-04-26
+----------
+see temp.py for """get a variable from the sql table and teal with getting the right dates correctly"""

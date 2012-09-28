@@ -1,0 +1,178 @@
+BRANCH,                       
+    branchname0,              ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    branchname0_pipe,         ! Component 1 Name
+    plantloop_supply_inlet,   ! Component 1 Inlet Node Name
+    branchname0_pipe_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    branchname1,              ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    branchname1_pipe,         ! Component 1 Name
+    branchname1_pipe_inlet,   ! Component 1 Inlet Node Name
+    branchname1_pipe_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    branchname2,              ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    branchname2_pipe,         ! Component 1 Name
+    branchname2_pipe_inlet,   ! Component 1 Inlet Node Name
+    branchname2_pipe_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    branchname3,              ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    branchname3_pipe,         ! Component 1 Name
+    branchname3_pipe_inlet,   ! Component 1 Inlet Node Name
+    branchname3_pipe_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    branchname4,              ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    branchname4_pipe,         ! Component 1 Name
+    branchname4_pipe_inlet,   ! Component 1 Inlet Node Name
+    plantloop_supply_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    dbranchname0,             ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    dbranchname0_pipe,        ! Component 1 Name
+    plantloop_demand_inlet,   ! Component 1 Inlet Node Name
+    dbranchname0_pipe_outlet, ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    dbranchname1,             ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    dbranchname1_pipe,        ! Component 1 Name
+    dbranchname1_pipe_inlet,  ! Component 1 Inlet Node Name
+    dbranchname1_pipe_outlet, ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    dbranchname2,             ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    dbranchname2_pipe,        ! Component 1 Name
+    dbranchname2_pipe_inlet,  ! Component 1 Inlet Node Name
+    dbranchname2_pipe_outlet, ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    dbranchname3,             ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    dbranchname3_pipe,        ! Component 1 Name
+    dbranchname3_pipe_inlet,  ! Component 1 Inlet Node Name
+    dbranchname3_pipe_outlet, ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCH,                       
+    dbranchname4,             ! Name
+    0,                        ! Maximum Flow Rate
+    ,                         ! Pressure Drop Curve Name
+    Pipe:Adiabatic,           ! Component 1 Object Type
+    dbranchname4_pipe,        ! Component 1 Name
+    dbranchname4_pipe_inlet,  ! Component 1 Inlet Node Name
+    plantloop_demand_outlet,  ! Component 1 Outlet Node Name
+    Bypass;                   ! Component 1 Branch Control Type
+
+BRANCHLIST,                   
+    plantloop_supply_Blist,   ! Name
+    branchname1,              ! Branch 1 Name
+    branchname2,              ! Branch 2 Name
+    branchname3;              ! Branch 3 Name
+
+BRANCHLIST,                   
+    plantloop_demand_Blist,   ! Name
+    dbranchname1,             ! Branch 1 Name
+    dbranchname2,             ! Branch 2 Name
+    dbranchname3;             ! Branch 3 Name
+
+CONNECTOR:SPLITTER,           
+    splitter,                 ! Name
+    branchname0,              ! Inlet Branch Name
+    branchname1,              ! Outlet Branch 1 Name
+    branchname2,              ! Outlet Branch 2 Name
+    branchname3;              ! Outlet Branch 3 Name
+
+CONNECTOR:SPLITTER,           
+    dsplitter,                ! Name
+    dbranchname0,             ! Inlet Branch Name
+    dbranchname1,             ! Outlet Branch 1 Name
+    dbranchname2,             ! Outlet Branch 2 Name
+    dbranchname3;             ! Outlet Branch 3 Name
+
+CONNECTOR:MIXER,              
+    mixer,                    ! Name
+    branchname4,              ! Outlet Branch Name
+    branchname1,              ! Inlet Branch 1 Name
+    branchname2,              ! Inlet Branch 2 Name
+    branchname3;              ! Inlet Branch 3 Name
+
+CONNECTOR:MIXER,              
+    dmixer,                   ! Name
+    dbranchname4,             ! Outlet Branch Name
+    dbranchname1,             ! Inlet Branch 1 Name
+    dbranchname2,             ! Inlet Branch 2 Name
+    dbranchname3;             ! Inlet Branch 3 Name
+
+CONNECTORLIST,                
+    plantloop_supply_Clist,   ! Name
+    Connector:Splitter,       ! Connector 1 Object Type
+    splitter,                 ! Connector 1 Name
+    Connector:Mixer,          ! Connector 2 Object Type
+    mixer;                    ! Connector 2 Name
+
+CONNECTORLIST,                
+    plantloop_demand_Clist,   ! Name
+    Connector:Splitter,       ! Connector 1 Object Type
+    dsplitter,                ! Connector 1 Name
+    Connector:Mixer,          ! Connector 2 Object Type
+    dmixer;                   ! Connector 2 Name
+
+PLANTLOOP,                    
+    plantloop,                ! Name
+    Water,                    ! Fluid Type
+    ,                         ! Plant Equipment Operation Scheme Name
+    ,                         ! Loop Temperature Setpoint Node Name
+    ,                         ! Maximum Loop Temperature
+    ,                         ! Minimum Loop Temperature
+    ,                         ! Maximum Loop Flow Rate
+    0.0,                      ! Minimum Loop Flow Rate
+    Autocalculate,            ! Plant Loop Volume
+    plantloop_supply_inlet,   ! Plant Side Inlet Node Name
+    plantloop_supply_outlet,  ! Plant Side Outlet Node Name
+    plantloop_supply_Blist,   ! Plant Side Branch List Name
+    plantloop_supply_Clist,   ! Plant Side Connector List Name
+    plantloop_demand_inlet,   ! Demand Side Inlet Node Name
+    plantloop_demand_outlet,  ! Demand Side Outlet Node Name
+    plantloop_demand_Blist,   ! Demand Side Branch List Name
+    plantloop_demand_Clist,   ! Demand Side Connector List Name
+    Sequential,               ! Load Distribution Scheme
+    ,                         ! Availability Manager List Name
+    SingleSetpoint,           ! Plant Loop Demand Calculation Scheme
+    None,                     ! Common Pipe Simulation
+    None;                     ! Pressure Simulation Type
+

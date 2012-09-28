@@ -1,0 +1,1209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<title>Docutils FAQ (Frequently Asked Questions)</title>
+<meta name="date" content="2005-12-09" />
+<meta name="copyright" content="This document has been placed in the public domain." />
+<style type="text/css">
+
+/*
+:Author: David Goodger
+:Contact: goodger@users.sourceforge.net
+:Date: $Date: 2005-12-18 01:56:14 +0100 (Sun, 18 Dec 2005) $
+:Revision: $Revision: 4224 $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin-left: 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em ;
+  background-color: #eeeeee }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+tt.docutils {
+  background-color: #eeeeee }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="docutils-faq-frequently-asked-questions">
+<h1 class="title">Docutils FAQ (Frequently Asked Questions)</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Date:</th>
+<td>2005-12-09</td></tr>
+<tr><th class="docinfo-name">Revision:</th>
+<td>4163</td></tr>
+<tr class="field"><th class="docinfo-name">Web site:</th><td class="field-body"><a class="reference" href="http://docutils.sourceforge.net/">http://docutils.sourceforge.net/</a></td>
+</tr>
+<tr><th class="docinfo-name">Copyright:</th>
+<td>This document has been placed in the public domain.</td></tr>
+</tbody>
+</table>
+<!-- -*- coding: utf-8 -*- -->
+<div class="contents topic">
+<p class="topic-title first"><a id="contents" name="contents">Contents</a></p>
+<ul class="auto-toc simple">
+<li><a class="reference" href="#docutils" id="id23" name="id23">1&nbsp;&nbsp;&nbsp;Docutils</a><ul class="auto-toc">
+<li><a class="reference" href="#what-is-docutils" id="id24" name="id24">1.1&nbsp;&nbsp;&nbsp;What is Docutils?</a></li>
+<li><a class="reference" href="#why-is-it-called-docutils" id="id25" name="id25">1.2&nbsp;&nbsp;&nbsp;Why is it called &quot;Docutils&quot;?</a></li>
+<li><a class="reference" href="#is-there-a-gui-authoring-environment-for-docutils" id="id26" name="id26">1.3&nbsp;&nbsp;&nbsp;Is there a GUI authoring environment for Docutils?</a></li>
+<li><a class="reference" href="#what-is-the-status-of-the-docutils-project" id="id27" name="id27">1.4&nbsp;&nbsp;&nbsp;What is the status of the Docutils project?</a></li>
+<li><a class="reference" href="#what-is-the-docutils-project-release-policy" id="id28" name="id28">1.5&nbsp;&nbsp;&nbsp;What is the Docutils project release policy?</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#restructuredtext" id="id29" name="id29">2&nbsp;&nbsp;&nbsp;reStructuredText</a><ul class="auto-toc">
+<li><a class="reference" href="#what-is-restructuredtext" id="id30" name="id30">2.1&nbsp;&nbsp;&nbsp;What is reStructuredText?</a></li>
+<li><a class="reference" href="#why-is-it-called-restructuredtext" id="id31" name="id31">2.2&nbsp;&nbsp;&nbsp;Why is it called &quot;reStructuredText&quot;?</a></li>
+<li><a class="reference" href="#what-s-the-standard-abbreviation-for-restructuredtext" id="id32" name="id32">2.3&nbsp;&nbsp;&nbsp;What's the standard abbreviation for &quot;reStructuredText&quot;?</a></li>
+<li><a class="reference" href="#what-s-the-standard-filename-extension-for-a-restructuredtext-file" id="id33" name="id33">2.4&nbsp;&nbsp;&nbsp;What's the standard filename extension for a reStructuredText file?</a></li>
+<li><a class="reference" href="#are-there-any-restructuredtext-editor-extensions" id="id34" name="id34">2.5&nbsp;&nbsp;&nbsp;Are there any reStructuredText editor extensions?</a></li>
+<li><a class="reference" href="#how-can-i-indicate-the-document-title-subtitle" id="id35" name="id35">2.6&nbsp;&nbsp;&nbsp;How can I indicate the document title?  Subtitle?</a></li>
+<li><a class="reference" href="#how-can-i-represent-esoteric-characters-e-g-character-entities-in-a-document" id="id36" name="id36">2.7&nbsp;&nbsp;&nbsp;How can I represent esoteric characters (e.g. character entities) in a document?</a></li>
+<li><a class="reference" href="#how-can-i-generate-backticks-using-a-scandinavian-keyboard" id="id37" name="id37">2.8&nbsp;&nbsp;&nbsp;How can I generate backticks using a Scandinavian keyboard?</a></li>
+<li><a class="reference" href="#are-there-any-tools-for-html-xml-to-restructuredtext-round-tripping" id="id38" name="id38">2.9&nbsp;&nbsp;&nbsp;Are there any tools for HTML/XML-to-reStructuredText?  (Round-tripping)</a></li>
+<li><a class="reference" href="#are-there-any-wikis-that-use-restructuredtext-syntax" id="id39" name="id39">2.10&nbsp;&nbsp;&nbsp;Are there any Wikis that use reStructuredText syntax?</a></li>
+<li><a class="reference" href="#are-there-any-weblog-blog-projects-that-use-restructuredtext-syntax" id="id40" name="id40">2.11&nbsp;&nbsp;&nbsp;Are there any Weblog (Blog) projects that use reStructuredText syntax?</a></li>
+<li><a class="reference" href="#can-lists-be-indented-without-generating-block-quotes" id="id41" name="id41">2.12&nbsp;&nbsp;&nbsp;Can lists be indented without generating block quotes?</a></li>
+<li><a class="reference" href="#could-the-requirement-for-blank-lines-around-lists-be-relaxed" id="id42" name="id42">2.13&nbsp;&nbsp;&nbsp;Could the requirement for blank lines around lists be relaxed?</a></li>
+<li><a class="reference" href="#how-can-i-include-mathematical-equations-in-documents" id="id43" name="id43">2.14&nbsp;&nbsp;&nbsp;How can I include mathematical equations in documents?</a></li>
+<li><a class="reference" href="#is-nested-inline-markup-possible" id="id44" name="id44">2.15&nbsp;&nbsp;&nbsp;Is nested inline markup possible?</a></li>
+<li><a class="reference" href="#how-to-indicate-a-line-break-or-a-significant-newline" id="id45" name="id45">2.16&nbsp;&nbsp;&nbsp;How to indicate a line break or a significant newline?</a></li>
+<li><a class="reference" href="#a-url-containing-asterisks-doesn-t-work-what-to-do" id="id46" name="id46">2.17&nbsp;&nbsp;&nbsp;A URL containing asterisks doesn't work.  What to do?</a></li>
+<li><a class="reference" href="#how-can-i-make-a-literal-block-with-some-formatting" id="id47" name="id47">2.18&nbsp;&nbsp;&nbsp;How can I make a literal block with <em>some</em> formatting?</a></li>
+<li><a class="reference" href="#can-restructuredtext-be-used-for-web-or-generic-templating" id="id48" name="id48">2.19&nbsp;&nbsp;&nbsp;Can reStructuredText be used for web or generic templating?</a></li>
+<li><a class="reference" href="#how-can-i-mark-up-a-faq-or-other-list-of-questions-answers" id="id49" name="id49">2.20&nbsp;&nbsp;&nbsp;How can I mark up a FAQ or other list of questions &amp; answers?</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#html-writer" id="id50" name="id50">3&nbsp;&nbsp;&nbsp;HTML Writer</a><ul class="auto-toc">
+<li><a class="reference" href="#what-is-the-status-of-the-html-writer" id="id51" name="id51">3.1&nbsp;&nbsp;&nbsp;What is the status of the HTML Writer?</a></li>
+<li><a class="reference" href="#what-kind-of-html-does-it-produce" id="id52" name="id52">3.2&nbsp;&nbsp;&nbsp;What kind of HTML does it produce?</a></li>
+<li><a class="reference" href="#what-browsers-are-supported" id="id53" name="id53">3.3&nbsp;&nbsp;&nbsp;What browsers are supported?</a></li>
+<li><a class="reference" href="#unexpected-results-from-tools-rst2html-py-h1-h1-instead-of-h1-h2-why" id="id54" name="id54">3.4&nbsp;&nbsp;&nbsp;Unexpected results from tools/rst2html.py: H1, H1 instead of H1, H2.  Why?</a></li>
+<li><a class="reference" href="#why-do-enumerated-lists-only-use-numbers-no-letters-or-roman-numerals" id="id55" name="id55">3.5&nbsp;&nbsp;&nbsp;Why do enumerated lists only use numbers (no letters or roman numerals)?</a></li>
+<li><a class="reference" href="#there-appear-to-be-garbage-characters-in-the-html-what-s-up" id="id56" name="id56">3.6&nbsp;&nbsp;&nbsp;There appear to be garbage characters in the HTML.  What's up?</a></li>
+<li><a class="reference" href="#how-can-i-retrieve-the-body-of-the-html-document" id="id57" name="id57">3.7&nbsp;&nbsp;&nbsp;How can I retrieve the body of the HTML document?</a></li>
+<li><a class="reference" href="#why-is-the-docutils-xhtml-served-as-content-type-text-html" id="id58" name="id58">3.8&nbsp;&nbsp;&nbsp;Why is the Docutils XHTML served as &quot;Content-type: text/html&quot;?</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#python-source-reader" id="id59" name="id59">4&nbsp;&nbsp;&nbsp;Python Source Reader</a><ul class="auto-toc">
+<li><a class="reference" href="#can-i-use-docutils-for-python-auto-documentation" id="id60" name="id60">4.1&nbsp;&nbsp;&nbsp;Can I use Docutils for Python auto-documentation?</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#miscellaneous" id="id61" name="id61">5&nbsp;&nbsp;&nbsp;Miscellaneous</a><ul class="auto-toc">
+<li><a class="reference" href="#is-the-docutils-document-model-based-on-any-existing-xml-models" id="id62" name="id62">5.1&nbsp;&nbsp;&nbsp;Is the Docutils document model based on any existing XML models?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>This is a work in progress.  Please feel free to ask questions and/or
+provide answers; send email to the <a class="reference" href="docs/user/mailing-lists.html#docutils-users">Docutils-users</a> mailing list.
+Project members should feel free to edit the source text file
+directly.</p>
+<div class="section">
+<h1><a class="toc-backref" href="#id23" id="docutils" name="docutils">1&nbsp;&nbsp;&nbsp;Docutils</a></h1>
+<div class="section">
+<h2><a class="toc-backref" href="#id24" id="what-is-docutils" name="what-is-docutils">1.1&nbsp;&nbsp;&nbsp;What is Docutils?</a></h2>
+<p><a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> is a system for processing plaintext documentation into
+useful formats, such as HTML, XML, and LaTeX.  It supports multiple
+types of input, such as standalone files (implemented), inline
+documentation from Python modules and packages (under development),
+<a class="reference" href="http://www.python.org/peps/pep-0012.html">PEPs (Python Enhancement Proposals)</a> (implemented), and others as
+discovered.</p>
+<p>For an overview of the Docutils project implementation, see <a class="reference" href="http://www.python.org/peps/pep-0258.html">PEP
+258</a>, &quot;Docutils Design Specification&quot;.</p>
+<p>Docutils is implemented in <a class="reference" href="http://www.python.org/">Python</a>.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id25" id="why-is-it-called-docutils" name="why-is-it-called-docutils">1.2&nbsp;&nbsp;&nbsp;Why is it called &quot;Docutils&quot;?</a></h2>
+<p>Docutils is short for &quot;Python Documentation Utilities&quot;.  The name
+&quot;Docutils&quot; was inspired by &quot;Distutils&quot;, the Python Distribution
+Utilities architected by Greg Ward, a component of Python's standard
+library.</p>
+<p>The earliest known use of the term &quot;docutils&quot; in a Python context was
+a <a class="reference" href="http://mail.python.org/pipermail/doc-sig/1999-December/000878.html">fleeting reference</a> in a message by Fred Drake on 1999-12-02 in
+the Python Doc-SIG mailing list.  It was suggested <a class="reference" href="http://mail.python.org/pipermail/doc-sig/2000-November/001252.html">as a project
+name</a> on 2000-11-27 on Doc-SIG, again by Fred Drake, in response to
+a question from Tony &quot;Tibs&quot; Ibbs: &quot;What do we want to <em>call</em> this
+thing?&quot;.  This was shortly after David Goodger first <a class="reference" href="http://mail.python.org/pipermail/doc-sig/2000-November/001239.html">announced
+reStructuredText</a> on Doc-SIG.</p>
+<p>Tibs used the name &quot;Docutils&quot; for <a class="reference" href="http://homepage.ntlworld.com/tibsnjoan/docutils/STpy.html">his effort</a> &quot;to document what the
+Python docutils package should support, with a particular emphasis on
+documentation strings&quot;.  Tibs joined the current project (and its
+predecessors) and graciously donated the name.</p>
+<p>For more history of reStructuredText and the Docutils project, see <a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/introduction.html">An
+Introduction to reStructuredText</a>.</p>
+<p>Please note that the name is &quot;Docutils&quot;, not &quot;DocUtils&quot; or &quot;Doc-Utils&quot;
+or any other variation.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id26" id="is-there-a-gui-authoring-environment-for-docutils" name="is-there-a-gui-authoring-environment-for-docutils">1.3&nbsp;&nbsp;&nbsp;Is there a GUI authoring environment for Docutils?</a></h2>
+<p><a class="reference" href="http://docutils.sf.net/sandbox/gschwant/docfactory/doc/">DocFactory</a> is under development.  It uses wxPython and looks very
+promising.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id27" id="what-is-the-status-of-the-docutils-project" name="what-is-the-status-of-the-docutils-project">1.4&nbsp;&nbsp;&nbsp;What is the status of the Docutils project?</a></h2>
+<p>Although useful and relatively stable, Docutils is experimental code,
+with APIs and architecture subject to change.</p>
+<p>Our highest priority is to fix bugs as they are reported.  So the
+latest code from the <a class="reference" href="docs/dev/repository.html">repository</a> (or the <a class="reference" href="http://docutils.sourceforge.net/#download">snapshots</a>) is almost always
+the most stable (bug-free) as well as the most featureful.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id28" id="what-is-the-docutils-project-release-policy" name="what-is-the-docutils-project-release-policy">1.5&nbsp;&nbsp;&nbsp;What is the Docutils project release policy?</a></h2>
+<p>It's &quot;release early &amp; often&quot;.  We also have automatically-generated
+<a class="reference" href="http://docutils.sourceforge.net/#download">snapshots</a> which always contain the latest code from the <a class="reference" href="docs/dev/repository.html">repository</a>.
+As the project matures, we may formalize on a
+stable/development-branch scheme, but we're not using anything like
+that yet.</p>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id29" id="restructuredtext" name="restructuredtext">2&nbsp;&nbsp;&nbsp;reStructuredText</a></h1>
+<div class="section">
+<h2><a class="toc-backref" href="#id30" id="what-is-restructuredtext" name="what-is-restructuredtext">2.1&nbsp;&nbsp;&nbsp;What is reStructuredText?</a></h2>
+<p><a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> is an easy-to-read, what-you-see-is-what-you-get
+plaintext markup syntax and parser system.  The reStructuredText
+parser is a component of <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a>.  reStructuredText is a revision
+and reinterpretation of the <a class="reference" href="http://dev.zope.org/Members/jim/StructuredTextWiki/FrontPage/">StructuredText</a> and <a class="reference" href="http://docutils.sourceforge.net/mirror/setext.html">Setext</a> lightweight
+markup systems.</p>
+<p>If you are reading this on the web, you can see for yourself.  <a class="reference" href="FAQ.txt">The
+source for this FAQ</a> is written in reStructuredText; open
+it in another window and compare them side by side.</p>
+<p><a class="reference" href="http://docutils.sourceforge.net/docs/user/rst/quickstart.html">A ReStructuredText Primer</a> and the <a class="reference" href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">Quick reStructuredText</a> user
+reference are a good place to start.  The <a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html">reStructuredText Markup
+Specification</a> is a detailed technical specification.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id31" id="why-is-it-called-restructuredtext" name="why-is-it-called-restructuredtext">2.2&nbsp;&nbsp;&nbsp;Why is it called &quot;reStructuredText&quot;?</a></h2>
+<p>The name came from a combination of &quot;StructuredText&quot;, one of
+reStructuredText's predecessors, with &quot;re&quot;: &quot;revised&quot;, &quot;reworked&quot;, and
+&quot;reinterpreted&quot;, and as in the <tt class="docutils literal"><span class="pre">re.py</span></tt> regular expression module.
+For a detailed history of reStructuredText and the Docutils project,
+see <a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/introduction.html">An Introduction to reStructuredText</a>.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id32" id="what-s-the-standard-abbreviation-for-restructuredtext" name="what-s-the-standard-abbreviation-for-restructuredtext">2.3&nbsp;&nbsp;&nbsp;What's the standard abbreviation for &quot;reStructuredText&quot;?</a></h2>
+<p>&quot;RST&quot; and &quot;ReST&quot; (or &quot;reST&quot;) are both acceptable.  Care should be
+taken with capitalization, to avoid confusion with &quot;<a class="reference" href="http://en.wikipedia.org/wiki/Representational_State_Transfer">REST</a>&quot;, an
+acronym for &quot;Representational State Transfer&quot;.</p>
+<p>The abbreviations &quot;reSTX&quot; and &quot;rSTX&quot;/&quot;rstx&quot; should <strong>not</strong> be used;
+they overemphasize reStructuredText's precedessor, Zope's
+StructuredText.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id33" id="what-s-the-standard-filename-extension-for-a-restructuredtext-file" name="what-s-the-standard-filename-extension-for-a-restructuredtext-file">2.4&nbsp;&nbsp;&nbsp;What's the standard filename extension for a reStructuredText file?</a></h2>
+<p>It's &quot;.txt&quot;.  Some people would like to use &quot;.rest&quot; or &quot;.rst&quot; or
+&quot;.restx&quot;, but why bother?  ReStructuredText source files are meant to
+be readable as plaintext, and most operating systems already associate
+&quot;.txt&quot; with text files.  Using a specialized filename extension would
+require that users alter their OS settings, which is something that
+many users will not be willing or able to do.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id34" id="are-there-any-restructuredtext-editor-extensions" name="are-there-any-restructuredtext-editor-extensions">2.5&nbsp;&nbsp;&nbsp;Are there any reStructuredText editor extensions?</a></h2>
+<p>See <a class="reference" href="http://docutils.sf.net/tools/editors/README.html">Editor Support for reStructuredText</a>.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id35" id="how-can-i-indicate-the-document-title-subtitle" name="how-can-i-indicate-the-document-title-subtitle">2.6&nbsp;&nbsp;&nbsp;How can I indicate the document title?  Subtitle?</a></h2>
+<p>A uniquely-adorned section title at the beginning of a document is
+treated specially, as the document title.  Similarly, a
+uniquely-adorned section title immediately after the document title
+becomes the document subtitle.  For example:</p>
+<pre class="literal-block">
+This is the Document Title
+==========================
+
+This is the Document Subtitle
+-----------------------------
+
+Here's an ordinary paragraph.
+</pre>
+<p>Counterexample:</p>
+<pre class="literal-block">
+Here's an ordinary paragraph.
+
+This is *not* a Document Title
+==============================
+
+The &quot;ordinary paragraph&quot; above the section title
+prevents it from becoming the document title.
+</pre>
+<p>Another counterexample:</p>
+<pre class="literal-block">
+This is not the Document Title,  because...
+===========================================
+
+Here's an ordinary paragraph.
+
+... the title adornment is not unique
+=====================================
+
+Another ordinary paragraph.
+</pre>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id36" id="how-can-i-represent-esoteric-characters-e-g-character-entities-in-a-document" name="how-can-i-represent-esoteric-characters-e-g-character-entities-in-a-document">2.7&nbsp;&nbsp;&nbsp;How can I represent esoteric characters (e.g. character entities) in a document?</a></h2>
+<p>For example, say you want an em-dash (XML character entity &amp;mdash;,
+Unicode character U+2014) in your document: use a real em-dash.
+Insert concrete characters (e.g. type a <em>real</em> em-dash) into your
+input file, using whatever encoding suits your application, and tell
+Docutils the input encoding.  Docutils uses Unicode internally, so the
+em-dash character is a real em-dash internally.</p>
+<p>Emacs users should refer to the <a class="reference" href="http://docutils.sourceforge.net/tools/editors/emacs/README.html">Emacs Support for reStructuredText</a>
+document.  Tips for other editors are welcome.</p>
+<p>ReStructuredText has no character entity subsystem; it doesn't know
+anything about XML charents.  To Docutils, &quot;&amp;mdash;&quot; in input text is
+7 discrete characters; no interpretation happens.  When writing HTML,
+the &quot;&amp;&quot; is converted to &quot;&amp;amp;&quot;, so in the raw output you'd see
+&quot;&amp;amp;mdash;&quot;.  There's no difference in interpretation for text
+inside or outside inline literals or literal blocks -- there's no
+character entity interpretation in either case.</p>
+<p>If you can't use a Unicode-compatible encoding and must rely on 7-bit
+ASCII, there is a workaround.  New in Docutils 0.3.10 is a set of
+<a class="reference" href="http://docutils.sf.net/docs/ref/rst/substitutions.html">Standard Substitution Definition Sets</a>, which provide equivalents of
+XML &amp; HTML character entity sets as substitution definitions.  For
+example, the Japanese yen currency symbol can be used as follows:</p>
+<pre class="literal-block">
+.. include:: &lt;xhtml1-lat1.txt&gt;
+
+|yen| 600 for a complete meal?  That's cheap!
+</pre>
+<p>For earlier versions of Docutils, equivalent files containing
+character entity set substitution definitions using the &quot;<a class="reference" href="http://docutils.sf.net/docs/ref/rst/directives.html#unicode-character-codes">unicode</a>&quot;
+directive <a class="reference" href="http://docutils.sourceforge.net/tmp/charents/">are available</a>.  Please read the <a class="reference" href="http://docutils.sourceforge.net/tmp/charents/README.html">description and
+instructions</a> for use.  Thanks to David Priest for the original idea.</p>
+<p>If you insist on using XML-style charents, you'll have to implement a
+pre-processing system to convert to UTF-8 or something.  That
+introduces complications though; you can no longer <em>write</em> about
+charents naturally; instead of writing &quot;&amp;mdash;&quot; you'd have to write
+&quot;&amp;amp;mdash;&quot;.</p>
+<p>For the common case of long dashes, you might also want to insert the
+following substitution definitons into your document (both of them are
+using the &quot;<a class="reference" href="http://docutils.sf.net/docs/ref/rst/directives.html#unicode-character-codes">unicode</a>&quot; directive):</p>
+<pre class="literal-block">
+.. |--| unicode:: U+2013   .. en dash
+.. |---| unicode:: U+2014  .. em dash, trimming surrounding whitespace
+   :trim:
+</pre>
+<p>Now you can write dashes using pure ASCII: &quot;<tt class="docutils literal"><span class="pre">foo</span> <span class="pre">|--|</span> <span class="pre">bar;</span> <span class="pre">foo</span> <span class="pre">|---|</span>
+<span class="pre">bar</span></tt>&quot;, rendered as &quot;foo – bar; foo—bar&quot;.  (Note that Mozilla
+and Firefox may render this incorrectly.)  The <tt class="docutils literal"><span class="pre">:trim:</span></tt> option for
+the em dash is necessary because you cannot write &quot;<tt class="docutils literal"><span class="pre">foo|---|bar</span></tt>&quot;;
+thus you need to add spaces (&quot;<tt class="docutils literal"><span class="pre">foo</span> <span class="pre">|---|</span> <span class="pre">bar</span></tt>&quot;) and advise the
+reStructuredText parser to trim the spaces.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id37" id="how-can-i-generate-backticks-using-a-scandinavian-keyboard" name="how-can-i-generate-backticks-using-a-scandinavian-keyboard">2.8&nbsp;&nbsp;&nbsp;How can I generate backticks using a Scandinavian keyboard?</a></h2>
+<p>The use of backticks in reStructuredText is a bit awkward with
+Scandinavian keyboards, where the backtick is a &quot;dead&quot; key.  To get
+one ` character one must press SHIFT-` + SPACE.</p>
+<p>Unfortunately, with all the variations out there, there's no way to
+please everyone.  For Scandinavian programmers and technical writers,
+this is not limited to reStructuredText but affects many languages and
+environments.</p>
+<p>Possible solutions include</p>
+<ul>
+<li><p class="first">If you have to input a lot of backticks, simply type one in the
+normal/awkward way, select it, copy and then paste the rest (CTRL-V
+is a lot faster than SHIFT-` + SPACE).</p>
+</li>
+<li><p class="first">Use keyboard macros.</p>
+</li>
+<li><p class="first">Remap the keyboard.  The Scandinavian keyboard layout is awkward for
+other programming/technical characters too; for example, []{}
+etc. are a bit awkward compared to US keyboards.</p>
+<p>According to Axel Kollmorgen,</p>
+<blockquote>
+<p>Under Windows, you can use the <a class="reference" href="http://www.microsoft.com/globaldev/tools/msklc.mspx">Microsoft Keyboard Layout Creator</a> to easily
+map the backtick key to a real backtick (no dead key). took me
+five minutes to load my default (german) keyboard layout, untick
+&quot;Dead Key?&quot; from the backtick key properties (&quot;in all shift
+states&quot;), &quot;build dll and setup package&quot;, install the generated
+.msi, and add my custom keyboard layout via Control Panel &gt;
+Regional and Language Options &gt; Languages &gt; Details &gt; Add
+Keyboard layout (and setting it as default &quot;when you start your
+computer&quot;).</p>
+</blockquote>
+</li>
+<li><p class="first">Use a virtual/screen keyboard or character palette, such as:</p>
+<ul class="simple">
+<li><a class="reference" href="http://keyboard.lab.co.il/">Web-based keyboards</a> (IE only
+unfortunately).</li>
+<li>Windows: <a class="reference" href="http://www.lakefolks.org/cnt/">Click-N-Type</a>.</li>
+<li>Mac OS X: the Character Palette can store a set of favorite
+characters for easy input.  Open System Preferences,
+International, Input Menu tab, enable &quot;Show input menu in menu
+bar&quot;, and be sure that Character Palette is enabled in the list.</li>
+</ul>
+</li>
+</ul>
+<p>If anyone knows of other/better solutions, please <a class="reference" href="docs/user/mailing-lists.html#docutils-users">let us know</a>.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id38" id="are-there-any-tools-for-html-xml-to-restructuredtext-round-tripping" name="are-there-any-tools-for-html-xml-to-restructuredtext-round-tripping">2.9&nbsp;&nbsp;&nbsp;Are there any tools for HTML/XML-to-reStructuredText?  (Round-tripping)</a></h2>
+<p>People have tossed the idea around, and some implementations of
+reStructuredText-generating tools can be found in the <a class="reference" href="docs/user/links.html">Docutils Link
+List</a>.</p>
+<p>There's no reason why reStructuredText should not be round-trippable
+to/from XML; any technicalities which prevent round-tripping would be
+considered bugs.  Whitespace would not be identical, but paragraphs
+shouldn't suffer.  The tricky parts would be the smaller details, like
+links and IDs and other bookkeeping.</p>
+<p>For HTML, true round-tripping may not be possible.  Even adding lots
+of extra &quot;class&quot; attributes may not be enough.  A &quot;simple HTML&quot; to RST
+filter is possible -- for some definition of &quot;simple HTML&quot; -- but HTML
+is used as dumb formatting so much that such a filter may not be
+particularly useful.  An 80/20 approach should work though: build a
+tool that does 80% of the work automatically, leaving the other 20%
+for manual tweaks.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id39" id="are-there-any-wikis-that-use-restructuredtext-syntax" name="are-there-any-wikis-that-use-restructuredtext-syntax">2.10&nbsp;&nbsp;&nbsp;Are there any Wikis that use reStructuredText syntax?</a></h2>
+<p>There are several, with various degrees of completeness.  With no
+implied endorsement or recommendation, and in no particular order:</p>
+<ul class="simple">
+<li><a class="reference" href="http://wiki.webwareforpython.org/thiswiki.html">Webware for Python wiki</a></li>
+<li><a class="reference" href="http://docutils.sf.net/sandbox/ianb/wiki/Wiki.py">Ian Bicking's experimental code</a></li>
+<li><a class="reference" href="http://moinmoin.wikiwikiweb.de/">MoinMoin</a> has some support;
+<a class="reference" href="http://moinmoin.wikiwikiweb.de/RestSample">here's a sample</a></li>
+<li>Zope-based <a class="reference" href="http://zwiki.org/">Zwiki</a></li>
+<li>Zope3-based Zwiki (in the Zope 3 source tree as <tt class="docutils literal"><span class="pre">zope.products.zwiki</span></tt>)</li>
+<li><a class="reference" href="http://mithrandr.moria.org/code/stikiwiki/">StikiWiki</a></li>
+<li><a class="reference" href="http://projects.edgewall.com/trac/">Trac</a> <a class="reference" href="http://projects.edgewall.com/trac/wiki/WikiRestructuredText">supports using reStructuredText</a> as an
+alternative to wiki markup. This includes support for <a class="reference" href="http://projects.edgewall.com/trac/wiki/TracLinks">TracLinks</a> from within RST
+text via a custom RST reference-directive or, even easier, an interpreted text
+role 'trac'</li>
+<li><a class="reference" href="http://www.ososo.de/vogontia/">Vogontia</a>, a Wiki-like FAQ system</li>
+</ul>
+<p>Please <a class="reference" href="docs/user/mailing-lists.html#docutils-users">let us know</a> of any other reStructuredText Wikis.</p>
+<p>The example application for the <a class="reference" href="http://colorstudy.com/docs/shootout.html">Web Framework Shootout</a> article is a Wiki using
+reStructuredText.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id40" id="are-there-any-weblog-blog-projects-that-use-restructuredtext-syntax" name="are-there-any-weblog-blog-projects-that-use-restructuredtext-syntax">2.11&nbsp;&nbsp;&nbsp;Are there any Weblog (Blog) projects that use reStructuredText syntax?</a></h2>
+<p>With no implied endorsement or recommendation, and in no particular
+order:</p>
+<ul class="simple">
+<li><a class="reference" href="http://www.voidspace.org.uk/python/firedrop2/">Firedrop</a></li>
+<li><a class="reference" href="http://pyds.muensterland.org/">Python Desktop Server</a></li>
+<li><a class="reference" href="http://roughingit.subtlehints.net/pyblosxom/">PyBloxsom</a></li>
+<li><a class="reference" href="http://lino.sourceforge.net/webman.html">Lino WebMan</a></li>
+</ul>
+<p>Please <a class="reference" href="docs/user/mailing-lists.html#docutils-users">let us know</a> of any other reStructuredText Blogs.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id41" id="can-lists-be-indented-without-generating-block-quotes" name="can-lists-be-indented-without-generating-block-quotes">2.12&nbsp;&nbsp;&nbsp;Can lists be indented without generating block quotes?</a></h2>
+<p>Some people like to write lists with indentation, without intending a
+block quote context, like this:</p>
+<pre class="literal-block">
+paragraph
+
+  * list item 1
+  * list item 2
+</pre>
+<p>There has been a lot of discussion about this, but there are some
+issues that would need to be resolved before it could be implemented.
+There is a summary of the issues and pointers to the discussions in
+<a class="reference" href="http://docutils.sourceforge.net/docs/dev/todo.html#indented-lists">the to-do list</a>.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id42" id="could-the-requirement-for-blank-lines-around-lists-be-relaxed" name="could-the-requirement-for-blank-lines-around-lists-be-relaxed">2.13&nbsp;&nbsp;&nbsp;Could the requirement for blank lines around lists be relaxed?</a></h2>
+<p>Short answer: no.</p>
+<p>In reStructuredText, it would be impossible to unambigously mark up
+and parse lists without blank lines before and after.  Deeply nested
+lists may look ugly with so many blank lines, but it's a price we pay
+for unambiguous markup.  Some other plaintext markup systems do not
+require blank lines in nested lists, but they have to compromise
+somehow, either accepting ambiguity or requiring extra complexity.
+For example, <a class="reference" href="http://epydoc.sf.net/epytext.html#list">Epytext</a> does
+not require blank lines around lists, but it does require that lists
+be indented and that ambiguous cases be escaped.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id43" id="how-can-i-include-mathematical-equations-in-documents" name="how-can-i-include-mathematical-equations-in-documents">2.14&nbsp;&nbsp;&nbsp;How can I include mathematical equations in documents?</a></h2>
+<p>There is no elegant built-in way, yet.  There are several ideas, but
+no obvious winner.  This issue requires a champion to solve the
+technical and aesthetic issues and implement a generic solution.
+Here's the <a class="reference" href="http://docutils.sourceforge.net/docs/dev/todo.html#math-markup">to-do list entry</a>.</p>
+<p>There are several quick &amp; dirty ways to include equations in documents.
+They all presently use LaTeX syntax or dialects of it.</p>
+<ul>
+<li><p class="first">For LaTeX output, nothing beats raw LaTeX math.  A simple way is to
+use the <a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#raw-data-pass-through">raw directive</a>:</p>
+<pre class="literal-block">
+.. raw:: latex
+
+    \[ x^3 + 3x^2a + 3xa^2 + a^3, \]
+</pre>
+<p>For inline math you could use substitutions of the raw directive but
+the recently added <a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/roles.html#raw">raw role</a> is more convenient.  You must define a
+custom role based on it once in your document:</p>
+<pre class="literal-block">
+.. role:: raw-latex(raw)
+    :format: latex
+</pre>
+<p>and then you can just use the new role in your text:</p>
+<pre class="literal-block">
+the binomial expansion of :raw-latex:`$(x+a)^3$` is
+</pre>
+</li>
+<li><p class="first">Jens Jørgen Mortensen has implemented a &quot;latex-math&quot; role and
+directive, available from <a class="reference" href="http://docutils.sourceforge.net/sandbox/jensj/latex_math/">his sandbox</a>.</p>
+</li>
+<li><p class="first">For HTML the &quot;Right&quot; w3c-standard way to include math is <a class="reference" href="http://www.w3.org/Math/">MathML</a>.
+Unfortunately its rendering is still quite broken (or absent) on many
+browsers but it's getting better.  Another bad problem is that typing
+or reading raw MathML by humans is <em>really</em> painful, so embedding it
+in a reST document with the raw directive would defy the goals of
+readability and editability of reST (see an <a class="reference" href="http://sf.net/mailarchive/message.php?msg_id=2177102">example of raw MathML</a>).</p>
+<p>A much less painful way to generate HTML+MathML is to use <a class="reference" href="http://pear.math.pitt.edu/mathzilla/itex2mml.html">itex2mml</a> to
+convert a dialect of LaTeX syntax to presentation MathML.  Here is an
+example of potential <a class="reference" href="http://article.gmane.org/gmane.text.docutils.user/118">itex math markup</a>.  The
+simplest way to use it is to add <tt class="docutils literal"><span class="pre">html</span></tt> to the format lists for the
+raw directive/role and postprocess the resulting document with
+itex2mml.  This way you can <em>generate LaTeX and HTML+MathML from the
+same source</em>, but you must limit yourself to the intersection of LaTeX
+and itex markups for this to work.  Alan G. Isaac wrote a detailed
+<a class="reference" href="http://www.american.edu/econ/itex2mml/mathhack.rst">HOWTO</a> for this approach.</p>
+</li>
+<li><p class="first">The other way to add math to HTML is to use images of the equations,
+typically generated by TeX.  This is inferior to MathML in the long
+term but is perhaps more accessible nowdays.</p>
+<p>Of course, doing it by hand is too much work.  Beni Cherniavsky has
+written some <a class="reference" href="http://docutils.sourceforge.net/sandbox/cben/rolehack/">preprocessing scripts</a> for converting the
+<tt class="docutils literal"><span class="pre">texmath</span></tt> role/directive into images for HTML output and raw
+directives/subsitution for LaTeX output.  This way you can <em>generate
+LaTeX and HTML+images from the same source</em>.  <a class="reference" href="http://docutils.sourceforge.net/sandbox/cben/rolehack/README.html">Instructions here</a>.</p>
+</li>
+</ul>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id44" id="is-nested-inline-markup-possible" name="is-nested-inline-markup-possible">2.15&nbsp;&nbsp;&nbsp;Is nested inline markup possible?</a></h2>
+<p>Not currently, no.  It's on the <a class="reference" href="http://docutils.sf.net/docs/dev/todo.html#nested-inline-markup">to-do list</a> (<a class="reference" href="http://docutils.sf.net/docs/dev/rst/alternatives.html#nested-inline-markup">details here</a>), and
+hopefully will be part of the reStructuredText parser soon.  At that
+time, markup like this will become possible:</p>
+<pre class="literal-block">
+Here is some *emphasized text containing a `hyperlink`_ and
+``inline literals``*.
+</pre>
+<p>There are workarounds, but they are either convoluted or ugly or both.
+They are not recommended.</p>
+<ul>
+<li><p class="first">Inline markup can be combined with hyperlinks using <a class="reference" href="http://docutils.sf.net/docs/ref/rst/restructuredtext.html#substitution-definitions">substitution
+definitions</a> and <a class="reference" href="http://docutils.sf.net/docs/ref/rst/restructuredtext.html#substitution-references">references</a> with the <a class="reference" href="http://docutils.sf.net/docs/ref/rst/directives.html#replace">&quot;replace&quot; directive</a>.
+For example:</p>
+<pre class="literal-block">
+Here is an |emphasized hyperlink|_.
+
+.. |emphasized hyperlink| replace:: *emphasized hyperlink*
+.. _emphasized hyperlink: http://example.org
+</pre>
+<p>It is not possible for just a portion of the replacement text to be
+a hyperlink; it's the entire replacement text or nothing.</p>
+</li>
+<li><p class="first">The <a class="reference" href="http://docutils.sf.net/docs/ref/rst/directives.html#raw">&quot;raw&quot; directive</a> can be used to insert raw HTML into HTML
+output:</p>
+<pre class="literal-block">
+Here is some |stuff|.
+
+.. |stuff| raw:: html
+
+   &lt;em&gt;emphasized text containing a
+   &lt;a href=&quot;http://example.org&quot;&gt;hyperlink&lt;/a&gt; and
+   &lt;tt&gt;inline literals&lt;/tt&gt;&lt;/em&gt;
+</pre>
+<p>Raw LaTeX is supported for LaTeX output, etc.</p>
+</li>
+</ul>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id45" id="how-to-indicate-a-line-break-or-a-significant-newline" name="how-to-indicate-a-line-break-or-a-significant-newline">2.16&nbsp;&nbsp;&nbsp;How to indicate a line break or a significant newline?</a></h2>
+<p><a class="reference" href="http://docutils.sf.net/docs/ref/rst/restructuredtext.html#line-blocks">Line blocks</a> are designed for address blocks, verse, and other
+cases where line breaks are significant and must be preserved.  Unlike
+literal blocks, the typeface is not changed, and inline markup is
+recognized.  For example:</p>
+<pre class="literal-block">
+| A one, two, a one two three four
+|
+| Half a bee, philosophically,
+|     must, *ipso facto*, half not be.
+| But half the bee has got to be,
+|     *vis a vis* its entity.  D'you see?
+|
+| But can a bee be said to be
+|     or not to be an entire bee,
+|         when half the bee is not a bee,
+|             due to some ancient injury?
+|
+| Singing...
+</pre>
+<p>Here's a workaround for manually inserting explicit line breaks in
+HTML output:</p>
+<pre class="literal-block">
+.. |br| raw:: html
+
+   &lt;br /&gt;
+
+I want to break this line here: |br| this is after the break.
+
+If the extra whitespace bothers you, |br|\ backslash-escape it.
+</pre>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id46" id="a-url-containing-asterisks-doesn-t-work-what-to-do" name="a-url-containing-asterisks-doesn-t-work-what-to-do">2.17&nbsp;&nbsp;&nbsp;A URL containing asterisks doesn't work.  What to do?</a></h2>
+<p>Asterisks are valid URL characters (see <a class="reference" href="http://www.faqs.org/rfcs/rfc2396.html">RFC 2396</a>), sometimes used
+in URLs.  For example:</p>
+<pre class="literal-block">
+http://cvs.example.org/viewcvs.py/*checkout*/module/file
+</pre>
+<p>Unfortunately, the parser thinks the asterisks are indicating
+emphasis.  The slashes serve as delineating punctuation, allowing the
+asterisks to be recognized as markup.  The example above is separated
+by the parser into a truncated URL, an emphasized word, and some
+regular text:</p>
+<pre class="literal-block">
+http://cvs.example.org/viewcvs.py/
+*checkout*
+/module/file
+</pre>
+<p>To turn off markup recognition, use a backslash to escape at least the
+first asterisk, like this:</p>
+<pre class="literal-block">
+http://cvs.example.org/viewcvs.py/\*checkout*/module/file
+</pre>
+<p>Escaping the second asterisk doesn't hurt, but it isn't necessary.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id47" id="how-can-i-make-a-literal-block-with-some-formatting" name="how-can-i-make-a-literal-block-with-some-formatting">2.18&nbsp;&nbsp;&nbsp;How can I make a literal block with <em>some</em> formatting?</a></h2>
+<p>Use the <a class="reference" href="docs/ref/rst/directives.html#parsed-literal">parsed-literal</a> directive.</p>
+<p>Scenario: a document contains some source code, which calls for a
+literal block to preserve linebreaks and whitespace.  But part of the
+source code should be formatted, for example as emphasis or as a
+hyperlink.  This calls for a <em>parsed</em> literal block:</p>
+<pre class="literal-block">
+.. parsed-literal::
+
+   print &quot;Hello world!&quot;  # *tricky* code [1]_
+</pre>
+<p>The emphasis (<tt class="docutils literal"><span class="pre">*tricky*</span></tt>) and footnote reference (<tt class="docutils literal"><span class="pre">[1]_</span></tt>) will be
+parsed.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id48" id="can-restructuredtext-be-used-for-web-or-generic-templating" name="can-restructuredtext-be-used-for-web-or-generic-templating">2.19&nbsp;&nbsp;&nbsp;Can reStructuredText be used for web or generic templating?</a></h2>
+<p>Docutils and reStructuredText can be used with or as a component of a
+templating system, but they do not themselves include templating
+functionality.  Templating should simply be left to dedicated
+templating systems.  Users can choose a templating system to apply to
+their reStructuredText documents as best serves their interests.</p>
+<p>There are many good templating systems for Python (<a class="reference" href="http://ht2html.sourceforge.net/">ht2html</a>, <a class="reference" href="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/52305">YAPTU</a>,
+<a class="reference" href="http://www.mems-exchange.org/software/quixote/">Quixote</a>'s PTL, <a class="reference" href="http://www.cheetahtemplate.org/">Cheetah</a>, etc.; see this non-exhaustive list of <a class="reference" href="http://webware.sourceforge.net/Papers/Templates/">some
+other templating systems</a>), and many more for other languages, each
+with different approaches.  We invite you to try several and find one
+you like.  If you adapt it to use Docutils/reStructuredText, please
+consider contributing the code to Docutils or <a class="reference" href="docs/user/mailing-lists.html#docutils-users">let us know</a> and we'll
+keep a list here.</p>
+<p>One reST-specific web templating system is <a class="reference" href="http://www.voidspace.org.uk/python/rest2web">rest2web</a>, a tool for
+automatically building websites, or parts of websites.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id49" id="how-can-i-mark-up-a-faq-or-other-list-of-questions-answers" name="how-can-i-mark-up-a-faq-or-other-list-of-questions-answers">2.20&nbsp;&nbsp;&nbsp;How can I mark up a FAQ or other list of questions &amp; answers?</a></h2>
+<p>There is no specific syntax for FAQs and Q&amp;A lists.  Here are two
+options:</p>
+<ol class="arabic">
+<li><p class="first">For a FAQ (Frequently Asked Questions, usually with answers), a
+convenient way to mark up the questions is as section titles, with
+the answer(s) as section content.  This document is marked up in
+this way.</p>
+<p>The advantages of using section titles for questions are: sections
+can be numbered automatically, and a table of contents can be
+generated automatically.  One limitation of this format is that
+questions must fit on one line (section titles may not wrap, in the
+source text).  For very long questions, the title may be a summary
+of the question, with the full question in the section body.</p>
+</li>
+<li><p class="first">Field lists work well as Q&amp;A lists:</p>
+<pre class="literal-block">
+:Q: What kind of questions can we
+    put here?
+
+:A: Any kind we like!
+</pre>
+<p>In order to separate questions, lists can be used:</p>
+<blockquote>
+<ol class="arabic">
+<li><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Q:</th><td class="field-body">What kind of question can we
+put here?</td>
+</tr>
+<tr class="field"><th class="field-name">A:</th><td class="field-body">Any kind we like!</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Q:</th><td class="field-body"><p class="first">How many answers can a question have?</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">A:</th><td class="field-body"><p class="first">It can have one,</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">A:</th><td class="field-body"><p class="first">or more.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">A3:</th><td class="field-body"><p class="first">Answers can be numbered like this.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">A:</th><td class="field-body"><ol class="first last arabic simple">
+<li>Or like this.</li>
+<li>We're flexible!</li>
+</ol>
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</blockquote>
+<p>If you don't want to number or otherwise mark questions, you can
+use an empty comment between individual field lists to separate
+them:</p>
+<pre class="literal-block">
+:Q: First question?
+:A: Answer.
+
+..
+
+:Q: Second question?
+:A: Answer.
+</pre>
+</li>
+</ol>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id50" id="html-writer" name="html-writer">3&nbsp;&nbsp;&nbsp;HTML Writer</a></h1>
+<div class="section">
+<h2><a class="toc-backref" href="#id51" id="what-is-the-status-of-the-html-writer" name="what-is-the-status-of-the-html-writer">3.1&nbsp;&nbsp;&nbsp;What is the status of the HTML Writer?</a></h2>
+<p>The HTML Writer module, <tt class="docutils literal"><span class="pre">docutils/writers/html4css1.py</span></tt>, is a
+proof-of-concept reference implementation.  While it is a complete
+implementation, some aspects of the HTML it produces may be
+incompatible with older browsers or specialized applications (such as
+web templating).  Alternate implementations are welcome.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id52" id="what-kind-of-html-does-it-produce" name="what-kind-of-html-does-it-produce">3.2&nbsp;&nbsp;&nbsp;What kind of HTML does it produce?</a></h2>
+<p>It produces XHTML compatible with the <a class="reference" href="http://www.w3.org/TR/xhtml1/">XHTML 1.0</a> specification.  A
+cascading stylesheet is required for proper viewing with a modern
+graphical browser.  Correct rendering of the HTML produced depends on
+the CSS support of the browser.  A general-purpose stylesheet,
+<tt class="docutils literal"><span class="pre">html4css1.css</span></tt> is provided with the code, and is embedded by
+default.  It is installed in the &quot;writers/html4css1/&quot; subdirectory
+within the Docutils package.  Use the <tt class="docutils literal"><span class="pre">--help</span></tt> command-line option
+to see the specific location on your machine.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id53" id="what-browsers-are-supported" name="what-browsers-are-supported">3.3&nbsp;&nbsp;&nbsp;What browsers are supported?</a></h2>
+<p>No specific browser is targeted; all modern graphical browsers should
+work.  Some older browsers, text-only browsers, and browsers without
+full CSS support are known to produce inferior results.  Firefox,
+Safari, Mozilla (version 1.0 and up), and MS Internet Explorer
+(version 5.0 and up) are known to give good results.  Reports of
+experiences with other browsers are welcome.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id54" id="unexpected-results-from-tools-rst2html-py-h1-h1-instead-of-h1-h2-why" name="unexpected-results-from-tools-rst2html-py-h1-h1-instead-of-h1-h2-why">3.4&nbsp;&nbsp;&nbsp;Unexpected results from tools/rst2html.py: H1, H1 instead of H1, H2.  Why?</a></h2>
+<p>Here's the question in full:</p>
+<blockquote>
+<p>I have this text:</p>
+<pre class="literal-block">
+Heading 1
+=========
+
+All my life, I wanted to be H1.
+
+Heading 1.1
+-----------
+
+But along came H1, and so shouldn't I be H2?
+No!  I'm H1!
+
+Heading 1.1.1
+*************
+
+Yeah, imagine me, I'm stuck at H3!  No?!?
+</pre>
+<p>When I run it through tools/rst2html.py, I get unexpected results
+(below).  I was expecting H1, H2, then H3; instead, I get H1, H1,
+H2:</p>
+<pre class="literal-block">
+...
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+...
+&lt;title&gt;Heading 1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;document&quot; id=&quot;heading-1&quot;&gt;
+&lt;h1 class=&quot;title&quot;&gt;Heading 1&lt;/h1&gt;                &lt;-- first H1
+&lt;p&gt;All my life, I wanted to be H1.&lt;/p&gt;
+&lt;div class=&quot;section&quot; id=&quot;heading-1-1&quot;&gt;
+&lt;h1&gt;&lt;a name=&quot;heading-1-1&quot;&gt;Heading 1.1&lt;/a&gt;&lt;/h1&gt;        &lt;-- H1
+&lt;p&gt;But along came H1, and so now I must be H2.&lt;/p&gt;
+&lt;div class=&quot;section&quot; id=&quot;heading-1-1-1&quot;&gt;
+&lt;h2&gt;&lt;a name=&quot;heading-1-1-1&quot;&gt;Heading 1.1.1&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Yeah, imagine me, I'm stuck at H3!&lt;/p&gt;
+...
+</pre>
+<p>What gives?</p>
+</blockquote>
+<p>Check the &quot;class&quot; attribute on the H1 tags, and you will see a
+difference.  The first H1 is actually <tt class="docutils literal"><span class="pre">&lt;h1</span> <span class="pre">class=&quot;title&quot;&gt;</span></tt>; this is
+the document title, and the default stylesheet renders it centered.
+There can also be an <tt class="docutils literal"><span class="pre">&lt;h2</span> <span class="pre">class=&quot;subtitle&quot;&gt;</span></tt> for the document
+subtitle.</p>
+<p>If there's only one highest-level section title at the beginning of a
+document, it is treated specially, as the document title.  (Similarly, a
+lone second-highest-level section title may become the document
+subtitle.)  See <a class="reference" href="#how-can-i-indicate-the-document-title-subtitle">How can I indicate the document title?  Subtitle?</a> for
+details.  Rather than use a plain H1 for the document title, we use <tt class="docutils literal"><span class="pre">&lt;h1</span>
+<span class="pre">class=&quot;title&quot;&gt;</span></tt> so that we can use H1 again within the document.  Why
+do we do this?  HTML only has H1-H6, so by making H1 do double duty, we
+effectively reserve these tags to provide 6 levels of heading beyond the
+single document title.</p>
+<p>HTML is being used for dumb formatting for nothing but final display.
+A stylesheet <em>is required</em>, and one is provided; see <a class="reference" href="#what-kind-of-html-does-it-produce">What kind of
+HTML does it produce?</a> above.  Of course, you're welcome to roll your
+own.  The default stylesheet provides rules to format <tt class="docutils literal"><span class="pre">&lt;h1</span>
+<span class="pre">class=&quot;title&quot;&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;h2</span> <span class="pre">class=&quot;subtitle&quot;&gt;</span></tt> differently from
+ordinary <tt class="docutils literal"><span class="pre">&lt;h1&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;h2&gt;</span></tt>:</p>
+<pre class="literal-block">
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+</pre>
+<p>If you don't want the top section heading to be interpreted as a
+title at all, disable the <a class="reference" href="http://docutils.sourceforge.net/docs/user/config.html#doctitle-xform">doctitle_xform</a> setting
+(<tt class="docutils literal"><span class="pre">--no-doc-title</span></tt> option).  This will interpret your document
+differently from the standard settings, which might not be a good
+idea.  If you don't like the reuse of the H1 in the HTML output, you
+can tweak the <a class="reference" href="http://docutils.sourceforge.net/docs/user/config.html#initial-header-level">initial_header_level</a> setting
+(<tt class="docutils literal"><span class="pre">--initial-header-level</span></tt> option) -- but unless you match its value
+to your specific document, you might end up with bad HTML (e.g. H3
+without H2).</p>
+<p>(Thanks to Mark McEahern for the question and much of the answer.)</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id55" id="why-do-enumerated-lists-only-use-numbers-no-letters-or-roman-numerals" name="why-do-enumerated-lists-only-use-numbers-no-letters-or-roman-numerals">3.5&nbsp;&nbsp;&nbsp;Why do enumerated lists only use numbers (no letters or roman numerals)?</a></h2>
+<p>The rendering of enumerators (the numbers or letters acting as list
+markers) is completely governed by the stylesheet, so either the
+browser can't find the stylesheet (try using the &quot;--embed-stylesheet&quot;
+option), or the browser can't understand it (try a recent Firefox,
+Mozilla, Konqueror, Opera, Safari, or even MSIE).</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id56" id="there-appear-to-be-garbage-characters-in-the-html-what-s-up" name="there-appear-to-be-garbage-characters-in-the-html-what-s-up">3.6&nbsp;&nbsp;&nbsp;There appear to be garbage characters in the HTML.  What's up?</a></h2>
+<p>What you're seeing is most probably not garbage, but the result of a
+mismatch between the actual encoding of the HTML output and the
+encoding your browser is expecting.  Your browser is misinterpreting
+the HTML data, which is encoded text.  A discussion of text encodings
+is beyond the scope of this FAQ; see one or more of these documents
+for more info:</p>
+<ul class="simple">
+<li><a class="reference" href="http://www.cl.cam.ac.uk/~mgk25/unicode.html">UTF-8 and Unicode FAQ for Unix/Linux</a></li>
+<li>Chapters 3 and 4 of <a class="reference" href="http://www.debian.org/doc/manuals/intro-i18n/">Introduction to i18n [Internationalization]</a></li>
+<li><a class="reference" href="http://www.reportlab.com/i18n/python_unicode_tutorial.html">Python Unicode Tutorial</a></li>
+<li><a class="reference" href="http://effbot.org/zone/unicode-objects.htm">Python Unicode Objects: Some Observations on Working With Non-ASCII
+Character Sets</a></li>
+</ul>
+<p>The common case is with the default output encoding (UTF-8), when
+either numbered sections are used (via the &quot;<a class="reference" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#sectnum">sectnum</a>&quot; directive) or
+symbol-footnotes.  3 non-breaking spaces are inserted in each numbered
+section title, between the generated number and the title text.  Most
+footnote symbols are not available in ASCII, nor are non-breaking
+spaces.  When encoded with UTF-8 and viewed with ordinary ASCII tools,
+these characters will appear to be multi-character garbage.</p>
+<p>You may have an decoding problem in your browser (or editor, etc.).
+The encoding of the output is set to &quot;utf-8&quot;, but your browswer isn't
+recognizing that.  You can either try to fix your browser (enable
+&quot;UTF-8 character set&quot;, sometimes called &quot;Unicode&quot;), or choose a
+different encoding for the HTML output.  You can also try
+<tt class="docutils literal"><span class="pre">--output-encoding=ascii:xmlcharrefreplace</span></tt> for HTML (not applicable
+to non-XMLish outputs).</p>
+<p>If you're generating document fragments, the &quot;Content-Type&quot; metadata
+(between the HTML <tt class="docutils literal"><span class="pre">&lt;head&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;/head&gt;</span></tt> tags) must agree with the
+encoding of the rest of the document.  For UTF-8, it should be:</p>
+<pre class="literal-block">
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+</pre>
+<p>Also, Docutils normally generates an XML declaration as the first line
+of the output.  It must also match the document encoding.  For UTF-8:</p>
+<pre class="literal-block">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+</pre>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id57" id="how-can-i-retrieve-the-body-of-the-html-document" name="how-can-i-retrieve-the-body-of-the-html-document">3.7&nbsp;&nbsp;&nbsp;How can I retrieve the body of the HTML document?</a></h2>
+<p>(This is usually needed when using Docutils in conjunction with a
+templating system.)</p>
+<p>You can use the <a class="reference" href="docs/api/publisher.html#publish-parts">docutils.core.publish_parts()</a> function, which
+returns a dictionary containing an '<a class="reference" href="docs/api/publisher.html#html-body">html_body</a>' entry.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id58" id="why-is-the-docutils-xhtml-served-as-content-type-text-html" name="why-is-the-docutils-xhtml-served-as-content-type-text-html">3.8&nbsp;&nbsp;&nbsp;Why is the Docutils XHTML served as &quot;Content-type: text/html&quot;?</a></h2>
+<p>Full question:</p>
+<blockquote>
+<p>Docutils' HTML output looks like XHTML and is advertised as such:</p>
+<pre class="literal-block">
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+ &quot;http://www.w3.org/TR/xht ml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+</pre>
+<p>But this is followed by:</p>
+<pre class="literal-block">
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+</pre>
+<p>Shouldn't this be &quot;application/xhtml+xml&quot; instead of &quot;text/html&quot;?</p>
+</blockquote>
+<p>In a perfect web, the Docutils XHTML output would be 100% strict
+XHTML.  But it's not a perfect web, and a major source of imperfection
+is Internet Explorer.  Despite it's drawbacks, IE still represents the
+majority of web browsers, and cannot be ignored.</p>
+<p>Short answer: if we didn't serve XHTML as &quot;text/html&quot; (which is a
+perfectly valid thing to do), it couldn't be viewed in Internet
+Explorer.</p>
+<p>Long answer: see the <a class="reference" href="http://en.wikipedia.org/wiki/Criticisms_of_Internet_Explorer#XHTML">&quot;Criticisms of Internet Explorer&quot; Wikipedia
+entry</a>.</p>
+<p>However, there's also <a class="reference" href="http://hixie.ch/advocacy/xhtml">Sending XHTML as text/html Considered
+Harmful</a>.  What to do, what to do?  We're damned no matter what we
+do.  So we'll continue to do the practical instead of the pure:
+support the browsers that are actually out there, and not fight for
+strict standards compliance.</p>
+<p>(Thanks to Martin F. Krafft, Robert Kern, Michael Foord, and Alan
+G. Isaac.)</p>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id59" id="python-source-reader" name="python-source-reader">4&nbsp;&nbsp;&nbsp;Python Source Reader</a></h1>
+<div class="section">
+<h2><a class="toc-backref" href="#id60" id="can-i-use-docutils-for-python-auto-documentation" name="can-i-use-docutils-for-python-auto-documentation">4.1&nbsp;&nbsp;&nbsp;Can I use Docutils for Python auto-documentation?</a></h2>
+<p>Yes, in conjunction with other projects.</p>
+<p>Docstring extraction functionality from within Docutils is still under
+development.  There is most of a source code parsing module in
+docutils/readers/python/moduleparser.py.  We do plan to finish it
+eventually.  Ian Bicking wrote an initial front end for the
+moduleparser.py module, in sandbox/ianb/extractor/extractor.py.  Ian
+also did some work on the Python Source Reader
+(docutils.readers.python) component at PyCon DC 2004.</p>
+<p>Version 2.0 of Ed Loper's <a class="reference" href="http://epydoc.sourceforge.net/">Epydoc</a>
+supports reStructuredText-format docstrings for HTML output.  Docutils
+0.3 or newer is required.  Development of a Docutils-specific
+auto-documentation tool will continue.  Epydoc works by importing
+Python modules to be documented, whereas the Docutils-specific tool,
+described above, will parse modules without importing them (as with
+<a class="reference" href="http://happydoc.sourceforge.net/">HappyDoc</a>, which doesn't support
+reStructuredText).</p>
+<p>The advantages of parsing over importing are security and flexibility;
+the disadvantage is complexity/difficulty.</p>
+<ul class="simple">
+<li>Security: untrusted code that shouldn't be executed can be parsed;
+importing a module executes its top-level code.</li>
+<li>Flexibility: comments and unofficial docstrings (those not supported
+by Python syntax) can only be processed by parsing.</li>
+<li>Complexity/difficulty: it's a lot harder to parse and analyze a
+module than it is to <tt class="docutils literal"><span class="pre">import</span></tt> and analyze one.</li>
+</ul>
+<p>For more details, please see &quot;Docstring Extraction Rules&quot; in <a class="reference" href="http://www.python.org/peps/pep-0258.html">PEP
+258</a>, item 3 (&quot;How&quot;).</p>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id61" id="miscellaneous" name="miscellaneous">5&nbsp;&nbsp;&nbsp;Miscellaneous</a></h1>
+<div class="section">
+<h2><a class="toc-backref" href="#id62" id="is-the-docutils-document-model-based-on-any-existing-xml-models" name="is-the-docutils-document-model-based-on-any-existing-xml-models">5.1&nbsp;&nbsp;&nbsp;Is the Docutils document model based on any existing XML models?</a></h2>
+<p>Not directly, no.  It borrows bits from DocBook, HTML, and others.  I
+(David Goodger) have designed several document models over the years,
+and have my own biases.  The Docutils document model is designed for
+simplicity and extensibility, and has been influenced by the needs of
+the reStructuredText markup.</p>
+</div>
+</div>
+</div>
+</body>
+</html>

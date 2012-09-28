@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+Object Name = {{thekey}}
+{% if fields %}
+    <ul>
+    {% for fieldid, value, name in fields %}
+        <li>{{value}} <a href="/editfield/{{keyid}}/{{objid}}/{{fieldid}}">Edit</a> !- {{name}}</a> </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Zero Objects</p>
+{% endif %}
+{% endblock %}

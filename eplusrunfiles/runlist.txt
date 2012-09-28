@@ -1,0 +1,2 @@
+c:\Energyplusv6-0-0\mruneplus HVACTemplate-5ZoneFanCoil USA_HI_Honolulu.Intl.AP.911820_TMY3
+copy dummy.txt delete.txt | c:\Energyplusv6-0-0\mruneplus 5ZoneWaterLoopHeatPump USA_HI_Honolulu.Intl.AP.911820_TMY3

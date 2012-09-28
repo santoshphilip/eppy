@@ -1,0 +1,23 @@
+Typical result
+Internal crossreferences, like example_.
+
+animage - actually a subsititution reference
+
+.. image:: bio.png
+
+a substitution image |bio|
+
+.. |bio| image:: bio.png
+
+
+a link
+Typical result
+External hyperlinks, like `Python <http://www.python.org/>`_.
+
+
+an there is is more stuff here and here
+
+.. _example:
+
+and there is more stuff too
+

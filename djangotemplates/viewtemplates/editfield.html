@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Object Type = {{thekey}}</p>
+<p>First Field Name = {{objname}}
+<p>Field Name = {{fieldname}}</p>
+<p>Field Value = {{value}}</p>
+<form action="../../../../updatefield/{{keyid}}/{{objid}}/{{fieldid}}/" method="post" accept-charset="utf-8">
+    {%csrf_token%}
+    {% if  objlist %}
+    
+    <P>
+    <SELECT name="fieldvalue">
+        {% for item in objlist %}
+            <OPTION {% ifequal item value %} selected value="{{ item  }}" {% endifequal %} >{{ item }}</OPTION>
+        {% endfor %}
+    </SELECT>
+    </p>   
+    
+    {% else %}
+    <p><input type="text" name="fieldvalue" value="{{value}}" id="fieldvalue"></p>        
+    {% endif %}
+
+    <p><input type="submit" value="Update">
+        <input type="Button" value="Cancel" id=""></p>
+</form>
+{{value}}
+<hr>
+
+{% if cdct %}
+    <ul>
+    {% for key, lines in cdct %}
+        <li>{{key}}:
+            <ul>
+            {% for line in lines %} 
+                <li>{{line}}</li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Zero Objects</p>
+{% endif %}
+{% endblock %}

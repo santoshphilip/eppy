@@ -1,0 +1,29 @@
+compareauto.py
+"""Given a list of files, the script will track all the autosized values across files
+It will put together a single file containing all the autosized values. The autosized values are
+tagged as AUTO. If a field is autosized in one file and not autosized in other files, it's 
+value is still pulled up. 
+The results are output in a csv file.
+The input data is hardcoded at the moment"""
+
+sample.py
+gets the dict for all the tables in the html output
+
+ncommdct.py
+"""commdct in the original EPlusinterface is not working correctly.
+This is a a hack to get the correct comdct
+Call the function: getcommdct"""
+
+autosized.py
+"""get data for autosized fields
+see comments at bottom of page for usage
+"""
+
+
+table.py
+"""routines to deal with tables in the html output files of E+
+Should contain only routines that deal with html"""
+
+
+diffs.py    
+"""calculate the diffs for mathdiff.py and tablediff.py"""

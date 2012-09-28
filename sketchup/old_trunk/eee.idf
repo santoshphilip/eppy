@@ -1,0 +1,31 @@
+
+VERSION,
+    1.3;                     !- Version Identifier
+
+!-   ===========  ALL OBJECTS IN CLASS: BUILDING ===========
+
+BUILDING,
+    Building,                !- Building Name
+    0.,                      !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value {W}
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25;                      !- Maximum Number of Warmup Days
+
+
+!-   ===========  ALL OBJECTS IN CLASS: ZONE ===========
+
+
+!-   ===========  ALL OBJECTS IN CLASS: SURFACEGEOMETRY ===========
+
+SurfaceGeometry,
+    UpperLeftCorner,         !- SurfaceStartingPosition
+    CCW,        !- VertexEntry
+    WCS;                     !- CoordinateSystem
+
+
+!-   ===========  ALL OBJECTS IN CLASS: SURFACE:HEATTRANSFER ===========
+
+!-   ===========  ALL OBJECTS IN CLASS: SURFACE:HEATTRANSFER:SUB ===========
+

@@ -1,0 +1,16 @@
+- make the topology of the loop
+- put in placeholder names for nodes, branches and connectors
+------
+Web interface to replace EPEditor
+------
+Web interface to build up topology
+-
+plantinlet -> branchname0
+branchname0 -> splitter -> branchname1, branchname2, branchname3
+branchname1, branchname2, branchname3 -> mixer -> branchname4
+branchname4 -> plantoutlet
+
+# in each branch above put in a pipe
+
+branchname0 = component1, component2, component3
+

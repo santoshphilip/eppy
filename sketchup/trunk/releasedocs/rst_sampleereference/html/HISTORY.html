@@ -1,0 +1,2359 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.4: http://docutils.sourceforge.net/" />
+<title>Docutils History</title>
+<meta name="author" content="David Goodger; open to all Docutils developers" />
+<meta name="date" content="2006-01-09" />
+<meta name="copyright" content="This document has been placed in the public domain." />
+<style type="text/css">
+
+/*
+:Author: David Goodger
+:Contact: goodger@users.sourceforge.net
+:Date: $Date: 2005-12-18 01:56:14 +0100 (Sun, 18 Dec 2005) $
+:Revision: $Revision: 4224 $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin-left: 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em ;
+  background-color: #eeeeee }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+tt.docutils {
+  background-color: #eeeeee }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="docutils-history">
+<h1 class="title">Docutils History</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>David Goodger; open to all Docutils developers</td></tr>
+<tr><th class="docinfo-name">Contact:</th>
+<td><a class="first last reference" href="mailto:goodger&#64;python.org">goodger&#64;python.org</a></td></tr>
+<tr><th class="docinfo-name">Date:</th>
+<td>2006-01-09</td></tr>
+<tr><th class="docinfo-name">Revision:</th>
+<td>4262</td></tr>
+<tr class="field"><th class="docinfo-name">Web site:</th><td class="field-body"><a class="reference" href="http://docutils.sourceforge.net/">http://docutils.sourceforge.net/</a></td>
+</tr>
+<tr><th class="docinfo-name">Copyright:</th>
+<td>This document has been placed in the public domain.</td></tr>
+</tbody>
+</table>
+<div class="contents topic">
+<p class="topic-title first"><a id="contents" name="contents">Contents</a></p>
+<ul class="simple">
+<li><a class="reference" href="#release-0-4-2006-01-09" id="id6" name="id6">Release 0.4 (2006-01-09)</a></li>
+<li><a class="reference" href="#release-0-3-9-2005-05-26" id="id7" name="id7">Release 0.3.9 (2005-05-26)</a></li>
+<li><a class="reference" href="#release-0-3-7-2004-12-24" id="id8" name="id8">Release 0.3.7 (2004-12-24)</a></li>
+<li><a class="reference" href="#release-0-3-5-2004-07-29" id="id9" name="id9">Release 0.3.5 (2004-07-29)</a></li>
+<li><a class="reference" href="#release-0-3-3-2004-05-09" id="id10" name="id10">Release 0.3.3 (2004-05-09)</a></li>
+<li><a class="reference" href="#release-0-3-2003-06-24" id="id11" name="id11">Release 0.3 (2003-06-24)</a></li>
+<li><a class="reference" href="#release-0-2-2002-07-31" id="id12" name="id12">Release 0.2 (2002-07-31)</a></li>
+<li><a class="reference" href="#release-0-1-2002-04-20" id="id13" name="id13">Release 0.1 (2002-04-20)</a></li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id6" id="release-0-4-2006-01-09" name="release-0-4-2006-01-09">Release 0.4 (2006-01-09)</a></h1>
+<ul class="simple">
+<li>General:<ul>
+<li>Updated the project policies for trunk/branch development &amp;
+version numbering.</li>
+</ul>
+</li>
+<li>docutils/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">__version_details__</span></tt> attribute to describe code source
+(repository/snapshot/release).</li>
+<li>Replaced <tt class="docutils literal"><span class="pre">default_transforms</span></tt> attribute of TransformSpec with
+<tt class="docutils literal"><span class="pre">get_transforms()</span></tt> method.</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">publish_doctree</span></tt> and <tt class="docutils literal"><span class="pre">publish_from_doctree</span></tt> convenience
+functions, for document tree extraction and reprocessing.</li>
+</ul>
+</li>
+<li>docutils/io.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">DocTreeInput</span></tt> class, for reprocessing existing documents.</li>
+<li>Added support for non-Unicode (e.g. binary) writer output.</li>
+</ul>
+</li>
+<li>docutils/nodes.py:<ul>
+<li>Re-introduced <tt class="docutils literal"><span class="pre">Targetable.indirect_reference_name</span></tt>, for
+MoinMoin/reST compatibility (removed in r3124/r3129).</li>
+<li>Added <tt class="docutils literal"><span class="pre">serial_escape</span></tt> function; escapes string values that are
+elements of a list, for serialization.  Modified Docutils-XML
+writing (<tt class="docutils literal"><span class="pre">Element._dom_node</span></tt>) and pseudo-XML writing
+(<tt class="docutils literal"><span class="pre">Element.starttag</span></tt>) to use <tt class="docutils literal"><span class="pre">serial_escape</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Node.deepcopy()</span></tt> method.</li>
+<li>Removed the internal lists <tt class="docutils literal"><span class="pre">document.substitution_refs</span></tt>,
+<tt class="docutils literal"><span class="pre">document.anonymous_refs</span></tt>, and <tt class="docutils literal"><span class="pre">document.anonymous_targets</span></tt>.</li>
+<li>Added a &quot;container&quot; element.</li>
+<li>Fixed bug where values of list-valued attributes of elements
+originating from custom interpreted text roles (i.e., with custom
+classes) were being shared between element instances.  Reported by
+Shmuel Zeigerman.</li>
+</ul>
+</li>
+<li>docutils/statemachine.py:<ul>
+<li>Added trailing whitespace stripping to <tt class="docutils literal"><span class="pre">string2lines()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">StringList.pad_double_width()</span></tt> &amp; <tt class="docutils literal"><span class="pre">.replace()</span></tt> for East
+Asian double-width character support.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">east_asian_column_width()</span></tt> for double-width character
+support.</li>
+</ul>
+</li>
+<li>docutils/languages/ja.py: Added to project: Japanese mappings by
+Hisashi Morita.</li>
+<li>docutils/languages/zh_cn.py: Added to project: Simplified Chinese
+mappings by Panjunyong.</li>
+<li>docutils/parsers/null.py: Added to project; a do-nothing parser.</li>
+<li>docutils/parsers/rst/__init__.py:<ul>
+<li>Added validator to tab_width setting, with test.  Closes SF bug
+#1212515, report from Wu Wei.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Fixed bug with escaped colons indicating a literal block.</li>
+<li>Fixed bug with enumerated lists (SF#1254145).</li>
+<li>Backslash-escaped colons inside of field names are now allowed.</li>
+<li>Targets (implicit and explicit), anonymous hyperlink references
+and auto-numbered footnote references inside of substitution
+definitions are now disallowed.</li>
+<li>Fixed bug: list items with blank first lines.</li>
+<li>Fixed bug: block quote attributions with indented second lines.</li>
+<li>Added East Asian double-width character support (Python 2.4 only).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/tableparser.py:<ul>
+<li>Added East Asian double-width character support (Python 2.4 only).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py:<ul>
+<li>Added the &quot;container&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/misc.py:<ul>
+<li>Added the &quot;default-role&quot;, &quot;title&quot;, and &quot;date&quot; directives.</li>
+<li>Added standard data file syntax to the &quot;include&quot; directive.</li>
+<li>Added support for &quot;class&quot; directive content.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/images.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">indirect_reference_name</span></tt> support for images with a target
+option.</li>
+<li>Added support for image width and height units.</li>
+<li>Fixed bug with image &quot;target&quot; options.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/references.py:<ul>
+<li>Added &quot;class&quot; attribute to &quot;target-notes&quot; directive, for
+footnote_reference classes.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/include/: Directory added to project; contains
+standard data files for the &quot;include&quot; directive.  Initial contents:
+character entity substitution definition sets, and a set of
+definitions for S5/HTML presentations.</li>
+<li>docutils/parsers/rst/languages/ja.py: Added to project: Japanese
+mappings by David Goodger.</li>
+<li>docutils/parsers/rst/languages/zh_cn.py: Added to project:
+Simplified Chinese mappings by Panjunyong.</li>
+<li>docutils/readers/__init__.py:<ul>
+<li>Added universal.Decorations and universal.ExposeInternals
+transforms as default transforms for all readers.</li>
+<li>Added <tt class="docutils literal"><span class="pre">ReReader</span></tt> base class for readers that reread an existing
+document tree.</li>
+</ul>
+</li>
+<li>docutils/readers/doctree.py: Added to project; a reader for existing
+document trees.</li>
+<li>docutils/transforms/frontmatter.py:<ul>
+<li>Fixed the DocInfo transform to handle SVN-style expansion of the
+&quot;Date&quot; keyword.</li>
+<li>In <tt class="docutils literal"><span class="pre">DocInfo.extract_authors</span></tt>, treat the contents of &quot;authors&quot;
+fields uniformly.</li>
+</ul>
+</li>
+<li>docutils/transforms/misc.py:<ul>
+<li>Added misc.Transitions transform, extracted from
+universal.FinalChecks.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py:<ul>
+<li>Added references.DanglingReferences transform, extracted from
+universal.FinalChecks.</li>
+<li>Fixed bug with doubly-indirect substitutions.</li>
+<li>Added footnote_reference classes attribute to &quot;TargetNotes&quot;.</li>
+<li>Fixed bug with circular substitution definitions that put Docutils
+into an infinite loop.</li>
+</ul>
+</li>
+<li>docutils/transforms/universal.py:<ul>
+<li>Added universal.ExposeInternals transform, extracted from
+universal.FinalChecks.</li>
+<li>Removed universal.FinalChecks transform (logic has been moved to
+several new transforms).</li>
+<li>Fixed bug with the &quot;expose_internals&quot; setting and Text nodes
+(exposed by the &quot;rawsource&quot; internal attribute).</li>
+<li>Added the universal.StripComments transform, implementation of the
+&quot;strip_comments&quot; setting.</li>
+</ul>
+</li>
+<li>docutils/transforms/writer_aux.py: Added to project; auxiliary
+transforms for writers.<ul>
+<li>Added <tt class="docutils literal"><span class="pre">Compound</span></tt> transform, which flattens compound paragraphs.</li>
+</ul>
+</li>
+<li>docutils/writers/: Several writer modules (html4css1.py) were
+converted into packages.  Support modules and data files have been
+moved into the packages.  The stylesheets for the HTML writers are
+now installed along with the code, the code knows where to find
+them, and the default is to use them (actually, to embed them).
+Some adjustments to configuration files may be necessary.  The
+easiest way to obtain the new default behavior is to remove all
+settings whose name includes &quot;stylesheet&quot;.</li>
+<li>docutils/writers/__init__.py:<ul>
+<li>Added universal.Messages and universal.FilterMessages transforms
+as default transforms for all writers.</li>
+<li>Added <tt class="docutils literal"><span class="pre">UnfilteredWriter</span></tt> base class for writers that pass the
+document tree on unchanged.</li>
+</ul>
+</li>
+<li>docutils/writers/docutils_xml.py:<ul>
+<li>Made <tt class="docutils literal"><span class="pre">xmlcharrefreplace</span></tt> the default output encoding error
+handler.</li>
+</ul>
+</li>
+<li>docutils/writers/html4css1/:<ul>
+<li>Added support for image width and height units.</li>
+<li>Made <tt class="docutils literal"><span class="pre">xmlcharrefreplace</span></tt> the default output encoding error
+handler.</li>
+<li>Made <tt class="docutils literal"><span class="pre">--embed-stylesheet</span></tt> the default rather than
+<tt class="docutils literal"><span class="pre">--link-stylesheet</span></tt>.</li>
+<li>Moved &quot;id&quot; attribute from container (section etc.) to title's &lt;a&gt;
+tag, to be on the same tag as &quot;name&quot;.
+(!!! To be reverted in Docutils 0.5.)</li>
+<li>Added vertical space between fields of field lists.</li>
+<li>Added <tt class="docutils literal"><span class="pre">--compact-field-lists</span></tt> option to remove vertical space in
+simple field lists.</li>
+<li>Made cloaking of email addresses with <tt class="docutils literal"><span class="pre">--cloak-email-addresses</span></tt>
+less obtrusive.</li>
+<li>Fixed support for centered images.</li>
+<li>Added support for class=&quot;compact&quot; &amp; class=&quot;open&quot; lists.</li>
+</ul>
+</li>
+<li>docutils/writers/latex2e/:<ul>
+<li>Underscores in citekeys are no longer escaped.</li>
+</ul>
+</li>
+<li>docutils/writers/newlatex2e/unicode_map.py: Added to project;
+mapping of Unicode characters to LaTeX equivalents.</li>
+<li>docutils/writers/s5_html/: Package added to project; writer for
+S5/HTML slide shows.</li>
+<li>docs/dev/distributing.txt: Added to project; guide for distributors
+(package maintainers).</li>
+<li>docs/dev/hacking.txt: Added to project; guide for developers.</li>
+<li>docs/ref/doctree.txt:<ul>
+<li>Updated for plural attributes &quot;classes&quot;, &quot;ids&quot;, &quot;names&quot;,
+&quot;dupnames&quot;.</li>
+<li>Added the &quot;container&quot; element.</li>
+</ul>
+</li>
+<li>docs/ref/docutils.dtd:<ul>
+<li>Updated for plural attributes &quot;classes&quot;, &quot;ids&quot;, &quot;names&quot;,
+&quot;dupnames&quot;.</li>
+</ul>
+</li>
+<li>docs/user/emacs.txt: Added to project; a document about Emacs
+support for reStructuredText and Docutils.</li>
+<li>docs/user/links.txt: Added to project; lists of Docutils-related
+links.</li>
+<li>docs/user/mailing-lists.txt: Added to project; information about
+Docutils-related mailing lists and how to access them.</li>
+<li>docs/user/slide-shows.txt: Added to project; example of and docs for
+the S5/HTML writer (<tt class="docutils literal"><span class="pre">rst2s5.py</span></tt> front end).</li>
+<li>docs/ref/rst/definitions.txt: &quot;reStructuredText Standard Definition
+Files&quot;, added to project.</li>
+<li>test/coverage.sh: Added to project; test coverage script.</li>
+<li>test/DocutilsTestSupport.py:<ul>
+<li>Added support for specifying runtime settings at the suite level.</li>
+</ul>
+</li>
+<li>test/test_functional.py:<ul>
+<li>Added the <tt class="docutils literal"><span class="pre">clear_output_directory</span></tt> function.</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">_test_more</span></tt> functions in functional test
+config files.</li>
+</ul>
+</li>
+<li>tools/rst2s5.py: Added to project; front end for the S5/HTML writer.</li>
+<li>tools/rstpep2html.py: Renamed from pep.py.</li>
+<li>tools/dev/create_unimap.py: Added to project; script to create the
+docutils/writers/unimap_latex.py mapping file.</li>
+<li>tools/dev/profile_docutils.py: Added to project; profiler script.</li>
+<li>tools/dev/unicode2rstsubs.py: Moved from tools/unicode2rstsubs.py.</li>
+<li>tools/editors/emacs/restructuredtext.el,
+tools/editors/emacs/rst-html.el, tools/editors/emacs/rst-mode.el:
+Removed from project; the functionality is now contained in rst.el.</li>
+<li>tools/editors/emacs/rst.el: Added to project.  Added many features
+and fixed many bugs.  See docs/user/emacs.txt for details.</li>
+<li>tools/stylesheets: Removed from project.  Stylesheets have been
+renamed and moved into writer packages.</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id7" id="release-0-3-9-2005-05-26" name="release-0-3-9-2005-05-26">Release 0.3.9 (2005-05-26)</a></h1>
+<ul class="simple">
+<li>General:<ul>
+<li>Eliminated and replaced all uses of the old string attributes
+<tt class="docutils literal"><span class="pre">id</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">dupname</span></tt> and <tt class="docutils literal"><span class="pre">class</span></tt> with references to the
+new list attributes <tt class="docutils literal"><span class="pre">ids</span></tt>, <tt class="docutils literal"><span class="pre">names</span></tt>, <tt class="docutils literal"><span class="pre">dupnames</span></tt> and
+<tt class="docutils literal"><span class="pre">classes</span></tt> throughout the whole source tree.</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Enabled <tt class="docutils literal"><span class="pre">--dump-*</span></tt> options when <tt class="docutils literal"><span class="pre">--traceback</span></tt> specified,
+allowing for easier debugging.</li>
+<li>In <tt class="docutils literal"><span class="pre">Publisher.publish()</span></tt>, expanded the generic top-level
+exception catching.</li>
+</ul>
+</li>
+<li>docutils/examples.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">internals</span></tt> function for exploration.</li>
+</ul>
+</li>
+<li>docutils/io.py:<ul>
+<li>Fixed <tt class="docutils literal"><span class="pre">Input.decode</span></tt> method to apply heuristics only if no
+encoding is explicitly given, and to provide better reporting of
+decoding errors.</li>
+<li>The <tt class="docutils literal"><span class="pre">Input.decode</span></tt> method now removes byte order marks (BOMs)
+from input streams.</li>
+</ul>
+</li>
+<li>docutils/nodes.py:<ul>
+<li><tt class="docutils literal"><span class="pre">image</span></tt> element class changed to subclass of Element, not
+TextElement (it's an empty element, and cannot contain text).</li>
+<li>Added <tt class="docutils literal"><span class="pre">attr_defaults</span></tt> dictionary for default attribute values.</li>
+<li>Added empty list as default value for the following attributes:
+<tt class="docutils literal"><span class="pre">ids</span></tt>, <tt class="docutils literal"><span class="pre">names</span></tt>, <tt class="docutils literal"><span class="pre">dupnames</span></tt>, <tt class="docutils literal"><span class="pre">classes</span></tt>, and <tt class="docutils literal"><span class="pre">backrefs</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">document.decoration</span></tt> attribute,
+<tt class="docutils literal"><span class="pre">document.get_decoration</span></tt> method, and <tt class="docutils literal"><span class="pre">decoration.get_header</span></tt>
+&amp; <tt class="docutils literal"><span class="pre">.get_footer</span></tt> methods.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Element.update_basic_atts()</span></tt> and <tt class="docutils literal"><span class="pre">Element.substitute()</span></tt>
+methods.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Removed <tt class="docutils literal"><span class="pre">docutils.utils.Reporter.categories</span></tt>,
+<tt class="docutils literal"><span class="pre">docutils.utils.ConditionSet</span></tt>, and all references to them, to
+simplify error reporting.</li>
+</ul>
+</li>
+<li>docutils/languages/nl.py: Added to project; Dutch mappings by
+Martijn Pieters.</li>
+<li>docutils/parsers/rst/__init__.py:<ul>
+<li>Added settings: <tt class="docutils literal"><span class="pre">file_insertion_enabled</span></tt> &amp; <tt class="docutils literal"><span class="pre">raw_enabled</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Added check for escaped at-mark to prevent email address recognition.</li>
+<li>Fixed option lists to allow spaces inside <tt class="docutils literal"><span class="pre">&lt;angle-bracketed</span> <span class="pre">option</span>
+<span class="pre">arguments&gt;</span></tt>.</li>
+<li>Allowed whitespace in paths and URLs.</li>
+<li>Added auto-enumerated list items.</li>
+<li>Fixed bug that assumed <tt class="docutils literal"><span class="pre">..</span> <span class="pre">_</span></tt> and <tt class="docutils literal"><span class="pre">..</span> <span class="pre">|</span></tt> were invariably
+followed by text.</li>
+<li>Added support for table stub columns.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/__init__.py:<ul>
+<li>Allowed whitespace in paths (<tt class="docutils literal"><span class="pre">path</span></tt> function).</li>
+<li>Added <tt class="docutils literal"><span class="pre">uri</span></tt> directive option conversion function.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py:<ul>
+<li>Fixed illegal context bug with &quot;topic&quot; directive (allowed within
+sidebars; not within body elements).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/images.py:<ul>
+<li>Allowed whitespace (stripped) in &quot;image&quot; &amp; &quot;figure&quot; directive URLs.</li>
+<li>Added support for the <tt class="docutils literal"><span class="pre">file_insertion_enabled</span></tt> setting in the
+&quot;figure&quot; directive (disables &quot;figwidth&quot; option).</li>
+<li>&quot;image&quot; directive: added checks for valid values of &quot;align&quot; option,
+depending on context.  &quot;figure&quot; directive: added specialized
+&quot;align&quot; option and attribute on &quot;figure&quot; element.</li>
+<li>Made &quot;:figwidth: image&quot; option of &quot;figure&quot; directive work again.</li>
+<li>Fixed bug with reference names containing uppercase letters
+(e.g. <tt class="docutils literal"><span class="pre">Name_</span></tt>) in &quot;target&quot; option of &quot;image&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/misc.py:<ul>
+<li>Fixed &quot;include&quot; and &quot;raw&quot; directives to catch text decoding
+errors.</li>
+<li>Allowed whitespace in &quot;include&quot; &amp; &quot;raw&quot; directive paths.</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">file_insertion_enabled</span></tt> &amp; <tt class="docutils literal"><span class="pre">raw_enabled</span></tt>
+settings in &quot;include&quot; &amp; &quot;raw&quot; directives.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/parts.py:<ul>
+<li>Added &quot;header&quot; &amp; &quot;footer&quot; directives.</li>
+<li>Fixed illegal context bug with &quot;contents&quot; directive (topics
+allowed within sidebars; not within body elements).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/tables.py:<ul>
+<li>Added &quot;list-table&quot; directive.</li>
+<li>Caught empty CSV table bug.</li>
+<li>Added support for the <tt class="docutils literal"><span class="pre">file_insertion_enabled</span></tt> setting in the
+&quot;csv-table&quot; directive.</li>
+<li>Added <tt class="docutils literal"><span class="pre">stub-columns</span></tt> option to &quot;csv-table&quot; and &quot;list-table&quot;
+directives.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/languages/nl.py: Added to project; Dutch
+mappings by Martijn Pieters.</li>
+<li>docutils/readers/standalone.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">--section-subtitles</span></tt> and <tt class="docutils literal"><span class="pre">--no-section-subtitles</span></tt>
+options to activate or deactivate the SectSubTitle transform.</li>
+</ul>
+</li>
+<li>docutils/transforms/frontmatter.py:<ul>
+<li>Added SectSubTitle transform to promote titles of lone
+subsections to subtitles.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py:<ul>
+<li>Fixed mislocated internal targets bug, by propagating internal
+targets to the next node, making use of the newly added support
+for multiple names and IDs.</li>
+<li>Fixed duplicate footnote label bug.</li>
+<li>Replaced <tt class="docutils literal"><span class="pre">ChainedTargets</span></tt> with more generic <tt class="docutils literal"><span class="pre">PropagateTargets</span></tt>
+transform.</li>
+</ul>
+</li>
+<li>docutils/writers/html4css1.py:<ul>
+<li>Fixed unencoded stylesheet reference bug (characters like &quot;&amp;&quot; in
+stylesheet references).</li>
+<li><tt class="docutils literal"><span class="pre">target</span></tt> nodes now appear as <tt class="docutils literal"><span class="pre">span</span></tt> tags (instead of <tt class="docutils literal"><span class="pre">a</span></tt>
+tags).</li>
+<li>Added support for multiple IDs per node by creating empty <tt class="docutils literal"><span class="pre">span</span></tt>
+tags.</li>
+<li>Added the <tt class="docutils literal"><span class="pre">field_name_limit</span></tt> &amp; <tt class="docutils literal"><span class="pre">option_limit</span></tt> settings &amp;
+support.</li>
+<li>Added support for table stub columns.</li>
+<li>Added support for the <tt class="docutils literal"><span class="pre">align</span></tt> attribute on <tt class="docutils literal"><span class="pre">figure</span></tt> elements.</li>
+<li>Added the <tt class="docutils literal"><span class="pre">cloak_email_addresses</span></tt> setting &amp; support.</li>
+<li>Added <tt class="docutils literal"><span class="pre">html_prolog</span></tt>, <tt class="docutils literal"><span class="pre">html_head</span></tt>, <tt class="docutils literal"><span class="pre">html_body</span></tt>,
+<tt class="docutils literal"><span class="pre">html_title</span></tt>, &amp; <tt class="docutils literal"><span class="pre">html_subtitle</span></tt> to parts dictionary exposed by
+<tt class="docutils literal"><span class="pre">docutils.core.publish_parts</span></tt>.</li>
+<li>Added support for section subtitles.</li>
+</ul>
+</li>
+<li>docutils/writers/latex2e.py:<ul>
+<li>Fixed tables starting with more than one multirow cell.</li>
+<li>Improved --use-latex-docinfo so that organization/contact/address
+fields are lumped with the last author field and appear on the
+titlepage.</li>
+<li>Made sure the titlepage is always shown with --use-latex-docinfo,
+even if the document has no title.</li>
+<li>Made sure that latex doesn't fill in today's date if no date field
+was given.</li>
+<li>Added support for section subtitles.</li>
+</ul>
+</li>
+<li>docutils/writers/newlatex2e.py: Added to project; a new LaTeX writer
+(under development).</li>
+<li>docutils/writers/null.py: Added to project; a do-nothing Writer.</li>
+<li>docs/api/publisher.txt:<ul>
+<li>Added &quot;<tt class="docutils literal"><span class="pre">publish_parts</span></tt> Details&quot; section.</li>
+</ul>
+</li>
+<li>docutils/dev/repository.txt: Added to project; information about the
+Docutils Subversion repository.</li>
+<li>docs/ref/docutils.dtd:<ul>
+<li>Added a <tt class="docutils literal"><span class="pre">stub</span></tt> attribute to the <tt class="docutils literal"><span class="pre">colspec</span></tt> element via the
+<tt class="docutils literal"><span class="pre">tbl.colspec.att</span></tt> parameter entity.</li>
+<li>Allowed topic elements within sidebars</li>
+<li>Added an <tt class="docutils literal"><span class="pre">align</span></tt> attribute to the <tt class="docutils literal"><span class="pre">figure</span></tt> element.</li>
+</ul>
+</li>
+<li>tools/rst2newlatex.py: Added to project; front end for the new LaTeX
+writer.</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id8" id="release-0-3-7-2004-12-24" name="release-0-3-7-2004-12-24">Release 0.3.7 (2004-12-24)</a></h1>
+<ul class="simple">
+<li>docutils/frontend.py:<ul>
+<li>Added options: --input-encoding-error-handler,
+--record-dependencies, --leave-footnote-reference-space,
+--strict-visitor.</li>
+<li>Added command-line and config file support for &quot;overrides&quot; setting
+parameter.</li>
+</ul>
+</li>
+<li>docutils/io.py:<ul>
+<li>Added support for input encoding error handler.</li>
+</ul>
+</li>
+<li>docutils/nodes.py:<ul>
+<li>Added dispatch_visit and dispatch_departure methods to
+NodeVisitor; useful as a hook for Visitors.</li>
+<li>Changed structure of <tt class="docutils literal"><span class="pre">line_block</span></tt>; added <tt class="docutils literal"><span class="pre">line</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">compound</span></tt> node class.</li>
+<li>Added a mechanism for Visitors to transitionally ignore new node
+classes.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Moved <tt class="docutils literal"><span class="pre">escape2null</span></tt> and <tt class="docutils literal"><span class="pre">unescape</span></tt> functions from
+docutils/parsers/rst/states.py.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/roles.py:<ul>
+<li>Added &quot;raw&quot; role.</li>
+<li>Changed role function API: the &quot;text&quot; parameter now takes
+null-escaped interpreted text content.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Fixed bug where a &quot;role&quot; directive in a nested parse would crash
+the parser; the state machine's &quot;language&quot; attribute was not being
+copied over.</li>
+<li>Added support for line block syntax.</li>
+<li>Fixed directive parsing bug: argument-less directives didn't
+notice that arguments were present.</li>
+<li>Removed error checking for transitions.</li>
+<li>Added support for multiple classifiers in definition list items.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">escape2null</span></tt> and <tt class="docutils literal"><span class="pre">unescape</span></tt> functions to docutils/utils.py.</li>
+<li>Changed role function API: the &quot;text&quot; parameter now takes
+null-escaped interpreted text content.</li>
+<li>Empty sections and documents are allowed now.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">encoding</span></tt> directive option conversion function.</li>
+<li>Allow multiple class names in class_option conversion function.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py:<ul>
+<li>Converted the line-block directive to use the new structure.</li>
+<li>Extracted the old line-block functionality to the <tt class="docutils literal"><span class="pre">block</span></tt>
+function (still used).</li>
+<li>Added <tt class="docutils literal"><span class="pre">compound</span></tt> directive (thanks to Felix Wiemann).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/misc.py:<ul>
+<li>Added &quot;encoding&quot; option to &quot;include&quot; and &quot;raw&quot; directives.</li>
+<li>Added &quot;trim&quot;, &quot;ltrim&quot;, and &quot;rtrim&quot; options to &quot;unicode&quot; directive.</li>
+<li>Allow multiple class names in the &quot;class&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/parts.py:<ul>
+<li>Directive &quot;sectnum&quot; now accepts &quot;prefix&quot;, &quot;suffix&quot;, and &quot;start&quot;
+options.  Thanks to Lele Gaifax.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/tables.py:<ul>
+<li>Added &quot;encoding&quot; directive to &quot;csv-table&quot; directive.</li>
+<li>Added workaround for lack of Unicode support in csv.py, for
+non-ASCII CSV input.</li>
+</ul>
+</li>
+<li>docutils/transforms/misc.py:<ul>
+<li>Fixed bug when multiple &quot;class&quot; directives are applied to a single
+element.</li>
+<li>Enabled multiple format names for &quot;raw&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py:<ul>
+<li>Added support for trimming whitespace from beside substitution
+references.</li>
+</ul>
+</li>
+<li>docutils/transforms/universal.py:<ul>
+<li>FinalChecks now checks for illegal transitions and moves
+transitions between sections.</li>
+</ul>
+</li>
+<li>docutils/writers/html4css1.py:<ul>
+<li>HTMLTranslator.encode now converts U+00A0 to &quot;&amp;nbsp;&quot;.</li>
+<li>&quot;stylesheet&quot; and &quot;stylesheet_path&quot; settings are now mutually
+exclusive.</li>
+<li>Added support for the new line_block/line structure.</li>
+<li>--footnote-references now overrides
+--trim-footnote-reference-space, if applicable.</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">compound</span></tt> elements.</li>
+<li>Enabled multiple format names for &quot;raw&quot; directive.</li>
+<li><tt class="docutils literal"><span class="pre">&lt;p&gt;</span></tt> tags of a paragraph which is the only visible child of the
+document node are no longer stripped.</li>
+<li>Moved paragraph-compacting logic (for stripping <tt class="docutils literal"><span class="pre">&lt;p&gt;</span></tt> tags) to
+new method <tt class="docutils literal"><span class="pre">should_be_compact_paragraph()</span></tt>.</li>
+<li>Added class=&quot;docutils&quot; to <tt class="docutils literal"><span class="pre">dl</span></tt>, <tt class="docutils literal"><span class="pre">hr</span></tt>, <tt class="docutils literal"><span class="pre">table</span></tt> and <tt class="docutils literal"><span class="pre">tt</span></tt>
+elements.</li>
+<li>&quot;raw&quot; elements are now surrounded by <tt class="docutils literal"><span class="pre">span</span></tt> or <tt class="docutils literal"><span class="pre">div</span></tt> tags in
+the output if they have their <tt class="docutils literal"><span class="pre">class</span></tt> attribute set.</li>
+<li>The whole document is now surrounded by a <tt class="docutils literal"><span class="pre">&lt;div</span>
+<span class="pre">class=&quot;document&quot;&gt;</span></tt> element.</li>
+<li>Body-level images are now wrapped by their own <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> elements,
+with image classes copied to the wrapper, and for images which
+have the <tt class="docutils literal"><span class="pre">:align:</span></tt> option set, the surrounding <tt class="docutils literal"><span class="pre">&lt;div&gt;</span></tt> now
+receives a class attribute (like <tt class="docutils literal"><span class="pre">class=&quot;align-left&quot;</span></tt>).</li>
+</ul>
+</li>
+<li>docutils/writers/latex2e.py:<ul>
+<li>no newline after depart_term.</li>
+<li>Added translations for some Unicode quotes.</li>
+<li>Added option &quot;font-encoding&quot;, made package AE the default.</li>
+<li>&quot;stylesheet&quot; and &quot;stylesheet_path&quot; settings are now mutually
+exclusive.</li>
+<li>--footnote-references now overrides
+--trim-footnote-reference-space, if applicable.</li>
+<li>The footnote label style now matches the footnote reference style
+(&quot;brackets&quot; or &quot;superscript&quot;).</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">compound</span></tt> elements.</li>
+<li>Enabled multiple format names for &quot;raw&quot; directive.</li>
+</ul>
+</li>
+<li>docs/ref/docutils.dtd:<ul>
+<li>Changed structure of the <tt class="docutils literal"><span class="pre">line_block</span></tt> element; added <tt class="docutils literal"><span class="pre">line</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">compound</span></tt> element.</li>
+<li>Added &quot;ltrim&quot; and &quot;rtrim&quot; attributes to
+<tt class="docutils literal"><span class="pre">substitution_definition</span></tt> element.</li>
+<li>Enabled multiple format names for <tt class="docutils literal"><span class="pre">raw</span></tt> element.</li>
+<li>Enabled multiple classifiers in <tt class="docutils literal"><span class="pre">definition_list_item</span></tt> elements.</li>
+</ul>
+</li>
+<li>docs/ref/rst/directives.txt<ul>
+<li>Marked &quot;line-block&quot; as deprecated.</li>
+<li>&quot;Class&quot; directive now allows multiple class names.</li>
+<li>Added &quot;Rationale for Class Attribute Value Conversion&quot;.</li>
+<li>Added warning about &quot;raw&quot; overuse/abuse.</li>
+</ul>
+</li>
+<li>docs/ref/rst/restructuredtext.txt:<ul>
+<li>Added syntax for line blocks.</li>
+<li>Definition list items may have multiple classifiers.</li>
+</ul>
+</li>
+<li>docs/ref/rst/roles.txt:<ul>
+<li>Added &quot;raw&quot; role.</li>
+</ul>
+</li>
+<li>tools/stylesheets/default.css:<ul>
+<li>Added support for the new line_block structure.</li>
+<li>Added &quot;docutils&quot; class to <tt class="docutils literal"><span class="pre">dl</span></tt>, <tt class="docutils literal"><span class="pre">hr</span></tt>, <tt class="docutils literal"><span class="pre">table</span></tt> and <tt class="docutils literal"><span class="pre">tt</span></tt>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id9" id="release-0-3-5-2004-07-29" name="release-0-3-5-2004-07-29">Release 0.3.5 (2004-07-29)</a></h1>
+<p>General:</p>
+<ul>
+<li><p class="first"><span class="target" id="documentation-cleanup-reorganization">Documentation cleanup/reorganization</span>.</p>
+<ul class="simple">
+<li>Created new subdirectories of docs/:<ul>
+<li><tt class="docutils literal"><span class="pre">docs/user/</span></tt>: introductory/tutorial material for end-users</li>
+<li><tt class="docutils literal"><span class="pre">docs/dev/</span></tt>: for core-developers (development notes, plans, etc.)</li>
+<li><tt class="docutils literal"><span class="pre">docs/api/</span></tt>: API reference material for client-developers</li>
+<li><tt class="docutils literal"><span class="pre">docs/ref/</span></tt>: reference material for all groups</li>
+<li><tt class="docutils literal"><span class="pre">docs/howto/</span></tt>: for component-developers and core-developers</li>
+<li><tt class="docutils literal"><span class="pre">docs/peps/</span></tt>: Python Enhancement Proposals</li>
+</ul>
+</li>
+<li>Moved <tt class="docutils literal"><span class="pre">docs/*</span></tt> to <tt class="docutils literal"><span class="pre">docs/user/</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">pysource.dtd</span></tt>, <tt class="docutils literal"><span class="pre">pysource.txt</span></tt>, <tt class="docutils literal"><span class="pre">semantics.txt</span></tt> from
+<tt class="docutils literal"><span class="pre">spec/</span></tt> to <tt class="docutils literal"><span class="pre">docs/dev</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">doctree.txt</span></tt>, <tt class="docutils literal"><span class="pre">docutils.dtd</span></tt>, <tt class="docutils literal"><span class="pre">soextblx.dtd</span></tt>,
+<tt class="docutils literal"><span class="pre">transforms.txt</span></tt> from <tt class="docutils literal"><span class="pre">spec/</span></tt> to <tt class="docutils literal"><span class="pre">docs/ref/</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">alternatives.txt</span></tt>, and <tt class="docutils literal"><span class="pre">problems.txt</span></tt> from
+<tt class="docutils literal"><span class="pre">spec/rst/</span></tt> to <tt class="docutils literal"><span class="pre">docs/dev/rst/</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">reStructuredText.txt</span></tt>, <tt class="docutils literal"><span class="pre">directives.txt</span></tt>,
+<tt class="docutils literal"><span class="pre">interpreted.txt</span></tt>, and <tt class="docutils literal"><span class="pre">introduction.txt</span></tt> from <tt class="docutils literal"><span class="pre">spec/rst/</span></tt>
+to <tt class="docutils literal"><span class="pre">docs/ref/rst/</span></tt>.  Renamed <tt class="docutils literal"><span class="pre">interpreted.txt</span></tt> to
+<tt class="docutils literal"><span class="pre">roles.txt</span></tt>, <tt class="docutils literal"><span class="pre">reStructuredText.txt</span></tt> to
+<tt class="docutils literal"><span class="pre">restructuredtext.txt</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">spec/howto/</span></tt> to <tt class="docutils literal"><span class="pre">docs/howto</span></tt>.</li>
+</ul>
+<p>In order to keep the CVS history of moved files, we supplied
+SourceForge with a <a class="reference" href="http://cvs.sourceforge.net/viewcvs.py/*checkout*/docutils/sandbox/davidg/infrastructure/cvs-reorg.sh?content-type=text/plain&amp;rev=1.5">script for modifying the Docutils CVS
+repository</a>.</p>
+<p>After running the cleanup script:</p>
+<ul class="simple">
+<li>Added <tt class="docutils literal"><span class="pre">docs/index.txt</span></tt>.</li>
+<li>Added a <tt class="docutils literal"><span class="pre">.htaccess</span></tt> file to the <tt class="docutils literal"><span class="pre">web</span></tt> module, containing
+redirects for all old paths to new paths.  They'll preserve
+fragments (the &quot;#name&quot; part of a URL), and won't clutter up the
+file system, and will correct the URL in the user's browser.</li>
+<li>Added <tt class="docutils literal"><span class="pre">BUGS.txt</span></tt>, <tt class="docutils literal"><span class="pre">docs/dev/policies.txt</span></tt>,
+<tt class="docutils literal"><span class="pre">docs/dev/website.txt</span></tt>, <tt class="docutils literal"><span class="pre">docs/dev/release.txt</span></tt> from all but
+the &quot;To Do&quot; list itself in <tt class="docutils literal"><span class="pre">docs/dev/todo.txt</span></tt>.</li>
+<li>Moved &quot;Future Plans&quot; from <tt class="docutils literal"><span class="pre">HISTORY.txt</span></tt> to new &quot;Priorities&quot;
+section of <tt class="docutils literal"><span class="pre">docs/dev/todo.txt</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">THANKS.txt</span></tt> from &quot;Acknowledgements&quot; in <tt class="docutils literal"><span class="pre">HISTORY.txt</span></tt>.</li>
+<li>Added &quot;How To Report Bugs&quot; to <tt class="docutils literal"><span class="pre">BUGS.txt</span></tt>.</li>
+<li>Went through all the sources and docs (including under web/) and
+updated links.  Mostly done by Felix Wiemann; thanks Felix!
+(Still need to update links in the sandboxes.)</li>
+</ul>
+</li>
+</ul>
+<p>Specific:</p>
+<ul class="simple">
+<li>BUGS.txt: Added to project.</li>
+<li>THANKS.txt: Added to project.</li>
+<li>docutils/__init__.py:<ul>
+<li>0.3.4: Post-release.</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Added special error handling &amp; advice for UnicodeEncodeError.</li>
+<li>Refactored Publisher.publish (simplified exception handling &amp;
+extracted debug dumps).</li>
+<li>Renamed &quot;enable_exit&quot; parameter of convenience functions to
+&quot;enable_exit_status&quot;.</li>
+<li>Enabled traceback (exception propagation) by default in
+programmatic convenience functions.</li>
+<li>Now publish_file and publish_cmdline convenience functions return
+the encoded string results in addition to their regular I/O.</li>
+<li>Extracted common code from publish_file, publish_string, and
+publish_parts, into new publish_programmatically.  Extracted
+settings code to <tt class="docutils literal"><span class="pre">Publisher.process_programmatic_settings</span></tt>.</li>
+<li>In Publisher.publish, disabled <tt class="docutils literal"><span class="pre">settings_overrides</span></tt> when
+<tt class="docutils literal"><span class="pre">settings</span></tt> is supplied; redundant.</li>
+</ul>
+</li>
+<li>docutils/frontend.py:<ul>
+<li>Added help text for &quot;--output-encoding-error-handler&quot; and
+&quot;--error-encoding-error-handler&quot;.</li>
+<li>Renamed &quot;--exit&quot; to &quot;--exit-status&quot;.</li>
+<li>Simplified default-setting code.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/__init__.py:<ul>
+<li>Added &quot;--pep-base-url&quot; and &quot;--rfc-base-url&quot; options.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Made URI recognition more aggressive and intelligent.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/__init__.py:<ul>
+<li>Added several directive option conversion functions.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py:<ul>
+<li>Moved &quot;table&quot; directive to tables.py.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/tables.py: Table-related directives,
+added to project.</li>
+<li>docutils/writers/latex2e.py:<ul>
+<li>Added &quot;--table-style=(standard|booktabs|nolines)&quot;</li>
+<li>figures get &quot;here&quot; option (LaTeX per default puts them at bottom),
+and figure content is centered.</li>
+<li>Rowspan support for tables.</li>
+<li>Fix: admonition titles before first section.</li>
+<li>Replace <tt class="docutils literal"><span class="pre">--</span></tt> in literal by <tt class="docutils literal"><span class="pre">-{}-</span></tt> because fontencoding T1 has endash.</li>
+<li>Replave <tt class="docutils literal"><span class="pre">_</span></tt> in literal by an underlined blank, because it has the correct
+width.</li>
+<li>Fix: encode pdfbookmark titles, <tt class="docutils literal"><span class="pre">#</span></tt> broke pdflatex.</li>
+<li>A few unicode replacements, if output_encoding != utf</li>
+<li>Add &quot;--graphicx-option&quot;.</li>
+<li>Indent literal-blocks.</li>
+<li>Fix: omit <tt class="docutils literal"><span class="pre">\maketitle</span></tt> when there is no document title.</li>
+</ul>
+</li>
+<li>docs/index.txt: &quot;Docutils Project Documentation Overview&quot;, added to
+project.</li>
+<li>docs/api/cmdline-tool.txt: &quot;Inside A Docutils Command-Line Front-End
+Tool&quot;, added to project.</li>
+<li>docs/api/publisher.txt: &quot;The Docutils Publisher&quot;, added to project.</li>
+<li>docs/api/runtime-settings.txt: &quot;Docutils Runtime Settings&quot;, added to project.</li>
+<li>docs/dev/policies.txt: Added to project (extracted from
+<tt class="docutils literal"><span class="pre">docs/dev/todo.txt</span></tt>, formerly <tt class="docutils literal"><span class="pre">spec/notes.txt</span></tt>).</li>
+<li>docs/dev/release.txt: Added to project (extracted from
+<tt class="docutils literal"><span class="pre">docs/dev/todo.txt</span></tt>, formerly <tt class="docutils literal"><span class="pre">spec/notes.txt</span></tt>).</li>
+<li>docs/dev/testing.txt: Added to project.</li>
+<li>docs/dev/website.txt: Added to project (extracted from
+<tt class="docutils literal"><span class="pre">docs/dev/todo.txt</span></tt>, formerly <tt class="docutils literal"><span class="pre">spec/notes.txt</span></tt>).</li>
+<li>docs/ref/rst/directives.txt:<ul>
+<li>Added directives: &quot;table&quot;, &quot;csv-table&quot;.</li>
+</ul>
+</li>
+<li>docs/user/rst/cheatsheet.txt: &quot;The reStructuredText Cheat Sheet&quot;
+added to project.  1 page for syntax, and a 1 page reference for
+directives and roles.  Source text to be used as-is; not meant to be
+converted to HTML.</li>
+<li>docs/user/rst/demo.txt: Added to project; moved from tools/test.txt
+with a change of title.</li>
+<li>test/functional/, contents, and test/test_functional.py: Added to
+project.</li>
+<li>tools/buildhtml.py: Fixed bug with config file handling.</li>
+<li>tools/html.py: Removed from project (duplicate of rst2html.py).</li>
+<li>tools/pep2html.py: Removed from project (duplicate of Python's
+nondist/peps/pep2html.py; Docutils' tools/pep.py can be used for
+Docutils-related PEPs in docs/peps/).</li>
+<li>tools/rst2pseudoxml.py: Renamed from publish.py.</li>
+<li>tools/rst2xml.py: Renamed from docutils-xml.py.</li>
+<li>tools/test.txt: Removed from project; moved to
+docs/user/rst/demo.txt.</li>
+<li>setup.py: Now also installs <tt class="docutils literal"><span class="pre">rst2latex.py</span></tt>.</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id10" id="release-0-3-3-2004-05-09" name="release-0-3-3-2004-05-09">Release 0.3.3 (2004-05-09)</a></h1>
+<ul class="simple">
+<li>docutils/__init__.py:<ul>
+<li>0.3.1: Reorganized config file format (multiple sections); see
+docs/config.txt.</li>
+<li>Added unknown_reference_resolvers attribute to TransformSpec.</li>
+<li>0.3.2: Interpreted text reorganization.</li>
+<li>0.3.3: Released.</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Catch system messages to stop tracebacks from parsing errors.</li>
+<li>Catch exceptions during processing report &amp; exit without
+tracebacks, except when &quot;--traceback&quot; used.</li>
+<li>Reordered components for OptionParser; application comes last.</li>
+<li>Added &quot;config_section&quot; parameter to several methods and functions,
+allowing front ends to easily specify their config file sections.</li>
+<li>Added publish_parts convenience function to allow access to individual
+parts of a document.</li>
+</ul>
+</li>
+<li>docutils/examples.py: Added to project; practical examples of
+Docutils client code, to be used as-is or as models for variations.</li>
+<li>docutils/frontend.py:<ul>
+<li>Added &quot;--traceback&quot; &amp; &quot;--no-traceback&quot; options (&quot;traceback&quot;
+setting).</li>
+<li>Implemented support for config file reorganization:
+<tt class="docutils literal"><span class="pre">standard_config_files</span></tt> moved from <tt class="docutils literal"><span class="pre">ConfigParser</span></tt> to
+<tt class="docutils literal"><span class="pre">OptionParser</span></tt>; added
+<tt class="docutils literal"><span class="pre">OptionParser.get_config_file_settings()</span></tt> and
+<tt class="docutils literal"><span class="pre">.get_standard_config_settings()</span></tt>; support for old &quot;[options]&quot;
+section (with deprecation warning) and mapping from old to new
+settings.</li>
+<li>Reimplemented setting validation.</li>
+<li>Enabled flexible boolean values: yes/no, true/false, on/off.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Values</span></tt>, a subclass of <tt class="docutils literal"><span class="pre">optparse.Values</span></tt>, with support
+for list setting attributes.</li>
+<li>Added support for new <tt class="docutils literal"><span class="pre">DOCUTILSCONFIG</span></tt> environment variable;
+thanks to Beni Cherniavsky.</li>
+<li>Added &quot;--no-section-numbering&quot; option.</li>
+</ul>
+</li>
+<li>docutils/io.py:<ul>
+<li>Catch IOErrors when opening source &amp; destination files, report &amp;
+exit without tracebacks.  Added <tt class="docutils literal"><span class="pre">handle_io_errors</span></tt> parameter to
+<tt class="docutils literal"><span class="pre">FileInput</span></tt> &amp; <tt class="docutils literal"><span class="pre">FileOutput</span></tt> to enable caller error handling.</li>
+</ul>
+</li>
+<li>docutils/nodes.py:<ul>
+<li>Changed <tt class="docutils literal"><span class="pre">SparseNodeVisitor</span></tt> and <tt class="docutils literal"><span class="pre">GenericNodeVisitor</span></tt> dynamic
+method definitions (via <tt class="docutils literal"><span class="pre">exec</span></tt>) to dynamic assignments (via
+<tt class="docutils literal"><span class="pre">setattr</span></tt>); thanks to Roman Suzi.</li>
+<li>Encapsulated visitor dynamic assignments in a function; thanks to
+Ian Bicking.</li>
+<li>Added indirect_reference_name attribute to the Targetable
+class. This attribute holds the whitespace_normalized_name
+(contains mixed case) of a target.</li>
+</ul>
+</li>
+<li>docutils/statemachine.py:<ul>
+<li>Renamed <tt class="docutils literal"><span class="pre">StringList.strip_indent</span></tt> to <tt class="docutils literal"><span class="pre">.trim_left</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">StringList.get_2D_block</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Added &quot;level&quot; attribute to SystemMessage exceptions.</li>
+</ul>
+</li>
+<li>docutils/languages/af.py: Added to project; Afrikaans mappings by
+Jannie Hofmeyr.</li>
+<li>docutils/languages/cs.py: Added to project; Czech mappings by Marek
+Blaha.</li>
+<li>docutils/languages/eo.py: Added to project; Esperanto mappings by
+Marcelo Huerta San Martin.</li>
+<li>docutils/languages/pt_br.py: Added to project; Brazilian Portuguese
+mappings by Lalo Martins.</li>
+<li>docutils/languages/ru.py: Added to project; Russian mappings by
+Roman Suzi.</li>
+<li>docutils/parsers/rst/roles.py: Added to project.  Contains
+interpreted text role functions, a registry for interpreted text
+roles, and an API for adding to and retrieving from the registry.
+Contributed by Edward Loper.</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Updated <tt class="docutils literal"><span class="pre">RSTState.nested_parse</span></tt> for &quot;include&quot; in table cells.</li>
+<li>Allowed true em-dash character and &quot;---&quot; as block quote
+attribution marker.</li>
+<li>Added support for &lt;angle-bracketed&gt; complex option arguments
+(option lists).</li>
+<li>Fixed handling of backslashes in substitution definitions.</li>
+<li>Fixed off-by-1 error with extra whitespace after substitution
+definition directive.</li>
+<li>Added inline markup parsing to field lists' field names.</li>
+<li>Added support for quoted (and unindented) literal blocks.
+Driven in part by a bribe from Frank Siebenlist (thanks!).</li>
+<li>Parser now handles escapes in URIs correctly.</li>
+<li>Made embedded-URIs' reference text omittable.  Idea from Beni
+Cherniavsky.</li>
+<li>Refactored explicit target processing code.</li>
+<li>Added name attribute to references containing the reference name only
+through whitespace_normalize_name (no case changes).</li>
+<li>parse_target no longer returns the refname after going through
+normalize_name. This is now handled in make_target.</li>
+<li>Fixed bug relating to role-less interpreted text in non-English
+contexts.</li>
+<li>Reorganized interpreted text processing; moved code into the new
+roles.py module.  Contributed by Edward Loper.</li>
+<li>Refactored <tt class="docutils literal"><span class="pre">Body.parse_directive</span></tt> into <tt class="docutils literal"><span class="pre">run_directive</span></tt> and
+<tt class="docutils literal"><span class="pre">parse_directive_block</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/tableparser.py:<ul>
+<li>Reworked for <tt class="docutils literal"><span class="pre">StringList</span></tt>, to support &quot;include&quot; directives in
+table cells.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/__init__.py:<ul>
+<li>Renamed <tt class="docutils literal"><span class="pre">unchanged()</span></tt> directive option conversion function to
+<tt class="docutils literal"><span class="pre">unchanged_required</span></tt>, and added a new <tt class="docutils literal"><span class="pre">unchanged</span></tt>.</li>
+<li>Catch unicode value too high error; fixes bug 781766.</li>
+<li>Beefed up directive error reporting.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py:<ul>
+<li>Added basic &quot;table&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/images.py:<ul>
+<li>Added &quot;target&quot; option to &quot;image&quot; directive.</li>
+<li>Added name attribute to references containing the reference name only
+through whitespace_normalize_name (no case changes).</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/misc.py:<ul>
+<li>Isolated the import of the <tt class="docutils literal"><span class="pre">urllib2</span></tt> module; was causing
+problems on SourceForge (<tt class="docutils literal"><span class="pre">libssl.so.2</span></tt> unavailable?).</li>
+<li>Added the &quot;role&quot; directive for declaring custom interpreted text
+roles.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/parts.py:<ul>
+<li>The &quot;contents&quot; directive does more work up-front, creating the
+&quot;topic&quot; and &quot;title&quot;, and leaving the &quot;pending&quot; node for the
+transform.  Allows earlier reference resolution; fixes subtle bug.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/languages/af.py: Added to project; Afrikaans
+mappings by Jannie Hofmeyr.</li>
+<li>docutils/parsers/rst/languages/cs.py: Added to project; Czech
+mappings by Marek Blaha.</li>
+<li>docutils/parsers/rst/languages/eo.py: Added to project; Esperanto
+mappings by Marcelo Huerta San Martin.</li>
+<li>docutils/parsers/rst/languages/pt_br.py: Added to project; Brazilian
+Portuguese mappings by Lalo Martins.</li>
+<li>docutils/parsers/rst/languages/ru.py: Added to project; Russian
+mappings by Roman Suzi.</li>
+<li>docutils/transforms/parts.py:<ul>
+<li>The &quot;contents&quot; directive does more work up-front, creating the
+&quot;topic&quot; and &quot;title&quot;, and leaving the &quot;pending&quot; node for the
+transform.  Allows earlier reference resolution; fixes subtle bug.</li>
+<li>Added support for disabling of section numbering.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py:<ul>
+<li>Verifying that external targets are truly targets and not indirect
+references. This is because we are now adding a &quot;name&quot; attribute to
+references in addition to targets. Note sure if this is correct!</li>
+<li>Added code to hook into the unknown_reference_resolvers list for a
+transformer in resolve_indirect_target. This allows the
+unknown_reference_resolvers to keep around indirect targets which
+docutils doesn't know about.</li>
+<li>Added specific error message for duplicate targets.</li>
+</ul>
+</li>
+<li>docutils/transforms/universal.py:<ul>
+<li>Added FilterMessages transform (removes system messages below the
+verbosity threshold).</li>
+<li>Added hook (via docutils.TransformSpec.unknown_reference_resolvers)
+to FinalCheckVisitor for application-specific handling of
+unresolvable references.</li>
+<li>Added specific error message for duplicate targets.</li>
+</ul>
+</li>
+<li>docutils/writers/__init__.py:<ul>
+<li>Added assemble_parts method to the Writer class to allow for
+access to a documents individual parts.</li>
+<li>Documented &amp; set default for <tt class="docutils literal"><span class="pre">Writer.output</span></tt> attribute.</li>
+</ul>
+</li>
+<li>docutils/writers/html4css1.py:<ul>
+<li>Fixed unicode handling of attribute values (bug 760673).</li>
+<li>Prevent duplication of &quot;class&quot; attribute values (bug report from
+Kirill Lapshin).</li>
+<li>Improved table grid/border handling (prompted by report from Bob
+Marshall).</li>
+<li>Added support for table titles.</li>
+<li>Added &quot;&lt;title /&gt;&quot; for untitled docs, for XHTML conformance; thanks
+to Darek Suchojad.</li>
+<li>Added functionality to keep track of individual parts of a document
+and store them in a dictionary as the &quot;parts&quot; attribute of the writer.
+Contributed by Reggie Dugard at the Docutils sprint at PyCon DC 2004.</li>
+<li>Added proper support for the &quot;scale&quot; attribute of the &quot;image&quot;
+element.  Contributed by Brent Cook.</li>
+<li>Added <tt class="docutils literal"><span class="pre">--initial-header-level</span></tt> option.</li>
+<li>Fixed bug: the body_pre_docinfo segment depended on there being a
+docinfo; if no docinfo, the document title was incorporated into
+the body segment.  Adversely affected the publish_parts interface.</li>
+</ul>
+</li>
+<li>docutils/writers/latex2e.py:<ul>
+<li>Changed default stylesheet to &quot;no stylesheet&quot; to avoid latex complaining
+about a missing file.</li>
+<li>Added options and support: <tt class="docutils literal"><span class="pre">--compound-enumerators</span></tt>,
+<tt class="docutils literal"><span class="pre">--section-prefix-for-enumerators</span></tt>, and
+<tt class="docutils literal"><span class="pre">--section-enumerator-separator</span></tt>.  By John F Meinel Jr (SF patch
+934322).</li>
+<li>Added option <tt class="docutils literal"><span class="pre">--use-verbatim-when-possible</span></tt>, to avoid
+problematic characters (eg, '~' in italian) in literal blocks.</li>
+<li>It's now possible to use four section levels in the <cite>book</cite> and
+<cite>report</cite> LaTeX classes.  The default <cite>article</cite> class still has
+three levels limit.</li>
+</ul>
+</li>
+<li>docs/config.txt: &quot;Docutils Configuration Files&quot;, added to project.
+Moved config file entry descriptions from tools.txt.</li>
+<li>docs/tools.txt:<ul>
+<li>Moved config file entry descriptions to config.txt.</li>
+</ul>
+</li>
+<li>spec/notes.txt: Continual updates.  Added &quot;Setting Up For Docutils
+Development&quot;.</li>
+<li>spec/howto/rst-roles.txt: &quot;Creating reStructuredText Interpreted
+Text Roles&quot;, added to project.</li>
+<li>spec/rst/reStructuredText.txt:<ul>
+<li>Added description of support for &lt;angle-bracketed&gt; complex option
+arguments to option lists.</li>
+<li>Added subsections for indented and quoted literal blocks.</li>
+</ul>
+</li>
+<li>test: Continually adding &amp; updating tests.<ul>
+<li>Added test/test_settings.py &amp; test/data/config_*.txt support
+files.</li>
+<li>Added test/test_writers/test_htmlfragment.py.</li>
+</ul>
+</li>
+<li>test/DocutilsTestSupport.py:<ul>
+<li>Refactored LaTeX publisher test suite/case class names to make
+testing other writers easier.</li>
+<li>Added HtmlWriterPublishTestCase and HtmlFragmentTestSuite classes
+to test the processing of HTML fragments which use the new
+publish_parts convenience function.</li>
+</ul>
+</li>
+<li>tools/buildhtml.py:<ul>
+<li>Added support for the &quot;--prune&quot; option.</li>
+<li>Removed dependency on pep2html.py; plaintext PEPs no longer
+supported.</li>
+</ul>
+</li>
+<li>tools/docutils.conf:<ul>
+<li>Updated for configuration file reorganization.</li>
+</ul>
+</li>
+<li>tools/rst2html.py:<ul>
+<li>copied from tools/html.py</li>
+</ul>
+</li>
+<li>setup.py:<ul>
+<li>added a 'scripts' section to configuration</li>
+<li>added 'tools/rst2html.py' to the scripts section</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id11" id="release-0-3-2003-06-24" name="release-0-3-2003-06-24">Release 0.3 (2003-06-24)</a></h1>
+<p>General:</p>
+<ul class="simple">
+<li>Renamed &quot;attribute&quot; to &quot;option&quot; for directives/extensions.</li>
+<li>Renamed transform method &quot;transform&quot; to &quot;apply&quot;.</li>
+<li>Renamed &quot;options&quot; to &quot;settings&quot; for runtime settings (as set by
+command-line options).  Sometimes &quot;option&quot; (singular) became
+&quot;settings&quot; (plural).  Some variations below:<ul>
+<li>document.options -&gt; document.settings (stored in other objects as
+well)</li>
+<li>option_spec -&gt; settings_spec (not directives though)</li>
+<li>OptionSpec -&gt; SettingsSpec</li>
+<li>cmdline_options -&gt; settings_spec</li>
+<li>relative_path_options -&gt; relative_path_settings</li>
+<li>option_default_overrides -&gt; settings_default_overrides</li>
+<li>Publisher.set_options -&gt; Publisher.get_settings</li>
+</ul>
+</li>
+</ul>
+<p>Specific:</p>
+<ul class="simple">
+<li>COPYING.txt: Added &quot;Public Domain Dedication&quot;.</li>
+<li>FAQ.txt: Frequently asked questions, added to project.</li>
+<li>setup.py:<ul>
+<li>Updated with PyPI Trove classifiers.</li>
+<li>Conditional installation of third-party modules.</li>
+</ul>
+</li>
+<li>docutils/__init__.py:<ul>
+<li>Bumped version to 0.2.1 to reflect changes to I/O classes.</li>
+<li>Bumped version to 0.2.2 to reflect changes to stylesheet options.</li>
+<li>Factored <tt class="docutils literal"><span class="pre">SettingsSpec</span></tt> out of <tt class="docutils literal"><span class="pre">Component</span></tt>; separately useful.</li>
+<li>Bumped version to 0.2.3 because of the new &quot;--embed-stylesheet&quot;
+option and its effect on the PEP template &amp; writer.</li>
+<li>Bumped version to 0.2.4 due to changes to the PEP template &amp;
+stylesheet.</li>
+<li>Bumped version to 0.2.5 to reflect changes to Reporter output.</li>
+<li>Added <tt class="docutils literal"><span class="pre">TransformSpec</span></tt> class for new transform system.</li>
+<li>Bumped version to 0.2.6 for API changes (renaming).</li>
+<li>Bumped version to 0.2.7 for new <tt class="docutils literal"><span class="pre">docutils.core.publish_*</span></tt>
+convenience functions.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Component.component_type</span></tt> attribute.</li>
+<li>Bumped version to 0.2.8 because of the internal parser switch from
+plain lists to the docutils.statemachine.StringList objects.</li>
+<li>Bumped version to 0.2.9 because of the frontend.py API changes.</li>
+<li>Bumped version to 0.2.10 due to changes to the project layout
+(third-party modules removed from the &quot;docutils&quot; package), and
+signature changes in <tt class="docutils literal"><span class="pre">io.Input</span></tt>/<tt class="docutils literal"><span class="pre">io.Output</span></tt>.</li>
+<li>Changed version to 0.3.0 for release.</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Made <tt class="docutils literal"><span class="pre">publish()</span></tt> a bit more convenient.</li>
+<li>Generalized <tt class="docutils literal"><span class="pre">Publisher.set_io</span></tt>.</li>
+<li>Renamed <tt class="docutils literal"><span class="pre">publish()</span></tt> to <tt class="docutils literal"><span class="pre">publish_cmdline()</span></tt>; rearranged its
+parameters; improved its docstring.</li>
+<li>Added <tt class="docutils literal"><span class="pre">publish_file()</span></tt> and <tt class="docutils literal"><span class="pre">publish_string()</span></tt>.</li>
+<li>Factored <tt class="docutils literal"><span class="pre">Publisher.set_source()</span></tt> and <tt class="docutils literal"><span class="pre">.set_destination()</span></tt>
+out of <tt class="docutils literal"><span class="pre">.set_io</span></tt>.</li>
+<li>Added support for &quot;--dump-pseudo-xml&quot;, &quot;--dump-settings&quot;, and
+&quot;--dump-transforms&quot; hidden options.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Publisher.apply_transforms()</span></tt> method.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Publisher.set_components()</span></tt> method; support for
+<tt class="docutils literal"><span class="pre">publish_*()</span></tt> conveninece functions.</li>
+<li>Moved config file processing to docutils/frontend.py.</li>
+<li>Added support for exit status (&quot;exit_level&quot; setting &amp;
+<tt class="docutils literal"><span class="pre">enable_exit</span></tt> parameter for Publisher.publish() and convenience
+functions).</li>
+</ul>
+</li>
+<li>docutils/frontend.py:<ul>
+<li>Check for &amp; exit on identical source &amp; destination paths.</li>
+<li>Fixed bug with absolute paths &amp; &quot;--config&quot;.</li>
+<li>Set non-command-line defaults in <tt class="docutils literal"><span class="pre">OptionParser.__init__()</span></tt>:
+<tt class="docutils literal"><span class="pre">_source</span></tt> &amp; <tt class="docutils literal"><span class="pre">_destination</span></tt>.</li>
+<li>Distributed <tt class="docutils literal"><span class="pre">relative_path_settings</span></tt> to components; updated
+<tt class="docutils literal"><span class="pre">OptionParser.populate_from_components()</span></tt> to combine it all.</li>
+<li>Require list of keys in <tt class="docutils literal"><span class="pre">make_paths_absolute</span></tt> (was implicit in
+global <tt class="docutils literal"><span class="pre">relative_path_settings</span></tt>).</li>
+<li>Added &quot;--expose-internal-attribute&quot;, &quot;--dump-pseudo-xml&quot;,
+&quot;--dump-settings&quot;, and &quot;--dump-transforms&quot; hidden options.</li>
+<li>Removed nasty internals-fiddling <tt class="docutils literal"><span class="pre">ConfigParser.get_section</span></tt>
+code, replaced with correct code.</li>
+<li>Added validation functionality for config files.</li>
+<li>Added &quot;--error-encoding&quot; option/setting, &quot;_disable_config&quot;
+internal setting.</li>
+<li>Added encoding validation; updated &quot;--input-encoding&quot; and
+&quot;--output-encoding&quot;; added &quot;--error-encoding-error-handler&quot; and
+&quot;--output-encoding-error-handler&quot;.</li>
+<li>Moved config file processing from docutils/core.py.</li>
+<li>Updated <tt class="docutils literal"><span class="pre">OptionParser.populate_from_components</span></tt> to handle new
+<tt class="docutils literal"><span class="pre">SettingsSpec.settings_defaults</span></tt> dict.</li>
+<li>Added support for &quot;-&quot; =&gt; stdin/stdout.</li>
+<li>Added &quot;exit_level&quot; setting (&quot;--exit&quot; option).</li>
+</ul>
+</li>
+<li>docutils/io.py:<ul>
+<li>Split <tt class="docutils literal"><span class="pre">IO</span></tt> classes into subclasses of <tt class="docutils literal"><span class="pre">Input</span></tt> and <tt class="docutils literal"><span class="pre">Output</span></tt>.</li>
+<li>Added automatic closing to <tt class="docutils literal"><span class="pre">FileInput</span></tt> and <tt class="docutils literal"><span class="pre">FileOutput</span></tt>.</li>
+<li>Delayed opening of <tt class="docutils literal"><span class="pre">FileOutput</span></tt> file until <tt class="docutils literal"><span class="pre">write()</span></tt> called.</li>
+<li><tt class="docutils literal"><span class="pre">FileOutput.write()</span></tt> now returns the encoded output string.</li>
+<li>Try to get path/stream name automatically in <tt class="docutils literal"><span class="pre">FileInput</span></tt> &amp;
+<tt class="docutils literal"><span class="pre">FileOutput</span></tt>.</li>
+<li>Added defaults for source &amp; destination paths.</li>
+<li>Allow for Unicode I/O with an explicit &quot;unicode&quot; encoding.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Output.encode()</span></tt>.</li>
+<li>Removed dependency on runtime settings; pass encoding directly.</li>
+<li>Recognize Unicode strings in <tt class="docutils literal"><span class="pre">Input.decode()</span></tt>.</li>
+<li>Added support for output encoding error handlers.</li>
+</ul>
+</li>
+<li>docutils/nodes.py:<ul>
+<li>Added &quot;Invisible&quot; element category class.</li>
+<li>Changed <tt class="docutils literal"><span class="pre">Node.walk()</span></tt> &amp; <tt class="docutils literal"><span class="pre">.walkabout()</span></tt> to permit more tree
+modification during a traversal.</li>
+<li>Added element classes: <tt class="docutils literal"><span class="pre">line_block</span></tt>, <tt class="docutils literal"><span class="pre">generated</span></tt>, <tt class="docutils literal"><span class="pre">address</span></tt>,
+<tt class="docutils literal"><span class="pre">sidebar</span></tt>, <tt class="docutils literal"><span class="pre">rubric</span></tt>, <tt class="docutils literal"><span class="pre">attribution</span></tt>, <tt class="docutils literal"><span class="pre">admonition</span></tt>,
+<tt class="docutils literal"><span class="pre">superscript</span></tt>, <tt class="docutils literal"><span class="pre">subscript</span></tt>, <tt class="docutils literal"><span class="pre">inline</span></tt></li>
+<li>Added support for lists of nodes to <tt class="docutils literal"><span class="pre">Element.insert()</span></tt>.</li>
+<li>Fixed parent linking in <tt class="docutils literal"><span class="pre">Element.replace()</span></tt>.</li>
+<li>Added new abstract superclass <tt class="docutils literal"><span class="pre">FixedTextElement</span></tt>; adds
+&quot;xml:space&quot; attribute.</li>
+<li>Added support for &quot;line&quot; attribute of <tt class="docutils literal"><span class="pre">system_message</span></tt> nodes.</li>
+<li>Added support for the observer pattern from <tt class="docutils literal"><span class="pre">utils.Reporter</span></tt>.
+Added <tt class="docutils literal"><span class="pre">parse_messages</span></tt> and <tt class="docutils literal"><span class="pre">transform_messages</span></tt> attributes to
+<tt class="docutils literal"><span class="pre">document</span></tt>, removed <tt class="docutils literal"><span class="pre">messages</span></tt>.  Added <tt class="docutils literal"><span class="pre">note_parse_message</span></tt>
+and <tt class="docutils literal"><span class="pre">note_transform_message</span></tt> methods.</li>
+<li>Added support for improved diagnostics:<ul>
+<li>Added &quot;document&quot;, &quot;source&quot;, and &quot;line&quot; internal attributes to
+<tt class="docutils literal"><span class="pre">Node</span></tt>, set by <tt class="docutils literal"><span class="pre">Node.setup_child()</span></tt>.</li>
+<li>Converted variations on <tt class="docutils literal"><span class="pre">node.parent</span> <span class="pre">=</span> <span class="pre">self</span></tt> to
+<tt class="docutils literal"><span class="pre">self.setup_child(node)</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">document.current_source</span></tt> &amp; <tt class="docutils literal"><span class="pre">.current_line</span></tt>
+attributes, and <tt class="docutils literal"><span class="pre">.note_source</span></tt> observer method.</li>
+<li>Changed &quot;system_message&quot; output to GNU-Tools format.</li>
+</ul>
+</li>
+<li>Added a &quot;rawsource&quot; attribute to the <tt class="docutils literal"><span class="pre">Text</span></tt> class, for text
+before backslash-escape resolution.</li>
+<li>Support for new transform system.</li>
+<li>Reworked <tt class="docutils literal"><span class="pre">pending</span></tt> element.</li>
+<li>Fixed XML DOM bug (SF #660611).</li>
+<li>Removed the <tt class="docutils literal"><span class="pre">interpeted</span></tt> element class and added
+<tt class="docutils literal"><span class="pre">title_reference</span></tt>, <tt class="docutils literal"><span class="pre">abbreviation</span></tt>, <tt class="docutils literal"><span class="pre">acronym</span></tt>.</li>
+<li>Made substitutions case-sensitive-but-forgiving; moved some code
+from the parser.</li>
+<li>Fixed Unicode bug on element attributes (report: William Dode).</li>
+</ul>
+</li>
+<li>docutils/optik.py: Removed from project; replaced with
+extras/optparse.py and extras/textwrap.py.  These will be installed
+only if they're not already present in the Python installation.</li>
+<li>docutils/roman.py: Moved to extras/roman.py; this will be installed
+only if it's not already present in the Python installation.</li>
+<li>docutils/statemachine.py:<ul>
+<li>Factored out <tt class="docutils literal"><span class="pre">State.add_initial_transitions()</span></tt> so it can be
+extended.</li>
+<li>Converted whitespace-specific &quot;blank&quot; and &quot;indent&quot; transitions
+from special-case code to ordinary transitions: removed
+<tt class="docutils literal"><span class="pre">StateMachineWS.check_line()</span></tt> &amp; <tt class="docutils literal"><span class="pre">.check_whitespace()</span></tt>, added
+<tt class="docutils literal"><span class="pre">StateWS.add_initial_transitions()</span></tt> method, <tt class="docutils literal"><span class="pre">ws_patterns</span></tt> &amp;
+<tt class="docutils literal"><span class="pre">ws_initial_transitions</span></tt> attributes.</li>
+<li>Removed <tt class="docutils literal"><span class="pre">State.match_transition()</span></tt> after merging it into
+<tt class="docutils literal"><span class="pre">.check_line()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">StateCorrection</span></tt> exception.</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">StateCorrection</span></tt> in <tt class="docutils literal"><span class="pre">StateMachine.run()</span></tt>
+(moved <tt class="docutils literal"><span class="pre">TransitionCorrection</span></tt> support there too.)</li>
+<li>Changed <tt class="docutils literal"><span class="pre">StateMachine.next_line()</span></tt> and <tt class="docutils literal"><span class="pre">.goto_line()</span></tt> to raise
+<tt class="docutils literal"><span class="pre">EOFError</span></tt> instead of <tt class="docutils literal"><span class="pre">IndexError</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">State.no_match</span></tt> method.</li>
+<li>Added support for the Observer pattern, triggered by input line
+changes.</li>
+<li>Added <tt class="docutils literal"><span class="pre">strip_top</span></tt> parameter to
+<tt class="docutils literal"><span class="pre">StateMachineWS.get_first_known_indented</span></tt>.</li>
+<li>Made <tt class="docutils literal"><span class="pre">context</span></tt> a parameter to <tt class="docutils literal"><span class="pre">StateMachine.run()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">ViewList</span></tt> &amp; <tt class="docutils literal"><span class="pre">StringList</span></tt> classes;
+<tt class="docutils literal"><span class="pre">extract_indented()</span></tt> becomes <tt class="docutils literal"><span class="pre">StringList.get_indented()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">StateMachine.insert_input()</span></tt>.</li>
+<li>Fixed ViewList slice handling for Python 2.3.  Patch from (and
+thanks to) Fred Drake.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Added a <tt class="docutils literal"><span class="pre">source</span></tt> attribute to Reporter instances and
+<tt class="docutils literal"><span class="pre">system_message</span></tt> elements.</li>
+<li>Added an observer pattern to <tt class="docutils literal"><span class="pre">utils.Reporter</span></tt> to keep track of
+system messages.</li>
+<li>Fixed bugs in <tt class="docutils literal"><span class="pre">relative_path()</span></tt>.</li>
+<li>Added support for improved diagnostics.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">normalize_name()</span></tt> to nodes.py (<tt class="docutils literal"><span class="pre">fully_normalize_name</span></tt>).</li>
+<li>Added support for encoding Reporter stderr output, and encoding
+error handlers.</li>
+<li>Reporter keeps track of the highest level system message yet
+generated.</li>
+</ul>
+</li>
+<li>docutils/languages: Fixed bibliographic field language lookups.</li>
+<li>docutils/languages/es.py: Added to project; Spanish mappings by
+Marcelo Huerta San Martin.</li>
+<li>docutils/languages/fr.py: Added to project; French mappings by
+Stefane Fermigier.</li>
+<li>docutils/languages/it.py: Added to project; Italian mappings by
+Nicola Larosa.</li>
+<li>docutils/languages/sk.py: Added to project; Slovak mappings by
+Miroslav Vasko.</li>
+<li>docutils/parser/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">Parser.finish_parse()</span></tt> method.</li>
+</ul>
+</li>
+<li>docutils/parser/rst/__init__.py:<ul>
+<li>Added options: &quot;--pep-references&quot;, &quot;--rfc-references&quot;,
+&quot;--tab-width&quot;, &quot;--trim-footnote-reference-space&quot;.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Changed &quot;title under/overline too short&quot; system messages from INFO
+to WARNING, and fixed its insertion location.</li>
+<li>Fixed enumerated list item parsing to allow paragraphs &amp; section
+titles to begin with enumerators.</li>
+<li>Converted system messages to use the new &quot;line&quot; attribute.</li>
+<li>Fixed a substitution reference edge case.</li>
+<li>Added support for &quot;--pep-references&quot; and &quot;--rfc-references&quot;
+options; reworked <tt class="docutils literal"><span class="pre">Inliner</span></tt> code to make customization easier.</li>
+<li>Removed field argument parsing.</li>
+<li>Added support for short section title over/underlines.</li>
+<li>Fixed &quot;simple reference name&quot; regexp to ignore text like
+&quot;object.__method__&quot;; not an anonymous reference.</li>
+<li>Added support for improved diagnostics.</li>
+<li>Reworked directive API, based on Dethe Elza's contribution.  Added
+<tt class="docutils literal"><span class="pre">Body.parse_directive()</span></tt>, <tt class="docutils literal"><span class="pre">.parse_directive_options()</span></tt>,
+<tt class="docutils literal"><span class="pre">.parse_directive_arguments()</span></tt> methods.</li>
+<li>Added <tt class="docutils literal"><span class="pre">ExtensionOptions</span></tt> class, to parse directive options
+without parsing field bodies.  Factored
+<tt class="docutils literal"><span class="pre">Body.parse_field_body()</span></tt> out of <tt class="docutils literal"><span class="pre">Body.field()</span></tt>, overridden in
+<tt class="docutils literal"><span class="pre">ExtensionOptions</span></tt>.</li>
+<li>Improved definition list term/classifier parsing.</li>
+<li>Added warnings for unknown directives.</li>
+<li>Renamed <tt class="docutils literal"><span class="pre">Stuff</span></tt> to <tt class="docutils literal"><span class="pre">Struct</span></tt>.</li>
+<li>Now flagged as errors: transitions at the beginning or end of
+sections, empty sections (except title), and empty documents.</li>
+<li>Updated for <tt class="docutils literal"><span class="pre">statemachine.StringList</span></tt>.</li>
+<li>Enabled recognition of schemeless email addresses in targets.</li>
+<li>Added support for embedded URIs in hyperlink references.</li>
+<li>Added backslash-escapes to inline markup end-string suffix.</li>
+<li>Added support for correct interpreted text processing.</li>
+<li>Fixed nested title parsing (topic, sidebar directives).</li>
+<li>Added special processing of backslash-escaped whitespace (idea
+from David Abrahams).</li>
+<li>Made substitutions case-sensitive-but-forgiving; moved some code
+to <tt class="docutils literal"><span class="pre">docutils.nodes</span></tt>.</li>
+<li>Added support for block quote attributions.</li>
+<li>Added a kludge to work-around a conflict between the bubble-up
+parser strategy and short titles (&lt;= 3 char-long over- &amp;
+underlines).  Fixes SF bug #738803 &quot;infinite loop with multiple
+titles&quot; submitted by Jason Diamond.</li>
+<li>Added explicit interpreted text roles for standard inline markup:
+&quot;emphasis&quot;, &quot;strong&quot;, &quot;literal&quot;.</li>
+<li>Implemented &quot;superscript&quot; and &quot;subscript&quot; interpreted text roles.</li>
+<li>Added initial support for &quot;abbreviation&quot; and &quot;acronym&quot; roles;
+incomplete.</li>
+<li>Added support for &quot;--trim-footnote-reference-space&quot; option.</li>
+<li>Optional space before colons in directives &amp; hyperlink targets.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/tableparser.py:<ul>
+<li>Fixed a bug that was producing unwanted empty rows in &quot;simple&quot;
+tables.</li>
+<li>Detect bad column spans in &quot;simple&quot; tables.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives: Updated all directive functions to
+new API.</li>
+<li>docutils/parsers/rst/directives/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">flag()</span></tt>, <tt class="docutils literal"><span class="pre">unchanged()</span></tt>, <tt class="docutils literal"><span class="pre">path()</span></tt>,
+<tt class="docutils literal"><span class="pre">nonnegative_int()</span></tt>, <tt class="docutils literal"><span class="pre">choice()</span></tt>, and <tt class="docutils literal"><span class="pre">class_option()</span></tt>
+directive option helper functions.</li>
+<li>Added warnings for unknown directives.</li>
+<li>Return <tt class="docutils literal"><span class="pre">None</span></tt> for missing directives.</li>
+<li>Added <tt class="docutils literal"><span class="pre">register_directive()</span></tt>, thanks to William Dode and Paul
+Moore.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/admonitions.py:<ul>
+<li>Added &quot;admonition&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/body.py: Added to project.  Contains
+the &quot;topic&quot;, &quot;sidebar&quot; (from Patrick O'Brien), &quot;line-block&quot;,
+&quot;parsed-literal&quot;, &quot;rubric&quot;, &quot;epigraph&quot;, &quot;highlights&quot; and
+&quot;pull-quote&quot; directives.</li>
+<li>docutils/parsers/rst/directives/images.py:<ul>
+<li>Added an &quot;align&quot; attribute to the &quot;image&quot; &amp; &quot;figure&quot; directives
+(by Adam Chodorowski).</li>
+<li>Added &quot;class&quot; option to &quot;image&quot;, and &quot;figclass&quot; to &quot;figure&quot;.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/misc.py:<ul>
+<li>Added &quot;include&quot;, &quot;raw&quot;, and &quot;replace&quot; directives, courtesy of
+Dethe Elza.</li>
+<li>Added &quot;unicode&quot; and &quot;class&quot; directives.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/parts.py:<ul>
+<li>Added the &quot;sectnum&quot; directive; by Dmitry Jemerov.</li>
+<li>Added &quot;class&quot; option to &quot;contents&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/references.py: Added to project.
+Contains the &quot;target-notes&quot; directive.</li>
+<li>docutils/parsers/rst/languages/__init__.py:<ul>
+<li>Return <tt class="docutils literal"><span class="pre">None</span></tt> from get_language() for missing language modules.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/languages/de.py: Added to project; German
+mappings by Engelbert Gruber.</li>
+<li>docutils/parsers/rst/languages/en.py:<ul>
+<li>Added interpreted text roles mapping.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/languages/es.py: Added to project; Spanish
+mappings by Marcelo Huerta San Martin.</li>
+<li>docutils/parsers/rst/languages/fr.py: Added to project; French
+mappings by William Dode.</li>
+<li>docutils/parsers/rst/languages/it.py: Added to project; Italian
+mappings by Nicola Larosa.</li>
+<li>docutils/parsers/rst/languages/sk.py: Added to project; Slovak
+mappings by Miroslav Vasko.</li>
+<li>docutils/readers/__init__.py:<ul>
+<li>Added support for the observer pattern from <tt class="docutils literal"><span class="pre">utils.Reporter</span></tt>, in
+<tt class="docutils literal"><span class="pre">Reader.parse</span></tt> and <tt class="docutils literal"><span class="pre">Reader.transform</span></tt>.</li>
+<li>Removed <tt class="docutils literal"><span class="pre">Reader.transform()</span></tt> method.</li>
+<li>Added default parameter values to <tt class="docutils literal"><span class="pre">Reader.__init__()</span></tt> to make
+instantiation easier.</li>
+<li>Removed bogus aliases: &quot;restructuredtext&quot; is <em>not</em> a Reader.</li>
+</ul>
+</li>
+<li>docutils/readers/pep.py:<ul>
+<li>Added the <tt class="docutils literal"><span class="pre">peps.TargetNotes</span></tt> transform to the Reader.</li>
+<li>Removed PEP &amp; RFC reference detection code; moved to
+parsers/rst/states.py as options (enabled here by default).</li>
+<li>Added support for pre-acceptance PEPs (no PEP number yet).</li>
+<li>Moved <tt class="docutils literal"><span class="pre">Inliner</span></tt> &amp; made it a class attribute of <tt class="docutils literal"><span class="pre">Reader</span></tt> for
+easy subclassing.</li>
+</ul>
+</li>
+<li>docutils/readers/python: Python Source Reader subpackage added to
+project, including preliminary versions of:<ul>
+<li>__init__.py</li>
+<li>moduleparser.py: Parser for Python modules.</li>
+</ul>
+</li>
+<li>docutils/transforms/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">Transformer</span></tt> class and completed transform reform.</li>
+<li>Added unknown_reference_resolvers list for each transformer. This list holds
+the list of functions provided by each component of the transformer that
+help resolve references.</li>
+</ul>
+</li>
+<li>docutils/transforms/frontmatter.py:<ul>
+<li>Improved support for generic fields.</li>
+<li>Fixed bibliographic field language lookups.</li>
+</ul>
+</li>
+<li>docutils/transforms/misc.py: Added to project.  Miscellaneous
+transforms.</li>
+<li>docutils/transforms/parts.py:<ul>
+<li>Moved the &quot;id&quot; attribute from TOC list items to the references
+(<tt class="docutils literal"><span class="pre">Contents.build_contents()</span></tt>).</li>
+<li>Added the <tt class="docutils literal"><span class="pre">SectNum</span></tt> transform; by Dmitry Jemerov.</li>
+<li>Added &quot;class&quot; attribute support to <tt class="docutils literal"><span class="pre">Contents</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/transforms/peps.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">mask_email()</span></tt> function, updating to pep2html.py's
+functionality.</li>
+<li>Linked &quot;Content-Type: text/x-rst&quot; to PEP 12.</li>
+<li>Added the <tt class="docutils literal"><span class="pre">TargetNotes</span></tt> PEP-specific transform.</li>
+<li>Added <tt class="docutils literal"><span class="pre">TargetNotes.cleanup_callback</span></tt>.</li>
+<li>Added title check to <tt class="docutils literal"><span class="pre">Headers</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py:<ul>
+<li>Added the <tt class="docutils literal"><span class="pre">TargetNotes</span></tt> generic transform.</li>
+<li>Split <tt class="docutils literal"><span class="pre">Hyperlinks</span></tt> into multiple transforms.</li>
+<li>Fixed bug with multiply-indirect references (report: Bruce Smith).</li>
+<li>Added check for circular indirect references.</li>
+<li>Made substitutions case-sensitive-but-forgiving.</li>
+</ul>
+</li>
+<li>docutils/transforms/universal.py:<ul>
+<li>Added support for the &quot;--expose-internal-attributes&quot; option.</li>
+<li>Removed <tt class="docutils literal"><span class="pre">Pending</span></tt> transform classes &amp; data.</li>
+</ul>
+</li>
+<li>docutils/writers/__init__.py:<ul>
+<li>Removed <tt class="docutils literal"><span class="pre">Writer.transform()</span></tt> method.</li>
+</ul>
+</li>
+<li>docutils/writers/docutils-xml.py:<ul>
+<li>Added XML and doctype declarations.</li>
+<li>Added &quot;--no-doctype&quot; and &quot;--no-xml-declaration&quot; options.</li>
+</ul>
+</li>
+<li>docutils/writers/html4css1.py:<ul>
+<li>&quot;name&quot; attributes only on these tags: a, applet, form, frame,
+iframe, img, map.</li>
+<li>Added &quot;name&quot; attribute to &lt;a&gt; in section titles for Netscape 4
+support (bug report: Pearu Peterson).</li>
+<li>Fixed targets (names) on footnote, citation, topic title,
+problematic, and system_message nodes (for Netscape 4).</li>
+<li>Changed field names from &quot;&lt;td&gt;&quot; to &quot;&lt;th&gt;&quot;.</li>
+<li>Added &quot;&#64;&quot; to &quot;&amp;#64;&quot; encoding to thwart address harvesters.</li>
+<li>Improved the vertical whitespace optimization; ignore &quot;invisible&quot;
+nodes (targets, comments, etc.).</li>
+<li>Improved inline literals with <tt class="docutils literal"><span class="pre">&lt;span</span> <span class="pre">class=&quot;pre&quot;&gt;</span></tt> around chunks
+of text and <tt class="docutils literal"><span class="pre">&amp;nbsp;</span></tt> for runs of spaces.</li>
+<li>Improved modularity of output; added <tt class="docutils literal"><span class="pre">self.body_pre_docinfo</span></tt> and
+<tt class="docutils literal"><span class="pre">self.docinfo</span></tt> segments.</li>
+<li>Added support for &quot;line_block&quot;, &quot;address&quot; elements.</li>
+<li>Improved backlinks (footnotes &amp; system_messages).</li>
+<li>Improved system_message output.</li>
+<li>Redefined &quot;--stylesheet&quot; as containing an invariant URL, used
+verbatim.  Added &quot;--stylesheet-path&quot;, interpreted w.r.t. the
+working directory.</li>
+<li>Added &quot;--footnote-references&quot; option (superscript or brackets).</li>
+<li>Added &quot;--compact-lists&quot; and &quot;--no-compact-lists&quot; options.</li>
+<li>Added &quot;--embed-stylesheet&quot; and &quot;--link-stylesheet&quot; options;
+factored out <tt class="docutils literal"><span class="pre">HTMLTranslator.get_stylesheet_reference()</span></tt>.</li>
+<li>Improved field list rendering.</li>
+<li>Added Docutils version to &quot;generator&quot; meta tag.</li>
+<li>Fixed a bug with images; they must be inline, so wrapped in &lt;p&gt;.</li>
+<li>Improved layout of &lt;pre&gt; HTML source.</li>
+<li>Fixed attribute typo on &lt;colspec&gt;.</li>
+<li>Refined XML prologue.</li>
+<li>Support for no stylesheet.</li>
+<li>Removed &quot;interpreted&quot; element support.</li>
+<li>Added support for &quot;title_reference&quot;, &quot;sidebar&quot;, &quot;attribution&quot;,
+&quot;rubric&quot;, and generic &quot;admonition&quot; elements.</li>
+<li>Added &quot;--attribution&quot; option.</li>
+<li>Added support for &quot;inline&quot;, &quot;subscript&quot;, &quot;superscript&quot; elements.</li>
+<li>Added initial support for &quot;abbreviation&quot; and &quot;acronym&quot;;
+incomplete.</li>
+</ul>
+</li>
+<li>docutils/writers/latex2e.py: LaTeX Writer, added by Engelbert Gruber
+(from the sandbox).<ul>
+<li>Added french.</li>
+<li>Double quotes in literal blocks (special treatment for de/ngerman).</li>
+<li>Added '--hyperlink-color' option ('0' turns off coloring of links).</li>
+<li>Added  &quot;--attribution&quot; option.</li>
+<li>Right align attributions.</li>
+</ul>
+</li>
+<li>docutils/writers/pep_html.py:<ul>
+<li>Parameterized output encoding in PEP template.</li>
+<li>Reworked substitutions from <tt class="docutils literal"><span class="pre">locals()</span></tt> into <tt class="docutils literal"><span class="pre">subs</span></tt> dict.</li>
+<li>Redefined &quot;--pep-stylesheet&quot; as containing an invariant URL, used
+verbatim.  Added &quot;--pep-stylesheet-path&quot;, interpreted w.r.t. the
+working directory.</li>
+<li>Added an override on the &quot;--footnote-references&quot; option.</li>
+<li>Factored out <tt class="docutils literal"><span class="pre">HTMLTranslator.get_stylesheet_reference()</span></tt>.</li>
+<li>Added Docutils version to &quot;generator&quot; meta tag.</li>
+<li>Added a &quot;DO NOT EDIT THIS FILE&quot; comment to generated HTML.</li>
+</ul>
+</li>
+<li>docs/tools.txt:<ul>
+<li>Added a &quot;silent&quot; setting for <tt class="docutils literal"><span class="pre">buildhtml.py</span></tt>.</li>
+<li>Added a &quot;Getting Help&quot; section.</li>
+<li>Rearranged the structure.</li>
+<li>Kept up to date, with new settings, command-line options etc.</li>
+<li>Added section for <tt class="docutils literal"><span class="pre">rst2latex.py</span></tt> (Engelbert Gruber).</li>
+<li>Converted settings table into a definition list.</li>
+</ul>
+</li>
+<li>docs/rst/quickstart.txt:<ul>
+<li>Added a table of contents.</li>
+<li>Added feedback information.</li>
+<li>Added mention of minimum section title underline lengths.</li>
+<li>Removed the 4-character minimum for section title underlines.</li>
+</ul>
+</li>
+<li>docs/rst/quickref.html:<ul>
+<li>Added a &quot;Getting Help&quot; section.</li>
+<li>Added a style to make section title backlinks more subtle.</li>
+<li>Added mention of minimum section title underline lengths.</li>
+<li>Removed the 4-character minimum for section title underlines.</li>
+</ul>
+</li>
+<li>extras: Directory added to project; contains third-party modules
+that Docutils depends on (optparse, textwrap, roman).  These are
+only installed if they're not already present.</li>
+<li>licenses: Directory added to project; contains copies of license
+files for non-public-domain files.</li>
+<li>spec/doctree.txt:<ul>
+<li>Changed the focus.  It's about DTD elements:  structural
+relationships, semantics, and external (public) attributes.  Not
+about the element class library.</li>
+<li>Moved some implementation-specific stuff into <tt class="docutils literal"><span class="pre">docutils.nodes</span></tt>
+docstrings.</li>
+<li>Wrote descriptions of all common attributes and parameter
+entities.  Filled in introductory material.</li>
+<li>Working through the element descriptions: 55 down, 37 to go.</li>
+<li>Removed &quot;Representation of Horizontal Rules&quot; to
+spec/rst/alternatives.txt.</li>
+</ul>
+</li>
+<li>spec/docutils.dtd:<ul>
+<li>Added &quot;generated&quot; inline element.</li>
+<li>Added &quot;line_block&quot; body element.</li>
+<li>Added &quot;auto&quot; attribute to &quot;title&quot;.</li>
+<li>Changed content models of &quot;literal_block&quot; and &quot;doctest_block&quot; to
+<tt class="docutils literal"><span class="pre">%text.model</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">%number;</span></tt> attribute type parameter entity.</li>
+<li>Changed <tt class="docutils literal"><span class="pre">%structural.elements;</span></tt> to <tt class="docutils literal"><span class="pre">%section.elements</span></tt>.</li>
+<li>Updated attribute types; made more specific.</li>
+<li>Added &quot;address&quot; bibliographic element.</li>
+<li>Added &quot;line&quot; attribute to <tt class="docutils literal"><span class="pre">system_message</span></tt> element.</li>
+<li>Removed &quot;field_argument&quot; element; &quot;field_name&quot; may contain
+multiple words and whitespace.</li>
+<li>Changed public identifier to docutils.sf.net.</li>
+<li>Removed &quot;interpreted&quot; element; added &quot;title_reference&quot;,
+&quot;abbreviation&quot;, &quot;acronym&quot;.</li>
+<li>Removed &quot;refuri&quot; attribute from &quot;footnote_reference&quot; and
+&quot;citation_reference&quot;.</li>
+<li>Added &quot;sidebar&quot;, &quot;rubric&quot;, &quot;attribution&quot;, &quot;admonition&quot;,
+&quot;superscript&quot;, &quot;subscript&quot;, and &quot;inline&quot; elements.</li>
+</ul>
+</li>
+<li>spec/pep-0256.txt: Converted to reStructuredText &amp; updated.</li>
+<li>spec/pep-0257.txt: Converted to reStructuredText &amp; updated.</li>
+<li>spec/pep-0258.txt: Converted to reStructuredText &amp; updated.</li>
+<li>spec/semantics.txt: Updated with text from a Doc-SIG response to
+Dallas Mahrt.</li>
+<li>spec/transforms.txt: Added to project.</li>
+<li>spec/howto: Added subdirectory, for developer how-to docs.</li>
+<li>spec/howto/rst-directives.txt: Added to project.  Original by Dethe
+Elza, edited &amp; extended by David Goodger.</li>
+<li>spec/howto/i18n.txt: Docutils Internationalization.  Added to
+project.</li>
+<li>spec/rst/alternatives.txt:<ul>
+<li>Added &quot;Doctree Representation of Transitions&quot; from
+spec/doctree.txt.</li>
+<li>Updated &quot;Inline External Targets&quot; &amp; closed the debate.</li>
+<li>Added ideas for interpreted text syntax extensions.</li>
+<li>Added &quot;Nested Inline Markup&quot; section.</li>
+</ul>
+</li>
+<li>spec/rst/directives.txt:<ul>
+<li>Added directives: &quot;topic&quot;, &quot;sectnum&quot;, &quot;target-notes&quot;,
+&quot;line-block&quot;, &quot;parsed-literal&quot;, &quot;include&quot;, &quot;replace&quot;, &quot;sidebar&quot;,
+&quot;admonition&quot;, &quot;rubric&quot;, &quot;epigraph&quot;, &quot;highlights&quot;, &quot;unicode&quot; and
+&quot;class&quot;.</li>
+<li>Formalized descriptions of directive details.</li>
+<li>Added an &quot;align&quot; attribute to the &quot;image&quot; &amp; &quot;figure&quot; directives
+(by Adam Chodorowski).</li>
+<li>Added &quot;class&quot; options to &quot;topic&quot;, &quot;sidebar&quot;, &quot;line-block&quot;,
+&quot;parsed-literal&quot;, &quot;contents&quot;, and &quot;image&quot;; and &quot;figclass&quot; to
+&quot;figure&quot;.</li>
+</ul>
+</li>
+<li>spec/rst/interpreted.txt: Added to project.  Descriptions of
+interpreted text roles.</li>
+<li>spec/rst/introduction.txt:<ul>
+<li>Added pointers to material for new users.</li>
+</ul>
+</li>
+<li>spec/rst/reStructuredText.txt:<ul>
+<li>Disambiguated comments (just add a newline after the &quot;::&quot;).</li>
+<li>Updated enumerated list description; added a discussion of the
+second-line validity checking.</li>
+<li>Updated directive description.</li>
+<li>Added a note redirecting newbies to the user docs.</li>
+<li>Expanded description of inline markup start-strings in non-markup
+contexts.</li>
+<li>Removed field arguments and made field lists a generic construct.</li>
+<li>Removed the 4-character minimum for section title underlines.</li>
+<li>Clarified term/classifier delimiter &amp; inline markup ambiguity
+(definition lists).</li>
+<li>Added &quot;Embedded URIs&quot;.</li>
+<li>Updated &quot;Interpreted Text&quot; section.</li>
+<li>Added &quot;Character-Level Inline Markup&quot; section.</li>
+</ul>
+</li>
+<li>test: Continually adding &amp; updating tests.<ul>
+<li>Moved test/test_rst/ to test/test_parsers/test_rst/.</li>
+<li>Moved test/test_pep/ to test/test_readers/test_pep/.</li>
+<li>Added test/test_readers/test_python/.</li>
+<li>Added test/test_writers/ (Engelbert Gruber).</li>
+</ul>
+</li>
+<li>tools:<ul>
+<li>Made the <tt class="docutils literal"><span class="pre">locale.setlocale()</span></tt> calls in front ends
+fault-tolerant.</li>
+</ul>
+</li>
+<li>tools/buildhtml.py:<ul>
+<li>Added &quot;--silent&quot; option.</li>
+<li>Fixed bug with absolute paths &amp; &quot;--config&quot;.</li>
+<li>Updated for new I/O classes.</li>
+<li>Added some exception handling.</li>
+<li>Separated publishers' setting defaults; prevents interference.</li>
+<li>Updated for new <tt class="docutils literal"><span class="pre">publish_file()</span></tt> convenience function.</li>
+</ul>
+</li>
+<li>tools/pep-html-template:<ul>
+<li>Allow for &quot;--embed-stylesheet&quot;.</li>
+<li>Added Docutils version to &quot;generator&quot; meta tag.</li>
+<li>Added a &quot;DO NOT EDIT THIS FILE&quot; comment to generated HTML.</li>
+<li>Conform to XHTML spec.</li>
+</ul>
+</li>
+<li>tools/pep2html.py:<ul>
+<li>Made <tt class="docutils literal"><span class="pre">argv</span></tt> a parameter to <tt class="docutils literal"><span class="pre">main()</span></tt>.</li>
+<li>Added support for &quot;Content-Type:&quot; header &amp; arbitrary PEP formats.</li>
+<li>Linked &quot;Content-Type: text/plain&quot; to PEP 9.</li>
+<li>Files skipped (due to an error) are not pushed onto the server.</li>
+<li>Updated for new I/O classes.</li>
+<li>Added <tt class="docutils literal"><span class="pre">check_requirements()</span></tt> &amp; <tt class="docutils literal"><span class="pre">pep_type_error()</span></tt>.</li>
+<li>Added some exception handling.</li>
+<li>Updated for new <tt class="docutils literal"><span class="pre">publish_string()</span></tt> convenience function.</li>
+<li>Added a &quot;DO NOT EDIT THIS FILE&quot; comment to generated HTML.</li>
+</ul>
+</li>
+<li>tools/quicktest.py:<ul>
+<li>Added &quot;-V&quot;/&quot;--version&quot; option.</li>
+</ul>
+</li>
+<li>tools/rst2latex.py: LaTeX front end, added by Engelbert Gruber.</li>
+<li>tools/unicode2rstsubs.py: Added to project.  Produces character
+entity files (reSructuredText substitutions) from the MathML master
+unicode.xml file.</li>
+<li>tools/editors: Support code for editors, added to project.  Contains
+<tt class="docutils literal"><span class="pre">emacs/restructuredtext.el</span></tt>.</li>
+<li>tools/stylesheets/default.css: Moved into the stylesheets directory.<ul>
+<li>Added style for chunks of inline literals.</li>
+<li>Removed margin for first child of table cells.</li>
+<li>Right-aligned field list names.</li>
+<li>Support for auto-numbered section titles in TOCs.</li>
+<li>Increased the size of inline literals (&lt;tt&gt;) in titles.</li>
+<li>Restored the light gray background for inline literals.</li>
+<li>Added support for &quot;line_block&quot; elements.</li>
+<li>Added style for &quot;address&quot; elements.</li>
+<li>Removed &quot;a.footnote-reference&quot; style; doing it with <tt class="docutils literal"><span class="pre">&lt;sup&gt;</span></tt> now.</li>
+<li>Improved field list rendering.</li>
+<li>Vertical whitespace improvements.</li>
+<li>Removed &quot;a.target&quot; style.</li>
+</ul>
+</li>
+<li>tools/stylesheets/pep.css:<ul>
+<li>Fixed nested section margins.</li>
+<li>Other changes parallel those of <tt class="docutils literal"><span class="pre">../default.css</span></tt>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id12" id="release-0-2-2002-07-31" name="release-0-2-2002-07-31">Release 0.2 (2002-07-31)</a></h1>
+<p>General:</p>
+<ul class="simple">
+<li>The word &quot;component&quot; was being used ambiguously.  From now on,
+&quot;component&quot; will be used to mean &quot;Docutils component&quot;, as in Reader,
+Writer, Parser, or Transform.  Portions of documents (Table of
+Contents, sections, etc.)  will be called &quot;document parts&quot;.</li>
+<li>Did a grand renaming: a lot of <tt class="docutils literal"><span class="pre">verylongnames</span></tt> became
+<tt class="docutils literal"><span class="pre">very_long_names</span></tt>.</li>
+<li>Cleaned up imports: no more relative package imports or
+comma-separated lists of top-level modules.</li>
+<li>Added support for an option values object which carries default
+settings and overrides (from command-line options and library use).</li>
+<li>Added internal Unicode support, and support for both input and
+output encodings.</li>
+<li>Added support for the <tt class="docutils literal"><span class="pre">docutils.io.IO</span></tt> class &amp; subclasses.</li>
+</ul>
+<p>Specific:</p>
+<ul class="simple">
+<li>docutils/__init__.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">ApplicationError</span></tt> and <tt class="docutils literal"><span class="pre">DataError</span></tt>, for use throughout
+the package.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Component</span></tt> base class for Docutils components; implements
+the <tt class="docutils literal"><span class="pre">supports</span></tt> method.</li>
+<li>Added <tt class="docutils literal"><span class="pre">__version__</span></tt> (thus, <tt class="docutils literal"><span class="pre">docutils.__version__</span></tt>).</li>
+</ul>
+</li>
+<li>docutils/core.py:<ul>
+<li>Removed many keyword parameters to <tt class="docutils literal"><span class="pre">Publisher.__init__()</span></tt> and
+<tt class="docutils literal"><span class="pre">publish()</span></tt>; bundled into an option values object.  Added
+&quot;argv&quot;, &quot;usage&quot;, &quot;description&quot;, and &quot;option_spec&quot; parameters for
+command-line support.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Publisher.process_command_line()</span></tt> and <tt class="docutils literal"><span class="pre">.set_options()</span></tt>
+methods.</li>
+<li>Reworked I/O model for <tt class="docutils literal"><span class="pre">docutils.io</span></tt> wrappers.</li>
+<li>Updated <tt class="docutils literal"><span class="pre">Publisher.set_options()</span></tt>; now returns option values
+object.</li>
+<li>Added support for configuration files (/etc/docutils.conf,
+./docutils.conf, ~/.docutils).</li>
+<li>Added <tt class="docutils literal"><span class="pre">Publisher.setup_option_parser()</span></tt>.</li>
+<li>Added default usage message and description.</li>
+</ul>
+</li>
+<li>docutils/frontend.py: Added to project; support for front-end
+(command-line) scripts.  Option specifications may be augmented by
+components.  Requires Optik (<a class="reference" href="http://optik.sf.net/">http://optik.sf.net/</a>) for option
+processing (installed locally as docutils/optik.py).</li>
+<li>docutils/io.py: Added to project; uniform API for a variety of input
+output mechanisms.</li>
+<li>docutils/nodes.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">TreeCopyVisitor</span></tt> class.</li>
+<li>Added a <tt class="docutils literal"><span class="pre">copy</span></tt> method to <tt class="docutils literal"><span class="pre">Node</span></tt> and subclasses.</li>
+<li>Added a <tt class="docutils literal"><span class="pre">SkipDeparture</span></tt> exception for visitors.</li>
+<li>Renamed <tt class="docutils literal"><span class="pre">TreePruningException</span></tt> from <tt class="docutils literal"><span class="pre">VisitorException</span></tt>.</li>
+<li>Added docstrings to <tt class="docutils literal"><span class="pre">TreePruningException</span></tt>, subclasses, and
+<tt class="docutils literal"><span class="pre">Nodes.walk()</span></tt>.</li>
+<li>Improved docstrings.</li>
+<li>Added <tt class="docutils literal"><span class="pre">SparseNodeVisitor</span></tt>, refined <tt class="docutils literal"><span class="pre">NodeVisitor</span></tt>.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">utils.id()</span></tt> to <tt class="docutils literal"><span class="pre">nodes.make_id()</span></tt> to avoid circular
+imports.</li>
+<li>Added <tt class="docutils literal"><span class="pre">decoration</span></tt>, <tt class="docutils literal"><span class="pre">header</span></tt>, and <tt class="docutils literal"><span class="pre">footer</span></tt> node classes, and
+<tt class="docutils literal"><span class="pre">PreDecorative</span></tt> mixin.</li>
+<li>Reworked the name/id bookkeeping; to <tt class="docutils literal"><span class="pre">document</span></tt>, removed
+<tt class="docutils literal"><span class="pre">explicit_targets</span></tt> and <tt class="docutils literal"><span class="pre">implicit_targets</span></tt> attributes, added
+<tt class="docutils literal"><span class="pre">nametypes</span></tt> attribute and <tt class="docutils literal"><span class="pre">set_name_id_map</span></tt> method.</li>
+<li>Added <tt class="docutils literal"><span class="pre">NodeFound</span></tt> exception, for use with <tt class="docutils literal"><span class="pre">NodeVisitor</span></tt>
+traversals.</li>
+<li>Added <tt class="docutils literal"><span class="pre">document.has_name()</span></tt> method.</li>
+<li>Fixed DOM generation for list-attributes.</li>
+<li>Added category class <tt class="docutils literal"><span class="pre">Labeled</span></tt> (used by footnotes &amp; citations).</li>
+<li>Added <tt class="docutils literal"><span class="pre">Element.set_class()</span></tt> method (sets &quot;class&quot; attribute).</li>
+</ul>
+</li>
+<li>docutils/optik.py: Added to project.  Combined from the Optik
+package, with added option groups and other modifications.  The use
+of this module is probably only temporary.</li>
+<li>docutils/statemachine.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">runtime_init</span></tt> method to <tt class="docutils literal"><span class="pre">StateMachine</span></tt> and <tt class="docutils literal"><span class="pre">State</span></tt>.</li>
+<li>Added underscores to improve many awkward names.</li>
+<li>In <tt class="docutils literal"><span class="pre">string2lines()</span></tt>, changed whitespace normalizing translation
+table to regexp; restores Python 2.0 compatibility with Unicode.</li>
+</ul>
+</li>
+<li>docutils/urischemes.py:<ul>
+<li>Filled in some descriptions.</li>
+<li>Added &quot;shttp&quot; scheme.</li>
+</ul>
+</li>
+<li>docutils/utils.py:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">clean_rcs_keywords</span></tt> function (moved from
+docutils/transforms/frontmatter.py
+<tt class="docutils literal"><span class="pre">DocInfo.filter_rcs_keywords</span></tt>).</li>
+<li>Added underscores to improve many awkward names.</li>
+<li>Changed names of Reporter's thresholds:
+warning_level -&gt; report_level; error_level -&gt; halt_level.</li>
+<li>Moved <tt class="docutils literal"><span class="pre">utils.id()</span></tt> to <tt class="docutils literal"><span class="pre">nodes.make_id()</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">relative_path(source,</span> <span class="pre">target)</span></tt>.</li>
+</ul>
+</li>
+<li>docutils/languages/de.py: German mappings; added to project.  Thanks
+to Gunnar Schwant for the translations.</li>
+<li>docutils/languages/en.py: Added &quot;Dedication&quot; bibliographic field
+mappings.</li>
+<li>docutils/languages/sv.py: Swedish mappings; added to project by Adam
+Chodorowski.</li>
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Added underscores to improve many awkward names.</li>
+<li>Added RFC-2822 header support.</li>
+<li>Extracted the inline parsing code from <tt class="docutils literal"><span class="pre">RSTState</span></tt> to a separate
+class, <tt class="docutils literal"><span class="pre">Inliner</span></tt>, which will allow easy subclassing.</li>
+<li>Made local bindings for <tt class="docutils literal"><span class="pre">memo</span></tt> container &amp; often-used contents
+(reduces code complexity a lot).  See <tt class="docutils literal"><span class="pre">RSTState.runtime_init()</span></tt>.</li>
+<li><tt class="docutils literal"><span class="pre">RSTState.parent</span></tt> replaces <tt class="docutils literal"><span class="pre">RSTState.statemachine.node</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">MarkupMismatch</span></tt> exception; for late corrections.</li>
+<li>Added <tt class="docutils literal"><span class="pre">-/:</span></tt> characters to inline markup's start string prefix,
+<tt class="docutils literal"><span class="pre">/</span></tt> to end string suffix.</li>
+<li>Fixed a footnote bug.</li>
+<li>Fixed a bug with literal blocks.</li>
+<li>Applied patch from Simon Budig: simplified regexps with symbolic
+names, removed <tt class="docutils literal"><span class="pre">Inliner.groups</span></tt> and <tt class="docutils literal"><span class="pre">Body.explicit.groups</span></tt>.</li>
+<li>Converted regexps from <tt class="docutils literal"><span class="pre">'%s'</span> <span class="pre">%</span> <span class="pre">var</span></tt> to <tt class="docutils literal"><span class="pre">'%(var)s'</span> <span class="pre">%</span> <span class="pre">locals()</span></tt>.</li>
+<li>Fixed a bug in <tt class="docutils literal"><span class="pre">Inliner.interpreted_or_phrase_ref()</span></tt>.</li>
+<li>Allowed non-ASCII in &quot;simple names&quot; (directive names, field names,
+references, etc.).</li>
+<li>Converted <tt class="docutils literal"><span class="pre">Inliner.patterns.initial</span></tt> to be dynamically built
+from parts with <tt class="docutils literal"><span class="pre">build_regexp()</span></tt> function.</li>
+<li>Changed <tt class="docutils literal"><span class="pre">Inliner.inline_target</span></tt> to <tt class="docutils literal"><span class="pre">.inline_internal_target</span></tt>.</li>
+<li>Updated docstrings.</li>
+<li>Changed &quot;table&quot; to &quot;grid_table&quot;; added &quot;simple_table&quot; support.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/tableparser.py:<ul>
+<li>Changed <tt class="docutils literal"><span class="pre">TableParser</span></tt> to <tt class="docutils literal"><span class="pre">GridTableParser</span></tt>.</li>
+<li>Added <tt class="docutils literal"><span class="pre">SimpleTableParser</span></tt>.</li>
+<li>Refactored naming.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/directives/__init__.py: Added &quot;en&quot; (English) as
+a fallback language for directive names.</li>
+<li>docutils/parsers/rst/directives/html.py: Changed the <tt class="docutils literal"><span class="pre">meta</span></tt>
+directive to use a <tt class="docutils literal"><span class="pre">pending</span></tt> element, used only by HTML writers.</li>
+<li>docutils/parsers/rst/directives/parts.py: Renamed from
+components.py.<ul>
+<li>Added &quot;backlinks&quot; attribute to &quot;contents&quot; directive.</li>
+</ul>
+</li>
+<li>docutils/parsers/rst/languages/sv.py: Swedish mappings; added to
+project by Adam Chodorowski.</li>
+<li>docutils/readers/__init__.py: Gave Readers more control over
+choosing and instantiating Parsers.</li>
+<li>docutils/readers/pep.py: Added to project; for PEP processing.</li>
+<li>docutils/transforms/__init__.py: <tt class="docutils literal"><span class="pre">Transform.__init__()</span></tt> now
+requires a <tt class="docutils literal"><span class="pre">component</span></tt> parameter.</li>
+<li>docutils/transforms/components.py: Added to project; transforms
+related to Docutils components.</li>
+<li>docutils/transforms/frontmatter.py:<ul>
+<li>In <tt class="docutils literal"><span class="pre">DocInfo.extract_authors</span></tt>, check for a single &quot;author&quot; in an
+&quot;authors&quot; group, and convert it to a single &quot;author&quot; element.</li>
+<li>Added support for &quot;Dedication&quot; and generic bibliographic fields.</li>
+</ul>
+</li>
+<li>docutils/transforms/peps.py: Added to project; PEP-specific.</li>
+<li>docutils/transforms/parts.py: Renamed from old components.py.<ul>
+<li>Added filter for <cite>Contents</cite>, to use alt-text for inline images,
+and to remove inline markup that doesn't make sense in the ToC.</li>
+<li>Added &quot;name&quot; attribute to TOC topic depending on its title.</li>
+<li>Added support for optional TOC backlinks.</li>
+</ul>
+</li>
+<li>docutils/transforms/references.py: Fixed indirect target resolution
+in <tt class="docutils literal"><span class="pre">Hyperlinks</span></tt> transform.</li>
+<li>docutils/transforms/universal.py:<ul>
+<li>Changed <tt class="docutils literal"><span class="pre">Messages</span></tt> transform to properly filter out system
+messages below the warning threshold.</li>
+<li>Added <tt class="docutils literal"><span class="pre">Decorations</span></tt> transform (support for <tt class="docutils literal"><span class="pre">--generator</span></tt>,
+<tt class="docutils literal"><span class="pre">--date</span></tt>, <tt class="docutils literal"><span class="pre">--time</span></tt>, <tt class="docutils literal"><span class="pre">--source-link</span></tt> options).</li>
+</ul>
+</li>
+<li>docutils/writers/__init__.py: Added &quot;pdf&quot; alias in anticipation of
+Engelbert Gruber's PDF writer.</li>
+<li>docutils/writers/html4css1.py:<ul>
+<li>Made XHTML-compatible (switched to lowercase element &amp; attribute
+names; empty tag format).</li>
+<li>Escape double-dashes in comment text.</li>
+<li>Improved boilerplate &amp; modularity of output.</li>
+<li>Exposed modular output in Writer class.</li>
+<li>Added a &quot;generator&quot; meta tag to &lt;head&gt;.</li>
+<li>Added support for the <tt class="docutils literal"><span class="pre">--stylesheet</span></tt> option.</li>
+<li>Added support for <tt class="docutils literal"><span class="pre">decoration</span></tt>, <tt class="docutils literal"><span class="pre">header</span></tt>, and <tt class="docutils literal"><span class="pre">footer</span></tt>
+elements.</li>
+<li>In <tt class="docutils literal"><span class="pre">HTMLTranslator.attval()</span></tt>, changed whitespace normalizing
+translation table to regexp; restores Python 2.0 compatibility
+with Unicode.</li>
+<li>Added the translator class as instance variable to the Writer, to
+make it easily subclassable.</li>
+<li>Improved option list spacing (thanks to Richard Jones).</li>
+<li>Modified field list output.</li>
+<li>Added backlinks to footnotes &amp; citations.</li>
+<li>Added percentage widths to &quot;&lt;col&gt;&quot; tags (from colspec).</li>
+<li>Option lists: &quot;&lt;code&gt;&quot; changed to &quot;&lt;kbd&gt;&quot;, <tt class="docutils literal"><span class="pre">option_argument</span></tt>
+&quot;&lt;span&gt;&quot; changed to &quot;&lt;var&gt;&quot;.</li>
+<li>Inline literals: &quot;&lt;code&gt;&quot; changed to &quot;&lt;tt&gt;&quot;.</li>
+<li>Many changes to optimize vertical space: compact simple lists etc.</li>
+<li>Add a command-line options &amp; directive attributes to control TOC
+and footnote/citation backlinks.</li>
+<li>Added support for optional footnote/citation backlinks.</li>
+<li>Added support for generic bibliographic fields.</li>
+<li>Identify backrefs.</li>
+<li>Relative URLs for stylesheet links.</li>
+</ul>
+</li>
+<li>docutils/writers/pep_html.py: Added to project; HTML Writer for
+PEPs (subclass of <tt class="docutils literal"><span class="pre">html4css1.Writer</span></tt>).</li>
+<li>docutils/writers/pseudoxml.py: Renamed from pprint.py.</li>
+<li>docutils/writers/docutils_xml.py: Added to project; trivial writer
+of the Docutils internal doctree in XML.</li>
+<li>docs/tools.txt: &quot;Docutils Front-End Tools&quot;, added to project.</li>
+<li>spec/doctree.txt:<ul>
+<li>Changed the title to &quot;The Docutils Document Tree&quot;.</li>
+<li>Added &quot;Hyperlink Bookkeeping&quot; section.</li>
+</ul>
+</li>
+<li>spec/docutils.dtd:<ul>
+<li>Added <tt class="docutils literal"><span class="pre">decoration</span></tt>, <tt class="docutils literal"><span class="pre">header</span></tt>, and <tt class="docutils literal"><span class="pre">footer</span></tt> elements.</li>
+<li>Brought <tt class="docutils literal"><span class="pre">interpreted</span></tt> element in line with the parser: changed
+attribute &quot;type&quot; to &quot;role&quot;, added &quot;position&quot;.</li>
+<li>Added support for generic bibliographic fields.</li>
+</ul>
+</li>
+<li>spec/notes.txt: Continual updates.  Added &quot;Project Policies&quot;.</li>
+<li>spec/pep-0256.txt:  Updated.  Added &quot;Roadmap to the Doctring PEPs&quot;
+section.</li>
+<li>spec/pep-0257.txt: Clarified prohibition of signature repetition.</li>
+<li>spec/pep-0258.txt: Updated.  Added text from pysource.txt and
+mailing list discussions.</li>
+<li>spec/pep-0287.txt:<ul>
+<li>Renamed to &quot;reStructuredText Docstring Format&quot;.</li>
+<li>Minor edits.</li>
+<li>Reworked Q&amp;A as an enumerated list.</li>
+<li>Converted to reStructuredText format.</li>
+</ul>
+</li>
+<li>spec/pysource.dtd:<ul>
+<li>Reworked structural elements, incorporating ideas from Tony Ibbs.</li>
+</ul>
+</li>
+<li>spec/pysource.txt: Removed from project.  Moved much of its contents
+to pep-0258.txt.</li>
+<li>spec/rst/alternatives.txt:<ul>
+<li>Expanded auto-enumerated list idea; thanks to Fred Bremmer.</li>
+<li>Added &quot;Inline External Targets&quot; section.</li>
+</ul>
+</li>
+<li>spec/rst/directives.txt:<ul>
+<li>Added &quot;backlinks&quot; attribute to &quot;contents&quot; directive.</li>
+</ul>
+</li>
+<li>spec/rst/problems.txt:<ul>
+<li>Updated the Enumerated List Markup discussion.</li>
+<li>Added new alternative table markup syntaxes.</li>
+</ul>
+</li>
+<li>spec/rst/reStructuredText.txt:<ul>
+<li>Clarified field list usage.</li>
+<li>Updated enumerated list description.</li>
+<li>Clarified purpose of directives.</li>
+<li>Added <tt class="docutils literal"><span class="pre">-/:</span></tt> characters to inline markup's start string prefix,
+<tt class="docutils literal"><span class="pre">/</span></tt> to end string suffix.</li>
+<li>Updated &quot;Authors&quot; bibliographic field behavior.</li>
+<li>Changed &quot;inline hyperlink targets&quot; to &quot;inline internal targets&quot;.</li>
+<li>Added &quot;simple table&quot; syntax to supplement the existing but
+newly-renamed &quot;grid tables&quot;.</li>
+<li>Added cautions for anonymous hyperlink use.</li>
+<li>Added &quot;Dedication&quot; and generic bibliographic fields.</li>
+</ul>
+</li>
+<li>test: Made test modules standalone (subdirectories became packages).</li>
+<li>test/DocutilsTestSupport.py:<ul>
+<li>Added support for PEP extensions to reStructuredText.</li>
+<li>Added support for simple tables.</li>
+<li>Refactored naming.</li>
+</ul>
+</li>
+<li>test/package_unittest.py: Renamed from UnitTestFolder.py.<ul>
+<li>Now supports true packages containing test modules
+(<tt class="docutils literal"><span class="pre">__init__.py</span></tt> files required); fixes duplicate module name bug.</li>
+</ul>
+</li>
+<li>test/test_pep/: Subpackage added to project; PEP testing.</li>
+<li>test/test_rst/test_SimpleTableParser.py: Added to project.</li>
+<li>tools:<ul>
+<li>Updated html.py and publish.py front-end tools to use the new
+command-line processing facilities of <tt class="docutils literal"><span class="pre">docutils.frontend</span></tt>
+(exposed in <tt class="docutils literal"><span class="pre">docutils.core.Publisher</span></tt>), reducing each to just a
+few lines of code.</li>
+<li>Added <tt class="docutils literal"><span class="pre">locale.setlocale()</span></tt> calls to front-end tools.</li>
+</ul>
+</li>
+<li>tools/buildhtml.py: Added to project; batch-generates .html from all
+the .txt files in directories and subdirectories.</li>
+<li>tools/default.css:<ul>
+<li>Added support for <tt class="docutils literal"><span class="pre">header</span></tt> and <tt class="docutils literal"><span class="pre">footer</span></tt> elements.</li>
+<li>Added styles for &quot;Dedication&quot; topics (biblio fields).</li>
+</ul>
+</li>
+<li>tools/docutils.conf: A configuration file; added to project.</li>
+<li>tools/docutils-xml.py: Added to project.</li>
+<li>tools/pep.py: Added to project; PEP to HTML front-end tool.</li>
+<li>tools/pep-html-template: Added to project.</li>
+<li>tools/pep2html.py: Added to project from Python (nondist/peps).
+Added support for Docutils (reStructuredText PEPs).</li>
+<li>tools/quicktest.py:<ul>
+<li>Added the <tt class="docutils literal"><span class="pre">--attributes</span></tt> option, hacked a bit.</li>
+<li>Added a second command-line argument (output file); cleaned up.</li>
+</ul>
+</li>
+<li>tools/stylesheets/: Subdirectory added to project.</li>
+<li>tools/stylesheets/pep.css: Added to project; stylesheet for PEPs.</li>
+</ul>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id13" id="release-0-1-2002-04-20" name="release-0-1-2002-04-20">Release 0.1 (2002-04-20)</a></h1>
+<p>This is the first release of Docutils, merged from the now inactive
+<a class="reference" href="http://structuredtext.sourceforge.net/">reStructuredText</a> and <a class="reference" href="http://docstring.sourceforge.net/">Docstring Processing System</a> projects.  For
+the pre-Docutils history, see the <a class="reference" href="http://structuredtext.sourceforge.net/HISTORY.html">reStructuredText HISTORY</a> and the
+<a class="reference" href="http://docstring.sourceforge.net/HISTORY.html">DPS HISTORY</a> files.</p>
+<p>General changes: renamed 'dps' package to 'docutils'; renamed
+'restructuredtext' subpackage to 'rst'; merged the codebases; merged
+the test suites (reStructuredText's test/test_states renamed to
+test/test_rst); and all modifications required to make it all work.</p>
+<ul class="simple">
+<li>docutils/parsers/rst/states.py:<ul>
+<li>Improved diagnostic system messages for missing blank lines.</li>
+<li>Fixed substitution_reference bug.</li>
+</ul>
+</li>
+</ul>
+<!-- Local Variables:
+mode: indented-text
+indent-tabs-mode: nil
+sentence-end-double-space: t
+fill-column: 70
+End: -->
+</div>
+</div>
+</body>
+</html>
