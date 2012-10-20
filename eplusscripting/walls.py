@@ -32,6 +32,15 @@ walls = dt[wallkey]
 wall = walls[0]
 bwalls = [Bunch(zip(wall_fields, wall)) for wall in walls]
 
+surfaces = bwalls
+
+
+# change all heavy walls in the project to medium walls
+walls = [surface for surface in surfaces if surface.Surface_Type == 'Wall']
+heavywalls = [wall for wall in walls if wall.Construction_Name == 'PARTITION06']
+for heavywall in heavywalls:
+    heavywall.Construction_Name = 'EXTWALL80'
+
 
 # [wall.Name for wall in bwalls]
 # [wall.Construction_Name for wall in bwalls]
@@ -50,3 +59,5 @@ for w in allwalls:
     for i in w:
         print i
     print '-' * 25
+
+
