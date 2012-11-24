@@ -8,56 +8,51 @@ import sys
 sys.path.append('../EPlusInputcode')
 from EPlusCode.EPlusInterfaceFunctions import readidf
 
-iddfile = "./walls.idd"
+# read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
-fname = "./walls.idf" # for supply mixer and return plenum
-# fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # for supply plenum
-# fname = "../idffiles/VAVSingleDuctReheat.idf" # for zone mixer
-# fname = "../idffiles/06_OneStorey_Radiant_5.idf" # metrovalley
+fname = "./walls.idf" # small file with only surfaces
 data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
+# setup code walls - can be generic for any object
 dt = data.dt
 dtls = data.dtls
 wall_i = dtls.index('BuildingSurface:Detailed'.upper())
 wallkey = 'BuildingSurface:Detailed'.upper()
 wallfields = [comm.get('field') for comm in commdct[wall_i]]
 wallfields[0] = ['key']
-# wallfields = [field[0] for field in wallfields if field !=None]
 wallfields = [field[0] for field in wallfields]
 wall_fields = [field.replace(' ', '_') for field in wallfields]
-# wallfields[:20]
-# wall_fields[:20]
 walls = dt[wallkey]
-
-wall = walls[0]
-bwalls = [Bunch(zip(wall_fields, wall)) for wall in walls]
-
-surfaces = bwalls
+surfaces = [Bunch(zip(wall_fields, wall)) for wall in walls]
 
 
-# change all heavy walls in the project to medium walls
+print
+print "number of surfaces =  %s" % (len(surfaces), )
+
 walls = [surface for surface in surfaces if surface.Surface_Type == 'Wall']
+
+print "number of walls = %s" % (len(walls), )
+print "Wall names with construction"
+print "-" * len("Wall names with construction")
+for wall in walls:
+    print wall.Name, wall.Construction_Name
+print "-" * len("Wall names with construction")
+
 heavywalls = [wall for wall in walls if wall.Construction_Name == 'PARTITION06']
+
+print "number of heavy walls = %s" % (len(heavywalls), )
+print "Wall names with construction"
+print "-" * len("Heavy Wall names with construction")
+for wall in heavywalls:
+    print wall.Name, wall.Construction_Name
+print "-" * len("Heavy Wall names with construction")
+
 for heavywall in heavywalls:
     heavywall.Construction_Name = 'EXTWALL80'
 
-
-# [wall.Name for wall in bwalls]
-# [wall.Construction_Name for wall in bwalls]
-# [(wall.Name, wall.Construction_Name) for wall in bwalls]
-# [(wall.Name, wall.Construction_Name) for wall in bwalls if wall.Surface_Type == 'Roof']
-# [(wall.Name, wall.Zone_Name) for wall in bwalls]
-
-allwalls = [[wall.Name for wall in bwalls],
-[wall.Construction_Name for wall in bwalls],
-[(wall.Name, wall.Construction_Name) for wall in bwalls],
-[(wall.Name, wall.Construction_Name) for wall in bwalls if wall.Surface_Type == 'Roof'],
-[(wall.Name, wall.Zone_Name) for wall in bwalls]]
-
-
-for w in allwalls:
-    for i in w:
-        print i
-    print '-' * 25
-
-
+print "heavy walls have been made light"
+print "Wall names with construction"
+print "-" * len("Wall names with construction")
+for wall in walls:
+    print wall.Name, wall.Construction_Name
+print "-" * len("Wall names with construction")
