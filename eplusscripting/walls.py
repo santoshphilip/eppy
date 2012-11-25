@@ -3,6 +3,7 @@
 
 
 from bunch import *
+import bunchhelpers
 
 import sys
 sys.path.append('../EPlusInputcode')
@@ -21,7 +22,7 @@ wallkey = 'BuildingSurface:Detailed'.upper()
 wallfields = [comm.get('field') for comm in commdct[wall_i]]
 wallfields[0] = ['key']
 wallfields = [field[0] for field in wallfields]
-wall_fields = [field.replace(' ', '_') for field in wallfields]
+wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
 walls = dt[wallkey]
 surfaces = [Bunch(zip(wall_fields, wall)) for wall in walls]
 

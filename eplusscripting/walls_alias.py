@@ -12,6 +12,8 @@ import sys
 sys.path.append('../EPlusInputcode')
 from EPlusCode.EPlusInterfaceFunctions import readidf
 from bunch import *
+import bunchhelpers
+
 
 class BunchPlus_4(Bunch):
     def __init__(self, *args, **kwargs):
@@ -50,7 +52,7 @@ wallkey = 'BuildingSurface:Detailed'.upper()
 wallfields = [comm.get('field') for comm in commdct[wall_i]]
 wallfields[0] = ['key']
 wallfields = [field[0] for field in wallfields]
-wall_fields = [field.replace(' ', '_') for field in wallfields]
+wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
 walls = dt[wallkey]
 surfaces = [BunchPlus(zip(wall_fields, wall)) for wall in walls]
 

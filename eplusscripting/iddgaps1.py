@@ -5,26 +5,8 @@ from pprint import pprint
 sys.path.append('../EPlusInputcode')
 from EPlusCode.EPlusInterfaceFunctions import readidf
 
-def intinlist(lst):
-    """test if int in list"""
-    for item in lst:
-        try:
-            item = int(item)
-            return True
-        except ValueError, e:
-            pass
-    return False
-    
-def replaceint(fname, replacewith='%s'):
-    """replace int in lst"""
-    words = fname.split()
-    for i, word in enumerate(words):
-        try:
-            word = int(word)
-            words[i] = '%s'
-        except ValueError, e:
-            pass
-    return ' '.join(words)
+import bunchhelpers
+
 
 # read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
@@ -51,8 +33,8 @@ for field in comm:
 
 # get repeating field names
 fnames = [field['field'][0] for field in fields]
-fnames = [fname for fname in fnames if intinlist(fname.split())]
-fnames = [(replaceint(fname), None) for fname in fnames]
+fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
+fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
 dct = dict(fnames)
 repnames = fnames[:len(dct.keys())]
 first = repnames[0][0] % (1, )
@@ -63,7 +45,7 @@ fcomments = [field for field in fields if field['field'][0] in firstnames]
 fcomments = [dict(fcomment) for fcomment in fcomments]
 for cm in fcomments:
     fld = cm['field'][0]
-    fld = replaceint(fld)
+    fld = bunchhelpers.replaceint(fld)
     cm['field'] = [fld]
 
 for i, cm in enumerate(comm[1:]):

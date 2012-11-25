@@ -1,3 +1,14 @@
+2012-11-25
+----------
+some tasks in sequence.
+1. factor the code in iddgaps.py
+it is hard to make sense of it now.
+
+2. Also it is not filling the gaps in all objects.
+update to fix this
+
+3. Once above is done, use it in bunch2data.py
+
 2012-11-21
 ----------
 Notes from conference call with Jason Glazer:
