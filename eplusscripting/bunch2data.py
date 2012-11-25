@@ -25,6 +25,7 @@ wallfields = [comm.get('field') for comm in commdct[wall_i]]
 wallfields[0] = ['key']
 wallfields = [field[0] for field in wallfields]
 wall_fields = [field.replace(' ', '_') for field in wallfields]
+# TODO need to remove non-alphabetical chars in field names
 walls = dt[wallkey]
 surfaces = [Bunch(zip(wall_fields, wall)) for wall in walls]
 
