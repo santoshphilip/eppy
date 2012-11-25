@@ -56,3 +56,4 @@ print "-" * len("Wall names with construction")
 for wall in walls:
     print wall.Name, wall.Construction_Name
 print "-" * len("Wall names with construction")
+
