@@ -1,0 +1,34 @@
+2012-11-21
+----------
+Notes from conference call with Jason Glazer:
+- Scripting library to be called PyEnergyplus
+- Jason needs to use the software to generate files for the following criteria:
+	1. internal loads (people, lights, process, schedules etc.)
+	2. envelope (skin, construction, windows size, shading elements etc.)
+	3. Climate
+	4. Geometry
+	5. HVAC
+- All of the above except Climate can be done by pyenergyplus object API
+- climate/weather file should be changed during the energy simulation
+- To do this we need to be able to run energyplus from pyenergyplus
+- then look at the results and be able to another run
+- It would be useful to get a signal back from energyplus, when the simulation is complete
+
+The tasks to be completed are:
+1. Object API
+2. Geometry API
+3. Output Reader
+4. HVAC API (beyond the Object API)
+5. Documentation (code docs, user docs, tutorial)
+
+Of the above we have proof of concept for 1, 2, 3.
+
+Schedule:
+- Dec 15th
+	- Object API
+	- corresponding user docs
+- Jan 21st
+	- Object API (any updates)
+	- Geometry API
+	- Output reader (atleast for ABUPS)
+	- corresponding user docs
