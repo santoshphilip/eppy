@@ -41,3 +41,17 @@ def test_replaceint():
     for fname, newname in data:
         result = bunchhelpers.replaceint(fname)
         assert result == newname
+        
+def test_cleaniddfield():
+    """pytest for cleaniddfield"""
+    data = (({'field': ['Water Supply Storage Tank Name'],
+      'Field': ['Water Supply Storage Tank Name'],
+      'object-list': ['WaterStorageTankNames'],
+      'type': ['object-list']},
+     {'field': ['Water Supply Storage Tank Name'],
+      'object-list': ['WaterStorageTankNames'],
+      'type': ['object-list']}), #field, newfield
+    )        
+    for field, newfield in data:
+        result = bunchhelpers.cleaniddfield(field)
+        assert result == newfield

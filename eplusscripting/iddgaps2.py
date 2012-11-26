@@ -5,6 +5,24 @@ see: SCHEDULE:DAY:LIST as an example"""
 
 # TODO : need to factor this code. Then make it work for the objects I skipped below.
 
+# idd might look like this
+# <snip>
+# / field varA 1
+# / field varB 1
+# / field varC 1
+# / field varA 2
+# / field varB 2
+# / field varC 2
+# / above pattern continues
+# - 
+# find objects where the fields are not named
+# do the following only for those objects
+# find the first field that has an integer. This is a repeating field
+# gather the repeating field names (without the integer)
+# generate all the repeating fields for all variables
+
+
+
 import sys
 from pprint import pprint
 sys.path.append('../EPlusInputcode')
@@ -20,10 +38,11 @@ commdct = bunchhelpers.cleancommdct(commdct)
 
 dt = data.dt
 dtls = data.dtls
+# find objects where all the fields are not named
 gkeys = [dtls[i] for i in range(len(dtls)) if commdct[i].count({}) > 2]
-# gkey = keys that have comment gaps
+
+# operatie on those fields
 for key_txt in gkeys:
-    # key_txt = 'SCHEDULE:YEAR'
     if key_txt in ['MATERIALPROPERTY:GLAZINGSPECTRALDATA', 
                     'GROUNDHEATTRANSFER:SLAB:XFACE',
                     'GROUNDHEATTRANSFER:SLAB:YFACE',
@@ -36,6 +55,7 @@ for key_txt in gkeys:
                                                 # as these may not be used.
         continue
     print key_txt
+    # for a function, pass comm as a variable
     key_i = dtls.index(key_txt.upper())
     comm = commdct[key_i]
 

@@ -16,10 +16,15 @@ for i in range(len(dtls)):
     comm = commdct[i]
     for item in comm:
         for key in item.keys():
-            key = key.upper()
-            if not key.startswith('EXTENSIBLE'):
-                dct[key.upper()] = None
+            ky = key.upper()
+            if not ky.startswith('EXTENSIBLE'):
+                dct[key] = None
 
-for key in dct.keys():
+# for key in dct.keys():
+#     print key
+    
+keys = [key.upper() for key in dct.keys()]    
+keys.sort()
+for key in keys:
     print key
             
