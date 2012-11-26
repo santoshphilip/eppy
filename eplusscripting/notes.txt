@@ -1,3 +1,7 @@
+2012-11-26
+----------
+code review with Tuan and Nathan
+
 2012-11-25
 ----------
 some tasks in sequence.
