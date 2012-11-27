@@ -30,6 +30,25 @@ from EPlusCode.EPlusInterfaceFunctions import readidf
 
 import bunchhelpers
 
+def getfields(comm):
+    """get all the fields that have the key 'field' """
+    fields = []
+    for field in comm:
+        if field.has_key('field'):
+            fields.append(field)
+    return fields
+    
+def repeatingfieldsnames(fields):
+    """get the names of the repeating fields"""
+    fnames = [field['field'][0] for field in fields]
+    fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
+    fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
+    fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
+    dct = dict(fnames)
+    repnames = fnames[:len(dct.keys())]
+    return repnames
+    
+
 # read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
 fname = "./walls.idf" # small file with only surfaces
@@ -62,18 +81,11 @@ for key_txt in gkeys:
 
 
     # get all fields
-    fields = []
-    for field in comm:
-        if field.has_key('field'):
-            fields.append(field)
-
+    fields = getfields(comm)
+    
     # get repeating field names
-    fnames = [field['field'][0] for field in fields]
-    fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
-    fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
-    fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
-    dct = dict(fnames)
-    repnames = fnames[:len(dct.keys())]
+    repnames = repeatingfieldsnames(fields)
+    
     first = repnames[0][0] % (1, )
 
     # get all comments of the first repeating field names
