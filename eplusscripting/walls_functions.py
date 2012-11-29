@@ -65,7 +65,8 @@ for surface in surfaces:
 
 wall = surfaces[0]
 print wall.plus
-for surface in surfaces:
-    name, construction = surface.plus
-    print name, construction
+print wall.__functions
+# for surface in surfaces:
+#     name, construction = surface.plus
+#     print name, construction
 

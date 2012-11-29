@@ -16,7 +16,20 @@ class BunchPlus_5(Bunch):
     def __setattr__(self, name, value):
         if name == 'obj' or name == 'objls':
             super(BunchPlus_5, self).__setattr__(name, value)
+            return None
         else:
+            if name in self['objls']:
+                i = self['objls'].index(name)
+                self['obj'][i] = value
+        if name == '__aliases':
+            self[name] = value
+            return None
+        try:
+            origname = self['__aliases'][name]
+            if origname in self['objls']:
+                i = self['objls'].index(origname)
+                self['obj'][i] = value
+        except KeyError, e:
             if name in self['objls']:
                 i = self['objls'].index(name)
                 self['obj'][i] = value
@@ -27,6 +40,14 @@ class BunchPlus_5(Bunch):
             if name in self['objls']:
                 i = self['objls'].index(name)
                 return self['obj'][i]
+        if name == '__aliases':
+            return super(BunchPlus_5, self).__getattr__(name)
+        try:
+            origname = self['__aliases'][name]
+            i = self['objls'].index(origname)
+            return self['obj'][i]
+        except KeyError, e:
+            return super(BunchPlus_5, self).__getattr__(name)
 
 
 # read code
@@ -47,8 +68,13 @@ wallfields = [comm.get('field') for comm in commdct[wall_i]]
 wallfields[0] = ['key']
 wallfields = [field[0] for field in wallfields]
 wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
+print wall_fields[:10]
 
 bwall = BunchPlus_5(dwall, wall_fields)
+bwall.__aliases = {'Constr':'Construction_Name', 
+    'zonename':'Zone_Name',
+    'afunc':'thisfunc'} 
+
 print bwall.Name
 bwall.Name = 'Gumby'
 print bwall.Name
@@ -56,3 +82,11 @@ print bwall.obj
 
 open('a.txt', 'w').write(str(data))
 print "see a.txt for changed idf"
+
+print bwall.zonename
+print bwall.Constr
+bwall.Constr = "Cotton Ball"
+print bwall.Constr
+def thisfunc():
+    print 'you are in thisfunc'
+bwall.afunc
