@@ -76,52 +76,59 @@ class EpBunch_3(EpBunch_2):
         except KeyError, e:
             return super(EpBunch_3, self).__getattr__(name)
         
-
 EpBunch = EpBunch_3
 
-# read code
-iddfile = "../iddfiles/Energy+V6_0.idd"
-fname = "./walls.idf" # small file with only surfaces
-data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+def main():
 
-# setup code walls - can be generic for any object
-dt = data.dt
-dtls = data.dtls
-wall_i = dtls.index('BuildingSurface:Detailed'.upper())
-wallkey = 'BuildingSurface:Detailed'.upper()
+    # read code
+    iddfile = "../iddfiles/Energy+V6_0.idd"
+    fname = "./walls.idf" # small file with only surfaces
+    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
-dwalls = dt[wallkey]
-dwall = dwalls[0]
+    # setup code walls - can be generic for any object
+    dt = data.dt
+    dtls = data.dtls
+    wall_i = dtls.index('BuildingSurface:Detailed'.upper())
+    wallkey = 'BuildingSurface:Detailed'.upper()
 
-wallfields = [comm.get('field') for comm in commdct[wall_i]]
-wallfields[0] = ['key']
-wallfields = [field[0] for field in wallfields]
-wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-print wall_fields[:20]
+    dwalls = dt[wallkey]
+    dwall = dwalls[0]
 
-bwall = EpBunch(dwall, wall_fields)
+    wallfields = [comm.get('field') for comm in commdct[wall_i]]
+    wallfields[0] = ['key']
+    wallfields = [field[0] for field in wallfields]
+    wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
+    print wall_fields[:20]
 
-print bwall.Name
-print data.dt[wallkey][0][1]
-bwall.Name = 'Gumby'
-print bwall.Name
-print data.dt[wallkey][0][1]
-print
+    bwall = EpBunch(dwall, wall_fields)
 
-# set aliases
-bwall.__aliases = {'Constr':'Construction_Name'} 
+    print bwall.Name
+    print data.dt[wallkey][0][1]
+    bwall.Name = 'Gumby'
+    print bwall.Name
+    print data.dt[wallkey][0][1]
+    print
 
-print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
-print "wall.Constr = %s" % (bwall.Constr, )
-print
-print "change wall.Constr"
-bwall.Constr = 'AnewConstr'
-print "wall.Constr = %s" % (bwall.Constr, )
-print "wall.Constr = %s" % (data.dt[wallkey][0][3], )
-print
+    # set aliases
+    bwall.__aliases = {'Constr':'Construction_Name'} 
 
-# add functions
-bwall.__functions = {'plus':add2} 
+    print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
+    print "wall.Constr = %s" % (bwall.Constr, )
+    print
+    print "change wall.Constr"
+    bwall.Constr = 'AnewConstr'
+    print "wall.Constr = %s" % (bwall.Constr, )
+    print "wall.Constr = %s" % (data.dt[wallkey][0][3], )
+    print
 
-print bwall.plus
-print bwall.__functions
+    # add functions
+    bwall.__functions = {'plus':add2} 
+
+    print bwall.plus
+    print bwall.__functions
+
+
+
+if __name__ == '__main__':
+    main()
+
