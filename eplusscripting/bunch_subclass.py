@@ -76,7 +76,7 @@ class EpBunch_3(EpBunch_2):
         except KeyError, e:
             return super(EpBunch_3, self).__getattr__(name)
         
-EpBunch = EpBunch_3
+# EpBunch = EpBunch_3
 
 def main():
 

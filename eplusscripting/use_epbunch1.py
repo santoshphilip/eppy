@@ -5,7 +5,7 @@ sys.path.append('../EPlusInputcode')
 from EPlusCode.EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
-from bunch_subclass import EpBunch_3 as EpBunch
+from bunch_subclass import EpBunch_2 as EpBunch
 import geometry.surface
 
 
@@ -15,9 +15,13 @@ iddfile = "../iddfiles/Energy+V6_0.idd"
 fname = "./walls.idf" # small file with only surfaces
 data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
+
 # setup code walls - can be generic for any object
 dt = data.dt
 dtls = data.dtls
+bunchdt = {}
+for obj_i, key in dtls:
+    
 wall_i = dtls.index('BuildingSurface:Detailed'.upper())
 wallkey = 'BuildingSurface:Detailed'.upper()
 
