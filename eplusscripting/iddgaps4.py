@@ -3,7 +3,7 @@ With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
 
-# TODO : need to factor this code. Then make it work for the objects I skipped below.
+# works for all objects, including troublesome ones
 
 # idd might look like this
 # <snip>
@@ -60,21 +60,11 @@ dtls = data.dtls
 # find objects where all the fields are not named
 gkeys = [dtls[i] for i in range(len(dtls)) if commdct[i].count({}) > 2]
 
+nofirstfields = []
+wierdfirstfield = []
 # operatie on those fields
 for key_txt in gkeys:
-    if key_txt in ['MATERIALPROPERTY:GLAZINGSPECTRALDATA', 
-                    'GROUNDHEATTRANSFER:SLAB:XFACE',
-                    'GROUNDHEATTRANSFER:SLAB:YFACE',
-                    'GROUNDHEATTRANSFER:SLAB:ZFACE',
-                    'GROUNDHEATTRANSFER:BASEMENT:XFACE',
-                    'GROUNDHEATTRANSFER:BASEMENT:YFACE',
-                    'GROUNDHEATTRANSFER:BASEMENT:ZFACE',
-                    'TABLE:MULTIVARIABLELOOKUP',
-                    ]: # the gaps are hard to fill 
-                                                # here. May not be necessary,
-                                                # as these may not be used.
-        continue
-    print key_txt
+    # print key_txt
     # for a function, pass comm as a variable
     key_i = dtls.index(key_txt.upper())
     comm = commdct[key_i]
@@ -87,7 +77,12 @@ for key_txt in gkeys:
     # get repeating field names
     repnames = repeatingfieldsnames(fields)
     
-    first = repnames[0][0] % (1, )
+    try:
+        first = repnames[0][0] % (1, )
+    except IndexError, e:
+        nofirstfields.append(key_txt)
+        continue
+    # print first
 
     # get all comments of the first repeating field names
     firstnames = [repname[0] % (1, ) for repname in repnames]
@@ -115,16 +110,38 @@ for key_txt in gkeys:
             nfcomment['field'] = [fld]
             newfields.append(nfcomment)
 
-    for i, cm in enumerate(comm):
-        if i < first_i:
-            continue
-        else:
-            afield = newfields.pop(0)
-            comm[i] = afield
+    try:
+        for i, cm in enumerate(comm):
+            if i < first_i:
+                continue
+            else:
+                afield = newfields.pop(0)
+                comm[i] = afield
+    except IndexError, e:
+        wierdfirstfield.append(key_txt)
+        continue
     commdct[key_i] = comm
  
-    # for i in range(10):
-    #     pprint(comm[:2])
-key_txt = "SCHEDULE:DAY:LIST"    
+ 
+afield = 'afield %s'
+for key_txt in nofirstfields + wierdfirstfield:
+    key_i = dtls.index(key_txt.upper())
+    comm = commdct[key_i]
+    for i, cm in enumerate(comm):
+        if cm == {}:
+            first_i = i
+            break
+    for i, cm in enumerate(comm):
+        if i >= first_i:
+            comm[i]['field'] = afield % (i - first_i +1,)
+    
+# for key_txt in nofirstfields:
+#     print key_txt
+# print '-'    
+# for key_txt in wierdfirstfield:
+#     print key_txt
+key_txt = "TABLE:MULTIVARIABLELOOKUP"    
 key_i = dtls.index(key_txt.upper())
 comm = commdct[key_i]
+#     
+print comm
