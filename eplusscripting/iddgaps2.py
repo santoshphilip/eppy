@@ -69,7 +69,8 @@ for key_txt in gkeys:
                     'GROUNDHEATTRANSFER:BASEMENT:XFACE',
                     'GROUNDHEATTRANSFER:BASEMENT:YFACE',
                     'GROUNDHEATTRANSFER:BASEMENT:ZFACE',
-                    'TABLE:MULTIVARIABLELOOKUP']: # the gaps are hard to fill 
+                    'TABLE:MULTIVARIABLELOOKUP',
+                    ]: # the gaps are hard to fill 
                                                 # here. May not be necessary,
                                                 # as these may not be used.
         continue

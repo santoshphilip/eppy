@@ -12,31 +12,24 @@ import geometry.surface
 
 # read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
-fname = "./walls.idf" # small file with only surfaces
+fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces
 data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
 
-# setup code walls - can be generic for any object
 dt = data.dt
 dtls = data.dtls
+
 bunchdt = {}
-for obj_i, key in dtls:
-    
-wall_i = dtls.index('BuildingSurface:Detailed'.upper())
-wallkey = 'BuildingSurface:Detailed'.upper()
-
-dwalls = dt[wallkey]
-dwall = dwalls[0]
-
-wallfields = [comm.get('field') for comm in commdct[wall_i]]
-wallfields[0] = ['key']
-wallfields = [field[0] for field in wallfields]
-wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-
-bwall = EpBunch(dwall, wall_fields)
-
-print wall_fields[:15]
-
-poly = [(0,0,0), (1,0,0), (1,1,0), (0,1,0)]
-area = geometry.surface.area(poly)
-print area
+for obj_i, key in enumerate(dtls):
+    key = key.upper()
+    bunchdt[key] = []
+    objs = dt[key]
+    for obj in objs:
+        objfields = [comm.get('field') for comm in commdct[obj_i]]
+        objfields[0] = ['key']
+        print key
+        print objfields
+        objfields = [field[0] for field in objfields]
+        obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
+        bobj = EpBunch(obj, obj_fields)
+        bunchdt[key].append(bobj)
