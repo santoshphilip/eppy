@@ -1,13 +1,13 @@
 """use epbunch"""
 
-# import sys
-# sys.path.append('../EPlusInputcode')
-# from EPlusCode.EPlusInterfaceFunctions import readidf
 from EPlusInterfaceFunctions import readidf
-# from bunch import *
 import bunchhelpers
-from bunch_subclass import EpBunch_2 as EpBunch
+from bunch_subclass import EpBunch_1 as EpBunch
 import iddgaps
+
+
+def getobjects(bunches, key_txt):
+    return [item for item in bunches[key_txt.upper()]]    
 
 
 # read code
@@ -41,3 +41,4 @@ for obj_i, key in enumerate(dtls):
 
 zones = [item for item in bunchdt['zone'.upper()]]
 surfaces = [item for item in bunchdt['BUILDINGSURFACE:DETAILED'.upper()]]
+currentobjs = [key for key in bunchdt.keys() if len(bunchdt[key]) > 0]
