@@ -14,6 +14,7 @@ def getobjects(bunches, key_txt):
 iddfile = "../iddfiles/Energy+V6_0.idd"
 fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces
 data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+# data, commdct, bunchdt = somefunction(fname, iddfile=iddfile)
 
 dt = data.dt
 dtls = data.dtls
@@ -39,6 +40,8 @@ for obj_i, key in enumerate(dtls):
         bobj = EpBunch(obj, obj_fields)
         bunchdt[key].append(bobj)
 
-zones = [item for item in bunchdt['zone'.upper()]]
-surfaces = [item for item in bunchdt['BUILDINGSURFACE:DETAILED'.upper()]]
+zones = bunchdt['zone'.upper()]
+surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()]
 currentobjs = [key for key in bunchdt.keys() if len(bunchdt[key]) > 0]
+
+print data

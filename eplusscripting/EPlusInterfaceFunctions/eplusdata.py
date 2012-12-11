@@ -129,7 +129,7 @@ class eplusdata:
         #print dictionary
         dt=self.dt
         dtls=self.dtls
-        dossep=mylib3.dossep
+        dossep=mylib3.unixsep # using a unix EOL
         st=''
         for node in dtls:
             nodedata=dt[node.upper()]
