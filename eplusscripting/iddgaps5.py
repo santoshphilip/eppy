@@ -146,6 +146,7 @@ dtls = data.dtls
 
 nofirstfields = missingkeys_standard(commdct, 
             skiplist=["TABLE:MULTIVARIABLELOOKUP"])
+            #skipping "TABLE:MULTIVARIABLELOOKUP" because I cannot figure it.
  
 missingkeys_nonstandard(commdct, nofirstfields)
 
