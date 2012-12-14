@@ -1,0 +1,22 @@
+2012-12-14
+----------
+
+ex_readprint.py
+    read an idf file and print it to screen
+
+ex_readwrite.py
+    read a idf file and write it disk
+    
+ex_pythonic.py
+    examples of pythonic operations on energyplus objects
+    
+ex_referenced.py
+    access object that are referenced by other objects
+    
+ex_addobject.py 
+    how to add an energyplus object
+    needs a better interface. This is a placeholder until then.
+
+ex_data.py
+    working directly with data without bunchdt
+    

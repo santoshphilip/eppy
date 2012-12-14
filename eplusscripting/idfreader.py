@@ -35,12 +35,12 @@ def idfreader(fname, iddfile):
     return bunchdt, data, commdct
 
 # read code
-iddfile = "../iddfiles/Energy+V6_0.idd"
-fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces
-bunchdt, data, commdct = idfreader(fname, iddfile)
-
-zones = bunchdt['zone'.upper()]
-surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()]
-currentobjs = [key for key in bunchdt.keys() if len(bunchdt[key]) > 0]
-
-print data
+# iddfile = "../iddfiles/Energy+V6_0.idd"
+# fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces
+# bunchdt, data, commdct = idfreader(fname, iddfile)
+# 
+# zones = bunchdt['zone'.upper()]
+# surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()]
+# currentobjs = [key for key in bunchdt.keys() if len(bunchdt[key]) > 0]
+# 
+# print data
