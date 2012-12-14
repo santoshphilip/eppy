@@ -2,8 +2,7 @@
 # TODO : go thru with a fine tooth comb. make unit tests
 
 import sys
-sys.path.append('../EPlusInputcode')
-from EPlusCode.EPlusInterfaceFunctions import readidf
+from EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
 

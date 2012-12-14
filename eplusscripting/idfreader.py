@@ -6,15 +6,10 @@ from bunch_subclass import EpBunch_1 as EpBunch
 import iddgaps
 
 
-
-def idfreader(fname, iddfile):
-    """read idf file and reutrn bunches"""
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-    # fill gaps in idd
-    nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
-                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
-    iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
+def makebunches(data, commdct):
+    """make bunches with data"""
     bunchdt = {}
+    dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
         bunchdt[key] = []
@@ -26,6 +21,17 @@ def idfreader(fname, iddfile):
             obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
             bobj = EpBunch(obj, obj_fields)
             bunchdt[key].append(bobj)
+    return bunchdt
+
+def idfreader(fname, iddfile):
+    """read idf file and reutrn bunches"""
+    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    # fill gaps in idd
+    dt, dtls = data.dt, data.dtls
+    nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
+                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
+    iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
+    bunchdt = makebunches(data, commdct)
     return bunchdt, data, commdct
 
 # read code
