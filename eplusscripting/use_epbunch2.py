@@ -6,10 +6,6 @@ from bunch_subclass import EpBunch_1 as EpBunch
 import iddgaps
 
 
-def getobjects(bunches, key_txt):
-    return [item for item in bunches[key_txt.upper()]]    
-
-
 # read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
 fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces
