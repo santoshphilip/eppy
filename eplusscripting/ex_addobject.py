@@ -34,12 +34,12 @@ zones = bunchdt['zone'.upper()] # list of all the zones
 # bunchdt can help in doing this
 zones = bunchdt['zone'.upper()] # all the zones
 # bunchdt has a specail filed called obj
-print zone[0].obj
-# note that zone[0].obj is the list from data.dt['zone'.upper()][0]
-if data.dt['zone'.upper()][0] is zone.obj[0]:
-    print "data.dt['zone'.upper()][0] is same as zone.obj[0]"
+print zones[0].obj
+# note that zones[0].obj is the list from data.dt['zone'.upper()][0]
+if data.dt['zone'.upper()][0] is zones[0].obj:
+    print "data.dt['zone'.upper()][0] is same as zones[0].obj"
 # so we can do this
-dt['zone'.upper()].append(list(zone.obj))
+dt['zone'.upper()].append(list(zones[0].obj))
 # and then
 bunchdt = makebunches(data, commdct) # push data into bunchdt
 zones = bunchdt['zone'.upper()] # list of all the zones

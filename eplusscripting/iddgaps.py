@@ -31,8 +31,7 @@ see: SCHEDULE:DAY:LIST as an example"""
 
 import sys
 from pprint import pprint
-sys.path.append('../EPlusInputcode')
-from EPlusCode.EPlusInterfaceFunctions import readidf
+from EPlusInterfaceFunctions import readidf
 
 import bunchhelpers
 
