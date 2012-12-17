@@ -39,3 +39,14 @@ Geometry API
 
 - all the functions needed have been written and unit tested
 - they are yet to be incorporated into the API
+
+TODO 
+
+- add objects
+
+TODO - not in scope, but worth doing
+
+- import export
+- name change propagated through references
+- modify idf -> run eplus -> read output -> edit code -> run eplus
+- map reduce unctions for cloud computing
