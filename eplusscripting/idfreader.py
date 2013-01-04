@@ -5,6 +5,14 @@ import bunchhelpers
 from bunch_subclass import EpBunch_1 as EpBunch
 import iddgaps
 
+def makeabunch(commdct, obj, obj_i):
+    """make a bunch from the object"""
+    objfields = [comm.get('field') for comm in commdct[obj_i]]
+    objfields[0] = ['key']
+    objfields = [field[0] for field in objfields]
+    obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
+    bobj = EpBunch(obj, obj_fields)
+    return bobj
 
 def makebunches(data, commdct):
     """make bunches with data"""
@@ -15,11 +23,7 @@ def makebunches(data, commdct):
         bunchdt[key] = []
         objs = dt[key]
         for obj in objs:
-            objfields = [comm.get('field') for comm in commdct[obj_i]]
-            objfields[0] = ['key']
-            objfields = [field[0] for field in objfields]
-            obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
-            bobj = EpBunch(obj, obj_fields)
+            bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
 

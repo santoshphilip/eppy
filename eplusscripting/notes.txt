@@ -1,3 +1,6 @@
+2013-01-03
+----------
+unit test needed for examples. 
 2012-11-26
 ----------
 code review with Tuan and Nathan

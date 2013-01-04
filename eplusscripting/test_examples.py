@@ -1,25 +1,33 @@
 """py.test for examples. (ex_*.py files)"""
-
 from idfreader import idfreader
+import snippet
+import os
 
-iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
-fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
- 
-bunchdt, data, commdct = idfreader(fname, iddfile)
+# iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+# fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+
+iddsnippet = snippet.iddsnippet
+idfsnippet = snippet.idfsnippet
+
+from StringIO import StringIO
+idffhandle = StringIO(idfsnippet)
+iddfhandle = StringIO(iddsnippet)
+bunchdt, data, commdct = idfreader(idffhandle, iddfhandle)
 
 def test_readwrite():
     """py.test for ex_readwrite"""
     txt = str(data)
-    head = 'Version,\n     7.0;\n\nSimulationControl,\n     Yes,\n     Yes,\n     No,\n     No,\n     Yes;\n\nBuilding,\n  '
+    head = 'Zone,\n     PLENUM-1,\n     0,\n     0,\n     0,\n     0,\n     1,\n     1,\n     0.609600067,\n     283.2;\n\n'
+    print txt[:100]
     assert head == txt[:100]
-    tail = 'y,\n     Gas:Facility,\n     runperiod;\n\nOutput:Meter:MeterFileOnly,\n     Gas:Plant,\n     runperiod;\n\n'
+    tail = ';\n\nZone,\n     Sup-PLENUM-1,\n     0,\n     0,\n     0,\n     0,\n     1,\n     1,\n     0.45,\n     208.6;\n\n'
     assert tail == txt[-100:]
     
 def test_pythonic():
     """py.test for ex_pythonic.py"""
     zones = bunchdt['zone'.upper()] # all the zones
-    surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
     zone0 = zones[0]
+    print zone0
     # - 
     printout = "PLENUM-1"
     assert zone0.Name == printout
@@ -49,3 +57,5 @@ def test_pythonic():
     # now the zone names are:
     zonenames = [zone.Name for zone in zones]
     assert printout == zonenames
+    
+
