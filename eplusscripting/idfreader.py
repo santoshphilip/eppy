@@ -27,9 +27,36 @@ def makebunches(data, commdct):
             bunchdt[key].append(bobj)
     return bunchdt
 
-def idfreader(fname, iddfile):
+def convertfields(key_comm, obj):
+    """convert the float and interger fields"""
+    def apass(a):
+        return a
+    typefunc = dict(integer=int, real=float)
+    types = [comm.get('type', [None])[0] for comm in key_comm]
+    convs = [typefunc.get(typ, apass) for typ in types]
+    for i, (val, conv) in enumerate(zip(obj, convs)):
+        try:
+            val = conv(val)
+            obj[i] = val
+        except ValueError, e:
+            pass
+    return obj
+    
+def convertallfields(data, commdct):
+    """docstring for convertallfields"""
+    for key in data.dt.keys():
+        objs = data.dt[key]
+        for i, obj in enumerate(objs):
+            key_i = data.dtls.index(key)
+            key_comm = commdct[key_i]
+            obj = convertfields(key_comm, obj)
+            objs[i] = obj
+
+def idfreader(fname, iddfile, conv=True):
     """read idf file and reutrn bunches"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    if conv:
+        convertallfields(data, commdct)
     # fill gaps in idd
     dt, dtls = data.dt, data.dtls
     nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 

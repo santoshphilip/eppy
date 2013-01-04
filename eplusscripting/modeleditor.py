@@ -33,7 +33,7 @@ def namebunch(abunch, aname):
         abunch.Name = aname
     return abunch
     
-def renamebunch():
+def renamebunch(bunchdt, commdct, oldname, newname):
     """rename this bunch and change name in all references"""
     pass
     
