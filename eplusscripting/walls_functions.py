@@ -45,6 +45,7 @@ BunchPlus = BunchPlus_4
 # read code
 iddfile = "../iddfiles/Energy+V6_0.idd"
 fname = "./walls.idf" # small file with only surfaces
+fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
 # setup code walls - can be generic for any object
