@@ -2,6 +2,7 @@
 from idfreader import idfreader
 import snippet
 import os
+import pytest_helpers
 
 # iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 # fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
@@ -17,11 +18,9 @@ bunchdt, data, commdct = idfreader(idffhandle, iddfhandle)
 def test_readwrite():
     """py.test for ex_readwrite"""
     txt = str(data)
-    head = 'Zone,\n     PLENUM-1,\n     0,\n     0,\n     0,\n     0,\n     1,\n     1,\n     0.609600067,\n     283.2;\n\n'
-    print txt[:100]
-    assert head == txt[:100]
-    tail = ';\n\nZone,\n     Sup-PLENUM-1,\n     0,\n     0,\n     0,\n     0,\n     1,\n     1,\n     0.45,\n     208.6;\n\n'
-    assert tail == txt[-100:]
+    head = 'Zone,\n     PLENUM-1,\n     0.0,\n     0.0,\n     0.0,\n     0.0,\n     1,\n     1,\n     0.609600067,\n     283.2;\n\n'
+    tail = ';\n\nZone,\n     Sup-PLENUM-1,\n     0.0,\n     0.0,\n     0.0,\n     0.0,\n     1,\n     1,\n     0.45,\n     208.6;\n\n'
+    assert tail == txt[-108:]
     
 def test_pythonic():
     """py.test for ex_pythonic.py"""
@@ -40,12 +39,18 @@ def test_pythonic():
     printout = ['283.2', '239.247360229', '103.311355591', '239.247360229', 
         '103.311355591', '447.682556152', '208.6']
     zonevolumes = [zone.Volume for zone in zones]
-    assert printout == zonevolumes
+    for item1, item2 in zip(printout, zonevolumes):
+        item1, item2 = float(item1), float(item2)
+        assert pytest_helpers.almostequal(item1, item2)
     # - 
     printout = [('SPACE2-1', '103.311355591'), ('SPACE4-1', '103.311355591')]
     smallzones = [zn for zn in zones if float(zn.Volume) < 150]
     namevolume = [(zn.Name, zn.Volume) for zn in smallzones]
-    assert printout == namevolume
+    for (n1, v1), (n2, v2) in zip(printout, namevolume):
+        (n1, v1) = (n1, float(v1))
+        (n2, v2) = (n2, float(v2))
+        assert n1 == n2
+        assert pytest_helpers.almostequal(v1, v2)        
     # - 
     printout = 2
     assert printout == len(smallzones)

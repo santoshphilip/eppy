@@ -2,8 +2,9 @@
 
 from EPlusInterfaceFunctions import readidf
 import bunchhelpers
-from bunch_subclass import EpBunch_1 as EpBunch
+from bunch_subclass import EpBunch_3 as EpBunch
 import iddgaps
+import function_helpers as fh
 
 def makeabunch(commdct, obj, obj_i):
     """make a bunch from the object"""
@@ -51,6 +52,26 @@ def convertallfields(data, commdct):
             key_comm = commdct[key_i]
             obj = convertfields(key_comm, obj)
             objs[i] = obj
+            
+def addfunctions(bunchdt):
+    """add functions to the objects"""
+    snames = ["BuildingSurface:Detailed",
+    "Wall:Detailed",
+    "RoofCeiling:Detailed",
+    "Floor:Detailed",
+    "FenestrationSurface:Detailed",
+    "Shading:Site:Detailed",
+    "Shading:Building:Detailed",
+    "Shading:Zone:Detailed",]
+    for sname in snames:
+        surfaces = bunchdt[sname.upper()]
+        for surface in surfaces:
+            surface.__functions = {'area':fh.area,
+                'height':fh.height,
+                'width':fh.width,
+                'azimuth':fh.azimuth,
+                'tilt':fh.tilt} 
+            
 
 def idfreader(fname, iddfile, conv=True):
     """read idf file and reutrn bunches"""
@@ -63,6 +84,10 @@ def idfreader(fname, iddfile, conv=True):
                 skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
+    # TODO : add functions here.
+    # - 
+    addfunctions(bunchdt)
+    # - 
     return bunchdt, data, commdct
 
 # read code

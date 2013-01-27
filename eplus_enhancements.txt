@@ -1,0 +1,12 @@
+These are list of posible enhancements for the E+ engine
+
+2013-01-26
+----------
+
+Object: BuildingSurface:Detailed
+field:   N2 , \field Number of Vertices
+    No type is indicated in idd version 7.0
+    Should be of type integer.
+    
+html table output should have tags for easy searching
+TODO : give more detailed specs for this    
