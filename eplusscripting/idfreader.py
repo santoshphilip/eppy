@@ -64,13 +64,14 @@ def addfunctions(bunchdt):
     "Shading:Building:Detailed",
     "Shading:Zone:Detailed",]
     for sname in snames:
-        surfaces = bunchdt[sname.upper()]
-        for surface in surfaces:
-            surface.__functions = {'area':fh.area,
-                'height':fh.height,
-                'width':fh.width,
-                'azimuth':fh.azimuth,
-                'tilt':fh.tilt} 
+        if bunchdt.has_key(sname.upper()):
+            surfaces = bunchdt[sname.upper()]
+            for surface in surfaces:
+                surface.__functions = {'area':fh.area,
+                    'height':fh.height,
+                    'width':fh.width,
+                    'azimuth':fh.azimuth,
+                    'tilt':fh.tilt} 
             
 
 def idfreader(fname, iddfile, conv=True):
