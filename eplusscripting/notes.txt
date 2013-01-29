@@ -1,3 +1,8 @@
+2013-01-29
+----------
+from virtualenv do
+python -m pytest
+to run py.test
 2013-01-04
 ----------
 include type conversions 

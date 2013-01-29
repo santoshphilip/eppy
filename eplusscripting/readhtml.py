@@ -1,6 +1,6 @@
 """read the html outputs"""
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 class NotSimpleTable(Exception):
     pass
@@ -36,16 +36,18 @@ def table2matrix(table):
 fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable.html"
 html_doc = open(fname, 'r').read()
 
-soup = BeautifulSoup(html_doc)
-all = soup.find_all(['b', 'table'])
-all[0]
-all[1]
-all[2]
-all[3]
-all[4]
-all[8]
-all[9]
-all[10]
-all[11]
-all[0]
-all[0].name
+def titletable(html_doc):
+    """return a list of [(title, table), .....]
+    title = previous item with a <b> tab
+    table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
+    soup = BeautifulSoup(html_doc)
+    btables = soup.find_all(['b', 'table']) # find all the <b> and <table> 
+    titletables = []
+    for i, item in enumerate(btables):
+        if item.name == 'table':
+            for j in range(i + 1):
+                if btables[i-j].name == 'b':# step back to find a <b>
+                    break
+            titletables.append((btables[i-j], item))
+    titlerows = [(tl.contents[0], table2matrix(tb)) for tl, tb in titletables]
+    return titlerows
