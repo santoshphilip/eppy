@@ -78,7 +78,15 @@ def azimuth(poly):
     vec = unit_normal(poly[0], poly[1], poly[N])
     vec_azi = np.array([vec[0], vec[1], 0])
     vec_N = np.array([0, 1, 0])
-    return angle2vecs(vec_azi, vec_N)
+    # update by Santosh
+    # angle2vecs gives the smallest angle between the vectors
+    # so for a west wall angle2vecs will give 90
+    # the following 'if' statement will make sure 270 is returned    
+    x_vector = vec_azi[0] 
+    if x_vector < 0:
+        return 360 - angle2vecs(vec_azi, vec_N)
+    else:
+        return angle2vecs(vec_azi, vec_N)
         
 def tilt(poly):
     """Tilt of a polygon poly"""

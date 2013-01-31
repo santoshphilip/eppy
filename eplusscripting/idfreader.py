@@ -68,10 +68,12 @@ def addfunctions(bunchdt):
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 surface.__functions = {'area':fh.area,
-                    'height':fh.height,
-                    'width':fh.width,
+                    # 'height':fh.height, # not working correctly
+                    # 'width':fh.width, # not working correctly
                     'azimuth':fh.azimuth,
-                    'tilt':fh.tilt} 
+                    'tilt':fh.tilt,
+                    # 'coords':fh.getcoords, # needed for debugging
+                    } 
             
 
 def idfreader(fname, iddfile, conv=True):
