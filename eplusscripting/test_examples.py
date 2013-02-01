@@ -3,6 +3,7 @@ from idfreader import idfreader
 import snippet
 import os
 import pytest_helpers
+import modeleditor
 
 # iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 # fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
@@ -63,4 +64,12 @@ def test_pythonic():
     zonenames = [zone.Name for zone in zones]
     assert printout == zonenames
     
-
+def test_addobject():
+    """py.test for ex_addobject.py"""
+    zones = bunchdt['zone'.upper()] # all the zones
+    assert len(zones) == 7
+    modeleditor.addobject(bunchdt, data, 
+        commdct, "Zone".upper(), aname="NewZone")
+    assert len(zones) == 8
+    assert zones[-1].obj == ['ZONE', 'NewZone', '0', '0', '0', '0', '1', '1',
+        'autocalculate', 'autocalculate', 'autocalculate', '', '', 'Yes']

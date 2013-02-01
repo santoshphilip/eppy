@@ -10,6 +10,9 @@ ex_readwrite.py
 ex_pythonic.py
     examples of pythonic operations on energyplus objects
     
+ex_readoutput.py
+    read values from output files
+    
 ex_referenced.py
     access object that are referenced by other objects
     

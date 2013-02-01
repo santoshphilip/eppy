@@ -30,6 +30,7 @@ class EpBunch_1(Bunch):
             if name in self['objls']:
                 i = self['objls'].index(name)
                 return self['obj'][i]
+    # TODO : add a __repr__ and __str__
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""

@@ -1,3 +1,12 @@
+2013-01-31
+----------
+Next release:
+ongoing todo list
+- release notes
+- update ex_addobject.py - DONE
+- add ex_readoutput.py
+- any other examples to update ?
+
 2013-01-29
 ----------
 from virtualenv do
@@ -5,7 +14,7 @@ python -m pytest
 to run py.test
 2013-01-04
 ----------
-include type conversions 
+include type conversions - DONE
 2013-01-03
 ----------
 unit test needed for examples. - DONE
