@@ -1,4 +1,4 @@
-2012-12-14
+2013-02-14
 ----------
 
 ex_readprint.py
@@ -9,6 +9,9 @@ ex_readwrite.py
     
 ex_pythonic.py
     examples of pythonic operations on energyplus objects
+
+ex_functions.py
+    objects can have functions that can 
     
 ex_readoutput.py
     read values from output files
@@ -18,8 +21,7 @@ ex_referenced.py
     
 ex_addobject.py 
     how to add an energyplus object
-    needs a better interface. This is a placeholder until then.
 
 ex_data.py
-    working directly with data without bunchdt
+    working directly with data without bunchdt. This may never need to be used. It is documented here purely for completeness. 
     

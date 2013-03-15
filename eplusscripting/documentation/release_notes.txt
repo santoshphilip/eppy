@@ -1,0 +1,39 @@
+2013-02-14
+----------
+
+Notes for release Version 0.2:
+
+Object API
+----------
+
+Add an object to the model with the default values using the function:
+
+    - modeleditor.addobject( ... )
+
+
+- IDF reader does type conversions for object fields. Strings are converted to integers and floats where appropriate. 
+
+Geometry API
+------------
+
+Azimuth, tilt and area of any surface can be calculated using the function API
+
+example:-
+
+    - surface = allobjects['BUILDINGSURFACE:DETAILED'][0] # a surface
+    - surface.azimuth # gives azimuth of surface
+    - surface.tilt # gives tilt of surface
+    - surface.area # gives area of surface
+
+Also see ex_functions.py for sample code
+    
+Output Reader
+-------------
+
+- Output reader can read all tables in the HTML table file.
+- Table can be accessed by the title of the table.
+- Any cell in the table can also be accessed using the row and column index
+- See ex_readoutput.py.py for an example
+
+ 
+    

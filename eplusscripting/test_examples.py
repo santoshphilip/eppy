@@ -20,8 +20,9 @@ def test_readwrite():
     """py.test for ex_readwrite"""
     txt = str(data)
     head = 'Zone,\n     PLENUM-1,\n     0.0,\n     0.0,\n     0.0,\n     0.0,\n     1,\n     1,\n     0.609600067,\n     283.2;\n\n'
-    tail = ';\n\nZone,\n     Sup-PLENUM-1,\n     0.0,\n     0.0,\n     0.0,\n     0.0,\n     1,\n     1,\n     0.45,\n     208.6;\n\n'
-    assert tail == txt[-108:]
+    tail = '\n\nBuildingSurface:Detailed,\n     WALL-1PF,\n     WALL,\n     WALL-1,\n     PLENUM-1,\n     Outdoors,\n     ,\n     SunExposed,\n     WindExposed,\n     0.5,\n     4,\n     0.0,\n     0.0,\n     3.0,\n     0.0,\n     0.0,\n     2.4,\n     30.5,\n     0.0,\n     2.4,\n     30.5,\n     0.0,\n     3.0;\n\n'
+    assert head == txt[:108]
+    assert tail == txt[-280:]
     
 def test_pythonic():
     """py.test for ex_pythonic.py"""
@@ -73,3 +74,13 @@ def test_addobject():
     assert len(zones) == 8
     assert zones[-1].obj == ['ZONE', 'NewZone', '0', '0', '0', '0', '1', '1',
         'autocalculate', 'autocalculate', 'autocalculate', '', '', 'Yes']
+        
+def test_functions():
+    """py.test for ex_functions.py"""
+    surfaces = bunchdt['BuildingSurface:Detailed'.upper()] # all the surfaces
+    assert len(surfaces) == 1
+    surface = surfaces[0]
+    assert surface.Name == "WALL-1PF"
+    assert surface.azimuth == 180.0
+    assert surface.tilt == 0.0
+    assert pytest_helpers.almostequal(surface.area, 18.3)
