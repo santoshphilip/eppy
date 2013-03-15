@@ -1,3 +1,51 @@
+2013-03-15
+----------
+Agenda for call
+- Status of pyenergyplus
+- Next updates
+- timeline
+- Contractual issues
+
+State of pyenergyplus:
+----------------------
+- Object API is complete
+- Geometry API is complete
+- HTML Table output reader complete
+- Example files to illustrate API use is complete
+
+Next updates:
+two possibilities:
+(time and resources may be enough for only one of the following)
+1. streamline install and usage:
+    - full install thru pip using the following command
+        - pip install energyplus 
+    - maybe restructure or code to make it simpler for a first time user.
+2. Cookbook of recipes
+    - Use the EEM list from this project to generate recipes.
+    - Additional functions may be added to the API to facilitate the recipes
+    
+Contractual Issues
+------------------
+Contract asks for a report at each stage. What should I do for this.
+How should I stage this ?
+
+
+do a name change API
+resizes window. 
+3D-API
+hmtl table -> better example
+import.
+node following code.
+reference following code.
+more examples
+call in two weeks.
+
+TODO.
+draft of documentation.
+node following code.
+reference following code.
+    
+ 
 2013-01-31
 ----------
 Next release:
