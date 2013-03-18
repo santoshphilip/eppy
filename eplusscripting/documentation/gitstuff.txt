@@ -1,0 +1,187 @@
+Last login: Mon Mar 18 09:29:40 on ttys000
+MAC101:~ Loisos$ cd /Users/Loisos/Documents/energyplus/working/eplusinterface_diagrams/eplusscripting 
+MAC101:eplusscripting Loisos$ git status
+# On branch pyenergyplus
+nothing to commit, working directory clean
+MAC101:eplusscripting Loisos$ git status
+# On branch pyenergyplus
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   documentation/status.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+MAC101:eplusscripting Loisos$ git add *
+MAC101:eplusscripting Loisos$ git status
+# On branch pyenergyplus
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   documentation/status.txt
+#
+MAC101:eplusscripting Loisos$ git commit
+[pyenergyplus df59ef1] Leora commits
+ 1 file changed, 3 insertions(+)
+MAC101:eplusscripting Loisos$ git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+
+:q
+
+
+^C 
+MAC101:eplusscripting Loisos$ git push origin pyenergyplus
+Identity added: /Users/Loisos/.ssh/id_rsa (/Users/Loisos/.ssh/id_rsa)
+To git@github.com:santoshphilip/eplusinterface_diagrams.git
+ ! [rejected]        pyenergyplus -> pyenergyplus (non-fast-forward)
+error: failed to push some refs to 'git@github.com:santoshphilip/eplusinterface_diagrams.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Merge the remote changes (e.g. 'git pull')
+hint: before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+MAC101:eplusscripting Loisos$ git pull
+remote: Counting objects: 20, done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 14 (delta 10), reused 11 (delta 7)
+Unpacking objects: 100% (14/14), done.
+From github.com:santoshphilip/eplusinterface_diagrams
+   cf6661e..3e37282  pyenergyplus -> origin/pyenergyplus
+Merge made by the 'recursive' strategy.
+ eplusscripting/notes.txt | 59 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+MAC101:eplusscripting Loisos$ git status
+# On branch pyenergyplus
+# Your branch is ahead of 'origin/pyenergyplus' by 2 commits.
+#   (use "git push" to publish your local commits)
+#
+nothing to commit, working directory clean
+MAC101:eplusscripting Loisos$ git push origin pyenergyplus
+Counting objects: 14, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 776 bytes, done.
+Total 8 (delta 6), reused 0 (delta 0)
+To git@github.com:santoshphilip/eplusinterface_diagrams.git
+   3e37282..bae5cee  pyenergyplus -> pyenergyplus
+MAC101:eplusscripting Loisos$ git status
+# On branch pyenergyplus
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   documentation/status.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+MAC101:eplusscripting Loisos$ mate
+-bash: mate: command not found
+MAC101:eplusscripting Loisos$ export PATH="$HOME/bin:$PATH" 
+MAC101:eplusscripting Loisos$ mate
+MAC101:eplusscripting Loisos$ cd documentation/
+MAC101:documentation Loisos$ ls
+ex_pythonic.pdf		release_notes.txt
+ex_readprint.pdf	status.txt
+MAC101:documentation Loisos$ mate status.txt 
+MAC101:documentation Loisos$ mate newfile.txt
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   status.txt
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	newfile.txt
+no changes added to commit (use "git add" and/or "git commit -a")
+MAC101:documentation Loisos$ git add *.txt
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   newfile.txt
+#	modified:   status.txt
+#
+MAC101:documentation Loisos$ git push origin pyenergyplus
+Everything up-to-date
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   newfile.txt
+#	modified:   status.txt
+#
+MAC101:documentation Loisos$ git commit 
+Aborting commit due to empty commit message.
+MAC101:documentation Loisos$ git config --global core.editor "mate"
+MAC101:documentation Loisos$ git commit
+Aborting commit due to empty commit message.
+MAC101:documentation Loisos$ git commit
+Aborting commit due to empty commit message.
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   newfile.txt
+#	modified:   status.txt
+#
+MAC101:documentation Loisos$ git commit
+Aborting commit due to empty commit message.
+MAC101:documentation Loisos$ git config --global core.editor "mate -w"
+MAC101:documentation Loisos$ git commit
+[pyenergyplus 8b1c67a] stuff and nonsense
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+ create mode 100644 eplusscripting/documentation/newfile.txt
+MAC101:documentation Loisos$ mate newfile.txt 
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Your branch is ahead of 'origin/pyenergyplus' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   newfile.txt
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+MAC101:documentation Loisos$ git add *.txt
+MAC101:documentation Loisos$ git status
+# On branch pyenergyplus
+# Your branch is ahead of 'origin/pyenergyplus' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   newfile.txt
+#
+MAC101:documentation Loisos$ git commit
+[pyenergyplus 0407e78] changes, again
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+MAC101:documentation Loisos$ git push origin pyenergyplus
+Counting objects: 15, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (11/11), 829 bytes, done.
+Total 11 (delta 7), reused 0 (delta 0)
+To git@github.com:santoshphilip/eplusinterface_diagrams.git
+   bae5cee..0407e78  pyenergyplus -> pyenergyplus
+MAC101:documentation Loisos$ 
