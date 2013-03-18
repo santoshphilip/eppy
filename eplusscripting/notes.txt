@@ -1,3 +1,7 @@
+2013-03-18
+----------
+change git editor to textmate using
+git config --global core.editor "mate -w"
 2013-02-28
 ----------
 - Consider using https://bitbucket.org/birkenfeld/ipython-physics/
