@@ -1,6 +1,8 @@
 2013-03-18
 ----------
-small change
+small change.
+another change.
+
 2013-02-12
 ----------
 
