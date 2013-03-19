@@ -2,6 +2,7 @@
 ----------
 change git editor to textmate using
 git config --global core.editor "mate -w"
+
 =======
 2013-03-15
 ----------
