@@ -1,3 +1,8 @@
+2013-03-18
+----------
+change git editor to textmate using
+git config --global core.editor "mate -w"
+=======
 2013-03-15
 ----------
 Agenda for call
@@ -51,7 +56,6 @@ reference following code.
 - see tutorial in http://www.southampton.ac.uk/~fangohr/blog/physical-quantities-numerical-value-with-units-in-python.html
     
  
-=======
 2013-02-28
 ----------
 - Consider using https://bitbucket.org/birkenfeld/ipython-physics/
