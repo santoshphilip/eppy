@@ -6,4 +6,4 @@ iddfile = "../iddfiles/Energy+V7_2_0.idd"
 fname = "../idffiles/V_7_2/smallfile.idf"
  
 
-bunchdt, data, commdct = idfreader(fname, iddfile)
+model, to_print, ignorethis = idfreader(fname, iddfile)

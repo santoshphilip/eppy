@@ -1,3 +1,9 @@
+2013-03-25
+----------
+to save the docs as html
+- open ipython notebook in firefox
+- go to print view
+- save as html. 
 2013-03-18
 ----------
 change git editor to textmate using
