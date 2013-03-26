@@ -1,0 +1,73 @@
+Energyplus models are made up of objects such as "BUILDING", "SITE:LOCATION", "ZONE", "PEOPLE", "LIGHTS".
+There can be a number of "ZONE" objects, a number of "PEOPLE" objects and a number of "LIGHTS" object.
+
+buildings = model["BUILDING"]
+# finds all the objects in the model that are BUILDING objects
+
+pyenergyplus holds these objects in a python structure called list.
+
+Let us take a look at how lists work in python. 
+
+fruits = ["apple", "orange", "bannana"] 
+fruits is a list with three items in it.
+
+to get the first item in fruits we say
+fruits[0]
+why "0" ?
+because, unlike us, python starts counting from zero in a list
+
+so if we say
+print fruits[0]
+it will print 
+apple
+
+
+if we say
+firstfruit = fruits[0]
+then if we say
+print firstfruit
+it will print
+apple
+
+We also can say
+goodfruit = fruits[0]
+redfruit = fruits[0]
+
+print firstfruit
+print goodfruit
+print redfruit
+print fruits[0]
+
+will all print
+apple
+
+As you see, we can call that item in the list whatever we want. 
+
+----------
+
+In the same way let us do this
+
+building = buildings[0]
+
+building is the first item in buildings. Since "BUILDING" is an unique object, there is only one item in the list
+
+
+
+
+pyeplus
+PyEplus
+pyEplus
+pyEPlus
+PyEPlus
+EnergyPlus
+energy_plus
+
+BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days
