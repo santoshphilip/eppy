@@ -30,7 +30,21 @@ class EpBunch_1(Bunch):
             if name in self['objls']:
                 i = self['objls'].index(name)
                 return self['obj'][i]
-    # TODO : add a __repr__ and __str__
+    def __repr__(self):
+        """print this as an idf snippet"""
+        lines = [str(val) for val in self.obj]
+        comments = [comm.replace('_', ' ') for comm in self.objls]
+        lines[0] = "%s," % (lines[0], ) # comma after first line
+        for i, line in enumerate(lines[1:-1]):
+            lines[i + 1] = '    %s,' % (line, ) # indent and comma
+        lines[-1] = '    %s;' % (lines[-1], )# ';' after last line
+        lines = [line.ljust(26) for line in lines] # ljsut the lines
+        filler = '%s    !- %s'
+        nlines = [filler % (line, comm) for line, 
+            comm in zip(lines[1:], comments[1:])]# adds comments to line
+        nlines.insert(0, lines[0])# first line without comment
+        s = '\n'.join(nlines)
+        return s
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
