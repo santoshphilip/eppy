@@ -44,7 +44,7 @@ class EpBunch_1(Bunch):
             comm in zip(lines[1:], comments[1:])]# adds comments to line
         nlines.insert(0, lines[0])# first line without comment
         s = '\n'.join(nlines)
-        return s
+        return '\n%s\n' % (s, )
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
