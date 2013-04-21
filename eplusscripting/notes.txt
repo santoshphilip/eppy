@@ -1,3 +1,35 @@
+2013-04-20
+----------
+fuck ... I am trying to make this too complicated.
+Keep it simple.
+model, toprint, idd_info = idfreader(fname1, iddfile)
+toprint = is the real model
+model = allows you to access objects and change fields
+    it does not allow you to add or delete objects
+----
+class IDF
+idf = IDF(iddfilename)
+model = idf.read(idffilename)
+print model
+str(model)
+CRUD
+model.create("ZONE", "zonename") # will be last zone in list of zones
+model.read -> azone = model.objects["ZONE"][0]
+model.update -> azone.Name="gumby"
+model.delete(azone)
+
+2013-04-20
+----------
+TODO today
+- import export
+- reference following and name change
+    - ref to, ref from
+- elimination parametrics
+- simple HVAC replacement
+- try complex HVAC replacements
+- pip install
+- directory reorganize for simplicity.
+- test other EEM measures
 2013-03-25
 ----------
 to save the docs as html
