@@ -82,5 +82,5 @@ def test_functions():
     surface = surfaces[0]
     assert surface.Name == "WALL-1PF"
     assert surface.azimuth == 180.0
-    assert surface.tilt == 0.0
+    assert surface.tilt == 90.0
     assert pytest_helpers.almostequal(surface.area, 18.3)

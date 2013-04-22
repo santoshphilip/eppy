@@ -93,6 +93,24 @@ def idfreader(fname, iddfile, conv=True):
     # - 
     return bunchdt, data, commdct
 
+class IDF0(object):
+    iddname = None
+    def __init__(self, idfname):
+        self.idfname = idfname
+        self.read()
+    @classmethod
+    def setiddname(cls, arg):
+        if cls.iddname == None:
+            cls.iddname = arg
+    def read(self):
+        """read the idf file"""
+        # TODO : thow an exception if iddname = None
+        self.objects, model, idd_info = idfreader(self.idfname, self.iddname)
+
+class IDF1(IDF0):
+    def __init__(self, idfname):
+        super(IDF, self).__init__(idfname)
+        
 # read code
 # iddfile = "../iddfiles/Energy+V6_0.idd"
 # fname = "../idffiles/5ZoneSupRetPlenRAB.idf" # small file with only surfaces

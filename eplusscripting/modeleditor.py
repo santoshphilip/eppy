@@ -3,6 +3,7 @@
 from idfreader import makebunches
 from idfreader import idfreader
 from idfreader import makeabunch
+import copy
 
 def newrawobject(data, commdct, key):
     """make a new object for key"""
@@ -15,6 +16,16 @@ def newrawobject(data, commdct, key):
     obj = [comm.get('default', [''])[0] for comm in key_comm]
     obj[0] = key
     return obj
+    
+def addthisbunch(data, commdct, thisbunch):
+    """add a bunch to model.
+    abunch usually comes from another idf file
+    or it can be used to copy within the idf file"""
+    # TODO unit test
+    key = thisbunch.key.upper()
+    obj = copy.copy(thisbunch.obj)
+    data.dt[key].append(obj)
+    obj2bunch(data, commdct, obj)
     
 def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
@@ -45,3 +56,21 @@ def addobject(bunchdt, data, commdct, key, aname=''):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
 
+class IDF0(object):
+    iddname = None
+    def __init__(self, idfname):
+        self.idfname = idfname
+        self.read()
+    @classmethod
+    def setiddname(cls, arg):
+        if cls.iddname == None:
+            cls.iddname = arg
+    def read(self):
+        """read the idf file"""
+        # TODO : thow an exception if iddname = None
+        self.objects, model, idd_info = idfreader(self.idfname, self.iddname)
+
+class IDF1(IDF0):
+    def __init__(self, idfname):
+        super(IDF, self).__init__(idfname)
+        
