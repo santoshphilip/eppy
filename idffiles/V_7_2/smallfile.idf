@@ -1,27 +1,27 @@
 VERSION,
-    7.2;                     !- Version Identifier
+     7.3;
 
 SIMULATIONCONTROL,
-    Yes,                     !- Do Zone Sizing Calculation
-    Yes,                     !- Do System Sizing Calculation
-    Yes,                     !- Do Plant Sizing Calculation
-    No,                      !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
+     Yes,
+     Yes,
+     Yes,
+     No,
+     Yes;
 
 BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
+     White House,
+     30.0,
+     City,
+     0.04,
+     0.4,
+     FullExterior,
+     25,
+     6;
 
 SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,  !- Name
-    41.78,                   !- Latitude {deg}
-    -87.75,                  !- Longitude {deg}
-    -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}
+     CHICAGO_IL_USA TMY2-94846,
+     41.78,
+     -87.75,
+     -6.0,
+     190.0;
 

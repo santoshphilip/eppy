@@ -60,13 +60,19 @@ def test_IDF():
 # from idfreader import idfreader
 # 
 IDF = IDF1
+
 iddfile = "../iddfiles/Energy+V7_2_0.idd"
 IDF.setiddname(iddfile)
+
 fname1 = "../idffiles/V_7_2/smallfile.idf"
-# fname1 = "smallfile.idf"
-fname2 = "../idffiles/V_7_2/constructions.idf"
 idf1 = IDF(fname1)
-idf2 = IDF(fname2)
+
+print idf1
+
+
+
+# fname2 = "../idffiles/V_7_2/constructions.idf"
+# idf2 = IDF(fname2)
 # # print idf1
 # idfobject = idf1.idfobjects["version".upper()][0]
 
