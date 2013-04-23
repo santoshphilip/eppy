@@ -1,3 +1,13 @@
+2013-04-23
+----------
+write the following functions
+- rename
+- import one
+- import attached
+- find attached
+- find reference
+- check obj equal
+- justrename if equal
 2013-04-20
 ----------
 fuck ... I am trying to make this too complicated.

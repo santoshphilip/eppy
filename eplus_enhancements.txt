@@ -1,5 +1,37 @@
 These are list of posible enhancements for the E+ engine
 
+2013-04-23
+----------
+SizingPeriod:DesignDay,
+      \memo The design day object creates the parameters for the program to create
+      \memo the 24 hour weather profile that can be used for sizing as well as
+      \memo running to test the other simulation parameters. Parameters in this
+      \memo include a date (month and day), a day type (which uses the appropriate
+      \memo schedules for either sizing or simple tests), min/max temperatures,
+      \memo wind speeds, and solar radiation values.
+  A1, \field Name
+       \type alpha
+       \required-field
+       \reference DesignDays
+       \reference RunPeriodsAndDesignDays
+
+field A1 is of type alpha
+
+SizingPeriod:WeatherFileConditionType,
+       \memo Use a weather file period for design sizing calculations.
+       \memo EPW weather files are created with typical and extreme periods
+       \memo created heuristically from the weather file data.  For more
+       \memo details on these periods, see AuxiliaryPrograms document.
+  A1 , \field Name
+       \required-field
+       \reference DesignDays
+       \reference RunPeriodsAndDesignDays
+       \note user supplied name for reporting
+
+field A1 does not have a type.
+
+WHY ?
+
 2013-01-26
 ----------
 
