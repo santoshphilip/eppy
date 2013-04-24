@@ -1,3 +1,20 @@
+2013-04-24
+----------
+- give links to python. 
+- find and replace
+- do the loops branches from contract. 
+
+2013-04-24
+----------
+Notes for conf. call
+
+x
+Bad News
+- Issue of node following in HVAC
+- it has not been possible to come up with a generic node-following code.
+- will speak about this on call
+- 
+- have not explored 3-D API (such as resizing windows)
 2013-04-23
 ----------
 write the following functions
