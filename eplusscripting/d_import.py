@@ -68,11 +68,14 @@ fname1 = "../idffiles/V_7_2/smallfile.idf"
 idf1 = IDF(fname1)
 
 print idf1
+idf1.idfobjects["VERSION"]
 
 
 
-# fname2 = "../idffiles/V_7_2/constructions.idf"
-# idf2 = IDF(fname2)
+
+
+fname2 = "../idffiles/V_7_2/constructions.idf"
+idf2 = IDF(fname2)
 # # print idf1
 # idfobject = idf1.idfobjects["version".upper()][0]
 
