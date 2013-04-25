@@ -59,18 +59,49 @@ def addobject(bunchdt, data, commdct, key, aname=''):
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):
+        # TODO use file handle instead of file name
         self.idfname = idfname
         self.read()
     @classmethod
     def setiddname(cls, arg):
+        # TODO use file handle instead of filename
         if cls.iddname == None:
             cls.iddname = arg
     def read(self):
         """read the idf file"""
+        # TODO unit test
         # TODO : thow an exception if iddname = None
-        self.objects, model, idd_info = idfreader(self.idfname, self.iddname)
+        readout = idfreader(self.idfname, self.iddname)
+        self.idfobjects, self.model, self.idd_info = readout
+    def __repr__(self):
+        return self.model.__repr__()
+    def save(self):
+        # TODO unit test
+        s = str(self.model)
+        open(self.idfname, 'w').write(s)
+    def saveas(self, filename):
+        s = str(self.model)
+        open(filename, 'w').write(s)
 
 class IDF1(IDF0):
     def __init__(self, idfname):
-        super(IDF, self).__init__(idfname)
+        super(IDF1, self).__init__(idfname)
+    def newidfobject(self, key, aname=''):
+        # TODO unit test
+        addobject(self.idfobjects,
+                            self.model,
+                            self.idd_info,
+                            key, aname=aname)  
+    def addidfobject(self, idfobject):
+        # TODO unit test
+        addthisbunch(self.model,
+                            self.idd_info,
+                            idfobject)  
+                            
+                                    
+class something(IDF0):
+    """docstring for something"""
+    def __init__(self, arg):
+        super(something, self).__init__()
+        self.arg = arg
         
