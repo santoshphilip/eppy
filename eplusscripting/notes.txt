@@ -1,8 +1,13 @@
+2013-05-02
+----------
+dev. notes on hvac loops
+- plant side components can be replaced/deleted in branch
+- air side components have to be replaced in equipment list
 2013-04-24
 ----------
 - give links to python. 
 - find and replace
-- do the loops branches from contract. 
+- do the loops branches from contract.
 
 2013-04-24
 ----------
