@@ -55,6 +55,7 @@ def addobject(bunchdt, data, commdct, key, aname=''):
     namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
+    return abunch
 
 class IDF0(object):
     iddname = None
@@ -87,12 +88,14 @@ class IDF1(IDF0):
     def __init__(self, idfname):
         super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname=''):
+        """add a new idfobject to the model"""
         # TODO unit test
-        addobject(self.idfobjects,
+        return addobject(self.idfobjects,
                             self.model,
                             self.idd_info,
                             key, aname=aname)  
     def addidfobject(self, idfobject):
+        """add idfobject to this model"""
         # TODO unit test
         addthisbunch(self.model,
                             self.idd_info,
