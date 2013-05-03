@@ -32,7 +32,7 @@ class IDF0(object):
 
 class IDF1(IDF0):
     def __init__(self, idfname):
-        super(IDF, self).__init__(idfname)
+        super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname=''):
         # TODO unit test
         modeleditor.addobject(self.idfobjects,
@@ -68,11 +68,14 @@ fname1 = "../idffiles/V_7_2/smallfile.idf"
 idf1 = IDF(fname1)
 
 print idf1
+idf1.idfobjects["VERSION"]
 
 
 
-# fname2 = "../idffiles/V_7_2/constructions.idf"
-# idf2 = IDF(fname2)
+
+
+fname2 = "../idffiles/V_7_2/constructions.idf"
+idf2 = IDF(fname2)
 # # print idf1
 # idfobject = idf1.idfobjects["version".upper()][0]
 
