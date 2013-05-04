@@ -2,7 +2,7 @@
 
 from EPlusInterfaceFunctions import readidf
 import bunchhelpers
-from bunch_subclass import EpBunch_3 as EpBunch
+from bunch_subclass import EpBunch
 import iddgaps
 import function_helpers as fh
 
