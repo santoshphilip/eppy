@@ -33,8 +33,8 @@ def table2matrix(table):
         rows.append(row)
     return rows
 
-fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable.html"
-html_doc = open(fname, 'r').read()
+# fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable.html"
+# html_doc = open(fname, 'r').read()
 
 def titletable(html_doc):
     """return a list of [(title, table), .....]
