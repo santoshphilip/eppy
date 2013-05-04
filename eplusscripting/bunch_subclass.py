@@ -6,7 +6,8 @@ from EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
 
-def add2(dt):
+def somevalues(dt):
+    """returns some values"""
     return dt.Name, dt.Construction_Name, dt.obj
 
 class EpBunch_1(Bunch):
@@ -91,13 +92,36 @@ class EpBunch_3(EpBunch_2):
             return func(self)
         except KeyError, e:
             return super(EpBunch_3, self).__getattr__(name)
+            
+class EpBunch_4(EpBunch_3):
+    """h implements __getitem__ and __setitem__"""
+    def __init__(self, obj, objls, *args, **kwargs):
+        super(EpBunch_4, self).__init__(obj, objls, *args, **kwargs)
+    def __getitem__(self, key):
+        if key in ('obj', 'objls', '__functions', '__aliases'):
+            return super(EpBunch_4, self).__getitem__(key)
+        else:
+            if key in self['objls']:
+                i = self['objls'].index(key)
+                return self['obj'][i]
+    def __setitem__(self, key, value):
+        if key in ('obj', 'objls', '__functions', '__aliases'):
+            super(EpBunch_4, self).__setitem__(key, value)
+            return None
+        else:
+            if key in self['objls']:
+                i = self['objls'].index(key)
+                self['obj'][i] = value
         
-# EpBunch = EpBunch_3
+                                
+        
+EpBunch = EpBunch_4
 
 def main():
 
     # read code
-    iddfile = "../iddfiles/Energy+V6_0.idd"
+    # iddfile = "../iddfiles/Energy+V6_0.idd"
+    iddfile = "./walls.idd"
     fname = "./walls.idf" # small file with only surfaces
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
 
@@ -138,9 +162,9 @@ def main():
     print
 
     # add functions
-    bwall.__functions = {'plus':add2} 
+    bwall.__functions = {'svalues':somevalues} 
 
-    print bwall.plus
+    print bwall.svalues
     print bwall.__functions
 
 
