@@ -5,6 +5,16 @@ from idfreader import idfreader
 from idfreader import makeabunch
 import copy
 
+def poptrailing(lst):
+    """pop the trailing items in lst that are blank"""
+    # looks like I am not using this in newrawobject
+    for i in range(len(lst)):
+        if lst[-1] != '':
+            break
+        lst.pop(-1)
+    return lst
+    
+
 def newrawobject(data, commdct, key):
     """make a new object for key"""
     dt = data.dt
@@ -15,6 +25,7 @@ def newrawobject(data, commdct, key):
     key_comm = commdct[key_i]
     obj = [comm.get('default', [''])[0] for comm in key_comm]
     obj[0] = key
+    # obj = poptrailing(obj)
     return obj
     
 def addthisbunch(data, commdct, thisbunch):

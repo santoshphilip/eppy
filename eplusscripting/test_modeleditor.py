@@ -13,6 +13,15 @@ idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
 
+def test_poptrailing():
+    """py.test for poptrailing"""
+    data = (([1, 2, 3, '', 56, '', '', '', ''], 
+        [1, 2, 3, '', 56]), # lst, poped
+        ([1, 2, 3, '', 56], 
+        [1, 2, 3, '', 56]), # lst, poped
+        ([1, 2, 3, 56], 
+        [1, 2, 3, 56]), # lst, poped
+    )
 
 def test_newrawobject():
     """py.test for newrawobject"""
