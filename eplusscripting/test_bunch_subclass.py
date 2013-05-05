@@ -2,6 +2,7 @@
 
 # This test is ugly because I have to send file names and not able to send file handles
 import os
+import pytest
 from EPlusInterfaceFunctions import readidf
 import bunchhelpers
 import bunch_subclass
@@ -268,6 +269,46 @@ FenestrationSurface:Detailed,
        \\units m
        \\type real
        \\note Not used for triangles
+
+Construction,
+       \\memo Start with outside layer and work your way to the inside layer
+       \\memo Up to 10 layers total, 8 for windows
+       \\memo Enter the material name for each layer
+  A1 , \\field Name
+       \\required-field
+       \\type alpha
+       \\reference ConstructionNames
+  A2 , \\field Outside Layer
+       \\required-field
+       \\type object-list
+       \\object-list MaterialName
+  A3 , \\field Layer 2
+       \\type object-list
+       \\object-list MaterialName
+  A4 , \\field Layer 3
+       \\type object-list
+       \\object-list MaterialName
+  A5 , \\field Layer 4
+       \\type object-list
+       \\object-list MaterialName
+  A6 , \\field Layer 5
+       \\type object-list
+       \\object-list MaterialName
+  A7 , \\field Layer 6
+       \\type object-list
+       \\object-list MaterialName
+  A8 , \\field Layer 7
+       \\type object-list
+       \\object-list MaterialName
+  A9 , \\field Layer 8
+       \\type object-list
+       \\object-list MaterialName
+  A10, \\field Layer 9
+       \\type object-list
+       \\object-list MaterialName
+  A11; \\field Layer 10
+       \\type object-list
+       \\object-list MaterialName
 
 """
 
@@ -609,6 +650,12 @@ BuildingSurface:Detailed,
   0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
   9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
   9.144000,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+
+  Construction,
+    Dbl Clr 3mm/13mm Air,    !- Name
+    CLEAR 3MM,               !- Outside Layer
+    AIR 13MM,                !- Layer 2
+    CLEAR 3MM;               !- Layer 3
 """
 
 import random
@@ -685,7 +732,49 @@ def test_EpBunch():
     # test functions and alias again
     assert bwall.Constr == data.dt[wallkey][0][3]
     assert bwall.svalues == (newname, 'AnewConstr', ['BuildingSurface:Detailed', newname, 'Wall', 'AnewConstr', 'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed', '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000', '0', '0', '6.096000', '0', '3.048000'])
+    # test bunch_subclass.BadEPFieldError
+    with pytest.raises(bunch_subclass.BadEPFieldError):
+        bwall.Name_atypo = "newname"
+    with pytest.raises(bunch_subclass.BadEPFieldError):
+        thename = bwall.Name_atypo
+    with pytest.raises(bunch_subclass.BadEPFieldError):
+        bwall["Name_atypo"] = "newname"
+    with pytest.raises(bunch_subclass.BadEPFieldError):
+        thename = bwall["Name_atypo"]
+
+    # test where constr["obj"] has to be extended
+    # more items are added to an extendible field
+    constr_i = dtls.index('Construction'.upper())
+    constrkey = 'Construction'.upper()
+    dconstrs = dt[constrkey]
+    dconstr = dconstrs[0]
+    constrfields = [comm.get('field') for comm in commdct[constr_i]]
+    constrfields[0] = ['key']
+    constrfields = [field[0] for field in constrfields]
+    constr_fields = [bunchhelpers.makefieldname(field) for field in constrfields]
+    bconstr = EpBunch(dconstr, constr_fields)
+    assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
+    bconstr.Layer_4 = "butter"
+    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter']
+    bconstr.Layer_7 = "cheese"
+    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter', '', '', 'cheese']
+    bconstr["Layer_8"] = "jam"
+    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter', '', '', 'cheese', 'jam']
+    
+    # retrieve a valid field that has no value
+    assert bconstr.Layer_10 == ''
+    assert bconstr["Layer_10"] == ''
     os.remove(iddfile)
     os.remove(fname)
 
-test_EpBunch()
+def test_extendlist():
+    """py.test for extendlist"""
+    data = (([1,2,3], 2, 0, [1,2,3]), # lst, i, value, nlst
+    ([1,2,3], 3, 0, [1,2,3,0]), # lst, i, value, nlst
+    ([1,2,3], 5, 0, [1,2,3,0,0,0]), # lst, i, value, nlst
+    ([1,2,3], 7, 0, [1,2,3,0,0,0,0,0]), # lst, i, value, nlst
+    )
+    for lst, i, value, nlst in data:
+        bunch_subclass.extendlist(lst, i, value=value)
+        assert lst == nlst
+# test_EpBunch()

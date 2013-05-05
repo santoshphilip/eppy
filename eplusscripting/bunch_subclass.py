@@ -6,9 +6,19 @@ from EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
 
+class BadEPFieldError(Exception):
+    pass
+
 def somevalues(dt):
     """returns some values"""
     return dt.Name, dt.Construction_Name, dt.obj
+    
+def extendlist(lst, i, value=''):
+    """extend the list so that you have i-th value"""
+    if i < len(lst):
+        pass
+    else:
+        lst.extend([value, ] * (i - len(lst) + 1))
 
 class EpBunch_1(Bunch):
     """Has data in bunch"""
@@ -17,20 +27,29 @@ class EpBunch_1(Bunch):
         self.obj = obj
         self.objls = objls
     def __setattr__(self, name, value):
-        if name == 'obj' or name == 'objls':
+        if name in ('obj', 'objls'):
             super(EpBunch_1, self).__setattr__(name, value)
             return None
-        else:
-            if name in self['objls']:
-                i = self['objls'].index(name)
+        elif name in self['objls']:
+            i = self['objls'].index(name)
+            try:
                 self['obj'][i] = value
-    def __getattr__(self, name):
-        if name == 'obj' or name == 'objls':
-            return super(EpBunch_1, self).__getattr__(name)
+            except IndexError, e:
+                extendlist(self['obj'], i)
+                self['obj'][i] = value
         else:
-            if name in self['objls']:
-                i = self['objls'].index(name)
+            raise BadEPFieldError
+    def __getattr__(self, name):
+        if name in ('obj', 'objls'):
+            return super(EpBunch_1, self).__getattr__(name)
+        elif name in self['objls']:
+            i = self['objls'].index(name)
+            try:
                 return self['obj'][i]
+            except IndexError, e:
+                return ''
+        else:
+            raise BadEPFieldError
     def __repr__(self):
         """print this as an idf snippet"""
         lines = [str(val) for val in self.obj]
@@ -100,18 +119,28 @@ class EpBunch_4(EpBunch_3):
     def __getitem__(self, key):
         if key in ('obj', 'objls', '__functions', '__aliases'):
             return super(EpBunch_4, self).__getitem__(key)
-        else:
-            if key in self['objls']:
-                i = self['objls'].index(key)
+        elif key in self['objls']:
+            i = self['objls'].index(key)
+            try:
                 return self['obj'][i]
+            except IndexError, e:
+                return ''
+        else:
+            raise BadEPFieldError
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
             return None
-        else:
-            if key in self['objls']:
-                i = self['objls'].index(key)
+        elif key in self['objls']:
+            i = self['objls'].index(key)
+            try:
                 self['obj'][i] = value
+            except IndexError, e:
+                extendlist(self['obj'], i)
+                self['obj'][i] = value
+            
+        else:
+            raise BadEPFieldError
         
                                 
         

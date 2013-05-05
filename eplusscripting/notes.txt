@@ -4,17 +4,31 @@ L = constr.Layer_5 # Layer_5 may not exist in data.dt
 L = constr["Layer_5"] # Layer_5 may not exist in data.dt
 L = constr.Layer5 # there is a typo in the field name
 L = constr["Layer5"] # there is a typo in the field name
+constr.Layer_5 = 'B52' # Layer_5 may not exist in data.dt
+constr["Layer_5"] = 'B52' # Layer_5 may not exist in data.dt
+
     Plan an appropriate response for each of the above.
 
 L = constr.Layer_5 # Layer_5 may not exist in data.dt
-    # you should be able to put a value in.
-    # if Layer_4 also does not exit, make it ''. 
+    # return None ?
+    # return '' ? -> maybe this one ? # DONE this
+    # throw exception ? 
 L = constr["Layer_5"] # Layer_5 may not exist in data.dt
     # same as above
+    # DONE as above
 L = constr.Layer5 # there is a typo in the field name
     # Throw exception "BadEPFieldError"
+    # DONE
 L = constr["Layer5"] # there is a typo in the field name
     # Throw exception "BadEPFieldError"
+    # DONE
+constr.Layer_5 = 'B52' # Layer_5 may not exist in data.dt
+    # you should be able to put a value in.
+    # if Layer_4 also does not exit, make it ''. 
+    # DONE
+constr["Layer_5"] = 'B52' # Layer_5 may not exist in data.dt
+    # same as above
+    # DONE
     
 2013-05-02
 ----------
