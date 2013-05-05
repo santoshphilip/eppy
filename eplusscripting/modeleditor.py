@@ -110,7 +110,7 @@ class IDF1(IDF0):
         addthisbunch(self.model,
                             self.idd_info,
                             idfobject)  
-                            
+IDF = IDF1                            
                                     
 class something(IDF0):
     """docstring for something"""
