@@ -7,7 +7,6 @@ import copy
 
 def poptrailing(lst):
     """pop the trailing items in lst that are blank"""
-    # looks like I am not using this in newrawobject
     for i in range(len(lst)):
         if lst[-1] != '':
             break
@@ -25,7 +24,7 @@ def newrawobject(data, commdct, key):
     key_comm = commdct[key_i]
     obj = [comm.get('default', [''])[0] for comm in key_comm]
     obj[0] = key
-    # obj = poptrailing(obj)
+    obj = poptrailing(obj) # remove the blank items in a repeating field. 
     return obj
     
 def addthisbunch(data, commdct, thisbunch):

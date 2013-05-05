@@ -27,7 +27,9 @@ idf1 = IDF(fname)
 # idf1.idfobjects["VERSION"]
 
 
-loopname, theloop = "p_loop",  ['b0', ['b1', 'b2'], 'b3']
+loopname = "p_loop"
+sloop = ['sb0', ['sb1', 'sb2'], 'sb3']
+dloop = ['db0', ['db1', 'db2'], 'db3']
 
 newplantloop = idf1.newidfobject("PLANTLOOP", loopname)
 
@@ -65,8 +67,11 @@ for fieldname, thefield in zip(fieldnames, flnames):
     newplantloop[thefield] = fieldname
     
 # make the branch lists for this plant loop    
-supplybranchlist = idf1.newidfobject("BRANCHLIST",
+sbranchlistname = idf1.newidfobject("BRANCHLIST",
                 newplantloop.Plant_Side_Branch_List_Name)
-demandbranchlist = idf1.newidfobject("BRANCHLIST",
+dbranchlistname = idf1.newidfobject("BRANCHLIST",
                 newplantloop.Demand_Side_Branch_List_Name)
+
+# make the branches in the branchlist
+sbranchlist = idf1.newidfobject("BRANCHLIST", sbranchlistname)
                 
