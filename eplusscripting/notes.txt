@@ -1,3 +1,20 @@
+2013-05-08
+----------
+notes after conf. call
+TODO :
+- complete hvac loops
+    - plantloop = complete, do condensor loop version
+    - TODO branch builder
+    - TODO airloop
+Sample code
+    - elimination params
+    - some EEMs
+- update documentation
+    - reflect code change to include class IDF
+    - doc for hvac builder
+    - doc for sample code
+    - doc for installation
+
 2013-05-04
 ----------
 L = constr.Layer_5 # Layer_5 may not exist in data.dt
