@@ -1391,7 +1391,9 @@ def test_makeplantloop():
         ntxtfname = "%snout.idf" % (random.randint(11111, 99999))
         open(fname, 'w').write(blankidf)
         open(iddfile, 'w').write(iddtxt)
-        IDF.setiddname(iddfile)
+        # IDF.setiddname(iddfile)
+        
+        IDF.setiddname("../../iddfiles/Energy+V6_0.idd")
         idf1 = IDF(fname)
         loopname = "p_loop"
         sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']

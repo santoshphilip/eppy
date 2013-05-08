@@ -156,13 +156,13 @@ def makeplantloop(idf, loopname, sloop, dloop):
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
 
-# iddfile = "../../iddfiles/Energy+V6_0.idd"
-# IDF.setiddname(iddfile)
-# fname = "../../idffiles/V_6_0/5ZoneSupRetPlenRAB.idf"
-# fname = "./blank.idf"
-# idf1 = IDF(fname)
-# loopname = "p_loop"
-# sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-# dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
-# makeplantloop(idf1, loopname, sloop, dloop)
-# idf1.saveas("hh.idf")
+iddfile = "../../iddfiles/Energy+V6_0.idd"
+IDF.setiddname(iddfile)
+fname = "../../idffiles/V_6_0/5ZoneSupRetPlenRAB.idf"
+fname = "./blank.idf"
+idf1 = IDF(fname)
+loopname = "p_loop"
+sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+makeplantloop(idf1, loopname, sloop, dloop)
+idf1.saveas("hh.idf")
