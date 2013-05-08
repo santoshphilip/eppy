@@ -1,3 +1,21 @@
+2013-05-08
+----------
+when you rename nodes do:
+obj.nodefield = [oldnodename, newodename]
+Then you can find the occurance of the old names in other places.
+
+node rename
+- exception at loop endpoints.
+- How to identify them.
+updatebranch(loop, branch, [c1, c2, c3, c4])
+getinletname(loop, branch, c1) -> maybe None
+getoutletname(loop, branch, c1) -> maybe None
+do standard node name change
+If None:
+    replace that nodename
+else:
+    pass
+
 2013-05-05
 ----------
 branch
@@ -18,4 +36,6 @@ OR
 replace the contents of the branch with a new list of components
 [pump, chiller, coil] -> these items are EpBunch objects.
 two options:
-- rename all the nodes logically. Problem is that nodes may be referred to at the controls.
+- rename all the nodes logically. 
+    - 
+    Problem is that nodes may be referred to at the controls. 
