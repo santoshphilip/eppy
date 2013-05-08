@@ -70,12 +70,10 @@ def addobject(bunchdt, data, commdct, key, aname=''):
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):
-        # TODO use file handle instead of file name
         self.idfname = idfname
         self.read()
     @classmethod
     def setiddname(cls, arg):
-        # TODO use file handle instead of filename
         if cls.iddname == None:
             cls.iddname = arg
     def read(self):
@@ -84,8 +82,6 @@ class IDF0(object):
         # TODO : thow an exception if iddname = None
         readout = idfreader(self.idfname, self.iddname)
         self.idfobjects, self.model, self.idd_info = readout
-    def __repr__(self):
-        return self.model.__repr__()
     def save(self):
         # TODO unit test
         s = str(self.model)
@@ -110,7 +106,29 @@ class IDF1(IDF0):
         addthisbunch(self.model,
                             self.idd_info,
                             idfobject)  
-IDF = IDF1                            
+class IDF2(IDF1):
+    def __init__(self, idfname):
+        super(IDF2, self).__init__(idfname)
+    def idfstr(self):
+        # print self.model.__repr__()
+        st = ''
+        dtls = self.model.dtls
+        for objname in dtls:
+            for obj in self.idfobjects[objname]:
+                 st = st + obj.__repr__()
+        return st
+    def printidf(self):
+        """print the idf"""
+        s = self.idfstr()
+        dtls = self.model.dtls
+        for objname in dtls:
+            for obj in self.idfobjects[objname]:
+                 print obj
+    # def __repr__(self):
+    #     return self.model.__repr__()
+            
+                            
+IDF = IDF2
                                     
 class something(IDF0):
     """docstring for something"""

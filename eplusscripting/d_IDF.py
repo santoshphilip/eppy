@@ -1,8 +1,6 @@
 """dev work on using IDF class"""
 import modeleditor
-from modeleditor import IDF1
-
-IDF = IDF1
+from modeleditor import IDF
 
 iddfile = "../iddfiles/Energy+V7_2_0.idd"
 IDF.setiddname(iddfile)
@@ -23,7 +21,10 @@ idf2 = IDF(fname2)
 
 # # test newidfobject
 idf1.newidfobject("ZONE")
-print idf1
+idf1.printidf()
 idf1.newidfobject("ZONE", "gumby")
-print idf1
+idf1.printidf()
  
+# for objname in dtls:
+#     for obj in idf.idfobjects[objname]:
+#         print obj
