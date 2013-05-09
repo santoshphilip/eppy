@@ -1,19 +1,15 @@
 2013-05-08
 ----------
-notes after conf. call
-TODO :
-- complete hvac loops
-    - plantloop = complete, do condensor loop version
-    - TODO branch builder
-    - TODO airloop
-Sample code
-    - elimination params
-    - some EEMs
-- update documentation
-    - reflect code change to include class IDF
-    - doc for hvac builder
-    - doc for sample code
-    - doc for installation
+when you rename nodes do:
+obj.nodefield = [oldnodename, newodename]
+Then you can find the occurance of the old names in other places.
+
+2013-05-07
+----------
+loopname = "p_loop"
+sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+makeplantloop(idf1, loopname, sloop, dloop)
 
 2013-05-04
 ----------

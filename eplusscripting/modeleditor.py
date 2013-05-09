@@ -67,6 +67,28 @@ def addobject(bunchdt, data, commdct, key, aname=''):
     bunchdt[key].append(abunch)
     return abunch
 
+def getnamedargs(*args, **kwargs):
+    """allows you to pass a dict and named args
+    so you can pass ({'a':5, 'b':3}, c=8) and get
+    dict(a=5, b=3, c=8)"""
+    adict = {}
+    for arg in args:
+        if isinstance(arg, dict):
+            adict.update(arg)
+    adict.update(kwargs)
+    return adict
+    
+def addobject1(bunchdt, data, commdct, key, *args, **kwargs):
+    """add an object to the eplus model"""
+    obj = newrawobject(data, commdct, key)
+    abunch = obj2bunch(data, commdct, obj)
+    data.dt[key].append(obj)
+    bunchdt[key].append(abunch)
+    adict = getnamedargs(*args, **kwargs)
+    for kkey, value in adict.iteritems():
+        abunch[kkey] = value
+    return abunch
+
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):
