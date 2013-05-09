@@ -1,3 +1,7 @@
+2013-05-09
+----------
+moke the pipe objects.
+check if a new object can be made with named arguments.
 2013-05-08
 ----------
 - fix makeplantloop to have make objects.
