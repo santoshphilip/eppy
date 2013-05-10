@@ -1,7 +1,11 @@
 2013-05-09
 ----------
 moke the pipe objects.
-check if a new object can be made with named arguments.
+check if a new object can be made with named arguments. DONE
+- fix the pytest that read a file
+- IDF.setiddname(fhandle)
+    this is failing because, fhandle is getting exhausted
+    fhandle should get used only once. - how to do this ?
 2013-05-08
 ----------
 when you rename nodes do:
