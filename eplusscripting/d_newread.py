@@ -6,13 +6,14 @@ from idfreader import IIDF
 d0 = datetime.datetime.now()
 iddfilef = "../iddfiles/Energy+V7_0_0_036.idd"
 iddfile = open(iddfilef, 'r')
-print iddfile
+# print iddfile.next()
+# print iddfile
 fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 
 
 
  
-bunchdt, data, commdct = idfreader.idfreader(fname, iddfile)
+# bunchdt, data, commdct = idfreader.idfreader(fname, iddfile)
 
 # reading idd
 # -----------
