@@ -93,7 +93,25 @@ def idfreader(fname, iddfile, conv=True):
     # - 
     return bunchdt, data, commdct
 
-class IDF0(object):
+def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
+    """read idf file and reutrn bunches"""
+    block, data, commdct = readidf.readdatacommdct1(fname,
+                                iddfile=iddfile, commdct=commdct, block=block)
+    if conv:
+        convertallfields(data, commdct)
+    # fill gaps in idd
+    dt, dtls = data.dt, data.dtls
+    nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
+                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
+    iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
+    bunchdt = makebunches(data, commdct)
+    # TODO : add functions here.
+    # - 
+    addfunctions(bunchdt)
+    # - 
+    return bunchdt, block, data, commdct
+
+class IIDF0(object):
     iddname = None
     def __init__(self, idfname):
         self.idfname = idfname
@@ -102,14 +120,66 @@ class IDF0(object):
     def setiddname(cls, arg):
         if cls.iddname == None:
             cls.iddname = arg
+            cls.idd_info = None
+            cls.block = None
+    @classmethod
+    def setidd(cls, iddinfo, block):
+        cls.idd_info = iddinfo
+        cls.block = block
     def read(self):
         """read the idf file"""
+        # TODO unit test
         # TODO : thow an exception if iddname = None
-        self.objects, model, idd_info = idfreader(self.idfname, self.iddname)
+        readout = idfreader1(self.idfname, self.iddname,
+                                commdct=self.idd_info, block=self.block)
+        self.idfobjects, block, self.model, idd_info = readout
+        self.__class__.setidd(idd_info, block)
+    def save(self):
+        # TODO unit test
+        s = str(self.model)
+        open(self.idfname, 'w').write(s)
+    def saveas(self, filename):
+        s = str(self.model)
+        open(filename, 'w').write(s)
 
-class IDF1(IDF0):
+class IIDF1(IIDF0):
     def __init__(self, idfname):
-        super(IDF, self).__init__(idfname)
+        super(IIDF1, self).__init__(idfname)
+    def newidfobject(self, key, aname=''):
+        """add a new idfobject to the model"""
+        # TODO unit test
+        return addobject(self.idfobjects,
+                            self.model,
+                            self.idd_info,
+                            key, aname=aname)  
+    def addidfobject(self, idfobject):
+        """add idfobject to this model"""
+        # TODO unit test
+        addthisbunch(self.model,
+                            self.idd_info,
+                            idfobject)  
+class IIDF2(IIDF1):
+    def __init__(self, idfname):
+        super(IIDF2, self).__init__(idfname)
+    def idfstr(self):
+        # print self.model.__repr__()
+        st = ''
+        dtls = self.model.dtls
+        for objname in dtls:
+            for obj in self.idfobjects[objname]:
+                 st = st + obj.__repr__()
+        return st
+    def printidf(self):
+        """print the idf"""
+        s = self.idfstr()
+        dtls = self.model.dtls
+        for objname in dtls:
+            for obj in self.idfobjects[objname]:
+                 print obj
+    # def __repr__(self):
+    #     return self.model.__repr__()
+
+IIDF = IIDF2
         
 # read code
 # iddfile = "../iddfiles/Energy+V6_0.idd"

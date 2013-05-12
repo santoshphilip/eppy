@@ -68,6 +68,13 @@ def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
     data = eplusdata.eplusdata(theidd,idfname)
     return data, commdct
     
-    
-
-    
+def readdatacommdct1(idfname, iddfile='Energy+.idd',
+                                    commdct=None, block=None):
+    """read the idf file"""
+    if not commdct:
+        block,commlst,commdct=parse_idd.extractidddata(iddfile)
+        theidd=eplusdata.idd(block,2)
+    else:
+        theidd = eplusdata.idd(block,2)
+    data = eplusdata.eplusdata(theidd,idfname)
+    return block, data, commdct
