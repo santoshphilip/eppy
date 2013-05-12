@@ -4,8 +4,11 @@ import idfreader
 from idfreader import IIDF
 
 d0 = datetime.datetime.now()
-iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+iddfilef = "../iddfiles/Energy+V7_0_0_036.idd"
+iddfile = open(iddfilef, 'r')
+print iddfile
 fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+
 
 
  
@@ -22,6 +25,7 @@ bunchdt, data, commdct = idfreader.idfreader(fname, iddfile)
 
 IIDF.setiddname(iddfile)
 idf = IIDF(fname)
+iddfile.close()
 
 d1 = datetime.datetime.now()
 print d1 -d0

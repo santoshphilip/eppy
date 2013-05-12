@@ -75,16 +75,16 @@ open("f.idf", 'w').write(s)
 # iddhandle.close()
 # fhandle.close()
 # # -----------
-# # open using IDF
-# iddhandle = open(iddfile, 'r')
-# fhandle = open(fname, 'r')
-# 
-# IDF.setiddname(iddhandle)
-# 
-# idf1 = IDF(fhandle)
-# idf1.saveas("isis.idf")
-# # idf1.printidf()
+# open using IDF
+iddhandle = open(iddfile, 'r')
+fhandle = open(fname, 'r')
+
+IDF.setiddname(iddhandle)
+
+idf1 = IDF(fhandle)
+idf1.saveas("isis.idf")
+# idf1.printidf()
 # s = idf1.asstring()
-# # print s
-# iddhandle.close()
-# fhandle.close()
+# print s
+iddhandle.close()
+fhandle.close()

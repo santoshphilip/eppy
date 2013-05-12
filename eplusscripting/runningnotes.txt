@@ -1,3 +1,8 @@
+2013-05-12
+----------
+IIDF now reads idd only once
+it works with iddfilename, but not with iddfilehandle :-(
+see d_newread.py
 2013-05-09
 ----------
 - IDF.setiddname(fhandle)
