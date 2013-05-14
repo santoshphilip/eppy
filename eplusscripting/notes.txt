@@ -1,8 +1,58 @@
+2013-05-08
+----------
+when you rename nodes do:
+obj.nodefield = [oldnodename, newodename]
+Then you can find the occurance of the old names in other places.
+
+2013-05-07
+----------
+loopname = "p_loop"
+sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+makeplantloop(idf1, loopname, sloop, dloop)
+
+2013-05-04
+----------
+L = constr.Layer_5 # Layer_5 may not exist in data.dt
+L = constr["Layer_5"] # Layer_5 may not exist in data.dt
+L = constr.Layer5 # there is a typo in the field name
+L = constr["Layer5"] # there is a typo in the field name
+constr.Layer_5 = 'B52' # Layer_5 may not exist in data.dt
+constr["Layer_5"] = 'B52' # Layer_5 may not exist in data.dt
+
+    Plan an appropriate response for each of the above.
+
+L = constr.Layer_5 # Layer_5 may not exist in data.dt
+    # return None ?
+    # return '' ? -> maybe this one ? # DONE this
+    # throw exception ? 
+L = constr["Layer_5"] # Layer_5 may not exist in data.dt
+    # same as above
+    # DONE as above
+L = constr.Layer5 # there is a typo in the field name
+    # Throw exception "BadEPFieldError"
+    # DONE
+L = constr["Layer5"] # there is a typo in the field name
+    # Throw exception "BadEPFieldError"
+    # DONE
+constr.Layer_5 = 'B52' # Layer_5 may not exist in data.dt
+    # you should be able to put a value in.
+    # if Layer_4 also does not exit, make it ''. 
+    # DONE
+constr["Layer_5"] = 'B52' # Layer_5 may not exist in data.dt
+    # same as above
+    # DONE
+    
+2013-05-02
+----------
+dev. notes on hvac loops
+- plant side components can be replaced/deleted in branch
+- air side components have to be replaced in equipment list
 2013-04-24
 ----------
 - give links to python. 
 - find and replace
-- do the loops branches from contract. 
+- do the loops branches from contract.
 
 2013-04-24
 ----------
