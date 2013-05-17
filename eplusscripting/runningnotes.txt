@@ -14,6 +14,10 @@ check if a new object can be made with named arguments. DONE
 - fix the pytest that read a file
 2013-05-08
 ----------
+- fix makeplantloop to have make objects.
+- make IDF.newidfobject with 
+
+
 when you rename nodes do:
 obj.nodefield = [oldnodename, newodename]
 Then you can find the occurance of the old names in other places.
