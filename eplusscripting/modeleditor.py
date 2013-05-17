@@ -1,7 +1,7 @@
 """functions to edit the E+ model"""
 
 from idfreader import makebunches
-from idfreader import idfreader
+from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
 import copy
 
@@ -98,12 +98,20 @@ class IDF0(object):
     def setiddname(cls, arg):
         if cls.iddname == None:
             cls.iddname = arg
+            cls.idd_info = None
+            cls.block = None
+    @classmethod
+    def setidd(cls, iddinfo, block):
+        cls.idd_info = iddinfo
+        cls.block = block
     def read(self):
         """read the idf file"""
         # TODO unit test
         # TODO : thow an exception if iddname = None
-        readout = idfreader(self.idfname, self.iddname)
-        self.idfobjects, self.model, self.idd_info = readout
+        readout = idfreader1(self.idfname, self.iddname,
+                                commdct=self.idd_info, block=self.block)
+        self.idfobjects, block, self.model, idd_info = readout
+        self.__class__.setidd(idd_info, block)
     def save(self):
         # TODO unit test
         s = str(self.model)
@@ -148,9 +156,9 @@ class IDF2(IDF1):
                  print obj
     # def __repr__(self):
     #     return self.model.__repr__()
-            
-                            
+
 IDF = IDF2
+        
                                     
 class something(IDF0):
     """docstring for something"""

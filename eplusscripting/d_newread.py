@@ -53,6 +53,7 @@ d1 = datetime.datetime.now()
 print d1 -d0
 
 d0 = d1
-idf1 = IIDF(fname)
+fhandle = open(fname, 'r')
+idf1 = IIDF(fhandle)
 d1 = datetime.datetime.now()
 print d1 -d0
