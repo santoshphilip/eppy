@@ -1,6 +1,23 @@
+# Copyright (c) 2012 Santosh Phillip
+
+# This file is part of eplusinterface_diagrams.
+
+# Eplusinterface_diagrams is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Eplusinterface_diagrams is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with eplusinterface_diagrams.  If not, see <http://www.gnu.org/licenses/>.
+
 """Given a list of files, the script will track all the autosized values across files
 It will put together a single file containing all the autosized values. The autosized values are
-tagged as AUTO. If a field is autosized in one file and not autosized in other files, it's 
+tagged as AUTO. If a field is autosized in one file and not autosized in other files, its 
 value is still pulled up. 
 The results are output in a csv file.
 The input data is hardcoded at the moment"""
