@@ -52,15 +52,26 @@ def test_flattencopy():
     for lst , nlst in tdata:
         result = flattencopy(lst)
         assert result == nlst
-
+        
+def makepipecomponent(idf, pname):
+    """todo"""
+    apipe = idf.newidfobject("Pipe:Adiabatic".upper(), pname)
+    apipe.Inlet_Node_Name = "%s_inlet" % (pname, )
+    apipe.Outlet_Node_Name = "%s_outlet" % (pname, )
+    return apipe
+    
 def makepipebranch(idf ,bname):
     """make a branch with a pipe
     use standard inlet outlet names"""
+    # make the pipe component first
+    pname = "%s_pipe" % (bname, )
+    apipe = makepipecomponent(idf, pname)
+    # now make the branch with the pipe in it
     abranch = idf.newidfobject("BRANCH", bname)    
     abranch.Component_1_Object_Type = 'Pipe:Adiabatic'
-    abranch.Component_1_Name = "%s_pipe" % (bname, )
-    abranch.Component_1_Inlet_Node_Name = "%s_pipe_inlet" % (bname, )
-    abranch.Component_1_Outlet_Node_Name = "%s_pipe_outlet" % (bname, )
+    abranch.Component_1_Name = pname
+    abranch.Component_1_Inlet_Node_Name = apipe.Inlet_Node_Name
+    abranch.Component_1_Outlet_Node_Name = apipe.Outlet_Node_Name
     abranch.Component_1_Branch_Control_Type = "Bypass"
     return abranch
 
@@ -127,21 +138,40 @@ def makeplantloop(idf, loopname, sloop, dloop):
         branch = makepipebranch(idf, bname)
         sbranchs.append(branch)
     # rename inlet outlet of endpoints of loop
-    sbranchs[0].Component_1_Inlet_Node_Name =  newplantloop.Plant_Side_Inlet_Node_Name    
-    sbranchs[-1].Component_1_Outlet_Node_Name =  newplantloop.Plant_Side_Outlet_Node_Name
+    anode = "Component_1_Inlet_Node_Name"
+    sameinnode = "Plant_Side_Inlet_Node_Name"
+    sbranchs[0][anode] =  newplantloop[sameinnode]
+    anode = "Component_1_Outlet_Node_Name"
+    sameoutnode = "Plant_Side_Outlet_Node_Name"
+    sbranchs[-1][anode] =  newplantloop[sameoutnode]
+    # rename inlet outlet of endpoints of loop - rename in pipe
+    pname = sbranchs[0]['Component_1_Name'] # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    apipe.Inlet_Node_Name = newplantloop[sameinnode]
+    pname = sbranchs[-1]['Component_1_Name'] # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    apipe.Outlet_Node_Name = newplantloop[sameoutnode]
 
     # demand side
     dbranchs = []
     for bname in dbranchnames:
         branch = makepipebranch(idf, bname)
         dbranchs.append(branch)
-    # rename inlet outlet of endpoints of loop
+    # rename inlet outlet of endpoints of loop - rename in branch
     anode = "Component_1_Inlet_Node_Name"
-    samenode = "Demand_Side_Inlet_Node_Name"
-    dbranchs[0][anode] =  newplantloop[samenode]  
+    sameinnode = "Demand_Side_Inlet_Node_Name"
+    dbranchs[0][anode] =  newplantloop[sameinnode]
     anode = "Component_1_Outlet_Node_Name"
-    samenode = "Demand_Side_Outlet_Node_Name"
-    dbranchs[-1][anode] =  newplantloop[samenode]
+    sameoutnode = "Demand_Side_Outlet_Node_Name"
+    dbranchs[-1][anode] =  newplantloop[sameoutnode]
+    # rename inlet outlet of endpoints of loop - rename in pipe
+    pname = dbranchs[0]['Component_1_Name'] # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    apipe.Inlet_Node_Name = newplantloop[sameinnode]
+    pname = dbranchs[-1]['Component_1_Name'] # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    apipe.Outlet_Node_Name = newplantloop[sameoutnode]
+
 
     # TODO : test if there are parallel branches
     # make the connectorlist an fill fields
@@ -173,13 +203,12 @@ def makeplantloop(idf, loopname, sloop, dloop):
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
 
-# iddfile = "../../iddfiles/Energy+V6_0.idd"
-# IDF.setiddname(iddfile)
-# fname = "../../idffiles/V_6_0/5ZoneSupRetPlenRAB.idf"
-# fname = "./blank.idf"
-# idf1 = IDF(fname)
+# from StringIO import StringIO
+# import iddv7
+# IDF.setiddname(StringIO(iddv7.iddtxt))
+# idf1 = IDF(StringIO(''))
 # loopname = "p_loop"
 # sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
 # dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
 # makeplantloop(idf1, loopname, sloop, dloop)
-# idf1.saveas("hh.idf")
+# idf1.saveas("hh1.idf")

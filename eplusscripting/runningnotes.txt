@@ -1,3 +1,7 @@
+2013-05-27
+----------
+back to hvac loops
+- need to make a pipe component in hvacbuilder.makeplantloop - DONE
 2013-05-26
 ----------
 I think d_newread.py is working. 

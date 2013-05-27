@@ -101,3 +101,14 @@ def test_addobject1():
         assert data.dt[key][-1][1] == aname
         assert bunchdt[key][-1].Name == aname        
         
+def test_getobject():
+    """py.test for getobject"""
+    thedata = (
+        ('ZONE', 'PLENUM-1', 
+            bunchdt['ZONE'][0]), # key, name, theobject
+        ('ZONE', 'PLENUM-A', 
+            None), # key, name, theobject
+    )
+    for key, name, theobject in thedata:
+        result = modeleditor.getobject(bunchdt, key, name)
+        assert result == theobject

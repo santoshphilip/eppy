@@ -105,6 +105,16 @@ def addobject1(bunchdt, data, commdct, key, *args, **kwargs):
     for kkey, value in adict.iteritems():
         abunch[kkey] = value
     return abunch
+    
+def getobject(bunchdt, key, name):
+    """get the object if you have the key and the name"""
+    idfobjects = bunchdt[key]
+    theobjs = [idfobj for idfobj in idfobjects if idfobj.Name == name]
+    try:
+        return theobjs[0]
+    except IndexError, e:
+        return None
+    
 
 class IDF0(object):
     iddname = None
@@ -152,7 +162,11 @@ class IDF1(IDF0):
         # TODO unit test
         addthisbunch(self.model,
                             self.idd_info,
-                            idfobject)  
+                            idfobject)
+    def getobject(self, key, name):
+        """return the object given key and name"""
+        return getobject(self.idfobjects, key, name)
+      
 class IDF2(IDF1):
     def __init__(self, idfname):
         super(IDF2, self).__init__(idfname)
