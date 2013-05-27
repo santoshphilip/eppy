@@ -22,7 +22,9 @@ import idfreader
 import modeleditor
 import snippet
 
-iddsnippet = snippet.iddsnippet
+import iddv7
+iddsnippet = iddv7.iddtxt
+# iddsnippet = snippet.iddsnippet
 idfsnippet = snippet.idfsnippet
 
 from StringIO import StringIO

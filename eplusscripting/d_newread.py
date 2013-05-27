@@ -1,7 +1,7 @@
 """build a new reader that will read idd only once"""
 import datetime
 import idfreader
-from idfreader import IIDF
+from modeleditor import IDF
 
 d0 = datetime.datetime.now()
 iddfilef = "../iddfiles/Energy+V7_0_0_036.idd"
@@ -17,15 +17,15 @@ fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 
 # reading idd
 # -----------
-# idf = IIDF(fname)
+# idf = IDF(fname)
 # idfreader1(fname, iddfile) -> 
 # readidf.readdatacommdct1(fname, iddfile) ->
 # parse_idd.extractidddata(idfname, iddfile) 
 # and eplusdata.eplusdata(theidd,)
 
 
-IIDF.setiddname(iddfile)
-idf = IIDF(fname)
+IDF.setiddname(iddfile)
+idf = IDF(fname)
 iddfile.close()
 
 d1 = datetime.datetime.now()
@@ -33,27 +33,27 @@ print d1 -d0
 # idf.printidf()
 
 d0 = d1
-idf1 = IIDF(fname)
+idf1 = IDF(fname)
 d1 = datetime.datetime.now()
 print d1 -d0
 
 d0 = d1
-idf1 = IIDF(fname)
+idf1 = IDF(fname)
 d1 = datetime.datetime.now()
 print d1 -d0
 
 d0 = d1
-idf1 = IIDF(fname)
+idf1 = IDF(fname)
 d1 = datetime.datetime.now()
 print d1 -d0
 
 d0 = d1
-idf1 = IIDF(fname)
+idf1 = IDF(fname)
 d1 = datetime.datetime.now()
 print d1 -d0
 
 d0 = d1
 fhandle = open(fname, 'r')
-idf1 = IIDF(fhandle)
+idf1 = IDF(fhandle)
 d1 = datetime.datetime.now()
 print d1 -d0
