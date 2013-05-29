@@ -21,13 +21,14 @@ import snippet
 import os
 import pytest_helpers
 import modeleditor
-import iddv7
 # iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 # fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 
 
 # iddsnippet = snippet.iddsnippet
-iddsnippet = iddv7.iddtxt
+from iddcurrent import iddcurrent
+iddsnippet = iddcurrent.iddtxt
+
 idfsnippet = snippet.idfsnippet
 
 from StringIO import StringIO

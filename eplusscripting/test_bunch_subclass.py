@@ -25,8 +25,8 @@ import bunchhelpers
 import bunch_subclass
 EpBunch = bunch_subclass.EpBunch
 
-import iddv6
-iddtxt = iddv6.iddtxt
+from iddcurrent import iddcurrent
+iddtxt = iddcurrent.iddtxt
 
 # This test is ugly because I have to send file names and not able to send file handles
 idftxt = """Version,

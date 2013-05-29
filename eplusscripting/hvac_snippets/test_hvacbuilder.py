@@ -25,8 +25,8 @@ import random
 from StringIO import StringIO
 
 # idd is read only once in this test
-import iddv7
-iddfhandle = StringIO(iddv7.iddtxt)
+from iddcurrent import iddcurrent
+iddfhandle = StringIO(iddcurrent.iddtxt)
 IDF.setiddname(iddfhandle)
 
 

@@ -22,8 +22,8 @@ import idfreader
 import modeleditor
 import snippet
 
-import iddv7
-iddsnippet = iddv7.iddtxt
+from iddcurrent import iddcurrent
+iddsnippet = iddcurrent.iddtxt
 # iddsnippet = snippet.iddsnippet
 idfsnippet = snippet.idfsnippet
 
