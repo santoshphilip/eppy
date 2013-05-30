@@ -28,6 +28,8 @@ tasks to be done:
 - finish up remaining functions
 - update docs
 - traversing the loop
+- clean up the github branches so that you can send the link to anyone.
+- JUNE end as completion. 
 
 2013-05-30
 ----------
