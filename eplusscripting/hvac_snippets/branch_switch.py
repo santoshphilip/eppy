@@ -62,3 +62,5 @@ for i in range(len(components) - 1):
     thiscomp.Outlet_Node_Name = betweennodename
     nextcomp.Inlet_Node_Name = betweennodename
 idf.saveas("hh3.idf")
+
+# empty the old branch

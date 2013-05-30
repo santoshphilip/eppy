@@ -24,7 +24,7 @@ import snippet
 
 from iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
-# iddsnippet = snippet.iddsnippet
+
 idfsnippet = snippet.idfsnippet
 
 from StringIO import StringIO
