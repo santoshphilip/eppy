@@ -22,6 +22,9 @@ from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
 import copy
 
+class NoObjectError(Exception):
+    pass
+
 def poptrailing(lst):
     """pop the trailing items in lst that are blank"""
     for i in range(len(lst)):
@@ -107,15 +110,54 @@ def addobject1(bunchdt, data, commdct, key, *args, **kwargs):
     return abunch
     
 def getobject(bunchdt, key, name):
-    """get the object if you have the key and the name"""
+    """get the object if you have the key and the name
+    retunrs a list of objects, in case you have more than one
+    You should not have more than one"""
+    # TODO : throw exception if more than one object, or return more objects
     idfobjects = bunchdt[key]
-    theobjs = [idfobj for idfobj in idfobjects if idfobj.Name == name]
+    theobjs = [idfobj for idfobj in idfobjects if idfobj.Name.upper() == name.upper()]
     try:
         return theobjs[0]
     except IndexError, e:
         return None
     
+def iddofobject(data, commdct, key):
+    """from commdct, return the idd of the object key"""
+    dtls = data.dtls
+    i = dtls.index(key)
+    return commdct[i]
+    
+def getextensibleindex(bunchdt, data, commdct, key, objname):
+    """get the index of the first extensible item"""
+    theobject = getobject(bunchdt, key, objname)
+    if theobject == None:
+        return None
+    theidd = iddofobject(data, commdct, key)
+    extensible_i = [i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+    try:
+        extensible_i = extensible_i[0]
+    except IndexError, e:
+        return theobject
+        
 
+def removeextensibles(bunchdt, data, commdct, key, objname):
+    """remove the extensible tiems in the object"""
+    theobject = getobject(bunchdt, key, objname)
+    if theobject == None:
+        return theobject
+    theidd = iddofobject(data, commdct, key)
+    extensible_i = [i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+    try:
+        extensible_i = extensible_i[0]
+    except IndexError, e:
+        return theobject
+    while True:
+        try:
+            p = theobject.obj.pop(extensible_i)
+        except IndexError, e:
+            break
+    return theobject
+    
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):
@@ -166,6 +208,10 @@ class IDF1(IDF0):
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
+    def removeextensibles(self, key, name):
+        """remove extensible items in the object of key and name"""
+        return removeextensibles(self.idfobjects, self.model, self.idd_info, 
+                                key, name)
       
 class IDF2(IDF1):
     def __init__(self, idfname):

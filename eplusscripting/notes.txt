@@ -1,3 +1,50 @@
+2013-05-30
+----------
+notes for conf call
+
+all tasks for completion of project
+- update docs
+- HVAC loop Builder (at component, branch and loop level)
+- finish up remaining functions (rename, any others ?)
+
+Tasks done:
+update docs -> ongoing
+HVAC
+- loop level API
+    - loop builder done for plant loop
+- branch level API
+    - build a branch with a list of components -> close to done
+    - replace existing branch with new branch -> close to done
+- component level API
+    - branch level API can be used to do this -> discuss
+-----------
+Background work done:
+- put GPL license in all code files
+- unit tests updated so that tests can be done with any version of IDD. 
+This was hard coded earlier with IDD snippets embedded in the test. Different test were using different versions of IDD.
+
+tasks to be done:
+- complete items that are close to done
+- finish up remaining functions
+- update docs
+- traversing the loop
+
+2013-05-30
+----------
+some thoughts:
+- need a good way of calling things:
+    - "ZONE" = objkey ?
+    - "Plenum" = anobject ?
+- how to deal with case in the fields
+    - some fields are case sensitive
+    - case should be retained
+    - comparisons should be case insensitive, except in retaincase
+    - need to find if retaincase is true.
+- need philosophy on this:
+    - I have 3 levels of editing
+    - lowest is -> data, commdct
+    - mid -> bunchdt
+    - high -> IDF
 2013-05-08
 ----------
 when you rename nodes do:

@@ -41,6 +41,10 @@ dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
 hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
 idf.saveas("hh1.idf")
 
+# replacebranch(loop, branch, listofcomponents)
+# loop = loop of name p_loop
+# branch = branch of name sb1
+
 # make pipe components np1, np2
 pipe1 = hvacbuilder.makepipecomponent(idf, 'np1')
 pipe2 = hvacbuilder.makepipecomponent(idf, 'np2')
@@ -49,18 +53,28 @@ idf.saveas("hh2.idf")
 # join them into a branch
 # -----------------------
 # np1_inlet -> np1 -> np1_np2_node -> np2 -> np2_outlet
-# change the node names in the component
-# empty the old branch
-# fill in the new components with the node names
+    # change the node names in the component
+    # empty the old branch
+    # fill in the new components with the node names into this branch
 
-# change the node names in the component
+# change the node names in the component so that they connect up. 
+# make the change as a list [oldnode, newnode]
 components = [pipe1, pipe2]
 for i in range(len(components) - 1):
     thiscomp = components[i]
     nextcomp = components[i + 1]
     betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
-    thiscomp.Outlet_Node_Name = betweennodename
-    nextcomp.Inlet_Node_Name = betweennodename
+    thiscomp.Outlet_Node_Name = [thiscomp.Outlet_Node_Name, betweennodename]
+    nextcomp.Inlet_Node_Name = [nextcomp.Inlet_Node_Name, betweennodename]
 idf.saveas("hh3.idf")
 
 # empty the old branch
+    # function to get idd_comments of an object.
+    # iddofobject(key) 
+    # get the first extensible field
+    # empty all extensible field
+thebranch = idf.getobject('BRANCH', 'sb1')
+thebranch = idf.removeextensibles('BRANCH', 'sb1')
+idf.saveas("hh4.idf")
+
+# fill in the new components with the node names into this branch

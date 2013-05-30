@@ -106,9 +106,35 @@ def test_getobject():
     thedata = (
         ('ZONE', 'PLENUM-1', 
             bunchdt['ZONE'][0]), # key, name, theobject
+        ('ZONE', 'PLENUM-1'.lower(), 
+            bunchdt['ZONE'][0]), # key, name, theobject
         ('ZONE', 'PLENUM-A', 
             None), # key, name, theobject
     )
     for key, name, theobject in thedata:
         result = modeleditor.getobject(bunchdt, key, name)
         assert result == theobject
+        
+def test_iddofobject():
+    """pytest of iddofobject"""
+    thedata = (('VERSION', 
+                [{'format': ['singleLine'], 'unique-object': ['']},
+                {'default': ['7.0'], 'field': ['Version Identifier'], 
+                'required-field': ['']}]), # key, itsidd
+    )
+    for key, itsidd in thedata:
+        result = modeleditor.iddofobject(data, commdct, key)
+        assert result == itsidd
+
+
+def test_removeextensibles():
+    """py.test for removeextensibles"""
+    thedata = (("BuildingSurface:Detailed".upper(), "WALL-1PF",
+    ["BuildingSurface:Detailed", "WALL-1PF", "WALL", "WALL-1", "PLENUM-1", 
+    "Outdoors","", "SunExposed", "WindExposed", 0.50000, '4',] ), # key, objname, rawobject
+    )
+    for key, objname, rawobject in thedata:
+        result = modeleditor.removeextensibles(bunchdt, data, commdct, key, 
+                                                objname)
+        assert result.obj == rawobject
+        

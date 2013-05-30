@@ -74,7 +74,7 @@ def makepipebranch(idf ,bname):
     abranch.Component_1_Outlet_Node_Name = apipe.Outlet_Node_Name
     abranch.Component_1_Branch_Control_Type = "Bypass"
     return abranch
-
+    
 def makeplantloop(idf, loopname, sloop, dloop):
     """make plant loop with pip components"""
 
@@ -202,6 +202,7 @@ def makeplantloop(idf, loopname, sloop, dloop):
     d_mixer = idf.newidfobject("CONNECTOR:MIXER", 
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
+
 
 # from StringIO import StringIO
 # import iddv7

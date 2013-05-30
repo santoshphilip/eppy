@@ -60,3 +60,4 @@ def test_makeplantloop():
         hvacbuilder.makeplantloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
+

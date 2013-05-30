@@ -11,12 +11,7 @@ BRANCH,
 BRANCH,
      sb1,
      0,
-     ,
-     Pipe:Adiabatic,
-     sb1_pipe,
-     sb1_pipe_inlet,
-     sb1_pipe_outlet,
-     Bypass;
+     ;
 
 BRANCH,
      sb2,
