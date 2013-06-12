@@ -40,12 +40,13 @@ def extendlist(lst, i, value=''):
 
 class EpBunch_1(Bunch):
     """Has data in bunch"""
-    def __init__(self, obj, objls, *args, **kwargs):
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_1, self).__init__(*args, **kwargs)
         self.obj = obj
         self.objls = objls
+        self.objidd = objidd
     def __setattr__(self, name, value):
-        if name in ('obj', 'objls'):
+        if name in ('obj', 'objls', 'objidd'):
             super(EpBunch_1, self).__setattr__(name, value)
             return None
         elif name in self['objls']:
@@ -58,7 +59,7 @@ class EpBunch_1(Bunch):
         else:
             raise BadEPFieldError
     def __getattr__(self, name):
-        if name in ('obj', 'objls'):
+        if name in ('obj', 'objls', 'objidd'):
             return super(EpBunch_1, self).__getattr__(name)
         elif name in self['objls']:
             i = self['objls'].index(name)
@@ -86,8 +87,8 @@ class EpBunch_1(Bunch):
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
-    def __init__(self, obj, objls, *args, **kwargs):
-        super(EpBunch_2, self).__init__(obj, objls, *args, **kwargs)
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
+        super(EpBunch_2, self).__init__(obj, objls, objidd, *args, **kwargs)
     def __setattr__(self, name, value):
         if name == '__aliases':
             self[name] = value
@@ -108,8 +109,8 @@ class EpBunch_2(EpBunch_1):
     
 class EpBunch_3(EpBunch_2):
     """Has data, aliases, functions in bunch"""
-    def __init__(self, obj, objls, *args, **kwargs):
-        super(EpBunch_3, self).__init__(obj, objls, *args, **kwargs)
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
+        super(EpBunch_3, self).__init__(obj, objls, objidd, *args, **kwargs)
         self['__functions'] = {}
     def __setattr__(self, name, value):
         if name == '__functions':
@@ -132,10 +133,10 @@ class EpBunch_3(EpBunch_2):
             
 class EpBunch_4(EpBunch_3):
     """h implements __getitem__ and __setitem__"""
-    def __init__(self, obj, objls, *args, **kwargs):
-        super(EpBunch_4, self).__init__(obj, objls, *args, **kwargs)
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
+        super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
     def __getitem__(self, key):
-        if key in ('obj', 'objls', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             return super(EpBunch_4, self).__getitem__(key)
         elif key in self['objls']:
             i = self['objls'].index(key)
@@ -146,7 +147,7 @@ class EpBunch_4(EpBunch_3):
         else:
             raise BadEPFieldError
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
             return None
         elif key in self['objls']:

@@ -393,9 +393,11 @@ def test_EpBunch():
     dtls = data.dtls
     wall_i = dtls.index('BuildingSurface:Detailed'.upper())
     wallkey = 'BuildingSurface:Detailed'.upper()
+    wallidd = commdct[wall_i]
 
     dwalls = dt[wallkey]
     dwall = dwalls[0]
+
 
     wallfields = [comm.get('field') for comm in commdct[wall_i]]
     wallfields[0] = ['key']
@@ -405,7 +407,7 @@ def test_EpBunch():
     assert wall_fields[:20] == ['key', 'Name', 'Surface_Type', 'Construction_Name', 'Zone_Name', 'Outside_Boundary_Condition', 'Outside_Boundary_Condition_Object', 'Sun_Exposure', 'Wind_Exposure', 'View_Factor_to_Ground', 'Number_of_Vertices', 'Vertex_1_Xcoordinate', 'Vertex_1_Ycoordinate', 'Vertex_1_Zcoordinate', 'Vertex_2_Xcoordinate', 'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate', 'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
     
 
-    bwall = EpBunch(dwall, wall_fields)
+    bwall = EpBunch(dwall, wall_fields, wallidd)
 
     # print bwall.Name
     # print data.dt[wallkey][0][1]
@@ -463,13 +465,14 @@ def test_EpBunch():
     # more items are added to an extendible field
     constr_i = dtls.index('Construction'.upper())
     constrkey = 'Construction'.upper()
+    constridd = commdct[constr_i]
     dconstrs = dt[constrkey]
     dconstr = dconstrs[0]
     constrfields = [comm.get('field') for comm in commdct[constr_i]]
     constrfields[0] = ['key']
     constrfields = [field[0] for field in constrfields]
     constr_fields = [bunchhelpers.makefieldname(field) for field in constrfields]
-    bconstr = EpBunch(dconstr, constr_fields)
+    bconstr = EpBunch(dconstr, constr_fields, constridd)
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"
     assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter']

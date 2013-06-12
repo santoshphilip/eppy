@@ -204,12 +204,17 @@ def makeplantloop(idf, loopname, sloop, dloop):
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
 
 
-# from StringIO import StringIO
-# import iddv7
-# IDF.setiddname(StringIO(iddv7.iddtxt))
-# idf1 = IDF(StringIO(''))
-# loopname = "p_loop"
-# sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-# dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
-# makeplantloop(idf1, loopname, sloop, dloop)
-# idf1.saveas("hh1.idf")
+def main():
+    from StringIO import StringIO
+    import iddv7
+    IDF.setiddname(StringIO(iddv7.iddtxt))
+    idf1 = IDF(StringIO(''))
+    loopname = "p_loop"
+    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+    dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+    makeplantloop(idf1, loopname, sloop, dloop)
+    idf1.saveas("hh1.idf")
+
+
+if __name__ == '__main__':
+    main()
