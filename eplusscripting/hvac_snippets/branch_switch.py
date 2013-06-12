@@ -78,3 +78,7 @@ thebranch = idf.removeextensibles('BRANCH', 'sb1')
 idf.saveas("hh4.idf")
 
 # fill in the new components with the node names into this branch
+    # find the first extensible field and fill in the data in obj.
+e_index = idf.getextensibleindex('BRANCH', 'sb1')
+# pipe.Name, 
+# in idd_info, insert the field name that EPbunch uses.

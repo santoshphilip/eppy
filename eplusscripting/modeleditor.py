@@ -208,6 +208,10 @@ class IDF1(IDF0):
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
+    def getextensibleindex(self, key, name):
+        """get the index of the first extensible item"""
+        return getextensibleindex(self.idfobjects, self.model, self.idd_info, 
+                                key, name)
     def removeextensibles(self, key, name):
         """remove extensible items in the object of key and name"""
         return removeextensibles(self.idfobjects, self.model, self.idd_info, 
