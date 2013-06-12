@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Phillip
+# Copyright (c) 2012 Santosh Philip
 
 # This file is part of eplusinterface_diagrams.
 
