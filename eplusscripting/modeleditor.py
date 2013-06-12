@@ -33,6 +33,14 @@ def poptrailing(lst):
         lst.pop(-1)
     return lst
     
+def extendlist(lst, i, value=''):
+    """extend the list so that you have i-th value"""
+    if i < len(lst):
+        pass
+    else:
+        lst.extend([value, ] * (i - len(lst) + 1))
+
+    
 
 def newrawobject(data, commdct, key):
     """make a new object for key"""
@@ -141,7 +149,7 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
         
 
 def removeextensibles(bunchdt, data, commdct, key, objname):
-    """remove the extensible tiems in the object"""
+    """remove the extensible items in the object"""
     theobject = getobject(bunchdt, key, objname)
     if theobject == None:
         return theobject

@@ -22,6 +22,7 @@ import sys
 sys.path.append('../')
 import copy
 
+import modeleditor
 from modeleditor import IDF
 import hvacbuilder
 
@@ -73,7 +74,7 @@ idf.saveas("hh3.idf")
     # iddofobject(key) 
     # get the first extensible field
     # empty all extensible field
-thebranch = idf.getobject('BRANCH', 'sb1')
+thebranch = idf.getobject('BRANCH', 'sb1') # don't need this line
 thebranch = idf.removeextensibles('BRANCH', 'sb1')
 idf.saveas("hh4.idf")
 
@@ -81,4 +82,55 @@ idf.saveas("hh4.idf")
     # find the first extensible field and fill in the data in obj.
 e_index = idf.getextensibleindex('BRANCH', 'sb1')
 # pipe.Name, 
-# in idd_info, insert the field name that EPbunch uses.
+# in idd_info, insert the field name that EPbunch uses, and put in the input and output nodes
+theobj = thebranch.obj
+modeleditor.extendlist(theobj, e_index) # just being careful here
+for comp in components:
+    theobj.append(comp.key)
+    theobj.append(comp.Name)
+    theobj.append(comp.Inlet_Node_Name)
+    theobj.append(comp.Outlet_Node_Name)
+    theobj.append('')
+idf.saveas("hh5.idf")
+
+# rename a random node to the name of a renamed node
+abranch = idf.idfobjects['BRANCH'][0]
+abranch.Component_1_Inlet_Node_Name = 'np1_outlet'
+idf.saveas("hh6.idf")
+    
+# gather all renamed nodes
+renameds = []
+for key in idf.model.dtls:
+    for idfobject in idf.idfobjects[key]:
+        for fieldvalue in idfobject.obj:
+            if type(fieldvalue) is list:
+                if fieldvalue not in renameds:
+                    cpvalue = copy.copy(fieldvalue)
+                    renameds.append(cpvalue)
+
+# do the renaming
+for key in idf.model.dtls:
+    for idfobject in idf.idfobjects[key]:
+        print idfobject.obj[0], idfobject.obj[1], len(idfobject.obj)
+        for i, fieldvalue in enumerate(idfobject.obj):
+            print i
+            itsidd = idfobject.objidd[i]
+            if itsidd.has_key('type'):
+                print 'haskey type ', itsidd['type']
+                if itsidd['type'][0] == 'node':
+                    print 'type-node', fieldvalue
+                    tempdct = dict(renameds)
+                    if type(fieldvalue) is list:
+                        print 'is list'
+                        print fieldvalue
+                        fieldvalue = fieldvalue[-1]
+                        print fieldvalue
+                        idfobject.obj[i] = fieldvalue
+                        print idfobject.obj[i], i
+                    else:
+                        if tempdct.has_key(fieldvalue):
+                            fieldvalue = tempdct[fieldvalue]
+                            idfobject.obj[i] = fieldvalue
+idf.saveas("hh7.idf")
+
+# check for the end nodes of the loop

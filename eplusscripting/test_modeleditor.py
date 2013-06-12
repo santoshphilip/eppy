@@ -42,6 +42,17 @@ def test_poptrailing():
         [1, 2, 3, 56]), # lst, poped
     )
 
+def test_extendlist():
+    """py.test for extendlist"""
+    data = (([1,2,3], 2, 0, [1,2,3]), # lst, i, value, nlst
+    ([1,2,3], 3, 0, [1,2,3,0]), # lst, i, value, nlst
+    ([1,2,3], 5, 0, [1,2,3,0,0,0]), # lst, i, value, nlst
+    ([1,2,3], 7, 0, [1,2,3,0,0,0,0,0]), # lst, i, value, nlst
+    )
+    for lst, i, value, nlst in data:
+        modeleditor.extendlist(lst, i, value=value)
+        assert lst == nlst
+
 def test_newrawobject():
     """py.test for newrawobject"""
     thedata = (('zone'.upper(), 
