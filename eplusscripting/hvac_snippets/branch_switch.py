@@ -94,9 +94,9 @@ for comp in components:
 idf.saveas("hh5.idf")
 
 # rename a random node to the name of a renamed node
-abranch = idf.idfobjects['BRANCH'][0]
-abranch.Component_1_Inlet_Node_Name = 'np1_outlet'
-idf.saveas("hh6.idf")
+# abranch = idf.idfobjects['BRANCH'][0]
+# abranch.Component_1_Inlet_Node_Name = 'np1_outlet'
+# idf.saveas("hh6.idf")
     
 # gather all renamed nodes
 renameds = []
@@ -111,26 +111,19 @@ for key in idf.model.dtls:
 # do the renaming
 for key in idf.model.dtls:
     for idfobject in idf.idfobjects[key]:
-        print idfobject.obj[0], idfobject.obj[1], len(idfobject.obj)
         for i, fieldvalue in enumerate(idfobject.obj):
-            print i
             itsidd = idfobject.objidd[i]
             if itsidd.has_key('type'):
-                print 'haskey type ', itsidd['type']
                 if itsidd['type'][0] == 'node':
-                    print 'type-node', fieldvalue
                     tempdct = dict(renameds)
                     if type(fieldvalue) is list:
-                        print 'is list'
-                        print fieldvalue
                         fieldvalue = fieldvalue[-1]
-                        print fieldvalue
                         idfobject.obj[i] = fieldvalue
-                        print idfobject.obj[i], i
                     else:
                         if tempdct.has_key(fieldvalue):
                             fieldvalue = tempdct[fieldvalue]
                             idfobject.obj[i] = fieldvalue
 idf.saveas("hh7.idf")
+print idf.idfobjects['PLANTLOOP'][0]
 
 # check for the end nodes of the loop
