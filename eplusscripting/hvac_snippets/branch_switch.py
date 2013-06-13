@@ -124,6 +124,16 @@ for key in idf.model.dtls:
                             fieldvalue = tempdct[fieldvalue]
                             idfobject.obj[i] = fieldvalue
 idf.saveas("hh7.idf")
-print idf.idfobjects['PLANTLOOP'][0]
+print idf.idfobjects['BRANCH'][0]
 
 # check for the end nodes of the loop
+# input plantloop, branch
+# for connector list in [supply_connectorlist, demand_conector_list]:
+#     for connector in connectorlist:
+#         if connector == splitter:
+#             cbranch = 1st branch
+#         if connector == mixer:
+#             cbranch = last branch
+#         if cbranch == branch:
+#             rename end nodes
+#             FnR renames

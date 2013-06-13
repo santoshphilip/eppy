@@ -19,7 +19,7 @@
 import sys
 sys.path.append('../')
 import copy
-
+import bunch_subclass
 from modeleditor import IDF
 
 
@@ -203,6 +203,24 @@ def makeplantloop(idf, loopname, sloop, dloop):
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
 
+def getbranchcomponents(idf, branch, utest=True):
+    """get the components of the branch"""
+    fobjtype = 'Component_%s_Object_Type'
+    fobjname = 'Component_%s_Name'
+    complist = []
+    for i in xrange(1, 100000):
+        try:
+            objtype = branch[fobjtype % (i, )]
+            if objtype.strip() == '':
+                break
+            objname = branch[fobjname % (i, )]
+            complist.append((objtype, objname))
+        except bunch_subclass.BadEPFieldError, e:
+            break
+    if utest:
+        return complist
+    else:
+        return [idf.getobject(ot, on) for ot, on in complist]
 
 def main():
     from StringIO import StringIO

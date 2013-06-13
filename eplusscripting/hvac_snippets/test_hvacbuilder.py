@@ -61,3 +61,63 @@ def test_makeplantloop():
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
 
+def test_getbranchcomponents():
+    """py.test for getbranchcomponents"""
+    tdata = (
+    ("""BRANCH,
+     sb1,
+     0,
+     ,
+     PIPE:ADIABATIC,
+     np1,
+     np1_inlet,
+     np1_np2_node,
+     ,
+     PIPE:ADIABATIC,
+     np2,
+     np1_np2_node,
+     np2_outlet,
+     ;
+""", 
+    True, 
+    [('PIPE:ADIABATIC', 'np1'), 
+    ('PIPE:ADIABATIC', 'np2')]), # idftxt, utest, componentlist
+    ("""BRANCH,
+     sb1,
+     0,
+     ,
+     PIPE:ADIABATIC,
+     np1,
+     np1_inlet,
+     np1_np2_node,
+     ,
+     PIPE:ADIABATIC,
+     np2,
+     np1_np2_node,
+     np2_outlet,
+     ;
+PIPE:ADIABATIC,
+     np1,
+     np1_inlet,
+     np1_np2_node;
+
+PIPE:ADIABATIC,
+     np2,
+     np1_np2_node,
+     np2_outlet;
+
+""", 
+    False, 
+    [['PIPE:ADIABATIC', 'np1', 'np1_inlet', 'np1_np2_node'], 
+    ['PIPE:ADIABATIC', 'np2', 'np1_np2_node', 'np2_outlet']]), # idftxt, utest, componentlist
+    )
+    for idftxt, utest, componentlist in tdata:
+        fhandle = StringIO(idftxt)
+        idf = IDF(fhandle)
+        branch = idf.idfobjects['BRANCH'][0]
+        result = hvacbuilder.getbranchcomponents(idf, branch, utest=utest)
+        if utest:
+            assert result == componentlist
+        else:
+            lresult =[item.obj for item in result]
+            assert lresult == componentlist
