@@ -74,13 +74,13 @@ idf.saveas("hh3.idf")
     # iddofobject(key) 
     # get the first extensible field
     # empty all extensible field
-thebranch = idf.getobject('BRANCH', 'sb1') # don't need this line
-thebranch = idf.removeextensibles('BRANCH', 'sb1')
+thebranch = idf.getobject('BRANCH', 'sb0') # don't need this line
+thebranch = idf.removeextensibles('BRANCH', 'sb0')
 idf.saveas("hh4.idf")
 
 # fill in the new components with the node names into this branch
     # find the first extensible field and fill in the data in obj.
-e_index = idf.getextensibleindex('BRANCH', 'sb1')
+e_index = idf.getextensibleindex('BRANCH', 'sb0')
 # pipe.Name, 
 # in idd_info, insert the field name that EPbunch uses, and put in the input and output nodes
 theobj = thebranch.obj
@@ -137,3 +137,4 @@ print idf.idfobjects['BRANCH'][0]
 #         if cbranch == branch:
 #             rename end nodes
 #             FnR renames
+plantloop = idf.getobject('PLANTLOOP', 'p_loop')
