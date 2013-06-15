@@ -1,0 +1,32 @@
+PIPE:ADIABATIC,
+     np1,
+     np1_inlet,
+     ['np1_outlet', 'np1_np2_node'];
+
+BRANCH,
+     sb0,
+     0,
+     ,
+     Pipe:Adiabatic,
+     np1,
+     np1_inlet,
+     np1_outlet,
+     Bypass;
+
+# ========================
+
+PIPE:ADIABATIC,
+     np1,
+     np1_inlet,
+     np1_np2_node;
+
+
+BRANCH,
+     sb0,
+     0,
+     ,
+     Pipe:Adiabatic,
+     np1,
+     np1_inlet,
+     np1_np2_node,
+     Bypass;

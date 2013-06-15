@@ -203,7 +203,7 @@ def makeplantloop(idf, loopname, sloop, dloop):
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
 
-def getbranchcomponents(idf, branch, utest=True):
+def getbranchcomponents(idf, branch, utest=False):
     """get the components of the branch"""
     fobjtype = 'Component_%s_Object_Type'
     fobjname = 'Component_%s_Name'
@@ -221,6 +221,10 @@ def getbranchcomponents(idf, branch, utest=True):
         return complist
     else:
         return [idf.getobject(ot, on) for ot, on in complist]
+
+def renamenodes(idf):
+    """rename all the changed nodes"""
+    pass
 
 def main():
     from StringIO import StringIO

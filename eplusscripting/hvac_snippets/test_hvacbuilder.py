@@ -121,3 +121,27 @@ PIPE:ADIABATIC,
         else:
             lresult =[item.obj for item in result]
             assert lresult == componentlist
+            
+def test_renamenodes():
+    """py.test for renamenodes"""
+    idftxt = """PIPE:ADIABATIC,
+         np1,
+         np1_inlet,
+         np1_outlet;
+         !- ['np1_outlet', 'np1_np2_node'];
+
+    BRANCH,
+         sb0,
+         0,
+         ,
+         Pipe:Adiabatic,
+         np1,
+         np1_inlet,
+         np1_outlet,
+         Bypass;
+    """
+    # !- ['np1_outlet', 'np1_np2_node'];
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    pipe = idf.idfobjects['PIPE:ADIABATIC'][0]
+    pipe.Outlet_Node_Name = ['np1_outlet', 'np1_np2_node']

@@ -23,12 +23,13 @@ sys.path.append('../')
 import copy
 
 import modeleditor
+import bunch_subclass
 from modeleditor import IDF
 import hvacbuilder
 
 
 
-def replacebranch(loop, branch, listofcomponents):
+def replacebranch(idf, loop, branch, listofcomponents):
     """It will replace the components in the branch with components in listofcomponents"""
     pass
     
@@ -74,13 +75,14 @@ idf.saveas("hh3.idf")
     # iddofobject(key) 
     # get the first extensible field
     # empty all extensible field
-thebranch = idf.getobject('BRANCH', 'sb0') # don't need this line
-thebranch = idf.removeextensibles('BRANCH', 'sb0')
+thebranchname = 'sb1'
+thebranch = idf.getobject('BRANCH', thebranchname) # don't need this line
+thebranch = idf.removeextensibles('BRANCH', thebranchname) # empty the branch
 idf.saveas("hh4.idf")
 
 # fill in the new components with the node names into this branch
     # find the first extensible field and fill in the data in obj.
-e_index = idf.getextensibleindex('BRANCH', 'sb0')
+e_index = idf.getextensibleindex('BRANCH', thebranchname)
 # pipe.Name, 
 # in idd_info, insert the field name that EPbunch uses, and put in the input and output nodes
 theobj = thebranch.obj
@@ -94,9 +96,9 @@ for comp in components:
 idf.saveas("hh5.idf")
 
 # rename a random node to the name of a renamed node
-# abranch = idf.idfobjects['BRANCH'][0]
-# abranch.Component_1_Inlet_Node_Name = 'np1_outlet'
-# idf.saveas("hh6.idf")
+abranch = idf.idfobjects['BRANCH'][0]
+abranch.Component_1_Inlet_Node_Name = 'np1_outlet'
+idf.saveas("hh6.idf")
     
 # gather all renamed nodes
 renameds = []
@@ -124,7 +126,6 @@ for key in idf.model.dtls:
                             fieldvalue = tempdct[fieldvalue]
                             idfobject.obj[i] = fieldvalue
 idf.saveas("hh7.idf")
-print idf.idfobjects['BRANCH'][0]
 
 # check for the end nodes of the loop
 # input plantloop, branch
@@ -138,3 +139,101 @@ print idf.idfobjects['BRANCH'][0]
 #             rename end nodes
 #             FnR renames
 plantloop = idf.getobject('PLANTLOOP', 'p_loop')
+supplyconlistname = plantloop.Plant_Side_Connector_List_Name
+supplyconlist = idf.getobject('CONNECTORLIST', supplyconlistname)
+for i in xrange(1, 100000): # large range to hit end
+    try:
+        fieldname = 'Connector_%s_Object_Type' % (i, )
+        ctype = supplyconlist[fieldname]
+    except bunch_subclass.BadEPFieldError, e:
+        break
+    if ctype.strip() == '':
+        break
+    fieldname = 'Connector_%s_Name' % (i, )
+    cname = supplyconlist[fieldname]
+    connector = idf.getobject(ctype.upper(), cname)
+    if connector.key == 'CONNECTOR:SPLITTER':
+        firstbranchname = connector.Inlet_Branch_Name
+        cbranchname = firstbranchname
+        isfirst = True
+    if connector.key == 'CONNECTOR:MIXER':
+        lastbranchname = connector.Outlet_Branch_Name
+        cbranchname = lastbranchname
+        isfirst = False
+    # print i, cbranchname, thebranch.Name
+    if cbranchname == thebranch.Name:
+        # rename end nodes
+        comps = hvacbuilder.getbranchcomponents(idf, thebranch)
+        if isfirst:
+            comp = comps[0]
+            comp.Inlet_Node_Name = [comp.Inlet_Node_Name,
+                                    plantloop.Plant_Side_Inlet_Node_Name]
+        else:
+            comp = comps[-1]
+            # print comp
+            comp.Outlet_Node_Name = [comp.Outlet_Node_Name, 
+                                    plantloop.Plant_Side_Outlet_Node_Name]
+
+demandconlistname = plantloop.Demand_Side_Connector_List_Name
+demandconlist = idf.getobject('CONNECTORLIST', demandconlistname)
+for i in xrange(1, 100000): # large range to hit end
+    try:
+        fieldname = 'Connector_%s_Object_Type' % (i, )
+        ctype = demandconlist[fieldname]
+    except bunch_subclass.BadEPFieldError, e:
+        break
+    if ctype.strip() == '':
+        break
+    fieldname = 'Connector_%s_Name' % (i, )
+    cname = demandconlist[fieldname]
+    connector = idf.getobject(ctype.upper(), cname)
+    if connector.key == 'CONNECTOR:SPLITTER':
+        firstbranchname = connector.Inlet_Branch_Name
+        cbranchname = firstbranchname
+        isfirst = True
+    if connector.key == 'CONNECTOR:MIXER':
+        lastbranchname = connector.Outlet_Branch_Name 
+        cbranchname = lastbranchname
+        isfirst = False
+    # print cbranchname, thebranch
+    if cbranchname == thebranch.Name:
+        # rename end nodes
+        comps = hvacbuilder.getbranchcomponents(idf, thebranch)
+        if isfirst:
+            comp = comps[0]
+            comp.Inlet_Node_Name = [comp.Inlet_Node_Name,
+                                    plantloop.Demand_Side_Inlet_Node_Name]
+        if not isfirst:
+            comp = comps[-1]
+            comp.Outlet_Node_Name = [comp.Outlet_Node_Name, 
+                                    plantloop.Demand_Side_Outlet_Node_Name]
+
+
+idf.saveas("hh8.idf")
+# fnr all renames
+# gather all renamed nodes
+renameds = []
+for key in idf.model.dtls:
+    for idfobject in idf.idfobjects[key]:
+        for fieldvalue in idfobject.obj:
+            if type(fieldvalue) is list:
+                if fieldvalue not in renameds:
+                    cpvalue = copy.copy(fieldvalue)
+                    renameds.append(cpvalue)
+
+# do the renaming
+for key in idf.model.dtls:
+    for idfobject in idf.idfobjects[key]:
+        for i, fieldvalue in enumerate(idfobject.obj):
+            itsidd = idfobject.objidd[i]
+            if itsidd.has_key('type'):
+                if itsidd['type'][0] == 'node':
+                    tempdct = dict(renameds)
+                    if type(fieldvalue) is list:
+                        fieldvalue = fieldvalue[-1]
+                        idfobject.obj[i] = fieldvalue
+                    else:
+                        if tempdct.has_key(fieldvalue):
+                            fieldvalue = tempdct[fieldvalue]
+                            idfobject.obj[i] = fieldvalue
+idf.saveas("hh9.idf")
