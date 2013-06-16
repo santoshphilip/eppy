@@ -140,8 +140,128 @@ def test_renamenodes():
          np1_outlet,
          Bypass;
     """
+    outtxt = """PIPE:ADIABATIC,
+         np1,
+         np1_inlet,
+         np1_np2_node;
+         !- ['np1_outlet', 'np1_np2_node'];
+
+    BRANCH,
+         sb0,
+         0,
+         ,
+         Pipe:Adiabatic,
+         np1,
+         np1_inlet,
+         np1_np2_node,
+         Bypass;
+    """
     # !- ['np1_outlet', 'np1_np2_node'];
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
     pipe = idf.idfobjects['PIPE:ADIABATIC'][0]
-    pipe.Outlet_Node_Name = ['np1_outlet', 'np1_np2_node']
+    pipe.Outlet_Node_Name = ['np1_outlet', 'np1_np2_node'] # this is the first step of the replace
+    hvacbuilder.renamenodes(idf, fieldtype='node')
+    outidf = IDF(StringIO(outtxt))
+    result = idf.idfobjects['PIPE:ADIABATIC'][0].obj
+    print result 
+    print outidf.idfobjects['PIPE:ADIABATIC'][0].obj 
+    assert result == outidf.idfobjects['PIPE:ADIABATIC'][0].obj 
+
+def test_getfieldnamesendswith():
+    """py.test for getfieldnamesendswith"""
+    idftxt = """PIPE:ADIABATIC,           
+        np2,                      !- Name
+        np1_np2_node,             !- Inlet Node Name
+        np2_outlet;               !- Outlet Node Name
+
+    """
+    tdata = (("Inlet_Node_Name",["Inlet_Node_Name"]), # endswith, fieldnames
+    ("Node_Name",["Inlet_Node_Name", 
+                "Outlet_Node_Name"]), # endswith, fieldnames
+    ("Name",["Name",
+                "Inlet_Node_Name", 
+                "Outlet_Node_Name"]), # endswith, fieldnames
+    )    
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    idfobject = idf.idfobjects["PIPE:ADIABATIC"][0]
+    for endswith, fieldnames in tdata:
+        result = hvacbuilder.getfieldnamesendswith(idfobject, endswith)
+        assert result == fieldnames
+        
+def test_connectcomponents():
+    """py.test for connectcomponents"""
+    fhandle = StringIO("")
+    idf = IDF(fhandle)
+    
+    tdata = ((
+    [idf.newidfobject("PIPE:ADIABATIC", "pipe1"),
+    idf.newidfobject("PIPE:ADIABATIC", "pipe2")],
+    ["pipe1_Inlet_Node_Name", ["pipe2_Inlet_Node_Name", "pipe1_pipe2_node"]],
+    [["pipe1_Outlet_Node_Name", "pipe1_pipe2_node"], 
+                                                "pipe2_Outlet_Node_Name"],
+    '' ), 
+    (
+    [idf.newidfobject("Coil:Cooling:Water".upper(), "pipe1"),
+    idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2")],
+    ['pipe1_Water_Inlet_Node_Name', 'pipe1_Air_Inlet_Node_Name', 
+        'pipe2_Water_Inlet_Node_Name',
+        ['pipe2_Air_Inlet_Node_Name', 'pipe1_pipe2_node']],
+    ['pipe1_Water_Outlet_Node_Name', ['pipe1_Air_Outlet_Node_Name', 
+        'pipe1_pipe2_node'], 'pipe2_Water_Outlet_Node_Name', 
+        'pipe2_Air_Outlet_Node_Name'],
+    'Air' ), 
+    # components, inlets, outlets, fluid
+    )
+    for components, inlets, outlets, fluid in tdata:
+        # init the nodes in the new components
+        for component in components:
+            hvacbuilder.initinletoutlet(idf, component)
+        hvacbuilder.connectcomponents(idf, components, fluid)
+        inresult = []
+        for component in components:
+            fldnames = hvacbuilder.getfieldnamesendswith(component, 
+                                                    "Inlet_Node_Name")
+            for name in fldnames:
+                inresult.append(component[name])
+        assert inresult == inlets
+        outresult = []
+        for component in components:
+            fldnames = hvacbuilder.getfieldnamesendswith(component, 
+                                                    "Outlet_Node_Name")
+            for name in fldnames:
+                outresult.append(component[name])
+        assert outresult == outlets
+            
+    
+def test_initinletoutlet():
+    """py.test for initinletoutlet"""
+    tdata = (
+    ('PIPE:ADIABATIC', 
+    'apipe', 
+    ["apipe_Inlet_Node_Name"], 
+    ["apipe_Outlet_Node_Name"]), # idfobjectkey, idfobjname, inlets, outlets
+    ('Coil:Cooling:Water'.upper(), 
+    'acoil', 
+    ["acoil_Water_Inlet_Node_Name", "acoil_Air_Inlet_Node_Name"], 
+    ["acoil_Water_Outlet_Node_Name", "acoil_Air_Outlet_Node_Name"]), 
+    # idfobjectkey, idfobjname, inlets, outlets
+    ) 
+    fhandle = StringIO("")
+    idf = IDF(fhandle)
+    for idfobjectkey, idfobjname, inlets, outlets in tdata:
+        idfobject = idf.newidfobject(idfobjectkey, idfobjname)
+        hvacbuilder.initinletoutlet(idf, idfobject)
+        inodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
+                                                    "Inlet_Node_Name")
+        for nodefield, inlet in zip(inodefields, inlets):
+            result = idfobject[nodefield]
+            assert result == inlet
+        onodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
+                                                    "Outlet_Node_Name")
+        for nodefield, outlet in zip(onodefields, outlets):
+            result = idfobject[nodefield]
+            assert result == outlet
+                                                    
+        

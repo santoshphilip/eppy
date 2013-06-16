@@ -222,9 +222,74 @@ def getbranchcomponents(idf, branch, utest=False):
     else:
         return [idf.getobject(ot, on) for ot, on in complist]
 
-def renamenodes(idf):
+def renamenodes(idf, fieldtype):
     """rename all the changed nodes"""
-    pass
+    renameds = []
+    for key in idf.model.dtls:
+        for idfobject in idf.idfobjects[key]:
+            for fieldvalue in idfobject.obj:
+                if type(fieldvalue) is list:
+                    if fieldvalue not in renameds:
+                        cpvalue = copy.copy(fieldvalue)
+                        renameds.append(cpvalue)
+
+    # do the renaming
+    for key in idf.model.dtls:
+        for idfobject in idf.idfobjects[key]:
+            for i, fieldvalue in enumerate(idfobject.obj):
+                itsidd = idfobject.objidd[i]
+                if itsidd.has_key('type'):
+                    if itsidd['type'][0] == fieldtype:
+                        tempdct = dict(renameds)
+                        if type(fieldvalue) is list:
+                            fieldvalue = fieldvalue[-1]
+                            idfobject.obj[i] = fieldvalue
+                        else:
+                            if tempdct.has_key(fieldvalue):
+                                fieldvalue = tempdct[fieldvalue]
+                                idfobject.obj[i] = fieldvalue
+    
+def getfieldnamesendswith(idfobject, endswith):
+    """get the filednames for the idfobject based on endswith"""
+    objls = idfobject.objls
+    return [name for name in objls if name.endswith(endswith)]
+    
+def connectcomponents(idf, components, fluid=''):
+    """rename nodes so that the components get connected
+    fluid is Air or Water. 
+    if the fluid is Steam, use Water"""
+    for i in range(len(components) - 1):
+        thiscomp = components[i]
+        nextcomp = components[i + 1]
+        betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
+        outletnodenames = getfieldnamesendswith(thiscomp, 
+                                                        "Outlet_Node_Name")
+        foutletnodenames=[nd for nd in outletnodenames if nd.find(fluid)!=-1]
+        if len(foutletnodenames) == 0:
+            outletnodename = outletnodenames[0]
+        else:
+            outletnodename = foutletnodenames[0]
+        thiscomp[outletnodename] = [thiscomp[outletnodename], betweennodename]
+        inletnodenames = getfieldnamesendswith(nextcomp, 
+                                                        "Inlet_Node_Name")
+        finletnodenames=[nd for nd in inletnodenames if nd.find(fluid)!=-1]
+        if len(finletnodenames) == 0:
+            inletnodename =intletnodenames[0]
+        else:
+            inletnodename = finletnodenames[0]
+        nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
+    return components
+     
+    
+def initinletoutlet(idf, idfobject):
+    """initialze values for all the inlet outlet nodes for the object"""
+    inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
+    for inletfield in inletfields:
+        idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
+    outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
+    for outletfield in outletfields:
+        idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
+    return idfobject
 
 def main():
     from StringIO import StringIO
