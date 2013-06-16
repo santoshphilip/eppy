@@ -281,14 +281,16 @@ def connectcomponents(idf, components, fluid=''):
     return components
      
     
-def initinletoutlet(idf, idfobject):
+def initinletoutlet(idf, idfobject, force=False):
     """initialze values for all the inlet outlet nodes for the object"""
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
     for inletfield in inletfields:
-        idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
+        if idfobject[inletfield].strip() == '' or force == True:
+            idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
     outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
     for outletfield in outletfields:
-        idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
+        if idfobject[outletfield].strip() == '' or force == True:
+            idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
     return idfobject
 
 def main():

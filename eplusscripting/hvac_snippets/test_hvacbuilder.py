@@ -240,26 +240,36 @@ def test_initinletoutlet():
     tdata = (
     ('PIPE:ADIABATIC', 
     'apipe', 
+    True,
     ["apipe_Inlet_Node_Name"], 
     ["apipe_Outlet_Node_Name"]), # idfobjectkey, idfobjname, inlets, outlets
     ('Coil:Cooling:Water'.upper(), 
     'acoil', 
+    True,
     ["acoil_Water_Inlet_Node_Name", "acoil_Air_Inlet_Node_Name"], 
     ["acoil_Water_Outlet_Node_Name", "acoil_Air_Outlet_Node_Name"]), 
-    # idfobjectkey, idfobjname, inlets, outlets
+    # idfobjectkey, idfobjname, force, inlets, outlets
+    ('PIPE:ADIABATIC', 
+    'apipe', 
+    False,
+    ["Gumby"], 
+    ["apipe_Outlet_Node_Name"]), # idfobjectkey, idfobjname, inlets, outlets
     ) 
     fhandle = StringIO("")
     idf = IDF(fhandle)
-    for idfobjectkey, idfobjname, inlets, outlets in tdata:
+    for idfobjectkey, idfobjname, force, inlets, outlets in tdata:
         idfobject = idf.newidfobject(idfobjectkey, idfobjname)
-        hvacbuilder.initinletoutlet(idf, idfobject)
         inodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
-                                                    "Inlet_Node_Name")
+                                                "Inlet_Node_Name")
+        idfobject[inodefields[0]] = "Gumby"
+        hvacbuilder.initinletoutlet(idf, idfobject, force)
+        inodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
+                                                "Inlet_Node_Name")
         for nodefield, inlet in zip(inodefields, inlets):
             result = idfobject[nodefield]
             assert result == inlet
         onodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
-                                                    "Outlet_Node_Name")
+                                                "Outlet_Node_Name")
         for nodefield, outlet in zip(onodefields, outlets):
             result = idfobject[nodefield]
             assert result == outlet
