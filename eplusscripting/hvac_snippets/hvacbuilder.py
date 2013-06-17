@@ -20,6 +20,7 @@ import sys
 sys.path.append('../')
 import copy
 import bunch_subclass
+import modeleditor
 from modeleditor import IDF
 
 
@@ -261,6 +262,8 @@ def connectcomponents(idf, components, fluid=''):
     for i in range(len(components) - 1):
         thiscomp = components[i]
         nextcomp = components[i + 1]
+        initinletoutlet(idf, thiscomp, force=False)
+        initinletoutlet(idf, nextcomp, force=False)
         betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
         outletnodenames = getfieldnamesendswith(thiscomp, 
                                                         "Outlet_Node_Name")
@@ -282,16 +285,47 @@ def connectcomponents(idf, components, fluid=''):
      
     
 def initinletoutlet(idf, idfobject, force=False):
-    """initialze values for all the inlet outlet nodes for the object"""
+    """initialze values for all the inlet outlet nodes for the object.
+    if force == False, it willl init only if field = '' """
+    def blankfield(fieldvalue):
+        """test for blan field"""
+        try:
+            if fieldvalue.strip() == '':
+                return True
+            else:
+                return False
+        except AttributeError, e: # field may be a list
+            return False
+            
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
     for inletfield in inletfields:
-        if idfobject[inletfield].strip() == '' or force == True:
+        if blankfield(idfobject[inletfield]) == True or force == True:
             idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
     outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
     for outletfield in outletfields:
-        if idfobject[outletfield].strip() == '' or force == True:
+        if blankfield(idfobject[outletfield]) == True or force == True:
             idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
     return idfobject
+    
+def componentsintobranch(idf, branch, componentlist, fluid=''):
+    """insert a list of components into a branch"""
+    # assumes that the nodes of the component connect to each other
+    # empty branch if it has existing components
+    thebranchname = branch.Name
+    thebranch = idf.removeextensibles('BRANCH', thebranchname) # empty the branch
+    # fill in the new components with the node names into this branch
+        # find the first extensible field and fill in the data in obj.
+    e_index = idf.getextensibleindex('BRANCH', thebranchname)
+    theobj = thebranch.obj
+    modeleditor.extendlist(theobj, e_index) # just being careful here
+    for comp in componentlist:
+        theobj.append(comp.key)
+        theobj.append(comp.Name)
+        theobj.append(comp.Inlet_Node_Name)
+        theobj.append(comp.Outlet_Node_Name)
+        theobj.append('')
+    
+    return thebranch
 
 def main():
     from StringIO import StringIO

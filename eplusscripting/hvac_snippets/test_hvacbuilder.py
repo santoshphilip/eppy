@@ -273,5 +273,33 @@ def test_initinletoutlet():
         for nodefield, outlet in zip(onodefields, outlets):
             result = idfobject[nodefield]
             assert result == outlet
-                                                    
+
+def test_componentsintobranch():
+    """py.test for componentsintobranch"""
+    tdata = (
+    ("""BRANCH,
+         sb0,
+         0,
+         ,
+         Pipe:Adiabatic,
+         sb0_pipe,
+         p_loop Supply Inlet,
+         sb0_pipe_outlet,
+         Bypass;
+    """, 
+    [("PIPE:ADIABATIC", "pipe1"), ("PIPE:ADIABATIC", "pipe1")],
+    '',
+    []), 
+    # idftxt, complst, fluid, branchcomps
+    )                                                    
+    for idftxt, complst, fluid, branchcomps in tdata:
+        fhandle = StringIO(idftxt)
+        idf = IDF(fhandle)
+        components = [idf.newidfobject(key, nm) for key, nm in complst]
+        branch = idf.idfobjects['BRANCH'][0]
+        branch = hvacbuilder.componentsintobranch(idf, branch, components, 
+                                                                    fluid)
+        print branch.obj[4:]
+        print branchcomps
+        assert branch.obj[4:] == branchcomps
         
