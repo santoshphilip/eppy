@@ -255,9 +255,24 @@ def getfieldnamesendswith(idfobject, endswith):
     objls = idfobject.objls
     return [name for name in objls if name.endswith(endswith)]
     
+def getnodefieldname(idfobject, endswith, fluid=''):
+    """return the field name of the node
+    fluid is only needed if there are air and water nodes
+    fluid is Air or Water or ''. 
+    if the fluid is Steam, use Water"""
+    nodenames = getfieldnamesendswith(idfobject, endswith)
+    fnodenames=[nd for nd in nodenames if nd.find(fluid)!=-1]
+    if len(fnodenames) == 0:
+        nodename = nodenames[0]
+    else:
+        nodename = fnodenames[0]
+    return nodename
+        
+    
 def connectcomponents(idf, components, fluid=''):
     """rename nodes so that the components get connected
-    fluid is Air or Water. 
+    fluid is only needed if there are air and water nodes
+    fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
     for i in range(len(components) - 1):
         thiscomp = components[i]
@@ -265,21 +280,9 @@ def connectcomponents(idf, components, fluid=''):
         initinletoutlet(idf, thiscomp, force=False)
         initinletoutlet(idf, nextcomp, force=False)
         betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
-        outletnodenames = getfieldnamesendswith(thiscomp, 
-                                                        "Outlet_Node_Name")
-        foutletnodenames=[nd for nd in outletnodenames if nd.find(fluid)!=-1]
-        if len(foutletnodenames) == 0:
-            outletnodename = outletnodenames[0]
-        else:
-            outletnodename = foutletnodenames[0]
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
         thiscomp[outletnodename] = [thiscomp[outletnodename], betweennodename]
-        inletnodenames = getfieldnamesendswith(nextcomp, 
-                                                        "Inlet_Node_Name")
-        finletnodenames=[nd for nd in inletnodenames if nd.find(fluid)!=-1]
-        if len(finletnodenames) == 0:
-            inletnodename =intletnodenames[0]
-        else:
-            inletnodename = finletnodenames[0]
+        inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
         nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
     return components
      
@@ -288,7 +291,7 @@ def initinletoutlet(idf, idfobject, force=False):
     """initialze values for all the inlet outlet nodes for the object.
     if force == False, it willl init only if field = '' """
     def blankfield(fieldvalue):
-        """test for blan field"""
+        """test for blank field"""
         try:
             if fieldvalue.strip() == '':
                 return True
@@ -308,7 +311,10 @@ def initinletoutlet(idf, idfobject, force=False):
     return idfobject
     
 def componentsintobranch(idf, branch, componentlist, fluid=''):
-    """insert a list of components into a branch"""
+    """insert a list of components into a branch
+    fluid is only needed if there are air and water nodes in same object
+    fluid is Air or Water or ''. 
+    if the fluid is Steam, use Water"""
     # assumes that the nodes of the component connect to each other
     # empty branch if it has existing components
     thebranchname = branch.Name
@@ -321,8 +327,10 @@ def componentsintobranch(idf, branch, componentlist, fluid=''):
     for comp in componentlist:
         theobj.append(comp.key)
         theobj.append(comp.Name)
-        theobj.append(comp.Inlet_Node_Name)
-        theobj.append(comp.Outlet_Node_Name)
+        inletnodename = getnodefieldname(comp, "Inlet_Node_Name", fluid)
+        theobj.append(comp[inletnodename])
+        outletnodename = getnodefieldname(comp, "Outlet_Node_Name", fluid)
+        theobj.append(comp[outletnodename])
         theobj.append('')
     
     return thebranch

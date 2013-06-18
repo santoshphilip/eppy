@@ -190,18 +190,45 @@ def test_getfieldnamesendswith():
         result = hvacbuilder.getfieldnamesendswith(idfobject, endswith)
         assert result == fieldnames
         
+def test_getnodefieldname():
+    """py.test for getnodefieldname"""
+    tdata = (
+    ('PIPE:ADIABATIC', 'pipe1', 'Inlet_Node_Name', '', 'Inlet_Node_Name'), 
+    # objtype, objname, endswith, fluid, nodefieldname
+    ('CHILLER:ELECTRIC', 'pipe1', 'Inlet_Node_Name', '', 
+    'Chilled_Water_Inlet_Node_Name'), 
+    # objtype, objname, endswith, fluid, nodefieldname
+    ('COIL:COOLING:WATER', 'pipe1', 'Inlet_Node_Name', 'Water', 
+    'Water_Inlet_Node_Name'), 
+    # objtype, objname, endswith, fluid, nodefieldname
+    ('COIL:COOLING:WATER', 'pipe1', 'Inlet_Node_Name', 'Air', 
+    'Air_Inlet_Node_Name'), 
+    # objtype, objname, endswith, fluid, nodefieldname
+    ('COIL:COOLING:WATER', 'pipe1', 'Outlet_Node_Name', 'Air', 
+    'Air_Outlet_Node_Name'), 
+    # objtype, objname, endswith, fluid, nodefieldname
+    )
+    for objtype, objname, endswith, fluid, nodefieldname in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        idfobject = idf.newidfobject(objtype, objname)
+        result = hvacbuilder.getnodefieldname(idfobject, endswith, fluid)
+        assert result == nodefieldname
+
 def test_connectcomponents():
     """py.test for connectcomponents"""
     fhandle = StringIO("")
     idf = IDF(fhandle)
     
-    tdata = ((
+    tdata = (
+    (
     [idf.newidfobject("PIPE:ADIABATIC", "pipe1"),
     idf.newidfobject("PIPE:ADIABATIC", "pipe2")],
     ["pipe1_Inlet_Node_Name", ["pipe2_Inlet_Node_Name", "pipe1_pipe2_node"]],
     [["pipe1_Outlet_Node_Name", "pipe1_pipe2_node"], 
                                                 "pipe2_Outlet_Node_Name"],
     '' ), 
+    # components, inlets, outlets, fluid
     (
     [idf.newidfobject("Coil:Cooling:Water".upper(), "pipe1"),
     idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2")],
@@ -211,6 +238,15 @@ def test_connectcomponents():
     ['pipe1_Water_Outlet_Node_Name', ['pipe1_Air_Outlet_Node_Name', 
         'pipe1_pipe2_node'], 'pipe2_Water_Outlet_Node_Name', 
         'pipe2_Air_Outlet_Node_Name'],
+    'Air' ), 
+    # components, inlets, outlets, fluid
+    (
+    [idf.newidfobject("PIPE:ADIABATIC".upper(), "pipe1"),
+    idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2")],
+    ["pipe1_Inlet_Node_Name", "pipe2_Water_Inlet_Node_Name", 
+    ['pipe2_Air_Inlet_Node_Name', 'pipe1_pipe2_node']],    
+    [['pipe1_Outlet_Node_Name', 'pipe1_pipe2_node'],    
+    "pipe2_Water_Outlet_Node_Name", "pipe2_Air_Outlet_Node_Name"],
     'Air' ), 
     # components, inlets, outlets, fluid
     )
@@ -287,19 +323,40 @@ def test_componentsintobranch():
          sb0_pipe_outlet,
          Bypass;
     """, 
-    [("PIPE:ADIABATIC", "pipe1"), ("PIPE:ADIABATIC", "pipe1")],
+    [("PIPE:ADIABATIC", "pipe1"), ("PIPE:ADIABATIC", "pipe2")],
     '',
-    []), 
+    ['PIPE:ADIABATIC', 'pipe1', 'pipe1_Inlet_Node_Name', 
+    'pipe1_Outlet_Node_Name', '', 'PIPE:ADIABATIC', 'pipe2', 
+    'pipe2_Inlet_Node_Name', 'pipe2_Outlet_Node_Name', '']
+    ), 
+    # idftxt, complst, fluid, branchcomps
+    
+    ("""BRANCH,
+         sb0,
+         0,
+         ,
+         Pipe:Adiabatic,
+         sb0_pipe,
+         p_loop Supply Inlet,
+         sb0_pipe_outlet,
+         Bypass;
+    """, 
+    [("PIPE:ADIABATIC", "pipe1"), ('CHILLER:ELECTRIC', "chiller")],
+    '',
+    ['PIPE:ADIABATIC', 'pipe1', 'pipe1_Inlet_Node_Name', 
+    'pipe1_Outlet_Node_Name', '', 'CHILLER:ELECTRIC', 'chiller', 
+    'chiller_Chilled_Water_Inlet_Node_Name', 
+    'chiller_Chilled_Water_Outlet_Node_Name', '']
+    ), 
     # idftxt, complst, fluid, branchcomps
     )                                                    
     for idftxt, complst, fluid, branchcomps in tdata:
         fhandle = StringIO(idftxt)
         idf = IDF(fhandle)
         components = [idf.newidfobject(key, nm) for key, nm in complst]
+        fnc = hvacbuilder.initinletoutlet
+        components = [fnc(idf, cp) for cp in components]
         branch = idf.idfobjects['BRANCH'][0]
         branch = hvacbuilder.componentsintobranch(idf, branch, components, 
                                                                     fluid)
-        print branch.obj[4:]
-        print branchcomps
         assert branch.obj[4:] == branchcomps
-        

@@ -46,23 +46,25 @@ def replacebranch(idf, loop, branch, listofcomponents, fluid=''):
     hvacbuilder.connectcomponents(idf, components, fluid=fluid)
     idf.saveas("hhh3.idf")
 
-    # empty the old branch
-    thebranchname = branch.Name
-    thebranch = idf.removeextensibles('BRANCH', thebranchname) # empty the branch
-    idf.saveas("hhh4.idf")
-
-    # fill in the new components with the node names into this branch
-        # find the first extensible field and fill in the data in obj.
-    e_index = idf.getextensibleindex('BRANCH', thebranchname)
-    theobj = thebranch.obj
-    modeleditor.extendlist(theobj, e_index) # just being careful here
-    for comp in components:
-        theobj.append(comp.key)
-        theobj.append(comp.Name)
-        theobj.append(comp.Inlet_Node_Name)
-        theobj.append(comp.Outlet_Node_Name)
-        theobj.append('')
-    idf.saveas("hhh5.idf")
+    # # empty the old branch
+    # thebranchname = branch.Name
+    # thebranch = idf.removeextensibles('BRANCH', thebranchname) # empty the branch
+    # idf.saveas("hhh4.idf")
+    # 
+    # # fill in the new components with the node names into this branch
+    #     # find the first extensible field and fill in the data in obj.
+    # e_index = idf.getextensibleindex('BRANCH', thebranchname)
+    # theobj = thebranch.obj
+    # modeleditor.extendlist(theobj, e_index) # just being careful here
+    # for comp in components:
+    #     theobj.append(comp.key)
+    #     theobj.append(comp.Name)
+    #     theobj.append(comp.Inlet_Node_Name)
+    #     theobj.append(comp.Outlet_Node_Name)
+    #     theobj.append('')
+    # idf.saveas("hhh5.idf")
+    thebranch = branch
+    hvacbuilder.componentsintobranch(idf, thebranch, components, fluid=fluid)
 
     # # gather all renamed nodes
     # # do the renaming
@@ -177,4 +179,4 @@ loop = idf.getobject('PLANTLOOP', 'p_loop')
 branch = idf.getobject('BRANCH', 'sb0')
 listofcomponents = [pipe1, chiller, pipe2]
 
-replacebranch(idf, loop, branch, listofcomponents)
+replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
