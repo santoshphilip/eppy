@@ -56,11 +56,11 @@ pipe2 = idf.newidfobject("PIPE:ADIABATIC", 'np2')
 # idf.saveas("hhh2.idf")
 
 loop = idf.getobject('PLANTLOOP', 'p_loop')
-branch = idf.getobject('BRANCH', 'db3')
+branch = idf.getobject('BRANCH', 'sb0')
 # listofcomponents = [pipe1, chiller, pipe2]
-listofcomponents = [pipe1, chiller, ]
+listofcomponents = [chiller, pipe1, pipe2]
 
 newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 
                                     fluid='Water')
-print newbr
+print newbr.obj
 # print branch

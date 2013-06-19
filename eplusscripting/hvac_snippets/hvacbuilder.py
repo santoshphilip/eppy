@@ -203,6 +203,7 @@ def makeplantloop(idf, loopname, sloop, dloop):
     d_mixer = idf.newidfobject("CONNECTOR:MIXER", 
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
+    return newplantloop
 
 def getbranchcomponents(idf, branch, utest=False):
     """get the components of the branch"""

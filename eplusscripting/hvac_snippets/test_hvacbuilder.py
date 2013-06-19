@@ -360,3 +360,31 @@ def test_componentsintobranch():
         branch = hvacbuilder.componentsintobranch(idf, branch, components, 
                                                                     fluid)
         assert branch.obj[4:] == branchcomps
+
+def test_replacebranch():
+    """py.test for replacebranch"""
+    tdata = (("p_loop", ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
+    ['db0', ['db1', 'db2', 'db3'], 'db4'],
+    'sb0',
+    [ ("Chiller:Electric".upper(), 'Central_Chiller'),
+    ("PIPE:ADIABATIC", 'np1'),
+    ("PIPE:ADIABATIC", 'np2')],
+    'Water',
+    ['BRANCH', 'sb0', '0', '', 'CHILLER:ELECTRIC', 'Central_Chiller', 
+    'p_loop Supply Inlet', 'Central_Chiller_np1_node', '', 'PIPE:ADIABATIC', 
+    'np1', 'Central_Chiller_np1_node', 'np1_np2_node', '', 'PIPE:ADIABATIC', 
+    'np2', 'np1_np2_node', 'np2_Outlet_Node_Name', '']
+    ), # loopname, sloop, dloop, branchname, componenttuple, fluid, outbranch
+    )
+    for (loopname, sloop, dloop, branchname, 
+                                componenttuple, fluid, outbranch) in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        loop = hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
+        components = [idf.newidfobject(key, nm) for key, nm in componenttuple]
+        branch = idf.getobject('BRANCH', branchname)
+        newbr = hvacbuilder.replacebranch(idf, loop, branch, 
+                                components, fluid=fluid)
+        print newbr.obj
+        print outbranch                        
+        assert newbr.obj == outbranch
