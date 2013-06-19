@@ -19,6 +19,7 @@
 s_plantloop5.py + s_airloop2.py
 removed arrow between demand and supply
 has main with arguments"""
+# copy of s_airplantloop1.py
 
 import pydot
 import sys

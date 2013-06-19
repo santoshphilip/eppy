@@ -19,7 +19,7 @@
 """figure out how to switch branches in a loop."""
 
 import sys
-# sys.path.append('../')
+sys.path.append('../')
 import copy
 
 import modeleditor
@@ -64,3 +64,4 @@ newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents,
                                     'Water', False)
 print newbr.obj 
 # print branch
+idf.saveas("hhh_new.idf")
