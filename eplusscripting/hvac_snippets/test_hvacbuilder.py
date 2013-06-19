@@ -385,6 +385,4 @@ def test_replacebranch():
         branch = idf.getobject('BRANCH', branchname)
         newbr = hvacbuilder.replacebranch(idf, loop, branch, 
                                 components, fluid=fluid)
-        print newbr.obj
-        print outbranch                        
         assert newbr.obj == outbranch

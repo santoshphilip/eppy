@@ -5,7 +5,7 @@ notes for conf call
 all tasks for completion of project
 - update docs
 - HVAC loop Builder (at component, branch and loop level)
-- finish up remaining functions (rename, any others ?)
+- finish up remaining functions (rename, any others ?, comment in save)
 
 Tasks done:
 update docs -> ongoing
@@ -13,10 +13,10 @@ HVAC
 - loop level API
     - loop builder done for plant loop
 - branch level API
-    - build a branch with a list of components -> close to done
-    - replace existing branch with new branch -> close to done
+    - build a branch with a list of components -> close to done -> DONE
+    - replace existing branch with new branch -> close to done -> DONE
 - component level API
-    - branch level API can be used to do this -> discuss
+    - branch level API can be used to do this -> discuss -> DONE
 -----------
 Background work done:
 - put GPL license in all code files

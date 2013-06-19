@@ -1,9 +1,9 @@
 2013-06-11
 ----------
-- build a branch with a list of components -> close to done
-- replace existing branch with new branch -> close to done
+- build a branch with a list of components -> close to done -> DONE
+- replace existing branch with new branch -> close to done -> DONE
 -
-- link to commdct in epbunch
+- link to commdct in epbunch -> DONE
 2013-05-31
 ----------
 rname the repository into eppy

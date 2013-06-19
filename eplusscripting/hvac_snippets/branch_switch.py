@@ -38,7 +38,7 @@ loopname = "p_loop"
 sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
 dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
 hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
-# idf.saveas("hhh1.idf")
+idf.saveas("hhh1.idf")
 
 # replacebranch(loop, branch, listofcomponents)
 # loop = loop of name p_loop
@@ -61,6 +61,6 @@ branch = idf.getobject('BRANCH', 'sb0')
 listofcomponents = [chiller, pipe1, pipe2]
 
 newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 
-                                    fluid='Water')
-print newbr.obj
+                                    'Water', False)
+print newbr.obj 
 # print branch
