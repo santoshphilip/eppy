@@ -335,6 +335,119 @@ def componentsintobranch(idf, branch, componentlist, fluid=''):
     
     return thebranch
 
+def replacebranch(idf, loop, branch, 
+                listofcomponents, fluid='', debugsave=False):
+    """It will replace the components in the branch with components in 
+    listofcomponents"""
+    # join them into a branch
+    # -----------------------
+    # np1_inlet -> np1 -> np1_np2_node -> np2 -> np2_outlet
+        # change the node names in the component
+        # empty the old branch
+        # fill in the new components with the node names into this branch
+
+    components = listofcomponents
+    connectcomponents(idf, components, fluid=fluid)
+    if debugsave:
+        idf.saveas("hhh3.idf")
+
+    thebranch = branch
+    componentsintobranch(idf, thebranch, components, fluid=fluid)
+
+    # # gather all renamed nodes
+    # # do the renaming
+    renamenodes(idf, 'node')
+    if debugsave:
+        idf.saveas("hhh7.idf")
+
+    # check for the end nodes of the loop
+    plantloop = loop
+    supplyconlistname = plantloop.Plant_Side_Connector_List_Name
+    supplyconlist = idf.getobject('CONNECTORLIST', supplyconlistname)
+    for i in xrange(1, 100000): # large range to hit end
+        try:
+            fieldname = 'Connector_%s_Object_Type' % (i, )
+            ctype = supplyconlist[fieldname]
+        except bunch_subclass.BadEPFieldError, e:
+            break
+        if ctype.strip() == '':
+            break
+        fieldname = 'Connector_%s_Name' % (i, )
+        cname = supplyconlist[fieldname]
+        connector = idf.getobject(ctype.upper(), cname)
+        if connector.key == 'CONNECTOR:SPLITTER':
+            firstbranchname = connector.Inlet_Branch_Name
+            cbranchname = firstbranchname
+            isfirst = True
+        if connector.key == 'CONNECTOR:MIXER':
+            lastbranchname = connector.Outlet_Branch_Name
+            cbranchname = lastbranchname
+            isfirst = False
+        if cbranchname == thebranch.Name:
+            # rename end nodes
+            comps = getbranchcomponents(idf, thebranch)
+            if isfirst:
+                comp = comps[0]
+                inletnodename = getnodefieldname(comp, 
+                                        "Inlet_Node_Name", fluid)
+                comp[inletnodename] = [comp[inletnodename],
+                                        plantloop.Plant_Side_Inlet_Node_Name]
+            else:
+                comp = comps[-1]
+                outletnodename = getnodefieldname(comp, 
+                                        "Outlet_Node_Name", fluid)
+                comp[outletnodename] = [comp[outletnodename], 
+                                        plantloop.Plant_Side_Outlet_Node_Name]
+
+    demandconlistname = plantloop.Demand_Side_Connector_List_Name
+    demandconlist = idf.getobject('CONNECTORLIST', demandconlistname)
+    for i in xrange(1, 100000): # large range to hit end
+        try:
+            fieldname = 'Connector_%s_Object_Type' % (i, )
+            ctype = demandconlist[fieldname]
+        except bunch_subclass.BadEPFieldError, e:
+            break
+        if ctype.strip() == '':
+            break
+        fieldname = 'Connector_%s_Name' % (i, )
+        cname = demandconlist[fieldname]
+        connector = idf.getobject(ctype.upper(), cname)
+        if connector.key == 'CONNECTOR:SPLITTER':
+            firstbranchname = connector.Inlet_Branch_Name
+            cbranchname = firstbranchname
+            isfirst = True
+        if connector.key == 'CONNECTOR:MIXER':
+            lastbranchname = connector.Outlet_Branch_Name 
+            cbranchname = lastbranchname
+            isfirst = False
+        # print cbranchname, thebranch
+        if cbranchname == thebranch.Name:
+            # rename end nodes
+            comps = getbranchcomponents(idf, thebranch)
+            if isfirst:
+                comp = comps[0]
+                inletnodename = getnodefieldname(comp, 
+                                        "Inlet_Node_Name", fluid)
+                comp[inletnodename] = [comp[inletnodename],
+                                        plantloop.Demand_Side_Inlet_Node_Name]
+            if not isfirst:
+                comp = comps[-1]
+                outletnodename = getnodefieldname(comp, 
+                                        "Outlet_Node_Name", fluid)
+                comp[outletnodename] = [comp[outletnodename], 
+                                    plantloop.Demand_Side_Outlet_Node_Name]
+
+
+    if debugsave:
+        idf.saveas("hhh8.idf")
+
+    # # gather all renamed nodes
+    # # do the renaming
+    renamenodes(idf, 'node')
+    if debugsave:
+        idf.saveas("hhh9.idf")
+    return thebranch
+
 def main():
     from StringIO import StringIO
     import iddv7
