@@ -198,13 +198,6 @@ class IDF0(object):
                                 commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
-    def save(self):
-        # TODO unit test
-        s = str(self.model)
-        open(self.idfname, 'w').write(s)
-    def saveas(self, filename):
-        s = str(self.model)
-        open(filename, 'w').write(s)
 
 class IDF1(IDF0):
     def __init__(self, idfname):
@@ -254,6 +247,12 @@ class IDF2(IDF1):
                  print obj
     # def __repr__(self):
     #     return self.model.__repr__()
+    def save(self):
+        s = self.idfstr()
+        open(self.idfname, 'w').write(s)
+    def saveas(self, filename):
+        s = self.idfstr()
+        open(filename, 'w').write(s)
 
 IDF = IDF2
         
