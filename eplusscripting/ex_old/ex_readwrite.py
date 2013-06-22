@@ -18,21 +18,13 @@
 """read a idf file and write it disk"""
 # ex_readwrite.py
 
-from modeleditor import IDF
+from idfreader import idfreader
+
 iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+ 
+bunchdt, data, commdct = idfreader(fname, iddfile)
 
-IDF.setiddname(iddfile)
-idf = IDF(fname)
 outfilename = "afile.idf"
-idf.saveas(outfilename)
-# from idfreader import idfreader
-# 
-# iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
-# fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
-#  
-# bunchdt, data, commdct = idfreader(fname, iddfile)
-# 
-# outfilename = "afile.idf"
-# txt = str(data)
-# open(outfilename, 'w').write(txt)
+txt = str(data)
+open(outfilename, 'w').write(txt)

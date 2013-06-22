@@ -22,6 +22,15 @@ from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
 import copy
 
+def unicodetest(s, filler="xxxxx"):
+    """test for unicode, and return placholder if not unicode"""
+    # used in hnie project. May be usefull here
+    try:
+        return s.decode('utf-8')
+    except UnicodeDecodeError:
+        return filler
+
+
 class NoObjectError(Exception):
     pass
 

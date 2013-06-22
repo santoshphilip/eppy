@@ -15,24 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-"""read a idf file and write it disk"""
-# ex_readwrite.py
+"""some init routines to do the documentation"""
 
-from modeleditor import IDF
-iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
-fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
-
-IDF.setiddname(iddfile)
-idf = IDF(fname)
-outfilename = "afile.idf"
-idf.saveas(outfilename)
-# from idfreader import idfreader
-# 
-# iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
-# fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
-#  
-# bunchdt, data, commdct = idfreader(fname, iddfile)
-# 
-# outfilename = "afile.idf"
-# txt = str(data)
-# open(outfilename, 'w').write(txt)
+from IPython.display import Image
+from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
+idfeditor = Image(filename='./documentation/images/idf3.png')
+material_lists = Image(filename='./documentation/images/material_lists.png')
