@@ -135,6 +135,7 @@ def test_iddofobject():
     )
     for key, itsidd in thedata:
         result = modeleditor.iddofobject(data, commdct, key)
+        result[0].pop('memo') # memo is new in version 8.0.0
         assert result == itsidd
 
 
