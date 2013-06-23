@@ -208,7 +208,7 @@ def getallobjlists(idf, refname):
             objlists.append((objkey, refname, indexlist))
     return objlists
 
-def rename(idf, objkey, objname, newname):
+def rename_inner(idf, objkey, objname, newname):
     """rename all the refrences to this objname"""
     refnames = getrefnames(idf, objkey)
     for refname in refnames:
@@ -225,6 +225,16 @@ def rename(idf, objkey, objname, newname):
     fieldname = [item for item in theobject.objls if item.endswith('Name')][0]
     theobject[fieldname] = newname
     return theobject
+
+def rename(idf, idfobject, newname):
+    """rename the idfobject with newname and rename all it's references"""
+    objkey = idfobject.key.upper()
+    namefield = [nfld for nfld in idfobject.objls if nfld.endswith('Name')][0]
+    objname = idfobject[namefield]
+    return rename_inner(idf, objkey, objname, newname)
+    
+    
+    
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):

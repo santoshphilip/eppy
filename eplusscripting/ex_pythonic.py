@@ -19,18 +19,14 @@
 # try these out line by line in the python interpreter or in ipython
 
 # from idfreader import idfreader
+import modeleditor
 from modeleditor import IDF
 # 
 iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 IDF.setiddname(iddfile)
 idf = IDF(fname)
-#  
-# bunchdt, data, commdct = idfreader(fname, iddfile)
-# 
-# # give easy to remember names to objects that you are working on
-# zones = bunchdt['zone'.upper()] # all the zones
-# surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
+# give easy to remember names to objects that you are working on
 zones = idf.idfobjects['zone'.upper()] # all the zones
 surfaces = idf.idfobjects['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
 
@@ -48,8 +44,6 @@ print zonenames
 
 zonevolumes = [zone.Volume for zone in zones]
 print zonevolumes
-# note that zone volumes are strings, not floats
-# future version will automatically have them as floats
 
 # filter to get zones less than 150 m3
 smallzones = [zn for zn in zones if float(zn.Volume) < 150]
@@ -59,22 +53,28 @@ print namevolume
 
 # number of small zones
 print len(smallzones)
-#let us rename the small zones
-smallzones[0].Name = "FIRST-SMALL-ZONE"
-smallzones[1].Name = "SECOND-SMALL-ZONE"
+print smallzones[0].Name
+print smallzones[1].Name
+#We could rename the small zones by saying
+# smallzones[0].Name = "FIRST-SMALL-ZONE"
+# smallzones[1].Name = "SECOND-SMALL-ZONE"
+# now we have a problem
+# surfaces still refer to the old zone names
+
+# to safely change the name of an idfobject so that all the references are 
+# updated, we do the following:
+
+modeleditor.rename(idf, smallzones[0], "FIRST-SMALL-ZONE")
+modeleditor.rename(idf, smallzones[1], "SECOND-SMALL-ZONE")
+
+
+
 # now the zone names are:
 zonenames = [zone.Name for zone in zones]
 print zonenames
 
-# # now we have a problem
-# # surfaces still refer to the old zone names
-# # see ex_referenced.py to see how to change those references
 # 
-# # future version will have a function that will automatically update the references.
-# 
-# # save to disk and look at the file
-# txt = str(data) # bunchdt is actually changing values in data
-# open("bfile.idf", 'w').write(txt)
-# # open the idf file and search for the string "SMALL"
-# 
-# 
+# save to disk and look at the file
+idf.saveas('bfile.idf')
+# open the idf file and search for the string "SMALL"
+# You will find all the places where the name was changed

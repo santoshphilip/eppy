@@ -25,7 +25,7 @@ def dctvalue(dct, key):
     else:
         return None
 
-iddfile = "../iddfiles/Energy+V7_2_0.idd"
+iddname = "../iddfiles/Energy+V7_2_0.idd"
 fname = "../idffiles/V_7_2/constructions.idf"
 IDF.setiddname(iddname)
 idf = IDF(fname)
