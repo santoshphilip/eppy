@@ -28,6 +28,7 @@ example:-
 """
 
 
+<<<<<<< HEAD
 from idfreader import idfreader
 
 iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
@@ -35,6 +36,19 @@ fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
  
 bunchdt, data, commdct = idfreader(fname, iddfile)
 surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
+=======
+# from idfreader import idfreader
+from modeleditor import IDF
+
+iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+IDF.setiddname(iddfile)
+idf = IDF(fname)
+ 
+# bunchdt, data, commdct = idfreader(fname, iddfile)
+# surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
+surfaces = idf.idfobjects['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
+>>>>>>> eppy
 
 # Let us look at the first surface
 surface = surfaces[0]

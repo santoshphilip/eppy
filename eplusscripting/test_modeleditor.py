@@ -223,9 +223,14 @@ def test_rename():
     """
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
+<<<<<<< HEAD
     result = modeleditor.rename(idf, 
             'Material'.upper(), 
             'G01a 19mm gypsum board', 'peanut butter')
+=======
+    idfobject = idf.idfobjects['MATERIAL'][0]
+    result = modeleditor.rename(idf, idfobject, 'peanut butter')
+>>>>>>> eppy
     assert result.Name == 'peanut butter'
     assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'                       
     assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'
