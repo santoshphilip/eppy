@@ -1,0 +1,5 @@
+
+
+pip install bunch
+pip install beautifulsoup4
+pip install numpy

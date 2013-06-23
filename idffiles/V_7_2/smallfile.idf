@@ -1,0 +1,27 @@
+VERSION,
+     7.3;
+
+SIMULATIONCONTROL,
+     Yes,
+     Yes,
+     Yes,
+     No,
+     Yes;
+
+BUILDING,
+     White House,
+     30.0,
+     City,
+     0.04,
+     0.4,
+     FullExterior,
+     25,
+     6;
+
+SITE:LOCATION,
+     CHICAGO_IL_USA TMY2-94846,
+     41.78,
+     -87.75,
+     -6.0,
+     190.0;
+

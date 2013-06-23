@@ -1,0 +1,100 @@
+2013-06-22
+----------
+idf.saveas(fname) saves with idd comments -> DONE
+started on updating examples
+    - paused on ex_pythonic.py to code renames
+do the rename function -> done
+    - this is happening in temp.py
+    - d_references.py does an exploration
+2013-06-21
+----------
+update all ex_*.py files to using IDF
+or
+archive them and make IDF using files
+- do rename
+- update the print
+- update docs
+- 
+2013-06-11
+----------
+- build a branch with a list of components -> close to done -> DONE
+- replace existing branch with new branch -> close to done -> DONE
+-
+- link to commdct in epbunch -> DONE
+2013-05-31
+----------
+rname the repository into eppy
+branch master into eplus_diagrams
+eppy branch is default
+make eppybranch the mastert
+2013-05-27
+----------
+back to hvac loops
+- need to make a pipe component in hvacbuilder.makeplantloop - DONE
+2013-05-26
+----------
+I think d_newread.py is working. 
+Reads idd only once.
+    from fhandle and filename
+put idd in a module and try to do pytests with that, reading the idd only once.
+    DONE
+2013-05-12
+----------
+IIDF now reads idd only once
+it works with iddfilename, but not with iddfilehandle :-(
+see d_newread.py
+compare theidd (from readidf.readdatacommdct) in d_newread.py and d_filehandle.py
+2013-05-09
+----------
+- IDF.setiddname(fhandle)
+    this is failing because, fhandle is getting exhausted
+    fhandle should get used only once. - how to do this ?
+moke the pipe objects.
+check if a new object can be made with named arguments. DONE
+- fix the pytest that read a file
+2013-05-08
+----------
+- fix makeplantloop to have make objects.
+- make IDF.newidfobject with 
+
+
+when you rename nodes do:
+obj.nodefield = [oldnodename, newodename]
+Then you can find the occurance of the old names in other places.
+
+node rename
+- exception at loop endpoints.
+- How to identify them.
+updatebranch(loop, branch, [c1, c2, c3, c4])
+getinletname(loop, branch, c1) -> maybe None
+getoutletname(loop, branch, c1) -> maybe None
+do standard node name change
+If None:
+    replace that nodename
+else:
+    pass
+    
+    
+2013-05-05
+----------
+branch
+[] -> [p0]
+
+[p0] -> [p1]
+[p0] -> [p0, p1]
+[p0] -> [p1, p0]
+
+[p0, p1] -> [pn, p1]
+[p0, p1] -> [p0, pn]
+[p0, p1] -> [pn, p0, p1]
+[p0, p1] -> [p0, p1, pn]
+[p0, p1, p2] -> [p0, pn, p1, p2]
+
+OR
+
+replace the contents of the branch with a new list of components
+[pump, chiller, coil] -> these items are EpBunch objects.
+two options:
+- rename all the nodes logically. 
+    - 
+    Problem is that nodes may be referred to at the controls. 
