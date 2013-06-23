@@ -18,12 +18,10 @@
 """read an idf file and print it to screen"""
 # ex_readprint.py
 
-from modeleditor import IDF
+from idfreader import idfreader
 
-iddfile = "../iddfiles/Energy+V8_0_0.idd"
-IDF.setiddname(iddfile)
-
-fname = "../idffiles/V_7_2/smallfile.idf"
-idf = IDF(fname)
-idf.printidf()
-
+iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+ 
+bunchdt, data, commdct = idfreader(fname, iddfile)
+print data

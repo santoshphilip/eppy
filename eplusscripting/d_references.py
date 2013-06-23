@@ -15,61 +15,74 @@
 # You should have received a copy of the GNU General Public License
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-"""find the references that are refered to by object-list
-check for any wierdness
-conclusions:
-1. references will need case-insensitive test
-2. there are references that are not there in object-list
-3. the substring 'And' does not mean two seperate references
-4. all references are of field .endswith('Name')"""
-# develop a series of tests here for every time the idd updates, to see if these rules change
-# only 4. needs to tested
-# running this script will do it
+"""track down references"""
 
-from modeleditor import IDF
-from StringIO import StringIO
-iddname = "../iddfiles/Energy+V8_0_0.idd"
-IDF.setiddname(iddname)
-idf = IDF(StringIO(""))
-idds = idf.idd_info
+from idfreader import idfreader
 
-refs = {}
-olist = {}
-for fieldidds in idds:
-    for fieldidd in fieldidds:
-        if fieldidd.has_key('reference'):
-            for aref in fieldidd['reference']:
-                refs[aref.upper()] = None
-        if fieldidd.has_key('object-list'):
-            for oitem in fieldidd['object-list']:
-                olist[oitem.upper()] = None
-            # print fieldidd['reference']
-# 
-# for key in refs.keys():
-#     print key
-# for key in olist.keys():
-#     print key
+# iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+# fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
+iddfile = "../iddfiles/Energy+V7_2_0.idd"
+fname = "../idffiles/V_7_2/constructions.idf"
+ 
+bunchdt, data, commdct = idfreader(fname, iddfile)  
 
-refk = refs.keys()
-olistk = olist.keys()
-refk.sort()
-olistk.sort()
-for item in olistk:
-    if not refs.has_key(item):
-        pass
-        # print item
-for item in refk:
-    if not olist.has_key(item):
-        pass
-        # print item
+def getreferences(data, commdct, key):
+    i = data.dtls.index(key)
+    for fieldcomm in commdct[i]:
+        if fieldcomm.has_key('reference'):
+            if fieldcomm['field'][0].endswith('Name'):
+                return fieldcomm['reference']
+                
+def getrefered_inner(data, commdct, refs):
+    refered = {}
+    for i, fieldcomms in enumerate(commdct):
+        for j, fieldcomm in enumerate(fieldcomms):
+            if fieldcomm.has_key('object-list'):
+                theobjectlist = fieldcomm['object-list']
+                refs = [ref.upper() for ref in refs]
+                if theobjectlist[0].upper() in refs:
+                    refered[data.dtls[i]] = j
+    return refered
+    
+def getrefered(data, commdct, key):
+    refs =  getreferences(data, commdct, key)
+    return getrefered_inner(data, commdct, refs)
+    
+refered =  getrefered(data, commdct, 'construction'.upper())
 
-# check for references that are not Name fields
-# it did not print anything. So all references are in field Name
-for fieldidds in idds:
-    for fieldidd in fieldidds:
-        if fieldidd.has_key('reference'):
-            if fieldidd.has_key('field'):
-                if not fieldidd['field'][0].endswith('Name'):
-                    print fieldidd
+# refered = {}
+# for i, fieldcomms in enumerate(commdct):
+#     for j, fieldcomm in enumerate(fieldcomms):
+#         if fieldcomm.has_key('object-list'):
+#             theobjectlist = fieldcomm['object-list']
+#             refs = [ref.upper() for ref in refs]
+#             if theobjectlist[0].upper() in refs:
+#                 refered[data.dtls[i]] = j
+#                 # print theobjectlist[0], data.dtls[i], j
+for key, item in refered.items():
+    print key, item
 
-#         
+
+# for i, key in enumerate(data.dtls):
+#     if key == 'ZONE':
+#         for fieldcomm in commdct[i]:
+#             if fieldcomm.has_key('reference'):
+#                 if fieldcomm['field'][0].endswith('Name'):# != ["Name"]:
+#                     print key
+#                     print fieldcomm['field']
+#                     print fieldcomm['reference']
+#                     print fieldcomm.keys()
+        # print key_comm
+        # print
+        # for comms in key_comm:
+        #     print comms
+        # for comm in comms:
+        #     print comm
+        #     if comm.has_key('reference'):
+        #         print comm['field']
+        #         print comm['reference']
+    # if i > 3:
+    #     break
+
+# find reference    
+# (key, name, field)

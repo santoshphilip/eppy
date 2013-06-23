@@ -22,15 +22,6 @@ from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
 import copy
 
-def unicodetest(s, filler="xxxxx"):
-    """test for unicode, and return placholder if not unicode"""
-    # used in hnie project. May be usefull here
-    try:
-        return s.decode('utf-8')
-    except UnicodeDecodeError:
-        return filler
-
-
 class NoObjectError(Exception):
     pass
 
@@ -175,73 +166,6 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
             break
     return theobject
     
-def getrefnames(idf, objname):
-    """get the reference names for this object"""
-    iddinfo = idf.idd_info
-    dtls = idf.model.dtls
-    index = dtls.index(objname)
-    fieldidds = iddinfo[index]
-    for fieldidd in fieldidds:
-        if fieldidd.has_key('field'):
-            if fieldidd['field'][0].endswith('Name'):
-                if fieldidd.has_key('reference'):
-                    return fieldidd['reference']
-                else:
-                    return []
-
-def getallobjlists(idf, refname):
-    """get all object-list fields for refname
-    return a list:
-    [('OBJKEY', refname, fieldindexlist), ...] where
-    fieldindexlist = index of the field where the object-list = refname
-    """
-    dtls = idf.model.dtls
-    objlists = []
-    for i, fieldidds in enumerate(idf.idd_info):
-        indexlist = []
-        for j, fieldidd in enumerate(fieldidds):
-            if fieldidd.has_key('object-list'):
-                if fieldidd['object-list'][0].upper() == refname.upper():
-                    indexlist.append(j)
-        if indexlist != []:
-            objkey = dtls[i]
-            objlists.append((objkey, refname, indexlist))
-    return objlists
-
-<<<<<<< HEAD
-def rename(idf, objkey, objname, newname):
-=======
-def rename_inner(idf, objkey, objname, newname):
->>>>>>> eppy
-    """rename all the refrences to this objname"""
-    refnames = getrefnames(idf, objkey)
-    for refname in refnames:
-        objlists = getallobjlists(idf, refname) 
-        # [('OBJKEY', refname, fieldindexlist), ...]
-        for refname in refnames:
-            for robjkey, refname, fieldindexlist in objlists:
-                idfobjects = idf.idfobjects[robjkey]
-                for idfobject in idfobjects:
-                    for findex in fieldindexlist: # for each field
-                        if idfobject[idfobject.objls[findex]] == objname:
-                            idfobject[idfobject.objls[findex]] = newname
-    theobject = idf.getobject(objkey, objname)
-    fieldname = [item for item in theobject.objls if item.endswith('Name')][0]
-    theobject[fieldname] = newname
-    return theobject
-<<<<<<< HEAD
-=======
-
-def rename(idf, idfobject, newname):
-    """rename the idfobject with newname and rename all it's references"""
-    objkey = idfobject.key.upper()
-    namefield = [nfld for nfld in idfobject.objls if nfld.endswith('Name')][0]
-    objname = idfobject[namefield]
-    return rename_inner(idf, objkey, objname, newname)
-    
-    
-    
->>>>>>> eppy
 class IDF0(object):
     iddname = None
     def __init__(self, idfname):
@@ -265,6 +189,13 @@ class IDF0(object):
                                 commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
+    def save(self):
+        # TODO unit test
+        s = str(self.model)
+        open(self.idfname, 'w').write(s)
+    def saveas(self, filename):
+        s = str(self.model)
+        open(filename, 'w').write(s)
 
 class IDF1(IDF0):
     def __init__(self, idfname):
@@ -314,12 +245,6 @@ class IDF2(IDF1):
                  print obj
     # def __repr__(self):
     #     return self.model.__repr__()
-    def save(self):
-        s = self.idfstr()
-        open(self.idfname, 'w').write(s)
-    def saveas(self, filename):
-        s = self.idfstr()
-        open(filename, 'w').write(s)
 
 IDF = IDF2
         
