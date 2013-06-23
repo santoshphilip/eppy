@@ -1,2 +1,0 @@
-USA_CA_Oakland.Intl.AP_TMY3
-# place the weatherfile path in the first line

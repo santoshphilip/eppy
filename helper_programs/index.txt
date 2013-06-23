@@ -1,2 +1,0 @@
-comfort.py
-routines for comfort calcs in doen for Kuykendall hall.

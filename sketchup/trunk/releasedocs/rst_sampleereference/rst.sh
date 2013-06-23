@@ -1,1 +1,0 @@
-python ~/Documents/pythonfiles/docutils-0.4/tools/rst2html.py $1.txt ./html/$1.html

@@ -1,9 +1,0 @@
-SELECT Company, Country FROM Customers WHERE Country <> 'USA'
-SELECT TimeIndex, VariableValue FROM ReportVariableData WHERE ReportVariableDataDictionaryIndex = 6 and TimeIndex > 36768
-SELECT TimeIndex, VariableValue FROM ReportVariableData WHERE ReportVariableDataDictionaryIndex = 6 and TimeIndex > 432
-SELECT EnvironmentPeriodIndex, EnvironmentName FROM EnvironmentPeriods WHERE EnvironmentType = 1
-SELECT VariableName FROM ReportVariableDataDictionary WHERE ReportVariableDataDictionaryIndex = 70
-SELECT VariableUnits FROM ReportVariableDataDictionary WHERE ReportVariableDataDictionaryIndex = 70
-SELECT COUNT(*) FROM ReportvariableData
-SELECT EnergyPlusVersion FROM Simulations WHERE SimulationIndex = 1
-SELECT ReportingFrequency FROM ReportVariableDataDictionary
