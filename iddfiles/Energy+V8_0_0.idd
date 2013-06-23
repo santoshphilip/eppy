@@ -67427,7 +67427,7 @@ Curve:Biquadratic,
   A1 , \field Name
        \required-field
        \type alpha
-       \reference BiquadraticCurves
+       \reference BiQuadraticCurves
        \reference AllCurves
        \reference BiquadraticCubicCurves
        \reference BiquadraticQuadraticCubicCurves

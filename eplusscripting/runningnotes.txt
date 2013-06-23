@@ -1,7 +1,11 @@
 2013-06-22
 ----------
-idf.saveas(fname)
-saves with idd commnts
+idf.saveas(fname) saves with idd comments -> DONE
+started on updating examples
+    - paused on ex_pythonic.py to code renames
+do the rename function -> done
+    - this is happening in temp.py
+    - d_references.py does an exploration
 2013-06-21
 ----------
 update all ex_*.py files to using IDF

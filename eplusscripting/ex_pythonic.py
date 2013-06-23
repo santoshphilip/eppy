@@ -18,17 +18,23 @@
 """examples of pythonic operations on energyplus objects"""
 # try these out line by line in the python interpreter or in ipython
 
-from idfreader import idfreader
-
+# from idfreader import idfreader
+from modeleditor import IDF
+# 
 iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
- 
-bunchdt, data, commdct = idfreader(fname, iddfile)
+IDF.setiddname(iddfile)
+idf = IDF(fname)
+#  
+# bunchdt, data, commdct = idfreader(fname, iddfile)
+# 
+# # give easy to remember names to objects that you are working on
+# zones = bunchdt['zone'.upper()] # all the zones
+# surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
+zones = idf.idfobjects['zone'.upper()] # all the zones
+surfaces = idf.idfobjects['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
 
-# give easy to remember names to objects that you are working on
-zones = bunchdt['zone'.upper()] # all the zones
-surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()] # all the surfaces
-
+# 
 # first zone - zone0
 zone0 = zones[0]
 
@@ -60,15 +66,15 @@ smallzones[1].Name = "SECOND-SMALL-ZONE"
 zonenames = [zone.Name for zone in zones]
 print zonenames
 
-# now we have a problem
-# surfaces still refer to the old zone names
-# see ex_referenced.py to see how to change those references
-
-# future version will have a function that will automatically update the references.
-
-# save to disk and look at the file
-txt = str(data) # bunchdt is actually changing values in data
-open("bfile.idf", 'w').write(txt)
-# open the idf file and search for the string "SMALL"
-
-
+# # now we have a problem
+# # surfaces still refer to the old zone names
+# # see ex_referenced.py to see how to change those references
+# 
+# # future version will have a function that will automatically update the references.
+# 
+# # save to disk and look at the file
+# txt = str(data) # bunchdt is actually changing values in data
+# open("bfile.idf", 'w').write(txt)
+# # open the idf file and search for the string "SMALL"
+# 
+# 

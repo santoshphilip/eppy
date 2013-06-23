@@ -1,5 +1,12 @@
 These are list of posible enhancements for the E+ engine
 
+2013-06-22
+----------
+in idd version 8.0.0
+reference spelled as "BiQuadraticCurves" and "BiquadraticCurves"
+reference spelled as "FMUFileName" and "FMUFilename"
+
+
 2013-04-23
 ----------
 SizingPeriod:DesignDay,

@@ -32,6 +32,12 @@ idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
 
+# idd is read only once in this test
+from modeleditor import IDF
+from iddcurrent import iddcurrent
+iddfhandle1 = StringIO(iddcurrent.iddtxt)
+IDF.setiddname(iddfhandle1)
+
 def test_poptrailing():
     """py.test for poptrailing"""
     data = (([1, 2, 3, '', 56, '', '', '', ''], 
@@ -149,4 +155,77 @@ def test_removeextensibles():
         result = modeleditor.removeextensibles(bunchdt, data, commdct, key, 
                                                 objname)
         assert result.obj == rawobject
-        
+
+def test_getrefnames():
+    """py.test for getrefnames"""
+    tdata = (
+    ('ZONE', 
+    ['ZoneNames', 'OutFaceEnvNames', 'ZoneAndZoneListNames', 
+    'AirflowNetworkNodeAndZoneNames']), # objkey, therefs
+    ('FluidProperties:Name'.upper(), 
+    ['FluidNames', 'FluidAndGlycolNames']), # objkey, therefs
+    ('Building'.upper(), 
+    []), # objkey, therefs
+    )
+    for objkey, therefs in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = modeleditor.getrefnames(idf, objkey)
+        assert result == therefs
+
+def test_getallobjlists():
+    """py.test for getallobjlists"""
+    tdata = (
+    ('TransformerNames', 
+    [('ElectricLoadCenter:Distribution'.upper(), 
+    'TransformerNames',
+    [10, ]
+    ), ],
+    ), # refname, objlists
+    )
+    for refname, objlists in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = modeleditor.getallobjlists(idf, refname)
+        assert result == objlists
+
+def test_rename():
+    """py.test for rename"""
+    idftxt = """Material,
+      G01a 19mm gypsum board,  !- Name
+      MediumSmooth,            !- Roughness
+      0.019,                   !- Thickness {m}
+      0.16,                    !- Conductivity {W/m-K}
+      800,                     !- Density {kg/m3}
+      1090;                    !- Specific Heat {J/kg-K}
+
+      Construction,
+        Interior Wall,           !- Name
+        G01a 19mm gypsum board,  !- Outside Layer
+        F04 Wall air space resistance,  !- Layer 2
+        G01a 19mm gypsum board;  !- Layer 3
+
+    """
+    ridftxt = """Material,
+      peanut butter,  !- Name
+      MediumSmooth,            !- Roughness
+      0.019,                   !- Thickness {m}
+      0.16,                    !- Conductivity {W/m-K}
+      800,                     !- Density {kg/m3}
+      1090;                    !- Specific Heat {J/kg-K}
+
+      Construction,
+        Interior Wall,           !- Name
+        peanut butter,  !- Outside Layer
+        F04 Wall air space resistance,  !- Layer 2
+        peanut butter;  !- Layer 3
+
+    """
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    result = modeleditor.rename(idf, 
+            'Material'.upper(), 
+            'G01a 19mm gypsum board', 'peanut butter')
+    assert result.Name == 'peanut butter'
+    assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'                       
+    assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'
