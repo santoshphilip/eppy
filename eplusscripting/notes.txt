@@ -1,3 +1,14 @@
+2013-07-03
+----------
+Notes for conf call
+- all functionality complete.
+- documentation complete (more complex examples should be included)
+- plant loop is done (a ir loop and condenser loop not yet done - plant loop was non trivial)
+
+to be done:
+install instructions needed.
+
+
 2013-06-21
 ----------
 using idd version 8.0.0

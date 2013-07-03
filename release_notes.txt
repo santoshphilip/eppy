@@ -1,0 +1,6 @@
+2013-07-03
+----------
+release r0.3
+
+lots has changed since 0.2
+since 0.2 was never used, there is not much to say here

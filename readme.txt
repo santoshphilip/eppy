@@ -1,5 +1,5 @@
-this is a release version with the pyenergyplus object API.
-try the examples documented in ./eplusscripting/example_index.txt
+All the scripting files are in the folder eplusscripting
 
-also see ./eplusscripting/install.txt for install instructions
-# 
+read ./eplusscripting/install.txt for install instructions
+
+read ./eplusscripting/documentation/tutorial.html for a tutorial on using eppy
