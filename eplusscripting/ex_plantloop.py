@@ -18,21 +18,17 @@
 
 """figure out how to switch branches in a loop."""
 
-import sys
-sys.path.append('../')
-import copy
 
-import modeleditor
-import bunch_subclass
 from modeleditor import IDF
 import hvacbuilder
 
 from StringIO import StringIO
-import iddv7
-IDF.setiddname(StringIO(iddv7.iddtxt))
+iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
+IDF.setiddname(iddfile)
 
 
 
+# make the topology of the loop
 idf = IDF(StringIO(''))
 loopname = "p_loop"
 sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
@@ -48,6 +44,7 @@ idf.saveas("hhh1.idf")
 # pipe1 = hvacbuilder.makepipecomponent(idf, 'np1')
 # pipe2 = hvacbuilder.makepipecomponent(idf, 'np2')
 # idf.saveas("hhh2.idf")
+# make a new branch chiller->pipe1-> pipe2
 pipe1 = idf.newidfobject("PIPE:ADIABATIC", 'np1')
 chiller = idf.newidfobject("Chiller:Electric".upper(), 'Central_Chiller')
 pipe2 = idf.newidfobject("PIPE:ADIABATIC", 'np2')
@@ -62,6 +59,6 @@ listofcomponents = [chiller, pipe1, pipe2]
 
 newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 
                                     'Water', False)
-print newbr.obj 
+# print newbr.obj 
 # print branch
 idf.saveas("hhh_new.idf")

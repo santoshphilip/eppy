@@ -1,3 +1,7 @@
+2013-07-03
+----------
+copy an object from within the idf
+copy an object from another idef
 2013-06-21
 ----------
 update all ex_*.py files to using IDF

@@ -19,8 +19,8 @@
 
 import readhtml
 fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html"
-txt = open(fname, 'r').read()
-htables = readhtml.titletable(txt)
+filehandle = open(fname, 'r').read()
+htables = readhtml.titletable(filehandle)
 fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable.html"
-txt = open(fname, 'r').read()
-htables = readhtml.titletable(txt)
+filehandle = open(fname, 'r').read()
+htables = readhtml.titletable(filehandle)
