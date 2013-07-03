@@ -17,6 +17,10 @@
 
 """read the html outputs"""
 
+
+# import sys
+# print sys.version
+# import bs4
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 class NotSimpleTable(Exception):
@@ -55,7 +59,7 @@ def table2matrix(table):
 
 def titletable(html_doc):
     """return a list of [(title, table), .....]
-    title = previous item with a <b> tab
+    title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
     soup = BeautifulSoup(html_doc)
     btables = soup.find_all(['b', 'table']) # find all the <b> and <table> 

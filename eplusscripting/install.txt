@@ -1,5 +1,13 @@
+at the terminal run the following commands
+
+pip install https://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.7.tar.gz
+pip install -r requirements.txt
+
+This will install the libraries needed to run eppy
+
+also download graphviz for your platform
+http://www.graphviz.org/Download.php
 
 
-pip install bunch
-pip install beautifulsoup4
-pip install numpy
+install eppy by going to this link
+https://github.com/santoshphilip/eppy/archive/master.zip
