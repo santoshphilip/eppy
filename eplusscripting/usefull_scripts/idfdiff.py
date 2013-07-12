@@ -18,6 +18,8 @@
 """do a diff between two idf files
 usage:
     python idfdiff.py idd_file idf_file1 idf_file2"""
+    
+    
 import sys
 import getopt
 
@@ -49,8 +51,7 @@ def getobjname(item):
 
 
 def idfdiffs(idf1, idf2):
-    """return the diffs between the two idfs
-    is not aware of objects in onde idf not present in the other"""
+    """print the diffs between the two idfs"""
     header = "Object Key, Object Name, Field Name, %s, %s" % (idf1.idfname, 
                                                         idf2.idfname)
     print header     
