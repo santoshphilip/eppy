@@ -16,34 +16,21 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """do a diff between two idf files"""
+import sys
+pathnameto_eplusscripting = "../"
+sys.path.append(pathnameto_eplusscripting)
 
 from modeleditor import IDF
+import diff_functions
 
-iddfile = "../iddfiles/Energy+V6_0.idd"
-fname1 = "../idffiles/V_6_0/ASHRAE30pct.PI.Final11_Hospital_STD2010_Chicago.idf"
-fname2 = "../idffiles/V_6_0/ASHRAE30pct.PI.Final11_Hospital_STD2010_Miami.idf"
+iddfile = "../../iddfiles/Energy+V6_0.idd"
+fname1 = "../../idffiles/V_6_0/ASHRAE30pct.PI.Final11_Hospital_STD2010_Chicago.idf"
+fname2 = "../../idffiles/V_6_0/ASHRAE30pct.PI.Final11_Hospital_STD2010_Miami.idf"
 # fname1 = "../idffiles/V_7_2/smallfile.idf"
  
 IDF.setiddname(iddfile)
 idf1 = IDF(fname1)
 idf2 = IDF(fname2)
 
-keys = idf1.model.dtls # undocumented variable
+diff_functions.idfdiffs(idf1, idf2)
 
-for akey in keys:
-    idfobjs1 = idf1.idfobjects[akey]
-    idfobjs2 = idf2.idfobjects[akey]
-    for idfobj1, idfobj2 in zip(idfobjs1, idfobjs2):
-        for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
-            if f1 != f2:
-                print '%s, %s, %s, %s' % (akey, idfobj1.objidd[i]['field'][0], 
-                        f1, f2, )
-        
-
-
-
-# bunchdt, data, commdct = idfreader(fname, iddfile)
-# 
-# outfilename = "afile.idf"
-# txt = str(data)
-# open(outfilename, 'w').write(txt)
