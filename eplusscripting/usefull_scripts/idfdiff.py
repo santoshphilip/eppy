@@ -40,7 +40,7 @@ class Usage(Exception):
 
 
 def getobjname(item):
-    """return obj name of blank """
+    """return obj name or blank """
     try:
         objname = item.Name
     except BadEPFieldError, e:
