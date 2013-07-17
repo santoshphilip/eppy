@@ -1,9 +1,6 @@
 Eppy
 =====
 
-Authors: Santosh Philip, Leora Tanjuatco
---------------------------------------------
-
 Eppy is a scripting language for E+ idf files, and E+ output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are avaliable in python. You can programmatically navigate, search, and modify E+ idf files using eppy. The power of using a scripting language allows you to do the following:
 
 - Make a large number of changes in an idf file with a few lines of eppy code.
