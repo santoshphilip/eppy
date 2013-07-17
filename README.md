@@ -23,3 +23,5 @@ Here are some of the things you can do with eppy:
 - Change the efficiency and fan power of all rooftop units.
 - Find the energy use of all the models in a folder (or of models that were run after a certain date)
 - If a model is using more energy than expected, keep increasing the R-value of the roof until you get to the expected energy use.
+
+To see the tutorial go to ./eplusscripting/documentation/tutorial.html
