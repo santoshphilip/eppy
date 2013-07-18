@@ -9,7 +9,3 @@ also download and install graphviz for your platform
 http://www.graphviz.org/Download.php
 this is needed to draw the loop diagrams
 
-
-install eppy by going to this link
-https://github.com/santoshphilip/eppy/archive/r0_3.zip
-Actually you already have it, since you are reading this.
