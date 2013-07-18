@@ -243,6 +243,13 @@ class IDF2(IDF1):
         for objname in dtls:
             for obj in self.idfobjects[objname]:
                  print obj
+    def save(self):
+        """save with comments"""
+        s = self.idfstr()
+        open(self.idfname, 'w').write(s)
+    def saveas(self, filename):
+        s = self.idfstr()
+        open(filename, 'w').write(s)
     # def __repr__(self):
     #     return self.model.__repr__()
 
