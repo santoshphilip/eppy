@@ -1,5 +1,9 @@
 2013-07-21
 ----------
+For graphs see
+http://bl.ocks.org/mbostock/4015254
+2013-07-21
+----------
 windows virtual install
 - pip install virtualenv
 - pip install virtualenvwrapper-win
