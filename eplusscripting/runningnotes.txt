@@ -1,3 +1,8 @@
+2013-07-21
+----------
+windows virtual install
+- pip install virtualenv
+- pip install virtualenvwrapper-win
 2013-07-03
 ----------
 copy an object from within the idf
