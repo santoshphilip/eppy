@@ -21,6 +21,3 @@ from IPython.display import Image
 from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
 idfeditor = Image(filename='./documentation/images/idf3.png')
 material_lists = Image(filename='./documentation/images/material_lists.png')
-html_snippet = Image(filename='./documentation/images/html.png')
-plantloop1 = Image(filename='./documentation/images/hhh1.png')
-plantloop2 = Image(filename='./documentation/images/hhh_new.png')
