@@ -228,8 +228,17 @@ class IDF1(IDF0):
 class IDF2(IDF1):
     def __init__(self, idfname):
         super(IDF2, self).__init__(idfname)
+        self.outputtype = "standard" # standard, nocomment or compressed
     def idfstr(self):
-        # print self.model.__repr__()
+        if self.outputtype != 'standard':
+            st = self.model.__repr__()
+            if self.outputtype == 'nocomment':
+                return st
+            else:
+                slist = st.split('\n')
+                slist = [item.strip() for item in slist]
+                return ' '.join(slist)
+        # else:
         st = ''
         dtls = self.model.dtls
         for objname in dtls:
@@ -238,11 +247,7 @@ class IDF2(IDF1):
         return st
     def printidf(self):
         """print the idf"""
-        s = self.idfstr()
-        dtls = self.model.dtls
-        for objname in dtls:
-            for obj in self.idfobjects[objname]:
-                 print obj
+        print self.idfstr()
     def save(self):
         """save with comments"""
         s = self.idfstr()
@@ -250,8 +255,6 @@ class IDF2(IDF1):
     def saveas(self, filename):
         s = self.idfstr()
         open(filename, 'w').write(s)
-    # def __repr__(self):
-    #     return self.model.__repr__()
 
 IDF = IDF2
         
