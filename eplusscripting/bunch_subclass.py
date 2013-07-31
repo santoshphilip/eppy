@@ -57,6 +57,7 @@ class EpBunch_1(Bunch):
                 extendlist(self['obj'], i)
                 self['obj'][i] = value
         else:
+            print "unable to find field %s" % (name, )
             raise BadEPFieldError
     def __getattr__(self, name):
         if name in ('obj', 'objls', 'objidd'):
@@ -68,6 +69,7 @@ class EpBunch_1(Bunch):
             except IndexError, e:
                 return ''
         else:
+            print "unable to find field %s" % (name, )
             raise BadEPFieldError
     def __repr__(self):
         """print this as an idf snippet"""
@@ -145,6 +147,7 @@ class EpBunch_4(EpBunch_3):
             except IndexError, e:
                 return ''
         else:
+            print "unknown field %s" % (key, )
             raise BadEPFieldError
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
@@ -159,6 +162,7 @@ class EpBunch_4(EpBunch_3):
                 self['obj'][i] = value
             
         else:
+            print "unknown field %s" % (key, )
             raise BadEPFieldError
         
                                 

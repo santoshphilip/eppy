@@ -18,7 +18,10 @@
 """draw plant and air loop
 s_plantloop5.py + s_airloop2.py
 removed arrow between demand and supply
-has main with arguments"""
+has main with arguments
+
+usage:
+    python ex_loopdiagram.py fname.idf"""
 # copy of s_airplantloop1.py
 
 import pydot
