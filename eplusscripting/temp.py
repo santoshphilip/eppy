@@ -16,9 +16,22 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 from modeleditor import IDF
+import hvacbuilder
 import iddv7
 from StringIO import StringIO
 IDF.setiddname(StringIO(iddv7.iddtxt))
-idf1 = IDF('hh1.idf')
-idf1.outputtype = 'compressed'
-idf1.saveas('gumby.idf')
+idf = IDF('hh1.idf')
+# idf.outputtype = 'compressed'
+# idf.saveas('gumby.idf')
+
+pipe1 = idf.newidfobject("PIPE:ADIABATIC", 'np1')
+chiller = idf.newidfobject("Chiller:Electric".upper(), 'Central_Chiller')
+pipe2 = idf.newidfobject("PIPE:ADIABATIC", 'np2')
+
+loop = idf.getobject('CONDENSERLOOP', 'c_loop')
+print loop
+branch = idf.getobject('BRANCH', 'sb0')
+listofcomponents = [chiller, pipe1, pipe2]
+
+newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 'Water', False)
+idf.saveas("hhh_new.idf")

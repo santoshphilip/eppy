@@ -24,6 +24,26 @@ import modeleditor
 from modeleditor import IDF
 
 
+class SomeFields(object):
+    c_fields = ['Condenser Side Inlet Node Name',
+    'Condenser Side Outlet Node Name',
+    'Condenser Side Branch List Name',
+    'Condenser Side Connector List Name',
+    'Demand Side Inlet Node Name',
+    'Demand Side Outlet Node Name',
+    'Condenser Demand Side Branch List Name',
+    'Condenser Demand Side Connector List Name']
+    p_fields = ['Plant Side Inlet Node Name',
+    'Plant Side Outlet Node Name',
+    'Plant Side Branch List Name',
+    'Plant Side Connector List Name',
+    'Demand Side Inlet Node Name',
+    'Demand Side Outlet Node Name',
+    'Demand Side Branch List Name',
+    'Demand Side Connector List Name']
+
+    
+        
 def flattencopy(lst):
     """flatten and return a copy of the list
     indefficient on large lists"""
@@ -81,14 +101,7 @@ def makeplantloop(idf, loopname, sloop, dloop):
 
     newplantloop = idf.newidfobject("PLANTLOOP", loopname)
 
-    fields = ['Plant Side Inlet Node Name',
-    'Plant Side Outlet Node Name',
-    'Plant Side Branch List Name',
-    'Plant Side Connector List Name',
-    'Demand Side Inlet Node Name',
-    'Demand Side Outlet Node Name',
-    'Demand Side Branch List Name',
-    'Demand Side Connector List Name']
+    fields = SomeFields.p_fields
 
     # for use in bunch
     flnames = [field.replace(' ', '_') for field in fields]
@@ -362,8 +375,20 @@ def replacebranch(idf, loop, branch,
         idf.saveas("hhh7.idf")
 
     # check for the end nodes of the loop
-    plantloop = loop
-    supplyconlistname = plantloop.Plant_Side_Connector_List_Name
+    # supplyendinletnode
+    # supplyendoutletnode
+    # demandendinletnode
+    # demandendoutletnode
+    # supplyconnectorlist
+    # demandconnectorlist
+    if loop.key == 'PLANTLOOP':
+        fields = SomeFields.p_fields
+    if loop.key == 'CONDENSERLOOP':
+        fields = SomeFields.c_fields
+    # for use in bunch
+    flnames = [field.replace(' ', '_') for field in fields]
+    
+    supplyconlistname = loop[flnames[3]] # Plant_Side_Connector_List_Name
     supplyconlist = idf.getobject('CONNECTORLIST', supplyconlistname)
     for i in xrange(1, 100000): # large range to hit end
         try:
@@ -392,15 +417,15 @@ def replacebranch(idf, loop, branch,
                 inletnodename = getnodefieldname(comp, 
                                         "Inlet_Node_Name", fluid)
                 comp[inletnodename] = [comp[inletnodename],
-                                        plantloop.Plant_Side_Inlet_Node_Name]
+                                loop[flnames[0]]] # Plant_Side_Inlet_Node_Name
             else:
                 comp = comps[-1]
                 outletnodename = getnodefieldname(comp, 
                                         "Outlet_Node_Name", fluid)
                 comp[outletnodename] = [comp[outletnodename], 
-                                        plantloop.Plant_Side_Outlet_Node_Name]
+                            loop[flnames[1]]] # .Plant_Side_Outlet_Node_Name
 
-    demandconlistname = plantloop.Demand_Side_Connector_List_Name
+    demandconlistname = loop[flnames[7]] # .Demand_Side_Connector_List_Name
     demandconlist = idf.getobject('CONNECTORLIST', demandconlistname)
     for i in xrange(1, 100000): # large range to hit end
         try:
@@ -430,13 +455,13 @@ def replacebranch(idf, loop, branch,
                 inletnodename = getnodefieldname(comp, 
                                         "Inlet_Node_Name", fluid)
                 comp[inletnodename] = [comp[inletnodename],
-                                        plantloop.Demand_Side_Inlet_Node_Name]
+                            loop[flnames[4]]] #.Demand_Side_Inlet_Node_Name
             if not isfirst:
                 comp = comps[-1]
                 outletnodename = getnodefieldname(comp, 
                                         "Outlet_Node_Name", fluid)
                 comp[outletnodename] = [comp[outletnodename], 
-                                    plantloop.Demand_Side_Outlet_Node_Name]
+                            loop[flnames[5]]] # .Demand_Side_Outlet_Node_Name
 
 
     if debugsave:
@@ -449,20 +474,14 @@ def replacebranch(idf, loop, branch,
         idf.saveas("hhh9.idf")
     return thebranch
 
+
+
 def makecondenserloop(idf, loopname, sloop, dloop):
     """make condenser loop with pipe components"""
 
     newcondenserloop = idf.newidfobject("CondenserLoop".upper(), loopname)
 
-    # DONE : these names change
-    fields = ['Condenser Side Inlet Node Name',
-    'Condenser Side Outlet Node Name',
-    'Condenser Side Branch List Name',
-    'Condenser Side Connector List Name',
-    'Demand Side Inlet Node Name',
-    'Demand Side Outlet Node Name',
-    'Condenser Demand Side Branch List Name',
-    'Condenser Demand Side Connector List Name']
+    fields = SomeFields.c_fields
 
     # for use in bunch
     flnames = [field.replace(' ', '_') for field in fields]
