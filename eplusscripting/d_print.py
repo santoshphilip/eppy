@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2013 Santosh Philip
 
 # This file is part of eppy.
 
@@ -16,22 +16,15 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 from modeleditor import IDF
-import hvacbuilder
-import iddv7
+
 from StringIO import StringIO
+import iddv7
 IDF.setiddname(StringIO(iddv7.iddtxt))
-idf = IDF('hh1.idf')
-# idf.outputtype = 'compressed'
-# idf.saveas('gumby.idf')
+idf1 = IDF(StringIO(''))
 
-pipe1 = idf.newidfobject("PIPE:ADIABATIC", 'np1')
-chiller = idf.newidfobject("Chiller:Electric".upper(), 'Central_Chiller')
-pipe2 = idf.newidfobject("PIPE:ADIABATIC", 'np2')
-
-loop = idf.getobject('CONDENSERLOOP', 'c_loop')
-print loop
-branch = idf.getobject('BRANCH', 'sb0')
-listofcomponents = [chiller, pipe1, pipe2]
-
-newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 'Water', False)
-idf.saveas("hhh_new.idf")
+ploop = idf1.newidfobject('PLANTLOOP', 'p_loop')
+cloop = idf1.newidfobject('CONDENSERLOOP', 'c_loop')
+idf1.outputtype = 'nocomment'
+idf1.outputtype = 'compressed'
+idf1.saveas('gumby.idf')
+# print idf1.idfstr()
