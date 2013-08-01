@@ -375,12 +375,6 @@ def replacebranch(idf, loop, branch,
         idf.saveas("hhh7.idf")
 
     # check for the end nodes of the loop
-    # supplyendinletnode
-    # supplyendoutletnode
-    # demandendinletnode
-    # demandendoutletnode
-    # supplyconnectorlist
-    # demandconnectorlist
     if loop.key == 'PLANTLOOP':
         fields = SomeFields.p_fields
     if loop.key == 'CONDENSERLOOP':
