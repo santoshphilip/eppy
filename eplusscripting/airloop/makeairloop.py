@@ -124,26 +124,28 @@ for fieldname, thefield in zip(fieldnames, flnames):
 # make the branch lists for this condenser loop    
 sbranchlist = idf.newidfobject("BRANCHLIST",
                 newairloop[flnames[0]])
-dbranchlist = idf.newidfobject("BRANCHLIST",
-                newcondenserloop.Condenser_Demand_Side_Branch_List_Name)
+
+# not needed in airloop                
+# dbranchlist = idf.newidfobject("BRANCHLIST",
+#                 newcondenserloop.Condenser_Demand_Side_Branch_List_Name)
 
 # add branch names to the branchlist
 sbranchnames = flattencopy(sloop)
 # sbranchnames = sloop[1]
 for branchname in sloop[1]:
     sbranchlist.obj.append(branchname)
-dbranchnames = flattencopy(dloop)
-# dbranchnames = dloop[1]
-for branchname in dloop[1]:
-    dbranchlist.obj.append(branchname)
+# dbranchnames = flattencopy(dloop)
+# # dbranchnames = dloop[1]
+# for branchname in dloop[1]:
+#     dbranchlist.obj.append(branchname)
 # 
-# # make a pipe branch for all branches in the loop
+# # make a duct branch for all branches in the loop
 # 
-# # supply side
-# sbranchs = []
-# for bname in sbranchnames:
-#     branch = makepipebranch(idf, bname)
-#     sbranchs.append(branch)
+# supply side
+sbranchs = []
+for bname in sbranchnames:
+    branch = makeductbranch(idf, bname)
+    sbranchs.append(branch)
 # # rename inlet outlet of endpoints of loop
 # anode = "Component_1_Inlet_Node_Name"
 # sameinnode = "Condenser_Side_Inlet_Node_Name" # TODO : change ?

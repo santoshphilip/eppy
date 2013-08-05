@@ -12,3 +12,11 @@ sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
 dloop = ['db0', ['zone1', 'zone2', 'zone3'], 'db4']
 makeairloop(idf1, loopname, sloop, dloop)
 idf1.saveas("hh1.idf")
+
+make
+airloophvac
+    has 
+    - supply demand inlet and outlets
+    - branch list # This is a supply side branch list
+    - connector list # splitter and mixer on supply side
+    
