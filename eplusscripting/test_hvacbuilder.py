@@ -460,7 +460,7 @@ def test_makepipebranch():
         idf = IDF(fhandle)
         result = hvacbuilder.makepipebranch(idf, pb_name)
         assert result.obj == branch_obj
-        thepipe = idf.getobject('PIPE:ADIABATIC', 'p_branch_pipe')
+        thepipe = idf.getobject('PIPE:ADIABATIC', result.Component_1_Name)
         assert thepipe.obj == pipe_obj
 
 def test_makeductbranch():
@@ -486,3 +486,6 @@ def test_makeductbranch():
         idf = IDF(fhandle)
         result = hvacbuilder.makeductbranch(idf, db_name)
         assert result.obj == branch_obj
+        theduct = idf.getobject('DUCT', result.Component_1_Name)
+        assert theduct.obj == duct_obj
+        
