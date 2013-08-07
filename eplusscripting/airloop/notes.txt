@@ -1,3 +1,15 @@
+2013-08-07
+----------
+AirLoopHVAC:SupplyPath
+->
+AirLoopHVAC:ZoneSplitter (inletnode, outletnodes)
+->
+AirTerminal:SingleDuct:Uncontrolled
+->
+ZoneHVAC:EquipmentList
+->
+ZoneHVAC:EquipmentConnections (has zone name)
+
 2013-08-02
 ----------
 
