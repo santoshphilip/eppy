@@ -41,6 +41,12 @@ class SomeFields(object):
     'Demand Side Outlet Node Name',
     'Demand Side Branch List Name',
     'Demand Side Connector List Name']
+    a_fields = ['Branch List Name',
+    'Connector List Name',
+    'Supply Side Inlet Node Name',
+    'Demand Side Outlet Node Name',
+    'Demand Side Inlet Node Names',
+    'Supply Side Outlet Node Names']
 
     
         

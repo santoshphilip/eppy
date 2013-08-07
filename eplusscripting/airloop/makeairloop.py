@@ -21,6 +21,8 @@ import copy
 import sys
 sys.path.append('../')
 from modeleditor import IDF
+import hvacbuilder
+
 class SomeFields(object):
     c_fields = ['Condenser Side Inlet Node Name',
     'Condenser Side Outlet Node Name',
@@ -121,7 +123,7 @@ fieldnames = ['%s %s' % (loopname, field) for field in fields1]
 for fieldname, thefield in zip(fieldnames, flnames):
     newairloop[thefield] = fieldname
 
-# make the branch lists for this condenser loop    
+# make the branch lists for this air loop    
 sbranchlist = idf.newidfobject("BRANCHLIST",
                 newairloop[flnames[0]])
 
@@ -132,7 +134,7 @@ sbranchlist = idf.newidfobject("BRANCHLIST",
 # add branch names to the branchlist
 sbranchnames = flattencopy(sloop)
 # sbranchnames = sloop[1]
-for branchname in sloop[1]:
+for branchname in sbranchnames:
     sbranchlist.obj.append(branchname)
 # dbranchnames = flattencopy(dloop)
 # # dbranchnames = dloop[1]
@@ -144,22 +146,22 @@ for branchname in sloop[1]:
 # supply side
 sbranchs = []
 for bname in sbranchnames:
-    branch = makeductbranch(idf, bname)
+    branch = hvacbuilder.makeductbranch(idf, bname)
     sbranchs.append(branch)
-# # rename inlet outlet of endpoints of loop
-# anode = "Component_1_Inlet_Node_Name"
-# sameinnode = "Condenser_Side_Inlet_Node_Name" # TODO : change ?
-# sbranchs[0][anode] =  newcondenserloop[sameinnode]
-# anode = "Component_1_Outlet_Node_Name"
-# sameoutnode = "Condenser_Side_Outlet_Node_Name" # TODO : change ?
-# sbranchs[-1][anode] =  newcondenserloop[sameoutnode]
-# # rename inlet outlet of endpoints of loop - rename in pipe
-# pname = sbranchs[0]['Component_1_Name'] # get the pipe name
-# apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
-# apipe.Inlet_Node_Name = newcondenserloop[sameinnode]
-# pname = sbranchs[-1]['Component_1_Name'] # get the pipe name
-# apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
-# apipe.Outlet_Node_Name = newcondenserloop[sameoutnode]
+# rename inlet outlet of endpoints of loop
+anode = "Component_1_Inlet_Node_Name"
+sameinnode = "Supply_Side_Inlet_Node_Name" # TODO : change ?
+sbranchs[0][anode] =  newairloop[sameinnode]
+anode = "Component_1_Outlet_Node_Name"
+sameoutnode = "Supply_Side_Outlet_Node_Names" # TODO : change ?
+sbranchs[-1][anode] =  newairloop[sameoutnode]
+# rename inlet outlet of endpoints of loop - rename in pipe
+dname = sbranchs[0]['Component_1_Name'] # get the duct name
+aduct = idf.getobject('duct'.upper(), dname) # get duct
+aduct.Inlet_Node_Name = newairloop[sameinnode]
+dname = sbranchs[-1]['Component_1_Name'] # get the duct name
+aduct = idf.getobject('duct'.upper(), dname) # get duct
+aduct.Outlet_Node_Name = newairloop[sameoutnode]
 # 
 # # demand side
 # dbranchs = []
@@ -183,13 +185,13 @@ for bname in sbranchnames:
 # 
 # 
 # # TODO : test if there are parallel branches
-# # make the connectorlist an fill fields
-# sconnlist = idf.newidfobject("CONNECTORLIST",
-#                 newcondenserloop.Condenser_Side_Connector_List_Name)
-# sconnlist.Connector_1_Object_Type = "Connector:Splitter"
-# sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
-# sconnlist.Connector_2_Object_Type = "Connector:Mixer"
-# sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
+# make the connectorlist an fill fields
+sconnlist = idf.newidfobject("CONNECTORLIST",
+                newairloop.Connector_List_Name)
+sconnlist.Connector_1_Object_Type = "Connector:Splitter"
+sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
+sconnlist.Connector_2_Object_Type = "Connector:Mixer"
+sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
 # dconnlist = idf.newidfobject("CONNECTORLIST",
 #     newcondenserloop.Condenser_Demand_Side_Connector_List_Name)
 # dconnlist.Connector_1_Object_Type = "Connector:Splitter"
@@ -197,13 +199,13 @@ for bname in sbranchnames:
 # dconnlist.Connector_2_Object_Type = "Connector:Mixer"
 # dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname, )
 # 
-# # make splitters and mixers
-# s_splitter = idf.newidfobject("CONNECTOR:SPLITTER", 
-#     sconnlist.Connector_1_Name)
-# s_splitter.obj.extend([sloop[0]] + sloop[1])
-# s_mixer = idf.newidfobject("CONNECTOR:MIXER", 
-#     sconnlist.Connector_2_Name)
-# s_mixer.obj.extend([sloop[-1]] + sloop[1])
+# make splitters and mixers
+s_splitter = idf.newidfobject("CONNECTOR:SPLITTER", 
+    sconnlist.Connector_1_Name)
+s_splitter.obj.extend([sloop[0]] + sloop[1])
+s_mixer = idf.newidfobject("CONNECTOR:MIXER", 
+    sconnlist.Connector_2_Name)
+s_mixer.obj.extend([sloop[-1]] + sloop[1])
 # # -
 # d_splitter = idf.newidfobject("CONNECTOR:SPLITTER", 
 #     dconnlist.Connector_1_Name)
@@ -212,3 +214,4 @@ for bname in sbranchnames:
 #     dconnlist.Connector_2_Name)
 # d_mixer.obj.extend([dloop[-1]] + dloop[1])
 # return newcondenserloop
+idf.saveas('b.idf')
