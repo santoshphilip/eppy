@@ -17,7 +17,6 @@
 
 """make plant loop snippets"""
 import sys
-sys.path.append('../')
 import copy
 import bunch_subclass
 import modeleditor
@@ -623,6 +622,10 @@ def makecondenserloop(idf, loopname, sloop, dloop):
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
     return newcondenserloop
+
+def makezoneequipconnections(idf, loopname, zname):
+    """make a ZoneHVAC:EquipmentConnections for zname"""
+    pass
 
 def main():
     from StringIO import StringIO

@@ -86,11 +86,12 @@ def renamebunch(bunchdt, commdct, oldname, newname):
     """rename this bunch and change name in all references"""
     pass
     
-def addobject(bunchdt, data, commdct, key, aname=''):
+def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
     abunch = obj2bunch(data, commdct, obj)
-    namebunch(abunch, aname)
+    if aname:
+        namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     return abunch

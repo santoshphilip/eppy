@@ -69,7 +69,8 @@ def flattencopy(lst):
 
 loopname = "a_loop"
 sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-dloop = ['db0', ['zone1', 'zone2', 'zone3'], 'db4']
+# dloop = ['db0', ['zone1', 'zone2', 'zone3'], 'db4']
+dloop = ['zone1', 'zone2', 'zone3']
 # makeairloop(idf1, loopname, sloop, dloop)
 # idf1.saveas("hh1.idf")
 

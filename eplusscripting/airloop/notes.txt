@@ -10,6 +10,12 @@ ZoneHVAC:EquipmentList
 ->
 ZoneHVAC:EquipmentConnections (has zone name)
 
+from ["zone1", "zone2", "zone3"] -> the above has to be created. 
+
+AirLoopHVAC:ReturnPath
+
+AirLoopHVAC:ZoneMixer (inletnodes, outletnode)
+
 2013-08-02
 ----------
 
