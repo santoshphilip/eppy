@@ -16,3 +16,7 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """function to build the airloop"""
+
+def makezoneequipconnections(idf, loopname, zname):
+    """make a ZoneHVAC:EquipmentConnections for zname"""
+    pass
