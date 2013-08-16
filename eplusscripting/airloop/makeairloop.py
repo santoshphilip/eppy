@@ -215,4 +215,24 @@ s_mixer.obj.extend([sloop[-1]] + sloop[1])
 #     dconnlist.Connector_2_Name)
 # d_mixer.obj.extend([dloop[-1]] + dloop[1])
 # return newcondenserloop
+
+# demand side loop for airloop is made below 
+#ZoneHVAC:EquipmentConnections
+for zone in dloop:
+    equipconn = idf.newidfobject("ZoneHVAC:EquipmentConnections".upper())
+    equipconn.Zone_Name = zone
+    fldname = "Zone_Conditioning_Equipment_List_Name"
+    equipconn[fldname] = "%s equip list" % (zone, )
+    fldname = "Zone_Air_Inlet_Node_or_NodeList_Name"
+    equipconn[fldname] = "%s Inlet Node" % (zone, )
+    fldname = "Zone_Air_Node_Name"
+    equipconn[fldname] = "%s Node" % (zone, )
+    fldname = "Zone_Return_Air_Node_Name"
+    equipconn[fldname] = "%s Outlet Node" % (zone, )
+    
+zone = dloop[0]    
+z_equiplst = idf.newidfobject("ZoneHVAC:EquipmentList".upper())
+z_equiplst.Name = 
+
+
 idf.saveas('b.idf')

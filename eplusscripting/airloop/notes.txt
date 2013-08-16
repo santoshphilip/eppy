@@ -8,7 +8,7 @@ AirTerminal:SingleDuct:Uncontrolled
 ->
 ZoneHVAC:EquipmentList
 ->
-ZoneHVAC:EquipmentConnections (has zone name)
+ZoneHVAC:EquipmentConnections (has zone name) ->DONE
 
 from ["zone1", "zone2", "zone3"] -> the above has to be created. 
 

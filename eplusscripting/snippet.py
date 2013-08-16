@@ -16,6 +16,37 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 idfsnippet = """
+Building,
+  Building,                !- Name
+  30.,                     !- North Axis {deg}
+  City,                    !- Terrain
+  0.04,                    !- Loads Convergence Tolerance Value
+  0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+  FullExterior,            !- Solar Distribution
+  25,                      !- Maximum Number of Warmup Days
+  6;                       !- Minimum Number of Warmup Days
+
+Building,
+  Building,                !- Name
+  30,                       !- North Axis {deg}
+  City;                    !- Terrain
+
+Building,
+  BuildinG,                !- Name
+  30.001,                       !- North Axis {deg}
+  CitY;                    !- Terrain
+
+Building,
+  Building,                !- Name
+  30.,                     !- North Axis {deg}
+  City,                    !- Terrain
+  0.04,                    !- Loads Convergence Tolerance Value
+  0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+  FullExterior,            !- Solar Distribution
+  25,                      !- Maximum Number of Warmup Days
+  7;                       !- Minimum Number of Warmup Days
+
+
 Zone,
   PLENUM-1,                !- Name
   0,                       !- Direction of Relative North {deg}

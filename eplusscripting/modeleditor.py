@@ -25,6 +25,21 @@ import copy
 class NoObjectError(Exception):
     pass
 
+class NotSameObjectError(Exception):
+    pass
+
+def almostequal(first, second, places=7, printit=True):
+    # taken from python's unit test
+    # may be covered by Python's license 
+    """docstring for almostequal"""
+    if round(abs(second-first), places) != 0:
+        if printit:
+            print round(abs(second-first), places)
+            print "notalmost: %s != %s" % (first, second)
+        return False
+    else:
+        return True
+        
 def poptrailing(lst):
     """pop the trailing items in lst that are blank"""
     for i in range(len(lst)):
@@ -129,6 +144,11 @@ def getobject(bunchdt, key, name):
         return theobjs[0]
     except IndexError, e:
         return None
+        
+def getobjects(bunchdt, key, **kwargs):
+    """get all the objects of key that matches the fields in **kwargs"""
+    idfobjects = bunchdt[key]
+    
     
 def iddofobject(data, commdct, key):
     """from commdct, return the idd of the object key"""
@@ -166,6 +186,41 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
         except IndexError, e:
             break
     return theobject
+
+def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
+    """get the idd comment for the field"""
+    key = idfobject.obj[0].upper()
+    keyi = data.dtls.index(key)
+    fieldi = idfobject.objls.index(fieldname)
+    thiscommdct = commdct[keyi][fieldi]
+    return thiscommdct
+    
+def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
+    """test if case has to be retained for that field"""
+    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
+    return thiscommdct.has_key('retaincase')
+
+def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
+    """returns true if the two fields are equal
+    will test for retaincase
+    places is used if the field is float/real"""
+    # TODO test if both objects are of same type
+    key1 = idfobj1.obj[0].upper()
+    key2 = idfobj2.obj[0].upper()
+    if key1 != key2:
+        raise NotSameObjectError
+    # check float
+    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj1, fieldname)
+    if thiscommdct.has_key('type'):
+        if thiscommdct['type'][0] in ('real', 'integer'):
+            v1 = idfobj1[fieldname]
+            v2 = idfobj2[fieldname]
+            return almostequal(v1, v2, places, False)    
+    # check retaincase
+    if is_retaincase(bunchdt, data, commdct, idfobj1, fieldname):
+        return idfobj1[fieldname] == idfobj2[fieldname]
+    else:
+        return idfobj1[fieldname].upper() == idfobj2[fieldname].upper()
     
 class IDF0(object):
     iddname = None
