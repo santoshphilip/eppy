@@ -65,7 +65,18 @@ def newrawobject(data, commdct, key):
 
     key_i = dtls.index(key)
     key_comm = commdct[key_i]
-    obj = [comm.get('default', [''])[0] for comm in key_comm]
+    #set default values
+    obj = [comm.get('default', [''])[0] for comm in key_comm] 
+    for i, comm in enumerate(key_comm):
+        typ = comm.get('type', [''])[0]
+        if typ in ('real', 'integer'):
+            func_select = dict(real=float, integer=int)
+            try:
+                obj[i] = func_select[typ](obj[i])
+            except IndexError, e:
+                break
+            except ValueError, e: # if value = autocalculate
+                continue
     obj[0] = key
     obj = poptrailing(obj) # remove the blank items in a repeating field. 
     return obj
@@ -109,6 +120,8 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
+    for k, v in kwargs.items():
+        abunch[k] = v
     return abunch
 
 def getnamedargs(*args, **kwargs):
@@ -144,11 +157,27 @@ def getobject(bunchdt, key, name):
         return theobjs[0]
     except IndexError, e:
         return None
+
+def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
+    """test if the idf object has the field values in kwargs"""
+    key = idfobject.obj[0].upper()
+    for k, v in kwargs.items():
+        if not isfieldvalue(bunchdt, data, commdct, 
+                idfobject, k, v, places=places):
+            return False
+    return True
         
-def getobjects(bunchdt, key, **kwargs):
+def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
     """get all the objects of key that matches the fields in **kwargs"""
     idfobjects = bunchdt[key]
-    
+    allobjs = []
+    for obj in idfobjects:
+        if __objecthasfields(bunchdt, data, commdct, 
+                obj, places=places, **kwargs):
+            allobjs.append(obj)
+    # return [obj for obj in idfobjects if __objecthasfields(bunchdt, data, 
+    #                                 commdct, obj, places=places, **kwargs)]
+    return allobjs
     
 def iddofobject(data, commdct, key):
     """from commdct, return the idd of the object key"""
@@ -199,6 +228,30 @@ def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
     """test if case has to be retained for that field"""
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
     return thiscommdct.has_key('retaincase')
+    
+def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
+    """test if idfobj.field == value"""
+    # do a quick type check
+    # if type(idfobj[fieldname]) != type(value):
+    #     return False # takes care of autocalculate and real
+    # check float
+    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
+    if thiscommdct.has_key('type'):
+        if thiscommdct['type'][0] in ('real', 'integer'):
+            # test for autocalculate
+            try:
+                if idfobj[fieldname].upper() == 'AUTOCALCULATE':
+                    if value.upper() == 'AUTOCALCULATE':
+                        return True
+            except AttributeError, e:
+                pass
+            return almostequal(float(idfobj[fieldname]), float(value), places, False)    
+    # check retaincase
+    if is_retaincase(bunchdt, data, commdct, idfobj, fieldname):
+        return idfobj[fieldname] == value
+    else:
+        return idfobj[fieldname].upper() == value.upper()
+    
 
 def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     """returns true if the two fields are equal
@@ -209,18 +262,9 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     key2 = idfobj2.obj[0].upper()
     if key1 != key2:
         raise NotSameObjectError
-    # check float
-    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj1, fieldname)
-    if thiscommdct.has_key('type'):
-        if thiscommdct['type'][0] in ('real', 'integer'):
-            v1 = idfobj1[fieldname]
-            v2 = idfobj2[fieldname]
-            return almostequal(v1, v2, places, False)    
-    # check retaincase
-    if is_retaincase(bunchdt, data, commdct, idfobj1, fieldname):
-        return idfobj1[fieldname] == idfobj2[fieldname]
-    else:
-        return idfobj1[fieldname].upper() == idfobj2[fieldname].upper()
+    v2 = idfobj2[fieldname]
+    return isfieldvalue(bunchdt, data, commdct, 
+        idfobj1, fieldname, v2, places=places)
     
 class IDF0(object):
     iddname = None
