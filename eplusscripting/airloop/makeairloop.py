@@ -20,6 +20,7 @@
 import copy
 import sys
 sys.path.append('../')
+import modeleditor
 from modeleditor import IDF
 import hvacbuilder
 
@@ -41,11 +42,11 @@ class SomeFields(object):
     'Demand Side Branch List Name',
     'Demand Side Connector List Name']
     a_fields = ['Branch List Name',
-     'Connector List Name',
-     'Supply Side Inlet Node Name',
-     'Demand Side Outlet Node Name',
-     'Demand Side Inlet Node Names',
-     'Supply Side Outlet Node Names']
+    'Connector List Name',
+    'Supply Side Inlet Node Name',
+    'Demand Side Outlet Node Name',
+    'Demand Side Inlet Node Names',
+    'Supply Side Outlet Node Names']
 
 def flattencopy(lst):
     """flatten and return a copy of the list
@@ -230,9 +231,79 @@ for zone in dloop:
     fldname = "Zone_Return_Air_Node_Name"
     equipconn[fldname] = "%s Outlet Node" % (zone, )
     
-zone = dloop[0]    
-z_equiplst = idf.newidfobject("ZoneHVAC:EquipmentList".upper())
-z_equiplst.Name = 
+# make ZoneHVAC:EquipmentList
+for zone in dloop:
+    z_equiplst = idf.newidfobject("ZoneHVAC:EquipmentList".upper())
+    z_equipconn = modeleditor.getobjects(idf.idfobjects, 
+        idf.model, idf.idd_info, 
+        "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        **dict(Zone_Name=zone))[0]
+    z_equiplst.Name = z_equipconn.Zone_Conditioning_Equipment_List_Name
+    fld = "Zone_Equipment_1_Object_Type"
+    z_equiplst[fld] = "AirTerminal:SingleDuct:Uncontrolled"
+    z_equiplst.Zone_Equipment_1_Name = "%sDirectAir" % (zone, )
+    z_equiplst.Zone_Equipment_1_Cooling_Sequence = 1
+    z_equiplst.Zone_Equipment_1_Heating_or_NoLoad_Sequence = 1
+    
+# make AirTerminal:SingleDuct:Uncontrolled
+for zone in dloop:
+    z_equipconn = modeleditor.getobjects(idf.idfobjects, 
+        idf.model, idf.idd_info, 
+        "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        **dict(Zone_Name=zone))[0]
+    key = "AirTerminal:SingleDuct:Uncontrolled".upper()
+    z_airterm = idf.newidfobject(key)
+    z_airterm.Name = "%sDirectAir" % (zone, )
+    fld1 = "Zone_Supply_Air_Node_Name"
+    fld2 = "Zone_Air_Inlet_Node_or_NodeList_Name"
+    z_airterm[fld1] = z_equipconn[fld2]
+    z_airterm.Maximum_Air_Flow_Rate = 'autosize'
+
+# MAKE AirLoopHVAC:ZoneSplitter
+# zone = dloop[0]
+key = "AirLoopHVAC:ZoneSplitter".upper()
+z_splitter = idf.newidfobject(key)
+z_splitter.Name = "%s Demand Side Splitter" % (loopname, )
+z_splitter.Inlet_Node_Name = newairloop.Demand_Side_Inlet_Node_Names
+for i, zone in enumerate(dloop):
+    z_equipconn = modeleditor.getobjects(idf.idfobjects, 
+        idf.model, idf.idd_info, 
+        "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        **dict(Zone_Name=zone))[0]
+    fld = "Outlet_%s_Node_Name" % (i + 1, )
+    z_splitter[fld] = z_equipconn.Zone_Air_Inlet_Node_or_NodeList_Name
+
+# make AirLoopHVAC:SupplyPath
+key = "AirLoopHVAC:SupplyPath".upper()
+z_supplypth = idf.newidfobject(key)
+z_supplypth.Name = "%sSupplyPath" % (loopname, )
+fld1 = "Supply_Air_Path_Inlet_Node_Name"
+fld2 = "Demand_Side_Inlet_Node_Names"
+z_supplypth[fld1] = newairloop[fld2]
+z_supplypth.Component_1_Object_Type = "AirLoopHVAC:ZoneSplitter"
+z_supplypth.Component_1_Name = z_splitter.Name
+
+# make AirLoopHVAC:ZoneMixer
+key = "AirLoopHVAC:ZoneMixer".upper()
+z_mixer = idf.newidfobject(key)
+z_mixer.Name = "%s Demand Side Mixer" % (loopname, )
+z_mixer.Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
+for i, zone in enumerate(dloop):
+    z_equipconn = modeleditor.getobjects(idf.idfobjects, 
+        idf.model, idf.idd_info, 
+        "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        **dict(Zone_Name=zone))[0]
+    fld = "Inlet_%s_Node_Name" % (i + 1, )
+    z_mixer[fld] = z_equipconn.Zone_Return_Air_Node_Name
+
+# make AirLoopHVAC:ReturnPath
+key = "AirLoopHVAC:ReturnPath".upper()
+z_returnpth = idf.newidfobject(key)
+z_returnpth.Name = "%sReturnPath" % (loopname, )
+z_returnpth.Return_Air_Path_Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
+z_returnpth.Component_1_Object_Type = "AirLoopHVAC:ZoneMixer"
+z_returnpth.Component_1_Name = z_mixer.Name
+
 
 
 idf.saveas('b.idf')

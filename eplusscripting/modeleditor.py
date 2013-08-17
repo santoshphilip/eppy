@@ -175,8 +175,6 @@ def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
         if __objecthasfields(bunchdt, data, commdct, 
                 obj, places=places, **kwargs):
             allobjs.append(obj)
-    # return [obj for obj in idfobjects if __objecthasfields(bunchdt, data, 
-    #                                 commdct, obj, places=places, **kwargs)]
     return allobjs
     
 def iddofobject(data, commdct, key):
