@@ -17,7 +17,9 @@
 
 """py.test for class IDF0"""
 
-from modeleditor import IDF0
+import modeleditor
+IDF0 = modeleditor.IDF0
+# from modeleditor import IDF0
 
 def test_IDF0():
     """py.test for class IDF0"""
