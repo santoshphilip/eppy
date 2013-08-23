@@ -25,6 +25,21 @@ import copy
 class NoObjectError(Exception):
     pass
 
+class NotSameObjectError(Exception):
+    pass
+
+def almostequal(first, second, places=7, printit=True):
+    # taken from python's unit test
+    # may be covered by Python's license 
+    """docstring for almostequal"""
+    if round(abs(second-first), places) != 0:
+        if printit:
+            print round(abs(second-first), places)
+            print "notalmost: %s != %s" % (first, second)
+        return False
+    else:
+        return True
+        
 def poptrailing(lst):
     """pop the trailing items in lst that are blank"""
     for i in range(len(lst)):
@@ -50,7 +65,18 @@ def newrawobject(data, commdct, key):
 
     key_i = dtls.index(key)
     key_comm = commdct[key_i]
-    obj = [comm.get('default', [''])[0] for comm in key_comm]
+    #set default values
+    obj = [comm.get('default', [''])[0] for comm in key_comm] 
+    for i, comm in enumerate(key_comm):
+        typ = comm.get('type', [''])[0]
+        if typ in ('real', 'integer'):
+            func_select = dict(real=float, integer=int)
+            try:
+                obj[i] = func_select[typ](obj[i])
+            except IndexError, e:
+                break
+            except ValueError, e: # if value = autocalculate
+                continue
     obj[0] = key
     obj = poptrailing(obj) # remove the blank items in a repeating field. 
     return obj
@@ -86,13 +112,16 @@ def renamebunch(bunchdt, commdct, oldname, newname):
     """rename this bunch and change name in all references"""
     pass
     
-def addobject(bunchdt, data, commdct, key, aname=''):
+def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
     abunch = obj2bunch(data, commdct, obj)
-    namebunch(abunch, aname)
+    if aname:
+        namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
+    for k, v in kwargs.items():
+        abunch[k] = v
     return abunch
 
 def getnamedargs(*args, **kwargs):
@@ -128,6 +157,25 @@ def getobject(bunchdt, key, name):
         return theobjs[0]
     except IndexError, e:
         return None
+
+def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
+    """test if the idf object has the field values in kwargs"""
+    key = idfobject.obj[0].upper()
+    for k, v in kwargs.items():
+        if not isfieldvalue(bunchdt, data, commdct, 
+                idfobject, k, v, places=places):
+            return False
+    return True
+        
+def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
+    """get all the objects of key that matches the fields in **kwargs"""
+    idfobjects = bunchdt[key]
+    allobjs = []
+    for obj in idfobjects:
+        if __objecthasfields(bunchdt, data, commdct, 
+                obj, places=places, **kwargs):
+            allobjs.append(obj)
+    return allobjs
     
 def iddofobject(data, commdct, key):
     """from commdct, return the idd of the object key"""
@@ -165,6 +213,56 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
         except IndexError, e:
             break
     return theobject
+
+def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
+    """get the idd comment for the field"""
+    key = idfobject.obj[0].upper()
+    keyi = data.dtls.index(key)
+    fieldi = idfobject.objls.index(fieldname)
+    thiscommdct = commdct[keyi][fieldi]
+    return thiscommdct
+    
+def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
+    """test if case has to be retained for that field"""
+    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
+    return thiscommdct.has_key('retaincase')
+    
+def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
+    """test if idfobj.field == value"""
+    # do a quick type check
+    # if type(idfobj[fieldname]) != type(value):
+    #     return False # takes care of autocalculate and real
+    # check float
+    thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
+    if thiscommdct.has_key('type'):
+        if thiscommdct['type'][0] in ('real', 'integer'):
+            # test for autocalculate
+            try:
+                if idfobj[fieldname].upper() == 'AUTOCALCULATE':
+                    if value.upper() == 'AUTOCALCULATE':
+                        return True
+            except AttributeError, e:
+                pass
+            return almostequal(float(idfobj[fieldname]), float(value), places, False)    
+    # check retaincase
+    if is_retaincase(bunchdt, data, commdct, idfobj, fieldname):
+        return idfobj[fieldname] == value
+    else:
+        return idfobj[fieldname].upper() == value.upper()
+    
+
+def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
+    """returns true if the two fields are equal
+    will test for retaincase
+    places is used if the field is float/real"""
+    # TODO test if both objects are of same type
+    key1 = idfobj1.obj[0].upper()
+    key2 = idfobj2.obj[0].upper()
+    if key1 != key2:
+        raise NotSameObjectError
+    v2 = idfobj2[fieldname]
+    return isfieldvalue(bunchdt, data, commdct, 
+        idfobj1, fieldname, v2, places=places)
     
 class IDF0(object):
     iddname = None

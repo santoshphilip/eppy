@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2013 Santosh Philip
 
 # This file is part of eppy.
 
@@ -15,20 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-import bunch
-import idfreader
-import modeleditor
-import snippet
+"""start to make airloop functions"""
 
-from iddcurrent import iddcurrent
-iddsnippet = iddcurrent.iddtxt
-
-idfsnippet = snippet.idfsnippet
-
-from StringIO import StringIO
-idffhandle = StringIO(idfsnippet)
-iddfhandle = StringIO(iddsnippet)
-# bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
-from modeleditor import IDF
-IDF.setiddname(iddfhandle)
-idf = IDF(idffhandle)
+import sys
+sys.path.append('../')

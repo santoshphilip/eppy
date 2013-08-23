@@ -16,6 +16,7 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """py.test for modeleditor"""
+import pytest
 
 import bunch
 import idfreader
@@ -56,7 +57,7 @@ def test_extendlist():
 def test_newrawobject():
     """py.test for newrawobject"""
     thedata = (('zone'.upper(), 
-        ['ZONE', '', '0', '0', '0', '0', '1', '1', 'autocalculate', 
+        ['ZONE', '', 0., 0., 0., 0., 1, 1, 'autocalculate', 
             'autocalculate', 'autocalculate', '', '', 'Yes']), # key, obj
     )
     for key, obj in thedata:
@@ -87,12 +88,22 @@ def test_namebunch():
         
 def test_addobject():
     """py.test for addobject"""
-    thedata = (('ZONE', 'karamba'), # key, aname
+    thedata = (
+    ('ZONE', None, dict(Name="Gumby", X_Origin=50)), # key, aname, fielddict
+    ('ZONE', 'karamba', {}), # key, aname, fielddict
+    ('ZONE', None, {}), # key, aname, fielddict
+    ('ZONE', None, dict(Name="Gumby", X_Origin=50)), # key, aname, fielddict
     )
-    for key, aname in thedata:
-        result = modeleditor.addobject(bunchdt, data, commdct, key, aname)
-        assert data.dt[key][-1][1] == aname
-        assert bunchdt[key][-1].Name == aname
+    for key, aname, fielddict in thedata:
+        result = modeleditor.addobject(bunchdt, data, commdct, 
+            key, aname, **fielddict)
+        assert bunchdt[key][-1].key == key # wierd, but correct :-)
+        if aname:
+            assert data.dt[key][-1][1] == aname
+            assert bunchdt[key][-1].Name == aname
+        if fielddict:
+            for k, v in fielddict.items():
+                assert bunchdt[key][-1][k] == v
         
 def test_getnamedargs():
     """py.test for getnamedargs"""
@@ -126,8 +137,109 @@ def test_getobject():
         result = modeleditor.getobject(bunchdt, key, name)
         assert result == theobject
         
+def test___objecthasfields():
+    """py.test for __objecthasfields"""
+    thedata = (
+    ("ZONE", dict(Name="testzone", X_Origin=32), "testzone", True), 
+    # key, fielddict, aname, istrue
+    ("ZONE", dict(Name="testzone", X_Origin=32), "testzone1", False), 
+    # key, fielddict, aname, istrue
+    )
+    for key, fielddict, aname, istrue in thedata:
+        idfobject = modeleditor.addobject(bunchdt, data, commdct, 
+            key, **fielddict)
+        idfobject.Name = aname # modify the name, to check for a False return
+        result = modeleditor.__objecthasfields(bunchdt, data, commdct, 
+            idfobject, **fielddict)
+        assert result == istrue
+
+
+def test_getobjects():
+    """py.test for getobjects"""
+    thedata = (
+    ('ZONE', {'Name':'PLENUM-1'}, 7, bunchdt['ZONE'][0:1]), 
+    # key, fielddict, places, theobjects
+    # ('ZONE', {'Name':'PLENUM-1', 'Volume':283.2}, 7, bunchdt['ZONE'][0:1]), 
+    # # key, fielddict, places, theobjects
+    # ('ZONE', {'Y_Origin':0.}, 7, bunchdt['ZONE']), 
+    # # key, fielddict, places, theobjects
+    )
+    for key, fielddict, places, theobjects in thedata:
+        result = modeleditor.getobjects(bunchdt, data, commdct, 
+            key, **fielddict)
+        assert result == theobjects
+
+def test_is_retaincase():
+    """py.test for is_retaincase"""
+    thedata = (
+    ("BUILDING", 'Name', True), # key, fieldname, case
+    ("BUILDING", 'Terrain', False), # key, fieldname, case
+    )    
+    for key, fieldname, case in thedata:
+        idfobject = bunchdt[key][0]
+        result = modeleditor.is_retaincase(bunchdt, data, commdct, 
+            idfobject, fieldname)
+        assert result == case
+
+def test_isfieldvalue():
+    """py.test for isfieldvalue"""
+    thedata = (
+    ("BUILDING", 0, 'Name', "Building", 7, True), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("BUILDING", 0, 'Name', "BuildinG", 7, False), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("BUILDING", 0, 'North_Axis', 30, 7, True), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("BUILDING", 0, 'North_Axis', "30", 7, True), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("BUILDING", 0, 'North_Axis', 30.001, 7, False), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("BUILDING", 0, 'North_Axis', 30.001, 2, True), 
+    # key, objindex1, fieldname, value, places, isequal
+    ("ZONE", 0, 'Volume', 283.2, 2, True), 
+    # key, objindex1, fieldname, value, places, isequal
+    )
+    for key, objindex1, fieldname, value, places, isequal in thedata:
+        idfobject = bunchdt[key][objindex1]
+        result = modeleditor.isfieldvalue(bunchdt, data, commdct, 
+            idfobject, fieldname, value, places)
+        assert result == isequal
+        
+def test_equalfield():
+    """py.test for equalfield"""
+    thedata = (
+        ("BUILDING", 0, 1, 'Name', 7, True), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 2, 'Name', 7, False), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 1, 'Terrain', 7, True), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 1, 'Terrain', 7, True), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 1, 'North_Axis', 7, True), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 2, 'North_Axis', 2, True), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+        ("BUILDING", 0, 3, 'Maximum_Number_of_Warmup_Days', 7, True), 
+        ("BUILDING", 0, 3, 'Minimum_Number_of_Warmup_Days', 7, False), 
+        # key, objindex1, objeindex2, fieldname, places, isequal
+    )
+    for key, objindex1, objindex2, fieldname, places, isequal in thedata:
+        idfobject1 = bunchdt[key][objindex1]
+        idfobject2 = bunchdt[key][objindex2]
+        result = modeleditor.equalfield(bunchdt, data, commdct, 
+            idfobject1, idfobject2, fieldname, places)
+        assert result == isequal
+    (key, objindex1, objeindex2, 
+        fieldname, places, isequal) = ("BUILDING", 0, 1, 'Name', 7, True)
+    idfobject1 = bunchdt[key][objindex1]
+    idfobject2 = bunchdt["ZONE"][objindex2]
+    with pytest.raises(modeleditor.NotSameObjectError):
+        modeleditor.equalfield(bunchdt, data, commdct, 
+            idfobject1, idfobject2, fieldname, places)
+            
 def test_iddofobject():
-    """pytest of iddofobject"""
+    """py.test of iddofobject"""
     thedata = (('VERSION', 
                 [{'format': ['singleLine'], 'unique-object': ['']},
                 {'default': ['7.0'], 'field': ['Version Identifier'], 

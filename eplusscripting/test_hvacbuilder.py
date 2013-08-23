@@ -406,3 +406,86 @@ def test_replacebranch():
         newbr = hvacbuilder.replacebranch(idf, loop, branch, 
                                 components, fluid=fluid)
         assert newbr.obj == outbranch
+
+def test_makepipecomponent():
+    """py.test for makepipecomponent"""
+    tdata = (
+    ("apipe", 
+    ['PIPE:ADIABATIC', 'apipe', 
+    'apipe_inlet', 'apipe_outlet']), # pname, pipe_obj
+    ("bpipe", 
+    ['PIPE:ADIABATIC', 'bpipe', 
+    'bpipe_inlet', 'bpipe_outlet']), # pname, pipe_obj
+    )
+    for pname, pipe_obj in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = hvacbuilder.makepipecomponent(idf, pname)
+        assert result.obj == pipe_obj
+        
+def test_makeductcomponent():
+    """py.test for makeductcomponent"""
+    tdata = (
+    ('aduct', 
+    ['DUCT', 'aduct', 'aduct_inlet', 'aduct_outlet']
+    ), # dname, duct_obj
+    )        
+    for dname, duct_obj in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = hvacbuilder.makeductcomponent(idf, dname)
+        assert result.obj == duct_obj
+        
+def test_makepipebranch():
+    """py.test for makepipebranch"""
+    tdata = (
+    ("p_branch",
+    ['BRANCH',
+     'p_branch',
+     '0',
+     '',
+     'Pipe:Adiabatic',
+     'p_branch_pipe',
+     'p_branch_pipe_inlet',
+     'p_branch_pipe_outlet',
+     'Bypass'],
+    ['PIPE:ADIABATIC',
+ 'p_branch_pipe',
+ 'p_branch_pipe_inlet',
+ 'p_branch_pipe_outlet']
+    ), # pb_name, branch_obj, pipe_obj
+    )        
+    for pb_name, branch_obj, pipe_obj in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = hvacbuilder.makepipebranch(idf, pb_name)
+        assert result.obj == branch_obj
+        thepipe = idf.getobject('PIPE:ADIABATIC', result.Component_1_Name)
+        assert thepipe.obj == pipe_obj
+
+def test_makeductbranch():
+    """py.test for makeductbranch"""
+    tdata = (
+    ('d_branch',
+    ['BRANCH',
+     'd_branch',
+     '0',
+     '',
+     'duct',
+     'd_branch_duct',
+     'd_branch_duct_inlet',
+     'd_branch_duct_outlet',
+     'Bypass'],
+    ['DUCT', 
+    'd_branch_duct', 
+    'd_branch_duct_inlet', 
+    'd_branch_duct_outlet']), # db_name, branch_obj, duct_obj
+    )        
+    for db_name, branch_obj, duct_obj in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = hvacbuilder.makeductbranch(idf, db_name)
+        assert result.obj == branch_obj
+        theduct = idf.getobject('DUCT', result.Component_1_Name)
+        assert theduct.obj == duct_obj
+        

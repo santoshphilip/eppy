@@ -1,0 +1,40 @@
+2013-08-07
+----------
+AirLoopHVAC:SupplyPath ->DONE
+->
+AirLoopHVAC:ZoneSplitter (inletnode, outletnodes) ->DONE
+->
+AirTerminal:SingleDuct:Uncontrolled ->DONE
+->
+ZoneHVAC:EquipmentList ->DONE
+->
+ZoneHVAC:EquipmentConnections (has zone name) ->DONE
+
+from ["zone1", "zone2", "zone3"] -> the above has to be created. 
+
+AirLoopHVAC:ReturnPath ->Done
+
+AirLoopHVAC:ZoneMixer (inletnodes, outletnode) ->Done
+
+2013-08-02
+----------
+
+- Duct plays the same role as pipe in plant side
+- there is a AirLoopHVAC:SupplyPath, and AirLoopHVAC:ReturnPath,
+- look out for ZoneHVAC:EquipmentList,
+- zone connection is in ZoneHVAC:EquipmentConnections,
+
+
+loopname = "a_loop"
+sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+dloop = ['db0', ['zone1', 'zone2', 'zone3'], 'db4']
+makeairloop(idf1, loopname, sloop, dloop)
+idf1.saveas("hh1.idf")
+
+make
+airloophvac
+    has 
+    - supply demand inlet and outlets
+    - branch list # This is a supply side branch list
+    - connector list # splitter and mixer on supply side
+    
