@@ -16,17 +16,17 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """py.test for examples. (ex_*.py files)"""
-from idfreader import idfreader
-import snippet
+from eppy.idfreader import idfreader
+import eppy.snippet as snippet
 import os
-import pytest_helpers
-import modeleditor
+import eppy.pytest_helpers as pytest_helpers
+import eppy.modeleditor as modeleditor
 # iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 # fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 
 
 # iddsnippet = snippet.iddsnippet
-from iddcurrent import iddcurrent
+from eppy.iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
 
 idfsnippet = snippet.idfsnippet

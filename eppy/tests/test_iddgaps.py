@@ -15,17 +15,20 @@
 # You should have received a copy of the GNU General Public License
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-"""py.test for class IDF0"""
+"""pytest for iddgaps.py"""
 
-import modeleditor
-IDF0 = modeleditor.IDF0
-# from modeleditor import IDF0
+import eppy.iddgaps as iddgaps
 
-def test_IDF0():
-    """py.test for class IDF0"""
-    assert IDF0.iddname == None
-    IDF0.setiddname("gumby")
-    assert IDF0.iddname == "gumby"
-    IDF0.setiddname("karamba")
-    assert IDF0.iddname != "karamba"
-    assert IDF0.iddname == "gumby"
+def test_cleaniddfield():
+    """pytest for cleaniddfield"""
+    data = (({'field': ['Water Supply Storage Tank Name'],
+      'Field': ['Water Supply Storage Tank Name'],
+      'object-list': ['WaterStorageTankNames'],
+      'type': ['object-list']},
+     {'field': ['Water Supply Storage Tank Name'],
+      'object-list': ['WaterStorageTankNames'],
+      'type': ['object-list']}), #field, newfield
+    )        
+    for field, newfield in data:
+        result = iddgaps.cleaniddfield(field)
+        assert result == newfield

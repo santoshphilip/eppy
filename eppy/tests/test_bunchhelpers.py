@@ -17,7 +17,7 @@
 
 """pytest for bunchhelpers"""
 
-import bunchhelpers
+import eppy.bunchhelpers as bunchhelpers
 
 def test_onlylegalchar():
     """py.test for onlylegalchar"""

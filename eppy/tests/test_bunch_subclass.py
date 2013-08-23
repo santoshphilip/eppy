@@ -20,12 +20,12 @@
 # This test is ugly because I have to send file names and not able to send file handles
 import os
 import pytest
-from EPlusInterfaceFunctions import readidf
-import bunchhelpers
-import bunch_subclass
+from eppy.EPlusInterfaceFunctions import readidf
+import eppy.bunchhelpers as bunchhelpers
+import eppy.bunch_subclass as bunch_subclass
 EpBunch = bunch_subclass.EpBunch
 
-from iddcurrent import iddcurrent
+from eppy.iddcurrent import iddcurrent
 iddtxt = iddcurrent.iddtxt
 
 # This test is ugly because I have to send file names and not able to send file handles

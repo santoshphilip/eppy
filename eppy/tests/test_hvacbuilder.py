@@ -19,13 +19,13 @@
 import sys
 import os
 sys.path.append('../')
-import hvacbuilder
-from modeleditor import IDF
+import eppy.hvacbuilder as hvacbuilder
+from eppy.modeleditor import IDF
 import random
 from StringIO import StringIO
 
 # idd is read only once in this test
-from iddcurrent import iddcurrent
+from eppy.iddcurrent import iddcurrent
 iddfhandle = StringIO(iddcurrent.iddtxt)
 IDF.setiddname(iddfhandle)
 

@@ -19,11 +19,11 @@
 import pytest
 
 import bunch
-import idfreader
-import modeleditor
-import snippet
+import eppy.idfreader as idfreader
+import eppy.modeleditor as modeleditor
+import eppy.snippet as snippet
 
-from iddcurrent import iddcurrent
+from eppy.iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
 
 idfsnippet = snippet.idfsnippet

@@ -17,7 +17,7 @@
 
 """py.test for readhtml.py"""
 
-import readhtml
+import eppy.readhtml as readhtml
 from bs4 import BeautifulSoup
 
 def test_table2matrix():
