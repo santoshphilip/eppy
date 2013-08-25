@@ -1,6 +1,9 @@
-2013-08-24
-----------
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-08-25
+----------
+used test coverage from
+http://www.jeffknupp.com/blog/2013/08/16/open-sourcing-a-python-project-the-right-way/
+need to follow up on this long term.
 
 2013-07-21
 ----------
