@@ -1,3 +1,7 @@
+2013-08-24
+----------
+rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+
 2013-07-21
 ----------
 For graphs see

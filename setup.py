@@ -6,7 +6,7 @@ import codecs
 import os
 import sys
 
-import sandman
+import eppy
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -34,34 +34,35 @@ class PyTest(TestCommand):
 
 setup(
     name='eppy',
-    version=sandman.__version__,
-    url='http://github.com/jeffknupp/sandman/',
-    license='Apache Software License',
-    author='Jeff Knupp',
+    version=eppy.__version__,
+    url='https://github.com/santoshphilip/eppy',
+    license='GNU AFFERO GENERAL PUBLIC LICENSE',
+    author='Santosh Philip',
     tests_require=['pytest'],
-    install_requires=['Flask>=0.10.1',
-                    'Flask-SQLAlchemy>=1.0',
-                    'SQLAlchemy==0.8.2',
+    install_requires=["bunch>=1.0",
+                "beautifulsoup4>=4.2.1",
+                "numpy>=1.7.1",
+                "pyparsing>=pyparsing",
+                "pydot>1.0",
+                "pytest>=2.3.5",
                     ],
     cmdclass={'test': PyTest},
-    author_email='jeff@jeffknupp.com',
-    description='Automated REST APIs for existing database-driven systems',
-    long_description=long_description,
-    packages=['sandman'],
+    author_email='eppy_scripting@yahoo.com',
+    description='Eppy is a scripting language for E+ idf files, and E+ output files',
+    long_description=long_description,# TODO set this up
+    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry'],
     include_package_data=True,
     platforms='any',
-    test_suite='sandman.test.test_sandman',
+    test_suite='eppy.test.test_eppy',# TODO make test_eppy
     classifiers = [
         'Programming Language :: Python',
-        'Development Status :: 4 - Beta',
+        'Development Status :: Beta',
         'Natural Language :: English',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: Apache Software License',
+        'Environment :: Console',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: GNU AFFERO GENERAL PUBLIC LICENSE',
         'Operating System :: OS Independent',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Software Development :: Libraries :: Application Frameworks',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Scientific/Engineering',
         ],
     extras_require={
         'testing': ['pytest'],
