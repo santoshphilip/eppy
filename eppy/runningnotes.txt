@@ -1,4 +1,14 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+
+2013-08-25
+----------
+- don't add any enhancements to code
+- get this ready for release
+- work a bit on coverage
+- get tests working from setup.py test
+- do documentation from sphinx
+- do readthedocs
+- finally use cookie cutter
 2013-08-25
 ----------
 used test coverage from
