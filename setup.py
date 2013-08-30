@@ -19,7 +19,7 @@ def read(*filenames, **kwargs):
             buf.append(f.read())
     return sep.join(buf)
 
-long_description = read('README.txt', 'CHANGES.txt')
+long_description = read('README.txt')
 
 class PyTest(TestCommand):
     def finalize_options(self):
@@ -41,14 +41,14 @@ setup(
     tests_require=['pytest'],
     install_requires=["bunch>=1.0",
                 "beautifulsoup4>=4.2.1",
-                "numpy>=1.7.1",
+                #"numpy>=1.7.1",
                 "pyparsing>=pyparsing",
                 "pydot>1.0",
                 "pytest>=2.3.5",
                     ],
     cmdclass={'test': PyTest},
     author_email='eppy_scripting@yahoo.com',
-    description='Eppy is a scripting language for E+ idf files, and E+ output files',
+    description='Scripting language for E+ idf files, and E+ output files',
     long_description=long_description,# TODO set this up
     packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry'],
     include_package_data=True,
