@@ -7,6 +7,15 @@ registered at PyPi
 needs a lot of fixes:
 - tutorial is not current
 
+.pypirc
+[server-login]
+username: santoshphilip
+password: *********
+
+from <http://www.jeffknupp.com/blog/2013/08/16/open-sourcing-a-python-project-the-right-way/>
+python setup.py register
+python setup.py sdist upload
+
 2013-08-25
 ----------
 - don't add any enhancements to code
