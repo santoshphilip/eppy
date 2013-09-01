@@ -1,6 +1,5 @@
 bunch>=1.0
 beautifulsoup4>=4.2.1
 numpy>=1.7.1
-# pip install https://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.7.tar.gz
 pydot>1.0
 pytest>=2.3.5

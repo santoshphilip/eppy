@@ -1,5 +1,12 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-08-31
+----------
+registered at PyPi
+- works with pip install eppy
+needs a lot of fixes:
+- tutorial is not current
+
 2013-08-25
 ----------
 - don't add any enhancements to code
