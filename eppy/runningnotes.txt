@@ -1,5 +1,9 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-09-01
+----------
+Try to use this to work on a real project
+branch to frog_impact
 2013-08-31
 ----------
 registered at PyPi
