@@ -118,7 +118,7 @@ def test_addobject1():
     thedata = (('ZONE', {'Name':'karamba'}), # key, kwargs
     )
     for key, kwargs in thedata:
-        result = modeleditor.addobject1(bunchdt, data, commdct, key, kwargs)
+        result = modeleditor.addobject1(bunchdt, data, commdct, key, **kwargs)
         aname = kwargs['Name']
         assert data.dt[key][-1][1] == aname
         assert bunchdt[key][-1].Name == aname        

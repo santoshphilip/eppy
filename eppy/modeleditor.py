@@ -135,14 +135,14 @@ def getnamedargs(*args, **kwargs):
     adict.update(kwargs)
     return adict
     
-def addobject1(bunchdt, data, commdct, key, *args, **kwargs):
+def addobject1(bunchdt, data, commdct, key, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
     abunch = obj2bunch(data, commdct, obj)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
-    adict = getnamedargs(*args, **kwargs)
-    for kkey, value in adict.iteritems():
+    # adict = getnamedargs(*args, **kwargs)
+    for kkey, value in kwargs.iteritems():
         abunch[kkey] = value
     return abunch
     
@@ -298,13 +298,22 @@ class IDF0(object):
 class IDF1(IDF0):
     def __init__(self, idfname):
         super(IDF1, self).__init__(idfname)
-    def newidfobject(self, key, aname=''):
-        """add a new idfobject to the model"""
+    def newidfobject(self, key, aname='', **kwargs):
+    # def newidfobject(self, key, *args, **kwargs):
+        """add a new idfobject to the model
+        for example newidfobject("CONSTRUCTION", 
+                Name='Interior Ceiling_class',
+                Outside_Layer='LW Concrete',
+                'Layer_2'='sound mat')"""
         # TODO unit test
+        # return addobject1(self.idfobjects,
+        #                     self.model,
+        #                     self.idd_info,
+        #                     key, **kwargs)  
         return addobject(self.idfobjects,
                             self.model,
                             self.idd_info,
-                            key, aname=aname)  
+                            key, aname=aname, **kwargs)  
     def addidfobject(self, idfobject):
         """add idfobject to this model"""
         # TODO unit test
