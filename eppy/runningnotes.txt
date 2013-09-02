@@ -4,6 +4,13 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 ----------
 Try to use this to work on a real project
 branch to frog_impact
+
+for sphinx:
+- make html # I need to get the docs to go t a specific folder.
+
+add to docstring:
+- IDF class variables to be documented in the doc string.
+- EpBunch variables also to be documented in doc string
 2013-08-31
 ----------
 registered at PyPi

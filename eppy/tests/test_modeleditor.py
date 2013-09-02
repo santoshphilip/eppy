@@ -262,3 +262,12 @@ def test_removeextensibles():
                                                 objname)
         assert result.obj == rawobject
         
+        
+def test_addthisbunch():
+    """py.test for addthisbunch"""
+    obj1 = ['ZONE', 'weird zone', '0', '0', '0', '0', '1', '1', 'autocalculate', 
+        'autocalculate', 'autocalculate', '', '', 'Yes']
+    thisbunch = modeleditor.obj2bunch(data, commdct, obj1)
+    modeleditor.addthisbunch(bunchdt, data, commdct, thisbunch)
+    print data.dt["ZONE"][-1]
+    assert data.dt["ZONE"][-1] == obj1

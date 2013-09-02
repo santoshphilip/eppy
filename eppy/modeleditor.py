@@ -81,15 +81,16 @@ def newrawobject(data, commdct, key):
     obj = poptrailing(obj) # remove the blank items in a repeating field. 
     return obj
     
-def addthisbunch(data, commdct, thisbunch):
+def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
-    # TODO unit test
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
     data.dt[key].append(obj)
-    obj2bunch(data, commdct, obj)
+    abunch =  obj2bunch(data, commdct, obj)
+    bunchdt[key].append(abunch)
+    return abunch
     
 def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
@@ -296,15 +297,24 @@ class IDF0(object):
         open(filename, 'w').write(s)
 
 class IDF1(IDF0):
+    """subclass of IDF0. Uses functions of IDF0 """
     def __init__(self, idfname):
         super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname='', **kwargs):
     # def newidfobject(self, key, *args, **kwargs):
         """add a new idfobject to the model
-        for example newidfobject("CONSTRUCTION", 
-                Name='Interior Ceiling_class',
-                Outside_Layer='LW Concrete',
-                'Layer_2'='sound mat')"""
+        
+        for example :: 
+        
+            newidfobject("CONSTRUCTION")
+            newidfobject("CONSTRUCTION", 
+                Name='Interior Ceiling_class', 
+                Outside_Layer='LW Concrete', 
+                Layer_2='soundmat')
+        
+        If you don't specify a value for a field, the default value will be set
+        
+        aname is not used. It is left there for backward compatibility"""
         # TODO unit test
         # return addobject1(self.idfobjects,
         #                     self.model,
@@ -315,24 +325,33 @@ class IDF1(IDF0):
                             self.idd_info,
                             key, aname=aname, **kwargs)  
     def addidfobject(self, idfobject):
-        """add idfobject to this model"""
+        """add idfobject to this model
+        
+        idfobject usually comes from another idf file
+        or it can be used to copy within this idf file"""
         # TODO unit test
-        addthisbunch(self.model,
+        addthisbunch(self.idfobjects, 
+                            self.model,
                             self.idd_info,
                             idfobject)
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
     def getextensibleindex(self, key, name):
-        """get the index of the first extensible item"""
+        """get the index of the first extensible item
+        
+        only for internal use. # TODO : hide this"""
         return getextensibleindex(self.idfobjects, self.model, self.idd_info, 
                                 key, name)
     def removeextensibles(self, key, name):
-        """remove extensible items in the object of key and name"""
+        """remove extensible items in the object of key and name
+        
+        only for internal use. # TODO : hide this"""
         return removeextensibles(self.idfobjects, self.model, self.idd_info, 
                                 key, name)
       
 class IDF2(IDF1):
+    """subclass of IDF1. Uses functions of IDF1 """
     def __init__(self, idfname):
         super(IDF2, self).__init__(idfname)
         self.outputtype = "standard" # standard, nocomment or compressed
