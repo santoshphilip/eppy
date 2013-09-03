@@ -266,6 +266,18 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
         idfobj1, fieldname, v2, places=places)
     
 class IDF0(object):
+    """
+    document the following variables:
+    
+    - idfobjects
+    - outputtype
+    - iddname
+    - idfname
+    - idd_info
+    - model
+    
+    
+"""
     iddname = None
     def __init__(self, idfname):
         self.idfname = idfname
@@ -297,7 +309,8 @@ class IDF0(object):
         open(filename, 'w').write(s)
 
 class IDF1(IDF0):
-    """subclass of IDF0. Uses functions of IDF0 """
+    """subclass of IDF0. Uses functions of IDF0 
+    """
     def __init__(self, idfname):
         super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname='', **kwargs):
@@ -351,7 +364,9 @@ class IDF1(IDF0):
                                 key, name)
       
 class IDF2(IDF1):
-    """subclass of IDF1. Uses functions of IDF1 """
+    """subclass of IDF1. Uses functions of IDF1 
+    
+    """
     def __init__(self, idfname):
         super(IDF2, self).__init__(idfname)
         self.outputtype = "standard" # standard, nocomment or compressed

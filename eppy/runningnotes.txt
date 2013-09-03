@@ -1,5 +1,11 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-09-03
+----------
+try import numpy
+exception error message
+
+pyparsing: give path name to 1.5 version
 2013-09-01
 ----------
 Try to use this to work on a real project
