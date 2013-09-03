@@ -565,6 +565,7 @@ def main(argv=None):
         iddfile = "../iddfiles/Energy+V6_0.idd"
         fname = args[0]
         iddfile = "../iddfiles/Energy+V6_0.idd"
+        # iddfile = "./resources/iddfiles/Energy+V7_2_0.idd"
         print "readingfile"
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
         print "constructing the loops"
