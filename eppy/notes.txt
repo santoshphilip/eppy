@@ -1,3 +1,10 @@
+2013-09-09
+----------
+***** possible bug ? ********
+mats = idf.idfobjects["MATERIAL"]
+mats.pop()
+removes it from mats, but does not remove it from idf.model.dt
+
 2013-07-03
 ----------
 Notes for conf call
