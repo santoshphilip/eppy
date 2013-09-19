@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-//  Copyright (C) 2008-2011  The IPython Development Team
+//  Copyright (C) 2008 The IPython Development Team
 //
 //  Distributed under the terms of the BSD License.  The full license is in
 //  the file COPYING, distributed as part of this software.
@@ -9,10 +9,21 @@
 // OutputArea
 //============================================================================
 
+/**
+ * @module IPython
+ * @namespace IPython
+ * @submodule OutputArea
+ */
 var IPython = (function (IPython) {
     "use strict";
 
     var utils = IPython.utils;
+
+    /**
+     * @class OutputArea
+     *
+     * @constructor
+     */
 
     var OutputArea = function (selector, prompt_area) {
         this.selector = selector;
@@ -25,7 +36,7 @@ var IPython = (function (IPython) {
             this.prompt_area = true;
         } else {
             this.prompt_area = prompt_area;
-        };
+        }
         this.create_elements();
         this.style();
         this.bind_events();
@@ -48,19 +59,28 @@ var IPython = (function (IPython) {
         this.wrapper.addClass('output_wrapper');
         this.element.addClass('output vbox');
         
-        this.collapse_button.button();
-        this.collapse_button.addClass('output_collapsed vbox');
-        this.collapse_button.attr('title', 'click to expand outout');
+        this.collapse_button.addClass("btn output_collapsed");
+        this.collapse_button.attr('title', 'click to expand output');
         this.collapse_button.html('. . .');
         
         this.prompt_overlay.addClass('out_prompt_overlay prompt');
-        this.prompt_overlay.attr('title', 'click to expand outout; double click to hide output');
+        this.prompt_overlay.attr('title', 'click to expand output; double click to hide output');
         
         this.collapse();
     };
 
-
+    /**
+     * Should the OutputArea scroll?
+     * Returns whether the height (in lines) exceeds a threshold.
+     *
+     * @private
+     * @method _should_scroll
+     * @param [lines=100]{Integer}
+     * @return {Bool}
+     *
+     */
     OutputArea.prototype._should_scroll = function (lines) {
+        if (lines <=0 ){ return }
         if (!lines) {
             lines = 100;
         }
@@ -79,22 +99,17 @@ var IPython = (function (IPython) {
 
         this.element.resize(function () {
             // FIXME: Firefox on Linux misbehaves, so automatic scrolling is disabled
-            if ( $.browser.mozilla ) {
+            if ( IPython.utils.browser[0] === "Firefox" ) {
                 return;
             }
             // maybe scroll output,
             // if it's grown large enough and hasn't already been scrolled.
-            if ( !that.scrolled && that._should_scroll()) {
+            if ( !that.scrolled && that._should_scroll(OutputArea.auto_scroll_threshold)) {
                 that.scroll_area();
             }
         });
         this.collapse_button.click(function () {
             that.expand();
-        });
-        this.collapse_button.hover(function () {
-            $(this).addClass("ui-state-hover");
-        }, function () {
-            $(this).removeClass("ui-state-hover");
         });
     };
 
@@ -107,7 +122,7 @@ var IPython = (function (IPython) {
                 this.collapse_button.show();
             }
             this.collapsed = true;
-        };
+        }
     };
 
 
@@ -117,7 +132,7 @@ var IPython = (function (IPython) {
             this.element.show();
             this.prompt_overlay.show();
             this.collapsed = false;
-        };
+        }
     };
 
 
@@ -126,7 +141,7 @@ var IPython = (function (IPython) {
             this.expand();
         } else {
             this.collapse();
-        };
+        }
     };
 
 
@@ -143,12 +158,58 @@ var IPython = (function (IPython) {
         this.scrolled = false;
     };
 
+    /**
+     * Threshold to trigger autoscroll when the OutputArea is resized,
+     * typically when new outputs are added.
+     *
+     * Behavior is undefined if autoscroll is lower than minimum_scroll_threshold,
+     * unless it is < 0, in which case autoscroll will never be triggered
+     *
+     * @property auto_scroll_threshold
+     * @type Number
+     * @default 100
+     *
+     **/
+    OutputArea.auto_scroll_threshold = 100;
 
+
+    /**
+     * Lower limit (in lines) for OutputArea to be made scrollable. OutputAreas
+     * shorter than this are never scrolled.
+     *
+     * @property minimum_scroll_threshold
+     * @type Number
+     * @default 20
+     *
+     **/
+    OutputArea.minimum_scroll_threshold = 20;
+
+
+    /**
+     *
+     * Scroll OutputArea if height supperior than a threshold (in lines).
+     *
+     * Threshold is a maximum number of lines. If unspecified, defaults to
+     * OutputArea.minimum_scroll_threshold.
+     *
+     * Negative threshold will prevent the OutputArea from ever scrolling.
+     *
+     * @method scroll_if_long
+     *
+     * @param [lines=20]{Number} Default to 20 if not set,
+     * behavior undefined for value of `0`.
+     *
+     **/
     OutputArea.prototype.scroll_if_long = function (lines) {
-        if (this._should_scroll(lines)) {
+        var n = lines | OutputArea.minimum_scroll_threshold;
+        if(n <= 0){
+            return
+        }
+
+        if (this._should_scroll(n)) {
             // only allow scrolling long-enough output
             this.scroll_area();
-        };
+        }
     };
 
 
@@ -157,8 +218,8 @@ var IPython = (function (IPython) {
             this.unscroll_area();
         } else {
             // only allow scrolling long-enough output
-            this.scroll_if_long(20);
-        };
+            this.scroll_if_long();
+        }
     };
 
 
@@ -178,41 +239,46 @@ var IPython = (function (IPython) {
             json.stream = content.name;
         } else if (msg_type === "display_data") {
             json = this.convert_mime_types(json, content.data);
+            json.metadata = this.convert_mime_types({}, content.metadata);
         } else if (msg_type === "pyout") {
             json.prompt_number = content.execution_count;
             json = this.convert_mime_types(json, content.data);
+            json.metadata = this.convert_mime_types({}, content.metadata);
         } else if (msg_type === "pyerr") {
             json.ename = content.ename;
             json.evalue = content.evalue;
             json.traceback = content.traceback;
-        };
+        }
         // append with dynamic=true
         this.append_output(json, true);
     };
 
 
     OutputArea.prototype.convert_mime_types = function (json, data) {
+        if (data === undefined) {
+            return json;
+        }
         if (data['text/plain'] !== undefined) {
             json.text = data['text/plain'];
-        };
+        }
         if (data['text/html'] !== undefined) {
             json.html = data['text/html'];
-        };
+        }
         if (data['image/svg+xml'] !== undefined) {
             json.svg = data['image/svg+xml'];
-        };
+        }
         if (data['image/png'] !== undefined) {
             json.png = data['image/png'];
-        };
+        }
         if (data['image/jpeg'] !== undefined) {
             json.jpeg = data['image/jpeg'];
-        };
+        }
         if (data['text/latex'] !== undefined) {
             json.latex = data['text/latex'];
-        };
+        }
         if (data['application/json'] !== undefined) {
             json.json = data['application/json'];
-        };
+        }
         if (data['application/javascript'] !== undefined) {
             json.javascript = data['application/javascript'];
         }
@@ -232,7 +298,7 @@ var IPython = (function (IPython) {
             this.append_display_data(json, dynamic);
         } else if (json.output_type === 'stream') {
             this.append_stream(json);
-        };
+        }
         this.outputs.push(json);
         var that = this;
         setTimeout(function(){that.element.trigger('resize');}, 100);
@@ -240,11 +306,38 @@ var IPython = (function (IPython) {
 
 
     OutputArea.prototype.create_output_area = function () {
-        var oa = $("<div/>").addClass("hbox output_area");
+        var oa = $("<div/>").addClass("output_area");
         if (this.prompt_area) {
             oa.append($('<div/>').addClass('prompt'));
         }
         return oa;
+    };
+
+    OutputArea.prototype._append_javascript_error = function (err, container) {
+        // display a message when a javascript error occurs in display output
+        var msg = "Javascript error adding output!"
+        console.log(msg, err);
+        if ( container === undefined ) return;
+        container.append(
+            $('<div/>').html(msg + "<br/>" +
+                err.toString() +
+                '<br/>See your browser Javascript console for more details.'
+            ).addClass('js-error')
+        );
+        container.show();
+    };
+
+    OutputArea.prototype._safe_append = function (toinsert) {
+        // safely append an item to the document
+        // this is an object created by user code,
+        // and may have errors, which should not be raised
+        // under any circumstances.
+        try {
+            this.element.append(toinsert);
+        } catch(err) {
+            console.log(err);
+            this._append_javascript_error(err, this.element);
+        }
     };
 
 
@@ -255,11 +348,11 @@ var IPython = (function (IPython) {
             toinsert.find('div.prompt').addClass('output_prompt').html('Out[' + n + ']:');
         }
         this.append_mime_type(json, toinsert, dynamic);
-        this.element.append(toinsert);
+        this._safe_append(toinsert);
         // If we just output latex, typeset it.
         if ((json.latex !== undefined) || (json.html !== undefined)) {
             this.typeset();
-        };
+        }
     };
 
 
@@ -273,9 +366,9 @@ var IPython = (function (IPython) {
             }
             s = s + '\n';
             var toinsert = this.create_output_area();
-            this.append_text(s, toinsert);
-            this.element.append(toinsert);
-        };
+            this.append_text(s, {}, toinsert);
+            this._safe_append(toinsert);
+        }
     };
 
 
@@ -310,65 +403,73 @@ var IPython = (function (IPython) {
 
         // If we got here, attach a new div
         var toinsert = this.create_output_area();
-        this.append_text(text, toinsert, "output_stream "+subclass);
-        this.element.append(toinsert);
+        this.append_text(text, {}, toinsert, "output_stream "+subclass);
+        this._safe_append(toinsert);
     };
 
 
     OutputArea.prototype.append_display_data = function (json, dynamic) {
         var toinsert = this.create_output_area();
         this.append_mime_type(json, toinsert, dynamic);
-        this.element.append(toinsert);
+        this._safe_append(toinsert);
         // If we just output latex, typeset it.
         if ( (json.latex !== undefined) || (json.html !== undefined) ) {
             this.typeset();
-        };
+        }
     };
 
+    OutputArea.display_order = ['javascript','html','latex','svg','png','jpeg','text'];
 
     OutputArea.prototype.append_mime_type = function (json, element, dynamic) {
-        if (json.javascript !== undefined && dynamic) {
-            this.append_javascript(json.javascript, element, dynamic);
-        } else if (json.html !== undefined) {
-            this.append_html(json.html, element);
-        } else if (json.latex !== undefined) {
-            this.append_latex(json.latex, element);
-        } else if (json.svg !== undefined) {
-            this.append_svg(json.svg, element);
-        } else if (json.png !== undefined) {
-            this.append_png(json.png, element);
-        } else if (json.jpeg !== undefined) {
-            this.append_jpeg(json.jpeg, element);
-        } else if (json.text !== undefined) {
-            this.append_text(json.text, element);
-        };
+        for(var type_i in OutputArea.display_order){
+            var type = OutputArea.display_order[type_i];
+            if(json[type] != undefined ){
+                var md = {};
+                if (json.metadata && json.metadata[type]) {
+                    md = json.metadata[type];
+                };
+                if(type == 'javascript'){
+                    if (dynamic) {
+                        this.append_javascript(json.javascript, md, element, dynamic);
+                    }
+                } else {
+                    this['append_'+type](json[type], md, element);
+                }
+                return;
+            }
+        }
     };
 
 
-    OutputArea.prototype.append_html = function (html, element) {
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_html rendered_html");
+    OutputArea.prototype.append_html = function (html, md, element) {
+        var toinsert = $("<div/>").addClass("output_subarea output_html rendered_html");
         toinsert.append(html);
         element.append(toinsert);
     };
 
 
-    OutputArea.prototype.append_javascript = function (js, container) {
+    OutputArea.prototype.append_javascript = function (js, md, container) {
         // We just eval the JS code, element appears in the local scope.
-        var element = $("<div/>").addClass("box-flex1 output_subarea");
+        var element = $("<div/>").addClass("output_subarea");
         container.append(element);
         // Div for js shouldn't be drawn, as it will add empty height to the area.
         container.hide();
         // If the Javascript appends content to `element` that should be drawn, then
         // it must also call `container.show()`.
-        eval(js);
-    }
+        try {
+            eval(js);
+        } catch(err) {
+            this._append_javascript_error(err, container);
+        }
+    };
 
 
-    OutputArea.prototype.append_text = function (data, element, extra_class) {
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_text");
+    OutputArea.prototype.append_text = function (data, md, element, extra_class) {
+        var toinsert = $("<div/>").addClass("output_subarea output_text");
         // escape ANSI & HTML specials in plaintext:
         data = utils.fixConsole(data);
         data = utils.fixCarriageReturn(data);
+        data = utils.autoLinkUrls(data);
         if (extra_class){
             toinsert.addClass(extra_class);
         }
@@ -377,8 +478,8 @@ var IPython = (function (IPython) {
     };
 
 
-    OutputArea.prototype.append_svg = function (svg, element) {
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_svg");
+    OutputArea.prototype.append_svg = function (svg, md, element) {
+        var toinsert = $("<div/>").addClass("output_subarea output_svg");
         toinsert.append(svg);
         element.append(toinsert);
     };
@@ -394,7 +495,7 @@ var IPython = (function (IPython) {
             if (!(h0 && w0)) {
                 // zero size, schedule another timeout
                 that._dblclick_to_reset_size(img);
-                return
+                return;
             }
             img.resizable({
                 aspectRatio: true,
@@ -408,39 +509,105 @@ var IPython = (function (IPython) {
                 img.width(w0);
             });
         }, 250);
-    }
+    };
 
 
-    OutputArea.prototype.append_png = function (png, element) {
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_png");
+    OutputArea.prototype.append_png = function (png, md, element) {
+        var toinsert = $("<div/>").addClass("output_subarea output_png");
         var img = $("<img/>").attr('src','data:image/png;base64,'+png);
+        if (md['height']) {
+            img.attr('height', md['height']);
+        }
+        if (md['width']) {
+            img.attr('width', md['width']);
+        }
         this._dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
     };
 
 
-    OutputArea.prototype.append_jpeg = function (jpeg, element) {
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_jpeg");
+    OutputArea.prototype.append_jpeg = function (jpeg, md, element) {
+        var toinsert = $("<div/>").addClass("output_subarea output_jpeg");
         var img = $("<img/>").attr('src','data:image/jpeg;base64,'+jpeg);
+        if (md['height']) {
+            img.attr('height', md['height']);
+        }
+        if (md['width']) {
+            img.attr('width', md['width']);
+        }
         this._dblclick_to_reset_size(img);
         toinsert.append(img);
         element.append(toinsert);
     };
 
 
-    OutputArea.prototype.append_latex = function (latex, element) {
+    OutputArea.prototype.append_latex = function (latex, md, element) {
         // This method cannot do the typesetting because the latex first has to
         // be on the page.
-        var toinsert = $("<div/>").addClass("box-flex1 output_subarea output_latex");
+        var toinsert = $("<div/>").addClass("output_subarea output_latex");
         toinsert.append(latex);
         element.append(toinsert);
     };
 
+    OutputArea.prototype.append_raw_input = function (content) {
+        var that = this;
+        this.expand();
+        this.flush_clear_timeout();
+        var area = this.create_output_area();
+        
+        // disable any other raw_inputs, if they are left around
+        $("div.output_subarea.raw_input").remove();
+        
+        area.append(
+            $("<div/>")
+            .addClass("box-flex1 output_subarea raw_input")
+            .append(
+                $("<span/>")
+                .addClass("input_prompt")
+                .text(content.prompt)
+            )
+            .append(
+                $("<input/>")
+                .addClass("raw_input")
+                .attr('type', 'text')
+                .attr("size", 47)
+                .keydown(function (event, ui) {
+                    // make sure we submit on enter,
+                    // and don't re-execute the *cell* on shift-enter
+                    if (event.which === utils.keycodes.ENTER) {
+                        that._submit_raw_input();
+                        return false;
+                    }
+                })
+            )
+        );
+        this.element.append(area);
+        // weirdly need double-focus now,
+        // otherwise only the cell will be focused
+        area.find("input.raw_input").focus().focus();
+    }
+    OutputArea.prototype._submit_raw_input = function (evt) {
+        var container = this.element.find("div.raw_input");
+        var theprompt = container.find("span.input_prompt");
+        var theinput = container.find("input.raw_input");
+        var value = theinput.val();
+        var content = {
+            output_type : 'stream',
+            name : 'stdout',
+            text : theprompt.text() + value + '\n'
+        }
+        // remove form container
+        container.parent().remove();
+        // replace with plaintext version in stdout
+        this.append_output(content, false);
+        $([IPython.events]).trigger('send_input_reply.Kernel', value);
+    }
+
 
     OutputArea.prototype.handle_clear_output = function (content) {
         this.clear_output(content.stdout, content.stderr, content.other);
-    }
+    };
 
 
     OutputArea.prototype.clear_output = function (stdout, stderr, other) {
@@ -513,8 +680,8 @@ var IPython = (function (IPython) {
             clearTimeout(this.clear_out_timeout);
             this.clear_out_timeout = null;
             this.clear_output_callback(this._clear_stdout, this._clear_stderr, this._clear_other);
-        };
-    }
+        }
+    };
 
 
     // JSON serialization
@@ -524,7 +691,7 @@ var IPython = (function (IPython) {
         for (var i=0; i<len; i++) {
             // append with dynamic=false.
             this.append_output(outputs[i], false);
-        };
+        }
     };
 
 
@@ -533,7 +700,7 @@ var IPython = (function (IPython) {
         var len = this.outputs.length;
         for (var i=0; i<len; i++) {
             outputs[i] = this.outputs[i];
-        };
+        }
         return outputs;
     };
 
