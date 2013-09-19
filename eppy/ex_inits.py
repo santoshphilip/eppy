@@ -19,5 +19,5 @@
 
 from IPython.display import Image
 from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
-idfeditor = Image(filename='./docs/images/idf3.png')
-material_lists = Image(filename='./docs/images/material_lists.png')
+idfeditor = Image(filename='../docs/images/idf3.png')
+material_lists = Image(filename='../docs/images/material_lists.png')
