@@ -1,5 +1,10 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-09-19
+----------
+TODO 
+1. tutorial for condensor loop and airside loop
+
 2013-09-03
 ----------
 try import numpy
