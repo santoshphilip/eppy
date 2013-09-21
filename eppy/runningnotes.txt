@@ -1,5 +1,17 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-09-21
+----------
+notes on overriding list
+- __add__ override ?
+- __delattr__ remove some attributes ?
+- __delitems__ overide ?
+- __overide __delslce__ ?
+- __iadd__ override?
+- __mul__ override ?
+- __setitem__ overide ?
+- __setslice__ overide ?
+
 2013-09-19
 ----------
 TODO 
