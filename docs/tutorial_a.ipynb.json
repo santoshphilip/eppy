@@ -1,6 +1,6 @@
 {
  "metadata": {
-  "name": ""
+  "name": "tutorial"
  },
  "nbformat": 3,
  "nbformat_minor": 0,
@@ -11,134 +11,54 @@
      "cell_type": "heading",
      "level": 1,
      "metadata": {},
-     "source": [
-      "Eppy Documentation"
-     ]
+     "source": "Eppy Documentation"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Authors: Santosh Philip, Leora Tanjuatco"
-     ]
+     "source": "Authors: Santosh Philip, Leora Tanjuatco"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Eppy is a scripting language for E+ idf files, and E+ output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are avaliable in python. You can programmatically navigate, search, and modify E+ idf files using eppy. The power of using a scripting language allows you to do the following:\n",
-      "\n",
-      "- Make a large number of changes in an idf file with a few lines of eppy code.\n",
-      "- Use conditions and filters when making changes to an idf file\n",
-      "- Make changes to multiple idf files.\n",
-      "- Read data from the output files of a E+ simulation run.\n",
-      "- Based to the results of a E+ simulation run, generate the input file for the next simulation run.\n",
-      "\n",
-      "So what does this matter?   \n",
-      "Here are some of the things you can do with eppy:\n",
-      "\n",
-      "- Change construction for all north facing walls.\n",
-      "- Change the glass type for all windows larger than 2 square meters.\n",
-      "- Change the number of people in all the interior zones.\n",
-      "- Change the lighting power in all south facing zones. \n",
-      "- Change the efficiency and fan power of all rooftop units.\n",
-      "- Find the energy use of all the models in a folder (or of models that were run after a certain date) \n",
-      "- If a model is using more energy than expected, keep increasing the R-value of the roof until you get to the expected energy use."
-     ]
+     "source": "Eppy is a scripting language for E+ idf files, and E+ output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are avaliable in python. You can programmatically navigate, search, and modify E+ idf files using eppy. The power of using a scripting language allows you to do the following:\n\n- Make a large number of changes in an idf file with a few lines of eppy code.\n- Use conditions and filters when making changes to an idf file\n- Make changes to multiple idf files.\n- Read data from the output files of a E+ simulation run.\n- Based to the results of a E+ simulation run, generate the input file for the next simulation run.\n\nSo what does this matter?   \nHere are some of the things you can do with eppy:\n\n- Change construction for all north facing walls.\n- Change the glass type for all windows larger than 2 square meters.\n- Change the number of people in all the interior zones.\n- Change the lighting power in all south facing zones. \n- Change the efficiency and fan power of all rooftop units.\n- Find the energy use of all the models in a folder (or of models that were run after a certain date) \n- If a model is using more energy than expected, keep increasing the R-value of the roof until you get to the expected energy use."
     },
     {
      "cell_type": "heading",
      "level": 3,
      "metadata": {},
-     "source": [
-      "Installation"
-     ]
+     "source": "Installation"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Eppy need a couple of libraries to be installed before it can run.  \n",
-      "So if you are going to try out the steps in the tutorial take a look at the installation instructions.  \n",
-      "The installation instructions are in ./eplusscripting/install.txt"
-     ]
+     "source": "Eppy need a couple of libraries to be installed before it can run.  \nSo if you are going to try out the steps in the tutorial take a look at the installation instructions.  \nThe installation instructions are in ./eplusscripting/install.txt"
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Quick Start"
-     ]
+     "source": "Quick Start"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Here is a short IDF file that I\u2019ll be using as an example to start us off:"
-     ]
+     "source": "Here is a short IDF file that I\u2019ll be using as an example to start us off:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "VERSION,\n",
-      "    7.2;                     !- Version Identifier\n",
-      "\n",
-      "SIMULATIONCONTROL,\n",
-      "    Yes,                     !- Do Zone Sizing Calculation\n",
-      "    Yes,                     !- Do System Sizing Calculation\n",
-      "    Yes,                     !- Do Plant Sizing Calculation\n",
-      "    No,                      !- Run Simulation for Sizing Periods\n",
-      "    Yes;                     !- Run Simulation for Weather File Run Periods\n",
-      "\n",
-      "BUILDING,\n",
-      "    White House,             !- Name\n",
-      "    30.,                     !- North Axis {deg}\n",
-      "    City,                    !- Terrain\n",
-      "    0.04,                    !- Loads Convergence Tolerance Value\n",
-      "    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}\n",
-      "    FullExterior,            !- Solar Distribution\n",
-      "    25,                      !- Maximum Number of Warmup Days\n",
-      "    6;                       !- Minimum Number of Warmup Days\n",
-      "\n",
-      "SITE:LOCATION,\n",
-      "    CHICAGO_IL_USA TMY2-94846,  !- Name\n",
-      "    41.78,                   !- Latitude {deg}\n",
-      "    -87.75,                  !- Longitude {deg}\n",
-      "    -6.00,                   !- Time Zone {hr}\n",
-      "    190.00;                  !- Elevation {m}\n"
-     ]
+     "source": "VERSION,\n    7.2;                     !- Version Identifier\n\nSIMULATIONCONTROL,\n    Yes,                     !- Do Zone Sizing Calculation\n    Yes,                     !- Do System Sizing Calculation\n    Yes,                     !- Do Plant Sizing Calculation\n    No,                      !- Run Simulation for Sizing Periods\n    Yes;                     !- Run Simulation for Weather File Run Periods\n\nBUILDING,\n    White House,             !- Name\n    30.,                     !- North Axis {deg}\n    City,                    !- Terrain\n    0.04,                    !- Loads Convergence Tolerance Value\n    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}\n    FullExterior,            !- Solar Distribution\n    25,                      !- Maximum Number of Warmup Days\n    6;                       !- Minimum Number of Warmup Days\n\nSITE:LOCATION,\n    CHICAGO_IL_USA TMY2-94846,  !- Name\n    41.78,                   !- Latitude {deg}\n    -87.75,                  !- Longitude {deg}\n    -6.00,                   !- Time Zone {hr}\n    190.00;                  !- Elevation {m}\n"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "To use eppy to look at this model, we have to run a little code first:"
-     ]
+     "source": "To use eppy to look at this model, we have to run a little code first:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# you would normaly install eppy by doing\n",
-      "# python setup.py install\n",
-      "# or\n",
-      "# pip install eppy\n",
-      "# or\n",
-      "# easy_install eppy\n",
-      "\n",
-      "# if you have not done so, uncomment the following three lines\n",
-      "import sys\n",
-      "# pathnameto_eppy = 'c:/eppy'\n",
-      "pathnameto_eppy = '../'\n",
-      "sys.path.append(pathnameto_eppy) \n",
-      "\n",
-      "from eppy import modeleditor \n",
-      "from eppy.modeleditor import IDF\n",
-      "iddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\n",
-      "fname1 = \"../eppy/resources/idffiles/V_7_2/smallfile.idf\""
-     ],
+     "input": "# you would normaly install eppy by doing\n# python setup.py install\n# or\n# pip install eppy\n# or\n# easy_install eppy\n\n# if you have not done so, uncomment the following three lines\nimport sys\n# pathnameto_eppy = 'c:/eppy'\npathnameto_eppy = '../'\nsys.path.append(pathnameto_eppy) \n\nfrom eppy import modeleditor \nfrom eppy.modeleditor import IDF\niddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\nfname1 = \"../eppy/resources/idffiles/V_7_2/smallfile.idf\"",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -147,10 +67,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "IDF.setiddname(iddfile)\n",
-      "idf1 = IDF(fname1)"
-     ],
+     "input": "IDF.setiddname(iddfile)\nidf1 = IDF(fname1)",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -159,54 +76,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "idf1 now holds all the data to your in you idf file.  \n",
-      "\n",
-      "Now that the behind-the-scenes work is done, we can print this file. "
-     ]
+     "source": "idf1 now holds all the data to your in you idf file.  \n\nNow that the behind-the-scenes work is done, we can print this file. "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "idf1.printidf()"
-     ],
+     "input": "idf1.printidf()",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "VERSION,                  \n",
-        "    7.3;                      !- Version Identifier\n",
-        "\n",
-        "SIMULATIONCONTROL,        \n",
-        "    Yes,                      !- Do Zone Sizing Calculation\n",
-        "    Yes,                      !- Do System Sizing Calculation\n",
-        "    Yes,                      !- Do Plant Sizing Calculation\n",
-        "    No,                       !- Run Simulation for Sizing Periods\n",
-        "    Yes;                      !- Run Simulation for Weather File Run Periods\n",
-        "\n",
-        "BUILDING,                 \n",
-        "    Empire State Building,    !- Name\n",
-        "    30.0,                     !- North Axis\n",
-        "    City,                     !- Terrain\n",
-        "    0.04,                     !- Loads Convergence Tolerance Value\n",
-        "    0.4,                      !- Temperature Convergence Tolerance Value\n",
-        "    FullExterior,             !- Solar Distribution\n",
-        "    25,                       !- Maximum Number of Warmup Days\n",
-        "    6;                        !- Minimum Number of Warmup Days\n",
-        "\n",
-        "SITE:LOCATION,            \n",
-        "    CHICAGO_IL_USA TMY2-94846,    !- Name\n",
-        "    41.78,                    !- Latitude\n",
-        "    -87.75,                   !- Longitude\n",
-        "    -6.0,                     !- Time Zone\n",
-        "    190.0;                    !- Elevation\n",
-        "\n"
-       ]
+       "text": "\nVERSION,                  \n    7.3;                      !- Version Identifier\n\nSIMULATIONCONTROL,        \n    Yes,                      !- Do Zone Sizing Calculation\n    Yes,                      !- Do System Sizing Calculation\n    Yes,                      !- Do Plant Sizing Calculation\n    No,                       !- Run Simulation for Sizing Periods\n    Yes;                      !- Run Simulation for Weather File Run Periods\n\nBUILDING,                 \n    Empire State Building,    !- Name\n    30.0,                     !- North Axis\n    City,                     !- Terrain\n    0.04,                     !- Loads Convergence Tolerance Value\n    0.4,                      !- Temperature Convergence Tolerance Value\n    FullExterior,             !- Solar Distribution\n    25,                       !- Maximum Number of Warmup Days\n    6;                        !- Minimum Number of Warmup Days\n\nSITE:LOCATION,            \n    CHICAGO_IL_USA TMY2-94846,    !- Name\n    41.78,                    !- Latitude\n    -87.75,                   !- Longitude\n    -6.0,                     !- Time Zone\n    190.0;                    !- Elevation\n\n"
       }
      ],
      "prompt_number": 125
@@ -214,58 +96,29 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Looks like the same file as before, except that all the comments are slightly different."
-     ]
+     "source": "Looks like the same file as before, except that all the comments are slightly different."
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "As you can see, this file has four objects:\n",
-      "\n",
-      "- VERSION\n",
-      "- SIMULATIONCONTROL\n",
-      "- BUILDING\n",
-      "- SITE:LOCATION\n",
-      "\n",
-      "\n",
-      "So, let us look take a closer look at the BUILDING object.  \n",
-      "We can do this using this command:"
-     ]
+     "source": "As you can see, this file has four objects:\n\n- VERSION\n- SIMULATIONCONTROL\n- BUILDING\n- SITE:LOCATION\n\n\nSo, let us look take a closer look at the BUILDING object.  \nWe can do this using this command:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "print filename.idfobjects['OBJECTNAME']"
-     ]
+     "source": "print filename.idfobjects['OBJECTNAME']"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print idf1.idfobjects['BUILDING']  # put the name of the object you'd like to look at in brackets"
-     ],
+     "input": "print idf1.idfobjects['BUILDING']  # put the name of the object you'd like to look at in brackets",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[\n",
-        "BUILDING,                 \n",
-        "    Empire State Building,    !- Name\n",
-        "    30.0,                     !- North Axis\n",
-        "    City,                     !- Terrain\n",
-        "    0.04,                     !- Loads Convergence Tolerance Value\n",
-        "    0.4,                      !- Temperature Convergence Tolerance Value\n",
-        "    FullExterior,             !- Solar Distribution\n",
-        "    25,                       !- Maximum Number of Warmup Days\n",
-        "    6;                        !- Minimum Number of Warmup Days\n",
-        "]\n"
-       ]
+       "text": "[\nBUILDING,                 \n    Empire State Building,    !- Name\n    30.0,                     !- North Axis\n    City,                     !- Terrain\n    0.04,                     !- Loads Convergence Tolerance Value\n    0.4,                      !- Temperature Convergence Tolerance Value\n    FullExterior,             !- Solar Distribution\n    25,                       !- Maximum Number of Warmup Days\n    6;                        !- Minimum Number of Warmup Days\n]\n"
       }
      ],
      "prompt_number": 126
@@ -273,18 +126,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We can also zoom in on the object and look just at its individual parts.  \n",
-      "For example, let us look at the name of the building.  \n",
-      "To do this, we have to do some more behind-the-scenes work, which we'll explain later.  "
-     ]
+     "source": "We can also zoom in on the object and look just at its individual parts.  \nFor example, let us look at the name of the building.  \nTo do this, we have to do some more behind-the-scenes work, which we'll explain later.  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "building = idf1.idfobjects['BUILDING'][0]"
-     ],
+     "input": "building = idf1.idfobjects['BUILDING'][0]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -293,25 +140,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now we can do this:"
-     ]
+     "source": "Now we can do this:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print building.Name"
-     ],
+     "input": "print building.Name",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "Empire State Building\n"
-       ]
+       "text": "Empire State Building\n"
       }
      ],
      "prompt_number": 128
@@ -319,16 +160,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now that we've isolated the building name, we can change it."
-     ]
+     "source": "Now that we've isolated the building name, we can change it."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "building.Name = \"Empire State Building\""
-     ],
+     "input": "building.Name = \"Empire State Building\"",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -337,18 +174,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print building.Name"
-     ],
+     "input": "print building.Name",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "Empire State Building\n"
-       ]
+       "text": "Empire State Building\n"
       }
      ],
      "prompt_number": 130
@@ -356,52 +189,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Did this actually change the name in the model ? Let us print the entire model and see."
-     ]
+     "source": "Did this actually change the name in the model ? Let us print the entire model and see."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "idf1.printidf()"
-     ],
+     "input": "idf1.printidf()",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "VERSION,                  \n",
-        "    7.3;                      !- Version Identifier\n",
-        "\n",
-        "SIMULATIONCONTROL,        \n",
-        "    Yes,                      !- Do Zone Sizing Calculation\n",
-        "    Yes,                      !- Do System Sizing Calculation\n",
-        "    Yes,                      !- Do Plant Sizing Calculation\n",
-        "    No,                       !- Run Simulation for Sizing Periods\n",
-        "    Yes;                      !- Run Simulation for Weather File Run Periods\n",
-        "\n",
-        "BUILDING,                 \n",
-        "    Empire State Building,    !- Name\n",
-        "    30.0,                     !- North Axis\n",
-        "    City,                     !- Terrain\n",
-        "    0.04,                     !- Loads Convergence Tolerance Value\n",
-        "    0.4,                      !- Temperature Convergence Tolerance Value\n",
-        "    FullExterior,             !- Solar Distribution\n",
-        "    25,                       !- Maximum Number of Warmup Days\n",
-        "    6;                        !- Minimum Number of Warmup Days\n",
-        "\n",
-        "SITE:LOCATION,            \n",
-        "    CHICAGO_IL_USA TMY2-94846,    !- Name\n",
-        "    41.78,                    !- Latitude\n",
-        "    -87.75,                   !- Longitude\n",
-        "    -6.0,                     !- Time Zone\n",
-        "    190.0;                    !- Elevation\n",
-        "\n"
-       ]
+       "text": "\nVERSION,                  \n    7.3;                      !- Version Identifier\n\nSIMULATIONCONTROL,        \n    Yes,                      !- Do Zone Sizing Calculation\n    Yes,                      !- Do System Sizing Calculation\n    Yes,                      !- Do Plant Sizing Calculation\n    No,                       !- Run Simulation for Sizing Periods\n    Yes;                      !- Run Simulation for Weather File Run Periods\n\nBUILDING,                 \n    Empire State Building,    !- Name\n    30.0,                     !- North Axis\n    City,                     !- Terrain\n    0.04,                     !- Loads Convergence Tolerance Value\n    0.4,                      !- Temperature Convergence Tolerance Value\n    FullExterior,             !- Solar Distribution\n    25,                       !- Maximum Number of Warmup Days\n    6;                        !- Minimum Number of Warmup Days\n\nSITE:LOCATION,            \n    CHICAGO_IL_USA TMY2-94846,    !- Name\n    41.78,                    !- Latitude\n    -87.75,                   !- Longitude\n    -6.0,                     !- Time Zone\n    190.0;                    !- Elevation\n\n"
       }
      ],
      "prompt_number": 131
@@ -409,53 +209,38 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Yes! It did. So now you have a taste of what eppy can do.  \n",
-      "Let's get started!"
-     ]
+     "source": "Yes! It did. So now you have a taste of what eppy can do.  \nLet's get started!"
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Modifying IDF Fields"
-     ]
+     "source": "Modifying IDF Fields"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "That was just a quick example -- we were showing off. Let's look a little closer."
-     ]
+     "source": "That was just a quick example -- we were showing off. Let's look a little closer."
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "As you might have guessed, changing an IDF field follows this structure: "
-     ]
+     "source": "As you might have guessed, changing an IDF field follows this structure: "
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "object.fieldname = \"New Field Name\""
-     ]
+     "source": "object.fieldname = \"New Field Name\""
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Plugging the object name (building), the field name (Name) and our new field name (\"Empire State Building\") into this command gave us this:"
-     ]
+     "source": "Plugging the object name (building), the field name (Name) and our new field name (\"Empire State Building\") into this command gave us this:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "building.Name = \"Empire State Building\""
-     ],
+     "input": "building.Name = \"Empire State Building\"",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -464,12 +249,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "import eppy\n",
-      "# import eppy.ex_inits\n",
-      "# reload(eppy.ex_inits)\n",
-      "import eppy.ex_inits"
-     ],
+     "input": "import eppy\n# import eppy.ex_inits\n# reload(eppy.ex_inits)\nimport eppy.ex_inits",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -478,19 +258,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "But how did we know that \"Name\" is one of the fields in the object \"building\"? \n",
-      "Are there other fields?  \n",
-      "What are they called?  \n",
-      "Let's take a look at the IDF editor:  "
-     ]
+     "source": "But how did we know that \"Name\" is one of the fields in the object \"building\"? \nAre there other fields?  \nWhat are they called?  \nLet's take a look at the IDF editor:  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy import ex_inits #no need to know this code, it just shows the image below"
-     ],
+     "input": "from eppy import ex_inits #no need to know this code, it just shows the image below",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -499,11 +272,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy import ex_inits #no need to know this code, it just shows the image below\n",
-      "for_images = ex_inits\n",
-      "for_images.display_png(for_images.idfeditor) "
-     ],
+     "input": "from eppy import ex_inits #no need to know this code, it just shows the image below\nfor_images = ex_inits\nfor_images.display_png(for_images.idfeditor) ",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -518,38 +287,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "In the IDF Editor, the building object is selected.  \n",
-      "We can see all the fields of the object \"BUILDING\".  \n",
-      "They are: \n",
-      "\n",
-      "- Name\n",
-      "- North Axis\n",
-      "- Terrain\n",
-      "- Loads Convergence Tolerance Value\n",
-      "- Temperature Convergence Tolerance Value\n",
-      "- Solar Distribution\n",
-      "- Maximum Number of Warmup Days\n",
-      "- Minimum Number of Warmup Days\n",
-      "\n",
-      "Let us try to access the other fields - "
-     ]
+     "source": "In the IDF Editor, the building object is selected.  \nWe can see all the fields of the object \"BUILDING\".  \nThey are: \n\n- Name\n- North Axis\n- Terrain\n- Loads Convergence Tolerance Value\n- Temperature Convergence Tolerance Value\n- Solar Distribution\n- Maximum Number of Warmup Days\n- Minimum Number of Warmup Days\n\nLet us try to access the other fields - "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print building.Terrain"
-     ],
+     "input": "print building.Terrain",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "City\n"
-       ]
+       "text": "City\n"
       }
      ],
      "prompt_number": 136
@@ -557,30 +307,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "How about the field \"North Axis\" ?\n",
-      "It is not a single word, but two words.  \n",
-      "In a programming language, a variable has to be a single word without any spaces.  \n",
-      "\n",
-      "To solve this problem, put an underscore where there is a space.  \n",
-      "So \"North Axis\" becomes \"North_Axis\"."
-     ]
+     "source": "How about the field \"North Axis\" ?\nIt is not a single word, but two words.  \nIn a programming language, a variable has to be a single word without any spaces.  \n\nTo solve this problem, put an underscore where there is a space.  \nSo \"North Axis\" becomes \"North_Axis\"."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print building.North_Axis"
-     ],
+     "input": "print building.North_Axis",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "30.0\n"
-       ]
+       "text": "30.0\n"
       }
      ],
      "prompt_number": 137
@@ -588,39 +327,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now we can do:"
-     ]
+     "source": "Now we can do:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print building.Name\n",
-      "print building.North_Axis\n",
-      "print building.Terrain\n",
-      "print building.Loads_Convergence_Tolerance_Value\n",
-      "print building.Temperature_Convergence_Tolerance_Value\n",
-      "print building.Solar_Distribution\n",
-      "print building.Maximum_Number_of_Warmup_Days\n",
-      "print building.Minimum_Number_of_Warmup_Days"
-     ],
+     "input": "print building.Name\nprint building.North_Axis\nprint building.Terrain\nprint building.Loads_Convergence_Tolerance_Value\nprint building.Temperature_Convergence_Tolerance_Value\nprint building.Solar_Distribution\nprint building.Maximum_Number_of_Warmup_Days\nprint building.Minimum_Number_of_Warmup_Days",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "Empire State Building\n",
-        "30.0\n",
-        "City\n",
-        "0.04\n",
-        "0.4\n",
-        "FullExterior\n",
-        "25\n",
-        "6\n"
-       ]
+       "text": "Empire State Building\n30.0\nCity\n0.04\n0.4\nFullExterior\n25\n6\n"
       }
      ],
      "prompt_number": 138
@@ -628,72 +347,38 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Where else can we find the field names?  \n",
-      "The IDF Editor saves the idf file with the field name commented next to field.  \n",
-      "Eppy also does this.  \n",
-      "Let us take a look at the \"BUILDING\" object in the text file that the IDF Editor saves"
-     ]
+     "source": "Where else can we find the field names?  \nThe IDF Editor saves the idf file with the field name commented next to field.  \nEppy also does this.  \nLet us take a look at the \"BUILDING\" object in the text file that the IDF Editor saves"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "BUILDING,\n",
-      "    White House,             !- Name\n",
-      "    30.,                     !- North Axis {deg}\n",
-      "    City,                    !- Terrain\n",
-      "    0.04,                    !- Loads Convergence Tolerance Value\n",
-      "    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}\n",
-      "    FullExterior,            !- Solar Distribution\n",
-      "    25,                      !- Maximum Number of Warmup Days\n",
-      "    6;                       !- Minimum Number of Warmup Days"
-     ]
+     "source": "BUILDING,\n    White House,             !- Name\n    30.,                     !- North Axis {deg}\n    City,                    !- Terrain\n    0.04,                    !- Loads Convergence Tolerance Value\n    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}\n    FullExterior,            !- Solar Distribution\n    25,                      !- Maximum Number of Warmup Days\n    6;                       !- Minimum Number of Warmup Days"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This a good place to find the field names too. \n",
-      "It is easy to copy and paste from here. You can't do that from the IDF Editor."
-     ]
+     "source": "This a good place to find the field names too. \nIt is easy to copy and paste from here. You can't do that from the IDF Editor."
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We know that in an E+ model, there will be only ONE \"BUILDING\" object. This will be the first and only item in the list \"buildings\".  \n",
-      "\n",
-      "But E+ models are made up of objects such as \"BUILDING\", \"SITE:LOCATION\", \"ZONE\", \"PEOPLE\", \"LIGHTS\".   \n",
-      "There can be a number of \"ZONE\" objects, a number of \"PEOPLE\" objects and a number of \"LIGHTS\" objects.   \n",
-      "\n",
-      "So how do you know if you're looking at the first \"ZONE\" object or the second one? Or the tenth one?   \n",
-      "To answer this, we need to learn about how lists work in python.\n"
-     ]
+     "source": "We know that in an E+ model, there will be only ONE \"BUILDING\" object. This will be the first and only item in the list \"buildings\".  \n\nBut E+ models are made up of objects such as \"BUILDING\", \"SITE:LOCATION\", \"ZONE\", \"PEOPLE\", \"LIGHTS\".   \nThere can be a number of \"ZONE\" objects, a number of \"PEOPLE\" objects and a number of \"LIGHTS\" objects.   \n\nSo how do you know if you're looking at the first \"ZONE\" object or the second one? Or the tenth one?   \nTo answer this, we need to learn about how lists work in python.\n"
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Python lesson 1: lists"
-     ]
+     "source": "Python lesson 1: lists"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Eppy holds these objects in a python structure called list.   \n",
-      "Let us take a look at how lists work in python. "
-     ]
+     "source": "Eppy holds these objects in a python structure called list.   \nLet us take a look at how lists work in python. "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "fruits = [\"apple\", \"orange\", \"bannana\"] \n",
-      "# fruits is a list with three items in it."
-     ],
+     "input": "fruits = [\"apple\", \"orange\", \"bannana\"] \n# fruits is a list with three items in it.",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -702,16 +387,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "To get the first item in fruits we say: "
-     ]
+     "source": "To get the first item in fruits we say: "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "fruits[0]  \n"
-     ],
+     "input": "fruits[0]  \n",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -719,9 +400,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 140,
-       "text": [
-        "'apple'"
-       ]
+       "text": "'apple'"
       }
      ],
      "prompt_number": 140
@@ -729,27 +408,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Why \"0\" ?  \n",
-      "Because, unlike us, python starts counting from zero in a list.  \n",
-      "So, to get the third item in the list we'd need to input 2, like this:"
-     ]
+     "source": "Why \"0\" ?  \nBecause, unlike us, python starts counting from zero in a list.  \nSo, to get the third item in the list we'd need to input 2, like this:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print fruits[2]"
-     ],
+     "input": "print fruits[2]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "bannana\n"
-       ]
+       "text": "bannana\n"
       }
      ],
      "prompt_number": 141
@@ -757,27 +428,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "But calling the first fruit \"fruit[0]\" is rather cumbersome.  \n",
-      "Why don't we call it firstfruit?  "
-     ]
+     "source": "But calling the first fruit \"fruit[0]\" is rather cumbersome.  \nWhy don't we call it firstfruit?  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "firstfruit = fruits[0]\n",
-      "print firstfruit"
-     ],
+     "input": "firstfruit = fruits[0]\nprint firstfruit",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "apple\n"
-       ]
+       "text": "apple\n"
       }
      ],
      "prompt_number": 142
@@ -785,34 +448,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We also can say"
-     ]
+     "source": "We also can say"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "goodfruit = fruits[0]\n",
-      "redfruit = fruits[0]\n",
-      "\n",
-      "print firstfruit\n",
-      "print goodfruit\n",
-      "print redfruit\n",
-      "print fruits[0]"
-     ],
+     "input": "goodfruit = fruits[0]\nredfruit = fruits[0]\n\nprint firstfruit\nprint goodfruit\nprint redfruit\nprint fruits[0]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "apple\n",
-        "apple\n",
-        "apple\n",
-        "apple\n"
-       ]
+       "text": "apple\napple\napple\napple\n"
       }
      ],
      "prompt_number": 143
@@ -820,41 +468,30 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      " As you see, we can call that item in the list whatever we want.  "
-     ]
+     "source": " As you see, we can call that item in the list whatever we want.  "
     },
     {
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "How many items in the list"
-     ]
+     "source": "How many items in the list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "To know how many items are in a list, we ask for the length of the list.  \n",
-      "The function 'len' will do this for us."
-     ]
+     "source": "To know how many items are in a list, we ask for the length of the list.  \nThe function 'len' will do this for us."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print len(fruits)"
-     ],
+     "input": "print len(fruits)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "3\n"
-       ]
+       "text": "3\n"
       }
      ],
      "prompt_number": 144
@@ -862,31 +499,23 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "There are 3 fruits in the list."
-     ]
+     "source": "There are 3 fruits in the list."
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Saving an idf file"
-     ]
+     "source": "Saving an idf file"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This is easy:"
-     ]
+     "source": "This is easy:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "idf1.save() "
-     ],
+     "input": "idf1.save() ",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -895,16 +524,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "If you'd like to do a \"Save as...\" use this:"
-     ]
+     "source": "If you'd like to do a \"Save as...\" use this:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "idf1.saveas('something.idf')"
-     ],
+     "input": "idf1.saveas('something.idf')",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -914,34 +539,17 @@
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Working with E+ objects"
-     ]
+     "source": "Working with E+ objects"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us open a small idf file that has only \"CONSTRUCTION\" and \"MATERIAL\" objects in it.  \n",
-      "You can go into \"../idffiles/V_7_2/constructions.idf\" and take a look at the file.   \n",
-      "We are not printing it here because it is too big.  \n",
-      "\n",
-      "So let us open it using the idfreader -"
-     ]
+     "source": "Let us open a small idf file that has only \"CONSTRUCTION\" and \"MATERIAL\" objects in it.  \nYou can go into \"../idffiles/V_7_2/constructions.idf\" and take a look at the file.   \nWe are not printing it here because it is too big.  \n\nSo let us open it using the idfreader -"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy import modeleditor\n",
-      "from eppy.modeleditor import IDF\n",
-      "\n",
-      "iddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\n",
-      "IDF.setiddname(iddfile)\n",
-      "\n",
-      "fname1 = \"../eppy/resources/idffiles/V_7_2/constructions.idf\"\n",
-      "idf1 = IDF(fname1)\n"
-     ],
+     "input": "from eppy import modeleditor\nfrom eppy.modeleditor import IDF\n\niddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\nIDF.setiddname(iddfile)\n\nfname1 = \"../eppy/resources/idffiles/V_7_2/constructions.idf\"\nidf1 = IDF(fname1)\n",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -950,106 +558,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us print all the \"MATERIAL\" objects in this model."
-     ]
+     "source": "Let us print all the \"MATERIAL\" objects in this model."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "materials = idf1.idfobjects[\"MATERIAL\"]\n",
-      "print materials"
-     ],
+     "input": "materials = idf1.idfobjects[\"MATERIAL\"]\nprint materials",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[\n",
-        "Material,                 \n",
-        "    F08 Metal surface,        !- Name\n",
-        "    Smooth,                   !- Roughness\n",
-        "    0.0008,                   !- Thickness\n",
-        "    45.28,                    !- Conductivity\n",
-        "    7824.0,                   !- Density\n",
-        "    500.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    I01 25mm insulation board,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.03,                     !- Conductivity\n",
-        "    43.0,                     !- Density\n",
-        "    1210.0;                   !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    I02 50mm insulation board,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.0508,                   !- Thickness\n",
-        "    0.03,                     !- Conductivity\n",
-        "    43.0,                     !- Density\n",
-        "    1210.0;                   !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    G01a 19mm gypsum board,    !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.019,                    !- Thickness\n",
-        "    0.16,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    1090.0;                   !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    M11 100mm lightweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.53,                     !- Conductivity\n",
-        "    1280.0,                   !- Density\n",
-        "    840.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    F16 Acoustic tile,        !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0191,                   !- Thickness\n",
-        "    0.06,                     !- Conductivity\n",
-        "    368.0,                    !- Density\n",
-        "    590.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    M01 100mm brick,          !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.89,                     !- Conductivity\n",
-        "    1920.0,                   !- Density\n",
-        "    790.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    M15 200mm heavyweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.95,                     !- Conductivity\n",
-        "    2240.0,                   !- Density\n",
-        "    900.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    M05 200mm concrete block,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.11,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    920.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    G05 25mm wood,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.15,                     !- Conductivity\n",
-        "    608.0,                    !- Density\n",
-        "    1630.0;                   !- Specific Heat\n",
-        "]\n"
-       ]
+       "text": "[\nMaterial,                 \n    F08 Metal surface,        !- Name\n    Smooth,                   !- Roughness\n    0.0008,                   !- Thickness\n    45.28,                    !- Conductivity\n    7824.0,                   !- Density\n    500.0;                    !- Specific Heat\n, \nMaterial,                 \n    I01 25mm insulation board,    !- Name\n    MediumRough,              !- Roughness\n    0.0254,                   !- Thickness\n    0.03,                     !- Conductivity\n    43.0,                     !- Density\n    1210.0;                   !- Specific Heat\n, \nMaterial,                 \n    I02 50mm insulation board,    !- Name\n    MediumRough,              !- Roughness\n    0.0508,                   !- Thickness\n    0.03,                     !- Conductivity\n    43.0,                     !- Density\n    1210.0;                   !- Specific Heat\n, \nMaterial,                 \n    G01a 19mm gypsum board,    !- Name\n    MediumSmooth,             !- Roughness\n    0.019,                    !- Thickness\n    0.16,                     !- Conductivity\n    800.0,                    !- Density\n    1090.0;                   !- Specific Heat\n, \nMaterial,                 \n    M11 100mm lightweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.53,                     !- Conductivity\n    1280.0,                   !- Density\n    840.0;                    !- Specific Heat\n, \nMaterial,                 \n    F16 Acoustic tile,        !- Name\n    MediumSmooth,             !- Roughness\n    0.0191,                   !- Thickness\n    0.06,                     !- Conductivity\n    368.0,                    !- Density\n    590.0;                    !- Specific Heat\n, \nMaterial,                 \n    M01 100mm brick,          !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.89,                     !- Conductivity\n    1920.0,                   !- Density\n    790.0;                    !- Specific Heat\n, \nMaterial,                 \n    M15 200mm heavyweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.95,                     !- Conductivity\n    2240.0,                   !- Density\n    900.0;                    !- Specific Heat\n, \nMaterial,                 \n    M05 200mm concrete block,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.11,                     !- Conductivity\n    800.0,                    !- Density\n    920.0;                    !- Specific Heat\n, \nMaterial,                 \n    G05 25mm wood,            !- Name\n    MediumSmooth,             !- Roughness\n    0.0254,                   !- Thickness\n    0.15,                     !- Conductivity\n    608.0,                    !- Density\n    1630.0;                   !- Specific Heat\n]\n"
       }
      ],
      "prompt_number": 148
@@ -1057,19 +578,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "As you can see, there are many material objects in this idf file.  \n",
-      "The variable \"materials\" now contains a list of \"MATERIAL\" objects.  \n",
-      "You already know a little about lists, so let us take a look at the items in this list.  "
-     ]
+     "source": "As you can see, there are many material objects in this idf file.  \nThe variable \"materials\" now contains a list of \"MATERIAL\" objects.  \nYou already know a little about lists, so let us take a look at the items in this list.  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "firstmaterial = materials[0]\n",
-      "secondmaterial = materials[1]"
-     ],
+     "input": "firstmaterial = materials[0]\nsecondmaterial = materials[1]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -1078,26 +592,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print firstmaterial"
-     ],
+     "input": "print firstmaterial",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    F08 Metal surface,        !- Name\n",
-        "    Smooth,                   !- Roughness\n",
-        "    0.0008,                   !- Thickness\n",
-        "    45.28,                    !- Conductivity\n",
-        "    7824.0,                   !- Density\n",
-        "    500.0;                    !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    F08 Metal surface,        !- Name\n    Smooth,                   !- Roughness\n    0.0008,                   !- Thickness\n    45.28,                    !- Conductivity\n    7824.0,                   !- Density\n    500.0;                    !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 150
@@ -1105,33 +607,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us print secondmaterial"
-     ]
+     "source": "Let us print secondmaterial"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print secondmaterial"
-     ],
+     "input": "print secondmaterial",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    I01 25mm insulation board,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.03,                     !- Conductivity\n",
-        "    43.0,                     !- Density\n",
-        "    1210.0;                   !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    I01 25mm insulation board,    !- Name\n    MediumRough,              !- Roughness\n    0.0254,                   !- Thickness\n    0.03,                     !- Conductivity\n    43.0,                     !- Density\n    1210.0;                   !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 151
@@ -1139,53 +627,36 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This is awesome!! Why?  \n",
-      "To understand what you can do with your objects organized as lists, you'll have to learn a little more about lists."
-     ]
+     "source": "This is awesome!! Why?  \nTo understand what you can do with your objects organized as lists, you'll have to learn a little more about lists."
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Python lesson 2: more about lists"
-     ]
+     "source": "Python lesson 2: more about lists"
     },
     {
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "More ways to access items in a list"
-     ]
+     "source": "More ways to access items in a list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "You should remember that you can access any item in a list by passing in its index.  \n",
-      "The tricky part is that python starts counting at 0, so you need to input 0 in order to get the first item in a list.   \n",
-      "Following the same logic, you need to input 3 in order to get the fourth item on the list. Like so:"
-     ]
+     "source": "You should remember that you can access any item in a list by passing in its index.  \nThe tricky part is that python starts counting at 0, so you need to input 0 in order to get the first item in a list.   \nFollowing the same logic, you need to input 3 in order to get the fourth item on the list. Like so:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "bad_architects = [\"Donald Trump\", \"Mick Jagger\", \n",
-      "        \"Steve Jobs\", \"Lady Gaga\", \"Santa Clause\"]\n",
-      "print bad_architects[3]"
-     ],
+     "input": "bad_architects = [\"Donald Trump\", \"Mick Jagger\", \n        \"Steve Jobs\", \"Lady Gaga\", \"Santa Clause\"]\nprint bad_architects[3]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "Lady Gaga\n"
-       ]
+       "text": "Lady Gaga\n"
       }
      ],
      "prompt_number": 152
@@ -1193,27 +664,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "But there's another way to access items in a list. If you input -1, it will return the last item. -2 will give you the second-to-last item, etc."
-     ]
+     "source": "But there's another way to access items in a list. If you input -1, it will return the last item. -2 will give you the second-to-last item, etc."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print bad_architects[-1]\n",
-      "print bad_architects[-2]"
-     ],
+     "input": "print bad_architects[-1]\nprint bad_architects[-2]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "Santa Clause\n",
-        "Lady Gaga\n"
-       ]
+       "text": "Santa Clause\nLady Gaga\n"
       }
      ],
      "prompt_number": 153
@@ -1222,39 +685,29 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Slicing a list"
-     ]
+     "source": "Slicing a list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "You can also get more than one item in a list:\n"
-     ]
+     "source": "You can also get more than one item in a list:\n"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "bad_architects[first_slice:second_slice]"
-     ]
+     "source": "bad_architects[first_slice:second_slice]"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print bad_architects[1:3] # slices at 1 and 3"
-     ],
+     "input": "print bad_architects[1:3] # slices at 1 and 3",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['Mick Jagger', 'Steve Jobs']\n"
-       ]
+       "text": "['Mick Jagger', 'Steve Jobs']\n"
       }
      ],
      "prompt_number": 154
@@ -1262,53 +715,34 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "How do I make sense of this?  \n",
-      "To understand this you need to see the list in the following manner:"
-     ]
+     "source": "How do I make sense of this?  \nTo understand this you need to see the list in the following manner:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "[ \"Donald Trump\", \"Mick Jagger\", \"Steve Jobs\", \"Lady Gaga\", \"Santa Clause\" ]\n",
-      " ^               ^              ^             ^            ^              ^\n",
-      " 0               1              2             3            4              5\n",
-      "-5              -4             -3            -2           -1"
-     ]
+     "source": "[ \"Donald Trump\", \"Mick Jagger\", \"Steve Jobs\", \"Lady Gaga\", \"Santa Clause\" ]\n ^               ^              ^             ^            ^              ^\n 0               1              2             3            4              5\n-5              -4             -3            -2           -1"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "The slice operation bad_architects[1:3] slices right where the numbers are.  \n",
-      "Does that make sense?"
-     ]
+     "source": "The slice operation bad_architects[1:3] slices right where the numbers are.  \nDoes that make sense?"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us try a few other slices:"
-     ]
+     "source": "Let us try a few other slices:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print bad_architects[2:-1] # slices at 2 and -1\n",
-      "print bad_architects[-3:-1] # slices at -3 and -1"
-     ],
+     "input": "print bad_architects[2:-1] # slices at 2 and -1\nprint bad_architects[-3:-1] # slices at -3 and -1",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['Steve Jobs', 'Lady Gaga']\n",
-        "['Steve Jobs', 'Lady Gaga']\n"
-       ]
+       "text": "['Steve Jobs', 'Lady Gaga']\n['Steve Jobs', 'Lady Gaga']\n"
       }
      ],
      "prompt_number": 155
@@ -1316,31 +750,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "You can also slice in the following way:"
-     ]
+     "source": "You can also slice in the following way:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print bad_architects[3:] \n",
-      "print bad_architects[:2] \n",
-      "print bad_architects[-3:] \n",
-      "print bad_architects[:-2] "
-     ],
+     "input": "print bad_architects[3:] \nprint bad_architects[:2] \nprint bad_architects[-3:] \nprint bad_architects[:-2] ",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['Lady Gaga', 'Santa Clause']\n",
-        "['Donald Trump', 'Mick Jagger']\n",
-        "['Steve Jobs', 'Lady Gaga', 'Santa Clause']\n",
-        "['Donald Trump', 'Mick Jagger', 'Steve Jobs']\n"
-       ]
+       "text": "['Lady Gaga', 'Santa Clause']\n['Donald Trump', 'Mick Jagger']\n['Steve Jobs', 'Lady Gaga', 'Santa Clause']\n['Donald Trump', 'Mick Jagger', 'Steve Jobs']\n"
       }
      ],
      "prompt_number": 156
@@ -1348,49 +770,35 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "I'll let you figure that out on your own."
-     ]
+     "source": "I'll let you figure that out on your own."
     },
     {
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Adding to a list"
-     ]
+     "source": "Adding to a list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This is simple: the append function adds an item to the end of the list.  \n",
-      "The following command will add 'something' to the end of the list called listname:"
-     ]
+     "source": "This is simple: the append function adds an item to the end of the list.  \nThe following command will add 'something' to the end of the list called listname:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "listname.append(something)"
-     ]
+     "source": "listname.append(something)"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "bad_architects.append(\"First-year students\")\n",
-      "print bad_architects"
-     ],
+     "input": "bad_architects.append(\"First-year students\")\nprint bad_architects",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['Donald Trump', 'Mick Jagger', 'Steve Jobs', 'Lady Gaga', 'Santa Clause', 'First-year students']\n"
-       ]
+       "text": "['Donald Trump', 'Mick Jagger', 'Steve Jobs', 'Lady Gaga', 'Santa Clause', 'First-year students']\n"
       }
      ],
      "prompt_number": 157
@@ -1399,47 +807,34 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Deleting from a list"
-     ]
+     "source": "Deleting from a list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "There are two ways to do this, based on the information you have. If you have the value of the object, you'll want to use the remove function. It looks like this:  \n"
-     ]
+     "source": "There are two ways to do this, based on the information you have. If you have the value of the object, you'll want to use the remove function. It looks like this:  \n"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "listname.remove(value) "
-     ]
+     "source": "listname.remove(value) "
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "An example:"
-     ]
+     "source": "An example:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "bad_architects.remove(\"First-year students\")\n",
-      "print bad_architects"
-     ],
+     "input": "bad_architects.remove(\"First-year students\")\nprint bad_architects",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['Donald Trump', 'Mick Jagger', 'Steve Jobs', 'Lady Gaga', 'Santa Clause']\n"
-       ]
+       "text": "['Donald Trump', 'Mick Jagger', 'Steve Jobs', 'Lady Gaga', 'Santa Clause']\n"
       }
      ],
      "prompt_number": 158
@@ -1447,35 +842,24 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "What if you know the index of the item you want to remove?   \n",
-      "What if you appended an item by mistake and just want to remove the last item in the list?   \n",
-      "You should use the pop function. It looks like this:"
-     ]
+     "source": "What if you know the index of the item you want to remove?   \nWhat if you appended an item by mistake and just want to remove the last item in the list?   \nYou should use the pop function. It looks like this:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "listname.pop(index)"
-     ]
+     "source": "listname.pop(index)"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "what_i_ate_today = [\"coffee\", \"bacon\", \"eggs\"]\n",
-      "print what_i_ate_today"
-     ],
+     "input": "what_i_ate_today = [\"coffee\", \"bacon\", \"eggs\"]\nprint what_i_ate_today",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['coffee', 'bacon', 'eggs']\n"
-       ]
+       "text": "['coffee', 'bacon', 'eggs']\n"
       }
      ],
      "prompt_number": 159
@@ -1483,20 +867,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "what_i_ate_today.append(\"vegetables\") # adds vegetables to the end of the list\n",
-      "# but I don't like vegetables\n",
-      "print what_i_ate_today"
-     ],
+     "input": "what_i_ate_today.append(\"vegetables\") # adds vegetables to the end of the list\n# but I don't like vegetables\nprint what_i_ate_today",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['coffee', 'bacon', 'eggs', 'vegetables']\n"
-       ]
+       "text": "['coffee', 'bacon', 'eggs', 'vegetables']\n"
       }
      ],
      "prompt_number": 160
@@ -1504,20 +882,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# since I don't like vegetables\n",
-      "what_i_ate_today.pop(-1) # use index of -1, since vegetables is the last item in the list\n",
-      "print what_i_ate_today"
-     ],
+     "input": "# since I don't like vegetables\nwhat_i_ate_today.pop(-1) # use index of -1, since vegetables is the last item in the list\nprint what_i_ate_today",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['coffee', 'bacon', 'eggs']\n"
-       ]
+       "text": "['coffee', 'bacon', 'eggs']\n"
       }
      ],
      "prompt_number": 161
@@ -1525,16 +897,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "You can also remove the second item."
-     ]
+     "source": "You can also remove the second item."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "what_i_ate_today.pop(1)"
-     ],
+     "input": "what_i_ate_today.pop(1)",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -1542,9 +910,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 162,
-       "text": [
-        "'bacon'"
-       ]
+       "text": "'bacon'"
       }
      ],
      "prompt_number": 162
@@ -1552,31 +918,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Notice the 'bacon' in the line above.   \n",
-      "pop actually 'pops' the value (the one you just removed from the list) back to you.  \n",
-      "\n",
-      "Let us pop the first item."
-     ]
+     "source": "Notice the 'bacon' in the line above.   \npop actually 'pops' the value (the one you just removed from the list) back to you.  \n\nLet us pop the first item."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "was_first_item = what_i_ate_today.pop(0)\n",
-      "print 'was_first_item =', was_first_item\n",
-      "print 'what_i_ate_today = ', what_i_ate_today"
-     ],
+     "input": "was_first_item = what_i_ate_today.pop(0)\nprint 'was_first_item =', was_first_item\nprint 'what_i_ate_today = ', what_i_ate_today",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "was_first_item = coffee\n",
-        "what_i_ate_today =  ['eggs']\n"
-       ]
+       "text": "was_first_item = coffee\nwhat_i_ate_today =  ['eggs']\n"
       }
      ],
      "prompt_number": 163
@@ -1584,34 +938,23 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "what_i_ate_today is just 'eggs'?  \n",
-      "That is not much of a breakfast!  \n",
-      "\n",
-      "Let us get back to eppy."
-     ]
+     "source": "what_i_ate_today is just 'eggs'?  \nThat is not much of a breakfast!  \n\nLet us get back to eppy."
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Continuing to work with E+ objects"
-     ]
+     "source": "Continuing to work with E+ objects"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us get those \"MATERIAL\" objects again"
-     ]
+     "source": "Let us get those \"MATERIAL\" objects again"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "materials = idf1.idfobjects[\"MATERIAL\"]"
-     ],
+     "input": "materials = idf1.idfobjects[\"MATERIAL\"]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -1620,34 +963,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "With our newfound knowledge of lists, we can do a lot of things.  \n",
-      "Let us get the last material:"
-     ]
+     "source": "With our newfound knowledge of lists, we can do a lot of things.  \nLet us get the last material:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-1]"
-     ],
+     "input": "print materials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    G05 25mm wood,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.15,                     !- Conductivity\n",
-        "    608.0,                    !- Density\n",
-        "    1630.0;                   !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    G05 25mm wood,            !- Name\n    MediumSmooth,             !- Roughness\n    0.0254,                   !- Thickness\n    0.15,                     !- Conductivity\n    608.0,                    !- Density\n    1630.0;                   !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 165
@@ -1655,41 +983,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "How about the last two?"
-     ]
+     "source": "How about the last two?"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-2:]"
-     ],
+     "input": "print materials[-2:]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[\n",
-        "Material,                 \n",
-        "    M05 200mm concrete block,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.11,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    920.0;                    !- Specific Heat\n",
-        ", \n",
-        "Material,                 \n",
-        "    G05 25mm wood,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.15,                     !- Conductivity\n",
-        "    608.0,                    !- Density\n",
-        "    1630.0;                   !- Specific Heat\n",
-        "]\n"
-       ]
+       "text": "[\nMaterial,                 \n    M05 200mm concrete block,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.11,                     !- Conductivity\n    800.0,                    !- Density\n    920.0;                    !- Specific Heat\n, \nMaterial,                 \n    G05 25mm wood,            !- Name\n    MediumSmooth,             !- Roughness\n    0.0254,                   !- Thickness\n    0.15,                     !- Conductivity\n    608.0,                    !- Density\n    1630.0;                   !- Specific Heat\n]\n"
       }
      ],
      "prompt_number": 166
@@ -1697,40 +1003,30 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Pretty good."
-     ]
+     "source": "Pretty good."
     },
     {
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Counting all the materials ( or counting all objects )"
-     ]
+     "source": "Counting all the materials ( or counting all objects )"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "How many materials are in this model ?"
-     ]
+     "source": "How many materials are in this model ?"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print len(materials)"
-     ],
+     "input": "print len(materials)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "10\n"
-       ]
+       "text": "10\n"
       }
      ],
      "prompt_number": 167
@@ -1739,23 +1035,17 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Removing a material"
-     ]
+     "source": "Removing a material"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us remove the last material in the list"
-     ]
+     "source": "Let us remove the last material in the list"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "was_last_material = materials.pop(-1)"
-     ],
+     "input": "was_last_material = materials.pop(-1)",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -1764,18 +1054,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print len(materials)"
-     ],
+     "input": "print len(materials)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "9\n"
-       ]
+       "text": "9\n"
       }
      ],
      "prompt_number": 169
@@ -1783,41 +1069,24 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Success! We have only 9 materials now."
-     ]
+     "source": "Success! We have only 9 materials now."
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "The last material used to be:  \n",
-      "'G05 25mm wood'"
-     ]
+     "source": "The last material used to be:  \n'G05 25mm wood'"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-1]"
-     ],
+     "input": "print materials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    M05 200mm concrete block,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.11,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    920.0;                    !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    M05 200mm concrete block,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.11,                     !- Conductivity\n    800.0,                    !- Density\n    920.0;                    !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 170
@@ -1825,49 +1094,30 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now the last material in the list is:  \n",
-      "'M15 200mm heavyweight concrete'"
-     ]
+     "source": "Now the last material in the list is:  \n'M15 200mm heavyweight concrete'"
     },
     {
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Adding a material to the list"
-     ]
+     "source": "Adding a material to the list"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We still have the old last material"
-     ]
+     "source": "We still have the old last material"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print was_last_material"
-     ],
+     "input": "print was_last_material",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    G05 25mm wood,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.15,                     !- Conductivity\n",
-        "    608.0,                    !- Density\n",
-        "    1630.0;                   !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    G05 25mm wood,            !- Name\n    MediumSmooth,             !- Roughness\n    0.0254,                   !- Thickness\n    0.15,                     !- Conductivity\n    608.0,                    !- Density\n    1630.0;                   !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 171
@@ -1875,16 +1125,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us add it back to the list"
-     ]
+     "source": "Let us add it back to the list"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "materials.append(was_last_material)"
-     ],
+     "input": "materials.append(was_last_material)",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -1893,18 +1139,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print len(materials)"
-     ],
+     "input": "print len(materials)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "10\n"
-       ]
+       "text": "10\n"
       }
      ],
      "prompt_number": 173
@@ -1912,33 +1154,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Once again we have 10 materials and the last material is:"
-     ]
+     "source": "Once again we have 10 materials and the last material is:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-1]"
-     ],
+     "input": "print materials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "Material,                 \n",
-        "    G05 25mm wood,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.0254,                   !- Thickness\n",
-        "    0.15,                     !- Conductivity\n",
-        "    608.0,                    !- Density\n",
-        "    1630.0;                   !- Specific Heat\n",
-        "\n"
-       ]
+       "text": "\nMaterial,                 \n    G05 25mm wood,            !- Name\n    MediumSmooth,             !- Roughness\n    0.0254,                   !- Thickness\n    0.15,                     !- Conductivity\n    608.0,                    !- Density\n    1630.0;                   !- Specific Heat\n\n"
       }
      ],
      "prompt_number": 174
@@ -1947,27 +1175,17 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Add a new material to the model"
-     ]
+     "source": "Add a new material to the model"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "TODO  \n",
-      "\n",
-      "So far we have been working only with materials that were already in the list.  \n",
-      "What if we want to make new material?  \n",
-      "Obviously we would use the function 'newidfobject'."
-     ]
+     "source": "TODO  \n\nSo far we have been working only with materials that were already in the list.  \nWhat if we want to make new material?  \nObviously we would use the function 'newidfobject'."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "idf1.newidfobject(\"MATERIAL\")"
-     ],
+     "input": "idf1.newidfobject(\"MATERIAL\")",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -1975,19 +1193,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 175,
-       "text": [
-        "\n",
-        "MATERIAL,                 \n",
-        "    ,                         !- Name\n",
-        "    ,                         !- Roughness\n",
-        "    ,                         !- Thickness\n",
-        "    ,                         !- Conductivity\n",
-        "    ,                         !- Density\n",
-        "    ,                         !- Specific Heat\n",
-        "    0.9,                      !- Thermal Absorptance\n",
-        "    0.7,                      !- Solar Absorptance\n",
-        "    0.7;                      !- Visible Absorptance\n"
-       ]
+       "text": "\nMATERIAL,                 \n    ,                         !- Name\n    ,                         !- Roughness\n    ,                         !- Thickness\n    ,                         !- Conductivity\n    ,                         !- Density\n    ,                         !- Specific Heat\n    0.9,                      !- Thermal Absorptance\n    0.7,                      !- Solar Absorptance\n    0.7;                      !- Visible Absorptance\n"
       }
      ],
      "prompt_number": 175
@@ -1995,9 +1201,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "len(materials)"
-     ],
+     "input": "len(materials)",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2005,9 +1209,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 176,
-       "text": [
-        "11"
-       ]
+       "text": "11"
       }
      ],
      "prompt_number": 176
@@ -2015,37 +1217,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We have 11 items in the materials list.  \n",
-      "Let us take a look at the last material in the list, where this fancy new material was added"
-     ]
+     "source": "We have 11 items in the materials list.  \nLet us take a look at the last material in the list, where this fancy new material was added"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-1]"
-     ],
+     "input": "print materials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "MATERIAL,                 \n",
-        "    ,                         !- Name\n",
-        "    ,                         !- Roughness\n",
-        "    ,                         !- Thickness\n",
-        "    ,                         !- Conductivity\n",
-        "    ,                         !- Density\n",
-        "    ,                         !- Specific Heat\n",
-        "    0.9,                      !- Thermal Absorptance\n",
-        "    0.7,                      !- Solar Absorptance\n",
-        "    0.7;                      !- Visible Absorptance\n",
-        "\n"
-       ]
+       "text": "\nMATERIAL,                 \n    ,                         !- Name\n    ,                         !- Roughness\n    ,                         !- Thickness\n    ,                         !- Conductivity\n    ,                         !- Density\n    ,                         !- Specific Heat\n    0.9,                      !- Thermal Absorptance\n    0.7,                      !- Solar Absorptance\n    0.7;                      !- Visible Absorptance\n\n"
       }
      ],
      "prompt_number": 177
@@ -2053,27 +1237,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Looks a little different from the other materials.  \n",
-      "It does have the name we gave it.  \n",
-      "Why do some fields have values and others are blank ?  \n",
-      "\n",
-      "\"addobject\" puts in all the default values, and leaves the others blank.  \n",
-      "It is up to us to put values in the the new fields.  \n",
-      "Let's do it now.  "
-     ]
+     "source": "Looks a little different from the other materials.  \nIt does have the name we gave it.  \nWhy do some fields have values and others are blank ?  \n\n\"addobject\" puts in all the default values, and leaves the others blank.  \nIt is up to us to put values in the the new fields.  \nLet's do it now.  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "materials[-1].Name = 'Peanut Butter'\n",
-      "materials[-1].Roughness = 'MediumSmooth'\n",
-      "materials[-1].Thickness = 0.03\n",
-      "materials[-1].Conductivity = 0.16\n",
-      "materials[-1].Density = 600\n",
-      "materials[-1].Specific_Heat = 1500"
-     ],
+     "input": "materials[-1].Name = 'Peanut Butter'\nmaterials[-1].Roughness = 'MediumSmooth'\nmaterials[-1].Thickness = 0.03\nmaterials[-1].Conductivity = 0.16\nmaterials[-1].Density = 600\nmaterials[-1].Specific_Heat = 1500",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2082,29 +1251,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print materials[-1]"
-     ],
+     "input": "print materials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "\n",
-        "MATERIAL,                 \n",
-        "    Peanut Butter,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.03,                     !- Thickness\n",
-        "    0.16,                     !- Conductivity\n",
-        "    600,                      !- Density\n",
-        "    1500,                     !- Specific Heat\n",
-        "    0.9,                      !- Thermal Absorptance\n",
-        "    0.7,                      !- Solar Absorptance\n",
-        "    0.7;                      !- Visible Absorptance\n",
-        "\n"
-       ]
+       "text": "\nMATERIAL,                 \n    Peanut Butter,            !- Name\n    MediumSmooth,             !- Roughness\n    0.03,                     !- Thickness\n    0.16,                     !- Conductivity\n    600,                      !- Density\n    1500,                     !- Specific Heat\n    0.9,                      !- Thermal Absorptance\n    0.7,                      !- Solar Absorptance\n    0.7;                      !- Visible Absorptance\n\n"
       }
      ],
      "prompt_number": 179
@@ -2113,20 +1267,12 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Copy an existing material"
-     ]
+     "source": "Copy an existing material"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "Peanutbuttermaterial = materials[-1]\n",
-      "idf1.addidfobject(Peanutbuttermaterial)\n",
-      "materials = idf1.idfobjects[\"MATERIAL\"]\n",
-      "len(materials)\n",
-      "materials[-1]"
-     ],
+     "input": "Peanutbuttermaterial = materials[-1]\nidf1.addidfobject(Peanutbuttermaterial)\nmaterials = idf1.idfobjects[\"MATERIAL\"]\nlen(materials)\nmaterials[-1]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2134,19 +1280,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 180,
-       "text": [
-        "\n",
-        "MATERIAL,                 \n",
-        "    Peanut Butter,            !- Name\n",
-        "    MediumSmooth,             !- Roughness\n",
-        "    0.03,                     !- Thickness\n",
-        "    0.16,                     !- Conductivity\n",
-        "    600,                      !- Density\n",
-        "    1500,                     !- Specific Heat\n",
-        "    0.9,                      !- Thermal Absorptance\n",
-        "    0.7,                      !- Solar Absorptance\n",
-        "    0.7;                      !- Visible Absorptance\n"
-       ]
+       "text": "\nMATERIAL,                 \n    Peanut Butter,            !- Name\n    MediumSmooth,             !- Roughness\n    0.03,                     !- Thickness\n    0.16,                     !- Conductivity\n    600,                      !- Density\n    1500,                     !- Specific Heat\n    0.9,                      !- Thermal Absorptance\n    0.7,                      !- Solar Absorptance\n    0.7;                      !- Visible Absorptance\n"
       }
      ],
      "prompt_number": 180
@@ -2155,75 +1289,42 @@
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Python lesson 3: indentation and looping through lists"
-     ]
+     "source": "Python lesson 3: indentation and looping through lists"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "I'm tired of doing all this work, it's time to make python do some heavy lifting for us!  "
-     ]
+     "source": "I'm tired of doing all this work, it's time to make python do some heavy lifting for us!  "
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Python can go through each item in a list and perform an operation on any (or every) item in the list.    \n",
-      "This is called looping through the list.    \n",
-      "Here's how to tell python to step through each item in a list, and then do something to every single item.   \n",
-      "We'll use a 'for' loop to do this."
-     ]
+     "source": "Python can go through each item in a list and perform an operation on any (or every) item in the list.    \nThis is called looping through the list.    \nHere's how to tell python to step through each item in a list, and then do something to every single item.   \nWe'll use a 'for' loop to do this."
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "for <variable> in <listname>:\n",
-      "    <do something>"
-     ]
+     "source": "for <variable> in <listname>:\n    <do something>"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "A quick note about the second line. Notice that it's indented? There are 4 blank spaces before the code starts."
-     ]
+     "source": "A quick note about the second line. Notice that it's indented? There are 4 blank spaces before the code starts."
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "    in python, indentations are used    \n",
-      "    to determine the grouping of statements  \n",
-      "           some languages use symbols to mark \n",
-      "           where the function code starts and stops   \n",
-      "           but python uses indentation to tell you this  \n",
-      "                    i'm using indentation to\n",
-      "                    show the beginning and end of a sentence\n",
-      "           this is a very simple explanation\n",
-      "           of indentation in python\n",
-      "     if you'd like to know more, there is plenty of information\n",
-      "     about indentation in python on the web"
-     ]
+     "source": "    in python, indentations are used    \n    to determine the grouping of statements  \n           some languages use symbols to mark \n           where the function code starts and stops   \n           but python uses indentation to tell you this  \n                    i'm using indentation to\n                    show the beginning and end of a sentence\n           this is a very simple explanation\n           of indentation in python\n     if you'd like to know more, there is plenty of information\n     about indentation in python on the web"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "It's elegant, but it means that the indentation of the code holds meaning.   \n",
-      "So make sure to indent the second (and third and forth) lines of your loops!\n",
-      "\n",
-      "Now let's make some fruit loops.  "
-     ]
+     "source": "It's elegant, but it means that the indentation of the code holds meaning.   \nSo make sure to indent the second (and third and forth) lines of your loops!\n\nNow let's make some fruit loops.  "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "fruits = [\"apple\", \"orange\", \"bannana\"] "
-     ],
+     "input": "fruits = [\"apple\", \"orange\", \"bannana\"] ",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2232,29 +1333,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Given the syntax I gave you before I started rambling about indentation,  \n",
-      "we can easily print every item in the fruits list by using a 'for' loop."
-     ]
+     "source": "Given the syntax I gave you before I started rambling about indentation,  \nwe can easily print every item in the fruits list by using a 'for' loop."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for fruit in fruits:\n",
-      "   print fruit"
-     ],
+     "input": "for fruit in fruits:\n   print fruit",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "apple\n",
-        "orange\n",
-        "bannana\n"
-       ]
+       "text": "apple\norange\nbannana\n"
       }
      ],
      "prompt_number": 182
@@ -2262,30 +1353,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "That was easy! But it can get complicated pretty quickly...  \n",
-      "Let's make it do something more complicated than just print the fruits.  \n",
-      "Let's have python add some words to each fruit. "
-     ]
+     "source": "That was easy! But it can get complicated pretty quickly...  \nLet's make it do something more complicated than just print the fruits.  \nLet's have python add some words to each fruit. "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for fruit in fruits:\n",
-      "    print \"I am a fruit said the\", fruit"
-     ],
+     "input": "for fruit in fruits:\n    print \"I am a fruit said the\", fruit",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "I am a fruit said the apple\n",
-        "I am a fruit said the orange\n",
-        "I am a fruit said the bannana\n"
-       ]
+       "text": "I am a fruit said the apple\nI am a fruit said the orange\nI am a fruit said the bannana\n"
       }
      ],
      "prompt_number": 183
@@ -2293,19 +1373,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now we'll try to confuse you:"
-     ]
+     "source": "Now we'll try to confuse you:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "rottenfruits = [] # makes a blank list called rottenfruits\n",
-      "for fruit in fruits: # steps through every item in fruits\n",
-      "    rottenfruit = \"rotten \" + fruit # changes each item to \"rotten _____\"\n",
-      "    rottenfruits.append(rottenfruit) # adds each changed item to the formerly empty list"
-     ],
+     "input": "rottenfruits = [] # makes a blank list called rottenfruits\nfor fruit in fruits: # steps through every item in fruits\n    rottenfruit = \"rotten \" + fruit # changes each item to \"rotten _____\"\n    rottenfruits.append(rottenfruit) # adds each changed item to the formerly empty list",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2314,18 +1387,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print rottenfruits"
-     ],
+     "input": "print rottenfruits",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['rotten apple', 'rotten orange', 'rotten bannana']\n"
-       ]
+       "text": "['rotten apple', 'rotten orange', 'rotten bannana']\n"
       }
      ],
      "prompt_number": 185
@@ -2333,10 +1402,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# here's a shorter way of writing it\n",
-      "rottenfruits = [\"rotten \" + fruit for fruit in fruits]"
-     ],
+     "input": "# here's a shorter way of writing it\nrottenfruits = [\"rotten \" + fruit for fruit in fruits]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2345,45 +1411,24 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Did you follow all that?? \n",
-      "Just in case you didn't, let's review that last one..."
-     ]
+     "source": "Did you follow all that?? \nJust in case you didn't, let's review that last one..."
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "[\"rotten \" + fruit for fruit in fruits]\n",
-      "                   -------------------\n",
-      "                   This is the \"for loop\"\n",
-      "                   it steps through each fruit in fruits\n",
-      "\n",
-      "[\"rotten \" + fruit for fruit in fruits]\n",
-      " -----------------\n",
-      " add \"rotten \" to the fruit at each step\n",
-      " this is your \"do something\"\n",
-      " \n",
-      "[\"rotten \" + fruit for fruit in fruits]\n",
-      "---------------------------------------\n",
-      "give a new list that is a result of the \"do something\""
-     ]
+     "source": "[\"rotten \" + fruit for fruit in fruits]\n                   -------------------\n                   This is the \"for loop\"\n                   it steps through each fruit in fruits\n\n[\"rotten \" + fruit for fruit in fruits]\n -----------------\n add \"rotten \" to the fruit at each step\n this is your \"do something\"\n \n[\"rotten \" + fruit for fruit in fruits]\n---------------------------------------\ngive a new list that is a result of the \"do something\""
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print rottenfruits"
-     ],
+     "input": "print rottenfruits",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['rotten apple', 'rotten orange', 'rotten bannana']\n"
-       ]
+       "text": "['rotten apple', 'rotten orange', 'rotten bannana']\n"
       }
      ],
      "prompt_number": 187
@@ -2392,35 +1437,22 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Filtering in a loop"
-     ]
+     "source": "Filtering in a loop"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "But what if you don't want to change *every* item in a list?  \n",
-      "We can use an 'if' statement to operate on only some items in the list.  \n",
-      "\n",
-      "Indentation is also important in 'if' statements, as you'll see:"
-     ]
+     "source": "But what if you don't want to change *every* item in a list?  \nWe can use an 'if' statement to operate on only some items in the list.  \n\nIndentation is also important in 'if' statements, as you'll see:"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "if <someconstraint>:\n",
-      "    <if the first line is true, do this>\n",
-      "<but if it's false, do this>"
-     ]
+     "source": "if <someconstraint>:\n    <if the first line is true, do this>\n<but if it's false, do this>"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "fruits = [\"apple\", \"orange\", \"pear\", \"berry\", \"mango\", \"plum\", \"peach\", \"melon\", \"bannana\"]"
-     ],
+     "input": "fruits = [\"apple\", \"orange\", \"pear\", \"berry\", \"mango\", \"plum\", \"peach\", \"melon\", \"bannana\"]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2429,23 +1461,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for fruit in fruits:               # steps through every fruit in fruits\n",
-      "    if len(fruit) > 5:             # checks to see if the length of the word is more than 5\n",
-      "        print fruit                # if true, print the fruit\n",
-      "                                   # if false, python goes back to the 'for' loop \n",
-      "                                      # and checks the next item in the list"
-     ],
+     "input": "for fruit in fruits:               # steps through every fruit in fruits\n    if len(fruit) > 5:             # checks to see if the length of the word is more than 5\n        print fruit                # if true, print the fruit\n                                   # if false, python goes back to the 'for' loop \n                                      # and checks the next item in the list",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "orange\n",
-        "bannana\n"
-       ]
+       "text": "orange\nbannana\n"
       }
      ],
      "prompt_number": 189
@@ -2453,21 +1476,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let's say we want to pick only the fruits that start with the letter 'p'. "
-     ]
+     "source": "Let's say we want to pick only the fruits that start with the letter 'p'. "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "p_fruits = []                      # creates an empty list called p_fruits\n",
-      "for fruit in fruits:               # steps through every fruit in fruits\n",
-      "    if fruit.startswith(\"p\"):      # checks to see if the first letter is 'p', using a built-in function\n",
-      "        p_fruits.append(fruit)     # if the first letter is 'p', the item is added to p_fruits\n",
-      "                                   # if the first letter is not 'p', python goes back to the 'for' loop\n",
-      "                                      # and checks the next item in the list"
-     ],
+     "input": "p_fruits = []                      # creates an empty list called p_fruits\nfor fruit in fruits:               # steps through every fruit in fruits\n    if fruit.startswith(\"p\"):      # checks to see if the first letter is 'p', using a built-in function\n        p_fruits.append(fruit)     # if the first letter is 'p', the item is added to p_fruits\n                                   # if the first letter is not 'p', python goes back to the 'for' loop\n                                      # and checks the next item in the list",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2476,18 +1490,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print p_fruits"
-     ],
+     "input": "print p_fruits",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['pear', 'plum', 'peach']\n"
-       ]
+       "text": "['pear', 'plum', 'peach']\n"
       }
      ],
      "prompt_number": 191
@@ -2495,10 +1505,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# here's a shorter way to write it\n",
-      "p_fruits = [fruit for fruit in fruits if fruit.startswith(\"p\")]"
-     ],
+     "input": "# here's a shorter way to write it\np_fruits = [fruit for fruit in fruits if fruit.startswith(\"p\")]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2507,39 +1514,19 @@
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "[fruit for fruit in fruits if fruit.startswith(\"p\")]\n",
-      "       -------------------\n",
-      "       for loop\n",
-      "\n",
-      "[fruit for fruit in fruits if fruit.startswith(\"p\")]\n",
-      "                           ------------------------\n",
-      "                           pick only some of the fruits\n",
-      "\n",
-      "[fruit for fruit in fruits if fruit.startswith(\"p\")]\n",
-      " -----\n",
-      " give me the variable fruit as it appears in the list, don't change it\n",
-      " \n",
-      "[fruit for fruit in fruits if fruit.startswith(\"p\")]\n",
-      "----------------------------------------------------\n",
-      "a fresh new list with those fruits"
-     ]
+     "source": "[fruit for fruit in fruits if fruit.startswith(\"p\")]\n       -------------------\n       for loop\n\n[fruit for fruit in fruits if fruit.startswith(\"p\")]\n                           ------------------------\n                           pick only some of the fruits\n\n[fruit for fruit in fruits if fruit.startswith(\"p\")]\n -----\n give me the variable fruit as it appears in the list, don't change it\n \n[fruit for fruit in fruits if fruit.startswith(\"p\")]\n----------------------------------------------------\na fresh new list with those fruits"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "print p_fruits"
-     ],
+     "input": "print p_fruits",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['pear', 'plum', 'peach']\n"
-       ]
+       "text": "['pear', 'plum', 'peach']\n"
       }
      ],
      "prompt_number": 193
@@ -2548,31 +1535,22 @@
      "cell_type": "heading",
      "level": 4,
      "metadata": {},
-     "source": [
-      "Counting through loops"
-     ]
+     "source": "Counting through loops"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This is not really needed, but it is nice to know. You can safely skip this."
-     ]
+     "source": "This is not really needed, but it is nice to know. You can safely skip this."
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Python's built-in function range() makes a list of numbers within a range that you specify.    \n",
-      "This is useful because you can use these lists inside of loops."
-     ]
+     "source": "Python's built-in function range() makes a list of numbers within a range that you specify.    \nThis is useful because you can use these lists inside of loops."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "range(4) # makes a list"
-     ],
+     "input": "range(4) # makes a list",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2580,9 +1558,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 194,
-       "text": [
-        "[0, 1, 2, 3]"
-       ]
+       "text": "[0, 1, 2, 3]"
       }
      ],
      "prompt_number": 194
@@ -2590,22 +1566,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for i in range(4):\n",
-      "    print i"
-     ],
+     "input": "for i in range(4):\n    print i",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "0\n",
-        "1\n",
-        "2\n",
-        "3\n"
-       ]
+       "text": "0\n1\n2\n3\n"
       }
      ],
      "prompt_number": 195
@@ -2613,9 +1581,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "len(p_fruits)"
-     ],
+     "input": "len(p_fruits)",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2623,9 +1589,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 196,
-       "text": [
-        "3"
-       ]
+       "text": "3"
       }
      ],
      "prompt_number": 196
@@ -2633,21 +1597,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for i in range(len(p_fruits)):\n",
-      "    print i"
-     ],
+     "input": "for i in range(len(p_fruits)):\n    print i",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "0\n",
-        "1\n",
-        "2\n"
-       ]
+       "text": "0\n1\n2\n"
       }
      ],
      "prompt_number": 197
@@ -2655,21 +1612,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for i in range(len(p_fruits)):\n",
-      "    print p_fruits[i]"
-     ],
+     "input": "for i in range(len(p_fruits)):\n    print p_fruits[i]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "pear\n",
-        "plum\n",
-        "peach\n"
-       ]
+       "text": "pear\nplum\npeach\n"
       }
      ],
      "prompt_number": 198
@@ -2677,21 +1627,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for i in range(len(p_fruits)):\n",
-      "    print i,  p_fruits[i]"
-     ],
+     "input": "for i in range(len(p_fruits)):\n    print i,  p_fruits[i]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "0 pear\n",
-        "1 plum\n",
-        "2 peach\n"
-       ]
+       "text": "0 pear\n1 plum\n2 peach\n"
       }
      ],
      "prompt_number": 199
@@ -2699,21 +1642,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for item_from_enumerate in enumerate(p_fruits):\n",
-      "    print item_from_enumerate"
-     ],
+     "input": "for item_from_enumerate in enumerate(p_fruits):\n    print item_from_enumerate",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "(0, 'pear')\n",
-        "(1, 'plum')\n",
-        "(2, 'peach')\n"
-       ]
+       "text": "(0, 'pear')\n(1, 'plum')\n(2, 'peach')\n"
       }
      ],
      "prompt_number": 200
@@ -2721,21 +1657,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for i, fruit in enumerate(p_fruits):\n",
-      "    print i, fruit"
-     ],
+     "input": "for i, fruit in enumerate(p_fruits):\n    print i, fruit",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "0 pear\n",
-        "1 plum\n",
-        "2 peach\n"
-       ]
+       "text": "0 pear\n1 plum\n2 peach\n"
       }
      ],
      "prompt_number": 201
@@ -2744,46 +1673,24 @@
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Looping through E+ objects"
-     ]
+     "source": "Looping through E+ objects"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "If you have read the python explanation of loops, you are now masters of using loops.  \n",
-      "Let us use the loops with E+ objects.  \n",
-      "We'll continue to work with the materials list."
-     ]
+     "source": "If you have read the python explanation of loops, you are now masters of using loops.  \nLet us use the loops with E+ objects.  \nWe'll continue to work with the materials list."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for material in materials:\n",
-      "    print material.Name    "
-     ],
+     "input": "for material in materials:\n    print material.Name    ",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "F08 Metal surface\n",
-        "I01 25mm insulation board\n",
-        "I02 50mm insulation board\n",
-        "G01a 19mm gypsum board\n",
-        "M11 100mm lightweight concrete\n",
-        "F16 Acoustic tile\n",
-        "M01 100mm brick\n",
-        "M15 200mm heavyweight concrete\n",
-        "M05 200mm concrete block\n",
-        "G05 25mm wood\n",
-        "Peanut Butter\n",
-        "Peanut Butter\n"
-       ]
+       "text": "F08 Metal surface\nI01 25mm insulation board\nI02 50mm insulation board\nG01a 19mm gypsum board\nM11 100mm lightweight concrete\nF16 Acoustic tile\nM01 100mm brick\nM15 200mm heavyweight concrete\nM05 200mm concrete block\nG05 25mm wood\nPeanut Butter\nPeanut Butter\n"
       }
      ],
      "prompt_number": 202
@@ -2791,9 +1698,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "[material.Name for material in materials] "
-     ],
+     "input": "[material.Name for material in materials] ",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2801,20 +1706,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 203,
-       "text": [
-        "['F08 Metal surface',\n",
-        " 'I01 25mm insulation board',\n",
-        " 'I02 50mm insulation board',\n",
-        " 'G01a 19mm gypsum board',\n",
-        " 'M11 100mm lightweight concrete',\n",
-        " 'F16 Acoustic tile',\n",
-        " 'M01 100mm brick',\n",
-        " 'M15 200mm heavyweight concrete',\n",
-        " 'M05 200mm concrete block',\n",
-        " 'G05 25mm wood',\n",
-        " 'Peanut Butter',\n",
-        " 'Peanut Butter']"
-       ]
+       "text": "['F08 Metal surface',\n 'I01 25mm insulation board',\n 'I02 50mm insulation board',\n 'G01a 19mm gypsum board',\n 'M11 100mm lightweight concrete',\n 'F16 Acoustic tile',\n 'M01 100mm brick',\n 'M15 200mm heavyweight concrete',\n 'M05 200mm concrete block',\n 'G05 25mm wood',\n 'Peanut Butter',\n 'Peanut Butter']"
       }
      ],
      "prompt_number": 203
@@ -2822,9 +1714,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "[material.Roughness for material in materials]"
-     ],
+     "input": "[material.Roughness for material in materials]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2832,20 +1722,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 204,
-       "text": [
-        "['Smooth',\n",
-        " 'MediumRough',\n",
-        " 'MediumRough',\n",
-        " 'MediumSmooth',\n",
-        " 'MediumRough',\n",
-        " 'MediumSmooth',\n",
-        " 'MediumRough',\n",
-        " 'MediumRough',\n",
-        " 'MediumRough',\n",
-        " 'MediumSmooth',\n",
-        " 'MediumSmooth',\n",
-        " 'MediumSmooth']"
-       ]
+       "text": "['Smooth',\n 'MediumRough',\n 'MediumRough',\n 'MediumSmooth',\n 'MediumRough',\n 'MediumSmooth',\n 'MediumRough',\n 'MediumRough',\n 'MediumRough',\n 'MediumSmooth',\n 'MediumSmooth',\n 'MediumSmooth']"
       }
      ],
      "prompt_number": 204
@@ -2853,9 +1730,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "[material.Thickness for material in materials]"
-     ],
+     "input": "[material.Thickness for material in materials]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2863,20 +1738,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 205,
-       "text": [
-        "[0.0008,\n",
-        " 0.0254,\n",
-        " 0.0508,\n",
-        " 0.019,\n",
-        " 0.1016,\n",
-        " 0.0191,\n",
-        " 0.1016,\n",
-        " 0.2032,\n",
-        " 0.2032,\n",
-        " 0.0254,\n",
-        " 0.03,\n",
-        " 0.03]"
-       ]
+       "text": "[0.0008,\n 0.0254,\n 0.0508,\n 0.019,\n 0.1016,\n 0.0191,\n 0.1016,\n 0.2032,\n 0.2032,\n 0.0254,\n 0.03,\n 0.03]"
       }
      ],
      "prompt_number": 205
@@ -2884,9 +1746,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "[material.Thickness for material in materials if material.Thickness > 0.1]"
-     ],
+     "input": "[material.Thickness for material in materials if material.Thickness > 0.1]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2894,9 +1754,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 206,
-       "text": [
-        "[0.1016, 0.1016, 0.2032, 0.2032]"
-       ]
+       "text": "[0.1016, 0.1016, 0.2032, 0.2032]"
       }
      ],
      "prompt_number": 206
@@ -2904,9 +1762,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "[material.Name for material in materials if material.Thickness > 0.1]"
-     ],
+     "input": "[material.Name for material in materials if material.Thickness > 0.1]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2914,12 +1770,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 207,
-       "text": [
-        "['M11 100mm lightweight concrete',\n",
-        " 'M01 100mm brick',\n",
-        " 'M15 200mm heavyweight concrete',\n",
-        " 'M05 200mm concrete block']"
-       ]
+       "text": "['M11 100mm lightweight concrete',\n 'M01 100mm brick',\n 'M15 200mm heavyweight concrete',\n 'M05 200mm concrete block']"
       }
      ],
      "prompt_number": 207
@@ -2927,9 +1778,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "thick_materials = [material for material in materials if material.Thickness > 0.1]"
-     ],
+     "input": "thick_materials = [material for material in materials if material.Thickness > 0.1]",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -2938,9 +1787,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "thick_materials"
-     ],
+     "input": "thick_materials",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -2948,44 +1795,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 209,
-       "text": [
-        "[\n",
-        "Material,                 \n",
-        "    M11 100mm lightweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.53,                     !- Conductivity\n",
-        "    1280.0,                   !- Density\n",
-        "    840.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    M01 100mm brick,          !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.89,                     !- Conductivity\n",
-        "    1920.0,                   !- Density\n",
-        "    790.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    M15 200mm heavyweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.95,                     !- Conductivity\n",
-        "    2240.0,                   !- Density\n",
-        "    900.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    M05 200mm concrete block,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.11,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    920.0;                    !- Specific Heat\n",
-        "]"
-       ]
+       "text": "[\nMaterial,                 \n    M11 100mm lightweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.53,                     !- Conductivity\n    1280.0,                   !- Density\n    840.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    M01 100mm brick,          !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.89,                     !- Conductivity\n    1920.0,                   !- Density\n    790.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    M15 200mm heavyweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.95,                     !- Conductivity\n    2240.0,                   !- Density\n    900.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    M05 200mm concrete block,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.11,                     !- Conductivity\n    800.0,                    !- Density\n    920.0;                    !- Specific Heat\n]"
       }
      ],
      "prompt_number": 209
@@ -2993,11 +1803,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# change the names of the thick materials\n",
-      "for material in thick_materials:\n",
-      "    material.Name = \"THICK \" + material.Name"
-     ],
+     "input": "# change the names of the thick materials\nfor material in thick_materials:\n    material.Name = \"THICK \" + material.Name",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3006,9 +1812,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "thick_materials"
-     ],
+     "input": "thick_materials",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3016,44 +1820,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 211,
-       "text": [
-        "[\n",
-        "Material,                 \n",
-        "    THICK M11 100mm lightweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.53,                     !- Conductivity\n",
-        "    1280.0,                   !- Density\n",
-        "    840.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    THICK M01 100mm brick,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.1016,                   !- Thickness\n",
-        "    0.89,                     !- Conductivity\n",
-        "    1920.0,                   !- Density\n",
-        "    790.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    THICK M15 200mm heavyweight concrete,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.95,                     !- Conductivity\n",
-        "    2240.0,                   !- Density\n",
-        "    900.0;                    !- Specific Heat\n",
-        ",\n",
-        " \n",
-        "Material,                 \n",
-        "    THICK M05 200mm concrete block,    !- Name\n",
-        "    MediumRough,              !- Roughness\n",
-        "    0.2032,                   !- Thickness\n",
-        "    1.11,                     !- Conductivity\n",
-        "    800.0,                    !- Density\n",
-        "    920.0;                    !- Specific Heat\n",
-        "]"
-       ]
+       "text": "[\nMaterial,                 \n    THICK M11 100mm lightweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.53,                     !- Conductivity\n    1280.0,                   !- Density\n    840.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    THICK M01 100mm brick,    !- Name\n    MediumRough,              !- Roughness\n    0.1016,                   !- Thickness\n    0.89,                     !- Conductivity\n    1920.0,                   !- Density\n    790.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    THICK M15 200mm heavyweight concrete,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.95,                     !- Conductivity\n    2240.0,                   !- Density\n    900.0;                    !- Specific Heat\n,\n \nMaterial,                 \n    THICK M05 200mm concrete block,    !- Name\n    MediumRough,              !- Roughness\n    0.2032,                   !- Thickness\n    1.11,                     !- Conductivity\n    800.0,                    !- Density\n    920.0;                    !- Specific Heat\n]"
       }
      ],
      "prompt_number": 211
@@ -3061,18 +1828,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "So now we're working with two different lists: materials and thick_materials.  \n",
-      "But even though the items can be separated into two lists, we're still working with the same items.  \n",
-      "Here's a helpful illustration:"
-     ]
+     "source": "So now we're working with two different lists: materials and thick_materials.  \nBut even though the items can be separated into two lists, we're still working with the same items.  \nHere's a helpful illustration:"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for_images.display_png(for_images.material_lists) # display the image below"
-     ],
+     "input": "for_images.display_png(for_images.material_lists) # display the image below",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3087,12 +1848,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# here's the same concept, demonstrated with code\n",
-      "# remember, we changed the names of the items in the list thick_materials\n",
-      "# these changes are visible when we print the materials list; the thick materials are also in the materials list\n",
-      "[material.Name for material in materials]"
-     ],
+     "input": "# here's the same concept, demonstrated with code\n# remember, we changed the names of the items in the list thick_materials\n# these changes are visible when we print the materials list; the thick materials are also in the materials list\n[material.Name for material in materials]",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3100,20 +1856,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 213,
-       "text": [
-        "['F08 Metal surface',\n",
-        " 'I01 25mm insulation board',\n",
-        " 'I02 50mm insulation board',\n",
-        " 'G01a 19mm gypsum board',\n",
-        " 'THICK M11 100mm lightweight concrete',\n",
-        " 'F16 Acoustic tile',\n",
-        " 'THICK M01 100mm brick',\n",
-        " 'THICK M15 200mm heavyweight concrete',\n",
-        " 'THICK M05 200mm concrete block',\n",
-        " 'G05 25mm wood',\n",
-        " 'Peanut Butter',\n",
-        " 'Peanut Butter']"
-       ]
+       "text": "['F08 Metal surface',\n 'I01 25mm insulation board',\n 'I02 50mm insulation board',\n 'G01a 19mm gypsum board',\n 'THICK M11 100mm lightweight concrete',\n 'F16 Acoustic tile',\n 'THICK M01 100mm brick',\n 'THICK M15 200mm heavyweight concrete',\n 'THICK M05 200mm concrete block',\n 'G05 25mm wood',\n 'Peanut Butter',\n 'Peanut Butter']"
       }
      ],
      "prompt_number": 213
@@ -3122,47 +1865,22 @@
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Geometry functions in eppy"
-     ]
+     "source": "Geometry functions in eppy"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "TODO"
-     ]
+     "source": "TODO"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Sometimes, we want information about the E+ object that is not in the fields.    \n",
-      "For example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects *do* have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.  \n",
-      "Pyeplus has some functions that will do the calculations.  \n",
-      "\n",
-      "In the present version, pyeplus will calculate:\n",
-      "\n",
-      "- surface azimuth\n",
-      "- surface tilt\n",
-      "- surface area\n",
-      "\n",
-      "Let us explore these functions"
-     ]
+     "source": "Sometimes, we want information about the E+ object that is not in the fields.    \nFor example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects *do* have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.  \nPyeplus has some functions that will do the calculations.  \n\nIn the present version, pyeplus will calculate:\n\n- surface azimuth\n- surface tilt\n- surface area\n\nLet us explore these functions"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# OLD CODE, SHOULD BE DELETED\n",
-      "# from idfreader import idfreader\n",
-      "\n",
-      "# iddfile = \"../iddfiles/Energy+V7_0_0_036.idd\"\n",
-      "# fname = \"../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf\"\n",
-      " \n",
-      "# model, to_print, idd_info = idfreader(fname, iddfile)\n",
-      "# surfaces = model['BUILDINGSURFACE:DETAILED'] # all the surfaces"
-     ],
+     "input": "# OLD CODE, SHOULD BE DELETED\n# from idfreader import idfreader\n\n# iddfile = \"../iddfiles/Energy+V7_0_0_036.idd\"\n# fname = \"../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf\"\n \n# model, to_print, idd_info = idfreader(fname, iddfile)\n# surfaces = model['BUILDINGSURFACE:DETAILED'] # all the surfaces",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3171,17 +1889,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy import modeleditor\n",
-      "from eppy.modeleditor import IDF\n",
-      "\n",
-      "iddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\n",
-      "IDF.setiddname(iddfile)\n",
-      "\n",
-      "fname1 = \"../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf\"\n",
-      "idf1 = IDF(fname1)\n",
-      "surfaces = idf1.idfobjects['BUILDINGSURFACE:DETAILED']"
-     ],
+     "input": "from eppy import modeleditor\nfrom eppy.modeleditor import IDF\n\niddfile = \"../eppy/resources/iddfiles/Energy+V7_2_0.idd\"\nIDF.setiddname(iddfile)\n\nfname1 = \"../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf\"\nidf1 = IDF(fname1)\nsurfaces = idf1.idfobjects['BUILDINGSURFACE:DETAILED']",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3190,24 +1898,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# Let us look at the first surface\n",
-      "surface = surfaces[0]\n",
-      "print \"surface azimuth =\",  surface.azimuth, \"degrees\"\n",
-      "print \"surface tilt =\", surface.tilt, \"degrees\"\n",
-      "print \"surface area =\", surface.area, \"m2\""
-     ],
+     "input": "# Let us look at the first surface\nsurface = surfaces[0]\nprint \"surface azimuth =\",  surface.azimuth, \"degrees\"\nprint \"surface tilt =\", surface.tilt, \"degrees\"\nprint \"surface area =\", surface.area, \"m2\"",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "surface azimuth = 180.0 degrees\n",
-        "surface tilt = 90.0 degrees\n",
-        "surface area = 18.3 m2\n"
-       ]
+       "text": "surface azimuth = 180.0 degrees\nsurface tilt = 90.0 degrees\nsurface area = 18.3 m2\n"
       }
      ],
      "prompt_number": 216
@@ -3215,20 +1913,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# all the surface names\n",
-      "s_names = [surface.Name for surface in surfaces]\n",
-      "print s_names[:5] # print five of them"
-     ],
+     "input": "# all the surface names\ns_names = [surface.Name for surface in surfaces]\nprint s_names[:5] # print five of them",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']\n"
-       ]
+       "text": "['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']\n"
       }
      ],
      "prompt_number": 217
@@ -3236,20 +1928,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# surface names and azimuths\n",
-      "s_names_azm = [(sf.Name, sf.azimuth) for sf in surfaces]\n",
-      "print s_names_azm[:5] # print five of them"
-     ],
+     "input": "# surface names and azimuths\ns_names_azm = [(sf.Name, sf.azimuth) for sf in surfaces]\nprint s_names_azm[:5] # print five of them",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[('WALL-1PF', 180.0), ('WALL-1PR', 90.0), ('WALL-1PB', 0.0), ('WALL-1PL', 270.0), ('TOP-1', 0.0)]\n"
-       ]
+       "text": "[('WALL-1PF', 180.0), ('WALL-1PR', 90.0), ('WALL-1PB', 0.0), ('WALL-1PL', 270.0), ('TOP-1', 0.0)]\n"
       }
      ],
      "prompt_number": 218
@@ -3257,24 +1943,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# or to do that in pretty printing\n",
-      "for name, azimuth in s_names_azm[:5]: # just five of them\n",
-      "    print name, azimuth"
-     ],
+     "input": "# or to do that in pretty printing\nfor name, azimuth in s_names_azm[:5]: # just five of them\n    print name, azimuth",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PF 180.0\n",
-        "WALL-1PR 90.0\n",
-        "WALL-1PB 0.0\n",
-        "WALL-1PL 270.0\n",
-        "TOP-1 0.0\n"
-       ]
+       "text": "WALL-1PF 180.0\nWALL-1PR 90.0\nWALL-1PB 0.0\nWALL-1PL 270.0\nTOP-1 0.0\n"
       }
      ],
      "prompt_number": 219
@@ -3282,25 +1958,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# surface names and tilt\n",
-      "s_names_tilt = [(sf.Name, sf.tilt) for sf in surfaces]\n",
-      "for name, tilt in s_names_tilt[:5]: # just five of them\n",
-      "    print name, tilt"
-     ],
+     "input": "# surface names and tilt\ns_names_tilt = [(sf.Name, sf.tilt) for sf in surfaces]\nfor name, tilt in s_names_tilt[:5]: # just five of them\n    print name, tilt",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PF 90.0\n",
-        "WALL-1PR 90.0\n",
-        "WALL-1PB 90.0\n",
-        "WALL-1PL 90.0\n",
-        "TOP-1 0.0\n"
-       ]
+       "text": "WALL-1PF 90.0\nWALL-1PR 90.0\nWALL-1PB 90.0\nWALL-1PL 90.0\nTOP-1 0.0\n"
       }
      ],
      "prompt_number": 220
@@ -3308,25 +1973,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# surface names and areas\n",
-      "s_names_area = [(sf.Name, sf.area) for sf in surfaces]\n",
-      "for name, area in s_names_area[:5]: # just five of them\n",
-      "    print name, area, \"m2\""
-     ],
+     "input": "# surface names and areas\ns_names_area = [(sf.Name, sf.area) for sf in surfaces]\nfor name, area in s_names_area[:5]: # just five of them\n    print name, area, \"m2\"",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PF 18.3 m2\n",
-        "WALL-1PR 9.12 m2\n",
-        "WALL-1PB 18.3 m2\n",
-        "WALL-1PL 9.12 m2\n",
-        "TOP-1 463.6 m2\n"
-       ]
+       "text": "WALL-1PF 18.3 m2\nWALL-1PR 9.12 m2\nWALL-1PB 18.3 m2\nWALL-1PL 9.12 m2\nTOP-1 463.6 m2\n"
       }
      ],
      "prompt_number": 221
@@ -3334,27 +1988,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us try to isolate the exterior north facing walls and change their construnctions"
-     ]
+     "source": "Let us try to isolate the exterior north facing walls and change their construnctions"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# just vertical walls\n",
-      "vertical_walls = [sf for sf in surfaces if sf.tilt == 90.0]\n",
-      "print [sf.Name for sf in vertical_walls]"
-     ],
+     "input": "# just vertical walls\nvertical_walls = [sf for sf in surfaces if sf.tilt == 90.0]\nprint [sf.Name for sf in vertical_walls]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'FRONT-1', 'SB12', 'SB14', 'SB15', 'RIGHT-1', 'SB21', 'SB23', 'BACK-1', 'SB32', 'SB35', 'LEFT-1', 'SB41', 'SB43', 'SB45', 'SB51', 'SB54', 'WALL-1SF', 'WALL-1SR', 'WALL-1SB', 'WALL-1SL']\n"
-       ]
+       "text": "['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'FRONT-1', 'SB12', 'SB14', 'SB15', 'RIGHT-1', 'SB21', 'SB23', 'BACK-1', 'SB32', 'SB35', 'LEFT-1', 'SB41', 'SB43', 'SB45', 'SB51', 'SB54', 'WALL-1SF', 'WALL-1SR', 'WALL-1SB', 'WALL-1SL']\n"
       }
      ],
      "prompt_number": 222
@@ -3362,20 +2008,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# north facing walls\n",
-      "north_walls = [sf for sf in vertical_walls if sf.azimuth == 0.0]\n",
-      "print [sf.Name for sf in north_walls]"
-     ],
+     "input": "# north facing walls\nnorth_walls = [sf for sf in vertical_walls if sf.azimuth == 0.0]\nprint [sf.Name for sf in north_walls]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['WALL-1PB', 'SB15', 'BACK-1', 'WALL-1SB']\n"
-       ]
+       "text": "['WALL-1PB', 'SB15', 'BACK-1', 'WALL-1SB']\n"
       }
      ],
      "prompt_number": 223
@@ -3383,20 +2023,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# north facing exterior walls\n",
-      "exterior_nwall = [sf for sf in north_walls if sf.Outside_Boundary_Condition == \"Outdoors\"]\n",
-      "print [sf.Name for sf in exterior_nwall]"
-     ],
+     "input": "# north facing exterior walls\nexterior_nwall = [sf for sf in north_walls if sf.Outside_Boundary_Condition == \"Outdoors\"]\nprint [sf.Name for sf in exterior_nwall]",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "['WALL-1PB', 'BACK-1', 'WALL-1SB']\n"
-       ]
+       "text": "['WALL-1PB', 'BACK-1', 'WALL-1SB']\n"
       }
      ],
      "prompt_number": 224
@@ -3404,23 +2038,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# print out some more details of the north wall\n",
-      "north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]\n",
-      "for name, azimuth, construction in north_wall_info:\n",
-      "    print name, azimuth, construction"
-     ],
+     "input": "# print out some more details of the north wall\nnorth_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]\nfor name, azimuth, construction in north_wall_info:\n    print name, azimuth, construction",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PB 0.0 WALL-1\n",
-        "BACK-1 0.0 WALL-1\n",
-        "WALL-1SB 0.0 WALL-1\n"
-       ]
+       "text": "WALL-1PB 0.0 WALL-1\nBACK-1 0.0 WALL-1\nWALL-1SB 0.0 WALL-1\n"
       }
      ],
      "prompt_number": 225
@@ -3428,11 +2053,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# change the construction in the exterior north walls\n",
-      "for wall in exterior_nwall:\n",
-      "    wall.Construction_Name = \"NORTHERN-WALL\" # make sure such a construction exists in the model"
-     ],
+     "input": "# change the construction in the exterior north walls\nfor wall in exterior_nwall:\n    wall.Construction_Name = \"NORTHERN-WALL\" # make sure such a construction exists in the model",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3441,23 +2062,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# see the change\n",
-      "north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]\n",
-      "for name, azimuth, construction in north_wall_info:\n",
-      "    print name, azimuth, construction"
-     ],
+     "input": "# see the change\nnorth_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]\nfor name, azimuth, construction in north_wall_info:\n    print name, azimuth, construction",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PB 0.0 NORTHERN-WALL\n",
-        "BACK-1 0.0 NORTHERN-WALL\n",
-        "WALL-1SB 0.0 NORTHERN-WALL\n"
-       ]
+       "text": "WALL-1PB 0.0 NORTHERN-WALL\nBACK-1 0.0 NORTHERN-WALL\nWALL-1SB 0.0 NORTHERN-WALL\n"
       }
      ],
      "prompt_number": 227
@@ -3465,69 +2077,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# see this in all surfaces\n",
-      "for sf in surfaces:\n",
-      "    print sf.Name, sf.azimuth, sf.Construction_Name"
-     ],
+     "input": "# see this in all surfaces\nfor sf in surfaces:\n    print sf.Name, sf.azimuth, sf.Construction_Name",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "WALL-1PF 180.0 WALL-1\n",
-        "WALL-1PR 90.0 WALL-1\n",
-        "WALL-1PB 0.0 NORTHERN-WALL\n",
-        "WALL-1PL 270.0 WALL-1\n",
-        "TOP-1 0.0 ROOF-1\n",
-        "C1-1P 0.0 CLNG-1\n",
-        "C2-1P 0.0 CLNG-1\n",
-        "C3-1P 0.0 CLNG-1\n",
-        "C4-1P 0.0 CLNG-1\n",
-        "C5-1P 180.0 CLNG-1\n",
-        "FRONT-1 180.0 WALL-1\n",
-        "C1-1 180.0 CLNG-1\n",
-        "F1-1 0.0 CLNG-1\n",
-        "SB12 45.0 INT-WALL-1\n",
-        "SB14 315.0 INT-WALL-1\n",
-        "SB15 0.0 INT-WALL-1\n",
-        "RIGHT-1 90.0 WALL-1\n",
-        "C2-1 0.0 CLNG-1\n",
-        "F2-1 0.0 CLNG-1\n",
-        "SB21 225.0 INT-WALL-1\n",
-        "SB23 315.784824603 INT-WALL-1\n",
-        "SB25 270.0 INT-WALL-1\n",
-        "BACK-1 0.0 NORTHERN-WALL\n",
-        "C3-1 0.0 CLNG-1\n",
-        "F3-1 0.0 CLNG-1\n",
-        "SB32 135.784824603 INT-WALL-1\n",
-        "SB34 224.215175397 INT-WALL-1\n",
-        "SB35 180.0 INT-WALL-1\n",
-        "LEFT-1 270.0 WALL-1\n",
-        "C4-1 0.0 CLNG-1\n",
-        "F4-1 0.0 CLNG-1\n",
-        "SB41 135.0 INT-WALL-1\n",
-        "SB43 44.215175397 INT-WALL-1\n",
-        "SB45 90.0 INT-WALL-1\n",
-        "C5-1 0.0 CLNG-1\n",
-        "F5-1 0.0 CLNG-1\n",
-        "SB51 180.0 INT-WALL-1\n",
-        "SB52 90.0 INT-WALL-1\n",
-        "SB53 0.0 INT-WALL-1\n",
-        "SB54 270.0 INT-WALL-1\n",
-        "WALL-1SF 180.0 WALL-1\n",
-        "WALL-1SR 90.0 WALL-1\n",
-        "WALL-1SB 0.0 NORTHERN-WALL\n",
-        "WALL-1SL 270.0 WALL-1\n",
-        "BOTTOM-1 0.0 FLOOR-SLAB-1\n",
-        "F1-1S 0.0 CLNG-1\n",
-        "F2-1S 0.0 CLNG-1\n",
-        "F3-1S 0.0 CLNG-1\n",
-        "F4-1S 0.0 CLNG-1\n",
-        "F5-1S 0.0 CLNG-1\n"
-       ]
+       "text": "WALL-1PF 180.0 WALL-1\nWALL-1PR 90.0 WALL-1\nWALL-1PB 0.0 NORTHERN-WALL\nWALL-1PL 270.0 WALL-1\nTOP-1 0.0 ROOF-1\nC1-1P 0.0 CLNG-1\nC2-1P 0.0 CLNG-1\nC3-1P 0.0 CLNG-1\nC4-1P 0.0 CLNG-1\nC5-1P 180.0 CLNG-1\nFRONT-1 180.0 WALL-1\nC1-1 180.0 CLNG-1\nF1-1 0.0 CLNG-1\nSB12 45.0 INT-WALL-1\nSB14 315.0 INT-WALL-1\nSB15 0.0 INT-WALL-1\nRIGHT-1 90.0 WALL-1\nC2-1 0.0 CLNG-1\nF2-1 0.0 CLNG-1\nSB21 225.0 INT-WALL-1\nSB23 315.784824603 INT-WALL-1\nSB25 270.0 INT-WALL-1\nBACK-1 0.0 NORTHERN-WALL\nC3-1 0.0 CLNG-1\nF3-1 0.0 CLNG-1\nSB32 135.784824603 INT-WALL-1\nSB34 224.215175397 INT-WALL-1\nSB35 180.0 INT-WALL-1\nLEFT-1 270.0 WALL-1\nC4-1 0.0 CLNG-1\nF4-1 0.0 CLNG-1\nSB41 135.0 INT-WALL-1\nSB43 44.215175397 INT-WALL-1\nSB45 90.0 INT-WALL-1\nC5-1 0.0 CLNG-1\nF5-1 0.0 CLNG-1\nSB51 180.0 INT-WALL-1\nSB52 90.0 INT-WALL-1\nSB53 0.0 INT-WALL-1\nSB54 270.0 INT-WALL-1\nWALL-1SF 180.0 WALL-1\nWALL-1SR 90.0 WALL-1\nWALL-1SB 0.0 NORTHERN-WALL\nWALL-1SL 270.0 WALL-1\nBOTTOM-1 0.0 FLOOR-SLAB-1\nF1-1S 0.0 CLNG-1\nF2-1S 0.0 CLNG-1\nF3-1S 0.0 CLNG-1\nF4-1S 0.0 CLNG-1\nF5-1S 0.0 CLNG-1\n"
       }
      ],
      "prompt_number": 228
@@ -3535,35 +2092,23 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "You can see the \"NORTHERN-WALL\" in the print out above.  \n",
-      "This shows that very sophisticated modification can be made to the model rather quickly. "
-     ]
+     "source": "You can see the \"NORTHERN-WALL\" in the print out above.  \nThis shows that very sophisticated modification can be made to the model rather quickly. "
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Reading outputs from E+"
-     ]
+     "source": "Reading outputs from E+"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "So far we have been making changes to the IDF input file.  \n",
-      "How about looking at the outputs.\n",
-      "  \n",
-      "Energyplus makes nice htmlout files that look like this."
-     ]
+     "source": "So far we have been making changes to the IDF input file.  \nHow about looking at the outputs.\n  \nEnergyplus makes nice htmlout files that look like this."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for_images.display_png(for_images.html_snippet) # display the image below"
-     ],
+     "input": "for_images.display_png(for_images.html_snippet) # display the image below",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3578,28 +2123,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "If you look at the clipping of the html file above, you see tables with data in them.  \n",
-      "Eppy has functions that let you access of these tables and get the data from any of it's cells.  \n",
-      "  \n",
-      "Let us say you want to find the \"Net Site Energy\".  \n",
-      "This is in table \"Site and Source Energy\".  \n",
-      "The number you want is in the third row, second column and it's value is \"47694.47\"\n",
-      "\n",
-      "Let us use eppy to txtract this number"
-     ]
+     "source": "If you look at the clipping of the html file above, you see tables with data in them.  \nEppy has functions that let you access of these tables and get the data from any of it's cells.  \n  \nLet us say you want to find the \"Net Site Energy\".  \nThis is in table \"Site and Source Energy\".  \nThe number you want is in the third row, second column and it's value is \"47694.47\"\n\nLet us use eppy to txtract this number"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy import readhtml # the eppy module with functions to read the html\n",
-      "fname = \"../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html\" # the html file you want to read\n",
-      "filehandle = open(fname, 'r').read() # get a file handle to the html file\n",
-      "\n",
-      "\n",
-      "htables = readhtml.titletable(filehandle) # reads the tables with their titles"
-     ],
+     "input": "from eppy import readhtml # the eppy module with functions to read the html\nfname = \"../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html\" # the html file you want to read\nfilehandle = open(fname, 'r').read() # get a file handle to the html file\n\n\nhtables = readhtml.titletable(filehandle) # reads the tables with their titles",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3608,19 +2137,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "If you open the python file readhtml.py and look at the function titletable, you can see the function documentation.  \n",
-      "It says the following"
-     ]
+     "source": "If you open the python file readhtml.py and look at the function titletable, you can see the function documentation.  \nIt says the following"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "    \"\"\"return a list of [(title, table), .....]\n",
-      "    title = previous item with a <b> tag\n",
-      "    table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]\"\"\""
-     ],
+     "input": "    \"\"\"return a list of [(title, table), .....]\n    title = previous item with a <b> tag\n    table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]\"\"\"",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3628,9 +2150,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 231,
-       "text": [
-        "'return a list of [(title, table), .....]\\ntitle = previous item with a <b> tag\\ntable = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]'"
-       ]
+       "text": "'return a list of [(title, table), .....]\\ntitle = previous item with a <b> tag\\ntable = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]'"
       }
      ],
      "prompt_number": 231
@@ -3638,28 +2158,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "The documentation says that it returns a list.   \n",
-      "Let us take a look inside this list. \n",
-      "Let us look at the first item in the list. "
-     ]
+     "source": "The documentation says that it returns a list.   \nLet us take a look inside this list. \nLet us look at the first item in the list. "
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "firstitem = htables[0]\n",
-      "print firstitem"
-     ],
+     "input": "firstitem = htables[0]\nprint firstitem",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "(u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'], [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])\n"
-       ]
+       "text": "(u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'], [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])\n"
       }
      ],
      "prompt_number": 232
@@ -3667,36 +2178,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Ughh !!! that is ugly. Hard to see what it is.  \n",
-      "Let us use a python module to print it pretty"
-     ]
+     "source": "Ughh !!! that is ugly. Hard to see what it is.  \nLet us use a python module to print it pretty"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "import pprint\n",
-      "pp = pprint.PrettyPrinter()\n",
-      "pp.pprint(firstitem)"
-     ],
+     "input": "import pprint\npp = pprint.PrettyPrinter()\npp.pprint(firstitem)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "(u'Site and Source Energy',\n",
-        " [['',\n",
-        "   u'Total Energy [kWh]',\n",
-        "   u'Energy Per Total Building Area [kWh/m2]',\n",
-        "   u'Energy Per Conditioned Building Area [kWh/m2]'],\n",
-        "  [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n",
-        "  [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n",
-        "  [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],\n",
-        "  [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])\n"
-       ]
+       "text": "(u'Site and Source Energy',\n [['',\n   u'Total Energy [kWh]',\n   u'Energy Per Total Building Area [kWh/m2]',\n   u'Energy Per Conditioned Building Area [kWh/m2]'],\n  [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n  [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n  [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],\n  [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])\n"
       }
      ],
      "prompt_number": 233
@@ -3704,26 +2198,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Nice. that is a little clearer"
-     ]
+     "source": "Nice. that is a little clearer"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "firstitem_title = firstitem[0]\n",
-      "pp.pprint(firstitem_title)"
-     ],
+     "input": "firstitem_title = firstitem[0]\npp.pprint(firstitem_title)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "u'Site and Source Energy'\n"
-       ]
+       "text": "u'Site and Source Energy'\n"
       }
      ],
      "prompt_number": 234
@@ -3731,26 +2218,14 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "firstitem_table = firstitem[1]\n",
-      "pp.pprint(firstitem_table)"
-     ],
+     "input": "firstitem_table = firstitem[1]\npp.pprint(firstitem_table)",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[['',\n",
-        "  u'Total Energy [kWh]',\n",
-        "  u'Energy Per Total Building Area [kWh/m2]',\n",
-        "  u'Energy Per Conditioned Building Area [kWh/m2]'],\n",
-        " [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n",
-        " [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n",
-        " [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],\n",
-        " [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']]\n"
-       ]
+       "text": "[['',\n  u'Total Energy [kWh]',\n  u'Energy Per Total Building Area [kWh/m2]',\n  u'Energy Per Conditioned Building Area [kWh/m2]'],\n [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],\n [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],\n [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']]\n"
       }
      ],
      "prompt_number": 235
@@ -3758,29 +2233,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "How do we get to value of \"Net Site Energy\".  \n",
-      "We know it is in the third row, second column of the table.  \n",
-      "\n",
-      "Easy."
-     ]
+     "source": "How do we get to value of \"Net Site Energy\".  \nWe know it is in the third row, second column of the table.  \n\nEasy."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row\n",
-      "print thirdrow"
-     ],
+     "input": "thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row\nprint thirdrow",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "[u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44']\n"
-       ]
+       "text": "[u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44']\n"
       }
      ],
      "prompt_number": 236
@@ -3788,10 +2253,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "thirdrow_secondcolumn = thirdrow[1]\n",
-      "thirdrow_secondcolumn"
-     ],
+     "input": "thirdrow_secondcolumn = thirdrow[1]\nthirdrow_secondcolumn",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3799,9 +2261,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 237,
-       "text": [
-        "u'    47694.47'"
-       ]
+       "text": "u'    47694.47'"
       }
      ],
      "prompt_number": 237
@@ -3809,20 +2269,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "the text from the html table is in unicode.  \n",
-      "That is why you see that weird 'u' letter.  \n",
-      "\n",
-      "Let us convert it to a floating point number"
-     ]
+     "source": "the text from the html table is in unicode.  \nThat is why you see that weird 'u' letter.  \n\nLet us convert it to a floating point number"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "net_site_energy = float(thirdrow_secondcolumn)\n",
-      "net_site_energy"
-     ],
+     "input": "net_site_energy = float(thirdrow_secondcolumn)\nnet_site_energy",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3830,9 +2282,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 238,
-       "text": [
-        "47694.47"
-       ]
+       "text": "47694.47"
       }
      ],
      "prompt_number": 238
@@ -3840,19 +2290,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us have a little fun with the tables.  \n",
-      "\n",
-      "Get the titles of all the tables"
-     ]
+     "source": "Let us have a little fun with the tables.  \n\nGet the titles of all the tables"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "alltitles = [htable[0] for htable in htables]\n",
-      "alltitles"
-     ],
+     "input": "alltitles = [htable[0] for htable in htables]\nalltitles",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3860,20 +2303,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 239,
-       "text": [
-        "[u'Site and Source Energy',\n",
-        " u'Site to Source Energy Conversion Factors',\n",
-        " u'Building Area',\n",
-        " u'End Uses',\n",
-        " u'End Uses By Subcategory',\n",
-        " u'Utility Use Per Conditioned Floor Area',\n",
-        " u'Utility Use Per Total Floor Area',\n",
-        " u'Electric Loads Satisfied',\n",
-        " u'On-Site Thermal Sources',\n",
-        " u'Water Source Summary',\n",
-        " u'Comfort and Setpoint Not Met Summary',\n",
-        " u'Comfort and Setpoint Not Met Summary']"
-       ]
+       "text": "[u'Site and Source Energy',\n u'Site to Source Energy Conversion Factors',\n u'Building Area',\n u'End Uses',\n u'End Uses By Subcategory',\n u'Utility Use Per Conditioned Floor Area',\n u'Utility Use Per Total Floor Area',\n u'Electric Loads Satisfied',\n u'On-Site Thermal Sources',\n u'Water Source Summary',\n u'Comfort and Setpoint Not Met Summary',\n u'Comfort and Setpoint Not Met Summary']"
       }
      ],
      "prompt_number": 239
@@ -3881,17 +2311,12 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Now let us grab the tables with the titles \"Building Area\" and \"Site to Source Energy Conversion Factors\""
-     ]
+     "source": "Now let us grab the tables with the titles \"Building Area\" and \"Site to Source Energy Conversion Factors\""
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "twotables = [htable for htable in htables if htable[0] in [\"Building Area\", \"Site to Source Energy Conversion Factors\"]]\n",
-      "twotables"
-     ],
+     "input": "twotables = [htable for htable in htables if htable[0] in [\"Building Area\", \"Site to Source Energy Conversion Factors\"]]\ntwotables",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -3899,26 +2324,7 @@
        "metadata": {},
        "output_type": "pyout",
        "prompt_number": 240,
-       "text": [
-        "[(u'Site to Source Energy Conversion Factors',\n",
-        "  [['', u'Site=>Source Conversion Factor'],\n",
-        "   [u'Electricity', u'       3.167'],\n",
-        "   [u'Natural Gas', u'       1.084'],\n",
-        "   [u'District Cooling', u'       1.056'],\n",
-        "   [u'District Heating', u'       3.613'],\n",
-        "   [u'Steam', u'       0.300'],\n",
-        "   [u'Gasoline', u'       1.050'],\n",
-        "   [u'Diesel', u'       1.050'],\n",
-        "   [u'Coal', u'       1.050'],\n",
-        "   [u'Fuel Oil #1', u'       1.050'],\n",
-        "   [u'Fuel Oil #2', u'       1.050'],\n",
-        "   [u'Propane', u'       1.050']]),\n",
-        " (u'Building Area',\n",
-        "  [['', u'Area [m2]'],\n",
-        "   [u'Total Building Area', u'      927.20'],\n",
-        "   [u'Net Conditioned Building Area', u'      927.20'],\n",
-        "   [u'Unconditioned Building Area', u'        0.00']])]"
-       ]
+       "text": "[(u'Site to Source Energy Conversion Factors',\n  [['', u'Site=>Source Conversion Factor'],\n   [u'Electricity', u'       3.167'],\n   [u'Natural Gas', u'       1.084'],\n   [u'District Cooling', u'       1.056'],\n   [u'District Heating', u'       3.613'],\n   [u'Steam', u'       0.300'],\n   [u'Gasoline', u'       1.050'],\n   [u'Diesel', u'       1.050'],\n   [u'Coal', u'       1.050'],\n   [u'Fuel Oil #1', u'       1.050'],\n   [u'Fuel Oil #2', u'       1.050'],\n   [u'Propane', u'       1.050']]),\n (u'Building Area',\n  [['', u'Area [m2]'],\n   [u'Total Building Area', u'      927.20'],\n   [u'Net Conditioned Building Area', u'      927.20'],\n   [u'Unconditioned Building Area', u'        0.00']])]"
       }
      ],
      "prompt_number": 240
@@ -3926,40 +2332,23 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us leave readtables for now.  \n",
-      "It gives us the basic fucntionality to read any of the tables in the html output file"
-     ]
+     "source": "Let us leave readtables for now.  \nIt gives us the basic fucntionality to read any of the tables in the html output file"
     },
     {
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Plant loops and diagrams in eppy"
-     ]
+     "source": "Plant loops and diagrams in eppy"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Eppy can build up the topology of a plant loop using single pipes in a branch.  \n",
-      "Once we do that the simple branch in the loop we have built can be replaced with a more complex branch.  \n",
-      "  \n",
-      "Let us try this out ans see how it works."
-     ]
+     "source": "Eppy can build up the topology of a plant loop using single pipes in a branch.  \nOnce we do that the simple branch in the loop we have built can be replaced with a more complex branch.  \n  \nLet us try this out ans see how it works."
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "from eppy.modeleditor import IDF\n",
-      "from eppy import hvacbuilder\n",
-      "\n",
-      "from StringIO import StringIO\n",
-      "iddfile = \"../eppy/resources/iddfiles/Energy+V7_0_0_036.idd\"\n",
-      "IDF.setiddname(iddfile)"
-     ],
+     "input": "from eppy.modeleditor import IDF\nfrom eppy import hvacbuilder\n\nfrom StringIO import StringIO\niddfile = \"../eppy/resources/iddfiles/Energy+V7_0_0_036.idd\"\nIDF.setiddname(iddfile)",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3968,15 +2357,7 @@
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# make the topology of the loop\n",
-      "idf = IDF(StringIO('')) # makes an empty idf file in memory with no file name\n",
-      "loopname = \"p_loop\"\n",
-      "sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']\n",
-      "dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']\n",
-      "hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)\n",
-      "idf.saveas(\"hhh1.idf\")\n"
-     ],
+     "input": "# make the topology of the loop\nidf = IDF(StringIO('')) # makes an empty idf file in memory with no file name\nloopname = \"p_loop\"\nsloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']\ndloop = ['db0', ['db1', 'db2', 'db3'], 'db4']\nhvacbuilder.makeplantloop(idf, loopname, sloop, dloop)\nidf.saveas(\"hhh1.idf\")\n",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -3985,38 +2366,22 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We have made plant loop and saved it as hhh1.idf.  \n",
-      "Now let us look at what the loop looks like.  \n",
-      "\n",
-      "Eppy has a function that can draw the loops.  \n",
-      "We'll use this to view the loop diagram.  \n",
-      "  \n",
-      "run the following program in the shell.  \n",
-      "(you have to run it from the eppy/eppy folder)"
-     ]
+     "source": "We have made plant loop and saved it as hhh1.idf.  \nNow let us look at what the loop looks like.  \n\nEppy has a function that can draw the loops.  \nWe'll use this to view the loop diagram.  \n  \nrun the following program in the shell.  \n(you have to run it from the eppy/eppy folder)"
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "python ex_loopdiagram.py hhh1.idf"
-     ]
+     "source": "python ex_loopdiagram.py hhh1.idf"
     },
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "This will output a image by name hhh1.png.  \n",
-      "This image is shown below"
-     ]
+     "source": "This will output a image by name hhh1.png.  \nThis image is shown below"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "for_images.display_png(for_images.plantloop1) # display the image below"
-     ],
+     "input": "for_images.display_png(for_images.plantloop1) # display the image below",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -4031,36 +2396,19 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "Let us make a new branch and replace the exisiting branch \"sb0\" that has the pipe sb0_pipe"
-     ]
+     "source": "Let us make a new branch and replace the exisiting branch \"sb0\" that has the pipe sb0_pipe"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "# make a new branch chiller->pipe1-> pipe2\n",
-      "pipe1 = idf.newidfobject(\"PIPE:ADIABATIC\", 'np1')\n",
-      "chiller = idf.newidfobject(\"Chiller:Electric\".upper(), 'Central_Chiller')\n",
-      "pipe2 = idf.newidfobject(\"PIPE:ADIABATIC\", 'np2')\n",
-      "\n",
-      "loop = idf.getobject('PLANTLOOP', 'p_loop')\n",
-      "branch = idf.getobject('BRANCH', 'sb0')\n",
-      "listofcomponents = [chiller, pipe1, pipe2]\n",
-      "\n",
-      "newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 'Water', False)\n",
-      "idf.saveas(\"hhh_new.idf\")"
-     ],
+     "input": "# make a new branch chiller->pipe1-> pipe2\npipe1 = idf.newidfobject(\"PIPE:ADIABATIC\", 'np1')\nchiller = idf.newidfobject(\"Chiller:Electric\".upper(), 'Central_Chiller')\npipe2 = idf.newidfobject(\"PIPE:ADIABATIC\", 'np2')\n\nloop = idf.getobject('PLANTLOOP', 'p_loop')\nbranch = idf.getobject('BRANCH', 'sb0')\nlistofcomponents = [chiller, pipe1, pipe2]\n\nnewbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, 'Water', False)\nidf.saveas(\"hhh_new.idf\")",
      "language": "python",
      "metadata": {},
      "outputs": [
       {
        "output_type": "stream",
        "stream": "stdout",
-       "text": [
-        "unknown field Connector_3_Object_Type\n",
-        "unknown field Connector_3_Object_Type\n"
-       ]
+       "text": "unknown field Connector_3_Object_Type\nunknown field Connector_3_Object_Type\n"
       }
      ],
      "prompt_number": 244
@@ -4068,25 +2416,17 @@
     {
      "cell_type": "markdown",
      "metadata": {},
-     "source": [
-      "We have saved this as  file \"hhh_new.idf\".  \n",
-      "Let us draw the diagram of this file.  "
-     ]
+     "source": "We have saved this as  file \"hhh_new.idf\".  \nLet us draw the diagram of this file.  "
     },
     {
      "cell_type": "raw",
      "metadata": {},
-     "source": [
-      "python ex_loopdiagram.py hhh_new.idf"
-     ]
+     "source": "python ex_loopdiagram.py hhh_new.idf"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [
-      "reload(ex_inits)\n",
-      "for_images.display_png(for_images.plantloop2) # display the image below"
-     ],
+     "input": "reload(ex_inits)\nfor_images.display_png(for_images.plantloop2) # display the image below",
      "language": "python",
      "metadata": {},
      "outputs": [
@@ -4102,14 +2442,12 @@
      "cell_type": "heading",
      "level": 2,
      "metadata": {},
-     "source": [
-      "Examples of using eppy"
-     ]
+     "source": "Examples of using eppy"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [],
+     "input": "",
      "language": "python",
      "metadata": {},
      "outputs": [],
@@ -4119,22 +2457,18 @@
      "cell_type": "heading",
      "level": 3,
      "metadata": {},
-     "source": [
-      "Elimination parametrics using eppy"
-     ]
+     "source": "Elimination parametrics using eppy"
     },
     {
      "cell_type": "heading",
      "level": 3,
      "metadata": {},
-     "source": [
-      "Other Examples"
-     ]
+     "source": "Other Examples"
     },
     {
      "cell_type": "code",
      "collapsed": false,
-     "input": [],
+     "input": "",
      "language": "python",
      "metadata": {},
      "outputs": [],

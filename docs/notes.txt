@@ -2,6 +2,7 @@
 ----------
 to make html of the tutorials do:
 ipython nbconvert --to html *.ipynb
+ipython nbconvert --to html ../*.ipynb # run from ./docs/generated
 
 2013-08-31
 ----------
