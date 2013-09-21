@@ -4,7 +4,7 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 ----------
 made branch -> almost_master
 This shouuld really be master, but I am not sure.
-made brancch -> develop
+made brancch -> develop (made it now)
 All development should be done here
 
 2013-09-21
