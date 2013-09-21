@@ -2,6 +2,13 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
 2013-09-21
 ----------
+made branch -> almost_master
+This shouuld really be master, but I am not sure.
+made brancch -> develop
+All development should be done here
+
+2013-09-21
+----------
 notes on overriding list
 - __add__ override ?
 - __delattr__ remove some attributes ?
