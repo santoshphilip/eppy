@@ -1,3 +1,8 @@
+2013-09-20
+----------
+to make html of the tutorials do:
+ipython nbconvert --to html *.ipynb
+
 2013-08-31
 ----------
 the Tutorial is built up in the ipython notebook file -> tutorial.ipynb
