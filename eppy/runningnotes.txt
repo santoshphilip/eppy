@@ -3,7 +3,19 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 2013-09-19
 ----------
 TODO 
-1. tutorial for condensor loop and airside loop
+- tutorial for condensor loop and airside loop
+- seperate tutorial on readhtml
+- nedd a function that will do:
+	idf.idfobjects[key].pop(0)
+- 
+- articulate the thinking on the software orgainzation.
+	- the core code deals only with objects and fields
+	- readhtml is a seperate package (for output reading)
+	- buildhvac would be a seperate package
+	-
+	- these packages would have seperate tutorials
+
+
 
 2013-09-03
 ----------
