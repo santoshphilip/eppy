@@ -3,4 +3,4 @@ Output Reader
 
 Follow this link -  `Output Reader`_.
 
-.. _Output Reader: ./Outputs_Tutorial.html
+.. _Output Reader: ./_static/Outputs_Tutorial.html
