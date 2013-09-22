@@ -12,9 +12,9 @@ Contents:
 	:maxdepth: 2
 	
 	installation
-	using_eppy
-	hvac_builder
-	output_reader
+	Main_Tutorial
+	HVAC_Tutorial
+	Outputs_Tutorial
 	eppy_api
 
 

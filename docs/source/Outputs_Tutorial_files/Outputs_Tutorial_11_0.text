@@ -1,0 +1,9 @@
+(u'Site and Source Energy',
+ [['',
+   u'Total Energy [kWh]',
+   u'Energy Per Total Building Area [kWh/m2]',
+   u'Energy Per Conditioned Building Area [kWh/m2]'],
+  [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
+  [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
+  [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],
+  [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])
