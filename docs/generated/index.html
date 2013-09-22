@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to eppy’s documentation! &mdash; eppy 0.4.0 documentation</title>
+    <title>Welcome to eppy’s documentation! &mdash; eppy 0.4.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.0',
+        VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.0 documentation" href="#" /> 
+    <link rel="top" title="eppy 0.4.1 documentation" href="#" />
+    <link rel="next" title="Installation" href="installation.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,7 +36,10 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">eppy 0.4.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,104 +52,14 @@
 <h1>Welcome to eppy&#8217;s documentation!<a class="headerlink" href="#welcome-to-eppy-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
-<ul class="simple">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_eppy.html">Main Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hvac_builder.html">HVAC Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output_reader.html">Output Reader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eppy_api.html">Eppy API</a></li>
 </ul>
 </div>
-<span class="target" id="module-modeleditor"></span><p>functions to edit the E+ model</p>
-<dl class="class">
-<dt id="modeleditor.IDF0">
-<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">IDF0</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#modeleditor.IDF0" title="Permalink to this definition">¶</a></dt>
-<dd><p>document the following variables:</p>
-<ul class="simple">
-<li>idfobjects</li>
-<li>outputtype</li>
-<li>iddname</li>
-<li>idfname</li>
-<li>idd_info</li>
-<li>model</li>
-</ul>
-<dl class="method">
-<dt id="modeleditor.IDF0.read">
-<tt class="descname">read</tt><big>(</big><big>)</big><a class="headerlink" href="#modeleditor.IDF0.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>read the idf file</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="modeleditor.IDF1">
-<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">IDF1</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1" title="Permalink to this definition">¶</a></dt>
-<dd><p>subclass of IDF0. Uses functions of IDF0</p>
-<dl class="method">
-<dt id="modeleditor.IDF1.addidfobject">
-<tt class="descname">addidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.addidfobject" title="Permalink to this definition">¶</a></dt>
-<dd><p>add idfobject to this model</p>
-<p>idfobject usually comes from another idf file
-or it can be used to copy within this idf file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="modeleditor.IDF1.getextensibleindex">
-<tt class="descname">getextensibleindex</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.getextensibleindex" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the index of the first extensible item</p>
-<p>only for internal use. # TODO : hide this</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="modeleditor.IDF1.getobject">
-<tt class="descname">getobject</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.getobject" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the object given key and name</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="modeleditor.IDF1.newidfobject">
-<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=''</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
-<dd><p>add a new idfobject to the model</p>
-<p>for example</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">)</span>
-<span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">,</span> 
-    <span class="n">Name</span><span class="o">=</span><span class="s">&#39;Interior Ceiling_class&#39;</span><span class="p">,</span> 
-    <span class="n">Outside_Layer</span><span class="o">=</span><span class="s">&#39;LW Concrete&#39;</span><span class="p">,</span> 
-    <span class="n">Layer_2</span><span class="o">=</span><span class="s">&#39;soundmat&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If you don&#8217;t specify a value for a field, the default value will be set</p>
-<p>aname is not used. It is left there for backward compatibility</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="modeleditor.IDF1.removeextensibles">
-<tt class="descname">removeextensibles</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#modeleditor.IDF1.removeextensibles" title="Permalink to this definition">¶</a></dt>
-<dd><p>remove extensible items in the object of key and name</p>
-<p>only for internal use. # TODO : hide this</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="modeleditor.IDF2">
-<em class="property">class </em><tt class="descclassname">modeleditor.</tt><tt class="descname">IDF2</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#modeleditor.IDF2" title="Permalink to this definition">¶</a></dt>
-<dd><p>subclass of IDF1. Uses functions of IDF1</p>
-<dl class="method">
-<dt id="modeleditor.IDF2.printidf">
-<tt class="descname">printidf</tt><big>(</big><big>)</big><a class="headerlink" href="#modeleditor.IDF2.printidf" title="Permalink to this definition">¶</a></dt>
-<dd><p>print the idf</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="modeleditor.IDF2.save">
-<tt class="descname">save</tt><big>(</big><big>)</big><a class="headerlink" href="#modeleditor.IDF2.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>save with comments</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="attribute">
-<dt id="modeleditor.IDF">
-<tt class="descclassname">modeleditor.</tt><tt class="descname">IDF</tt><a class="headerlink" href="#modeleditor.IDF" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#modeleditor.IDF2" title="modeleditor.IDF2"><tt class="xref py py-class docutils literal"><span class="pre">IDF2</span></tt></a></p>
-</dd></dl>
-
 </div>
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
@@ -170,6 +84,9 @@ or it can be used to copy within this idf file</p>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installation</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -201,12 +118,15 @@ or it can be used to copy within this idf file</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="#">eppy 0.4.0 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >next</a> |</li>
+        <li><a href="#">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>
