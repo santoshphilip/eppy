@@ -1,6 +1,6 @@
 [
 Material,                 
-    M11 100mm lightweight concrete,    !- Name
+    THICK M11 100mm lightweight concrete,    !- Name
     MediumRough,              !- Roughness
     0.1016,                   !- Thickness
     0.53,                     !- Conductivity
@@ -9,7 +9,7 @@ Material,
 ,
  
 Material,                 
-    M01 100mm brick,          !- Name
+    THICK M01 100mm brick,    !- Name
     MediumRough,              !- Roughness
     0.1016,                   !- Thickness
     0.89,                     !- Conductivity
@@ -18,7 +18,7 @@ Material,
 ,
  
 Material,                 
-    M15 200mm heavyweight concrete,    !- Name
+    THICK M15 200mm heavyweight concrete,    !- Name
     MediumRough,              !- Roughness
     0.2032,                   !- Thickness
     1.95,                     !- Conductivity
@@ -27,7 +27,7 @@ Material,
 ,
  
 Material,                 
-    M05 200mm concrete block,    !- Name
+    THICK M05 200mm concrete block,    !- Name
     MediumRough,              !- Roughness
     0.2032,                   !- Thickness
     1.11,                     !- Conductivity

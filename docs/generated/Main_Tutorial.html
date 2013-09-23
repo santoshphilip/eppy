@@ -70,10 +70,8 @@ eppy code.</li>
 <li>Based to the results of a E+ simulation run, generate the input file
 for the next simulation run.</li>
 </ul>
-<div class="line-block">
-<div class="line">So what does this matter?</div>
-<div class="line">Here are some of the things you can do with eppy:</div>
-</div>
+<p>So what does this matter? Here are some of the things you can do with
+eppy:</p>
 <ul class="simple">
 <li>Change construction for all north facing walls.</li>
 <li>Change the glass type for all windows larger than 2 square meters.</li>
@@ -85,45 +83,35 @@ were run after a certain date)</li>
 <li>If a model is using more energy than expected, keep increasing the
 R-value of the roof until you get to the expected energy use.</li>
 </ul>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">Eppy need a couple of libraries to be installed before it can run.</div>
-<div class="line">So if you are going to try out the steps in the tutorial take a look at the installation instructions.</div>
-<div class="line">The installation instructions are in ./eplusscripting/install.txt</div>
-</div>
-</div>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>Here is a short IDF file that I’ll be using as an example to start us
 off:</p>
-<div class="highlight-python"><pre>VERSION,
-    7.2;                     !- Version Identifier
-
-SIMULATIONCONTROL,
-    Yes,                     !- Do Zone Sizing Calculation
-    Yes,                     !- Do System Sizing Calculation
-    Yes,                     !- Do Plant Sizing Calculation
-    No,                      !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
-
-BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
-
-SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,  !- Name
-    41.78,                   !- Latitude {deg}
-    -87.75,                  !- Longitude {deg}
-    -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}</pre>
-</div>
+<dl class="docutils">
+<dt>VERSION,</dt>
+<dd>7.2;                     !- Version Identifier</dd>
+<dt>SIMULATIONCONTROL,</dt>
+<dd>Yes,                     !- Do Zone Sizing Calculation
+Yes,                     !- Do System Sizing Calculation
+Yes,                     !- Do Plant Sizing Calculation
+No,                      !- Run Simulation for Sizing Periods
+Yes;                     !- Run Simulation for Weather File Run Periods</dd>
+<dt>BUILDING,</dt>
+<dd>White House,             !- Name
+30.,                     !- North Axis {deg}
+City,                    !- Terrain
+0.04,                    !- Loads Convergence Tolerance Value
+0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+FullExterior,            !- Solar Distribution
+25,                      !- Maximum Number of Warmup Days
+6;                       !- Minimum Number of Warmup Days</dd>
+<dt>SITE:LOCATION,</dt>
+<dd>CHICAGO_IL_USA TMY2-94846,  !- Name
+41.78,                   !- Latitude {deg}
+-87.75,                  !- Longitude {deg}
+-6.00,                   !- Time Zone {hr}
+190.00;                  !- Elevation {m}</dd>
+</dl>
 <p>To use eppy to look at this model, we have to run a little code first:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
@@ -144,9 +132,11 @@ SITE:LOCATION,
 <span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><pre>IDF.setiddname(iddfile)
-idf1 = IDF(fname1) idf1 now holds all the data to your in you idf file.</pre>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+</pre></div>
 </div>
+<p>idf1 now holds all the data to your in you idf file.</p>
 <p>Now that the behind-the-scenes work is done, we can print this file.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
@@ -162,7 +152,7 @@ SIMULATIONCONTROL,
     Yes;                      !- Run Simulation for Weather File Run Periods
 
 BUILDING,
-    Empire State Building,    !- Name
+    White House,              !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
@@ -197,7 +187,7 @@ slightly different.</p>
 </div>
 <div class="highlight-python"><pre>[
 BUILDING,
-    Empire State Building,    !- Name
+    White House,              !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
@@ -207,11 +197,10 @@ BUILDING,
     6;                        !- Minimum Number of Warmup Days
 ]</pre>
 </div>
-<div class="line-block">
-<div class="line">We can also zoom in on the object and look just at its individual parts.</div>
-<div class="line">For example, let us look at the name of the building.</div>
-<div class="line">To do this, we have to do some more behind-the-scenes work, which we&#8217;ll explain later.</div>
-</div>
+<p>We can also zoom in on the object and look just at its individual parts.</p>
+<p>For example, let us look at the name of the building.</p>
+<p>To do this, we have to do some more behind-the-scenes work, which we&#8217;ll
+explain later.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BUILDING&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -219,7 +208,7 @@ BUILDING,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>Empire State Building</pre>
+<div class="highlight-python"><pre>White House</pre>
 </div>
 <p>Now that we&#8217;ve isolated the building name, we can change it.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Empire State Building&quot;</span>
@@ -262,10 +251,8 @@ SITE:LOCATION,
     -6.0,                     !- Time Zone
     190.0;                    !- Elevation</pre>
 </div>
-<div class="line-block">
-<div class="line">Yes! It did. So now you have a taste of what eppy can do.</div>
-<div class="line">Let&#8217;s get started!</div>
-</div>
+<p>Yes! It did. So now you have a taste of what eppy can do. Let&#8217;s get
+started!</p>
 </div>
 <div class="section" id="modifying-idf-fields">
 <h2>Modifying IDF Fields<a class="headerlink" href="#modifying-idf-fields" title="Permalink to this headline">¶</a></h2>
@@ -284,11 +271,11 @@ field name (&#8220;Empire State Building&#8221;) into this command gave us this:
 <span class="kn">import</span> <span class="nn">eppy.ex_inits</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">But how did we know that &#8220;Name&#8221; is one of the fields in the object &#8220;building&#8221;? Are there other fields?</div>
-<div class="line">What are they called?</div>
-<div class="line">Let&#8217;s take a look at the IDF editor:</div>
-</div>
+<p>But how did we know that &#8220;Name&#8221; is one of the fields in the object
+&#8220;building&#8221;?</p>
+<p>Are there other fields?</p>
+<p>What are they called?</p>
+<p>Let&#8217;s take a look at the IDF editor:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 </pre></div>
 </div>
@@ -297,12 +284,10 @@ field name (&#8220;Empire State Building&#8221;) into this command gave us this:
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">idfeditor</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_images/Main_Tutorial_36_0.png" src="_images/Main_Tutorial_36_0.png" />
-<div class="line-block">
-<div class="line">In the IDF Editor, the building object is selected.</div>
-<div class="line">We can see all the fields of the object &#8220;BUILDING&#8221;.</div>
-<div class="line">They are:</div>
-</div>
+<img alt="_images/Main_Tutorial_34_0.png" src="_images/Main_Tutorial_34_0.png" />
+<p>In the IDF Editor, the building object is selected.</p>
+<p>We can see all the fields of the object &#8220;BUILDING&#8221;.</p>
+<p>They are:</p>
 <ul class="simple">
 <li>Name</li>
 <li>North Axis</li>
@@ -313,21 +298,19 @@ field name (&#8220;Empire State Building&#8221;) into this command gave us this:
 <li>Maximum Number of Warmup Days</li>
 <li>Minimum Number of Warmup Days</li>
 </ul>
-<p>Let us try to access the other fields -</p>
+<p>Let us try to access the other fields.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Terrain</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">City</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">How about the field &#8220;North Axis&#8221; ? It is not a single word, but two words.</div>
-<div class="line">In a programming language, a variable has to be a single word without any spaces.</div>
-</div>
-<div class="line-block">
-<div class="line">To solve this problem, put an underscore where there is a space.</div>
-<div class="line">So &#8220;North Axis&#8221; becomes &#8220;North_Axis&#8221;.</div>
-</div>
+<p>How about the field &#8220;North Axis&#8221; ?</p>
+<p>It is not a single word, but two words.</p>
+<p>In a programming language, a variable has to be a single word without
+any spaces.</p>
+<p>To solve this problem, put an underscore where there is a space.</p>
+<p>So &#8220;North Axis&#8221; becomes &#8220;North_Axis&#8221;.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">North_Axis</span>
 </pre></div>
 </div>
@@ -354,12 +337,12 @@ FullExterior
 25
 6</pre>
 </div>
-<div class="line-block">
-<div class="line">Where else can we find the field names?</div>
-<div class="line">The IDF Editor saves the idf file with the field name commented next to field.</div>
-<div class="line">Eppy also does this.</div>
-<div class="line">Let us take a look at the &#8220;BUILDING&#8221; object in the text file that the IDF Editor saves</div>
-</div>
+<p>Where else can we find the field names?</p>
+<p>The IDF Editor saves the idf file with the field name commented next to
+field.</p>
+<p>Eppy also does this.</p>
+<p>Let us take a look at the &#8220;BUILDING&#8221; object in the text file that the
+IDF Editor saves</p>
 <dl class="docutils">
 <dt>BUILDING,</dt>
 <dd>White House,             !- Name
@@ -371,50 +354,45 @@ FullExterior,            !- Solar Distribution
 25,                      !- Maximum Number of Warmup Days
 6;                       !- Minimum Number of Warmup Days</dd>
 </dl>
-<p>This a good place to find the field names too. It is easy to copy and
-paste from here. You can&#8217;t do that from the IDF Editor.</p>
+<p>This a good place to find the field names too.</p>
+<p>It is easy to copy and paste from here. You can&#8217;t do that from the IDF
+Editor.</p>
 <p>We know that in an E+ model, there will be only ONE &#8220;BUILDING&#8221; object.
 This will be the first and only item in the list &#8220;buildings&#8221;.</p>
-<div class="line-block">
-<div class="line">But E+ models are made up of objects such as &#8220;BUILDING&#8221;, &#8220;SITE:LOCATION&#8221;, &#8220;ZONE&#8221;, &#8220;PEOPLE&#8221;, &#8220;LIGHTS&#8221;.</div>
-<div class="line">There can be a number of &#8220;ZONE&#8221; objects, a number of &#8220;PEOPLE&#8221; objects and a number of &#8220;LIGHTS&#8221; objects.</div>
-</div>
-<div class="line-block">
-<div class="line">So how do you know if you&#8217;re looking at the first &#8220;ZONE&#8221; object or the second one? Or the tenth one?</div>
-<div class="line">To answer this, we need to learn about how lists work in python.</div>
-</div>
+<p>But E+ models are made up of objects such as &#8220;BUILDING&#8221;,
+&#8220;SITE:LOCATION&#8221;, &#8220;ZONE&#8221;, &#8220;PEOPLE&#8221;, &#8220;LIGHTS&#8221;. There can be a number of
+&#8220;ZONE&#8221; objects, a number of &#8220;PEOPLE&#8221; objects and a number of &#8220;LIGHTS&#8221;
+objects.</p>
+<p>So how do you know if you&#8217;re looking at the first &#8220;ZONE&#8221; object or the
+second one? Or the tenth one? To answer this, we need to learn about how
+lists work in python.</p>
 </div>
 <div class="section" id="python-lesson-1-lists">
 <h2>Python lesson 1: lists<a class="headerlink" href="#python-lesson-1-lists" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">Eppy holds these objects in a python structure called list.</div>
-<div class="line">Let us take a look at how lists work in python.</div>
-</div>
+<p>Eppy holds these objects in a python structure called list. Let us take
+a look at how lists work in python.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
-<span class="c"># fruits is a list with three items in it. To get the first item in fruits we say:</span>
+<span class="c"># fruits is a list with three items in it.</span>
 </pre></div>
 </div>
+<p>To get the first item in fruits we say:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;apple&#39;</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">Why &#8220;0&#8221; ?</div>
-<div class="line">Because, unlike us, python starts counting from zero in a list.</div>
-<div class="line">So, to get the third item in the list we&#8217;d need to input 2, like this:</div>
-</div>
+<p>Why &#8220;0&#8221; ?</p>
+<p>Because, unlike us, python starts counting from zero in a list. So, to
+get the third item in the list we&#8217;d need to input 2, like this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">bannana</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">But calling the first fruit &#8220;fruit[0]&#8221; is rather cumbersome.</div>
-<div class="line">Why don&#8217;t we call it firstfruit?</div>
-</div>
+<p>But calling the first fruit &#8220;fruit[0]&#8221; is rather cumbersome. Why don&#8217;t
+we call it firstfruit?</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstfruit</span> <span class="o">=</span> <span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">firstfruit</span>
 </pre></div>
@@ -441,10 +419,8 @@ This will be the first and only item in the list &#8220;buildings&#8221;.</p>
 <p>As you see, we can call that item in the list whatever we want.</p>
 <div class="section" id="how-many-items-in-the-list">
 <h3>How many items in the list<a class="headerlink" href="#how-many-items-in-the-list" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line">To know how many items are in a list, we ask for the length of the list.</div>
-<div class="line">The function &#8216;len&#8217; will do this for us.</div>
-</div>
+<p>To know how many items are in a list, we ask for the length of the list.</p>
+<p>The function &#8216;len&#8217; will do this for us.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -457,20 +433,20 @@ This will be the first and only item in the list &#8220;buildings&#8221;.</p>
 <div class="section" id="saving-an-idf-file">
 <h2>Saving an idf file<a class="headerlink" href="#saving-an-idf-file" title="Permalink to this headline">¶</a></h2>
 <p>This is easy:</p>
-<div class="code python highlight-python"><pre>idf1.save()
-If you'd like to do a "Save as..." use this:</pre>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
 </div>
+<p>If you&#8217;d like to do a &#8220;Save as...&#8221; use this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&#39;something.idf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="working-with-e-objects">
 <h2>Working with E+ objects<a class="headerlink" href="#working-with-e-objects" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">Let us open a small idf file that has only &#8220;CONSTRUCTION&#8221; and &#8220;MATERIAL&#8221; objects in it.</div>
-<div class="line">You can go into &#8221;../idffiles/V_7_2/constructions.idf&#8221; and take a look at the file.</div>
-<div class="line">We are not printing it here because it is too big.</div>
-</div>
+<p>Let us open a small idf file that has only &#8220;CONSTRUCTION&#8221; and &#8220;MATERIAL&#8221;
+objects in it. You can go into &#8221;../idffiles/V_7_2/constructions.idf&#8221;
+and take a look at the file. We are not printing it here because it is
+too big.</p>
 <p>So let us open it using the idfreader -</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
@@ -569,11 +545,10 @@ Material,
     1630.0;                   !- Specific Heat
 ]</pre>
 </div>
-<div class="line-block">
-<div class="line">As you can see, there are many material objects in this idf file.</div>
-<div class="line">The variable &#8220;materials&#8221; now contains a list of &#8220;MATERIAL&#8221; objects.</div>
-<div class="line">You already know a little about lists, so let us take a look at the items in this list.</div>
-</div>
+<p>As you can see, there are many material objects in this idf file.</p>
+<p>The variable &#8220;materials&#8221; now contains a list of &#8220;MATERIAL&#8221; objects.</p>
+<p>You already know a little about lists, so let us take a look at the
+items in this list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstmaterial</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">secondmaterial</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
@@ -601,20 +576,20 @@ Material,
     43.0,                     !- Density
     1210.0;                   !- Specific Heat</pre>
 </div>
-<div class="line-block">
-<div class="line">This is awesome!! Why?</div>
-<div class="line">To understand what you can do with your objects organized as lists, you&#8217;ll have to learn a little more about lists.</div>
-</div>
+<p>This is awesome!! Why?</p>
+<p>To understand what you can do with your objects organized as lists,
+you&#8217;ll have to learn a little more about lists.</p>
 </div>
 <div class="section" id="python-lesson-2-more-about-lists">
 <h2>Python lesson 2: more about lists<a class="headerlink" href="#python-lesson-2-more-about-lists" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="more-ways-to-access-items-in-a-list">
 <h3>More ways to access items in a list<a class="headerlink" href="#more-ways-to-access-items-in-a-list" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line">You should remember that you can access any item in a list by passing in its index.</div>
-<div class="line">The tricky part is that python starts counting at 0, so you need to input 0 in order to get the first item in a list.</div>
-<div class="line">Following the same logic, you need to input 3 in order to get the fourth item on the list. Like so:</div>
-</div>
+<p>You should remember that you can access any item in a list by passing in
+its index.</p>
+<p>The tricky part is that python starts counting at 0, so you need to
+input 0 in order to get the first item in a list.</p>
+<p>Following the same logic, you need to input 3 in order to get the fourth
+item on the list. Like so:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Donald Trump&quot;</span><span class="p">,</span> <span class="s">&quot;Mick Jagger&quot;</span><span class="p">,</span>
         <span class="s">&quot;Steve Jobs&quot;</span><span class="p">,</span> <span class="s">&quot;Lady Gaga&quot;</span><span class="p">,</span> <span class="s">&quot;Santa Clause&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -643,19 +618,52 @@ Lady Gaga</pre>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">How do I make sense of this?</div>
-<div class="line">To understand this you need to see the list in the following manner:</div>
-</div>
-<blockquote>
-<div>[ &#8220;Donald Trump&#8221;, &#8220;Mick Jagger&#8221;, &#8220;Steve Jobs&#8221;, &#8220;Lady Gaga&#8221;, &#8220;Santa Clause&#8221; ]
-[^               ^              ^             ^            ^              ^
-[0               1              2             3            4              5
--5              -4             -3            -2           -1</div></blockquote>
-<div class="line-block">
-<div class="line">The slice operation bad_architects[1:3] slices right where the numbers are.</div>
-<div class="line">Does that make sense?</div>
-</div>
+<p>How do I make sense of this?</p>
+<p>To understand this you need to see the list in the following manner:</p>
+<dl class="docutils">
+<dt>[ &#8220;Donald Trump&#8221;, &#8220;Mick Jagger&#8221;, &#8220;Steve Jobs&#8221;, &#8220;Lady Gaga&#8221;, &#8220;Santa Clause&#8221; ]</dt>
+<dd>^               ^              ^             ^            ^              ^
+0               1              2             3            4              5</dd>
+</dl>
+<table class="docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-5</span></kbd></td>
+<td><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-4</span></kbd></td>
+<td><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-3</span></kbd></td>
+<td><table class="first last docutils option-list" frame="void" rules="none">
+<col class="option" />
+<col class="description" />
+<tbody valign="top">
+<tr><td class="option-group">
+<kbd><span class="option">-2</span></kbd></td>
+<td>-1</td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody>
+</table>
+</td></tr>
+</tbody>
+</table>
+<p>The slice operation bad_architects[1:3] slices right where the numbers
+are.</p>
+<p>Does that make sense?</p>
 <p>Let us try a few other slices:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># slices at 2 and -1</span>
 <span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># slices at -3 and -1</span>
@@ -682,10 +690,9 @@ Lady Gaga</pre>
 </div>
 <div class="section" id="adding-to-a-list">
 <h3>Adding to a list<a class="headerlink" href="#adding-to-a-list" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line">This is simple: the append function adds an item to the end of the list.</div>
-<div class="line">The following command will add &#8216;something&#8217; to the end of the list called listname:</div>
-</div>
+<p>This is simple: the append function adds an item to the end of the list.</p>
+<p>The following command will add &#8216;something&#8217; to the end of the list called
+listname:</p>
 <p>listname.append(something)</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;First-year students&quot;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bad_architects</span>
@@ -709,11 +716,10 @@ looks like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s">&#39;Santa Clause&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">What if you know the index of the item you want to remove?</div>
-<div class="line">What if you appended an item by mistake and just want to remove the last item in the list?</div>
-<div class="line">You should use the pop function. It looks like this:</div>
-</div>
+<p>What if you know the index of the item you want to remove?</p>
+<p>What if you appended an item by mistake and just want to remove the last
+item in the list?</p>
+<p>You should use the pop function. It looks like this:</p>
 <p>listname.pop(index)</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;coffee&quot;</span><span class="p">,</span> <span class="s">&quot;bacon&quot;</span><span class="p">,</span> <span class="s">&quot;eggs&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">what_i_ate_today</span>
@@ -745,10 +751,9 @@ looks like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;bacon&#39;</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">Notice the &#8216;bacon&#8217; in the line above.</div>
-<div class="line">pop actually &#8216;pops&#8217; the value (the one you just removed from the list) back to you.</div>
-</div>
+<p>Notice the &#8216;bacon&#8217; in the line above.</p>
+<p>pop actually &#8216;pops&#8217; the value (the one you just removed from the list)
+back to you.</p>
 <p>Let us pop the first item.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">was_first_item</span> <span class="o">=</span> <span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="k">print</span> <span class="s">&#39;was_first_item =&#39;</span><span class="p">,</span> <span class="n">was_first_item</span>
@@ -759,10 +764,8 @@ looks like this:</p>
 <span class="n">what_i_ate_today</span> <span class="o">=</span>  <span class="p">[</span><span class="s">&#39;eggs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">what_i_ate_today is just &#8216;eggs&#8217;?</div>
-<div class="line">That is not much of a breakfast!</div>
-</div>
+<p>what_i_ate_today is just &#8216;eggs&#8217;?</p>
+<p>That is not much of a breakfast!</p>
 <p>Let us get back to eppy.</p>
 </div>
 </div>
@@ -772,10 +775,8 @@ looks like this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">With our newfound knowledge of lists, we can do a lot of things.</div>
-<div class="line">Let us get the last material:</div>
-</div>
+<p>With our newfound knowledge of lists, we can do a lot of things.</p>
+<p>Let us get the last material:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -833,10 +834,8 @@ Material,
 </pre></div>
 </div>
 <p>Success! We have only 9 materials now.</p>
-<div class="line-block">
-<div class="line">The last material used to be:</div>
-<div class="line">&#8216;G05 25mm wood&#8217;</div>
-</div>
+<p>The last material used to be:</p>
+<p>&#8216;G05 25mm wood&#8217;</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -848,10 +847,8 @@ Material,
     800.0,                    !- Density
     920.0;                    !- Specific Heat</pre>
 </div>
-<div class="line-block">
-<div class="line">Now the last material in the list is:</div>
-<div class="line">&#8216;M15 200mm heavyweight concrete&#8217;</div>
-</div>
+<p>Now the last material in the list is:</p>
+<p>&#8216;M15 200mm heavyweight concrete&#8217;</p>
 </div>
 <div class="section" id="adding-a-material-to-the-list">
 <h3>Adding a material to the list<a class="headerlink" href="#adding-a-material-to-the-list" title="Permalink to this headline">¶</a></h3>
@@ -893,11 +890,10 @@ Material,
 <div class="section" id="add-a-new-material-to-the-model">
 <h3>Add a new material to the model<a class="headerlink" href="#add-a-new-material-to-the-model" title="Permalink to this headline">¶</a></h3>
 <p>TODO</p>
-<div class="line-block">
-<div class="line">So far we have been working only with materials that were already in the list.</div>
-<div class="line">What if we want to make new material?</div>
-<div class="line">Obviously we would use the function &#8216;newidfobject&#8217;.</div>
-</div>
+<p>So far we have been working only with materials that were already in the
+list.</p>
+<p>What if we want to make new material?</p>
+<p>Obviously we would use the function &#8216;newidfobject&#8217;.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -918,10 +914,9 @@ Material,
 <div class="highlight-python"><div class="highlight"><pre><span class="mi">11</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">We have 11 items in the materials list.</div>
-<div class="line">Let us take a look at the last material in the list, where this fancy new material was added</div>
-</div>
+<p>We have 11 items in the materials list.</p>
+<p>Let us take a look at the last material in the list, where this fancy
+new material was added</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -936,16 +931,12 @@ Material,
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance</pre>
 </div>
-<div class="line-block">
-<div class="line">Looks a little different from the other materials.</div>
-<div class="line">It does have the name we gave it.</div>
-<div class="line">Why do some fields have values and others are blank ?</div>
-</div>
-<div class="line-block">
-<div class="line">&#8220;addobject&#8221; puts in all the default values, and leaves the others blank.</div>
-<div class="line">It is up to us to put values in the the new fields.</div>
-<div class="line">Let&#8217;s do it now.</div>
-</div>
+<p>Looks a little different from the other materials. It does have the name
+we gave it.</p>
+<p>Why do some fields have values and others are blank ?</p>
+<p>&#8220;addobject&#8221; puts in all the default values, and leaves the others blank.
+It is up to us to put values in the the new fields.</p>
+<p>Let&#8217;s do it now.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#39;Peanut Butter&#39;</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Roughness</span> <span class="o">=</span> <span class="s">&#39;MediumSmooth&#39;</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">=</span> <span class="mf">0.03</span>
@@ -995,42 +986,40 @@ Material,
 <h2>Python lesson 3: indentation and looping through lists<a class="headerlink" href="#python-lesson-3-indentation-and-looping-through-lists" title="Permalink to this headline">¶</a></h2>
 <p>I&#8217;m tired of doing all this work, it&#8217;s time to make python do some heavy
 lifting for us!</p>
-<div class="line-block">
-<div class="line">Python can go through each item in a list and perform an operation on any (or every) item in the list.</div>
-<div class="line">This is called looping through the list.</div>
-<div class="line">Here&#8217;s how to tell python to step through each item in a list, and then do something to every single item.</div>
-<div class="line">We&#8217;ll use a &#8216;for&#8217; loop to do this.</div>
+<p>Python can go through each item in a list and perform an operation on
+any (or every) item in the list.</p>
+<p>This is called looping through the list.</p>
+<p>Here&#8217;s how to tell python to step through each item in a list, and then
+do something to every single item.</p>
+<p>We&#8217;ll use a &#8216;for&#8217; loop to do this.</p>
+<dl class="docutils">
+<dt>for &lt;variable&gt; in &lt;listname&gt;:</dt>
+<dd>&lt;do something&gt;</dd>
+</dl>
+<p>A quick note about the second line. Notice that it&#8217;s indented? There are
+4 blank spaces before the code starts:</p>
+<div class="highlight-python"><pre>in python, indentations are used
+to determine the grouping of statements
+       some languages use symbols to mark
+       where the function code starts and stops
+       but python uses indentation to tell you this
+                i'm using indentation to
+                show the beginning and end of a sentence
+       this is a very simple explanation
+       of indentation in python
+ if you'd like to know more, there is plenty of information
+ about indentation in python on the web</pre>
 </div>
-<div class="highlight-python"><pre>for &lt;variable&gt; in &lt;listname&gt;:
-    &lt;do something&gt;
-
-A quick note about the second line. Notice that it's indented? There are
-4 blank spaces before the code starts.
-
-    in python, indentations are used
-    to determine the grouping of statements
-           some languages use symbols to mark
-           where the function code starts and stops
-           but python uses indentation to tell you this
-                    i'm using indentation to
-                    show the beginning and end of a sentence
-           this is a very simple explanation
-           of indentation in python
-     if you'd like to know more, there is plenty of information
-     about indentation in python on the web</pre>
-</div>
-<div class="line-block">
-<div class="line">It&#8217;s elegant, but it means that the indentation of the code holds meaning.</div>
-<div class="line">So make sure to indent the second (and third and forth) lines of your loops!</div>
-</div>
+<p>It&#8217;s elegant, but it means that the indentation of the code holds
+meaning.</p>
+<p>So make sure to indent the second (and third and forth) lines of your
+loops!</p>
 <p>Now let&#8217;s make some fruit loops.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">Given the syntax I gave you before I started rambling about indentation,</div>
-<div class="line">we can easily print every item in the fruits list by using a &#8216;for&#8217; loop.</div>
-</div>
+<p>Given the syntax I gave you before I started rambling about indentation,
+we can easily print every item in the fruits list by using a &#8216;for&#8217; loop.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>
    <span class="k">print</span> <span class="n">fruit</span>
 </pre></div>
@@ -1040,11 +1029,9 @@ A quick note about the second line. Notice that it's indented? There are
 <span class="n">bannana</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">That was easy! But it can get complicated pretty quickly...</div>
-<div class="line">Let&#8217;s make it do something more complicated than just print the fruits.</div>
-<div class="line">Let&#8217;s have python add some words to each fruit.</div>
-</div>
+<p>That was easy! But it can get complicated pretty quickly...</p>
+<p>Let&#8217;s make it do something more complicated than just print the fruits.</p>
+<p>Let&#8217;s have python add some words to each fruit.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>
     <span class="k">print</span> <span class="s">&quot;I am a fruit said the&quot;</span><span class="p">,</span> <span class="n">fruit</span>
 </pre></div>
@@ -1070,8 +1057,8 @@ I am a fruit said the bannana</pre>
 <span class="n">rottenfruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;rotten &quot;</span> <span class="o">+</span> <span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Did you follow all that?? Just in case you didn&#8217;t, let&#8217;s review that
-last one...</p>
+<p>Did you follow all that??</p>
+<p>Just in case you didn&#8217;t, let&#8217;s review that last one:</p>
 <div class="highlight-python"><pre>["rotten " + fruit for fruit in fruits]
                    -------------------
                    This is the "for loop"
@@ -1094,16 +1081,14 @@ give a new list that is a result of the "do something"</pre>
 </div>
 <div class="section" id="filtering-in-a-loop">
 <h3>Filtering in a loop<a class="headerlink" href="#filtering-in-a-loop" title="Permalink to this headline">¶</a></h3>
-<div class="line-block">
-<div class="line">But what if you don&#8217;t want to change <em>every</em> item in a list?</div>
-<div class="line">We can use an &#8216;if&#8217; statement to operate on only some items in the list.</div>
-</div>
+<p>But what if you don&#8217;t want to change <em>every</em> item in a list?</p>
+<p>We can use an &#8216;if&#8217; statement to operate on only some items in the list.</p>
 <p>Indentation is also important in &#8216;if&#8217; statements, as you&#8217;ll see:</p>
 <dl class="docutils">
 <dt>if &lt;someconstraint&gt;:</dt>
-<dd>&lt;if the first line is true, do this&gt;
-&lt;but if it&#8217;s false, do this&gt;</dd>
+<dd>&lt;if the first line is true, do this&gt;</dd>
 </dl>
+<p>&lt;but if it&#8217;s false, do this&gt;</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;berry&quot;</span><span class="p">,</span> <span class="s">&quot;mango&quot;</span><span class="p">,</span> <span class="s">&quot;plum&quot;</span><span class="p">,</span> <span class="s">&quot;peach&quot;</span><span class="p">,</span> <span class="s">&quot;melon&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1163,10 +1148,9 @@ a fresh new list with those fruits</pre>
 <h3>Counting through loops<a class="headerlink" href="#counting-through-loops" title="Permalink to this headline">¶</a></h3>
 <p>This is not really needed, but it is nice to know. You can safely skip
 this.</p>
-<div class="line-block">
-<div class="line">Python&#8217;s built-in function range() makes a list of numbers within a range that you specify.</div>
-<div class="line">This is useful because you can use these lists inside of loops.</div>
-</div>
+<p>Python&#8217;s built-in function range() makes a list of numbers within a
+range that you specify.</p>
+<p>This is useful because you can use these lists inside of loops.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c"># makes a list</span>
 </pre></div>
 </div>
@@ -1236,11 +1220,10 @@ this.</p>
 </div>
 <div class="section" id="looping-through-e-objects">
 <h2>Looping through E+ objects<a class="headerlink" href="#looping-through-e-objects" title="Permalink to this headline">¶</a></h2>
-<div class="line-block">
-<div class="line">If you have read the python explanation of loops, you are now masters of using loops.</div>
-<div class="line">Let us use the loops with E+ objects.</div>
-<div class="line">We&#8217;ll continue to work with the materials list.</div>
-</div>
+<p>If you have read the python explanation of loops, you are now masters of
+using loops.</p>
+<p>Let us use the loops with E+ objects.</p>
+<p>We&#8217;ll continue to work with the materials list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">material</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
@@ -1412,15 +1395,15 @@ Material,
     920.0;                    !- Specific Heat
 ]</pre>
 </div>
-<div class="line-block">
-<div class="line">So now we&#8217;re working with two different lists: materials and thick_materials.</div>
-<div class="line">But even though the items can be separated into two lists, we&#8217;re still working with the same items.</div>
-<div class="line">Here&#8217;s a helpful illustration:</div>
-</div>
+<p>So now we&#8217;re working with two different lists: materials and
+thick_materials.</p>
+<p>But even though the items can be separated into two lists, we&#8217;re still
+working with the same items.</p>
+<p>Here&#8217;s a helpful illustration:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">material_lists</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/Main_Tutorial_208_0.png" src="_images/Main_Tutorial_208_0.png" />
+<img alt="_images/Main_Tutorial_206_0.png" src="_images/Main_Tutorial_206_0.png" />
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s the same concept, demonstrated with code</span>
 <span class="c"># remember, we changed the names of the items in the list thick_materials</span>
 <span class="c"># these changes are visible when we print the materials list; the thick materials are also in the materials list</span>
@@ -1444,12 +1427,13 @@ Material,
 </div>
 <div class="section" id="geometry-functions-in-eppy">
 <h2>Geometry functions in eppy<a class="headerlink" href="#geometry-functions-in-eppy" title="Permalink to this headline">¶</a></h2>
-<p>TODO</p>
-<div class="line-block">
-<div class="line">Sometimes, we want information about the E+ object that is not in thefields.</div>
-<div class="line">For example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects <em>do</em> have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.</div>
-<div class="line">Pyeplus has some functions that will do the calculations.</div>
-</div>
+<p>Sometimes, we want information about the E+ object that is not in the
+fields. For example, it would be useful to know the areas and
+orientations of the surfaces. These attributes of the surfaces are not
+in the fields of surfaces, but surface objects <em>do</em> have fields that
+have the coordinates of the surface. The areas and orientations can be
+calculated from these coordinates.</p>
+<p>Pyeplus has some functions that will do the calculations.</p>
 <p>In the present version, pyeplus will calculate:</p>
 <ul class="simple">
 <li>surface azimuth</li>
@@ -1647,10 +1631,9 @@ F3-1S 0.0 CLNG-1
 F4-1S 0.0 CLNG-1
 F5-1S 0.0 CLNG-1</pre>
 </div>
-<div class="line-block">
-<div class="line">You can see the &#8220;NORTHERN-WALL&#8221; in the print out above.</div>
-<div class="line">This shows that very sophisticated modification can be made to themodel rather quickly.</div>
-</div>
+<p>You can see the &#8220;NORTHERN-WALL&#8221; in the print out above.</p>
+<p>This shows that very sophisticated modification can be made to the model
+rather quickly.</p>
 </div>
 </div>
 
@@ -1663,7 +1646,6 @@ F5-1S 0.0 CLNG-1</pre>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Eppy Tutorial</a><ul>
-<li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#quick-start">Quick Start</a></li>
 <li><a class="reference internal" href="#modifying-idf-fields">Modifying IDF Fields</a></li>
 <li><a class="reference internal" href="#python-lesson-1-lists">Python lesson 1: lists</a><ul>

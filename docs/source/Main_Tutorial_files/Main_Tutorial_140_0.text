@@ -1,1 +1,9 @@
-10
+
+Material,                 
+    G05 25mm wood,            !- Name
+    MediumSmooth,             !- Roughness
+    0.0254,                   !- Thickness
+    0.15,                     !- Conductivity
+    608.0,                    !- Density
+    1630.0;                   !- Specific Heat
+

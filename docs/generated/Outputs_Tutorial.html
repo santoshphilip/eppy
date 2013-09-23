@@ -23,7 +23,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.1 documentation" href="index.html" /> 
+    <link rel="top" title="eppy 0.4.1 documentation" href="index.html" />
+    <link rel="next" title="Eppy API" href="eppy_api.html" />
+    <link rel="prev" title="Plant loops and diagrams in eppy" href="HVAC_Tutorial.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,6 +37,12 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="eppy_api.html" title="Eppy API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="HVAC_Tutorial.html" title="Plant loops and diagrams in eppy"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -65,14 +73,17 @@
 </div>
 <img alt="_images/Outputs_Tutorial_3_0.png" src="_images/Outputs_Tutorial_3_0.png" />
 <div class="line-block">
-<div class="line">If you look at the clipping of the html file above, you see tables with data in them.</div>
-<div class="line">Eppy has functions that let you access of these tables and get the data from any of it&#8217;s cells.</div>
+<div class="line">If you look at the clipping of the html file above, you see tables</div>
 </div>
+<p>with data in them.
+| Eppy has functions that let you access of these tables and get the
+data from any of it&#8217;s cells.</p>
 <div class="line-block">
 <div class="line">Let us say you want to find the &#8220;Net Site Energy&#8221;.</div>
 <div class="line">This is in table &#8220;Site and Source Energy&#8221;.</div>
-<div class="line">The number you want is in the third row, second column and it&#8217;s value is &#8220;47694.47&#8221;</div>
+<div class="line">The number you want is in the third row, second column and it&#8217;s value</div>
 </div>
+<p>is &#8220;47694.47&#8221;</p>
 <p>Let us use eppy to txtract this number</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c"># the html file you want to read</span>
@@ -83,9 +94,10 @@
 </pre></div>
 </div>
 <div class="line-block">
-<div class="line">If you open the python file readhtml.py and look at the function titletable, you can see the function documentation.</div>
-<div class="line">It says the following</div>
+<div class="line">If you open the python file readhtml.py and look at the function</div>
 </div>
+<p>titletable, you can see the function documentation.
+| It says the following</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;return a list of [(title, table), .....]</span>
 <span class="sd">title = previous item with a &lt;b&gt; tag</span>
 <span class="sd">table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&quot;&quot;&quot;</span>
@@ -96,8 +108,9 @@
 </pre>
 <div class="line-block">
 <div class="line">The documentation says that it returns a list.</div>
-<div class="line">Let us take a look inside this list. Let us look at the first item in the list.</div>
+<div class="line">Let us take a look inside this list. Let us look at the first item in</div>
 </div>
+<p>the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
@@ -226,8 +239,9 @@ Source Energy Conversion Factors&#8221;</p>
 </div>
 <div class="line-block">
 <div class="line">Let us leave readtables for now.</div>
-<div class="line">It gives us the basic fucntionality to read any of the tables in the html output file</div>
+<div class="line">It gives us the basic fucntionality to read any of the tables in the</div>
 </div>
+<p>html output file</p>
 </div>
 
 
@@ -236,6 +250,12 @@ Source Energy Conversion Factors&#8221;</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="HVAC_Tutorial.html"
+                        title="previous chapter">Plant loops and diagrams in eppy</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="eppy_api.html"
+                        title="next chapter">Eppy API</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/Outputs_Tutorial.txt"
@@ -267,6 +287,12 @@ Source Energy Conversion Factors&#8221;</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="eppy_api.html" title="Eppy API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="HVAC_Tutorial.html" title="Plant loops and diagrams in eppy"
+             >previous</a> |</li>
         <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

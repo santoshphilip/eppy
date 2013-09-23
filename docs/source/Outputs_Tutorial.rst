@@ -12,26 +12,28 @@ Reading outputs from E+
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
-
 | So far we have been making changes to the IDF input file.
 | How about looking at the outputs.
 
 Energyplus makes nice htmlout files that look like this.
 
 .. code:: python
-    
+
     for_images.display_png(for_images.html_snippet) # display the image below
-    
-    
+
+
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_3_0.png
 
 
-| If you look at the clipping of the html file above, you see tables with data in them.
-| Eppy has functions that let you access of these tables and get the data from any of it's cells.
+| If you look at the clipping of the html file above, you see tables
+with data in them.
+| Eppy has functions that let you access of these tables and get the
+data from any of it's cells.
 
 | Let us say you want to find the "Net Site Energy".
 | This is in table "Site and Source Energy".
-| The number you want is in the third row, second column and it's value is "47694.47"
+| The number you want is in the third row, second column and it's value
+is "47694.47"
 
 Let us use eppy to txtract this number
 
@@ -43,8 +45,8 @@ Let us use eppy to txtract this number
     
     
     htables = readhtml.titletable(filehandle) # reads the tables with their titles
-
-| If you open the python file readhtml.py and look at the function titletable, you can see the function documentation.
+| If you open the python file readhtml.py and look at the function
+titletable, you can see the function documentation.
 | It says the following
 
 .. code:: python
@@ -62,7 +64,8 @@ Let us use eppy to txtract this number
 
 
 | The documentation says that it returns a list.
-| Let us take a look inside this list. Let us look at the first item in the list.
+| Let us take a look inside this list. Let us look at the first item in
+the list.
 
 .. code:: python
 
@@ -233,4 +236,5 @@ Source Energy Conversion Factors"
 
 
 | Let us leave readtables for now.
-| It gives us the basic fucntionality to read any of the tables in the html output file
+| It gives us the basic fucntionality to read any of the tables in the
+html output file

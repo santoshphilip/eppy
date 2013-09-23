@@ -10,6 +10,10 @@ notes on publishing the documentation.
 - git push to remote
 - goto <https://readthedocs.org/dashboard/> and build docs again
 
+notes on reducing rst errors from ipython notebook
+- instead of multiple lines do multiple paragraphs
+- indent raw text
+
 2013-09-20
 ----------
 to make html of the tutorials do:
