@@ -1,6 +1,6 @@
 
-Eppy Documentation
-==================
+Eppy Tutorial
+=============
 
 
 Authors: Santosh Philip, Leora Tanjuatco
@@ -35,12 +35,11 @@ do the following:
 
 
 Installation
-~~~~~~~~~~~~
+------------
 
 
 | Eppy need a couple of libraries to be installed before it can run.
-| So if you are going to try out the steps in the tutorial take a look
-at the installation instructions.
+| So if you are going to try out the steps in the tutorial take a look at the installation instructions.
 | The installation instructions are in ./eplusscripting/install.txt
 
 Quick Start
@@ -48,34 +47,34 @@ Quick Start
 
 
 Here is a short IDF file that I’ll be using as an example to start us
-off:
+off::
 
-VERSION,
-    7.2;                     !- Version Identifier
+    VERSION,
+        7.2;                     !- Version Identifier
 
-SIMULATIONCONTROL,
-    Yes,                     !- Do Zone Sizing Calculation
-    Yes,                     !- Do System Sizing Calculation
-    Yes,                     !- Do Plant Sizing Calculation
-    No,                      !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
+    SIMULATIONCONTROL,
+        Yes,                     !- Do Zone Sizing Calculation
+        Yes,                     !- Do System Sizing Calculation
+        Yes,                     !- Do Plant Sizing Calculation
+        No,                      !- Run Simulation for Sizing Periods
+        Yes;                     !- Run Simulation for Weather File Run Periods
 
-BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
+    BUILDING,
+        White House,             !- Name
+        30.,                     !- North Axis {deg}
+        City,                    !- Terrain
+        0.04,                    !- Loads Convergence Tolerance Value
+        0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+        FullExterior,            !- Solar Distribution
+        25,                      !- Maximum Number of Warmup Days
+        6;                       !- Minimum Number of Warmup Days
 
-SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,  !- Name
-    41.78,                   !- Latitude {deg}
-    -87.75,                  !- Longitude {deg}
-    -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}
+    SITE:LOCATION,
+        CHICAGO_IL_USA TMY2-94846,  !- Name
+        41.78,                   !- Latitude {deg}
+        -87.75,                  !- Longitude {deg}
+        -6.00,                   !- Time Zone {hr}
+        190.00;                  !- Elevation {m}
 
 
 To use eppy to look at this model, we have to run a little code first:
@@ -102,8 +101,7 @@ To use eppy to look at this model, we have to run a little code first:
 .. code:: python
 
     IDF.setiddname(iddfile)
-    idf1 = IDF(fname1)
-idf1 now holds all the data to your in you idf file.
+    idf1 = IDF(fname1) idf1 now holds all the data to your in you idf file.
 
 Now that the behind-the-scenes work is done, we can print this file.
 
@@ -177,15 +175,14 @@ print filename.idfobjects['OBJECTNAME']
     ]
 
 
-| We can also zoom in on the object and look just at its individual
-parts.
+| We can also zoom in on the object and look just at its individual parts.
 | For example, let us look at the name of the building.
-| To do this, we have to do some more behind-the-scenes work, which
-we'll explain later.
+| To do this, we have to do some more behind-the-scenes work, which we'll explain later.
 
 .. code:: python
 
     building = idf1.idfobjects['BUILDING'][0]
+
 Now we can do this:
 
 .. code:: python
@@ -276,14 +273,15 @@ field name ("Empire State Building") into this command gave us this:
     # import eppy.ex_inits
     # reload(eppy.ex_inits)
     import eppy.ex_inits
-| But how did we know that "Name" is one of the fields in the object
-"building"? Are there other fields?
+
+| But how did we know that "Name" is one of the fields in the object "building"? Are there other fields?
 | What are they called?
 | Let's take a look at the IDF editor:
 
 .. code:: python
-
+    
     from eppy import ex_inits #no need to know this code, it just shows the image below
+    
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
@@ -318,10 +316,8 @@ Let us try to access the other fields -
     City
 
 
-| How about the field "North Axis" ? It is not a single word, but two
-words.
-| In a programming language, a variable has to be a single word without
-any spaces.
+| How about the field "North Axis" ? It is not a single word, but two words.
+| In a programming language, a variable has to be a single word without any spaces.
 
 | To solve this problem, put an underscore where there is a space.
 | So "North Axis" becomes "North\_Axis".
@@ -361,11 +357,9 @@ Now we can do:
 
 
 | Where else can we find the field names?
-| The IDF Editor saves the idf file with the field name commented next
-to field.
+| The IDF Editor saves the idf file with the field name commented next to field.
 | Eppy also does this.
-| Let us take a look at the "BUILDING" object in the text file that the
-IDF Editor saves
+| Let us take a look at the "BUILDING" object in the text file that the IDF Editor saves
 
 BUILDING,
     White House,             !- Name
@@ -383,13 +377,10 @@ paste from here. You can't do that from the IDF Editor.
 We know that in an E+ model, there will be only ONE "BUILDING" object.
 This will be the first and only item in the list "buildings".
 
-| But E+ models are made up of objects such as "BUILDING",
-"SITE:LOCATION", "ZONE", "PEOPLE", "LIGHTS".
-| There can be a number of "ZONE" objects, a number of "PEOPLE" objects
-and a number of "LIGHTS" objects.
+| But E+ models are made up of objects such as "BUILDING", "SITE:LOCATION", "ZONE", "PEOPLE", "LIGHTS".
+| There can be a number of "ZONE" objects, a number of "PEOPLE" objects and a number of "LIGHTS" objects.
 
-| So how do you know if you're looking at the first "ZONE" object or the
-second one? Or the tenth one?
+| So how do you know if you're looking at the first "ZONE" object or the second one? Or the tenth one?
 | To answer this, we need to learn about how lists work in python.
 
 Python lesson 1: lists
@@ -402,8 +393,7 @@ Python lesson 1: lists
 .. code:: python
 
     fruits = ["apple", "orange", "bannana"] 
-    # fruits is a list with three items in it.
-To get the first item in fruits we say:
+    # fruits is a list with three items in it. To get the first item in fruits we say:
 
 .. code:: python
 
@@ -470,8 +460,7 @@ How many items in the list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-| To know how many items are in a list, we ask for the length of the
-list.
+| To know how many items are in a list, we ask for the length of the list.
 | The function 'len' will do this for us.
 
 .. code:: python
@@ -494,19 +483,18 @@ This is easy:
 .. code:: python
 
     idf1.save() 
-If you'd like to do a "Save as..." use this:
+    If you'd like to do a "Save as..." use this:
 
 .. code:: python
 
     idf1.saveas('something.idf')
+    
 Working with E+ objects
 -----------------------
 
 
-| Let us open a small idf file that has only "CONSTRUCTION" and
-"MATERIAL" objects in it.
-| You can go into "../idffiles/V\_7\_2/constructions.idf" and take a
-look at the file.
+| Let us open a small idf file that has only "CONSTRUCTION" and "MATERIAL" objects in it.
+| You can go into "../idffiles/V\_7\_2/constructions.idf" and take a look at the file.
 | We are not printing it here because it is too big.
 
 So let us open it using the idfreader -
@@ -616,8 +604,7 @@ Let us print all the "MATERIAL" objects in this model.
 
 | As you can see, there are many material objects in this idf file.
 | The variable "materials" now contains a list of "MATERIAL" objects.
-| You already know a little about lists, so let us take a look at the
-items in this list.
+| You already know a little about lists, so let us take a look at the items in this list.
 
 .. code:: python
 
@@ -660,8 +647,7 @@ Let us print secondmaterial
 
 
 | This is awesome!! Why?
-| To understand what you can do with your objects organized as lists,
-you'll have to learn a little more about lists.
+| To understand what you can do with your objects organized as lists, you'll have to learn a little more about lists.
 
 Python lesson 2: more about lists
 ---------------------------------
@@ -671,12 +657,9 @@ More ways to access items in a list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-| You should remember that you can access any item in a list by passing
-in its index.
-| The tricky part is that python starts counting at 0, so you need to
-input 0 in order to get the first item in a list.
-| Following the same logic, you need to input 3 in order to get the
-fourth item on the list. Like so:
+| You should remember that you can access any item in a list by passing in its index.
+| The tricky part is that python starts counting at 0, so you need to input 0 in order to get the first item in a list.
+| Following the same logic, you need to input 3 in order to get the fourth item on the list. Like so:
 
 .. code:: python
 
@@ -723,14 +706,14 @@ bad_architects[first_slice:second_slice]
 
 | How do I make sense of this?
 | To understand this you need to see the list in the following manner:
+    
+    [ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
+    [^               ^              ^             ^            ^              ^
+    [0               1              2             3            4              5
+    -5              -4             -3            -2           -1               
+    
 
-[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
- ^               ^              ^             ^            ^              ^
- 0               1              2             3            4              5
--5              -4             -3            -2           -1
-
-| The slice operation bad\_architects[1:3] slices right where the
-numbers are.
+| The slice operation bad\_architects[1:3] slices right where the numbers are.
 | Does that make sense?
 
 Let us try a few other slices:
@@ -769,10 +752,8 @@ Adding to a list
 ^^^^^^^^^^^^^^^^
 
 
-| This is simple: the append function adds an item to the end of the
-list.
-| The following command will add 'something' to the end of the list
-called listname:
+| This is simple: the append function adds an item to the end of the list.
+| The following command will add 'something' to the end of the list called listname:
 
 listname.append(something)
 
@@ -809,8 +790,7 @@ An example:
 
 
 | What if you know the index of the item you want to remove?
-| What if you appended an item by mistake and just want to remove the
-last item in the list?
+| What if you appended an item by mistake and just want to remove the last item in the list?
 | You should use the pop function. It looks like this:
 
 listname.pop(index)
@@ -862,8 +842,7 @@ You can also remove the second item.
 
 
 | Notice the 'bacon' in the line above.
-| pop actually 'pops' the value (the one you just removed from the list)
-back to you.
+| pop actually 'pops' the value (the one you just removed from the list) back to you.
 
 Let us pop the first item.
 
@@ -893,6 +872,7 @@ Let us get those "MATERIAL" objects again
 .. code:: python
 
     materials = idf1.idfobjects["MATERIAL"]
+
 | With our newfound knowledge of lists, we can do a lot of things.
 | Let us get the last material:
 
@@ -1062,8 +1042,7 @@ Add a new material to the model
 
 TODO
 
-| So far we have been working only with materials that were already in
-the list.
+| So far we have been working only with materials that were already in the list.
 | What if we want to make new material?
 | Obviously we would use the function 'newidfobject'.
 
@@ -1103,8 +1082,7 @@ the list.
 
 
 | We have 11 items in the materials list.
-| Let us take a look at the last material in the list, where this fancy
-new material was added
+| Let us take a look at the last material in the list, where this fancy new material was added
 
 .. code:: python
 
@@ -1130,8 +1108,7 @@ new material was added
 | It does have the name we gave it.
 | Why do some fields have values and others are blank ?
 
-| "addobject" puts in all the default values, and leaves the others
-blank.
+| "addobject" puts in all the default values, and leaves the others blank.
 | It is up to us to put values in the the new fields.
 | Let's do it now.
 
@@ -1201,45 +1178,42 @@ Python lesson 3: indentation and looping through lists
 I'm tired of doing all this work, it's time to make python do some heavy
 lifting for us!
 
-| Python can go through each item in a list and perform an operation on
-any (or every) item in the list.
+| Python can go through each item in a list and perform an operation on any (or every) item in the list.
 | This is called looping through the list.
-| Here's how to tell python to step through each item in a list, and
-then do something to every single item.
+| Here's how to tell python to step through each item in a list, and then do something to every single item.
 | We'll use a 'for' loop to do this.
 
-for <variable> in <listname>:
-    <do something>
+::
 
-A quick note about the second line. Notice that it's indented? There are
-4 blank spaces before the code starts.
+    for <variable> in <listname>:
+        <do something>
 
-    in python, indentations are used    
-    to determine the grouping of statements  
-           some languages use symbols to mark 
-           where the function code starts and stops   
-           but python uses indentation to tell you this  
-                    i'm using indentation to
-                    show the beginning and end of a sentence
-           this is a very simple explanation
-           of indentation in python
-     if you'd like to know more, there is plenty of information
-     about indentation in python on the web
+    A quick note about the second line. Notice that it's indented? There are
+    4 blank spaces before the code starts.
 
-| It's elegant, but it means that the indentation of the code holds
-meaning.
-| So make sure to indent the second (and third and forth) lines of your
-loops!
+        in python, indentations are used    
+        to determine the grouping of statements  
+               some languages use symbols to mark 
+               where the function code starts and stops   
+               but python uses indentation to tell you this  
+                        i'm using indentation to
+                        show the beginning and end of a sentence
+               this is a very simple explanation
+               of indentation in python
+         if you'd like to know more, there is plenty of information
+         about indentation in python on the web
+
+| It's elegant, but it means that the indentation of the code holds meaning.
+| So make sure to indent the second (and third and forth) lines of your loops!
 
 Now let's make some fruit loops.
 
 .. code:: python
 
     fruits = ["apple", "orange", "bannana"] 
-| Given the syntax I gave you before I started rambling about
-indentation,
-| we can easily print every item in the fruits list by using a 'for'
-loop.
+
+| Given the syntax I gave you before I started rambling about indentation,
+| we can easily print every item in the fruits list by using a 'for' loop.
 
 .. code:: python
 
@@ -1254,8 +1228,7 @@ loop.
 
 
 | That was easy! But it can get complicated pretty quickly...
-| Let's make it do something more complicated than just print the
-fruits.
+| Let's make it do something more complicated than just print the fruits.
 | Let's have python add some words to each fruit.
 
 .. code:: python
@@ -1291,22 +1264,25 @@ Now we'll try to confuse you:
 
     # here's a shorter way of writing it
     rottenfruits = ["rotten " + fruit for fruit in fruits]
+
 Did you follow all that?? Just in case you didn't, let's review that
 last one...
 
-["rotten " + fruit for fruit in fruits]
-                   -------------------
-                   This is the "for loop"
-                   it steps through each fruit in fruits
+::
 
-["rotten " + fruit for fruit in fruits]
- -----------------
- add "rotten " to the fruit at each step
- this is your "do something"
- 
-["rotten " + fruit for fruit in fruits]
----------------------------------------
-give a new list that is a result of the "do something"
+    ["rotten " + fruit for fruit in fruits]
+                       -------------------
+                       This is the "for loop"
+                       it steps through each fruit in fruits
+                       
+    ["rotten " + fruit for fruit in fruits]
+     -----------------
+     add "rotten " to the fruit at each step
+     this is your "do something"
+     
+    ["rotten " + fruit for fruit in fruits]
+    ---------------------------------------
+    give a new list that is a result of the "do something"
 
 .. code:: python
 
@@ -1322,18 +1298,18 @@ Filtering in a loop
 
 
 | But what if you don't want to change *every* item in a list?
-| We can use an 'if' statement to operate on only some items in the
-list.
+| We can use an 'if' statement to operate on only some items in the list.
 
 Indentation is also important in 'if' statements, as you'll see:
 
 if <someconstraint>:
     <if the first line is true, do this>
-<but if it's false, do this>
+    <but if it's false, do this>
 
 .. code:: python
 
     fruits = ["apple", "orange", "pear", "berry", "mango", "plum", "peach", "melon", "bannana"]
+
 .. code:: python
 
     for fruit in fruits:               # steps through every fruit in fruits
@@ -1372,21 +1348,21 @@ Let's say we want to pick only the fruits that start with the letter
 
     # here's a shorter way to write it
     p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
-[fruit for fruit in fruits if fruit.startswith("p")]
-       -------------------
-       for loop
+    [fruit for fruit in fruits if fruit.startswith("p")]
+           -------------------
+           for loop
 
-[fruit for fruit in fruits if fruit.startswith("p")]
-                           ------------------------
-                           pick only some of the fruits
+    [fruit for fruit in fruits if fruit.startswith("p")]
+                               ------------------------
+                               pick only some of the fruits
 
-[fruit for fruit in fruits if fruit.startswith("p")]
- -----
- give me the variable fruit as it appears in the list, don't change it
+    [fruit for fruit in fruits if fruit.startswith("p")]
+     -----
+     give me the variable fruit as it appears in the list, don't change it
  
-[fruit for fruit in fruits if fruit.startswith("p")]
-----------------------------------------------------
-a fresh new list with those fruits
+    [fruit for fruit in fruits if fruit.startswith("p")]
+    ----------------------------------------------------
+    a fresh new list with those fruits
 
 .. code:: python
 
@@ -1404,8 +1380,7 @@ Counting through loops
 This is not really needed, but it is nice to know. You can safely skip
 this.
 
-| Python's built-in function range() makes a list of numbers within a
-range that you specify.
+| Python's built-in function range() makes a list of numbers within a range that you specify.
 | This is useful because you can use these lists inside of loops.
 
 .. code:: python
@@ -1509,8 +1484,7 @@ Looping through E+ objects
 --------------------------
 
 
-| If you have read the python explanation of loops, you are now masters
-of using loops.
+| If you have read the python explanation of loops, you are now masters of using loops.
 | Let us use the loops with E+ objects.
 | We'll continue to work with the materials list.
 
@@ -1733,10 +1707,8 @@ of using loops.
 
 
 
-| So now we're working with two different lists: materials and
-thick\_materials.
-| But even though the items can be separated into two lists, we're still
-working with the same items.
+| So now we're working with two different lists: materials and thick\_materials.
+| But even though the items can be separated into two lists, we're still working with the same items.
 | Here's a helpful illustration:
 
 .. code:: python
@@ -1779,13 +1751,8 @@ Geometry functions in eppy
 
 TODO
 
-| Sometimes, we want information about the E+ object that is not in the
-fields.
-| For example, it would be useful to know the areas and orientations of
-the surfaces. These attributes of the surfaces are not in the fields of
-surfaces, but surface objects *do* have fields that have the coordinates
-of the surface. The areas and orientations can be calculated from these
-coordinates.
+| Sometimes, we want information about the E+ object that is not in thefields.
+| For example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects *do* have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.
 | Pyeplus has some functions that will do the calculations.
 
 In the present version, pyeplus will calculate:
@@ -2031,24 +1998,6 @@ construnctions
 
 
 | You can see the "NORTHERN-WALL" in the print out above.
-| This shows that very sophisticated modification can be made to the
-model rather quickly.
-
-Examples of using eppy
-----------------------
-
-
-.. code:: python
-
-    
-Elimination parametrics using eppy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-Other Examples
-~~~~~~~~~~~~~~
-
-
-.. code:: python
+| This shows that very sophisticated modification can be made to themodel rather quickly.
 
     

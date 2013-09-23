@@ -1,10 +1,22 @@
+2013-09-22
+----------
+notes on publishing the documentation.
+- ipython notabook to make the docs
+- ipython nbconvert --to rst ../*.ipynb # run from ./docs/generated
+- ipython nbconvert --to rst ../*.ipynb # run from ./docs/source
+- put the rst file names in index.rst
+- make html # run from docs
+- correct any errors
+- git push to remote
+- goto <https://readthedocs.org/dashboard/> and build docs again
+
 2013-09-20
 ----------
 to make html of the tutorials do:
 ipython nbconvert --to html *.ipynb
 ipython nbconvert --to html ../*.ipynb # run from ./docs/generated
 ipython nbconvert --to rst ../*.ipynb # run from ./docs/generated
-ipython nbconvert --to html ../../*.ipynb # run from ./docs/generated/_static
+ipython nbconvert --to rst ../*.ipynb # run from ./docs/source
 
 2013-08-31
 ----------
