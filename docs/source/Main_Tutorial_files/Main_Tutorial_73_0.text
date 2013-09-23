@@ -1,0 +1,9 @@
+
+Material,                 
+    F08 Metal surface,        !- Name
+    Smooth,                   !- Roughness
+    0.0008,                   !- Thickness
+    45.28,                    !- Conductivity
+    7824.0,                   !- Density
+    500.0;                    !- Specific Heat
+
