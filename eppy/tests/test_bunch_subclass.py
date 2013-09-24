@@ -497,4 +497,54 @@ def test_extendlist():
     for lst, i, value, nlst in data:
         bunch_subclass.extendlist(lst, i, value=value)
         assert lst == nlst
+    
+class TestEpBunch:
+    """py.test for EpBunch.getrange, EpBunch.checkrange"""
+    def test_getrange(self):
+        data = ((
+            ['BUILDING',
+            'Empire State Building',
+            30.0,
+            'City',
+            0.04,
+            0.4,
+            'FullExterior',
+            25,
+            6], #obj
+            
+            ['key',
+            'Name',
+            'North_Axis',
+            'Terrain',
+            'Loads_Convergence_Tolerance_Value',
+            'Temperature_Convergence_Tolerance_Value',
+            'Solar_Distribution',
+            'Maximum_Number_of_Warmup_Days',
+            'Minimum_Number_of_Warmup_Days'],
+            
+            [{},
+            {},
+            {},
+            {},
+            
+            {'maximum': ['.5'],
+            'minimum>': ['0.0'],},
+            
+            {'maximum': ['.5'],
+            'minimum>': ['0.0'],},
+            
+            {},
+
+            {'minimum>': ['0'],},
+            
+            {'minimum>': ['0'],},
+            ],
+            
+         ), # obj, objls, objidd
+        )
+        
+        for obj, objls, objidd in data:
+            assert 1 == 1
+            
+            
 # test_EpBunch()

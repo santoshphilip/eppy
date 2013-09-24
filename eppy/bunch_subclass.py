@@ -165,9 +165,19 @@ class EpBunch_4(EpBunch_3):
             print "unknown field %s" % (key, )
             raise BadEPFieldError
         
-                                
+
+class EpBunch_5(EpBunch_4):
+    """implements getrange, checkrange"""
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
+        super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
+    def getrange(self, fieldname):
+        """get the ranges for this field"""
+        pass
+    def checkrange(self, fieldname):
+        """throw exception if the out of range"""
+        pass
         
-EpBunch = EpBunch_4
+EpBunch = EpBunch_5
 
 def main():
 
