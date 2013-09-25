@@ -27,6 +27,10 @@ import bunchhelpers
 class BadEPFieldError(Exception):
     pass
 
+class RangeError(Exception):
+    pass
+    
+
 def somevalues(dt):
     """returns some values"""
     return dt.Name, dt.Construction_Name, dt.obj
@@ -57,8 +61,8 @@ class EpBunch_1(Bunch):
                 extendlist(self['obj'], i)
                 self['obj'][i] = value
         else:
-            print "unable to find field %s" % (name, )
-            raise BadEPFieldError
+            s = "unable to find field %s" % (name, )
+            raise BadEPFieldError(s)
     def __getattr__(self, name):
         if name in ('obj', 'objls', 'objidd'):
             return super(EpBunch_1, self).__getattr__(name)
@@ -69,8 +73,8 @@ class EpBunch_1(Bunch):
             except IndexError, e:
                 return ''
         else:
-            print "unable to find field %s" % (name, )
-            raise BadEPFieldError
+            s = "unable to find field %s" % (name, )
+            raise BadEPFieldError(s)
     def __repr__(self):
         """print this as an idf snippet"""
         lines = [str(val) for val in self.obj]
@@ -147,8 +151,8 @@ class EpBunch_4(EpBunch_3):
             except IndexError, e:
                 return ''
         else:
-            print "unknown field %s" % (key, )
-            raise BadEPFieldError
+            s = "unknown field %s" % (key, )
+            raise BadEPFieldError(s)
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
@@ -162,8 +166,8 @@ class EpBunch_4(EpBunch_3):
                 self['obj'][i] = value
             
         else:
-            print "unknown field %s" % (key, )
-            raise BadEPFieldError
+            s = "unknown field %s" % (key, )
+            raise BadEPFieldError(s)
         
 
 class EpBunch_5(EpBunch_4):
@@ -172,10 +176,52 @@ class EpBunch_5(EpBunch_4):
         super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
     def getrange(self, fieldname):
         """get the ranges for this field"""
-        pass
+        keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
+        index = self.objls.index(fieldname)
+        fielddct = self.objidd[index]
+        therange = {}
+        for key in keys:
+            therange[key] = fielddct.setdefault(key, None)
+        if therange['type']:
+            therange['type'] = therange['type'][0]
+        if therange['type'] == 'real':
+            for key in keys[:-1]:
+                if therange[key]:
+                    therange[key] = float(therange[key][0])
+        if therange['type'] == 'integer':
+            for key in keys[:-1]:
+                if therange[key]:
+                    therange[key] = int(therange[key][0])
+        return therange
+             
     def checkrange(self, fieldname):
         """throw exception if the out of range"""
-        pass
+        fieldvalue = self[fieldname]
+        therange = self.getrange(fieldname)
+        keys = ['maximum', 'minimum', 'maximum<', 'minimum>']
+        index = self.objls.index(fieldname)
+        # fielddct = self.objidd[index]
+        if therange['maximum'] != None:
+            if fieldvalue > therange['maximum']:
+                s = "Value %s is not less or equal to the 'maximum' of %s"
+                s = s % (fieldvalue, therange['maximum'])
+                raise RangeError(s)
+        if therange['minimum'] != None:
+            if fieldvalue < therange['minimum']:
+                s = "Value %s is not greater or equal to the 'minimum' of %s"
+                s = s % (fieldvalue, therange['minimum'])
+                raise RangeError(s)
+        if therange['maximum<'] != None:
+            if fieldvalue >= therange['maximum<']:
+                s = "Value %s is not less than the 'maximum<' of %s"
+                s = s % (fieldvalue, therange['maximum<'])
+                raise RangeError(s)
+        if  therange['minimum>'] != None:
+            if fieldvalue <= therange['minimum>']:
+                s = "Value %s is not greater than the 'minimum>' of %s"
+                s = s % (fieldvalue, therange['minimum>'])
+                raise RangeError(s)
+        return fieldvalue
         
 EpBunch = EpBunch_5
 

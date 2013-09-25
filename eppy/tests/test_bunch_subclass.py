@@ -403,7 +403,6 @@ def test_EpBunch():
     wallfields[0] = ['key']
     wallfields = [field[0] for field in wallfields]
     wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-    # print wall_fields[:20]
     assert wall_fields[:20] == ['key', 'Name', 'Surface_Type', 'Construction_Name', 'Zone_Name', 'Outside_Boundary_Condition', 'Outside_Boundary_Condition_Object', 'Sun_Exposure', 'Wind_Exposure', 'View_Factor_to_Ground', 'Number_of_Vertices', 'Vertex_1_Xcoordinate', 'Vertex_1_Ycoordinate', 'Vertex_1_Zcoordinate', 'Vertex_2_Xcoordinate', 'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate', 'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
     
 
@@ -498,53 +497,115 @@ def test_extendlist():
         bunch_subclass.extendlist(lst, i, value=value)
         assert lst == nlst
     
-class TestEpBunch:
+class TestEpBunch(object):
     """py.test for EpBunch.getrange, EpBunch.checkrange"""
+    def initdata(self):
+        obj, objls, objidd = (['BUILDING',
+        'Empire State Building',
+        30.0,
+        'City',
+        0.04,
+        0.4,
+        'FullExterior',
+        25,
+        6], #obj
+    
+        ['key',
+        'Name',
+        'North_Axis',
+        'Terrain',
+        'Loads_Convergence_Tolerance_Value',
+        'Temperature_Convergence_Tolerance_Value',
+        'Solar_Distribution',
+        'Maximum_Number_of_Warmup_Days',
+        'Minimum_Number_of_Warmup_Days'],
+    
+        # the following objidd are made up
+        [{},
+        {},
+        {'type': ['real']},
+        {'type': ['choice']},
+    
+        {'maximum': ['.5'],
+        'minimum>': ['0.0'],
+        'type': ['real']},
+    
+        {'maximum': ['.5'],
+        'minimum>': ['0.0'],
+        'type': ['real']},
+    
+        {'type': ['choice']},
+    
+        {'maximum':None, 'minimum':None, 'maximum<':['5'], 'minimum>':['-3'],
+        'type': ['integer']},
+    
+        {'maximum':['5'], 'minimum':['-3'], 'maximum<':None, 'minimum>':None,
+        'type': ['real']},
+        ])
+        return obj, objls, objidd
+    
     def test_getrange(self):
-        data = ((
-            ['BUILDING',
-            'Empire State Building',
-            30.0,
-            'City',
-            0.04,
-            0.4,
-            'FullExterior',
-            25,
-            6], #obj
-            
-            ['key',
-            'Name',
-            'North_Axis',
-            'Terrain',
-            'Loads_Convergence_Tolerance_Value',
-            'Temperature_Convergence_Tolerance_Value',
-            'Solar_Distribution',
-            'Maximum_Number_of_Warmup_Days',
-            'Minimum_Number_of_Warmup_Days'],
-            
-            [{},
-            {},
-            {},
-            {},
-            
-            {'maximum': ['.5'],
-            'minimum>': ['0.0'],},
-            
-            {'maximum': ['.5'],
-            'minimum>': ['0.0'],},
-            
-            {},
-
-            {'minimum>': ['0'],},
-            
-            {'minimum>': ['0'],},
-            ],
-            
-         ), # obj, objls, objidd
+        data = (
+            (
+            "Loads_Convergence_Tolerance_Value",
+            {'maximum': .5, 'minimum>': 0.0, 'maximum<':None, 
+            'minimum':None, 'type': 'real'},
+         ), # fieldname, theranges
+            (
+            "Maximum_Number_of_Warmup_Days",
+            {'maximum': None, 'minimum>': -3, 'maximum<':5, 
+            'minimum':None, 'type': 'integer'},
+         ), # fieldname, theranges
         )
-        
-        for obj, objls, objidd in data:
-            assert 1 == 1
-            
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fieldname, theranges in data:
+            result = idfobject.getrange(fieldname)
+            assert result == theranges
+
+    def test_checkrange(self):
+        data = (
+            ("Minimum_Number_of_Warmup_Days",
+            4, False, None), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Minimum_Number_of_Warmup_Days",
+            6, True, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Minimum_Number_of_Warmup_Days",
+            5, False, None), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Minimum_Number_of_Warmup_Days",
+            -3, False, None), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Minimum_Number_of_Warmup_Days",
+            -4, True, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+            # - 
+            ("Maximum_Number_of_Warmup_Days",
+            4, False, None), 
+                # fieldname, fieldvalue, isexception, theexception        
+            ("Maximum_Number_of_Warmup_Days",
+            5, True, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Maximum_Number_of_Warmup_Days",
+            -3, True, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Loads_Convergence_Tolerance_Value",
+            0.3, False, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Loads_Convergence_Tolerance_Value",
+            0, True, bunch_subclass.RangeError), 
+                # fieldname, fieldvalue, isexception, theexception
+        )
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fieldname, fieldvalue, isexception, theexception in data:
+            idfobject[fieldname] = fieldvalue
+            if not isexception:
+                result = idfobject.checkrange(fieldname)
+                assert result == fieldvalue
+            else:
+                with pytest.raises(theexception):
+                    result = idfobject.checkrange(fieldname)
             
 # test_EpBunch()
