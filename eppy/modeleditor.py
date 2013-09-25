@@ -336,7 +336,11 @@ class IDF1(IDF0):
         return addobject(self.idfobjects,
                             self.model,
                             self.idd_info,
-                            key, aname=aname, **kwargs)  
+                            key, aname=aname, **kwargs)
+    def popidfobject(self, arg):
+        pass
+    def removeidfobject(self, arg):
+        pass
     def addidfobject(self, idfobject):
         """add idfobject to this model
         
