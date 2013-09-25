@@ -24,7 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="eppy 0.4.1 documentation" href="index.html" />
-    <link rel="prev" title="Welcome to eppy’s documentation!" href="index.html" /> 
+    <link rel="next" title="Eppy API" href="eppy_api.html" />
+    <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +35,13 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="index.html" title="Welcome to eppy’s documentation!"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eppy_api.html" title="Eppy API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>
@@ -49,8 +56,14 @@
 <h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
 <p>These are recently written functions that have not made it into the main
 documentation</p>
-<div class="section" id="epbunch-checkrange-fieldname">
-<h2>EpBunch.checkrange(fieldname)<a class="headerlink" href="#epbunch-checkrange-fieldname" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="check-range-for-fields">
+<h2>Check range for fields<a class="headerlink" href="#check-range-for-fields" title="Permalink to this headline">¶</a></h2>
+<p>demonstrate two new functions:</p>
+<ul class="simple">
+<li>EpBunch.getrange(fieldname) # will return the ranges for that field</li>
+<li>EpBunch.checkrange(fieldname) # will throw an exception if the value
+is outside the range</li>
+</ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
 <span class="c"># or</span>
@@ -74,12 +87,6 @@ documentation</p>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>demonstrate two new functions:</p>
-<ul class="simple">
-<li>EpBunch.getrange(fieldname) # will return the ranges for that field</li>
-<li>EpBunch.checkrange(fieldname) # will throw an exception if the value
-is outside the range</li>
-</ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">building</span>
 </pre></div>
@@ -142,14 +149,17 @@ RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">New functions</a><ul>
-<li><a class="reference internal" href="#epbunch-checkrange-fieldname">EpBunch.checkrange(fieldname)</a></li>
+<li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to eppy&#8217;s documentation!</a></p>
+  <p class="topless"><a href="Outputs_Tutorial.html"
+                        title="previous chapter">Reading outputs from E+</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="eppy_api.html"
+                        title="next chapter">Eppy API</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/newfunctions.txt"
@@ -179,7 +189,13 @@ RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="index.html" title="Welcome to eppy’s documentation!"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="eppy_api.html" title="Eppy API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
         <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
       </ul>

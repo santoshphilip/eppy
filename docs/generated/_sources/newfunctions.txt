@@ -6,8 +6,15 @@ New functions
 These are recently written functions that have not made it into the main
 documentation
 
-EpBunch.checkrange(fieldname)
------------------------------
+Check range for fields
+----------------------
+
+
+demonstrate two new functions:
+
+-  EpBunch.getrange(fieldname) # will return the ranges for that field
+-  EpBunch.checkrange(fieldname) # will throw an exception if the value
+   is outside the range
 
 
 .. code:: python
@@ -33,13 +40,6 @@ EpBunch.checkrange(fieldname)
 
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
-demonstrate two new functions:
-
--  EpBunch.getrange(fieldname) # will return the ranges for that field
--  EpBunch.checkrange(fieldname) # will throw an exception if the value
-   is outside the range
-
-
 .. code:: python
 
     building = idf1.idfobjects['building'.upper()][0]
