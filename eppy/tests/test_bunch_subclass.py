@@ -596,6 +596,16 @@ class TestEpBunch(object):
             ("Loads_Convergence_Tolerance_Value",
             0, True, bunch_subclass.RangeError), 
                 # fieldname, fieldvalue, isexception, theexception
+            # - 
+            ("North_Axis",
+            0, False, None), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("Name",
+            'Empire State Building', False, None), 
+                # fieldname, fieldvalue, isexception, theexception
+            ("key",
+            'BUILDING', False, None), 
+                # fieldname, fieldvalue, isexception, theexception
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
