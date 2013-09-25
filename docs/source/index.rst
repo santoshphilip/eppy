@@ -9,13 +9,14 @@ Welcome to eppy's documentation!
 Contents:
 
 .. toctree::
-	:maxdepth: 2
-	
-	installation
-	Main_Tutorial
-	HVAC_Tutorial
-	Outputs_Tutorial
-	eppy_api
+    :maxdepth: 2
+
+    installation
+    Main_Tutorial
+    HVAC_Tutorial
+    Outputs_Tutorial
+    newfunctions
+    eppy_api
 
 
 Indices and tables
