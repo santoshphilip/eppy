@@ -1,7 +1,7 @@
 2013-09-22
 ----------
 notes on publishing the documentation.
-- ipython notabook to make the docs
+- ipython notebook to make the docs
 - ipython nbconvert --to rst ../*.ipynb # run from ./docs/generated
 - ipython nbconvert --to rst ../*.ipynb # run from ./docs/source
 - put the rst file names in index.rst

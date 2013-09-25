@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +15,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -34,9 +36,6 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="Plant loops and diagrams in eppy"
              accesskey="N">next</a> |</li>
@@ -86,32 +85,34 @@ R-value of the roof until you get to the expected energy use.</li>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>Here is a short IDF file that I’ll be using as an example to start us
-off:</p>
-<dl class="docutils">
-<dt>VERSION,</dt>
-<dd>7.2;                     !- Version Identifier</dd>
-<dt>SIMULATIONCONTROL,</dt>
-<dd>Yes,                     !- Do Zone Sizing Calculation
-Yes,                     !- Do System Sizing Calculation
-Yes,                     !- Do Plant Sizing Calculation
-No,                      !- Run Simulation for Sizing Periods
-Yes;                     !- Run Simulation for Weather File Run Periods</dd>
-<dt>BUILDING,</dt>
-<dd>White House,             !- Name
-30.,                     !- North Axis {deg}
-City,                    !- Terrain
-0.04,                    !- Loads Convergence Tolerance Value
-0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-FullExterior,            !- Solar Distribution
-25,                      !- Maximum Number of Warmup Days
-6;                       !- Minimum Number of Warmup Days</dd>
-<dt>SITE:LOCATION,</dt>
-<dd>CHICAGO_IL_USA TMY2-94846,  !- Name
-41.78,                   !- Latitude {deg}
--87.75,                  !- Longitude {deg}
--6.00,                   !- Time Zone {hr}
-190.00;                  !- Elevation {m}</dd>
-</dl>
+off</p>
+<div class="highlight-python"><pre>VERSION,
+    7.2;                     !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                     !- Do Zone Sizing Calculation
+    Yes,                     !- Do System Sizing Calculation
+    Yes,                     !- Do Plant Sizing Calculation
+    No,                      !- Run Simulation for Sizing Periods
+    Yes;                     !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,  !- Name
+    41.78,                   !- Latitude {deg}
+    -87.75,                  !- Longitude {deg}
+    -6.00,                   !- Time Zone {hr}
+    190.00;                  !- Elevation {m}</pre>
+</div>
 <p>To use eppy to look at this model, we have to run a little code first:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
@@ -1715,9 +1716,6 @@ rather quickly.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="HVAC_Tutorial.html" title="Plant loops and diagrams in eppy"
              >next</a> |</li>
         <li class="right" >
@@ -1728,7 +1726,7 @@ rather quickly.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

@@ -39,34 +39,34 @@ Quick Start
 
 
 Here is a short IDF file that I’ll be using as an example to start us
-off:
+off ::
 
-VERSION,
-    7.2;                     !- Version Identifier
-
-SIMULATIONCONTROL,
-    Yes,                     !- Do Zone Sizing Calculation
-    Yes,                     !- Do System Sizing Calculation
-    Yes,                     !- Do Plant Sizing Calculation
-    No,                      !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
-
-BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
-
-SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,  !- Name
-    41.78,                   !- Latitude {deg}
-    -87.75,                  !- Longitude {deg}
-    -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}
+    VERSION,
+        7.2;                     !- Version Identifier
+    
+    SIMULATIONCONTROL,
+        Yes,                     !- Do Zone Sizing Calculation
+        Yes,                     !- Do System Sizing Calculation
+        Yes,                     !- Do Plant Sizing Calculation
+        No,                      !- Run Simulation for Sizing Periods
+        Yes;                     !- Run Simulation for Weather File Run Periods
+    
+    BUILDING,
+        White House,             !- Name
+        30.,                     !- North Axis {deg}
+        City,                    !- Terrain
+        0.04,                    !- Loads Convergence Tolerance Value
+        0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+        FullExterior,            !- Solar Distribution
+        25,                      !- Maximum Number of Warmup Days
+        6;                       !- Minimum Number of Warmup Days
+    
+    SITE:LOCATION,
+        CHICAGO_IL_USA TMY2-94846,  !- Name
+        41.78,                   !- Latitude {deg}
+        -87.75,                  !- Longitude {deg}
+        -6.00,                   !- Time Zone {hr}
+        190.00;                  !- Elevation {m}
 
 
 To use eppy to look at this model, we have to run a little code first:
