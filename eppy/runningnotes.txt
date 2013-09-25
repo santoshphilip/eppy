@@ -1,5 +1,9 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 
+2013-09-25
+----------
+update by stephan
+
 2013-09-24
 ----------
 pytest will go above the last folder with __init__.py for an import
