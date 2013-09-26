@@ -1,4 +1,4 @@
 2013-09-22
 ----------
 
-fix the notebook file so that sphinx does not make any errors with it.
+fix the notebook file so that sphinx does not make any errors with it. 

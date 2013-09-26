@@ -3,10 +3,9 @@ Plant loops and diagrams in eppy
 --------------------------------
 
 
-| Eppy can build up the topology of a plant loop using single pipes in a
-branch.
-| Once we do that the simple branch in the loop we have built can be
-replaced with a more complex branch.
+Eppy can build up the topology of a plant loop using single pipes in a
+branch. Once we do that the simple branch in the loop we have built can
+be replaced with a more complex branch.
 
 Let us try this out ans see how it works.
 
