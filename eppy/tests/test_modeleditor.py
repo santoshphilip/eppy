@@ -271,3 +271,5 @@ def test_addthisbunch():
     modeleditor.addthisbunch(bunchdt, data, commdct, thisbunch)
     print data.dt["ZONE"][-1]
     assert data.dt["ZONE"][-1] == obj1
+    
+        
