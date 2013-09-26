@@ -337,10 +337,22 @@ class IDF1(IDF0):
                             self.model,
                             self.idd_info,
                             key, aname=aname, **kwargs)
-    def popidfobject(self, arg):
-        pass
-    def removeidfobject(self, arg):
-        pass
+    def popidfobject(self, key, index):
+        """pop this object"""
+        popobject = self.idfobjects[key][index]
+        self.removeidfobject(popobject)
+    def removeidfobject(self, idfobject):
+        """remove this idfobject"""
+        # the object has to be removed from idfobjects and
+        # form self.model.dt
+        # since idfobjects is just a wrapper for model.dt
+        key = idfobject.key
+        theobjects = self.idfobjects[key]
+        for i, theobject in enumerate(theobjects):
+            if theobject is idfobject:
+                theobjects.pop(i)
+                # remove it from model too
+                self.model.dt[key].pop(i)
     def addidfobject(self, idfobject):
         """add idfobject to this model
         

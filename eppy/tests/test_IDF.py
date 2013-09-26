@@ -55,12 +55,32 @@ class TestIDF(object):
     """py.test for IDF function"""
     def test_removeidfobject(self):
         """py.test for IDF.removeidfobject """
-    idftxt = ""
-    idfhandle = StringIO(idftxt)
-    idf = IDF(idfhandle)
-    key = "BUILDING"
-    idf.newidfobject(key, Name="Building_remov")
-    idf.newidfobject(key, Name="Building")
-    idf.newidfobject(key, Name="Building_remove")
-    idf.printidf()
-    assert 1 == 2
+        idftxt = ""
+        idfhandle = StringIO(idftxt)
+        idf = IDF(idfhandle)
+        key = "BUILDING"
+        idf.newidfobject(key, Name="Building_remove")
+        idf.newidfobject(key, Name="Building1")
+        idf.newidfobject(key, Name="Building_remove")
+        idf.newidfobject(key, Name="Building2")
+        buildings = idf.idfobjects["building".upper()]
+        removethis = buildings[-2]
+        idf.removeidfobject(removethis)
+        assert buildings[2].Name == "Building2"
+        assert idf.model.dt[key][2][1] == "Building2"
+
+    def test_popidfobject(self):
+        idftxt = ""
+        idfhandle = StringIO(idftxt)
+        idf = IDF(idfhandle)
+        key = "BUILDING"
+        idf.newidfobject(key, Name="Building_remove")
+        idf.newidfobject(key, Name="Building1")
+        idf.newidfobject(key, Name="Building_remove")
+        idf.newidfobject(key, Name="Building2")
+        buildings = idf.idfobjects["building".upper()]
+        removethis = buildings[-2]
+        idf.popidfobject(key, 2)
+        assert buildings[2].Name == "Building2"
+        assert idf.model.dt[key][2][1] == "Building2"
+        
