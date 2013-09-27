@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +15,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -115,28 +117,188 @@ is outside the range</li>
 </div>
 <p>Let us set these values outside the range and see what happens</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Loads_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">RangeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
 </div>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 RangeError                                Traceback (most recent call last)
 
-&lt;ipython-input-13-7ec7f7f6f637&gt; in &lt;module&gt;()
-      1 building.Loads_Convergence_Tolerance_Value = 0.6
-----&gt; 2 print building.checkrange("Loads_Convergence_Tolerance_Value")
-
-
-/Users/santosh/Documents/coolshadow/eplus_github/eppy/eppy/bunch_subclass.pyc in checkrange(self, fieldname)
-    206                 s = "Value %s is not less or equal to the 'maximum' of %s"
-    207                 s = s % (fieldvalue, therange['maximum'])
---&gt; 208                 raise RangeError(s)
-    209         if therange['minimum'] != None:
-    210             if fieldvalue &lt; therange['minimum']:
+&lt;ipython-input-13-11d1c9d2fc51&gt; in &lt;module&gt;()
+      6     print building.checkrange("Loads_Convergence_Tolerance_Value")
+      7 except RangeError, e:
+----&gt; 8     raise e
 
 
 RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
 </div>
 <p>So the Range Check works</p>
+</div>
+<div class="section" id="blank-idf-file">
+<h2>Blank idf file<a class="headerlink" href="#blank-idf-file" title="Permalink to this headline">¶</a></h2>
+<p>Until now in all our examples, we have been reading an idf file from
+disk:</p>
+<ul class="simple">
+<li>How do I create a blank new idf file</li>
+<li>give it a file name</li>
+<li>Save it to the disk</li>
+</ul>
+<p>Here are the steps to do that</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># some initial steps</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span> <span class="c"># once the iddfile is set, it cannot be changed.</span>
+
+<span class="c"># - Let us first open a file from the disk</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">idf_fromfilename</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file name</span>
+
+<span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - now let us open a file from the disk differently</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname1</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c"># open the file for reading and assign it a file handle</span>
+<span class="n">idf_fromfilehandle</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
+
+<span class="c"># - How do I create a blank new idf file</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="c"># empty string</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_emptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_emptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It did not print anything. Why should it. It was empty.</p>
+<p>What if we give it a string that was not blank</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - The string does not have to be blank</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;VERSION, 7.3;&quot;</span> <span class="c"># Not an emplty string. has just the version number</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_notemptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier</pre>
+</div>
+<p>Aha !</p>
+<p>Now let us give it a file name</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - give it a file name</span>
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="s">&quot;notemptyfile.idf&quot;</span>
+<span class="c"># - Save it to the disk</span>
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let us confirm that the file was saved to disk</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="c"># read the file from the disk</span>
+<span class="k">print</span> <span class="n">txt</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier</pre>
+</div>
+<p>Yup ! that file was saved. Let us delete it since we were just playing</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleting-idfobjects">
+<h2>Deleting idfobjects<a class="headerlink" href="#deleting-idfobjects" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
 </div>
 </div>
 
@@ -150,6 +312,8 @@ RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
   <ul>
 <li><a class="reference internal" href="#">New functions</a><ul>
 <li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
+<li><a class="reference internal" href="#blank-idf-file">Blank idf file</a></li>
+<li><a class="reference internal" href="#deleting-idfobjects">Deleting idfobjects</a></li>
 </ul>
 </li>
 </ul>
@@ -202,7 +366,7 @@ RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>
