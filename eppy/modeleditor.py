@@ -304,12 +304,6 @@ class IDF0(object):
     def getiddname(cls):
         return cls.iddname
     @classmethod
-    def resetidd(cls, arg):
-        """use with care"""
-        cls.iddname = arg
-        cls.idd_info = None
-        cls.block = None
-    @classmethod
     def setidd(cls, iddinfo, block):
         cls.idd_info = iddinfo
         cls.block = block

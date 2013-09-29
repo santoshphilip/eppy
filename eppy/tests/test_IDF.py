@@ -18,10 +18,6 @@
 """py.test for class IDF"""
 
 # if you have not done so, uncomment the following three lines
-import sys
-# pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../../'
-sys.path.append(pathnameto_eppy)
 
 
 from eppy.modeleditor import IDF0
@@ -53,11 +49,18 @@ IDF.setiddname(iddfhandle)
 
 class TestIDF(object):
     """py.test for IDF function"""
+    def test_IDDAlreadySetError(self):
+        "py.test for IDDAlreadySetError"
+        pass
     def test_removeidfobject(self):
         """py.test for IDF.removeidfobject """
         idftxt = ""
         idfhandle = StringIO(idftxt)
+        print "stuff"
+        print IDF.getiddname()
         idf = IDF(idfhandle)
+        print idf.idd_info[:5]
+        assert 1 == 2
         key = "BUILDING"
         idf.newidfobject(key, Name="Building_remove")
         idf.newidfobject(key, Name="Building1")
