@@ -45,22 +45,16 @@ iddfhandle = StringIO(iddsnippet)
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 
-IDF.setiddname(iddfhandle)
+if IDF.getiddname() == None:
+    IDF.setiddname(iddfhandle)
 
 class TestIDF(object):
     """py.test for IDF function"""
-    def test_IDDAlreadySetError(self):
-        "py.test for IDDAlreadySetError"
-        pass
     def test_removeidfobject(self):
         """py.test for IDF.removeidfobject """
         idftxt = ""
         idfhandle = StringIO(idftxt)
-        print "stuff"
-        print IDF.getiddname()
         idf = IDF(idfhandle)
-        print idf.idd_info[:5]
-        assert 1 == 2
         key = "BUILDING"
         idf.newidfobject(key, Name="Building_remove")
         idf.newidfobject(key, Name="Building1")

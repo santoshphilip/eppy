@@ -22,13 +22,11 @@ import random
 from StringIO import StringIO
 
 # idd is read only once in this test
+# if it has already been read from some other test, it will continue with the old reading
 from eppy.iddcurrent import iddcurrent
 iddfhandle = StringIO(iddcurrent.iddtxt)
-# print IDF.getiddname()
-# fhandle = IDF.getiddname()
-# for i in range(10):
-#     print fhandle.readline()
-IDF.resetidd(iddfhandle)
+if IDF.getiddname() == None:
+    IDF.setiddname(iddfhandle)
 
 
 def test_flattencopy():
