@@ -6,6 +6,95 @@ New functions
 These are recently written functions that have not made it into the main
 documentation
 
+Setting IDD name
+----------------
+
+
+When you work with Energyplus you are working with **idf** files (files
+that have the extension \*.idf). There is another file that is very
+important, called the **idd** file. This is the file that defines all
+the objects in Energyplus. Esch version of Energyplus has a different
+**idd** file.
+
+So eppy needs to know which **idd** file to use. Only one **idd** file
+can be used in a script or program. This means that you cannot change
+the **idd** file once you have selected it. Of course you have to first
+select an **idd** file before eppy can work.
+
+If you use eppy and break the above rules, eppy will raise an exception.
+So let us use eppy incorrectly and make eppy raise the exception, just
+see how that happens.
+
+First let us try to open an **idf** file without setting an **idd**
+file.
+
+.. code:: python
+
+    from eppy import modeleditor 
+    from eppy.modeleditor import IDF
+    fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+Now let us open file fname1 without setting the **idd** file
+
+.. code:: python
+
+    try:
+        idf1 = IDF(fname1)
+    except Exception, e:
+        raise e
+
+::
+
+
+    ---------------------------------------------------------------------------
+    IDDNotSetError                            Traceback (most recent call last)
+
+    <ipython-input-4-bcc3a85c2348> in <module>()
+          2     idf1 = IDF(fname1)
+          3 except Exception, e:
+    ----> 4     raise e
+    
+
+    IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setidd(iddfile)
+
+
+OK. It does not let you do that and it raises an exception
+
+So let us set the **idd** file and then open the idf file
+
+.. code:: python
+
+    iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
+    IDF.setiddname(iddfile)
+    idf1 = IDF(fname1)
+That worked without raising an exception
+
+Now let us try to change the **idd** file. Eppy should not let you do
+this and should raise an exception.
+
+.. code:: python
+
+    try:
+        IDF.setiddname("anotheridd.idd")
+    except Exception, e:
+        raise e    
+
+::
+
+
+    ---------------------------------------------------------------------------
+    IDDAlreadySetError                        Traceback (most recent call last)
+
+    <ipython-input-7-ad7cf0dbde94> in <module>()
+          2     IDF.setiddname("anotheridd.idd")
+          3 except Exception, e:
+    ----> 4     raise e
+    
+
+    IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd
+
+
+Excellent!! It rased the exception we were expecting.
+
 Check range for fields
 ----------------------
 
@@ -19,26 +108,13 @@ demonstrate two new functions:
 
 .. code:: python
 
-    # you would normaly install eppy by doing
-    # python setup.py install
-    # or
-    # pip install eppy
-    # or
-    # easy_install eppy
-    
-    # if you have not done so, uncomment the following three lines
-    import sys
-    # pathnameto_eppy = 'c:/eppy'
-    pathnameto_eppy = '../'
-    sys.path.append(pathnameto_eppy) 
-    
     from eppy import modeleditor 
     from eppy.modeleditor import IDF
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 .. code:: python
 
-    IDF.setiddname(iddfile)
+    # IDF.setiddname(iddfile)# idd ws set further up in this page
     idf1 = IDF(fname1)
 .. code:: python
 
@@ -95,10 +171,10 @@ Let us set these values outside the range and see what happens
     ---------------------------------------------------------------------------
     RangeError                                Traceback (most recent call last)
 
-    <ipython-input-13-11d1c9d2fc51> in <module>()
-          6     print building.checkrange("Loads_Convergence_Tolerance_Value")
-          7 except RangeError, e:
-    ----> 8     raise e
+    <ipython-input-8-35bb37b39fba> in <module>()
+          4     print building.checkrange("Loads_Convergence_Tolerance_Value")
+          5 except RangeError, e:
+    ----> 6     raise e
     
 
     RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5
@@ -124,7 +200,7 @@ Here are the steps to do that
     # some initial steps
     from eppy.modeleditor import IDF
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
-    IDF.setiddname(iddfile) # once the iddfile is set, it cannot be changed. 
+    # IDF.setiddname(iddfile) # Has already been set 
     
     # - Let us first open a file from the disk
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
@@ -278,42 +354,14 @@ Deleting idfobjects
 -------------------
 
 
+There are two ways of deleting idf objects. We'll show how both of them
+work.
+
+Sirst let us build up a file we can work with.
+
 .. code:: python
 
-    idf1.printidf()
-
-.. parsed-literal::
-
     
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-    SIMULATIONCONTROL,        
-        Yes,                      !- Do Zone Sizing Calculation
-        Yes,                      !- Do System Sizing Calculation
-        Yes,                      !- Do Plant Sizing Calculation
-        No,                       !- Run Simulation for Sizing Periods
-        Yes;                      !- Run Simulation for Weather File Run Periods
-    
-    BUILDING,                 
-        Empire State Building,    !- Name
-        30.0,                     !- North Axis
-        City,                     !- Terrain
-        0.6,                      !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullExterior,             !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        6;                        !- Minimum Number of Warmup Days
-    
-    SITE:LOCATION,            
-        CHICAGO_IL_USA TMY2-94846,    !- Name
-        41.78,                    !- Latitude
-        -87.75,                   !- Longitude
-        -6.0,                     !- Time Zone
-        190.0;                    !- Elevation
-    
-
-
 .. code:: python
 
     
