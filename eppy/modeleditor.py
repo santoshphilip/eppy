@@ -28,6 +28,12 @@ class NoObjectError(Exception):
 class NotSameObjectError(Exception):
     pass
 
+class IDDNotSetError(Exception):
+    pass
+
+class IDDAlreadySetError(Exception):
+    pass
+
 def almostequal(first, second, places=7, printit=True):
     # taken from python's unit test
     # may be covered by Python's license 
@@ -279,15 +285,30 @@ class IDF0(object):
     
 """
     iddname = None
+    idd_info = None
+    block = None
     def __init__(self, idfname):
         self.idfname = idfname
         self.read()
     @classmethod
-    def setiddname(cls, arg):
+    def setiddname(cls, arg, testing=False):
         if cls.iddname == None:
             cls.iddname = arg
             cls.idd_info = None
             cls.block = None
+        else:
+            if testing == False:
+                errortxt = "IDD file is set to: %s"  % (cls.iddname, )
+                raise IDDAlreadySetError(errortxt)
+    @classmethod
+    def getiddname(cls):
+        return cls.iddname
+    @classmethod
+    def resetidd(cls, arg):
+        """use with care"""
+        cls.iddname = arg
+        cls.idd_info = None
+        cls.block = None
     @classmethod
     def setidd(cls, iddinfo, block):
         cls.idd_info = iddinfo
@@ -295,7 +316,9 @@ class IDF0(object):
     def read(self):
         """read the idf file"""
         # TODO unit test
-        # TODO : thow an exception if iddname = None
+        if self.getiddname() == None:
+            errortxt = "IDD file needed to read the idf file. Set it using IDF.setidd(iddfile)"
+            raise IDDNotSetError(errortxt)
         readout = idfreader1(self.idfname, self.iddname,
                                 commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout

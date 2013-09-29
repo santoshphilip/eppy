@@ -29,9 +29,9 @@ from eppy.modeleditor import IDF0
 def test_IDF0():
     """py.test for class IDF0"""
     assert IDF0.iddname == None
-    IDF0.setiddname("gumby")
+    IDF0.setiddname("gumby", testing=True)
     assert IDF0.iddname == "gumby"
-    IDF0.setiddname("karamba")
+    IDF0.setiddname("karamba", testing=True)
     assert IDF0.iddname != "karamba"
     assert IDF0.iddname == "gumby"
 
