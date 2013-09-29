@@ -311,7 +311,7 @@ class IDF0(object):
         """read the idf file"""
         # TODO unit test
         if self.getiddname() == None:
-            errortxt = "IDD file needed to read the idf file. Set it using IDF.setidd(iddfile)"
+            errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"
             raise IDDNotSetError(errortxt)
         readout = idfreader1(self.idfname, self.iddname,
                                 commdct=self.idd_info, block=self.block)
