@@ -48,9 +48,10 @@ class EpBunch_1(Bunch):
         super(EpBunch_1, self).__init__(*args, **kwargs)
         self.obj = obj
         self.objls = objls
+        self.fieldnames = self.objls # just an alias
         self.objidd = objidd
     def __setattr__(self, name, value):
-        if name in ('obj', 'objls', 'objidd'):
+        if name in ('obj', 'objls', 'fieldnames', 'objidd'):
             super(EpBunch_1, self).__setattr__(name, value)
             return None
         elif name in self['objls']:
@@ -64,7 +65,7 @@ class EpBunch_1(Bunch):
             s = "unable to find field %s" % (name, )
             raise BadEPFieldError(s)
     def __getattr__(self, name):
-        if name in ('obj', 'objls', 'objidd'):
+        if name in ('obj', 'objls', 'fieldnames', 'objidd'):
             return super(EpBunch_1, self).__getattr__(name)
         elif name in self['objls']:
             i = self['objls'].index(name)
@@ -142,7 +143,7 @@ class EpBunch_4(EpBunch_3):
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'fieldnames', 'objidd', '__functions', '__aliases'):
             return super(EpBunch_4, self).__getitem__(key)
         elif key in self['objls']:
             i = self['objls'].index(key)
@@ -154,7 +155,7 @@ class EpBunch_4(EpBunch_3):
             s = "unknown field %s" % (key, )
             raise BadEPFieldError(s)
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'fieldnames', 'objidd', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
             return None
         elif key in self['objls']:
