@@ -1,8 +1,17 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-10-03
+----------
+l = [1,2,3]
+pop -> popidfobject(index)
+remove -> removeidfobject(idfobject)
+append -> appendidfobject(idfobject)
+newidfobject(key) will append a brand new idf object
+
 2013-10-02
 ----------
 EpBunch.area does not pass an arg to the function.
-How can I pass an arg to the function.
+How can I pass an arg to the function. - DONE
+    for example EpBunch.checkrange(fieldname)
 
 2013-09-24
 ----------
