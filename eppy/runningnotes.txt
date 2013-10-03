@@ -1,4 +1,8 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-10-02
+----------
+EpBunch.area does not pass an arg to the function.
+How can I pass an arg to the function.
 
 2013-09-24
 ----------

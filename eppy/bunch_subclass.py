@@ -20,6 +20,7 @@
 # TODO : go thru with a fine tooth comb. make unit tests
 
 import sys
+import copy
 from EPlusInterfaceFunctions import readidf
 from bunch import *
 import bunchhelpers
@@ -48,10 +49,9 @@ class EpBunch_1(Bunch):
         super(EpBunch_1, self).__init__(*args, **kwargs)
         self.obj = obj
         self.objls = objls
-        self.fieldnames = self.objls # just an alias
         self.objidd = objidd
     def __setattr__(self, name, value):
-        if name in ('obj', 'objls', 'fieldnames', 'objidd'):
+        if name in ('obj', 'objls', 'objidd'):
             super(EpBunch_1, self).__setattr__(name, value)
             return None
         elif name in self['objls']:
@@ -65,7 +65,7 @@ class EpBunch_1(Bunch):
             s = "unable to find field %s" % (name, )
             raise BadEPFieldError(s)
     def __getattr__(self, name):
-        if name in ('obj', 'objls', 'fieldnames', 'objidd'):
+        if name in ('obj', 'objls', 'objidd'):
             return super(EpBunch_1, self).__getattr__(name)
         elif name in self['objls']:
             i = self['objls'].index(name)
@@ -130,11 +130,13 @@ class EpBunch_3(EpBunch_2):
             super(EpBunch_3, self).__setattr__(name, value)
     def __getattr__(self, name):
         if name == '__functions':
-            # return super(EpBunch_3, self).__getattr__(name)
             return self['__functions']
         try:
             func = self['__functions'][name]
-            return func(self)
+            if isinstance(func, EpBunchFunctionClass):
+                return func.func
+            else:
+                return func(self)
         except KeyError, e:
             return super(EpBunch_3, self).__getattr__(name)
             
@@ -143,7 +145,7 @@ class EpBunch_4(EpBunch_3):
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'fieldnames', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             return super(EpBunch_4, self).__getitem__(key)
         elif key in self['objls']:
             i = self['objls'].index(key)
@@ -155,7 +157,7 @@ class EpBunch_4(EpBunch_3):
             s = "unknown field %s" % (key, )
             raise BadEPFieldError(s)
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'fieldnames', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
             return None
         elif key in self['objls']:
@@ -171,15 +173,26 @@ class EpBunch_4(EpBunch_3):
             raise BadEPFieldError(s)
         
 
-class EpBunch_5(EpBunch_4):
-    """implements getrange, checkrange"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
-    def getrange(self, fieldname):
+# TODO unit test    
+def fieldnames(bch):
+    return bch.objls
+    
+def fieldvalues(bch):
+    return bch.obj
+    
+class EpBunchFunctionClass(object):
+    pass
+    
+class GetRange(EpBunchFunctionClass):
+    def __init__(self, arg):
+        self.bch = arg
+    def func(self, fieldname):
         """get the ranges for this field"""
+        bch =self.bch
         keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
-        index = self.objls.index(fieldname)
-        fielddct = self.objidd[index]
+        index = bch.objls.index(fieldname)
+        fielddct_orig = bch.objidd[index]
+        fielddct = copy.deepcopy(fielddct_orig)
         therange = {}
         for key in keys:
             therange[key] = fielddct.setdefault(key, None)
@@ -193,15 +206,21 @@ class EpBunch_5(EpBunch_4):
             for key in keys[:-1]:
                 if therange[key]:
                     therange[key] = int(therange[key][0])
-        return therange
-             
-    def checkrange(self, fieldname):
+        return therange    
+
+class CheckRange(EpBunchFunctionClass):
+    def __init__(self, arg):
+        self.bch = arg
+    # def init(self, arg):
+    #     self.bch = arg
+    def func(self, fieldname):
         """throw exception if the out of range"""
-        fieldvalue = self[fieldname]
-        therange = self.getrange(fieldname)
+        bch = self.bch
+        fieldvalue = bch[fieldname]
+        therange = bch.getrange(fieldname)
         keys = ['maximum', 'minimum', 'maximum<', 'minimum>']
-        index = self.objls.index(fieldname)
-        # fielddct = self.objidd[index]
+        index = bch.objls.index(fieldname)
+        # fielddct = bch.objidd[index]
         if therange['maximum'] != None:
             if fieldvalue > therange['maximum']:
                 s = "Value %s is not less or equal to the 'maximum' of %s"
@@ -223,7 +242,17 @@ class EpBunch_5(EpBunch_4):
                 s = s % (fieldvalue, therange['minimum>'])
                 raise RangeError(s)
         return fieldvalue
+
+class EpBunch_5(EpBunch_4):
+    """implements getrange, checkrange, fieldnames"""
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
+        super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
+        self['__functions']['fieldnames'] = fieldnames
+        self['__functions']['fieldvalues'] = fieldvalues
+        self['__functions']['getrange'] = GetRange(self)
+        self['__functions']['checkrange'] = CheckRange(self)
         
+            
 EpBunch = EpBunch_5
 
 def main():

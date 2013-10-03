@@ -6,6 +6,17 @@ New functions
 These are recently written functions that have not made it into the main
 documentation
 
+Python Lesson: Errors and Exceptions
+------------------------------------
+
+
+When things go wrong in your eppy script, you get "Errors and
+Exceptions".
+
+To know more about how this works in python and eppy, take a look at
+`Python: Errors and
+Exceptions <http://docs.python.org/2/tutorial/errors.html>`__
+
 Setting IDD name
 ----------------
 
@@ -48,13 +59,13 @@ Now let us open file fname1 without setting the **idd** file
     ---------------------------------------------------------------------------
     IDDNotSetError                            Traceback (most recent call last)
 
-    <ipython-input-4-bcc3a85c2348> in <module>()
+    <ipython-input-7-bcc3a85c2348> in <module>()
           2     idf1 = IDF(fname1)
           3 except Exception, e:
     ----> 4     raise e
     
 
-    IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setidd(iddfile)
+    IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)
 
 
 OK. It does not let you do that and it raises an exception
@@ -84,7 +95,7 @@ this and should raise an exception.
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-7-ad7cf0dbde94> in <module>()
+    <ipython-input-9-ad7cf0dbde94> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
@@ -93,11 +104,15 @@ this and should raise an exception.
     IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd
 
 
-Excellent!! It rased the exception we were expecting.
+Excellent!! It raised the exception we were expecting.
 
 Check range for fields
 ----------------------
 
+
+The fields of idf objects often have a range of legal values. The
+following functions will let you discover what that range is and test if
+your value lies within that range
 
 demonstrate two new functions:
 
@@ -171,7 +186,7 @@ Let us set these values outside the range and see what happens
     ---------------------------------------------------------------------------
     RangeError                                Traceback (most recent call last)
 
-    <ipython-input-8-35bb37b39fba> in <module>()
+    <ipython-input-15-35bb37b39fba> in <module>()
           4     print building.checkrange("Loads_Convergence_Tolerance_Value")
           5 except RangeError, e:
     ----> 6     raise e
@@ -181,6 +196,72 @@ Let us set these values outside the range and see what happens
 
 
 So the Range Check works
+
+Looping through all the fields in an idf object
+-----------------------------------------------
+
+
+We have seen how to check the range of field in the idf object. What if
+you want to do a *range check* on all the fields in an idf object ? To
+do this we will need a list of all the fields in the idf object. We can
+do this easily by the following line
+
+.. code:: python
+
+    print building.fieldnames
+
+.. parsed-literal::
+
+    ['key', 'Name', 'North_Axis', 'Terrain', 'Loads_Convergence_Tolerance_Value', 'Temperature_Convergence_Tolerance_Value', 'Solar_Distribution', 'Maximum_Number_of_Warmup_Days', 'Minimum_Number_of_Warmup_Days']
+
+
+So let us use this
+
+.. code:: python
+
+    for fieldname in building.fieldnames:
+        print "%s = %s" % (fieldname, building[fieldname])
+
+.. parsed-literal::
+
+    key = BUILDING
+    Name = Empire State Building
+    North_Axis = 30.0
+    Terrain = City
+    Loads_Convergence_Tolerance_Value = 0.6
+    Temperature_Convergence_Tolerance_Value = 0.4
+    Solar_Distribution = FullExterior
+    Maximum_Number_of_Warmup_Days = 25
+    Minimum_Number_of_Warmup_Days = 6
+
+
+Now let us test if the values are in the legal range. We know that
+"Loads\_Convergence\_Tolerance\_Value" is out of range
+
+.. code:: python
+
+    from eppy.bunch_subclass import RangeError
+    for fieldname in building.fieldnames:
+        try:
+            building.checkrange(fieldname)
+            print "%s = %s #-in range" % (fieldname, building[fieldname],)
+        except RangeError as e:
+            print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
+
+.. parsed-literal::
+
+    key = BUILDING #-in range
+    Name = Empire State Building #-in range
+    North_Axis = 30.0 #-in range
+    Terrain = City #-in range
+    Loads_Convergence_Tolerance_Value = 0.6 #-****OUT OF RANGE****
+    Temperature_Convergence_Tolerance_Value = 0.4 #-in range
+    Solar_Distribution = FullExterior #-in range
+    Maximum_Number_of_Warmup_Days = 25 #-in range
+    Minimum_Number_of_Warmup_Days = 6 #-in range
+
+
+You see, we caught the out of range value
 
 Blank idf file
 --------------
@@ -335,15 +416,6 @@ Let us confirm that the file was saved to disk
 
     txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
     print txt
-
-.. parsed-literal::
-
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-
-
 Yup ! that file was saved. Let us delete it since we were just playing
 
 .. code:: python

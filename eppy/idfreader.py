@@ -20,6 +20,7 @@
 from EPlusInterfaceFunctions import readidf
 import bunchhelpers
 from bunch_subclass import EpBunch
+from bunch_subclass import fieldnames, fieldvalues, GetRange, CheckRange
 import iddgaps
 import function_helpers as fh
 
@@ -51,7 +52,10 @@ def convertfields(key_comm, obj):
     def apass(a):
         return a
     typefunc = dict(integer=int, real=float)
-    types = [comm.get('type', [None])[0] for comm in key_comm]
+    # types = [comm.get('type', [None])[0] for comm in key_comm]
+    types = []
+    for comm in key_comm:
+        types.append(comm.get('type', [None])[0])
     convs = [typefunc.get(typ, apass) for typ in types]
     for i, (val, conv) in enumerate(zip(obj, convs)):
         try:
@@ -71,7 +75,7 @@ def convertallfields(data, commdct):
             obj = convertfields(key_comm, obj)
             objs[i] = obj
             
-def addfunctions(bunchdt):
+def addfunctions(dtls, bunchdt):
     """add functions to the objects"""
     snames = ["BuildingSurface:Detailed",
     "Wall:Detailed",
@@ -92,6 +96,15 @@ def addfunctions(bunchdt):
                     'tilt':fh.tilt,
                     # 'coords':fh.getcoords, # needed for debugging
                     } 
+    # add common functions
+    # for name in dtls:
+    #     for idfobject in bunchdt[name]:
+    #         # idfobject.__functions 
+    #         idfobject['__functions']['fieldnames'] = fieldnames
+    #         idfobject['__functions']['fieldvalues'] = fieldvalues
+    #         idfobject['__functions']['getrange'] = GetRange(idfobject)
+    #         idfobject['__functions']['checkrange'] = CheckRange(idfobject)
+        
             
 
 def idfreader(fname, iddfile, conv=True):
@@ -107,7 +120,7 @@ def idfreader(fname, iddfile, conv=True):
     bunchdt = makebunches(data, commdct)
     # TODO : add functions here.
     # - 
-    addfunctions(bunchdt)
+    addfunctions(dtls, bunchdt)
     # - 
     return bunchdt, data, commdct
 
@@ -125,7 +138,7 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
     bunchdt = makebunches(data, commdct)
     # TODO : add functions here.
     # - 
-    addfunctions(bunchdt)
+    addfunctions(dtls, bunchdt)
     # - 
     return bunchdt, block, data, commdct
 

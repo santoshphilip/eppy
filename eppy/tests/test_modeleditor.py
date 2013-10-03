@@ -73,7 +73,7 @@ def test_obj2bunch():
         key_i = data.dtls.index(obj[0].upper())
         abunch = idfreader.makeabunch(commdct, obj, key_i)
         result = modeleditor.obj2bunch(data, commdct, obj)
-        assert result == abunch
+        assert result.__repr__() == abunch.__repr__()
     
 def test_namebunch():
     """py.test for namebunch"""

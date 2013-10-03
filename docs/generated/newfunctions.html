@@ -56,6 +56,14 @@
 <h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
 <p>These are recently written functions that have not made it into the main
 documentation</p>
+<div class="section" id="python-lesson-errors-and-exceptions">
+<h2>Python Lesson: Errors and Exceptions<a class="headerlink" href="#python-lesson-errors-and-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>When things go wrong in your eppy script, you get &#8220;Errors and
+Exceptions&#8221;.</p>
+<p>To know more about how this works in python and eppy, take a look at
+<a class="reference external" href="http://docs.python.org/2/tutorial/errors.html">Python: Errors and
+Exceptions</a></p>
+</div>
 <div class="section" id="setting-idd-name">
 <h2>Setting IDD name<a class="headerlink" href="#setting-idd-name" title="Permalink to this headline">¶</a></h2>
 <p>When you work with Energyplus you are working with <strong>idf</strong> files (files
@@ -87,13 +95,13 @@ file.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDNotSetError                            Traceback (most recent call last)
 
-&lt;ipython-input-4-bcc3a85c2348&gt; in &lt;module&gt;()
+&lt;ipython-input-7-bcc3a85c2348&gt; in &lt;module&gt;()
       2     idf1 = IDF(fname1)
       3 except Exception, e:
 ----&gt; 4     raise e
 
 
-IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setidd(iddfile)</pre>
+IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)</pre>
 </div>
 <p>OK. It does not let you do that and it raises an exception</p>
 <p>So let us set the <strong>idd</strong> file and then open the idf file</p>
@@ -114,7 +122,7 @@ this and should raise an exception.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDAlreadySetError                        Traceback (most recent call last)
 
-&lt;ipython-input-7-ad7cf0dbde94&gt; in &lt;module&gt;()
+&lt;ipython-input-9-ad7cf0dbde94&gt; in &lt;module&gt;()
       2     IDF.setiddname("anotheridd.idd")
       3 except Exception, e:
 ----&gt; 4     raise e
@@ -122,10 +130,13 @@ IDDAlreadySetError                        Traceback (most recent call last)
 
 IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd</pre>
 </div>
-<p>Excellent!! It rased the exception we were expecting.</p>
+<p>Excellent!! It raised the exception we were expecting.</p>
 </div>
 <div class="section" id="check-range-for-fields">
 <h2>Check range for fields<a class="headerlink" href="#check-range-for-fields" title="Permalink to this headline">¶</a></h2>
+<p>The fields of idf objects often have a range of legal values. The
+following functions will let you discover what that range is and test if
+your value lies within that range</p>
 <p>demonstrate two new functions:</p>
 <ul class="simple">
 <li>EpBunch.getrange(fieldname) # will return the ranges for that field</li>
@@ -180,7 +191,7 @@ is outside the range</li>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 RangeError                                Traceback (most recent call last)
 
-&lt;ipython-input-8-35bb37b39fba&gt; in &lt;module&gt;()
+&lt;ipython-input-15-35bb37b39fba&gt; in &lt;module&gt;()
       4     print building.checkrange("Loads_Convergence_Tolerance_Value")
       5 except RangeError, e:
 ----&gt; 6     raise e
@@ -189,6 +200,57 @@ RangeError                                Traceback (most recent call last)
 RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
 </div>
 <p>So the Range Check works</p>
+</div>
+<div class="section" id="looping-through-all-the-fields-in-an-idf-object">
+<h2>Looping through all the fields in an idf object<a class="headerlink" href="#looping-through-all-the-fields-in-an-idf-object" title="Permalink to this headline">¶</a></h2>
+<p>We have seen how to check the range of field in the idf object. What if
+you want to do a <em>range check</em> on all the fields in an idf object ? To
+do this we will need a list of all the fields in the idf object. We can
+do this easily by the following line</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s">&#39;Terrain&#39;</span><span class="p">,</span> <span class="s">&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s">&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s">&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>So let us use this</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>key = BUILDING
+Name = Empire State Building
+North_Axis = 30.0
+Terrain = City
+Loads_Convergence_Tolerance_Value = 0.6
+Temperature_Convergence_Tolerance_Value = 0.4
+Solar_Distribution = FullExterior
+Maximum_Number_of_Warmup_Days = 25
+Minimum_Number_of_Warmup_Days = 6</pre>
+</div>
+<p>Now let us test if the values are in the legal range. We know that
+&#8220;Loads_Convergence_Tolerance_Value&#8221; is out of range</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
+<span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-in range&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+    <span class="k">except</span> <span class="n">RangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-****OUT OF RANGE****&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+</pre></div>
+</div>
+<pre class="literal-block">
+key = BUILDING #-in range
+Name = Empire State Building #-in range
+North_Axis = 30.0 #-in range
+Terrain = City #-in range
+Loads_Convergence_Tolerance_Value = 0.6 #-<strong>**OUT OF RANGE**</strong>
+Temperature_Convergence_Tolerance_Value = 0.4 #-in range
+Solar_Distribution = FullExterior #-in range
+Maximum_Number_of_Warmup_Days = 25 #-in range
+Minimum_Number_of_Warmup_Days = 6 #-in range
+</pre>
+<p>You see, we caught the out of range value</p>
 </div>
 <div class="section" id="blank-idf-file">
 <h2>Blank idf file<a class="headerlink" href="#blank-idf-file" title="Permalink to this headline">¶</a></h2>
@@ -311,9 +373,6 @@ SITE:LOCATION,
 <span class="k">print</span> <span class="n">txt</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>VERSION,
-    7.3;                      !- Version Identifier</pre>
-</div>
 <p>Yup ! that file was saved. Let us delete it since we were just playing</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
@@ -337,8 +396,10 @@ work.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">New functions</a><ul>
+<li><a class="reference internal" href="#python-lesson-errors-and-exceptions">Python Lesson: Errors and Exceptions</a></li>
 <li><a class="reference internal" href="#setting-idd-name">Setting IDD name</a></li>
 <li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
+<li><a class="reference internal" href="#looping-through-all-the-fields-in-an-idf-object">Looping through all the fields in an idf object</a></li>
 <li><a class="reference internal" href="#blank-idf-file">Blank idf file</a></li>
 <li><a class="reference internal" href="#deleting-idfobjects">Deleting idfobjects</a></li>
 </ul>
