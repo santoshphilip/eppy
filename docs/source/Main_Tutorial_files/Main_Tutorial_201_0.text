@@ -1,1 +1,4 @@
-[0.1016, 0.1016, 0.2032, 0.2032]
+['M11 100mm lightweight concrete',
+ 'M01 100mm brick',
+ 'M15 200mm heavyweight concrete',
+ 'M05 200mm concrete block']

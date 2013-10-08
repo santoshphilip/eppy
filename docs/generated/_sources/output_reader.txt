@@ -1,8 +1,0 @@
-Output Reader
-=============
-
-Follow this link -  `Output Reader`_.
-
-.. include:: ../generated/Outputs_Tutorial.html
-
-.. _Output Reader: ./Outputs_Tutorial.html

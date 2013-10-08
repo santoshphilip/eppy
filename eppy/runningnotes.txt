@@ -13,6 +13,10 @@ EpBunch.area does not pass an arg to the function.
 How can I pass an arg to the function. - DONE
     for example EpBunch.checkrange(fieldname)
 
+2013-09-25
+----------
+update by stephan
+
 2013-09-24
 ----------
 pytest will go above the last folder with __init__.py for an import

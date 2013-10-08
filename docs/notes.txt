@@ -1,3 +1,10 @@
+2013-09-25
+----------
+notes on reducing rst errors from ipython notebook
+- indent raw text, add :: in preceding markdown
+- if markdown has extraneous whitespace will trigger an explicit markup and ::      will not work
+- raw text after code (with no results) will appear in same cell as code insert     :: cell between  
+
 2013-09-22
 ----------
 notes on publishing the documentation.

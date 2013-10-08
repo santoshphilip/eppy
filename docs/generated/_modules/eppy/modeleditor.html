@@ -79,6 +79,12 @@
 <span class="k">class</span> <span class="nc">NotSameObjectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
+<span class="k">class</span> <span class="nc">IDDNotSetError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">IDDAlreadySetError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
 <span class="k">def</span> <span class="nf">almostequal</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">printit</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="c"># taken from python&#39;s unit test</span>
     <span class="c"># may be covered by Python&#39;s license </span>
@@ -330,15 +336,24 @@
 <span class="sd">    </span>
 <span class="sd">&quot;&quot;&quot;</span>
     <span class="n">iddname</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">idd_info</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">setiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">=</span> <span class="n">arg</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">idd_info</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">testing</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="n">errortxt</span> <span class="o">=</span> <span class="s">&quot;IDD file is set to: </span><span class="si">%s</span><span class="s">&quot;</span>  <span class="o">%</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span> <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">IDDAlreadySetError</span><span class="p">(</span><span class="n">errortxt</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">getiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">setidd</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">iddinfo</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">idd_info</span> <span class="o">=</span> <span class="n">iddinfo</span>
@@ -346,7 +361,9 @@
 <div class="viewcode-block" id="IDF0.read"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF0.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;read the idf file&quot;&quot;&quot;</span>
         <span class="c"># TODO unit test</span>
-        <span class="c"># TODO : thow an exception if iddname = None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getiddname</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">errortxt</span> <span class="o">=</span> <span class="s">&quot;IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)&quot;</span>
+            <span class="k">raise</span> <span class="n">IDDNotSetError</span><span class="p">(</span><span class="n">errortxt</span><span class="p">)</span>
         <span class="n">readout</span> <span class="o">=</span> <span class="n">idfreader1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span>
                                 <span class="n">commdct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">idd_info</span> <span class="o">=</span> <span class="n">readout</span>

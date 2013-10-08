@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +15,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -86,32 +88,34 @@ R-value of the roof until you get to the expected energy use.</li>
 <div class="section" id="quick-start">
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>Here is a short IDF file that I’ll be using as an example to start us
-off:</p>
-<dl class="docutils">
-<dt>VERSION,</dt>
-<dd>7.2;                     !- Version Identifier</dd>
-<dt>SIMULATIONCONTROL,</dt>
-<dd>Yes,                     !- Do Zone Sizing Calculation
-Yes,                     !- Do System Sizing Calculation
-Yes,                     !- Do Plant Sizing Calculation
-No,                      !- Run Simulation for Sizing Periods
-Yes;                     !- Run Simulation for Weather File Run Periods</dd>
-<dt>BUILDING,</dt>
-<dd>White House,             !- Name
-30.,                     !- North Axis {deg}
-City,                    !- Terrain
-0.04,                    !- Loads Convergence Tolerance Value
-0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-FullExterior,            !- Solar Distribution
-25,                      !- Maximum Number of Warmup Days
-6;                       !- Minimum Number of Warmup Days</dd>
-<dt>SITE:LOCATION,</dt>
-<dd>CHICAGO_IL_USA TMY2-94846,  !- Name
-41.78,                   !- Latitude {deg}
--87.75,                  !- Longitude {deg}
--6.00,                   !- Time Zone {hr}
-190.00;                  !- Elevation {m}</dd>
-</dl>
+off</p>
+<div class="highlight-python"><pre>VERSION,
+    7.2;                     !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                     !- Do Zone Sizing Calculation
+    Yes,                     !- Do System Sizing Calculation
+    Yes,                     !- Do Plant Sizing Calculation
+    No,                      !- Run Simulation for Sizing Periods
+    Yes;                     !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,  !- Name
+    41.78,                   !- Latitude {deg}
+    -87.75,                  !- Longitude {deg}
+    -6.00,                   !- Time Zone {hr}
+    190.00;                  !- Elevation {m}</pre>
+</div>
 <p>To use eppy to look at this model, we have to run a little code first:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
@@ -177,11 +181,11 @@ slightly different.</p>
 <li>BUILDING</li>
 <li>SITE:LOCATION</li>
 </ul>
-<div class="line-block">
-<div class="line">So, let us look take a closer look at the BUILDING object.</div>
-<div class="line">We can do this using this command:</div>
+<p>So, let us look take a closer look at the BUILDING object. We can do
+this using this command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">filename</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;OBJECTNAME&#39;</span><span class="p">]</span>
+</pre></div>
 </div>
-<p>print filename.idfobjects[&#8216;OBJECTNAME&#8217;]</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BUILDING&#39;</span><span class="p">]</span>  <span class="c"># put the name of the object you&#39;d like to look at in brackets</span>
 </pre></div>
 </div>
@@ -258,8 +262,11 @@ started!</p>
 <h2>Modifying IDF Fields<a class="headerlink" href="#modifying-idf-fields" title="Permalink to this headline">¶</a></h2>
 <p>That was just a quick example &#8211; we were showing off. Let&#8217;s look a
 little closer.</p>
-<p>As you might have guessed, changing an IDF field follows this structure:</p>
-<p>object.fieldname = &#8220;New Field Name&#8221;</p>
+<p>As you might have guessed, changing an IDF field follows this
+structure:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">object</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">=</span> <span class="s">&quot;New Field Name&quot;</span>
+</pre></div>
+</div>
 <p>Plugging the object name (building), the field name (Name) and our new
 field name (&#8220;Empire State Building&#8221;) into this command gave us this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Empire State Building&quot;</span>
@@ -276,9 +283,6 @@ field name (&#8220;Empire State Building&#8221;) into this command gave us this:
 <p>Are there other fields?</p>
 <p>What are they called?</p>
 <p>Let&#8217;s take a look at the IDF editor:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
-</pre></div>
-</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">idfeditor</span><span class="p">)</span>
@@ -343,17 +347,16 @@ field.</p>
 <p>Eppy also does this.</p>
 <p>Let us take a look at the &#8220;BUILDING&#8221; object in the text file that the
 IDF Editor saves</p>
-<dl class="docutils">
-<dt>BUILDING,</dt>
-<dd>White House,             !- Name
-30.,                     !- North Axis {deg}
-City,                    !- Terrain
-0.04,                    !- Loads Convergence Tolerance Value
-0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-FullExterior,            !- Solar Distribution
-25,                      !- Maximum Number of Warmup Days
-6;                       !- Minimum Number of Warmup Days</dd>
-</dl>
+<div class="highlight-python"><pre>BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days</pre>
+</div>
 <p>This a good place to find the field names too.</p>
 <p>It is easy to copy and paste from here. You can&#8217;t do that from the IDF
 Editor.</p>
@@ -620,47 +623,11 @@ Lady Gaga</pre>
 </div>
 <p>How do I make sense of this?</p>
 <p>To understand this you need to see the list in the following manner:</p>
-<dl class="docutils">
-<dt>[ &#8220;Donald Trump&#8221;, &#8220;Mick Jagger&#8221;, &#8220;Steve Jobs&#8221;, &#8220;Lady Gaga&#8221;, &#8220;Santa Clause&#8221; ]</dt>
-<dd>^               ^              ^             ^            ^              ^
-0               1              2             3            4              5</dd>
-</dl>
-<table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-5</span></kbd></td>
-<td><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-4</span></kbd></td>
-<td><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-3</span></kbd></td>
-<td><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">-2</span></kbd></td>
-<td>-1</td></tr>
-</tbody>
-</table>
-</td></tr>
-</tbody>
-</table>
-</td></tr>
-</tbody>
-</table>
-</td></tr>
-</tbody>
-</table>
+<div class="highlight-python"><pre>[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
+ ^               ^              ^             ^            ^              ^
+ 0               1              2             3            4              5
+-5              -4             -3            -2           -1</pre>
+</div>
 <p>The slice operation bad_architects[1:3] slices right where the numbers
 are.</p>
 <p>Does that make sense?</p>
@@ -693,7 +660,9 @@ are.</p>
 <p>This is simple: the append function adds an item to the end of the list.</p>
 <p>The following command will add &#8216;something&#8217; to the end of the list called
 listname:</p>
-<p>listname.append(something)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">listname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+</pre></div>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;First-year students&quot;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bad_architects</span>
 </pre></div>
@@ -889,7 +858,6 @@ Material,
 </div>
 <div class="section" id="add-a-new-material-to-the-model">
 <h3>Add a new material to the model<a class="headerlink" href="#add-a-new-material-to-the-model" title="Permalink to this headline">¶</a></h3>
-<p>TODO</p>
 <p>So far we have been working only with materials that were already in the
 list.</p>
 <p>What if we want to make new material?</p>
@@ -992,10 +960,9 @@ any (or every) item in the list.</p>
 <p>Here&#8217;s how to tell python to step through each item in a list, and then
 do something to every single item.</p>
 <p>We&#8217;ll use a &#8216;for&#8217; loop to do this.</p>
-<dl class="docutils">
-<dt>for &lt;variable&gt; in &lt;listname&gt;:</dt>
-<dd>&lt;do something&gt;</dd>
-</dl>
+<div class="highlight-python"><pre>for &lt;variable&gt; in &lt;listname&gt;:
+    &lt;do something&gt;</pre>
+</div>
 <p>A quick note about the second line. Notice that it&#8217;s indented? There are
 4 blank spaces before the code starts:</p>
 <div class="highlight-python"><pre>in python, indentations are used
@@ -1084,11 +1051,10 @@ give a new list that is a result of the "do something"</pre>
 <p>But what if you don&#8217;t want to change <em>every</em> item in a list?</p>
 <p>We can use an &#8216;if&#8217; statement to operate on only some items in the list.</p>
 <p>Indentation is also important in &#8216;if&#8217; statements, as you&#8217;ll see:</p>
-<dl class="docutils">
-<dt>if &lt;someconstraint&gt;:</dt>
-<dd>&lt;if the first line is true, do this&gt;</dd>
-</dl>
-<p>&lt;but if it&#8217;s false, do this&gt;</p>
+<div class="highlight-python"><pre>if &lt;someconstraint&gt;:
+    &lt;if the first line is true, do this&gt;
+&lt;but if it's false, do this&gt;</pre>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;berry&quot;</span><span class="p">,</span> <span class="s">&quot;mango&quot;</span><span class="p">,</span> <span class="s">&quot;plum&quot;</span><span class="p">,</span> <span class="s">&quot;peach&quot;</span><span class="p">,</span> <span class="s">&quot;melon&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1119,9 +1085,11 @@ give a new list that is a result of the "do something"</pre>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;plum&#39;</span><span class="p">,</span> <span class="s">&#39;peach&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><pre># here's a shorter way to write it
-p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
-[fruit for fruit in fruits if fruit.startswith("p")]
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s a shorter way to write it</span>
+<span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[</span><span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span> <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[fruit for fruit in fruits if fruit.startswith("p")]
        -------------------
        for loop
 
@@ -1403,7 +1371,7 @@ working with the same items.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">material_lists</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/Main_Tutorial_206_0.png" src="_images/Main_Tutorial_206_0.png" />
+<img alt="_images/Main_Tutorial_207_0.png" src="_images/Main_Tutorial_207_0.png" />
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s the same concept, demonstrated with code</span>
 <span class="c"># remember, we changed the names of the items in the list thick_materials</span>
 <span class="c"># these changes are visible when we print the materials list; the thick materials are also in the materials list</span>
@@ -1728,7 +1696,7 @@ rather quickly.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

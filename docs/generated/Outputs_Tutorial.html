@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +15,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
+        URL_ROOT:    '',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -63,10 +65,8 @@
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">So far we have been making changes to the IDF input file.</div>
-<div class="line">How about looking at the outputs.</div>
-</div>
+<p>So far we have been making changes to the IDF input file. How about
+looking at the outputs.</p>
 <p>Energyplus makes nice htmlout files that look like this.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
@@ -84,7 +84,7 @@ data from any of it&#8217;s cells.</p>
 <div class="line">The number you want is in the third row, second column and it&#8217;s value</div>
 </div>
 <p>is &#8220;47694.47&#8221;</p>
-<p>Let us use eppy to txtract this number</p>
+<p>Let us use eppy to extract this number</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c"># the html file you want to read</span>
 <span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c"># get a file handle to the html file</span>
@@ -93,11 +93,9 @@ data from any of it&#8217;s cells.</p>
 <span class="n">htables</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">titletable</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span> <span class="c"># reads the tables with their titles</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line">If you open the python file readhtml.py and look at the function</div>
-</div>
-<p>titletable, you can see the function documentation.
-| It says the following</p>
+<p>If you open the python file readhtml.py and look at the function
+titletable, you can see the function documentation.</p>
+<p>It says the following</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;return a list of [(title, table), .....]</span>
 <span class="sd">title = previous item with a &lt;b&gt; tag</span>
 <span class="sd">table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&quot;&quot;&quot;</span>
@@ -106,11 +104,8 @@ data from any of it&#8217;s cells.</p>
 <pre class="literal-block">
 'return a list of [(title, table), .....]ntitle = previous item with a &lt;b&gt; tagntable = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]'
 </pre>
-<div class="line-block">
-<div class="line">The documentation says that it returns a list.</div>
-<div class="line">Let us take a look inside this list. Let us look at the first item in</div>
-</div>
-<p>the list.</p>
+<p>The documentation says that it returns a list. Let us take a look inside
+this list. Let us look at the first item in the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
@@ -239,9 +234,9 @@ Source Energy Conversion Factors&#8221;</p>
 </div>
 <div class="line-block">
 <div class="line">Let us leave readtables for now.</div>
-<div class="line">It gives us the basic fucntionality to read any of the tables in the</div>
+<div class="line">It gives us the basic functionality to read any of the tables in the</div>
 </div>
-<p>html output file</p>
+<p>html output file.</p>
 </div>
 
 
@@ -298,7 +293,7 @@ Source Energy Conversion Factors&#8221;</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

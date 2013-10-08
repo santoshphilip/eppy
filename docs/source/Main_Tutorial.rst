@@ -39,34 +39,34 @@ Quick Start
 
 
 Here is a short IDF file that I’ll be using as an example to start us
-off:
+off ::
 
-VERSION,
-    7.2;                     !- Version Identifier
-
-SIMULATIONCONTROL,
-    Yes,                     !- Do Zone Sizing Calculation
-    Yes,                     !- Do System Sizing Calculation
-    Yes,                     !- Do Plant Sizing Calculation
-    No,                      !- Run Simulation for Sizing Periods
-    Yes;                     !- Run Simulation for Weather File Run Periods
-
-BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
-
-SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,  !- Name
-    41.78,                   !- Latitude {deg}
-    -87.75,                  !- Longitude {deg}
-    -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}
+    VERSION,
+        7.2;                     !- Version Identifier
+    
+    SIMULATIONCONTROL,
+        Yes,                     !- Do Zone Sizing Calculation
+        Yes,                     !- Do System Sizing Calculation
+        Yes,                     !- Do Plant Sizing Calculation
+        No,                      !- Run Simulation for Sizing Periods
+        Yes;                     !- Run Simulation for Weather File Run Periods
+    
+    BUILDING,
+        White House,             !- Name
+        30.,                     !- North Axis {deg}
+        City,                    !- Terrain
+        0.04,                    !- Loads Convergence Tolerance Value
+        0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+        FullExterior,            !- Solar Distribution
+        25,                      !- Maximum Number of Warmup Days
+        6;                       !- Minimum Number of Warmup Days
+    
+    SITE:LOCATION,
+        CHICAGO_IL_USA TMY2-94846,  !- Name
+        41.78,                   !- Latitude {deg}
+        -87.75,                  !- Longitude {deg}
+        -6.00,                   !- Time Zone {hr}
+        190.00;                  !- Elevation {m}
 
 
 To use eppy to look at this model, we have to run a little code first:
@@ -145,10 +145,11 @@ As you can see, this file has four objects:
 -  BUILDING
 -  SITE:LOCATION
 
-| So, let us look take a closer look at the BUILDING object.
-| We can do this using this command:
 
-print filename.idfobjects['OBJECTNAME']
+So, let us look take a closer look at the BUILDING object. We can do
+this using this command::
+
+    print filename.idfobjects['OBJECTNAME']
 
 .. code:: python
 
@@ -253,9 +254,10 @@ Modifying IDF Fields
 That was just a quick example -- we were showing off. Let's look a
 little closer.
 
-As you might have guessed, changing an IDF field follows this structure:
+As you might have guessed, changing an IDF field follows this
+structure::
 
-object.fieldname = "New Field Name"
+    object.fieldname = "New Field Name"
 
 Plugging the object name (building), the field name (Name) and our new
 field name ("Empire State Building") into this command gave us this:
@@ -278,9 +280,6 @@ What are they called?
 
 Let's take a look at the IDF editor:
 
-.. code:: python
-
-    from eppy import ex_inits #no need to know this code, it just shows the image below
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
@@ -370,17 +369,17 @@ field.
 Eppy also does this.
 
 Let us take a look at the "BUILDING" object in the text file that the
-IDF Editor saves
+IDF Editor saves ::
 
-BUILDING,
-    White House,             !- Name
-    30.,                     !- North Axis {deg}
-    City,                    !- Terrain
-    0.04,                    !- Loads Convergence Tolerance Value
-    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-    FullExterior,            !- Solar Distribution
-    25,                      !- Maximum Number of Warmup Days
-    6;                       !- Minimum Number of Warmup Days
+    BUILDING,
+        White House,             !- Name
+        30.,                     !- North Axis {deg}
+        City,                    !- Terrain
+        0.04,                    !- Loads Convergence Tolerance Value
+        0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+        FullExterior,            !- Solar Distribution
+        25,                      !- Maximum Number of Warmup Days
+        6;                       !- Minimum Number of Warmup Days
 
 This a good place to find the field names too.
 
@@ -735,12 +734,12 @@ bad_architects[first_slice:second_slice]
 
 How do I make sense of this?
 
-To understand this you need to see the list in the following manner:
+To understand this you need to see the list in the following manner::
 
-[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
- ^               ^              ^             ^            ^              ^
- 0               1              2             3            4              5
--5              -4             -3            -2           -1
+    [ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
+     ^               ^              ^             ^            ^              ^
+     0               1              2             3            4              5
+    -5              -4             -3            -2           -1
 
 The slice operation bad\_architects[1:3] slices right where the numbers
 are.
@@ -786,9 +785,9 @@ Adding to a list
 This is simple: the append function adds an item to the end of the list.
 
 The following command will add 'something' to the end of the list called
-listname:
+listname::
 
-listname.append(something)
+    listname.append(something)
 
 .. code:: python
 
@@ -1081,8 +1080,6 @@ Add a new material to the model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
-TODO
-
 So far we have been working only with materials that were already in the
 list.
 
@@ -1234,10 +1231,10 @@ This is called looping through the list.
 Here's how to tell python to step through each item in a list, and then
 do something to every single item.
 
-We'll use a 'for' loop to do this.
+We'll use a 'for' loop to do this. ::
 
-for <variable> in <listname>:
-    <do something>
+    for <variable> in <listname>:
+        <do something>
 
 A quick note about the second line. Notice that it's indented? There are
 4 blank spaces before the code starts::
@@ -1354,11 +1351,11 @@ But what if you don't want to change *every* item in a list?
 
 We can use an 'if' statement to operate on only some items in the list.
 
-Indentation is also important in 'if' statements, as you'll see:
+Indentation is also important in 'if' statements, as you'll see::
 
-if <someconstraint>:
-    <if the first line is true, do this>
-<but if it's false, do this>
+    if <someconstraint>:
+        <if the first line is true, do this>
+    <but if it's false, do this>
 
 .. code:: python
 
@@ -1401,6 +1398,8 @@ Let's say we want to pick only the fruits that start with the letter
 
     # here's a shorter way to write it
     p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
+::
+
     [fruit for fruit in fruits if fruit.startswith("p")]
            -------------------
            for loop
@@ -1778,7 +1777,7 @@ Here's a helpful illustration:
     for_images.display_png(for_images.material_lists) # display the image below
 
 
-.. image:: Main_Tutorial_files/Main_Tutorial_206_0.png
+.. image:: Main_Tutorial_files/Main_Tutorial_207_0.png
 
 
 .. code:: python
