@@ -1,0 +1,36 @@
+[
+Material,                 
+    THICK M11 100mm lightweight concrete,    !- Name
+    MediumRough,              !- Roughness
+    0.1016,                   !- Thickness
+    0.53,                     !- Conductivity
+    1280.0,                   !- Density
+    840.0;                    !- Specific Heat
+,
+ 
+Material,                 
+    THICK M01 100mm brick,    !- Name
+    MediumRough,              !- Roughness
+    0.1016,                   !- Thickness
+    0.89,                     !- Conductivity
+    1920.0,                   !- Density
+    790.0;                    !- Specific Heat
+,
+ 
+Material,                 
+    THICK M15 200mm heavyweight concrete,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    1.95,                     !- Conductivity
+    2240.0,                   !- Density
+    900.0;                    !- Specific Heat
+,
+ 
+Material,                 
+    THICK M05 200mm concrete block,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    1.11,                     !- Conductivity
+    800.0,                    !- Density
+    920.0;                    !- Specific Heat
+]

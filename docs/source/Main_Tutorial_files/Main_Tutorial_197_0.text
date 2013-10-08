@@ -1,12 +1,12 @@
-F08 Metal surface
-I01 25mm insulation board
-I02 50mm insulation board
-G01a 19mm gypsum board
-M11 100mm lightweight concrete
-F16 Acoustic tile
-M01 100mm brick
-M15 200mm heavyweight concrete
-M05 200mm concrete block
-G05 25mm wood
-Peanut Butter
-Peanut Butter
+['F08 Metal surface',
+ 'I01 25mm insulation board',
+ 'I02 50mm insulation board',
+ 'G01a 19mm gypsum board',
+ 'M11 100mm lightweight concrete',
+ 'F16 Acoustic tile',
+ 'M01 100mm brick',
+ 'M15 200mm heavyweight concrete',
+ 'M05 200mm concrete block',
+ 'G05 25mm wood',
+ 'Peanut Butter',
+ 'Peanut Butter']

@@ -1,0 +1,17 @@
+[
+Material,                 
+    M05 200mm concrete block,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    1.11,                     !- Conductivity
+    800.0,                    !- Density
+    920.0;                    !- Specific Heat
+, 
+Material,                 
+    G05 25mm wood,            !- Name
+    MediumSmooth,             !- Roughness
+    0.0254,                   !- Thickness
+    0.15,                     !- Conductivity
+    608.0,                    !- Density
+    1630.0;                   !- Specific Heat
+]

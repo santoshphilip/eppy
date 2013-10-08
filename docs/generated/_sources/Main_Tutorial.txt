@@ -283,14 +283,11 @@ Let's take a look at the IDF editor:
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
-.. code:: python
-
-    from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.idfeditor) 
 
 
-.. image:: Main_Tutorial_files/Main_Tutorial_35_0.png
+.. image:: Main_Tutorial_files/Main_Tutorial_34_0.png
 
 
 In the IDF Editor, the building object is selected.
@@ -1780,7 +1777,7 @@ Here's a helpful illustration:
     for_images.display_png(for_images.material_lists) # display the image below
 
 
-.. image:: Main_Tutorial_files/Main_Tutorial_208_0.png
+.. image:: Main_Tutorial_files/Main_Tutorial_207_0.png
 
 
 .. code:: python

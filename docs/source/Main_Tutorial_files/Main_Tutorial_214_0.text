@@ -1,3 +1,1 @@
-surface azimuth = 180.0 degrees
-surface tilt = 90.0 degrees
-surface area = 18.3 m2
+['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']
