@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -54,7 +52,21 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="new-functions">
+  <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
+
+<span class="c"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="new-functions">
 <h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
 <p>These are recently written functions that have not made it into the main
 documentation</p>
@@ -97,10 +109,11 @@ file.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDNotSetError                            Traceback (most recent call last)
 
-&lt;ipython-input-4-bcc3a85c2348&gt; in &lt;module&gt;()
+&lt;ipython-input-16-44ad2b53d42c&gt; in &lt;module&gt;()
       2     idf1 = IDF(fname1)
       3 except Exception, e:
 ----&gt; 4     raise e
+      5
 
 
 IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)</pre>
@@ -124,10 +137,11 @@ this and should raise an exception.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDAlreadySetError                        Traceback (most recent call last)
 
-&lt;ipython-input-6-ad7cf0dbde94&gt; in &lt;module&gt;()
+&lt;ipython-input-18-52df819ac489&gt; in &lt;module&gt;()
       2     IDF.setiddname("anotheridd.idd")
       3 except Exception, e:
 ----&gt; 4     raise e
+      5
 
 
 IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd</pre>
@@ -159,10 +173,26 @@ is outside the range</li>
 <span class="k">print</span> <span class="n">building</span>
 </pre></div>
 </div>
+<div class="highlight-python"><pre>BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days</pre>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">getrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;maximum&lt;&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;minimum&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;real&#39;</span><span class="p">,</span> <span class="s">&#39;maximum&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+</pre></div>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.04</span>
 </pre></div>
 </div>
 <p>Let us set these values outside the range and see what happens</p>
@@ -173,6 +203,18 @@ is outside the range</li>
 <span class="k">except</span> <span class="n">RangeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
+</div>
+<div class="highlight-python"><pre>---------------------------------------------------------------------------
+RangeError                                Traceback (most recent call last)
+
+&lt;ipython-input-24-a824cb1ec673&gt; in &lt;module&gt;()
+      4     print building.checkrange("Loads_Convergence_Tolerance_Value")
+      5 except RangeError, e:
+----&gt; 6     raise e
+      7
+
+
+RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
 </div>
 <p>So the Range Check works</p>
 </div>
@@ -185,10 +227,23 @@ do this easily by the following line</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s">&#39;Terrain&#39;</span><span class="p">,</span> <span class="s">&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s">&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s">&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>So let us use this</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
     <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
 </pre></div>
+</div>
+<div class="highlight-python"><pre>key = BUILDING
+Name = Empire State Building
+North_Axis = 30.0
+Terrain = City
+Loads_Convergence_Tolerance_Value = 0.6
+Temperature_Convergence_Tolerance_Value = 0.4
+Solar_Distribution = FullExterior
+Maximum_Number_of_Warmup_Days = 25
+Minimum_Number_of_Warmup_Days = 6</pre>
 </div>
 <p>Now let us test if the values are in the legal range. We know that
 &#8220;Loads_Convergence_Tolerance_Value&#8221; is out of range</p>
@@ -201,6 +256,17 @@ do this easily by the following line</p>
         <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-****OUT OF RANGE****&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
 </pre></div>
 </div>
+<pre class="literal-block">
+key = BUILDING #-in range
+Name = Empire State Building #-in range
+North_Axis = 30.0 #-in range
+Terrain = City #-in range
+Loads_Convergence_Tolerance_Value = 0.6 #-<strong>**OUT OF RANGE**</strong>
+Temperature_Convergence_Tolerance_Value = 0.4 #-in range
+Solar_Distribution = FullExterior #-in range
+Maximum_Number_of_Warmup_Days = 25 #-in range
+Minimum_Number_of_Warmup_Days = 6 #-in range
+</pre>
 <p>You see, we caught the out of range value</p>
 </div>
 <div class="section" id="blank-idf-file">
@@ -225,6 +291,33 @@ disk:</p>
 <span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - now let us open a file from the disk differently</span>
 <span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 <span class="n">fhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname1</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c"># open the file for reading and assign it a file handle</span>
@@ -232,6 +325,33 @@ disk:</p>
 
 <span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
 
@@ -254,6 +374,9 @@ disk:</p>
 <span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier</pre>
+</div>
 <p>Aha !</p>
 <p>Now let us give it a file name</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - give it a file name</span>
@@ -267,14 +390,21 @@ disk:</p>
 <span class="k">print</span> <span class="n">txt</span>
 </pre></div>
 </div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier</pre>
+</div>
 <p>Yup ! that file was saved. Let us delete it since we were just playing</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="deleting-adding-and-making-new-idfobjects">
-<h2>Deleting, adding and making new idfobjects<a class="headerlink" href="#deleting-adding-and-making-new-idfobjects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="deleting-copying-adding-and-making-new-idfobjects">
+<h2>Deleting, copying/adding and making new idfobjects<a class="headerlink" href="#deleting-copying-adding-and-making-new-idfobjects" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="making-new-idfobjects">
+<h1>Making new idfobjects<a class="headerlink" href="#making-new-idfobjects" title="Permalink to this headline">¶</a></h1>
 <p>Let us start with a blank idf file and make some new &#8220;MATERIAL&#8221; objects
 in it</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># making a blank idf object</span>
@@ -303,7 +433,7 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance</pre>
 </div>
-<p>Let us gie this a name, say &#8220;Shiny new material object&#8221;</p>
+<p>Let us give this a name, say &#8220;Shiny new material object&#8221;</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">newobject</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Shiny new material object&quot;</span>
 <span class="k">print</span> <span class="n">newobject</span>
 </pre></div>
@@ -338,7 +468,153 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
     0.7;                      !- Visible Absorptance</pre>
 </div>
 <p>Let us look at all the &#8220;MATERIAL&#8221; objects</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
+</pre></div>
 </div>
+<div class="highlight-python"><pre>[
+MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+,
+MATERIAL,
+    Lousy material,           !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+,
+MATERIAL,
+    third material,           !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+]</pre>
+</div>
+<p>As we can see there are three MATERIAL idfobjects. They are:</p>
+<ol class="arabic simple">
+<li>Shiny new material object</li>
+<li>Lousy material</li>
+<li>third material</li>
+</ol>
+</div>
+<div class="section" id="deleting-an-idf-object">
+<h1>Deleting an idf object<a class="headerlink" href="#deleting-an-idf-object" title="Permalink to this headline">¶</a></h1>
+<p>Let us remove 2. Lousy material. It is the second material in the list.
+So let us remove the second material</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+,
+MATERIAL,
+    third material,           !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+]</pre>
+</div>
+<p>You can see that the second material is gone ! Now let us remove the
+first material, but do it using a different function</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">removeidfobject</span><span class="p">(</span><span class="n">firstmaterial</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+]</pre>
+</div>
+<p>So we have two ways of deleting an idf object:</p>
+<ol class="arabic simple">
+<li>popidfobject -&gt; give it the idf key: &#8220;MATERIAL&#8221;, and the index number</li>
+<li>removeidfobject -&gt; give it the idf object to be deleted</li>
+</ol>
+</div>
+<div class="section" id="copying-or-adding-idf-objects">
+<h1>Copying or adding idf objects<a class="headerlink" href="#copying-or-adding-idf-objects" title="Permalink to this headline">¶</a></h1>
+<p>Having deleted two &#8220;MATERIAL&#8221; objects, we have only one left. Let us
+make a copy of this object and add it to our idf file</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">onlymaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">copyidfobject</span><span class="p">(</span><span class="n">onlymaterial</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+,
+MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+]</pre>
+</div>
+<p>So now we have a copy of the material</p>
 </div>
 
 
@@ -355,9 +631,12 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
 <li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
 <li><a class="reference internal" href="#looping-through-all-the-fields-in-an-idf-object">Looping through all the fields in an idf object</a></li>
 <li><a class="reference internal" href="#blank-idf-file">Blank idf file</a></li>
-<li><a class="reference internal" href="#deleting-adding-and-making-new-idfobjects">Deleting, adding and making new idfobjects</a></li>
+<li><a class="reference internal" href="#deleting-copying-adding-and-making-new-idfobjects">Deleting, copying/adding and making new idfobjects</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#making-new-idfobjects">Making new idfobjects</a></li>
+<li><a class="reference internal" href="#deleting-an-idf-object">Deleting an idf object</a></li>
+<li><a class="reference internal" href="#copying-or-adding-idf-objects">Copying or adding idf objects</a></li>
 </ul>
 
   <h4>Previous topic</h4>
@@ -408,7 +687,7 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

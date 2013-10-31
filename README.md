@@ -21,4 +21,4 @@ Here are some of the things you can do with eppy:
 - Find the energy use of all the models in a folder (or of models that were run after a certain date)
 - If a model is using more energy than expected, keep increasing the R-value of the roof until you get to the expected energy use.
 
-To see the tutorial go to ../docs/tutorial.html
+To see the tutorial go to ../docs/generated/index.html

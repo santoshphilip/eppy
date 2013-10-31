@@ -1,6 +1,21 @@
 
+.. code:: python
+
+    # you would normaly install eppy by doing
+    # python setup.py install
+    # or
+    # pip install eppy
+    # or
+    # easy_install eppy
+    
+    # if you have not done so, uncomment the following three lines
+    import sys
+    # pathnameto_eppy = 'c:/eppy'
+    pathnameto_eppy = '../'
+    sys.path.append(pathnameto_eppy) 
+
 New functions
-=============
+~~~~~~~~~~~~~
 
 
 These are recently written functions that have not made it into the main
@@ -44,6 +59,7 @@ file.
     from eppy import modeleditor 
     from eppy.modeleditor import IDF
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+
 Now let us open file fname1 without setting the **idd** file
 
 .. code:: python
@@ -52,6 +68,7 @@ Now let us open file fname1 without setting the **idd** file
         idf1 = IDF(fname1)
     except Exception, e:
         raise e
+        
 
 ::
 
@@ -59,11 +76,12 @@ Now let us open file fname1 without setting the **idd** file
     ---------------------------------------------------------------------------
     IDDNotSetError                            Traceback (most recent call last)
 
-    <ipython-input-4-bcc3a85c2348> in <module>()
+    <ipython-input-16-44ad2b53d42c> in <module>()
           2     idf1 = IDF(fname1)
           3 except Exception, e:
     ----> 4     raise e
-    
+          5 
+
 
     IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)
 
@@ -77,6 +95,7 @@ So let us set the **idd** file and then open the idf file
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
+
 That worked without raising an exception
 
 Now let us try to change the **idd** file. Eppy should not let you do
@@ -87,7 +106,8 @@ this and should raise an exception.
     try:
         IDF.setiddname("anotheridd.idd")
     except Exception, e:
-        raise e    
+        raise e   
+        
 
 ::
 
@@ -95,11 +115,12 @@ this and should raise an exception.
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-6-ad7cf0dbde94> in <module>()
+    <ipython-input-18-52df819ac489> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
-    
+          5 
+
 
     IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd
 
@@ -127,20 +148,53 @@ demonstrate two new functions:
     from eppy.modeleditor import IDF
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+
 .. code:: python
 
     # IDF.setiddname(iddfile)# idd ws set further up in this page
     idf1 = IDF(fname1)
+
 .. code:: python
 
     building = idf1.idfobjects['building'.upper()][0]
     print building
+
+
+.. parsed-literal::
+
+    
+    BUILDING,                 
+        Empire State Building,    !- Name
+        30.0,                     !- North Axis
+        City,                     !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    
+
+
 .. code:: python
 
     print building.getrange("Loads_Convergence_Tolerance_Value")
+
+
+.. parsed-literal::
+
+    {'maximum<': None, 'minimum': None, 'type': 'real', 'maximum': 0.5, 'minimum>': 0.0}
+
+
 .. code:: python
 
     print building.checkrange("Loads_Convergence_Tolerance_Value")
+
+
+.. parsed-literal::
+
+    0.04
+
+
 Let us set these values outside the range and see what happens
 
 .. code:: python
@@ -151,6 +205,24 @@ Let us set these values outside the range and see what happens
         print building.checkrange("Loads_Convergence_Tolerance_Value")
     except RangeError, e:
         raise e
+        
+
+::
+
+
+    ---------------------------------------------------------------------------
+    RangeError                                Traceback (most recent call last)
+
+    <ipython-input-24-a824cb1ec673> in <module>()
+          4     print building.checkrange("Loads_Convergence_Tolerance_Value")
+          5 except RangeError, e:
+    ----> 6     raise e
+          7 
+
+
+    RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5
+
+
 So the Range Check works
 
 Looping through all the fields in an idf object
@@ -165,12 +237,34 @@ do this easily by the following line
 .. code:: python
 
     print building.fieldnames
+
+
+.. parsed-literal::
+
+    ['key', 'Name', 'North_Axis', 'Terrain', 'Loads_Convergence_Tolerance_Value', 'Temperature_Convergence_Tolerance_Value', 'Solar_Distribution', 'Maximum_Number_of_Warmup_Days', 'Minimum_Number_of_Warmup_Days']
+
+
 So let us use this
 
 .. code:: python
 
     for fieldname in building.fieldnames:
         print "%s = %s" % (fieldname, building[fieldname])
+        
+
+.. parsed-literal::
+
+    key = BUILDING
+    Name = Empire State Building
+    North_Axis = 30.0
+    Terrain = City
+    Loads_Convergence_Tolerance_Value = 0.6
+    Temperature_Convergence_Tolerance_Value = 0.4
+    Solar_Distribution = FullExterior
+    Maximum_Number_of_Warmup_Days = 25
+    Minimum_Number_of_Warmup_Days = 6
+
+
 Now let us test if the values are in the legal range. We know that
 "Loads\_Convergence\_Tolerance\_Value" is out of range
 
@@ -183,6 +277,21 @@ Now let us test if the values are in the legal range. We know that
             print "%s = %s #-in range" % (fieldname, building[fieldname],)
         except RangeError as e:
             print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
+            
+
+.. parsed-literal::
+
+    key = BUILDING #-in range
+    Name = Empire State Building #-in range
+    North_Axis = 30.0 #-in range
+    Terrain = City #-in range
+    Loads_Convergence_Tolerance_Value = 0.6 #-****OUT OF RANGE****
+    Temperature_Convergence_Tolerance_Value = 0.4 #-in range
+    Solar_Distribution = FullExterior #-in range
+    Maximum_Number_of_Warmup_Days = 25 #-in range
+    Minimum_Number_of_Warmup_Days = 6 #-in range
+
+
 You see, we caught the out of range value
 
 Blank idf file
@@ -210,6 +319,40 @@ Here are the steps to do that
     idf_fromfilename = IDF(fname1) # initialize the IDF object with the file name
     
     idf_fromfilename.printidf()
+
+
+.. parsed-literal::
+
+    
+    VERSION,                  
+        7.3;                      !- Version Identifier
+    
+    SIMULATIONCONTROL,        
+        Yes,                      !- Do Zone Sizing Calculation
+        Yes,                      !- Do System Sizing Calculation
+        Yes,                      !- Do Plant Sizing Calculation
+        No,                       !- Run Simulation for Sizing Periods
+        Yes;                      !- Run Simulation for Weather File Run Periods
+    
+    BUILDING,                 
+        Empire State Building,    !- Name
+        30.0,                     !- North Axis
+        City,                     !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    
+    SITE:LOCATION,            
+        CHICAGO_IL_USA TMY2-94846,    !- Name
+        41.78,                    !- Latitude
+        -87.75,                   !- Longitude
+        -6.0,                     !- Time Zone
+        190.0;                    !- Elevation
+    
+
+
 .. code:: python
 
     # - now let us open a file from the disk differently
@@ -218,6 +361,40 @@ Here are the steps to do that
     idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_fromfilehandle.printidf()
+
+
+.. parsed-literal::
+
+    
+    VERSION,                  
+        7.3;                      !- Version Identifier
+    
+    SIMULATIONCONTROL,        
+        Yes,                      !- Do Zone Sizing Calculation
+        Yes,                      !- Do System Sizing Calculation
+        Yes,                      !- Do Plant Sizing Calculation
+        No,                       !- Run Simulation for Sizing Periods
+        Yes;                      !- Run Simulation for Weather File Run Periods
+    
+    BUILDING,                 
+        Empire State Building,    !- Name
+        30.0,                     !- North Axis
+        City,                     !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    
+    SITE:LOCATION,            
+        CHICAGO_IL_USA TMY2-94846,    !- Name
+        41.78,                    !- Latitude
+        -87.75,                   !- Longitude
+        -6.0,                     !- Time Zone
+        190.0;                    !- Elevation
+    
+
+
 .. code:: python
 
     # So IDF object can be initialized with either a file name or a file handle
@@ -229,6 +406,13 @@ Here are the steps to do that
     idf_emptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_emptyfile.printidf()
+
+
+.. parsed-literal::
+
+    
+
+
 It did not print anything. Why should it. It was empty.
 
 What if we give it a string that was not blank
@@ -241,6 +425,16 @@ What if we give it a string that was not blank
     idf_notemptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_notemptyfile.printidf()
+
+
+.. parsed-literal::
+
+    
+    VERSION,                  
+        7.3;                      !- Version Identifier
+    
+
+
 Aha !
 
 Now let us give it a file name
@@ -251,20 +445,36 @@ Now let us give it a file name
     idf_notemptyfile.idfname = "notemptyfile.idf"
     # - Save it to the disk
     idf_notemptyfile.save()
+
 Let us confirm that the file was saved to disk
 
 .. code:: python
 
     txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
     print txt
+
+
+.. parsed-literal::
+
+    
+    VERSION,                  
+        7.3;                      !- Version Identifier
+    
+
+
 Yup ! that file was saved. Let us delete it since we were just playing
 
 .. code:: python
 
     import os
     os.remove("notemptyfile.idf")
-Deleting, adding and making new idfobjects
-------------------------------------------
+
+Deleting, copying/adding and making new idfobjects
+--------------------------------------------------
+
+
+Making new idfobjects
+~~~~~~~~~~~~~~~~~~~~~
 
 
 Let us start with a blank idf file and make some new "MATERIAL" objects
@@ -276,6 +486,7 @@ in it
     blankstr = ""
     from StringIO import StringIO
     idf = IDF(StringIO(blankstr))
+
 To make and add a new idfobject object, we use the function
 IDF.newidfobject(). We want to make an object of type "MATERIAL"
 
@@ -283,9 +494,11 @@ IDF.newidfobject(). We want to make an object of type "MATERIAL"
 
     newobject = idf.newidfobject("material".upper()) # the key for the object type has to be in upper case
                                          # .upper() makes it upper case
+        
 .. code:: python
 
     print newobject
+
 
 .. parsed-literal::
 
@@ -303,12 +516,13 @@ IDF.newidfobject(). We want to make an object of type "MATERIAL"
     
 
 
-Let us gie this a name, say "Shiny new material object"
+Let us give this a name, say "Shiny new material object"
 
 .. code:: python
 
     newobject.Name = "Shiny new material object"
     print newobject
+
 
 .. parsed-literal::
 
@@ -334,6 +548,7 @@ Let us gie this a name, say "Shiny new material object"
     thirdmaterial.Name = "third material"
     print thirdmaterial
 
+
 .. parsed-literal::
 
     
@@ -351,3 +566,180 @@ Let us gie this a name, say "Shiny new material object"
 
 
 Let us look at all the "MATERIAL" objects
+
+.. code:: python
+
+    print idf.idfobjects["MATERIAL"]
+
+
+.. parsed-literal::
+
+    [
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        Lousy material,           !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        third material,           !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    ]
+
+
+As we can see there are three MATERIAL idfobjects. They are:
+
+1. Shiny new material object
+2. Lousy material
+3. third material
+
+
+Deleting an idf object
+~~~~~~~~~~~~~~~~~~~~~~
+
+
+Let us remove 2. Lousy material. It is the second material in the list.
+So let us remove the second material
+
+.. code:: python
+
+    idf.popidfobject('MATERIAL', 1) # first material is '0', second is '1'
+
+.. code:: python
+
+    print idf.idfobjects['MATERIAL']
+
+
+.. parsed-literal::
+
+    [
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        third material,           !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    ]
+
+
+You can see that the second material is gone ! Now let us remove the
+first material, but do it using a different function
+
+.. code:: python
+
+    firstmaterial = idf.idfobjects['MATERIAL'][-1]
+
+.. code:: python
+
+    idf.removeidfobject(firstmaterial)
+
+.. code:: python
+
+    print idf.idfobjects['MATERIAL']
+
+
+.. parsed-literal::
+
+    [
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    ]
+
+
+So we have two ways of deleting an idf object:
+
+1. popidfobject -> give it the idf key: "MATERIAL", and the index number
+2. removeidfobject -> give it the idf object to be deleted
+
+
+Copying or adding idf objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Having deleted two "MATERIAL" objects, we have only one left. Let us
+make a copy of this object and add it to our idf file
+
+.. code:: python
+
+    onlymaterial = idf.idfobjects["MATERIAL"][0]
+.. code:: python
+
+    idf.copyidfobject(onlymaterial)
+.. code:: python
+
+    print idf.idfobjects["MATERIAL"]
+
+.. parsed-literal::
+
+    [
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    ]
+
+
+So now we have a copy of the material

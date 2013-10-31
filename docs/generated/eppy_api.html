@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -55,7 +53,7 @@
 <p>functions to edit the E+ model</p>
 <dl class="class">
 <dt id="eppy.modeleditor.IDF0">
-<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF0</tt><big>(</big><em>idfname</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF0" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF0</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF0" title="Permalink to this definition">¶</a></dt>
 <dd><p>document the following variables:</p>
 <ul class="simple">
 <li>idfobjects</li>
@@ -67,7 +65,7 @@
 </ul>
 <dl class="method">
 <dt id="eppy.modeleditor.IDF0.read">
-<tt class="descname">read</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF0.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF0.read" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">read</tt><big>(</big><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF0.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>read the idf file</p>
 </dd></dl>
 
@@ -75,11 +73,11 @@
 
 <dl class="class">
 <dt id="eppy.modeleditor.IDF1">
-<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF1</tt><big>(</big><em>idfname</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF1</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1" title="Permalink to this definition">¶</a></dt>
 <dd><p>subclass of IDF0. Uses functions of IDF0</p>
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.addidfobject">
-<tt class="descname">addidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.addidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.addidfobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">addidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.addidfobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>add idfobject to this model</p>
 <p>idfobject usually comes from another idf file
 or it can be used to copy within this idf file</p>
@@ -87,20 +85,20 @@ or it can be used to copy within this idf file</p>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.getextensibleindex">
-<tt class="descname">getextensibleindex</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.getextensibleindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.getextensibleindex" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">getextensibleindex</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.getextensibleindex" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the index of the first extensible item</p>
 <p>only for internal use. # TODO : hide this</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.getobject">
-<tt class="descname">getobject</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.getobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.getobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">getobject</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.getobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the object given key and name</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.newidfobject">
-<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.newidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=''</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>add a new idfobject to the model</p>
 <p>for example</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">)</span>
@@ -116,20 +114,20 @@ or it can be used to copy within this idf file</p>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.popidfobject">
-<tt class="descname">popidfobject</tt><big>(</big><em>key</em>, <em>index</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.popidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.popidfobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">popidfobject</tt><big>(</big><em>key</em>, <em>index</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.popidfobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>pop this object</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.removeextensibles">
-<tt class="descname">removeextensibles</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.removeextensibles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.removeextensibles" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">removeextensibles</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.removeextensibles" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove extensible items in the object of key and name</p>
 <p>only for internal use. # TODO : hide this</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.removeidfobject">
-<tt class="descname">removeidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.removeidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.removeidfobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">removeidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF1.removeidfobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove this idfobject</p>
 </dd></dl>
 
@@ -137,17 +135,17 @@ or it can be used to copy within this idf file</p>
 
 <dl class="class">
 <dt id="eppy.modeleditor.IDF2">
-<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF2</tt><big>(</big><em>idfname</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF2" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF2</tt><big>(</big><em>idfname</em><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF2" title="Permalink to this definition">¶</a></dt>
 <dd><p>subclass of IDF1. Uses functions of IDF1</p>
 <dl class="method">
 <dt id="eppy.modeleditor.IDF2.printidf">
-<tt class="descname">printidf</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF2.printidf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF2.printidf" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">printidf</tt><big>(</big><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF2.printidf" title="Permalink to this definition">¶</a></dt>
 <dd><p>print the idf</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF2.save">
-<tt class="descname">save</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF2.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF2.save" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">save</tt><big>(</big><big>)</big><a class="headerlink" href="#eppy.modeleditor.IDF2.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>save with comments</p>
 </dd></dl>
 
@@ -209,7 +207,7 @@ or it can be used to copy within this idf file</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

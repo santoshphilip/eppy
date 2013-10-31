@@ -1,0 +1,9 @@
+key = BUILDING
+Name = Empire State Building
+North_Axis = 30.0
+Terrain = City
+Loads_Convergence_Tolerance_Value = 0.6
+Temperature_Convergence_Tolerance_Value = 0.4
+Solar_Distribution = FullExterior
+Maximum_Number_of_Warmup_Days = 25
+Minimum_Number_of_Warmup_Days = 6

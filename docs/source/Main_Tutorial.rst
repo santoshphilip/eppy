@@ -117,7 +117,7 @@ Now that the behind-the-scenes work is done, we can print this file.
         Yes;                      !- Run Simulation for Weather File Run Periods
     
     BUILDING,                 
-        White House,              !- Name
+        Empire State Building,    !- Name
         30.0,                     !- North Axis
         City,                     !- Terrain
         0.04,                     !- Loads Convergence Tolerance Value
@@ -159,7 +159,7 @@ this using this command::
 
     [
     BUILDING,                 
-        White House,              !- Name
+        Empire State Building,    !- Name
         30.0,                     !- North Axis
         City,                     !- Terrain
         0.04,                     !- Loads Convergence Tolerance Value
@@ -188,7 +188,7 @@ Now we can do this:
 
 .. parsed-literal::
 
-    White House
+    Empire State Building
 
 
 Now that we've isolated the building name, we can change it.
@@ -523,7 +523,10 @@ So let us open it using the idfreader -
     from eppy.modeleditor import IDF
     
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
-    IDF.setiddname(iddfile)
+    try:
+        IDF.setiddname(iddfile)
+    except modeleditor.IDDAlreadySetError as e:
+        pass
     
     fname1 = "../eppy/resources/idffiles/V_7_2/constructions.idf"
     idf1 = IDF(fname1)
@@ -1192,7 +1195,7 @@ Copy an existing material
 .. code:: python
 
     Peanutbuttermaterial = materials[-1]
-    idf1.addidfobject(Peanutbuttermaterial)
+    idf1.copyidfobject(Peanutbuttermaterial)
     materials = idf1.idfobjects["MATERIAL"]
     len(materials)
     materials[-1]
@@ -1843,7 +1846,11 @@ Let us explore these functions
     from eppy.modeleditor import IDF
     
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
-    IDF.setiddname(iddfile)
+    try:
+        IDF.setiddname(iddfile)
+    except modeleditor.IDDAlreadySetError as e:
+        pass
+    
     
     fname1 = "../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
     idf1 = IDF(fname1)

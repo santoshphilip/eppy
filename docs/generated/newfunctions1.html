@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>New functions &mdash; eppy 0.4.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="eppy 0.4.1 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="new-functions">
+<h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
+<p>These are recently written functions that have not made it into the main
+documentation</p>
+<div class="section" id="python-lesson-errors-and-exceptions">
+<h2>Python Lesson: Errors and Exceptions<a class="headerlink" href="#python-lesson-errors-and-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>When things go wrong in your eppy script, you get &#8220;Errors and
+Exceptions&#8221;.</p>
+<p>To know more about how this works in python and eppy, take a look at
+<a class="reference external" href="http://docs.python.org/2/tutorial/errors.html">Python: Errors and
+Exceptions</a></p>
+</div>
+<div class="section" id="setting-idd-name">
+<h2>Setting IDD name<a class="headerlink" href="#setting-idd-name" title="Permalink to this headline">¶</a></h2>
+<p>When you work with Energyplus you are working with <strong>idf</strong> files (files
+that have the extension *.idf). There is another file that is very
+important, called the <strong>idd</strong> file. This is the file that defines all
+the objects in Energyplus. Esch version of Energyplus has a different
+<strong>idd</strong> file.</p>
+<p>So eppy needs to know which <strong>idd</strong> file to use. Only one <strong>idd</strong> file
+can be used in a script or program. This means that you cannot change
+the <strong>idd</strong> file once you have selected it. Of course you have to first
+select an <strong>idd</strong> file before eppy can work.</p>
+<p>If you use eppy and break the above rules, eppy will raise an exception.
+So let us use eppy incorrectly and make eppy raise the exception, just
+see how that happens.</p>
+<p>First let us try to open an <strong>idf</strong> file without setting an <strong>idd</strong>
+file.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+</pre></div>
+</div>
+<p>Now let us open file fname1 without setting the <strong>idd</strong> file</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>---------------------------------------------------------------------------
+IDDNotSetError                            Traceback (most recent call last)
+
+&lt;ipython-input-4-bcc3a85c2348&gt; in &lt;module&gt;()
+      2     idf1 = IDF(fname1)
+      3 except Exception, e:
+----&gt; 4     raise e
+
+
+IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)</pre>
+</div>
+<p>OK. It does not let you do that and it raises an exception</p>
+<p>So let us set the <strong>idd</strong> file and then open the idf file</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That worked without raising an exception</p>
+<p>Now let us try to change the <strong>idd</strong> file. Eppy should not let you do
+this and should raise an exception.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="s">&quot;anotheridd.idd&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>---------------------------------------------------------------------------
+IDDAlreadySetError                        Traceback (most recent call last)
+
+&lt;ipython-input-6-ad7cf0dbde94&gt; in &lt;module&gt;()
+      2     IDF.setiddname("anotheridd.idd")
+      3 except Exception, e:
+----&gt; 4     raise e
+
+
+IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd</pre>
+</div>
+<p>Excellent!! It raised the exception we were expecting.</p>
+</div>
+<div class="section" id="check-range-for-fields">
+<h2>Check range for fields<a class="headerlink" href="#check-range-for-fields" title="Permalink to this headline">¶</a></h2>
+<p>The fields of idf objects often have a range of legal values. The
+following functions will let you discover what that range is and test if
+your value lies within that range</p>
+<p>demonstrate two new functions:</p>
+<ul class="simple">
+<li>EpBunch.getrange(fieldname) # will return the ranges for that field</li>
+<li>EpBunch.checkrange(fieldname) # will throw an exception if the value
+is outside the range</li>
+</ul>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># IDF.setiddname(iddfile)# idd ws set further up in this page</span>
+<span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">building</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">getrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let us set these values outside the range and see what happens</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Loads_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">RangeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>So the Range Check works</p>
+</div>
+<div class="section" id="looping-through-all-the-fields-in-an-idf-object">
+<h2>Looping through all the fields in an idf object<a class="headerlink" href="#looping-through-all-the-fields-in-an-idf-object" title="Permalink to this headline">¶</a></h2>
+<p>We have seen how to check the range of field in the idf object. What if
+you want to do a <em>range check</em> on all the fields in an idf object ? To
+do this we will need a list of all the fields in the idf object. We can
+do this easily by the following line</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
+</pre></div>
+</div>
+<p>So let us use this</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Now let us test if the values are in the legal range. We know that
+&#8220;Loads_Convergence_Tolerance_Value&#8221; is out of range</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
+<span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-in range&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+    <span class="k">except</span> <span class="n">RangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-****OUT OF RANGE****&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+</pre></div>
+</div>
+<p>You see, we caught the out of range value</p>
+</div>
+<div class="section" id="blank-idf-file">
+<h2>Blank idf file<a class="headerlink" href="#blank-idf-file" title="Permalink to this headline">¶</a></h2>
+<p>Until now in all our examples, we have been reading an idf file from
+disk:</p>
+<ul class="simple">
+<li>How do I create a blank new idf file</li>
+<li>give it a file name</li>
+<li>Save it to the disk</li>
+</ul>
+<p>Here are the steps to do that</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># some initial steps</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="c"># IDF.setiddname(iddfile) # Has already been set</span>
+
+<span class="c"># - Let us first open a file from the disk</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">idf_fromfilename</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file name</span>
+
+<span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - now let us open a file from the disk differently</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname1</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c"># open the file for reading and assign it a file handle</span>
+<span class="n">idf_fromfilehandle</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
+
+<span class="c"># - How do I create a blank new idf file</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="c"># empty string</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_emptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_emptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It did not print anything. Why should it. It was empty.</p>
+<p>What if we give it a string that was not blank</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - The string does not have to be blank</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;VERSION, 7.3;&quot;</span> <span class="c"># Not an emplty string. has just the version number</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_notemptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
+
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Aha !</p>
+<p>Now let us give it a file name</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - give it a file name</span>
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="s">&quot;notemptyfile.idf&quot;</span>
+<span class="c"># - Save it to the disk</span>
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Let us confirm that the file was saved to disk</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="c"># read the file from the disk</span>
+<span class="k">print</span> <span class="n">txt</span>
+</pre></div>
+</div>
+<p>Yup ! that file was saved. Let us delete it since we were just playing</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleting-adding-and-making-new-idfobjects">
+<h2>Deleting, adding and making new idfobjects<a class="headerlink" href="#deleting-adding-and-making-new-idfobjects" title="Permalink to this headline">¶</a></h2>
+<p>Let us start with a blank idf file and make some new &#8220;MATERIAL&#8221; objects
+in it</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># making a blank idf object</span>
+<span class="n">blankstr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">blankstr</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>To make and add a new idfobject object, we use the function
+IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">newobject</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="c"># the key for the object type has to be in upper case</span>
+                                     <span class="c"># .upper() makes it upper case</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">newobject</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>MATERIAL,
+    ,                         !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance</pre>
+</div>
+<p>Let us gie this a name, say &#8220;Shiny new material object&#8221;</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">newobject</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Shiny new material object&quot;</span>
+<span class="k">print</span> <span class="n">newobject</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>MATERIAL,
+    Shiny new material object,    !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">anothermaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">anothermaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Lousy material&quot;</span>
+<span class="n">thirdmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">thirdmaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;third material&quot;</span>
+<span class="k">print</span> <span class="n">thirdmaterial</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>MATERIAL,
+    third material,           !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance</pre>
+</div>
+<p>Let us look at all the &#8220;MATERIAL&#8221; objects</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">New functions</a><ul>
+<li><a class="reference internal" href="#python-lesson-errors-and-exceptions">Python Lesson: Errors and Exceptions</a></li>
+<li><a class="reference internal" href="#setting-idd-name">Setting IDD name</a></li>
+<li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
+<li><a class="reference internal" href="#looping-through-all-the-fields-in-an-idf-object">Looping through all the fields in an idf object</a></li>
+<li><a class="reference internal" href="#blank-idf-file">Blank idf file</a></li>
+<li><a class="reference internal" href="#deleting-adding-and-making-new-idfobjects">Deleting, adding and making new idfobjects</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/newfunctions1.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+</html>

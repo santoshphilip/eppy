@@ -370,7 +370,7 @@ class IDF1(IDF0):
                 theobjects.pop(i)
                 # remove it from model too
                 self.model.dt[key].pop(i)
-    def addidfobject(self, idfobject):
+    def copyidfobject(self, idfobject):
         """add idfobject to this model
         
         idfobject usually comes from another idf file

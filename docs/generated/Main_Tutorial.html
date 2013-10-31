@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,7 +13,7 @@
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    './',
         VERSION:     '0.4.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -156,7 +154,7 @@ SIMULATIONCONTROL,
     Yes;                      !- Run Simulation for Weather File Run Periods
 
 BUILDING,
-    White House,              !- Name
+    Empire State Building,    !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
@@ -191,7 +189,7 @@ this using this command:</p>
 </div>
 <div class="highlight-python"><pre>[
 BUILDING,
-    White House,              !- Name
+    Empire State Building,    !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
@@ -212,7 +210,7 @@ explain later.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>White House</pre>
+<div class="highlight-python"><pre>Empire State Building</pre>
 </div>
 <p>Now that we&#8217;ve isolated the building name, we can change it.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Empire State Building&quot;</span>
@@ -455,7 +453,10 @@ too big.</p>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
 
 <span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">IDDAlreadySetError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
 
 <span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/constructions.idf&quot;</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
@@ -931,7 +932,7 @@ It is up to us to put values in the the new fields.</p>
 <div class="section" id="copy-an-existing-material">
 <h3>Copy an existing material<a class="headerlink" href="#copy-an-existing-material" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">Peanutbuttermaterial</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">idf1</span><span class="o">.</span><span class="n">addidfobject</span><span class="p">(</span><span class="n">Peanutbuttermaterial</span><span class="p">)</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">copyidfobject</span><span class="p">(</span><span class="n">Peanutbuttermaterial</span><span class="p">)</span>
 <span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">materials</span><span class="p">)</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -1423,7 +1424,11 @@ calculated from these coordinates.</p>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
 
 <span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">IDDAlreadySetError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">pass</span>
+
 
 <span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf&quot;</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
@@ -1696,7 +1701,7 @@ rather quickly.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>
