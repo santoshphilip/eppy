@@ -18,7 +18,6 @@ Contents:
     newfunctions
     eppy_api
 
-
 Indices and tables
 ==================
 

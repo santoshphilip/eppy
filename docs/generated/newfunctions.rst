@@ -1,4 +1,15 @@
 
+New functions
+~~~~~~~~~~~~~
+
+
+These are recently written functions that have not made it into the main
+documentation
+
+Python Lesson: Errors and Exceptions
+------------------------------------
+
+
 .. code:: python
 
     # you would normaly install eppy by doing
@@ -13,17 +24,6 @@
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
-
-New functions
-~~~~~~~~~~~~~
-
-
-These are recently written functions that have not made it into the main
-documentation
-
-Python Lesson: Errors and Exceptions
-------------------------------------
-
 
 When things go wrong in your eppy script, you get "Errors and
 Exceptions".
@@ -473,10 +473,6 @@ Deleting, copying/adding and making new idfobjects
 --------------------------------------------------
 
 
-Making new idfobjects
-~~~~~~~~~~~~~~~~~~~~~
-
-
 Let us start with a blank idf file and make some new "MATERIAL" objects
 in it
 
@@ -617,10 +613,6 @@ As we can see there are three MATERIAL idfobjects. They are:
 3. third material
 
 
-Deleting an idf object
-~~~~~~~~~~~~~~~~~~~~~~
-
-
 Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material
 
@@ -696,10 +688,6 @@ So we have two ways of deleting an idf object:
 
 1. popidfobject -> give it the idf key: "MATERIAL", and the index number
 2. removeidfobject -> give it the idf object to be deleted
-
-
-Copying or adding idf objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Having deleted two "MATERIAL" objects, we have only one left. Let us

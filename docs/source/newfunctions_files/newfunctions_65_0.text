@@ -1,6 +1,6 @@
-
+[
 MATERIAL,                 
-    third material,           !- Name
+    Shiny new material object,    !- Name
     ,                         !- Roughness
     ,                         !- Thickness
     ,                         !- Conductivity
@@ -9,4 +9,4 @@ MATERIAL,
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
-
+]

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &mdash; eppy 0.4.1 documentation</title>
+    <title>New functions &mdash; eppy 0.4.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.1',
+        VERSION:     '0.4.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.1 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.4.2 documentation" href="index.html" />
     <link rel="next" title="Eppy API" href="eppy_api.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,7 +52,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+  <div class="section" id="new-functions">
+<h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
+<p>These are recently written functions that have not made it into the main
+documentation</p>
+<div class="section" id="python-lesson-errors-and-exceptions">
+<h2>Python Lesson: Errors and Exceptions<a class="headerlink" href="#python-lesson-errors-and-exceptions" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
 <span class="c"># or</span>
 <span class="c"># pip install eppy</span>
@@ -66,12 +72,6 @@
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="new-functions">
-<h1>New functions<a class="headerlink" href="#new-functions" title="Permalink to this headline">¶</a></h1>
-<p>These are recently written functions that have not made it into the main
-documentation</p>
-<div class="section" id="python-lesson-errors-and-exceptions">
-<h2>Python Lesson: Errors and Exceptions<a class="headerlink" href="#python-lesson-errors-and-exceptions" title="Permalink to this headline">¶</a></h2>
 <p>When things go wrong in your eppy script, you get &#8220;Errors and
 Exceptions&#8221;.</p>
 <p>To know more about how this works in python and eppy, take a look at
@@ -401,10 +401,6 @@ SITE:LOCATION,
 </div>
 <div class="section" id="deleting-copying-adding-and-making-new-idfobjects">
 <h2>Deleting, copying/adding and making new idfobjects<a class="headerlink" href="#deleting-copying-adding-and-making-new-idfobjects" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
-<div class="section" id="making-new-idfobjects">
-<h1>Making new idfobjects<a class="headerlink" href="#making-new-idfobjects" title="Permalink to this headline">¶</a></h1>
 <p>Let us start with a blank idf file and make some new &#8220;MATERIAL&#8221; objects
 in it</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># making a blank idf object</span>
@@ -512,9 +508,6 @@ MATERIAL,
 <li>Lousy material</li>
 <li>third material</li>
 </ol>
-</div>
-<div class="section" id="deleting-an-idf-object">
-<h1>Deleting an idf object<a class="headerlink" href="#deleting-an-idf-object" title="Permalink to this headline">¶</a></h1>
 <p>Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
@@ -576,9 +569,6 @@ MATERIAL,
 <li>popidfobject -&gt; give it the idf key: &#8220;MATERIAL&#8221;, and the index number</li>
 <li>removeidfobject -&gt; give it the idf object to be deleted</li>
 </ol>
-</div>
-<div class="section" id="copying-or-adding-idf-objects">
-<h1>Copying or adding idf objects<a class="headerlink" href="#copying-or-adding-idf-objects" title="Permalink to this headline">¶</a></h1>
 <p>Having deleted two &#8220;MATERIAL&#8221; objects, we have only one left. Let us
 make a copy of this object and add it to our idf file</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">onlymaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -616,6 +606,7 @@ MATERIAL,
 </div>
 <p>So now we have a copy of the material</p>
 </div>
+</div>
 
 
           </div>
@@ -634,9 +625,6 @@ MATERIAL,
 <li><a class="reference internal" href="#deleting-copying-adding-and-making-new-idfobjects">Deleting, copying/adding and making new idfobjects</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#making-new-idfobjects">Making new idfobjects</a></li>
-<li><a class="reference internal" href="#deleting-an-idf-object">Deleting an idf object</a></li>
-<li><a class="reference internal" href="#copying-or-adding-idf-objects">Copying or adding idf objects</a></li>
 </ul>
 
   <h4>Previous topic</h4>
@@ -682,7 +670,7 @@ MATERIAL,
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

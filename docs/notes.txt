@@ -1,3 +1,7 @@
+2013-10-30
+----------
+to publish the documentation
+- python setup.py upload_docs --upload-dir=docs/generated
 2013-09-25
 ----------
 notes on reducing rst errors from ipython notebook
@@ -12,6 +16,7 @@ notes on publishing the documentation.
 - ipython nbconvert --to rst ../*.ipynb # run from ./docs/generated
 - ipython nbconvert --to rst ../*.ipynb # run from ./docs/source
 - put the rst file names in index.rst
+- set the correct version number in ./source/conf.py
 - make html # run from docs
 - correct any errors
 - git push to remote

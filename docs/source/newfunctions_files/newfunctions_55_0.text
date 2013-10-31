@@ -1,6 +1,6 @@
 
 MATERIAL,                 
-    Shiny new material object,    !- Name
+    third material,           !- Name
     ,                         !- Roughness
     ,                         !- Thickness
     ,                         !- Conductivity

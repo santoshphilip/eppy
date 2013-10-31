@@ -41,7 +41,7 @@ setup(
     tests_require=['pytest'],
     install_requires=["bunch>=1.0",
                 "beautifulsoup4>=4.2.1",
-                "numpy>=1.7.1",
+                # "numpy>=1.7.1",
                 "pyparsing>=pyparsing",
                 "pydot>1.0",
                 "pytest>=2.3.5",
@@ -56,11 +56,11 @@ setup(
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
     classifiers = [
         'Programming Language :: Python',
-        'Development Status :: Beta',
+        'Development Status :: 4 - Beta',
         'Natural Language :: English',
         'Environment :: Console',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: GNU AFFERO GENERAL PUBLIC LICENSE',
+        'License :: OSI Approved :: GNU Affero General Public License v3',
         'Operating System :: OS Independent',
         'Topic :: Scientific/Engineering',
         ],
