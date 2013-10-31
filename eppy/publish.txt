@@ -1,0 +1,5 @@
+2013-10-30
+----------
+to publish to pypi:
+cd ../
+python setup.py register sdist upload
