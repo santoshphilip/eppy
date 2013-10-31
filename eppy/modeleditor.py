@@ -271,6 +271,57 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     return isfieldvalue(bunchdt, data, commdct, 
         idfobj1, fieldname, v2, places=places)
     
+def getrefnames(idf, objname):
+    """get the reference names for this object"""
+    iddinfo = idf.idd_info
+    dtls = idf.model.dtls
+    index = dtls.index(objname)
+    fieldidds = iddinfo[index]
+    for fieldidd in fieldidds:
+        if fieldidd.has_key('field'):
+            if fieldidd['field'][0].endswith('Name'):
+                if fieldidd.has_key('reference'):
+                    return fieldidd['reference']
+                else:
+                    return []
+
+def getallobjlists(idf, refname):
+    """get all object-list fields for refname
+    return a list:
+    [('OBJKEY', refname, fieldindexlist), ...] where
+    fieldindexlist = index of the field where the object-list = refname
+    """
+    dtls = idf.model.dtls
+    objlists = []
+    for i, fieldidds in enumerate(idf.idd_info):
+        indexlist = []
+        for j, fieldidd in enumerate(fieldidds):
+            if fieldidd.has_key('object-list'):
+                if fieldidd['object-list'][0].upper() == refname.upper():
+                    indexlist.append(j)
+        if indexlist != []:
+            objkey = dtls[i]
+            objlists.append((objkey, refname, indexlist))
+    return objlists
+
+def rename(idf, objkey, objname, newname):
+    """rename all the refrences to this objname"""
+    refnames = getrefnames(idf, objkey)
+    for refname in refnames:
+        objlists = getallobjlists(idf, refname) 
+        # [('OBJKEY', refname, fieldindexlist), ...]
+        for refname in refnames:
+            for robjkey, refname, fieldindexlist in objlists:
+                idfobjects = idf.idfobjects[robjkey]
+                for idfobject in idfobjects:
+                    for findex in fieldindexlist: # for each field
+                        if idfobject[idfobject.objls[findex]] == objname:
+                            idfobject[idfobject.objls[findex]] = newname
+    theobject = idf.getobject(objkey, objname)
+    fieldname = [item for item in theobject.objls if item.endswith('Name')][0]
+    theobject[fieldname] = newname
+    return theobject
+
 class IDF0(object):
     """
     document the following variables:

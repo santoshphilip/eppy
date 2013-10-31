@@ -22,6 +22,7 @@ import bunch
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
+from eppy.modeleditor import IDF
 
 from eppy.iddcurrent import iddcurrent
 iddsnippet = iddcurrent.iddtxt
@@ -272,4 +273,76 @@ def test_addthisbunch():
     print data.dt["ZONE"][-1]
     assert data.dt["ZONE"][-1] == obj1
     
-        
+def test_getrefnames():
+    """py.test for getrefnames"""
+    tdata = (
+    ('ZONE', 
+    ['ZoneNames', 'OutFaceEnvNames', 'ZoneAndZoneListNames', 
+    'AirflowNetworkNodeAndZoneNames']), # objkey, therefs
+    ('FluidProperties:Name'.upper(), 
+    ['FluidNames', 'FluidAndGlycolNames']), # objkey, therefs
+    ('Building'.upper(), 
+    []), # objkey, therefs
+    )
+    for objkey, therefs in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = modeleditor.getrefnames(idf, objkey)
+        assert result == therefs
+
+def test_getallobjlists():
+    """py.test for getallobjlists"""
+    tdata = (
+    ('TransformerNames', 
+    [('ElectricLoadCenter:Distribution'.upper(), 
+    'TransformerNames',
+    [10, ]
+    ), ],
+    ), # refname, objlists
+    )
+    for refname, objlists in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = modeleditor.getallobjlists(idf, refname)
+        assert result == objlists
+
+def test_rename():
+    """py.test for rename"""
+    idftxt = """Material,
+      G01a 19mm gypsum board,  !- Name
+      MediumSmooth,            !- Roughness
+      0.019,                   !- Thickness {m}
+      0.16,                    !- Conductivity {W/m-K}
+      800,                     !- Density {kg/m3}
+      1090;                    !- Specific Heat {J/kg-K}
+
+      Construction,
+        Interior Wall,           !- Name
+        G01a 19mm gypsum board,  !- Outside Layer
+        F04 Wall air space resistance,  !- Layer 2
+        G01a 19mm gypsum board;  !- Layer 3
+
+    """
+    ridftxt = """Material,
+      peanut butter,  !- Name
+      MediumSmooth,            !- Roughness
+      0.019,                   !- Thickness {m}
+      0.16,                    !- Conductivity {W/m-K}
+      800,                     !- Density {kg/m3}
+      1090;                    !- Specific Heat {J/kg-K}
+
+      Construction,
+        Interior Wall,           !- Name
+        peanut butter,  !- Outside Layer
+        F04 Wall air space resistance,  !- Layer 2
+        peanut butter;  !- Layer 3
+
+    """
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    result = modeleditor.rename(idf, 
+            'Material'.upper(), 
+            'G01a 19mm gypsum board', 'peanut butter')
+    assert result.Name == 'peanut butter'
+    assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'                       
+    assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'        
