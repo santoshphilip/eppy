@@ -109,7 +109,7 @@ file.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDNotSetError                            Traceback (most recent call last)
 
-&lt;ipython-input-16-44ad2b53d42c&gt; in &lt;module&gt;()
+&lt;ipython-input-3-44ad2b53d42c&gt; in &lt;module&gt;()
       2     idf1 = IDF(fname1)
       3 except Exception, e:
 ----&gt; 4     raise e
@@ -137,7 +137,7 @@ this and should raise an exception.</p>
 <div class="highlight-python"><pre>---------------------------------------------------------------------------
 IDDAlreadySetError                        Traceback (most recent call last)
 
-&lt;ipython-input-18-52df819ac489&gt; in &lt;module&gt;()
+&lt;ipython-input-5-52df819ac489&gt; in &lt;module&gt;()
       2     IDF.setiddname("anotheridd.idd")
       3 except Exception, e:
 ----&gt; 4     raise e
@@ -401,6 +401,8 @@ SITE:LOCATION,
 </div>
 <div class="section" id="deleting-copying-adding-and-making-new-idfobjects">
 <h2>Deleting, copying/adding and making new idfobjects<a class="headerlink" href="#deleting-copying-adding-and-making-new-idfobjects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="making-a-new-idf-object">
+<h3>Making a new idf object<a class="headerlink" href="#making-a-new-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Let us start with a blank idf file and make some new &#8220;MATERIAL&#8221; objects
 in it</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># making a blank idf object</span>
@@ -508,6 +510,9 @@ MATERIAL,
 <li>Lousy material</li>
 <li>third material</li>
 </ol>
+</div>
+<div class="section" id="deleting-an-idf-object">
+<h3>Deleting an idf object<a class="headerlink" href="#deleting-an-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
@@ -569,6 +574,9 @@ MATERIAL,
 <li>popidfobject -&gt; give it the idf key: &#8220;MATERIAL&#8221;, and the index number</li>
 <li>removeidfobject -&gt; give it the idf object to be deleted</li>
 </ol>
+</div>
+<div class="section" id="copying-adding-an-idf-object">
+<h3>Copying/Adding an idf object<a class="headerlink" href="#copying-adding-an-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Having deleted two &#8220;MATERIAL&#8221; objects, we have only one left. Let us
 make a copy of this object and add it to our idf file</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">onlymaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -604,7 +612,12 @@ MATERIAL,
     0.7;                      !- Visible Absorptance
 ]</pre>
 </div>
-<p>So now we have a copy of the material</p>
+<p>So now we have a copy of the material. You can use this method to copy
+idf objects from other idf files too.</p>
+</div>
+</div>
+<div class="section" id="renaming-an-idf-object">
+<h2>Renaming an idf object<a class="headerlink" href="#renaming-an-idf-object" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -622,7 +635,13 @@ MATERIAL,
 <li><a class="reference internal" href="#check-range-for-fields">Check range for fields</a></li>
 <li><a class="reference internal" href="#looping-through-all-the-fields-in-an-idf-object">Looping through all the fields in an idf object</a></li>
 <li><a class="reference internal" href="#blank-idf-file">Blank idf file</a></li>
-<li><a class="reference internal" href="#deleting-copying-adding-and-making-new-idfobjects">Deleting, copying/adding and making new idfobjects</a></li>
+<li><a class="reference internal" href="#deleting-copying-adding-and-making-new-idfobjects">Deleting, copying/adding and making new idfobjects</a><ul>
+<li><a class="reference internal" href="#making-a-new-idf-object">Making a new idf object</a></li>
+<li><a class="reference internal" href="#deleting-an-idf-object">Deleting an idf object</a></li>
+<li><a class="reference internal" href="#copying-adding-an-idf-object">Copying/Adding an idf object</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#renaming-an-idf-object">Renaming an idf object</a></li>
 </ul>
 </li>
 </ul>

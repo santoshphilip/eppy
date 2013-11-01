@@ -1,6 +1,6 @@
 
 New functions
-~~~~~~~~~~~~~
+=============
 
 
 These are recently written functions that have not made it into the main
@@ -76,7 +76,7 @@ Now let us open file fname1 without setting the **idd** file
     ---------------------------------------------------------------------------
     IDDNotSetError                            Traceback (most recent call last)
 
-    <ipython-input-16-44ad2b53d42c> in <module>()
+    <ipython-input-3-44ad2b53d42c> in <module>()
           2     idf1 = IDF(fname1)
           3 except Exception, e:
     ----> 4     raise e
@@ -115,7 +115,7 @@ this and should raise an exception.
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-18-52df819ac489> in <module>()
+    <ipython-input-5-52df819ac489> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
@@ -473,6 +473,10 @@ Deleting, copying/adding and making new idfobjects
 --------------------------------------------------
 
 
+Making a new idf object
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Let us start with a blank idf file and make some new "MATERIAL" objects
 in it
 
@@ -613,6 +617,10 @@ As we can see there are three MATERIAL idfobjects. They are:
 3. third material
 
 
+Deleting an idf object
+~~~~~~~~~~~~~~~~~~~~~~
+
+
 Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material
 
@@ -690,6 +698,10 @@ So we have two ways of deleting an idf object:
 2. removeidfobject -> give it the idf object to be deleted
 
 
+Copying/Adding an idf object
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 Having deleted two "MATERIAL" objects, we have only one left. Let us
 make a copy of this object and add it to our idf file
 
@@ -730,4 +742,13 @@ make a copy of this object and add it to our idf file
     ]
 
 
-So now we have a copy of the material
+So now we have a copy of the material. You can use this method to copy
+idf objects from other idf files too.
+
+Renaming an idf object
+----------------------
+
+
+.. code:: python
+
+    
