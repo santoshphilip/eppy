@@ -1,6 +1,8 @@
 2013-10-30
 ----------
+change documentation verison number in ./source/conf.py
 to publish the documentation
+- cd ../
 - python setup.py upload_docs --upload-dir=docs/generated
 2013-09-25
 ----------

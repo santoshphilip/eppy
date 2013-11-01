@@ -213,7 +213,7 @@ Let us set these values outside the range and see what happens
     ---------------------------------------------------------------------------
     RangeError                                Traceback (most recent call last)
 
-    <ipython-input-24-a824cb1ec673> in <module>()
+    <ipython-input-14-a824cb1ec673> in <module>()
           4     print building.checkrange("Loads_Convergence_Tolerance_Value")
           5 except RangeError, e:
     ----> 6     raise e
@@ -745,10 +745,219 @@ make a copy of this object and add it to our idf file
 So now we have a copy of the material. You can use this method to copy
 idf objects from other idf files too.
 
+Making an idf object with named arguments
+-----------------------------------------
+
+
+What if we wanted to make an idf object with values for it's fields? We
+can do that too.
+
 Renaming an idf object
 ----------------------
 
 
 .. code:: python
 
+    gypboard = idf.newidfobject('MATERIAL', Name="G01a 19mm gypsum board",
+                                Roughness="MediumSmooth",
+                                Thickness=0.019,
+                                Conductivity=0.16,
+                                Density=800,
+                                Specific_Heat=1090)
+.. code:: python
+
+    print gypboard
+
+.. parsed-literal::
+
     
+    MATERIAL,                 
+        G01a 19mm gypsum board,    !- Name
+        MediumSmooth,             !- Roughness
+        0.019,                    !- Thickness
+        0.16,                     !- Conductivity
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    
+
+
+newidfobject() also fills in the default values like "Thermal
+Absorptance", "Solar Absorptance", etc.
+
+.. code:: python
+
+    print idf.idfobjects["MATERIAL"]
+
+.. parsed-literal::
+
+    [
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    , 
+    MATERIAL,                 
+        G01a 19mm gypsum board,    !- Name
+        MediumSmooth,             !- Roughness
+        0.019,                    !- Thickness
+        0.16,                     !- Conductivity
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    ]
+
+
+Renaming an idf object
+----------------------
+
+
+It is easy to rename an idf object. If we want to rename the gypboard
+object that we created above, we simply say:
+
+    gypboard.Name = "a new name".
+
+
+But this could create a problem. What if this gypboard is part of a
+"CONSTRUCTION" object. The construction object will refer to the
+gypboard by name. If we change the name of the gypboard, we should
+change it in the construction object.
+
+But there may be many constructions objects using the gypboard. Now we
+will have to change it in all those construction objects. Sounds
+painfull.
+
+Let us try this with an example:
+
+.. code:: python
+
+    interiorwall = idf.newidfobject("CONSTRUCTION", Name="Interior Wall",
+                     Outside_Layer="G01a 19mm gypsum board",
+                     Layer_2="Shiny new material object",
+                     Layer_3="G01a 19mm gypsum board")
+    print interiorwall
+
+
+.. parsed-literal::
+
+    
+    CONSTRUCTION,             
+        Interior Wall,            !- Name
+        G01a 19mm gypsum board,    !- Outside Layer
+        Shiny new material object,    !- Layer 2
+        G01a 19mm gypsum board;    !- Layer 3
+    
+
+
+to rename gypboard and have that name change in all the places we call
+modeleditor.rename(idf, key, oldname, newname)
+
+.. code:: python
+
+    modeleditor.rename(idf, "MATERIAL", "G01a 19mm gypsum board", "peanut butter")
+
+
+
+.. parsed-literal::
+
+    
+    MATERIAL,                 
+        peanut butter,            !- Name
+        MediumSmooth,             !- Roughness
+        0.019,                    !- Thickness
+        0.16,                     !- Conductivity
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+
+
+
+
+.. code:: python
+
+    print interiorwall
+
+.. parsed-literal::
+
+    
+    CONSTRUCTION,             
+        Interior Wall,            !- Name
+        peanut butter,            !- Outside Layer
+        Shiny new material object,    !- Layer 2
+        peanut butter;            !- Layer 3
+    
+
+
+Now we have "peanut butter" everywhere. At least where we need it. Let
+us look at the entir idf file, just to be sure
+
+.. code:: python
+
+    idf.printidf()
+
+.. parsed-literal::
+
+    
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    
+    MATERIAL,                 
+        peanut butter,            !- Name
+        MediumSmooth,             !- Roughness
+        0.019,                    !- Thickness
+        0.16,                     !- Conductivity
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    
+    CONSTRUCTION,             
+        Interior Wall,            !- Name
+        peanut butter,            !- Outside Layer
+        Shiny new material object,    !- Layer 2
+        peanut butter;            !- Layer 3
+    
+

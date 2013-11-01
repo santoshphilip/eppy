@@ -540,10 +540,12 @@ def makeairplantloop(data, commdct):
     return edges
 
 
-
-
-
-
+def getedges(fname, iddfile):
+    """return the edges of the idf file fname"""
+    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    edges = makeairplantloop(data, commdct)
+    return edges
+    
 def main(argv=None):
     if argv is None:
         argv = sys.argv
@@ -561,10 +563,14 @@ def main(argv=None):
                 raise Usage(help_message)
             if option in ("-o", "--output"):
                 output = value
-                
-        iddfile = "../iddfiles/Energy+V6_0.idd"
-        fname = args[0]
-        iddfile = "../iddfiles/Energy+V6_0.idd"
+        
+        if len(args) == 1:
+            iddfile = "../iddfiles/Energy+V6_0.idd"
+            fname = args[0]
+        elif len(args) == 2:
+            iddfile = args[0]
+            fname = args[1]
+        # iddfile = "../iddfiles/Energy+V6_0.idd"
         # iddfile = "./resources/iddfiles/Energy+V7_2_0.idd"
         print "readingfile"
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)

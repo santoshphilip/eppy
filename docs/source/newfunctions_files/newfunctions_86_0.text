@@ -1,0 +1,7 @@
+
+CONSTRUCTION,             
+    Interior Wall,            !- Name
+    G01a 19mm gypsum board,    !- Outside Layer
+    Shiny new material object,    !- Layer 2
+    G01a 19mm gypsum board;    !- Layer 3
+

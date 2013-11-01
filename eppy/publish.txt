@@ -1,5 +1,6 @@
 2013-10-30
 ----------
 to publish to pypi:
+change the version number in __init__.py
 cd ../
 python setup.py register sdist upload

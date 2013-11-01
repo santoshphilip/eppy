@@ -1,10 +1,14 @@
 Installation
 ============
 
+Type the following at your terminal to install **eppy**
+
 ::
 
 	pip install eppy
 
-Also go to http://www.numpy.org and install NumPy.
+Go to http://www.numpy.org and install NumPy.
 
-I have disabled the install of NumPy through "pip install eppy", since it was not reliable
+.. I have disabled the install of NumPy through "pip install eppy", since it was not reliable
+
+Go to  http://www.graphviz.org and install graphviz

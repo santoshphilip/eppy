@@ -50,30 +50,35 @@ def prev(edges, component):
     cs = [a for a, b in c2nodes]
     return cs
 
+def main():
+    edges = e
+    # c = 'p_loop_supply_splitter'
+    # print next(edges, component)   
 
-edges = e
-# c = 'p_loop_supply_splitter'
-# print next(edges, component)   
+    c = 'Central_Chiller'
 
-c = 'Central_Chiller'
-
-n = 0
-while n == 0:
-    print c
-    nextcs = next(e, c)
-    if len(nextcs) == 0:
-        break
-    c = nextcs[0]
-    # next(e, c)
+    n = 0
+    while n == 0:
+        print c
+        nextcs = next(e, c)
+        if len(nextcs) == 0:
+            break
+        c = nextcs[0]
+        # next(e, c)
     
-print '-'
+    print '-'
 
-c = "sb4_pipe" 
-n = 0
-while n == 0:
-    print c
-    prevcs = prev(e, c)
-    if len(prevcs) == 0:
-        break
-    c = prevcs[0]
-    # next(e, c)
+    c = "sb4_pipe" 
+    n = 0
+    while n == 0:
+        print c
+        prevcs = prev(e, c)
+        if len(prevcs) == 0:
+            break
+        c = prevcs[0]
+        # next(e, c)
+
+if __name__ == '__main__':
+	main()
+
+# TODO pytests
