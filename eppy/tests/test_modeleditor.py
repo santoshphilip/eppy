@@ -17,6 +17,7 @@
 
 """py.test for modeleditor"""
 import pytest
+from eppy.pytest_helpers import almostequal
 
 import bunch
 import eppy.idfreader as idfreader
@@ -33,6 +34,14 @@ from StringIO import StringIO
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
+
+# idd is read only once in this test
+# if it has already been read from some other test, it will continue with the old reading
+from eppy.iddcurrent import iddcurrent
+iddfhandle = StringIO(iddcurrent.iddtxt)
+if IDF.getiddname() == None:
+    IDF.setiddname(iddfhandle)
+
 
 def test_poptrailing():
     """py.test for poptrailing"""
@@ -346,3 +355,12 @@ def test_rename():
     assert result.Name == 'peanut butter'
     assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'                       
     assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'        
+    
+def test_zonearea_zonevolume():
+    """py.test for zonearea and zonevolume"""
+    idftxt = "Zone, 473222, 0.0, 0.0, 0.0, 0.0, , 1;  BuildingSurface:Detailed, F7289B, Floor, Exterior Floor, 473222, Ground, , NoSun, NoWind, , 4, 2.23, 2.56, 0.0, 2.23, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.56, 0.0;  BuildingSurface:Detailed, F3659B, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 2.56, 1.49, 2.23, 2.56, 0.0, 0.0, 2.56, 0.0, 0.0, 2.56, 1.49;  BuildingSurface:Detailed, 46C6C9, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 0.0, 1.49, 2.23, 0.0, 0.0, 2.23, 1.02548139464, 0.0, 2.23, 1.02548139464, 1.49;  BuildingSurface:Detailed, 4287DD, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 0.0, 2.56, 1.49, 0.0, 2.56, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.49;  BuildingSurface:Detailed, 570C2E, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 0.0, 0.0, 1.49, 0.0, 0.0, 0.0, 2.23, 0.0, 0.0, 2.23, 0.0, 1.49;  BuildingSurface:Detailed, BAEA99, Roof, Exterior Roof, 473222, Outdoors, , SunExposed, WindExposed, , 4, 0.0, 2.56, 1.49, 0.0, 0.0, 1.49, 2.23, 0.0, 1.49, 2.23, 2.56, 1.49;  BuildingSurface:Detailed, C879FE, Floor, Exterior Floor, 473222, Ground, , NoSun, NoWind, , 4, 3.22, 2.52548139464, 0.0, 3.22, 1.02548139464, 0.0, 2.23, 1.02548139464, 0.0, 2.23, 2.52548139464, 0.0;  BuildingSurface:Detailed, 25B601, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 1.02548139464, 1.49, 2.23, 1.02548139464, 0.0, 2.23, 2.52548139464, 0.0, 2.23, 2.52548139464, 1.49;  BuildingSurface:Detailed, F5EADC, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 1.02548139464, 1.49, 2.23, 1.02548139464, 0.0, 3.22, 1.02548139464, 0.0, 3.22, 1.02548139464, 1.49;  BuildingSurface:Detailed, D0AABE, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 3.22, 1.02548139464, 1.49, 3.22, 1.02548139464, 0.0, 3.22, 2.52548139464, 0.0, 3.22, 2.52548139464, 1.49;  BuildingSurface:Detailed, B0EA02, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 3.22, 2.52548139464, 1.49, 3.22, 2.52548139464, 0.0, 2.23, 2.52548139464, 0.0, 2.23, 2.52548139464, 1.49;  BuildingSurface:Detailed, E6DF3B, Roof, Exterior Roof, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 2.52548139464, 1.49, 2.23, 1.02548139464, 1.49, 3.22, 1.02548139464, 1.49, 3.22, 2.52548139464, 1.49;  BuildingSurface:Detailed, 4F8681, Wall, Exterior Wall, 473222, Outdoors, , SunExposed, WindExposed, , 4, 2.23, 2.52548139464, 1.49, 2.23, 2.52548139464, 0.0, 2.23, 2.56, 0.0, 2.23, 2.56, 1.49;  "
+    idf = IDF(StringIO(idftxt))
+    result = modeleditor.zonearea(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zonevolume(idf, '473222')
+    assert almostequal(result, 10.718762)
