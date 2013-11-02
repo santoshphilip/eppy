@@ -39,7 +39,6 @@ eppy/pytest_helpers.py
 eppy/readhtml.py
 eppy/snippet.py
 eppy/tablelib.py
-eppy/temp.py
 eppy/walk_hvac.py
 eppy/walls_functions3.py
 eppy/walls_functions4.py

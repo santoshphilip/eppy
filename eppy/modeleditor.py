@@ -322,11 +322,14 @@ def rename(idf, objkey, objname, newname):
     theobject[fieldname] = newname
     return theobject
 
-def zonearea(idf, zonename):
+def zonearea(idf, zonename, debug=False):
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    if debug:
+        print len(floors)
+        print [floor.area for floor in floors]
     area = sum([floor.area for floor in floors])
     return area
     

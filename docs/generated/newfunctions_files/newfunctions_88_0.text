@@ -1,11 +1,8 @@
 
-MATERIAL,                 
+Material,                 
     peanut butter,            !- Name
     MediumSmooth,             !- Roughness
     0.019,                    !- Thickness
     0.16,                     !- Conductivity
-    800,                      !- Density
-    1090,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+    800.0,                    !- Density
+    1090.0;                   !- Specific Heat

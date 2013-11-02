@@ -1,34 +1,81 @@
 [
-MATERIAL,                 
-    Shiny new material object,    !- Name
-    ,                         !- Roughness
-    ,                         !- Thickness
-    ,                         !- Conductivity
-    ,                         !- Density
-    ,                         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+Material,                 
+    F08 Metal surface,        !- Name
+    Smooth,                   !- Roughness
+    0.0008,                   !- Thickness
+    45.28,                    !- Conductivity
+    7824.0,                   !- Density
+    500.0;                    !- Specific Heat
 , 
-MATERIAL,                 
-    Shiny new material object,    !- Name
-    ,                         !- Roughness
-    ,                         !- Thickness
-    ,                         !- Conductivity
-    ,                         !- Density
-    ,                         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+Material,                 
+    I01 25mm insulation board,    !- Name
+    MediumRough,              !- Roughness
+    0.0254,                   !- Thickness
+    0.03,                     !- Conductivity
+    43.0,                     !- Density
+    1210.0;                   !- Specific Heat
 , 
-MATERIAL,                 
+Material,                 
+    I02 50mm insulation board,    !- Name
+    MediumRough,              !- Roughness
+    0.0508,                   !- Thickness
+    0.03,                     !- Conductivity
+    43.0,                     !- Density
+    1210.0;                   !- Specific Heat
+, 
+Material,                 
     G01a 19mm gypsum board,    !- Name
     MediumSmooth,             !- Roughness
     0.019,                    !- Thickness
     0.16,                     !- Conductivity
-    800,                      !- Density
-    1090,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+    800.0,                    !- Density
+    1090.0;                   !- Specific Heat
+, 
+Material,                 
+    M11 100mm lightweight concrete,    !- Name
+    MediumRough,              !- Roughness
+    0.1016,                   !- Thickness
+    0.53,                     !- Conductivity
+    1280.0,                   !- Density
+    840.0;                    !- Specific Heat
+, 
+Material,                 
+    F16 Acoustic tile,        !- Name
+    MediumSmooth,             !- Roughness
+    0.0191,                   !- Thickness
+    0.06,                     !- Conductivity
+    368.0,                    !- Density
+    590.0;                    !- Specific Heat
+, 
+Material,                 
+    M01 100mm brick,          !- Name
+    MediumRough,              !- Roughness
+    0.1016,                   !- Thickness
+    0.89,                     !- Conductivity
+    1920.0,                   !- Density
+    790.0;                    !- Specific Heat
+, 
+Material,                 
+    M15 200mm heavyweight concrete,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    1.95,                     !- Conductivity
+    2240.0,                   !- Density
+    900.0;                    !- Specific Heat
+, 
+Material,                 
+    M05 200mm concrete block,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    1.11,                     !- Conductivity
+    800.0,                    !- Density
+    920.0;                    !- Specific Heat
+, 
+Material,                 
+    G05 25mm wood,            !- Name
+    MediumSmooth,             !- Roughness
+    0.0254,                   !- Thickness
+    0.15,                     !- Conductivity
+    608.0,                    !- Density
+    1630.0;                   !- Specific Heat
 ]

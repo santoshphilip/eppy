@@ -561,15 +561,6 @@
 
 
   Zone,
-    A89F67,  !- Name
-    0.0,  !- Direction of Relative North {deg}
-    0.0,  !- X Origin {m}
-    0.320644,  !- Y Origin {m}
-    0.0,  !- Z Origin {m}
-    ,  !- Type
-    1;  !- Multiplier
-
-  Zone,
     Box,  !- Name
     0.0,  !- Direction of Relative North {deg}
     0.288184,  !- X Origin {m}

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: eppy
-Version: 0.4.3
+Version: 0.4.4
 Summary: Scripting language for E+ idf files, and E+ output files
 Home-page: https://github.com/santoshphilip/eppy
 Author: Santosh Philip
