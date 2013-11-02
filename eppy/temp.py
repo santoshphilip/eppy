@@ -66,12 +66,15 @@ def zonevolume(idf, zonename):
     return volume
         
 fname = "./eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf"
+fname = "./eppy/resources/idffiles/V8_0_0/twobox.idf"
 iddname = "./eppy/resources/iddfiles/Energy+V8_0_0.idd"
 
 IDF.setiddname(iddname)
 idf = IDF(fname)
 
 zonename = 'SPACE1-1'
+zonename = '473222'
+
 print zoneareavolume(idf, zonename)
 print zonearea(idf, zonename)    
 print zonevolume(idf, zonename)
