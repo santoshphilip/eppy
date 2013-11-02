@@ -1,34 +1,77 @@
-# Copyright (c) 2012 Santosh Philip
+from eppy import modeleditor
+from eppy.modeleditor import IDF
 
-# This file is part of eppy.
 
-# Eppy is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
 
-# Eppy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+def zoneareavolume(idf, zonename):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    area = sum([floor.area for floor in floors])
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
+    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
+    topsurfaces = roofs + ceilings
 
-# You should have received a copy of the GNU General Public License
-# along with eppy.  If not, see <http://www.gnu.org/licenses/>.
+    topz = []
+    for topsurface in topsurfaces:
+        for coord in topsurface.coords:
+            topz.append(coord[-1])
+    topz = max(topz)
+        
+    botz = []
+    for floor in floors:
+        for coord in floor.coords:
+            botz.append(coord[-1])
+    botz = min(botz)
 
-import bunch
-import idfreader
-import modeleditor
-import snippet
+    height = topz - botz
+    volume = area * height
 
-from iddcurrent import iddcurrent
-iddsnippet = iddcurrent.iddtxt
+    return area, volume
+    
+def zonearea(idf, zonename):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    area = sum([floor.area for floor in floors])
+    return area
+    
+def zonevolume(idf, zonename):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    area = sum([floor.area for floor in floors])
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
+    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
+    topsurfaces = roofs + ceilings
 
-idfsnippet = snippet.idfsnippet
+    topz = []
+    for topsurface in topsurfaces:
+        for coord in topsurface.coords:
+            topz.append(coord[-1])
+    topz = max(topz)
+        
+    botz = []
+    for floor in floors:
+        for coord in floor.coords:
+            botz.append(coord[-1])
+    botz = min(botz)
 
-from StringIO import StringIO
-idffhandle = StringIO(idfsnippet)
-iddfhandle = StringIO(iddsnippet)
-# bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
-from modeleditor import IDF
-IDF.setiddname(iddfhandle)
-idf = IDF(idffhandle)
+    height = topz - botz
+    volume = area * height
+
+    return volume
+        
+fname = "./eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf"
+iddname = "./eppy/resources/iddfiles/Energy+V8_0_0.idd"
+
+IDF.setiddname(iddname)
+idf = IDF(fname)
+
+zonename = 'SPACE1-1'
+print zoneareavolume(idf, zonename)
+print zonearea(idf, zonename)    
+print zonevolume(idf, zonename)

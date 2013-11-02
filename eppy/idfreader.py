@@ -94,7 +94,7 @@ def addfunctions(dtls, bunchdt):
                     # 'width':fh.width, # not working correctly
                     'azimuth':fh.azimuth,
                     'tilt':fh.tilt,
-                    # 'coords':fh.getcoords, # needed for debugging
+                    'coords':fh.getcoords, # needed for debugging
                     } 
     # add common functions
     # for name in dtls:
