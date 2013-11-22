@@ -26,8 +26,8 @@ import getopt
 pathnameto_eplusscripting = "../"
 sys.path.append(pathnameto_eplusscripting)
 
-from bunch_subclass import BadEPFieldError
-from modeleditor import IDF
+from eppy.bunch_subclass import BadEPFieldError
+from eppy.modeleditor import IDF
 
 
 
