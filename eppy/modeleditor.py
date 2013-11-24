@@ -419,7 +419,7 @@ class IDF1(IDF0):
     """subclass of IDF0. Uses functions of IDF0 
     """
     def __init__(self, idfname=None):
-        super(IDF1, self).__init__(idfname=None)
+        super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname='', **kwargs):
     # def newidfobject(self, key, *args, **kwargs):
         """add a new idfobject to the model
@@ -491,7 +491,7 @@ class IDF2(IDF1):
     
     """
     def __init__(self, idfname=None):
-        super(IDF2, self).__init__(idfname=None)
+        super(IDF2, self).__init__(idfname)
         self.outputtype = "standard" # standard, nocomment or compressed
     def idfstr(self):
         if self.outputtype != 'standard':
@@ -533,9 +533,10 @@ class IDF3(IDF2):
     """subclass of IDF2. Uses functions of IDF1 and IDF2
     """
     def __init__(self, idfname=None):
-        super(IDF3, self).__init__(idfname=None)
+        super(IDF3, self).__init__(idfname)
     def initread(self, idfname):
-        """use the latest iddfile and read file fname"""
+        """use the latest iddfile and read file fname
+        idd is initialized only if it has not been done earlier"""
         from StringIO import StringIO
         from eppy.iddcurrent import iddcurrent
         iddfhandle = StringIO(iddcurrent.iddtxt)
@@ -543,9 +544,31 @@ class IDF3(IDF2):
             self.setiddname(iddfhandle)
         self.idfname = idfname
         self.read()
+    def initnew(self):
+        """use the latest iddfile and opens a new file
+        idd is initialized only if it has not been done earlier"""
+        from StringIO import StringIO
+        from eppy.iddcurrent import iddcurrent
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        idfhandle = StringIO('')
+        self.idfname = idfhandle
+        self.read()
+    def initreadtxt(self, idftxt):
+        """use the latest iddfile and read file fname
+        idd is initialized only if it has not been done earlier"""
+        from StringIO import StringIO
+        from eppy.iddcurrent import iddcurrent
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        idfhandle = StringIO(idftxt)
+        self.idfname = idfhandle
+        self.read()
         
 
-IDF = IDF2
+IDF = IDF3
         
                                     
 class something(IDF0):
