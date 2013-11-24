@@ -90,8 +90,8 @@ def addfunctions(dtls, bunchdt):
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 surface.__functions = {'area':fh.area,
-                    # 'height':fh.height, # not working correctly
-                    # 'width':fh.width, # not working correctly
+                    'height':fh.height, # not working correctly
+                    'width':fh.width, # not working correctly
                     'azimuth':fh.azimuth,
                     'tilt':fh.tilt,
                     'coords':fh.getcoords, # needed for debugging

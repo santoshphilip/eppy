@@ -74,8 +74,9 @@ def height(poly):
     if abs(poly[N][2] - poly[0][2]) > abs(poly[1][2] - poly[0][2]):
         return dist(poly[N],poly[0])
     elif abs(poly[N][2] - poly[0][2]) < abs(poly[1][2] - poly[0][2]):
-        return dist(poly[0], poly[0])
-    else: return min(dist(poly[N], poly[0]), dist(poly[1], poly[0]))
+        return dist(poly[1], poly[0])
+    else: 
+        return min(dist(poly[N], poly[0]), dist(poly[1], poly[0]))
     
 # angle between two vectors
 def angle2vecs(vec1,vec2):
