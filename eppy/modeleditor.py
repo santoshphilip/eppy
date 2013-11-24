@@ -556,7 +556,7 @@ class IDF3(IDF2):
         self.idfname = idfhandle
         self.read()
     def initreadtxt(self, idftxt):
-        """use the latest iddfile and read file fname
+        """use the latest iddfile and read txt
         idd is initialized only if it has not been done earlier"""
         from StringIO import StringIO
         from eppy.iddcurrent import iddcurrent

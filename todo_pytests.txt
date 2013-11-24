@@ -1,0 +1,6 @@
+listing pytests that are yet to be done
+---------------------------------------
+
+IDF.initread()
+IDF.initnew()
+IDF.initreadtxt()

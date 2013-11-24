@@ -1,3 +1,7 @@
 get remote branch
 - git fetch origin
 - git checkout -b test origin/test
+
+compare file in two branches
+- git diff mybranch/myfile.cs master/myfile.cs
+- git diff mybranch master -- myfile.cs
