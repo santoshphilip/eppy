@@ -67,6 +67,14 @@ def bsdorigin(bsdobject, setto000=False):
     else:
         raise NotImplementedError
 
+def fsdorigin(fsdobject, setto000=False):
+    """return the origin of the surface"""
+    # not yet implemented
+    if setto000:
+        return (0, 0)
+    else:
+        raise NotImplementedError
+
 def wallexterior(idf, bsdobject, setto000=False):
     """return an wall:exterior object if the bsd (buildingsurface:detailed) is 
     an exterior wall"""
@@ -160,7 +168,7 @@ def wallinterzone(idf, bsdobject, setto000=False):
 def roof(idf, bsdobject, setto000=False):
     """return an roof object if the bsd (buildingsurface:detailed) is 
     a roof"""
-# ('ROOF', Roof, None or Outdoor)
+    # ('ROOF', Roof, None or Outdoor)
     # test if it is aroof
     if bsdobject.Surface_Type.upper() == 'ROOF': # Surface_Type == roof
         if bsdobject.Outside_Boundary_Condition.upper() in ('OUTDOORS', ''): # Outside_Boundary_Condition == Outdoor
@@ -246,5 +254,119 @@ def floorgroundcontact(idf, bsdobject, setto000=False):
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
             return simpleobject
+    return None
+
+def flooradiabatic(idf, bsdobject, setto000=False):
+    """return a floor:adiabatic if bsdobject (buildingsurface:detailed) is an 
+    adibatic floor"""
+# ('FLOOR:ADIABATIC', Floor, Adiabatic)
+    # test if it is an adiabatic wall
+    if bsdobject.Surface_Type.upper() == 'FLOOR': # Surface_Type == wall
+        if bsdobject.Outside_Boundary_Condition.upper() == 'ADIABATIC': # Outside_Boundary_Condition == Adiabatic
+            simpleobject = idf.newidfobject('FLOOR:ADIABATIC')
+            simpleobject.Name = bsdobject.Name
+            simpleobject.Construction_Name = bsdobject.Construction_Name
+            simpleobject.Zone_Name = bsdobject.Zone_Name
+            simpleobject.Azimuth_Angle = bsdobject.azimuth
+            simpleobject.Tilt_Angle = bsdobject.tilt
+            surforigin = bsdorigin(bsdobject, setto000=setto000)
+            simpleobject.Starting_X_Coordinate = surforigin[0]
+            simpleobject.Starting_Y_Coordinate = surforigin[1]
+            simpleobject.Starting_Z_Coordinate = surforigin[2]
+            simpleobject.Length = bsdobject.width
+            simpleobject.Width = bsdobject.height
+            return simpleobject
+    return None
+    
+def floorinterzone(idf, bsdobject, setto000=False):
+    """return an floor:interzone object if the bsd (buildingsurface:detailed) 
+    is an interaone floor"""
+    # ('FLOOR:INTERZONE', Floor, Surface OR Zone)
+    # test if it is an exterior wall
+    if bsdobject.Surface_Type.upper() == 'FLOOR': # Surface_Type == wall
+        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE'): # Outside_Boundary_Condition == surface or zone
+            simpleobject = idf.newidfobject('FLOOR:INTERZONE')
+            simpleobject.Name = bsdobject.Name
+            simpleobject.Construction_Name = bsdobject.Construction_Name
+            simpleobject.Zone_Name = bsdobject.Zone_Name
+            obco = 'Outside_Boundary_Condition_Object'
+            simpleobject[obco] = bsdobject[obco]
+            simpleobject.Azimuth_Angle = bsdobject.azimuth
+            simpleobject.Tilt_Angle = bsdobject.tilt
+            surforigin = bsdorigin(bsdobject, setto000=setto000)
+            simpleobject.Starting_X_Coordinate = surforigin[0]
+            simpleobject.Starting_Y_Coordinate = surforigin[1]
+            simpleobject.Starting_Z_Coordinate = surforigin[2]
+            simpleobject.Length = bsdobject.width
+            simpleobject.Width = bsdobject.height
+            return simpleobject
+    return None
+
+# 'FENESTRATIONSURFACE:DETAILED',
+# (simple_surface, Surface_Type, Outside_Boundary_Condition)
+# ----------------------------------------------------------
+# ('WINDOW',  Window, None)
+
+
+
+def window(idf, fsdobject, setto000=False):
+    """return an window object if the fsd (fenestrationsurface:detailed) is 
+    a window"""
+    # ('WINDOW',  Window, None)
+    # test if it is aroof
+    if fsdobject.Surface_Type.upper() == 'WINDOW': # Surface_Type == w
+        simpleobject = idf.newidfobject('WINDOW')
+        simpleobject.Name = fsdobject.Name
+        simpleobject.Construction_Name = fsdobject.Construction_Name
+        simpleobject.Building_Surface_Name = fsdobject.Building_Surface_Name
+        simpleobject.Shading_Control_Name = fsdobject.Building_Surface_Name
+        simpleobject.Frame_and_Divider_Name = fsdobject.Frame_and_Divider_Name
+        simpleobject.Multiplier = fsdobject.Multiplier
+        surforigin = fsdorigin(fsdobject, setto000=setto000)
+        simpleobject.Starting_X_Coordinate = surforigin[0]
+        simpleobject.Starting_Z_Coordinate = surforigin[1]
+        simpleobject.Length = fsdobject.width
+        simpleobject.Height = fsdobject.height
+        return simpleobject
+    return None
+
+def door(idf, fsdobject, setto000=False):
+    """return an door object if the fsd (fenestrationsurface:detailed) is 
+    a door"""
+    # ('DOOR', Door, None)
+    # test if it is aroof
+    if fsdobject.Surface_Type.upper() == 'DOOR': # Surface_Type == w
+        simpleobject = idf.newidfobject('DOOR')
+        simpleobject.Name = fsdobject.Name
+        simpleobject.Construction_Name = fsdobject.Construction_Name
+        simpleobject.Building_Surface_Name = fsdobject.Building_Surface_Name
+        simpleobject.Multiplier = fsdobject.Multiplier
+        surforigin = fsdorigin(fsdobject, setto000=setto000)
+        simpleobject.Starting_X_Coordinate = surforigin[0]
+        simpleobject.Starting_Z_Coordinate = surforigin[1]
+        simpleobject.Length = fsdobject.width
+        simpleobject.Height = fsdobject.height
+        return simpleobject
+    return None
+
+def glazeddoor(idf, fsdobject, setto000=False):
+    """return an glazeddoor object if the fsd (fenestrationsurface:detailed) is 
+    a glassdoor"""
+    # ('WINDOW',  glassdoor, None)
+    # test if it is glassdoor
+    if fsdobject.Surface_Type.upper() == 'GLASSDOOR': 
+        simpleobject = idf.newidfobject('GLAZEDDOOR')
+        simpleobject.Name = fsdobject.Name
+        simpleobject.Construction_Name = fsdobject.Construction_Name
+        simpleobject.Building_Surface_Name = fsdobject.Building_Surface_Name
+        simpleobject.Shading_Control_Name = fsdobject.Building_Surface_Name
+        simpleobject.Frame_and_Divider_Name = fsdobject.Frame_and_Divider_Name
+        simpleobject.Multiplier = fsdobject.Multiplier
+        surforigin = fsdorigin(fsdobject, setto000=setto000)
+        simpleobject.Starting_X_Coordinate = surforigin[0]
+        simpleobject.Starting_Z_Coordinate = surforigin[1]
+        simpleobject.Length = fsdobject.width
+        simpleobject.Height = fsdobject.height
+        return simpleobject
     return None
 

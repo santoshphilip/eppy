@@ -59,8 +59,6 @@ def test_wallinterzone():
     newidttxt = bsdtxt + simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
-    idf.saveas('idf.idf')
-    newidf.saveas('new.idf')
     assert idf.idfstr() == newidf.idfstr()
 
 def test_roof():
@@ -103,8 +101,6 @@ def test_ceilinginterzone():
     newidttxt = bsdtxt + simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
-    idf.saveas('idf.idf')
-    newidf.saveas('new.idf')
     assert idf.idfstr() == newidf.idfstr()
 
 def test_floorgroundcontact():
@@ -117,6 +113,78 @@ def test_floorgroundcontact():
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
     w_ext = simplesurface.floorgroundcontact(idf, bsd, setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+def test_flooradiabatic():
+    """py.test for flooradiabatic"""
+    bsdtxt = """BuildingSurface:Detailed, WALL-1PF, floor, WALL-1, PLENUM-1, Adiabatic, , SunExposed, WindExposed, 0.5, 4, 0.0, 0.0, 3.0, 0.0, 0.0, 2.4, 30.5, 0.0, 2.4, 30.5, 0.0, 3.0;
+"""
+    simpleobjtxt = """FLOOR:ADIABATIC, WALL-1PF, WALL-1, PLENUM-1, 180.0, 90.0, 0, 0, 0, 30.5, 0.6;"""
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.flooradiabatic(idf, bsd, setto000=True)
+    newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+def test_floorinterzone():
+    """py.test for floorinterzone"""
+    bsdtxt = """BuildingSurface:Detailed, WALL-1PF, floor, WALL-1, PLENUM-1, Zone, gumby, SunExposed, WindExposed, 0.5, 4, 0.0, 0.0, 3.0, 0.0, 0.0, 2.4, 30.5, 0.0, 2.4, 30.5, 0.0, 3.0;
+"""
+    simpleobjtxt = """FLOOR:INTERZONE, WALL-1PF, WALL-1, PLENUM-1, gumby, 180.0, 90.0, 0, 0, 0, 30.5, 0.6;"""
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.floorinterzone(idf, bsd, setto000=True)
+    newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+def test_window():
+    """py.test for window"""
+    fsdtxt = """FenestrationSurface:Detailed, WF-1, WINDOW, Dbl Clr 3mm/13mm Air, FRONT-1, , 0.5, , , 1, 4, 3.0, 0.0, 2.1, 3.0, 0.0, 0.9, 16.8, 0.0, 0.9, 16.8, 0.0, 2.1;"""
+    simpleobjtxt = """WINDOW, WF-1, Dbl Clr 3mm/13mm Air, FRONT-1, FRONT-1, , 1, 0, 0, 13.8, 1.2;"""
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.window(idf, fsd, setto000=True)
+    newidttxt = fsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+def test_door():
+    """py.test for window"""
+    fsdtxt = """FenestrationSurface:Detailed, WR-1, door, Dbl Clr 3mm/13mm Air, RIGHT-1, , 0.5, , , 1, 4, 30.5, 3.8, 2.1, 30.5, 3.8, 0.9, 30.5, 11.4, 0.9, 30.5, 11.4, 2.1;"""
+    simpleobjtxt = """DOOR, WR-1, Dbl Clr 3mm/13mm Air, RIGHT-1, 1, 0, 0, 7.6, 1.2;"""
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.door(idf, fsd, setto000=True)
+    newidttxt = fsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+
+# FenestrationSurface:Detailed, DF-1, GLASSDOOR, Sgl Grey 3mm, FRONT-1, , 0.5, , , 1, 4, 21.3, 0.0, 2.1, 21.3, 0.0, 0.0, 23.8, 0.0, 0.0, 23.8, 0.0, 2.1;
+# 
+# GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, FRONT-1, , 1, 0, 0, 2.5, 2.1;
+
+def test_window():
+    """py.test for window"""
+    fsdtxt = """FenestrationSurface:Detailed, DF-1, GLASSDOOR, Sgl Grey 3mm, FRONT-1, , 0.5, , , 1, 4, 21.3, 0.0, 2.1, 21.3, 0.0, 0.0, 23.8, 0.0, 0.0, 23.8, 0.0, 2.1;"""
+    simpleobjtxt = """GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, FRONT-1, , 1, 0, 0, 2.5, 2.1;"""
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.glazeddoor(idf, fsd, setto000=True)
+    newidttxt = fsdtxt + simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
