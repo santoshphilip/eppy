@@ -75,7 +75,7 @@ def fsdorigin(fsdobject, setto000=False):
     else:
         raise NotImplementedError
 
-def wallexterior(idf, bsdobject, setto000=False):
+def wallexterior(idf, bsdobject, deletebsd=True, setto000=False):
     """return an wall:exterior object if the bsd (buildingsurface:detailed) is 
     an exterior wall"""
     # ('WALL:EXTERIOR', Wall, Outdoors)
@@ -94,10 +94,12 @@ def wallexterior(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Height = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
             
-def walladiabatic(idf, bsdobject, setto000=False):
+def walladiabatic(idf, bsdobject, deletebsd=True, setto000=False):
     """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an 
     adibatic wall"""
     # ('WALL:ADIABATIC',Wall, Adiabatic)
@@ -116,10 +118,12 @@ def walladiabatic(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Height = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
     
-def wallunderground(idf, bsdobject, setto000=False):
+def wallunderground(idf, bsdobject, deletebsd=True, setto000=False):
     """return a wall:underground if bsdobject (buildingsurface:detailed) is an 
     underground wall"""
     # ('WALL:UNDERGROUND', Wall, s.startswith('Ground'))
@@ -138,10 +142,12 @@ def wallunderground(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Height = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
 
-def wallinterzone(idf, bsdobject, setto000=False):
+def wallinterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an wall:interzone object if the bsd (buildingsurface:detailed) 
     is an interaone wall"""
     # ('WALL:INTERZONE', Wall, Surface OR Zone)
@@ -162,10 +168,12 @@ def wallinterzone(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Height = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
             
-def roof(idf, bsdobject, setto000=False):
+def roof(idf, bsdobject, deletebsd=True, setto000=False):
     """return an roof object if the bsd (buildingsurface:detailed) is 
     a roof"""
     # ('ROOF', Roof, None or Outdoor)
@@ -184,10 +192,12 @@ def roof(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
 
-def ceilingadiabatic(idf, bsdobject, setto000=False):
+def ceilingadiabatic(idf, bsdobject, deletebsd=True, setto000=False):
     """return a ceiling:adiabatic if bsdobject (buildingsurface:detailed) is an 
     adiabatic ceiling"""
     # ('CEILING:ADIABATIC', Ceiling, Adiabatic)
@@ -206,11 +216,13 @@ def ceilingadiabatic(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
 
 # ('CEILING:INTERZONE', Ceiling, Surface OR Zone)
-def ceilinginterzone(idf, bsdobject, setto000=False):
+def ceilinginterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an ceiling:interzone object if the bsd (buildingsurface:detailed) 
     is an interzone ceiling"""
     # ('WALL:INTERZONE', Wall, Surface OR Zone)
@@ -231,10 +243,12 @@ def ceilinginterzone(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
             
-def floorgroundcontact(idf, bsdobject, setto000=False):
+def floorgroundcontact(idf, bsdobject, deletebsd=True, setto000=False):
     """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an 
     adibatic wall"""
     # ('FLOOR:GROUNDCONTACT', Floor, s.startswith('Ground'))
@@ -253,10 +267,12 @@ def floorgroundcontact(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
 
-def flooradiabatic(idf, bsdobject, setto000=False):
+def flooradiabatic(idf, bsdobject, deletebsd=True, setto000=False):
     """return a floor:adiabatic if bsdobject (buildingsurface:detailed) is an 
     adibatic floor"""
 # ('FLOOR:ADIABATIC', Floor, Adiabatic)
@@ -275,10 +291,12 @@ def flooradiabatic(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
     
-def floorinterzone(idf, bsdobject, setto000=False):
+def floorinterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an floor:interzone object if the bsd (buildingsurface:detailed) 
     is an interaone floor"""
     # ('FLOOR:INTERZONE', Floor, Surface OR Zone)
@@ -299,21 +317,15 @@ def floorinterzone(idf, bsdobject, setto000=False):
             simpleobject.Starting_Z_Coordinate = surforigin[2]
             simpleobject.Length = bsdobject.width
             simpleobject.Width = bsdobject.height
+            if deletebsd:
+                idf.removeidfobject(bsdobject)
             return simpleobject
     return None
 
-# 'FENESTRATIONSURFACE:DETAILED',
-# (simple_surface, Surface_Type, Outside_Boundary_Condition)
-# ----------------------------------------------------------
-# ('WINDOW',  Window, None)
-
-
-
-def window(idf, fsdobject, setto000=False):
+def window(idf, fsdobject, deletebsd=True, setto000=False):
     """return an window object if the fsd (fenestrationsurface:detailed) is 
     a window"""
     # ('WINDOW',  Window, None)
-    # test if it is aroof
     if fsdobject.Surface_Type.upper() == 'WINDOW': # Surface_Type == w
         simpleobject = idf.newidfobject('WINDOW')
         simpleobject.Name = fsdobject.Name
@@ -327,10 +339,12 @@ def window(idf, fsdobject, setto000=False):
         simpleobject.Starting_Z_Coordinate = surforigin[1]
         simpleobject.Length = fsdobject.width
         simpleobject.Height = fsdobject.height
+        if deletebsd:
+            idf.removeidfobject(fsdobject)
         return simpleobject
     return None
 
-def door(idf, fsdobject, setto000=False):
+def door(idf, fsdobject, deletebsd=True, setto000=False):
     """return an door object if the fsd (fenestrationsurface:detailed) is 
     a door"""
     # ('DOOR', Door, None)
@@ -346,10 +360,12 @@ def door(idf, fsdobject, setto000=False):
         simpleobject.Starting_Z_Coordinate = surforigin[1]
         simpleobject.Length = fsdobject.width
         simpleobject.Height = fsdobject.height
+        if deletebsd:
+            idf.removeidfobject(fsdobject)
         return simpleobject
     return None
 
-def glazeddoor(idf, fsdobject, setto000=False):
+def glazeddoor(idf, fsdobject, deletebsd=True, setto000=False):
     """return an glazeddoor object if the fsd (fenestrationsurface:detailed) is 
     a glassdoor"""
     # ('WINDOW',  glassdoor, None)
@@ -367,6 +383,37 @@ def glazeddoor(idf, fsdobject, setto000=False):
         simpleobject.Starting_Z_Coordinate = surforigin[1]
         simpleobject.Length = fsdobject.width
         simpleobject.Height = fsdobject.height
+        if deletebsd:
+            idf.removeidfobject(fsdobject)
         return simpleobject
     return None
 
+def simplesufrace(idf, bsd, deletebsd=True, setto000=False):
+    """convert a bsd (buildingsurface:detailed) into a simple surface"""
+    funcs = (wallexterior,
+        walladiabatic,
+        wallunderground,
+        wallinterzone,
+        roof,
+        ceilingadiabatic,
+        ceilinginterzone,
+        floorgroundcontact,
+        flooradiabatic,
+        floorinterzone,)
+    for func in funcs:
+        surface = func(idf, bsd, sdeletebsd=True, etto000=setto000)
+        if surface:
+            return surface
+    return None
+    
+def simplefenestration(idf, fsd, deletebsd=True, setto000=False):
+    """convert a bsd (fenestrationsurface:detailed) into a simple 
+    fenestrations"""
+    funcs = (window,
+        door,
+        glazeddoor,)
+    for func in funcs:
+        fenestration = func(idf, fsd, deletebsd=True, setto000=setto000)
+        if fenestration:
+            return fenestration
+    return None

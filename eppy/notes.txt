@@ -1,9 +1,9 @@
 2013-11-24
 ----------
 need a default setting for idd (maybe the latest one)
-open a new file -> IDF.initnew()
-readfile -> IDF.initread(fname)
-readtxt -> IDF.inittxt(idftxt)
+open a new file -> IDF.initnew() -> DONE
+readfile -> IDF.initread(fname) -> DONE
+readtxt -> IDF.inittxt(idftxt) -> DONE
 2013-09-09
 ----------
 ***** possible bug ? ********

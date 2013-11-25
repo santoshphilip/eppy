@@ -459,7 +459,7 @@ class IDF1(IDF0):
             if theobject is idfobject:
                 theobjects.pop(i)
                 # remove it from model too
-                self.model.dt[key.upper()].pop(i)
+                return self.model.dt[key.upper()].pop(i)
     def copyidfobject(self, idfobject):
         """add idfobject to this model
         

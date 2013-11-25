@@ -2,3 +2,4 @@ This file has a list of new functions that have not yet been documented
 2013-11-24
 ----------
 - IDF.initread(), IDF.initnew(), IDF.intreadtxt
+- surface.height surface.width

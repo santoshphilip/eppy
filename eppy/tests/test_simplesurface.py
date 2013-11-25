@@ -13,8 +13,18 @@ def test_wallexterior():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.wallexterior(idf, bsd, setto000=True)
+    w_ext = simplesurface.wallexterior(idf, bsd, deletebsd=False, setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.wallexterior(idf, bsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -27,8 +37,19 @@ def test_walladiabatic():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.walladiabatic(idf, bsd, setto000=True)
+    w_ext = simplesurface.walladiabatic(idf, bsd, deletebsd=False, 
+                                                        setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.walladiabatic(idf, bsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -41,8 +62,20 @@ def test_wallunderground():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.wallunderground(idf, bsd, setto000=True)
+    w_ext = simplesurface.wallunderground(idf, bsd, deletebsd=False, 
+                                                        setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.wallunderground(idf, bsd, deletebsd=True,             
+                                                        setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -55,8 +88,18 @@ def test_wallinterzone():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.wallinterzone(idf, bsd, setto000=True)
+    w_ext = simplesurface.wallinterzone(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.wallinterzone(idf, bsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -69,8 +112,18 @@ def test_roof():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.roof(idf, bsd, setto000=True)
+    w_ext = simplesurface.roof(idf, bsd, deletebsd=False, setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.roof(idf, bsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -83,8 +136,19 @@ def test_ceilingadiabatic():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.ceilingadiabatic(idf, bsd, setto000=True)
+    w_ext = simplesurface.ceilingadiabatic(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.ceilingadiabatic(idf, bsd, deletebsd=True,        
+                                                setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -97,8 +161,19 @@ def test_ceilinginterzone():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.ceilinginterzone(idf, bsd, setto000=True)
+    w_ext = simplesurface.ceilinginterzone(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.ceilinginterzone(idf, bsd, deletebsd=True,            
+                                                setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -111,8 +186,19 @@ def test_floorgroundcontact():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.floorgroundcontact(idf, bsd, setto000=True)
+    w_ext = simplesurface.floorgroundcontact(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.floorgroundcontact(idf, bsd, deletebsd=True, 
+                                                setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -125,8 +211,19 @@ def test_flooradiabatic():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.flooradiabatic(idf, bsd, setto000=True)
+    w_ext = simplesurface.flooradiabatic(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.flooradiabatic(idf, bsd, deletebsd=True, 
+                                            setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -139,8 +236,19 @@ def test_floorinterzone():
     idf = IDF()
     idf.initreadtxt(bsdtxt)
     bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-    w_ext = simplesurface.floorinterzone(idf, bsd, setto000=True)
+    w_ext = simplesurface.floorinterzone(idf, bsd, deletebsd=False,                                                         setto000=True)
     newidttxt = bsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(bsdtxt)
+    bsd = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
+    w_ext = simplesurface.floorinterzone(idf, bsd, deletebsd=True, 
+                                            setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -152,8 +260,18 @@ def test_window():
     idf = IDF()
     idf.initreadtxt(fsdtxt)
     fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
-    w_ext = simplesurface.window(idf, fsd, setto000=True)
+    w_ext = simplesurface.window(idf, fsd, deletebsd=False, setto000=True)
     newidttxt = fsdtxt + simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
+
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.window(idf, fsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
@@ -165,27 +283,41 @@ def test_door():
     idf = IDF()
     idf.initreadtxt(fsdtxt)
     fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
-    w_ext = simplesurface.door(idf, fsd, setto000=True)
+    w_ext = simplesurface.door(idf, fsd, deletebsd=False, setto000=True)
     newidttxt = fsdtxt + simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
 
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.door(idf, fsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
 
-# FenestrationSurface:Detailed, DF-1, GLASSDOOR, Sgl Grey 3mm, FRONT-1, , 0.5, , , 1, 4, 21.3, 0.0, 2.1, 21.3, 0.0, 0.0, 23.8, 0.0, 0.0, 23.8, 0.0, 2.1;
-# 
-# GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, FRONT-1, , 1, 0, 0, 2.5, 2.1;
-
-def test_window():
-    """py.test for window"""
+def test_glazeddoor():
+    """py.test for glazeddoor"""
     fsdtxt = """FenestrationSurface:Detailed, DF-1, GLASSDOOR, Sgl Grey 3mm, FRONT-1, , 0.5, , , 1, 4, 21.3, 0.0, 2.1, 21.3, 0.0, 0.0, 23.8, 0.0, 0.0, 23.8, 0.0, 2.1;"""
     simpleobjtxt = """GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, FRONT-1, , 1, 0, 0, 2.5, 2.1;"""
     idf = IDF()
     idf.initreadtxt(fsdtxt)
     fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
-    w_ext = simplesurface.glazeddoor(idf, fsd, setto000=True)
+    w_ext = simplesurface.glazeddoor(idf, fsd, deletebsd=False, setto000=True)
     newidttxt = fsdtxt + simpleobjtxt
     newidf = IDF()
     newidf.initreadtxt(newidttxt)
     assert idf.idfstr() == newidf.idfstr()
 
+    # test  for deletebsd = True
+    idf = IDF()
+    idf.initreadtxt(fsdtxt)
+    fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
+    w_ext = simplesurface.glazeddoor(idf, fsd, deletebsd=True, setto000=True)
+    newidttxt = simpleobjtxt
+    newidf = IDF()
+    newidf.initreadtxt(newidttxt)
+    assert idf.idfstr() == newidf.idfstr()
