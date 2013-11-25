@@ -454,12 +454,12 @@ class IDF1(IDF0):
         # form self.model.dt
         # since idfobjects is just a wrapper for model.dt
         key = idfobject.key
-        theobjects = self.idfobjects[key]
+        theobjects = self.idfobjects[key.upper()]
         for i, theobject in enumerate(theobjects):
             if theobject is idfobject:
                 theobjects.pop(i)
                 # remove it from model too
-                self.model.dt[key].pop(i)
+                self.model.dt[key.upper()].pop(i)
     def copyidfobject(self, idfobject):
         """add idfobject to this model
         
