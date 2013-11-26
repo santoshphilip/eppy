@@ -45,10 +45,10 @@
 # ('WALL:INTERZONE', Wall, Surface OR Zone)
 # ('ROOF', Roof, None or Outdoor)
 # ('CEILING:ADIABATIC', Ceiling, Adiabatic)
-# ('CEILING:INTERZONE', Ceiling, Surface OR Zone)
+# ('CEILING:INTERZONE', Ceiling, Surface OR Zone or OtherSideCoefficients)
 # ('FLOOR:GROUNDCONTACT', Floor, s.startswith('Ground'))
 # ('FLOOR:ADIABATIC', Floor, Adiabatic)
-# ('FLOOR:INTERZONE', Floor, Surface OR Zone)
+# ('FLOOR:INTERZONE', Floor, Surface OR Zone or OtherSideCoefficients)
 # 
 # 'FENESTRATIONSURFACE:DETAILED',
 # (simple_surface, Surface_Type, Outside_Boundary_Condition)
@@ -76,7 +76,7 @@ def fsdorigin(fsdobject, setto000=False):
         raise NotImplementedError
 
 def wallexterior(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an wall:exterior object if the bsd (buildingsurface:detailed) is 
+    """return an wall:exterior object if the  (buildingsurface:detailed) is 
     an exterior wall"""
     # ('WALL:EXTERIOR', Wall, Outdoors)
     # test if it is an exterior wall
@@ -150,10 +150,10 @@ def wallunderground(idf, bsdobject, deletebsd=True, setto000=False):
 def wallinterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an wall:interzone object if the bsd (buildingsurface:detailed) 
     is an interaone wall"""
-    # ('WALL:INTERZONE', Wall, Surface OR Zone)
+    # ('WALL:INTERZONE', Wall, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
     if bsdobject.Surface_Type.upper() == 'WALL': # Surface_Type == wall
-        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE'): # Outside_Boundary_Condition == surface or zone
+        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE', 'OtherSideCoefficients'.upper()): 
             simpleobject = idf.newidfobject('WALL:INTERZONE')
             simpleobject.Name = bsdobject.Name
             simpleobject.Construction_Name = bsdobject.Construction_Name
@@ -225,10 +225,10 @@ def ceilingadiabatic(idf, bsdobject, deletebsd=True, setto000=False):
 def ceilinginterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an ceiling:interzone object if the bsd (buildingsurface:detailed) 
     is an interzone ceiling"""
-    # ('WALL:INTERZONE', Wall, Surface OR Zone)
+    # ('WALL:INTERZONE', Wall, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
     if bsdobject.Surface_Type.upper() == 'CEILING': # Surface_Type == ceiling
-        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE'): # Outside_Boundary_Condition == surface or zone
+        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE', 'OtherSideCoefficients'.upper()): 
             simpleobject = idf.newidfobject('CEILING:INTERZONE')
             simpleobject.Name = bsdobject.Name
             simpleobject.Construction_Name = bsdobject.Construction_Name
@@ -299,10 +299,10 @@ def flooradiabatic(idf, bsdobject, deletebsd=True, setto000=False):
 def floorinterzone(idf, bsdobject, deletebsd=True, setto000=False):
     """return an floor:interzone object if the bsd (buildingsurface:detailed) 
     is an interaone floor"""
-    # ('FLOOR:INTERZONE', Floor, Surface OR Zone)
+    # ('FLOOR:INTERZONE', Floor, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
     if bsdobject.Surface_Type.upper() == 'FLOOR': # Surface_Type == wall
-        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE'): # Outside_Boundary_Condition == surface or zone
+        if bsdobject.Outside_Boundary_Condition.upper() in ('SURFACE', 'ZONE', 'OtherSideCoefficients'.upper()): 
             simpleobject = idf.newidfobject('FLOOR:INTERZONE')
             simpleobject.Name = bsdobject.Name
             simpleobject.Construction_Name = bsdobject.Construction_Name
@@ -331,7 +331,7 @@ def window(idf, fsdobject, deletebsd=True, setto000=False):
         simpleobject.Name = fsdobject.Name
         simpleobject.Construction_Name = fsdobject.Construction_Name
         simpleobject.Building_Surface_Name = fsdobject.Building_Surface_Name
-        simpleobject.Shading_Control_Name = fsdobject.Building_Surface_Name
+        simpleobject.Shading_Control_Name = fsdobject.Shading_Control_Name
         simpleobject.Frame_and_Divider_Name = fsdobject.Frame_and_Divider_Name
         simpleobject.Multiplier = fsdobject.Multiplier
         surforigin = fsdorigin(fsdobject, setto000=setto000)
@@ -375,7 +375,7 @@ def glazeddoor(idf, fsdobject, deletebsd=True, setto000=False):
         simpleobject.Name = fsdobject.Name
         simpleobject.Construction_Name = fsdobject.Construction_Name
         simpleobject.Building_Surface_Name = fsdobject.Building_Surface_Name
-        simpleobject.Shading_Control_Name = fsdobject.Building_Surface_Name
+        simpleobject.Shading_Control_Name = fsdobject.Shading_Control_Name
         simpleobject.Frame_and_Divider_Name = fsdobject.Frame_and_Divider_Name
         simpleobject.Multiplier = fsdobject.Multiplier
         surforigin = fsdorigin(fsdobject, setto000=setto000)
@@ -401,7 +401,7 @@ def simplesufrace(idf, bsd, deletebsd=True, setto000=False):
         flooradiabatic,
         floorinterzone,)
     for func in funcs:
-        surface = func(idf, bsd, sdeletebsd=True, etto000=setto000)
+        surface = func(idf, bsd, deletebsd=deletebsd, setto000=setto000)
         if surface:
             return surface
     return None
@@ -413,7 +413,7 @@ def simplefenestration(idf, fsd, deletebsd=True, setto000=False):
         door,
         glazeddoor,)
     for func in funcs:
-        fenestration = func(idf, fsd, deletebsd=True, setto000=setto000)
+        fenestration = func(idf, fsd, deletebsd=deletebsd, setto000=setto000)
         if fenestration:
             return fenestration
     return None

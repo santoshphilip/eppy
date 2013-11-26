@@ -256,7 +256,7 @@ def test_floorinterzone():
 def test_window():
     """py.test for window"""
     fsdtxt = """FenestrationSurface:Detailed, WF-1, WINDOW, Dbl Clr 3mm/13mm Air, FRONT-1, , 0.5, , , 1, 4, 3.0, 0.0, 2.1, 3.0, 0.0, 0.9, 16.8, 0.0, 0.9, 16.8, 0.0, 2.1;"""
-    simpleobjtxt = """WINDOW, WF-1, Dbl Clr 3mm/13mm Air, FRONT-1, FRONT-1, , 1, 0, 0, 13.8, 1.2;"""
+    simpleobjtxt = """WINDOW, WF-1, Dbl Clr 3mm/13mm Air, FRONT-1, , , 1, 0, 0, 13.8, 1.2;"""
     idf = IDF()
     idf.initreadtxt(fsdtxt)
     fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
@@ -302,7 +302,7 @@ def test_door():
 def test_glazeddoor():
     """py.test for glazeddoor"""
     fsdtxt = """FenestrationSurface:Detailed, DF-1, GLASSDOOR, Sgl Grey 3mm, FRONT-1, , 0.5, , , 1, 4, 21.3, 0.0, 2.1, 21.3, 0.0, 0.0, 23.8, 0.0, 0.0, 23.8, 0.0, 2.1;"""
-    simpleobjtxt = """GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, FRONT-1, , 1, 0, 0, 2.5, 2.1;"""
+    simpleobjtxt = """GLAZEDDOOR, DF-1, Sgl Grey 3mm, FRONT-1, , , 1, 0, 0, 2.5, 2.1;"""
     idf = IDF()
     idf.initreadtxt(fsdtxt)
     fsd = idf.idfobjects["FenestrationSurface:Detailed".upper()][0]
