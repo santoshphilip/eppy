@@ -20,6 +20,7 @@
 from idfreader import makebunches
 from idfreader import idfreader, idfreader1
 from idfreader import makeabunch
+import function_helpers
 import copy
 
 class NoObjectError(Exception):
@@ -330,15 +331,66 @@ def zonearea(idf, zonename, debug=False):
     if debug:
         print len(floors)
         print [floor.area for floor in floors]
-    area = sum([floor.area for floor in floors])
+    # area = sum([floor.area for floor in floors])
+    if floors != []:
+        area = zonearea_floor(idf, zonename)
+    else:
+        area = zonearea_roofceiling(idf, zonename)
     return area
     
-def zonevolume(idf, zonename):
+def zonearea_floor(idf, zonename, debug=False):
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    if debug:
+        print len(floors)
+        print [floor.area for floor in floors]
     area = sum([floor.area for floor in floors])
+    return area
+
+def zonearea_roofceiling(idf, zonename, debug=False):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() in ['ROOF', 
+                                                            'CEILING']]
+    if debug:
+        print len(floors)
+        print [floor.area for floor in floors]
+    area = sum([floor.area for floor in floors])
+    return area
+    
+def zone_height_min2max(idf, zonename, debug=False):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    surf_xyzs = [function_helpers.getcoords(s) for s in zone_surfs]
+    import itertools # to flatten the list
+    surf_xyzs = list(itertools.chain(*surf_xyzs))
+    surf_zs = [z for x, y, z in surf_xyzs]
+    topz =  max(surf_zs)
+    botz = min(surf_zs)
+    height = topz - botz    
+    return height
+    
+def zoneheight(idf, zonename, debug=False):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
+    if floors == [] or roofs == []:
+        height = zone_height_min2max(idf, zonename)    
+    else:
+        height = zone_floor2roofheight(idf, zonename)    
+    return height
+    
+def zone_floor2roofheight(idf, zonename, debug=False):
+    zone = idf.getobject('ZONE', zonename)
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
     roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
     ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
     topsurfaces = roofs + ceilings
@@ -354,38 +406,19 @@ def zonevolume(idf, zonename):
         for coord in floor.coords:
             botz.append(coord[-1])
     botz = min(botz)
-
     height = topz - botz
+    
+    return height
+    
+    
+    
+def zonevolume(idf, zonename):
+    area = zonearea(idf, zonename)
+    height = zoneheight(idf, zonename)
     volume = area * height
 
     return volume
 
-def zoneheight(idf, zonename):
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
-    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
-    area = sum([floor.area for floor in floors])
-    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
-    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
-    topsurfaces = roofs + ceilings
-
-    topz = []
-    for topsurface in topsurfaces:
-        for coord in topsurface.coords:
-            topz.append(coord[-1])
-    topz = max(topz)
-        
-    botz = []
-    for floor in floors:
-        for coord in floor.coords:
-            botz.append(coord[-1])
-    botz = min(botz)
-
-    height = topz - botz
-    volume = area * height
-
-    return height
 
 class IDF0(object):
     """

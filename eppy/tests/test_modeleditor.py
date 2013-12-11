@@ -362,5 +362,51 @@ def test_zonearea_zonevolume():
     idf = IDF(StringIO(idftxt))
     result = modeleditor.zonearea(idf, '473222')
     assert almostequal(result, 7.1938)
+    result = modeleditor.zonearea_floor(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zone_floor2roofheight(idf, '473222')
+    assert almostequal(result, 1.49)
+    result = modeleditor.zoneheight(idf, '473222')
+    assert almostequal(result, 1.49)
+    result = modeleditor.zone_floor2roofheight(idf, '473222')
+    assert almostequal(result, 1.49)
     result = modeleditor.zonevolume(idf, '473222')
     assert almostequal(result, 10.718762)
+    # remove floor
+    zone = idf.getobject('ZONE', '473222')
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    for floor in floors:
+        idf.removeidfobject(floor)
+    result = modeleditor.zonearea_floor(idf, '473222')
+    assert almostequal(result, 0)
+    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zonearea(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zoneheight(idf, '473222')
+    assert almostequal(result, 1.49)
+    result = modeleditor.zonevolume(idf, '473222')
+    assert almostequal(result, 10.718762)
+    # reload idf and remove roof/ceiling
+    idf = IDF(StringIO(idftxt))
+    zone = idf.getobject('ZONE', '473222')
+    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
+    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
+    topsurfaces = roofs + ceilings
+    for surf in topsurfaces:
+        idf.removeidfobject(surf)
+    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    assert almostequal(result, 0)
+    result = modeleditor.zonearea(idf, '473222')
+    assert almostequal(result, 7.1938)
+    result = modeleditor.zoneheight(idf, '473222')
+    assert almostequal(result, 1.49)
+    result = modeleditor.zonevolume(idf, '473222')
+    assert almostequal(result, 10.718762)
+        
