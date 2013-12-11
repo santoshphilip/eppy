@@ -1,4 +1,13 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-12-11
+----------
+working towards release 0.4.5
+- update the fixed idd file version 8.
+- update docs for new changes
+- include function docs in sphinx
+- release on git hub and on pypi
+
+
 2013-10-03
 ----------
 l = [1,2,3]

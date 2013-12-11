@@ -18588,7 +18588,7 @@ ZoneContaminantSourceAndSink:CarbonDioxide,
   N1 , \field Design Generation Rate
        \units m3/s
        \type real
-       \Note Positive values represent sources and negative values represent sinks.
+       \note Positive values represent sources and negative values represent sinks.
   A3 ; \field Schedule Name
        \required-field
        \type object-list
@@ -18609,7 +18609,7 @@ ZoneContaminantSourceAndSink:Generic:Constant,
        \units m3/s
        \type real
        \minimum 0.0
-       \Note The values represent source.
+       \note The values represent source.
   A3 , \field Generation Schedule Name
        \required-field
        \type object-list
@@ -18619,7 +18619,7 @@ ZoneContaminantSourceAndSink:Generic:Constant,
        \units m3/s
        \type real
        \minimum 0.0
-       \Note The value represent sink.
+       \note The value represent sink.
   A4 ; \field Removal Schedule Name
        \required-field
        \type object-list
@@ -22032,7 +22032,7 @@ Exterior:WaterEquipment,
 !*               --System Control and Controllers
 !************************************************************************************
 
-\Group HVAC Templates
+\group HVAC Templates
 
 HVACTemplate:Thermostat,
       \min-fields 5
@@ -26139,7 +26139,7 @@ OutputControl:Sizing:Style,
        \key Tab
        \key Fixed
 
-\Group Zone HVAC Controls and Thermostats
+\group Zone HVAC Controls and Thermostats
 
 ZoneControl:Humidistat,
        \memo Specifies zone relative humidity setpoint schedules for humidifying and dehumidifying.
@@ -34099,7 +34099,7 @@ ZoneHVAC:EquipmentConnections,
        \required-field
        \type node
 
-\Group Fans
+\group Fans
 !*****************AIR LOOP COMPONENTS*********************
 Fan:ConstantVolume,
        \memo Constant volume fan that is intended to operate continuously based on a time schedule.
@@ -34587,7 +34587,7 @@ Fan:ComponentModel,
         \retaincase
         \default General
 
-\Group Coils
+\group Coils
 
 !*****************COILS*********************
 Coil:Cooling:Water,
@@ -36067,7 +36067,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
         \required-field
    N14, \field Speed 1 Reference Unit COP At Rated Conditions
         \units dimensionless
@@ -36126,7 +36126,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N20, \field Speed 2 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36176,7 +36176,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N26, \field Speed 3 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36226,7 +36226,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N32, \field Speed 4 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36276,7 +36276,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N38, \field Speed 5 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36326,7 +36326,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N44, \field Speed 6 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36376,7 +36376,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N50, \field Speed 7 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36426,7 +36426,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N56, \field Speed 8 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36476,7 +36476,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N62, \field Speed 9 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -36528,7 +36528,7 @@ Coil:Cooling:DX:VariableSpeed,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N68, \field Speed 10 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39049,7 +39049,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
         \required-field
    N11, \field Speed 1 Reference Unit COP At Rated Conditions
         \units dimensionless
@@ -39128,7 +39128,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N17, \field Speed 2 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39195,7 +39195,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N23, \field Speed 3 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39269,7 +39269,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N29, \field Speed 4 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39343,7 +39343,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N35, \field Speed 5 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39417,7 +39417,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N41, \field Speed 6 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39491,7 +39491,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N47, \field Speed 7 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39565,7 +39565,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N53, \field Speed 8 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39639,7 +39639,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N59, \field Speed 9 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -39713,7 +39713,7 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
         \units dimensionless
         \type real
         \minimum 0
-        \Maximum 1.0
+        \maximum 1.0
    N65, \field Speed 10 Reference Unit COP At Rated Conditions
         \units dimensionless
         \type real
@@ -41143,7 +41143,7 @@ CoilSystem:Cooling:DX:HeatExchangerAssisted,
        \object-list CoolingCoilsDXBypassFactorEmpirical
 
 
-\Group Evaporative Coolers
+\group Evaporative Coolers
 
 EvaporativeCooler:Direct:CelDekPad,
        \memo Direct evaporative cooler with rigid media evaporative pad and recirculating water
@@ -41168,9 +41168,9 @@ EvaporativeCooler:Direct:CelDekPad,
        \type node
   A4 , \field Air Outlet Node Name
        \type node
-  A5 , \Field Control Type
+  A5 , \field Control Type
        \note This field is not currently used and can be left blank
-  A6 ; \Field Water Supply Storage Tank Name
+  A6 ; \field Water Supply Storage Tank Name
        \type object-list
        \object-list WaterStorageTankNames
 
@@ -41213,9 +41213,9 @@ EvaporativeCooler:Indirect:CelDekPad,
        \type node
   A4 , \field Primary Air Outlet Node Name
        \type node
-  A5 , \Field Control Type
+  A5 , \field Control Type
        \note This field is not currently used and can be left blank
-  A6 , \Field Water Supply Storage Tank Name
+  A6 , \field Water Supply Storage Tank Name
        \type object-list
        \object-list WaterStorageTankNames
   A7 ; \field Secondary Air Inlet Node Name
@@ -41256,9 +41256,9 @@ EvaporativeCooler:Indirect:WetCoil,
        \type node
   A4 , \field Primary Air Outlet Node Name
        \type node
-  A5 , \Field Control Type
+  A5 , \field Control Type
        \note This field is not currently used and can be left blank
-  A6 , \Field Water Supply Storage Tank Name
+  A6 , \field Water Supply Storage Tank Name
        \type object-list
        \object-list WaterStorageTankNames
   A7 ; \field Secondary Air Inlet Node Name
@@ -41301,15 +41301,15 @@ EvaporativeCooler:Indirect:ResearchSpecial,
        \type node
   A4 , \field Primary Air Outlet Node Name
        \type node
-  A5 , \Field Control Type
+  A5 , \field Control Type
   N7 , \field Dewpoint Effectiveness Factor
-  A6 , \Field Secondary Air Inlet Node Name
+  A6 , \field Secondary Air Inlet Node Name
        \type node
-  A7 , \Field Sensor Node Name
+  A7 , \field Sensor Node Name
        \type node
-  A8 , \Field Relief Air Inlet Node Name
+  A8 , \field Relief Air Inlet Node Name
        \type node
-  A9 , \Field Water Supply Storage Tank Name
+  A9 , \field Water Supply Storage Tank Name
        \type object-list
        \object-list WaterStorageTankNames
   N8 , \field Drift Loss Fraction
@@ -41349,9 +41349,9 @@ EvaporativeCooler:Direct:ResearchSpecial,
        \type node
   A4 , \field Air Outlet Node Name
        \type node
-  A5 , \Field Sensor Node Name
+  A5 , \field Sensor Node Name
        \type node
-  A6 , \Field Water Supply Storage Tank Name
+  A6 , \field Water Supply Storage Tank Name
        \type object-list
        \object-list WaterStorageTankNames
   N3 , \field Drift Loss Fraction
@@ -41367,7 +41367,7 @@ EvaporativeCooler:Direct:ResearchSpecial,
        \note Ratio of solids in the blowdown water to solids in the make up water.
        \note A typical value is 3. If left blank then there is no blowdown.
 
-\Group Humidifiers and Dehumidifiers
+\group Humidifiers and Dehumidifiers
 
 Humidifier:Steam:Electric,
       \memo Electrically heated steam humidifier with fan.
@@ -41673,7 +41673,7 @@ Dehumidifier:Desiccant:System,
        \object-list QuadraticCurves
        \object-list CubicCurves
 
-\Group Heat Recovery
+\group Heat Recovery
 
 HeatExchanger:AirToAir:FlatPlate,
       \memo Flat plate air-to-air heat exchanger, typically used for exhaust or relief air heat
@@ -44724,7 +44724,157 @@ Controller:MechanicalVentilation,
    A153,\field Design Specification Outdoor Air Object Name 50
         \type object-list
         \object-list DesignSpecificationOutdoorAirNames
-   A154;\field Design Specification Zone Air Distribution Object Name 50
+   A154,\field Design Specification Zone Air Distribution Object Name 50
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A155,\field Zone 51 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A156,\field Design Specification Outdoor Air Object Name 51
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A157,\field Design Specification Zone Air Distribution Object Name 51
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A158,\field Zone 52 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A159,\field Design Specification Outdoor Air Object Name 52
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A160,\field Design Specification Zone Air Distribution Object Name 52
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A161,\field Zone 53 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A162,\field Design Specification Outdoor Air Object Name 53
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A163,\field Design Specification Zone Air Distribution Object Name 53
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A164,\field Zone 54 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A165,\field Design Specification Outdoor Air Object Name 54
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A166,\field Design Specification Zone Air Distribution Object Name 54
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A167,\field Zone 55 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A168,\field Design Specification Outdoor Air Object Name 55
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A169,\field Design Specification Zone Air Distribution Object Name 55
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A170,\field Zone 56 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A171,\field Design Specification Outdoor Air Object Name 56
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A172,\field Design Specification Zone Air Distribution Object Name 56
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A173,\field Zone 57 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A174,\field Design Specification Outdoor Air Object Name 57
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A175,\field Design Specification Zone Air Distribution Object Name 57
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A176,\field Zone 58 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A177,\field Design Specification Outdoor Air Object Name 58
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A178,\field Design Specification Zone Air Distribution Object Name 58
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A179,\field Zone 59 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A180,\field Design Specification Outdoor Air Object Name 59
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A181,\field Design Specification Zone Air Distribution Object Name 59
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A182,\field Zone 60 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A183,\field Design Specification Outdoor Air Object Name 60
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A184,\field Design Specification Zone Air Distribution Object Name 60
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A185,\field Zone 61 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A186,\field Design Specification Outdoor Air Object Name 61
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A187,\field Design Specification Zone Air Distribution Object Name 61
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A188,\field Zone 62 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A189,\field Design Specification Outdoor Air Object Name 62
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A190,\field Design Specification Zone Air Distribution Object Name 62
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A191,\field Zone 63 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A192,\field Design Specification Outdoor Air Object Name 63
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A193,\field Design Specification Zone Air Distribution Object Name 63
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A194,\field Zone 64 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A195,\field Design Specification Outdoor Air Object Name 64
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A196,\field Design Specification Zone Air Distribution Object Name 64
+        \type object-list
+        \object-list DesignSpecificationZoneAirDistributionNames
+   A197,\field Zone 65 Name
+        \type object-list
+        \object-list ZoneAndZoneListNames
+        \note A zone name or a zone list name may be used here
+   A198,\field Design Specification Outdoor Air Object Name 65
+        \type object-list
+        \object-list DesignSpecificationOutdoorAirNames
+   A199;\field Design Specification Zone Air Distribution Object Name 65
         \type object-list
         \object-list DesignSpecificationZoneAirDistributionNames
 
@@ -48542,7 +48692,7 @@ Duct,
         \required-field
         \type node
 
-\Group Pumps
+\group Pumps
 
 Pump:VariableSpeed,
        \memo This pump model is described in the ASHRAE secondary HVAC toolkit.
@@ -48874,9 +49024,9 @@ HeaderedPumps:VariableSpeed,
         \autosizable
         \ip-units gal/min
         \minimum> 0
-  N2 , \Field Number of Pumps in Bank
+  N2 , \field Number of Pumps in Bank
        \type integer
-  A4 , \Field Flow Sequencing Control Scheme
+  A4 , \field Flow Sequencing Control Scheme
         \type choice
         \key Sequential
         \default Sequential
@@ -48965,7 +49115,7 @@ TemperingValve,
       \type node
 
 
-\Group Non-Zone Equipment
+\group Non-Zone Equipment
 
 LoadProfile:Plant,
        \memo Used to simulate a scheduled plant loop demand profile.  Load and flow rate are
@@ -48996,7 +49146,7 @@ LoadProfile:Plant,
        \object-list ScheduleNames
 
 
-\Group Solar Collectors
+\group Solar Collectors
 
 SolarCollectorPerformance:FlatPlate,
        \memo Thermal and optical performance parameters for a single flat plate solar collector
@@ -49105,7 +49255,7 @@ SolarCollector:FlatPlate:PhotovoltaicThermal,
        \type node
   A9 , \field Air Outlet Node Name
        \type node
-  N1 ; \Field Design Flow Rate
+  N1 ; \field Design Flow Rate
        \units m3/s
        \autosizable
 
@@ -49157,9 +49307,9 @@ SolarCollector:IntegralCollectorStorage,
   A4 , \field Bottom Surface Boundary Conditions Type
        \required-field
        \type choice
-       \Key OtherSideConditionsModel
-       \Key AmbientAir
-       \Default AmbientAir
+       \key OtherSideConditionsModel
+       \key AmbientAir
+       \default AmbientAir
   A5 , \field Boundary Condition Model Name
        \type alpha
        \note Enter the name of a SurfaceProperty:OtherSideConditionsModel
@@ -49186,7 +49336,7 @@ SolarCollectorPerformance:IntegralCollectorStorage,
   A2,  \field ICS Collector Type
        \required-field
        \type choice
-       \Key RectangularTank
+       \key RectangularTank
        \note Currently only RectangularTank ICS collector type is available.
   N1,  \field Gross Area
        \type real
@@ -49543,7 +49693,7 @@ SolarCollector:UnglazedTranspired:Multisystem,
 !                  must be specified for each node
 !  CLASS of the following comes first (naming convention) separated further by :
 
-\Group Plant Heating and Cooling Equipment
+\group Plant Heating and Cooling Equipment
 
 Boiler:HotWater,
     \min-fields 13
@@ -61462,7 +61612,7 @@ Refrigeration:SecondarySystem,
         \type object-list
         \object-list ZoneNames
   N14,  \field Evaporator Refrigerant Inventory
-        \Units kg
+        \units kg
         \type real
         \default 0.0
         \note This value refers to the refrigerant circulating within the primary system providing
@@ -61592,7 +61742,7 @@ Refrigeration:SecondarySystem,
         \note Schedule values should be in units of Watts
         \note Leave this field blank if no restocking is to be modeled
   N10,  \field Average Refrigerant Charge Inventory
-        \Units kg
+        \units kg
         \type real
         \default 0.0
         \note This value is only used if the Cooling Source Type is DXEvaporator
@@ -62051,7 +62201,7 @@ Refrigeration:AirChiller,
         \key Floor
         \default Middle
   N16;  \field Average Refrigerant Charge Inventory
-        \Units kg
+        \units kg
         \type real
         \default 0.0
         \note This value is only used if the Cooling Source Type is DXEvaporator
@@ -62174,7 +62324,7 @@ ZoneHVAC:RefrigerationChillerSet,
      A66,A67,A68,A69,A70,A71,A72,A73,A74,A75,A76,A77,A78,A79,A80,A81,A82,A83,A84,A85, \note fields as indicated
      A86,A87,A88,A89,A90,A91,A92,A93,A94,A95,A96,A97,A98,A99,A100;                    \note fields as indicated
 
-\Group Demand Limiting Controls
+\group Demand Limiting Controls
 
 DemandManagerAssignmentList,
        \extensible:2 Duplicate the last two fields DemandManager Object Type and DemandManager Name
@@ -62735,7 +62885,7 @@ DemandManager:Thermostats,
        \object-list ZoneControlThermostaticNames
 
 
-\Group Electric Load Center-Generator Specifications
+\group Electric Load Center-Generator Specifications
 
 Generator:InternalCombustionEngine,
        \memo This generator model is the empirical model from the Building Loads
@@ -65537,7 +65687,7 @@ ElectricLoadCenter:Distribution,
        \type object-list
        \object-list TransformerNames
 
-\Group Water Systems
+\group Water Systems
 
 WaterUse:Equipment,
        \memo A generalized object for simulating all water end uses. Hot and cold water uses are
@@ -68657,7 +68807,7 @@ Table:MultiVariableLookup,
   N3060,N3061,N3062,N3063,N3064,N3065,N3066,N3067,N3068,N3069,N3070,N3071,N3072,N3073,N3074,N3075,N3076,N3077,N3078,N3079, \note fields as indicated
   N3080,N3081,N3082,N3083,N3084,N3085,N3086,N3087,N3088,N3089,N3090,N3091,N3092,N3093,N3094,N3095,N3096,N3097,N3098,N3099; \note fields as indicated
 
-\Group Fluid Properties
+\group Fluid Properties
 
 FluidProperties:Name,
        \memo potential fluid name/type in the input file
@@ -71783,7 +71933,7 @@ FluidProperties:Concentration,
         \type real
         \unitsBasedOnField A2
 
-\Group Economics
+\group Economics
 
 CurrencyType,
        \memo If CurrencyType is not specified, it will default to USD and produce $ in the reports.
@@ -73071,7 +73221,7 @@ LifeCycleCost:UseAdjustment,
         \note The multiplier to be applied to the end-use cost for each following year. The total utility
         \note costs for the selected end-use is multiplied by this value. For no change enter 1.0.
 
-\Group Parametrics
+\group Parametrics
 
 Parametric:SetValueForRun,
        \memo Parametric objects allow a set of multiple simulations to be defined in a single idf
@@ -74125,7 +74275,7 @@ Parametric:FileNameSuffix,
   A101; \field Suffix for File Name in Run 100
         \type  alpha
 
-\Group Output Reporting
+\group Output Reporting
 
 Output:VariableDictionary,
        \memo Produces a list summarizing the output variables and meters that are available for
@@ -82185,7 +82335,7 @@ Output:Table:TimeBins,
        \note Optional input on the type of units for the variable used by other fields in the object.
 
 Output:Table:Monthly,
-       \Memo Provides a generic method of setting up tables of monthly results. The report
+       \memo Provides a generic method of setting up tables of monthly results. The report
        \memo has multiple columns that are each defined using a repeated group of fields for any
        \memo number of columns. A single Output:Table:Monthly object often produces multiple
        \memo tables in the output. A table is produced for every instance of a particular output
