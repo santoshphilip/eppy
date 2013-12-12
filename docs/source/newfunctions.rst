@@ -1849,3 +1849,12 @@ But we can still get the area and volume of the zone
 
 
 Not as slick, but still pretty easy
+
+Some notes on the zone area calculation:
+
+-  area is calculated by summing up all the areas of the floor surfaces
+-  if there are no floors, then the sum of ceilings and roof is taken as
+   zone area
+-  if there are no floors, ceilings or roof, we are out of luck. The
+   function returns 0
+

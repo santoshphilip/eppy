@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>eppy.modeleditor &mdash; eppy 0.4.1 documentation</title>
+    <title>eppy.modeleditor &mdash; eppy 0.4.5 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.4.1',
+        VERSION:     '0.4.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.1 documentation" href="../../index.html" />
+    <link rel="top" title="eppy 0.4.5 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">eppy 0.4.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">eppy 0.4.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -322,6 +322,95 @@
     <span class="k">return</span> <span class="n">isfieldvalue</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> 
         <span class="n">idfobj1</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">)</span>
     
+<span class="k">def</span> <span class="nf">getrefnames</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;get the reference names for this object&quot;&quot;&quot;</span>
+    <span class="n">iddinfo</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idd_info</span>
+    <span class="n">dtls</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">objname</span><span class="p">)</span>
+    <span class="n">fieldidds</span> <span class="o">=</span> <span class="n">iddinfo</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">fieldidd</span> <span class="ow">in</span> <span class="n">fieldidds</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fieldidd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;field&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fieldidd</span><span class="p">[</span><span class="s">&#39;field&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;Name&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fieldidd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;reference&#39;</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">fieldidd</span><span class="p">[</span><span class="s">&#39;reference&#39;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[]</span>
+
+<span class="k">def</span> <span class="nf">getallobjlists</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">refname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;get all object-list fields for refname</span>
+<span class="sd">    return a list:</span>
+<span class="sd">    [(&#39;OBJKEY&#39;, refname, fieldindexlist), ...] where</span>
+<span class="sd">    fieldindexlist = index of the field where the object-list = refname</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dtls</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span>
+    <span class="n">objlists</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fieldidds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">idf</span><span class="o">.</span><span class="n">idd_info</span><span class="p">):</span>
+        <span class="n">indexlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">fieldidd</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fieldidds</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fieldidd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;object-list&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fieldidd</span><span class="p">[</span><span class="s">&#39;object-list&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">refname</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
+                    <span class="n">indexlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">indexlist</span> <span class="o">!=</span> <span class="p">[]:</span>
+            <span class="n">objkey</span> <span class="o">=</span> <span class="n">dtls</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">objlists</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">objkey</span><span class="p">,</span> <span class="n">refname</span><span class="p">,</span> <span class="n">indexlist</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">objlists</span>
+
+<span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objkey</span><span class="p">,</span> <span class="n">objname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;rename all the refrences to this objname&quot;&quot;&quot;</span>
+    <span class="n">refnames</span> <span class="o">=</span> <span class="n">getrefnames</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objkey</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">refname</span> <span class="ow">in</span> <span class="n">refnames</span><span class="p">:</span>
+        <span class="n">objlists</span> <span class="o">=</span> <span class="n">getallobjlists</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">refname</span><span class="p">)</span> 
+        <span class="c"># [(&#39;OBJKEY&#39;, refname, fieldindexlist), ...]</span>
+        <span class="k">for</span> <span class="n">refname</span> <span class="ow">in</span> <span class="n">refnames</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">robjkey</span><span class="p">,</span> <span class="n">refname</span><span class="p">,</span> <span class="n">fieldindexlist</span> <span class="ow">in</span> <span class="n">objlists</span><span class="p">:</span>
+                <span class="n">idfobjects</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">robjkey</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">idfobject</span> <span class="ow">in</span> <span class="n">idfobjects</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">findex</span> <span class="ow">in</span> <span class="n">fieldindexlist</span><span class="p">:</span> <span class="c"># for each field</span>
+                        <span class="k">if</span> <span class="n">idfobject</span><span class="p">[</span><span class="n">idfobject</span><span class="o">.</span><span class="n">objls</span><span class="p">[</span><span class="n">findex</span><span class="p">]]</span> <span class="o">==</span> <span class="n">objname</span><span class="p">:</span>
+                            <span class="n">idfobject</span><span class="p">[</span><span class="n">idfobject</span><span class="o">.</span><span class="n">objls</span><span class="p">[</span><span class="n">findex</span><span class="p">]]</span> <span class="o">=</span> <span class="n">newname</span>
+    <span class="n">theobject</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="n">objkey</span><span class="p">,</span> <span class="n">objname</span><span class="p">)</span>
+    <span class="n">fieldname</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">theobject</span><span class="o">.</span><span class="n">objls</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;Name&#39;</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">theobject</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
+    <span class="k">return</span> <span class="n">theobject</span>
+
+<span class="k">def</span> <span class="nf">zonearea</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
+        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">area</span>
+    
+<span class="k">def</span> <span class="nf">zonevolume</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
+    <span class="n">roofs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;ROOF&#39;</span><span class="p">]</span>
+    <span class="n">ceilings</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;CEILING&#39;</span><span class="p">]</span>
+    <span class="n">topsurfaces</span> <span class="o">=</span> <span class="n">roofs</span> <span class="o">+</span> <span class="n">ceilings</span>
+
+    <span class="n">topz</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">topsurface</span> <span class="ow">in</span> <span class="n">topsurfaces</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">topsurface</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+            <span class="n">topz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">topz</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">topz</span><span class="p">)</span>
+        
+    <span class="n">botz</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">floor</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+            <span class="n">botz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">botz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">botz</span><span class="p">)</span>
+
+    <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
+
+    <span class="k">return</span> <span class="n">volume</span>
+
 <div class="viewcode-block" id="IDF0"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF0">[docs]</a><span class="k">class</span> <span class="nc">IDF0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    document the following variables:</span>
@@ -421,7 +510,7 @@
                 <span class="n">theobjects</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="c"># remove it from model too</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
-<div class="viewcode-block" id="IDF1.addidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.addidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">addidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
+<div class="viewcode-block" id="IDF1.copyidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.copyidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">copyidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;add idfobject to this model</span>
 <span class="sd">        </span>
 <span class="sd">        idfobject usually comes from another idf file</span>
@@ -523,7 +612,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">eppy 0.4.1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">eppy 0.4.5 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
