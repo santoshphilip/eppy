@@ -304,7 +304,6 @@ def extractidddata(fname,debug=False):
                 if len(el.split())==0:
                     break
                 dt[el.split()[0].lower()].append(string.join(el.split()[1:]))
-                print el.split()[0]
                                 
             
             ls.append(dt)
