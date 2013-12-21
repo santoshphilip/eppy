@@ -1,4 +1,8 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-12-20
+----------
+issue 13
+see slashcomment.py
 2013-12-11
 ----------
 working towards release 0.4.5
