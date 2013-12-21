@@ -114,8 +114,9 @@ def idfreader(fname, iddfile, conv=True):
         convertallfields(data, commdct)
     # fill gaps in idd
     dt, dtls = data.dt, data.dtls
+    skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
     nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
-                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
+                skiplist=None) 
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
     # TODO : add functions here.
@@ -132,8 +133,9 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
         convertallfields(data, commdct)
     # fill gaps in idd
     dt, dtls = data.dt, data.dtls
+    skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
     nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
-                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
+                skiplist=None) 
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
     # TODO : add functions here.

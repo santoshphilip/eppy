@@ -5,6 +5,10 @@ on testing with issue13 updates, ony three files could not be read:
 ['./issue13/LookupTables.idf', 
     './issue13/RefrigeratedWarehouse.idf',
     './issue13/RetailPackagedTESCoil.idf']
+this is because they have the object "TABLE:MULTIVARIABLELOOKUP" 
+This object can be read in version 8.1 onwards.
+Now the code will have to check the version :-( for backward compatibility
+How and where can I do that.
 2013-12-20
 ----------
 issue 13
