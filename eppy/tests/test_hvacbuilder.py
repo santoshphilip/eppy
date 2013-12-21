@@ -183,8 +183,6 @@ def test_renamenodes():
     hvacbuilder.renamenodes(idf, fieldtype='node')
     outidf = IDF(StringIO(outtxt))
     result = idf.idfobjects['PIPE:ADIABATIC'][0].obj
-    print result 
-    print outidf.idfobjects['PIPE:ADIABATIC'][0].obj 
     assert result == outidf.idfobjects['PIPE:ADIABATIC'][0].obj 
 
 def test_getfieldnamesendswith():

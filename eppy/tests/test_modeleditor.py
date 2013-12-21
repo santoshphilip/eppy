@@ -279,7 +279,6 @@ def test_addthisbunch():
         'autocalculate', 'autocalculate', '', '', 'Yes']
     thisbunch = modeleditor.obj2bunch(data, commdct, obj1)
     modeleditor.addthisbunch(bunchdt, data, commdct, thisbunch)
-    print data.dt["ZONE"][-1]
     assert data.dt["ZONE"][-1] == obj1
     
 def test_getrefnames():
