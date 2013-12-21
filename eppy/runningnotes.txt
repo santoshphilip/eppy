@@ -3,6 +3,9 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
 ----------
 issue 13
 see slashcomment.py
+fixed by change in parse_idd
+test by converting files in example set and comaring input and output.
+Do this using master and branch issue13
 2013-12-11
 ----------
 working towards release 0.4.5

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>slashcomment.py</string>
+	<string>parse_idd.py</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -40,27 +40,27 @@
 			<key>filename</key>
 			<string>slashcomment.py</string>
 			<key>lastUsed</key>
-			<date>2013-12-21T05:46:08Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2013-12-21T06:14:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>mylib3.py</string>
 			<key>lastUsed</key>
-			<date>2013-12-21T05:44:37Z</date>
+			<date>2013-12-21T06:14:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>parse_idd.py</string>
 			<key>lastUsed</key>
-			<date>2013-12-21T05:44:37Z</date>
+			<date>2013-12-21T06:14:33Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>readidf.py</string>
 			<key>lastUsed</key>
-			<date>2013-12-21T05:44:36Z</date>
+			<date>2013-12-21T06:14:33Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -188,30 +188,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>35</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>320</integer>
+				<integer>305</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>301</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>30</integer>
-				<key>line</key>
-				<integer>320</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>35</integer>
-				<key>line</key>
-				<integer>320</integer>
-			</dict>
+			<integer>279</integer>
 		</dict>
 		<key>readidf.py</key>
 		<dict>
@@ -232,29 +216,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>14</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>62</integer>
+				<integer>127</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>43</integer>
+			<integer>108</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>7</integer>
+				<integer>15</integer>
 				<key>line</key>
-				<integer>62</integer>
+				<integer>127</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>14</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>62</integer>
+				<integer>127</integer>
 			</dict>
 		</dict>
 		<key>table_parser.py</key>
@@ -285,6 +269,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{168, 4}, {849, 742}}</string>
+	<string>{{96, 2}, {849, 742}}</string>
 </dict>
 </plist>

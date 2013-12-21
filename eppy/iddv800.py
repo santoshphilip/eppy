@@ -367,7 +367,7 @@ Version,
       \\memo Specifies the EnergyPlus version of the IDF file.
       \\unique-object
       \\format singleLine
-  A1 ; \\field Version Identifier
+  A1 ; \\Field Version Identifier
       \\required-field
       \\default 7.0
 
@@ -7322,7 +7322,7 @@ GeometryTransform,
 Zone,
        \\memo Defines a thermal zone of the building.
   \\format vertices
-  A1 , \\field Name
+  A1 , \\Field Name
        \\required-field
        \\type alpha
        \\reference ZoneNames
@@ -7795,7 +7795,7 @@ BuildingSurface:Detailed,
   \\extensible:3 -- duplicate last set of x,y,z coordinates (last 3 fields), remembering to remove ; from "inner" fields.
   \\format vertices
   \\min-fields 19
-  A1 , \\field Name
+  A1 , \\Field Name
        \\required-field
        \\type alpha
        \\reference SurfaceNames
