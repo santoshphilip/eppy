@@ -48,7 +48,6 @@ def test_pythonic():
     """py.test for ex_pythonic.py"""
     zones = bunchdt['zone'.upper()] # all the zones
     zone0 = zones[0]
-    print zone0
     # - 
     printout = "PLENUM-1"
     assert zone0.Name == printout

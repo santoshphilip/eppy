@@ -298,12 +298,12 @@ def extractidddata(fname,debug=False):
             for el in it:
                 if len(el.split())==0:
                     break
-                dt[el.split()[0]]=[]
+                dt[el.split()[0].lower()]=[]
             
             for el in it:
                 if len(el.split())==0:
                     break
-                dt[el.split()[0]].append(string.join(el.split()[1:]))
+                dt[el.split()[0].lower()].append(string.join(el.split()[1:]))
                                 
             
             ls.append(dt)

@@ -24,6 +24,23 @@ from bunch_subclass import fieldnames, fieldvalues, GetRange, CheckRange
 import iddgaps
 import function_helpers as fh
 
+def iddversiontuple(afile):
+    """given the idd file or filehandle, return the version handle"""
+    def versiontuple(v):
+        return tuple(map(int, (v.split("."))))
+    if type(afile) == str:
+        fhandle = open(afile, 'r')
+    else:
+        fhandle = afile
+    try:
+        line1 = fhandle.next()
+    except StopIteration as e:
+        return (0, )
+    line = line1.strip()
+    v = line.split()[-1]
+    return versiontuple(v)
+    
+
 def makeabunch(commdct, obj, obj_i):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
@@ -114,6 +131,7 @@ def idfreader(fname, iddfile, conv=True):
         convertallfields(data, commdct)
     # fill gaps in idd
     dt, dtls = data.dt, data.dtls
+    # skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
     nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
                 skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
@@ -126,14 +144,19 @@ def idfreader(fname, iddfile, conv=True):
 
 def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
     """read idf file and reutrn bunches"""
+    versiontuple = iddversiontuple(iddfile)
     block, data, commdct = readidf.readdatacommdct1(fname,
                                 iddfile=iddfile, commdct=commdct, block=block)
     if conv:
         convertallfields(data, commdct)
     # fill gaps in idd
     dt, dtls = data.dt, data.dtls
+    if versiontuple < (8, ):
+        skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
+    else:
+        skiplist = None
     nofirstfields = iddgaps.missingkeys_standard(commdct, dtls, 
-                skiplist=["TABLE:MULTIVARIABLELOOKUP"]) 
+                skiplist=skiplist) 
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
     # TODO : add functions here.

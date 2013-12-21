@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>EPlusInterface.py</string>
+	<string>parse_idd.py</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -16,51 +16,51 @@
 			<key>filename</key>
 			<string>eplus2.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-26T20:09:17Z</date>
+			<date>2013-12-21T05:46:04Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>eplusdata.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-26T20:09:20Z</date>
+			<date>2013-12-21T05:46:08Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>EPlusInterface.py</string>
 			<key>lastUsed</key>
-			<date>2011-11-03T16:08:06Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2013-12-21T05:46:01Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>tui1.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-26T20:09:23Z</date>
+			<date>2013-12-21T05:43:30Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>slashcomment.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-26T20:09:24Z</date>
+			<date>2013-12-21T06:14:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>mylib3.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-25T20:52:14Z</date>
+			<date>2013-12-21T06:14:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>parse_idd.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-27T18:33:24Z</date>
+			<date>2013-12-21T06:14:33Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>readidf.py</string>
 			<key>lastUsed</key>
-			<date>2011-05-26T20:31:35Z</date>
+			<date>2013-12-21T06:14:33Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -84,29 +84,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>49</integer>
+				<integer>10</integer>
 				<key>line</key>
-				<integer>324</integer>
+				<integer>159</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>292</integer>
+			<integer>140</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>324</integer>
+				<integer>159</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>49</integer>
+				<integer>10</integer>
 				<key>line</key>
-				<integer>324</integer>
+				<integer>159</integer>
 			</dict>
 		</dict>
 		<key>eplus2.py</key>
@@ -114,72 +114,88 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>eplusdata.py</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>mylib3.py</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>10</integer>
-				<key>line</key>
-				<integer>36</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>33</integer>
-		</dict>
-		<key>parse_idd.py</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>51</integer>
-				<key>line</key>
-				<integer>332</integer>
+				<integer>173</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>312</integer>
+			<integer>153</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>42</integer>
+				<integer>15</integer>
 				<key>line</key>
-				<integer>332</integer>
+				<integer>173</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>51</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>332</integer>
+				<integer>173</integer>
 			</dict>
+		</dict>
+		<key>eplusdata.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>37</integer>
+				<key>line</key>
+				<integer>238</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>212</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>32</integer>
+				<key>line</key>
+				<integer>238</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>37</integer>
+				<key>line</key>
+				<integer>238</integer>
+			</dict>
+		</dict>
+		<key>mylib3.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>parse_idd.py</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>305</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>279</integer>
 		</dict>
 		<key>readidf.py</key>
 		<dict>
@@ -200,14 +216,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>20</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>127</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>108</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>127</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>20</integer>
+				<key>line</key>
+				<integer>127</integer>
+			</dict>
 		</dict>
 		<key>table_parser.py</key>
 		<dict>
@@ -223,27 +255,12 @@
 			<key>firstVisibleLine</key>
 			<integer>65</integer>
 		</dict>
-		<key>tui1.py</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>EPlusInterface.py</string>
 		<string>eplus2.py</string>
 		<string>eplusdata.py</string>
-		<string>tui1.py</string>
 		<string>slashcomment.py</string>
 		<string>mylib3.py</string>
 		<string>parse_idd.py</string>
@@ -252,6 +269,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{168, 274}, {849, 774}}</string>
+	<string>{{96, 2}, {849, 742}}</string>
 </dict>
 </plist>
