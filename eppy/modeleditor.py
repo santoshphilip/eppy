@@ -552,13 +552,26 @@ class IDF2(IDF1):
     """
     def __init__(self, idfname=None):
         super(IDF2, self).__init__(idfname)
-        self.outputtype = "standard" # standard, nocomment or compressed
+        self.outputtype = "standard" # standard, 
+                                    # nocomment, 
+                                    # nocomment1,
+                                    # nocomment2,
+                                    # compressed
     def idfstr(self):
         if self.outputtype != 'standard':
             st = self.model.__repr__()
             if self.outputtype == 'nocomment':
                 return st
-            else:
+            elif self.outputtype == 'nocomment1':
+                slist = st.split('\n')
+                slist = [item.strip() for item in slist]
+                return '\n'.join(slist)
+            elif self.outputtype == 'nocomment2':
+                slist = st.split('\n')
+                slist = [item.strip() for item in slist]
+                slist = [item for item in slist if item != '']
+                return '\n'.join(slist)
+            elif self.outputtype == 'compressed':
                 slist = st.split('\n')
                 slist = [item.strip() for item in slist]
                 return ' '.join(slist)

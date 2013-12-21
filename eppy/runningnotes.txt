@@ -1,4 +1,10 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2013-12-21
+----------
+on testing with issue13 updates, ony three files could not be read:
+['./issue13/LookupTables.idf', 
+    './issue13/RefrigeratedWarehouse.idf',
+    './issue13/RetailPackagedTESCoil.idf']
 2013-12-20
 ----------
 issue 13
