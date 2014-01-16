@@ -19,6 +19,9 @@
 
 import eppy.readhtml as readhtml
 from bs4 import BeautifulSoup
+from sample_html import sample_html as SAMPLE_HTML
+
+
 
 def test_table2matrix():
     """py.test for table2matrix"""
@@ -40,102 +43,64 @@ def test_table2matrix():
         result = readhtml.table2matrix(table)
         assert result == rows
     
+def test_table2val_matrix():
+    """py.test for table2val_matrix"""
+    thedata = (("""<table border="1" cellspacing="0" cellpadding="4">
+        <tr>
+            <td>b</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+    </table>""",
+    [["b", 2], [3, 4]]), # tabletxt, rows
+    )
+    for tabletxt, rows in thedata:
+        soup = BeautifulSoup(tabletxt)
+        table = soup.find('table')
+        result = readhtml.table2val_matrix(table)
+        assert result == rows
+    
 def test_gettables():
     """py.test for gettables"""
-    thedata = (("""<b>this is the title</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>1</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-    </table>    
-    """,
-    [('this is the title',
-    [['1', '2'], ['3', '4']])]), # html_doc, titlerows
-    ("""<b>this is the title 1</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>1</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-    </table>    
-    <b>this is the title 2</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>11</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>33</td>
-            <td>44</td>
-        </tr>
-    </table>    
-    """,
-    [('this is the title 1',
-    [['1', '2'], ['3', '4']]),
-    ('this is the title 2',
-    [['11', '22'], ['33', '44']])]), # html_doc, titlerows
-    ("""<b>this is the title 1</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>1</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-    </table>    
-    <b>this is the title 2</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>11</td>
-            <td>22</td>
-        </tr>
-        <tr>
-            <td>33</td>
-            <td>44</td>
-        </tr>
-    </table>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>111</td>
-            <td>222</td>
-        </tr>
-        <tr>
-            <td>333</td>
-            <td>444</td>
-        </tr>
-    </table>    
-    <b>this is the title 1</b>    
-    <table border="1" cellspacing="0" cellpadding="4">
-        <tr>
-            <td>1</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-    </table>    
-    """,
-    [('this is the title 1',
-    [['1', '2'], ['3', '4']]),
-    ('this is the title 2',
-    [['11', '22'], ['33', '44']]),
-    ('this is the title 2',
-    [['111', '222'], ['333', '444']]),
-    ('this is the title 1',
-    [['1', '2'], ['3', '4']])]), # html_doc, titlerows
+    thedata = (([('Site and Source Energy',
+    [['a', '2'], ['3', '4']]),
+    ('Site to Source Energy Conversion Factors',
+    [['b', '6'], ['7', '8']]),
+    ('Custom Monthly Report',
+    [['c', '16'], ['17', '18']]),
+    ('Custom Monthly Report',
+    [['d', '26'], ['27', '28']])], False), # titlerows, tofloat
+    ([('Site and Source Energy',
+    [['a', 2], [3, 4]]),
+    ('Site to Source Energy Conversion Factors',
+    [['b', 6], [7, 8]]),
+    ('Custom Monthly Report',
+    [['c', 16], [17, 18]]),
+    ('Custom Monthly Report',
+    [['d', 26], [27, 28]])], True), # titlerows, tofloat
     )
-    for html_doc, titlerows in thedata:
-        result = readhtml.titletable(html_doc)
+    for titlerows, tofloat in thedata:
+        # print titlerows
+        result = readhtml.titletable(SAMPLE_HTML, tofloat=tofloat)
+        for (title1, rows1), (title2, rows2) in zip(result, titlerows):
+            # print title1, title2
+            assert title1 == title2
+            # print rows1, rows2
+            assert rows1 == rows2
         assert result == titlerows
+        
+def test_has_name():
+    """py.test for has_name"""
+    soup = BeautifulSoup(SAMPLE_HTML)
+    # soup.p = <p><a href="#toc" style="float: right">Table of Contents</a></p>
+    assert readhtml._has_name(soup.p) is True
+    # soup.b = <b>EnergyPlus-Windows-OMP-32 7.2.0.006, YMD=2013.01.28 16:38</b>
+    assert readhtml._has_name(soup.b) is True
+    # soup.p.contents[0] = <a href="#toc" style="float: right">Table of Contents</a>
+    assert readhtml._has_name(soup.p.contents[0]) is True
+    # soup.b.contents[0] = u'EnergyPlus-Windows-OMP-32 7.2.0.006, YMD=2013.01.28 16:38'
+    assert readhtml._has_name(soup.b.contents[0]) is False
+    

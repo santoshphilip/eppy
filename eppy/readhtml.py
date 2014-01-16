@@ -41,6 +41,7 @@ def is_simpletable(table):
 
 def table2matrix(table):
     """convert a table to a list of lists - a 2D matrix"""
+
     if not is_simpletable(table):
         raise NotSimpleTable, "Not able read a cell in the table as a string"
     rows = []
@@ -54,11 +55,32 @@ def table2matrix(table):
         rows.append(row)
     return rows
 
-# fname = "../outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable.html"
-# html_doc = open(fname, 'r').read()
+def table2val_matrix(table):
+    """convert a table to a list of lists - a 2D matrix
+    Converts numbers to float"""
+    if not is_simpletable(table):
+        raise NotSimpleTable, "Not able read a cell in the table as a string"
+    rows = []
+    for tr in table('tr'):
+        row = []
+        for td in tr('td'):
+            try:
+                val = td.contents[0]
+            except IndexError, e:
+                row.append('')
+            else:
+                try:
+                    val = float(val)
+                    row.append(val)
+                except ValueError, e:
+                    row.append(val)
+        rows.append(row)
+    return rows
 
-def titletable(html_doc):
+
+def titletable(html_doc, tofloat=True):
     """return a list of [(title, table), .....]
+    
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
     soup = BeautifulSoup(html_doc)
@@ -70,5 +92,30 @@ def titletable(html_doc):
                 if btables[i-j].name == 'b':# step back to find a <b>
                     break
             titletables.append((btables[i-j], item))
-    titlerows = [(tl.contents[0], table2matrix(tb)) for tl, tb in titletables]
+    if tofloat:
+        t2m = table2val_matrix
+    else:
+        t2m = table2matrix
+    titlerows = [(tl.contents[0], t2m(tb)) for tl, tb in titletables]
     return titlerows
+    
+def _has_name(soup_obj):
+    """checks if soup_obj is really a soup object or just a string
+    If it has a name it is a soup object"""
+    try:
+        name = soup_obj.name
+        return True
+    except AttributeError, e:
+        return False    
+        
+def lines_table(html_doc):
+    """return a list of [(lines, table), .....]
+    
+    lines = all the significant lines before the table. 
+        These are lines between this table and 
+        the previous table or 'hr' tag
+    table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]
+    
+    The lines act as a description for what is in the table
+    """
+    pass
