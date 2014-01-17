@@ -19,6 +19,8 @@ Energyplus makes nice htmlout files that look like this.
 
 .. code:: python
 
+    from eppy import ex_inits #no need to know this code, it just shows the image below
+    for_images = ex_inits
     for_images.display_png(for_images.html_snippet) # display the image below
 
 
@@ -56,11 +58,10 @@ It says the following
         title = previous item with a <b> tag
         table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
 
+::
 
 
-.. parsed-literal::
-
-    'return a list of [(title, table), .....]\ntitle = previous item with a <b> tag\ntable = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]'
+    IndentationError: unexpected indent
 
 
 
@@ -74,7 +75,7 @@ this list. Let us look at the first item in the list.
 
 .. parsed-literal::
 
-    (u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'], [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'], [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])
+    (u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
 
 
 | Ughh !!! that is ugly. Hard to see what it is.
@@ -93,10 +94,10 @@ this list. Let us look at the first item in the list.
        u'Total Energy [kWh]',
        u'Energy Per Total Building Area [kWh/m2]',
        u'Energy Per Conditioned Building Area [kWh/m2]'],
-      [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
-      [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
-      [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],
-      [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']])
+      [u'Total Site Energy', 47694.47, 51.44, 51.44],
+      [u'Net Site Energy', 47694.47, 51.44, 51.44],
+      [u'Total Source Energy', 140159.1, 151.16, 151.16],
+      [u'Net Source Energy', 140159.1, 151.16, 151.16]])
 
 
 Nice. that is a little clearer
@@ -122,10 +123,10 @@ Nice. that is a little clearer
       u'Total Energy [kWh]',
       u'Energy Per Total Building Area [kWh/m2]',
       u'Energy Per Conditioned Building Area [kWh/m2]'],
-     [u'Total Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
-     [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44'],
-     [u'Total Source Energy', u'   140159.10', u'      151.16', u'      151.16'],
-     [u'Net Source Energy', u'   140159.10', u'      151.16', u'      151.16']]
+     [u'Total Site Energy', 47694.47, 51.44, 51.44],
+     [u'Net Site Energy', 47694.47, 51.44, 51.44],
+     [u'Total Source Energy', 140159.1, 151.16, 151.16],
+     [u'Net Source Energy', 140159.1, 151.16, 151.16]]
 
 
 | How do we get to value of "Net Site Energy".
@@ -140,7 +141,7 @@ Easy.
 
 .. parsed-literal::
 
-    [u'Net Site Energy', u'    47694.47', u'       51.44', u'       51.44']
+    [u'Net Site Energy', 47694.47, 51.44, 51.44]
 
 
 .. code:: python
@@ -152,7 +153,7 @@ Easy.
 
 .. parsed-literal::
 
-    u'    47694.47'
+    47694.47
 
 
 
@@ -216,29 +217,25 @@ Source Energy Conversion Factors"
 
     [(u'Site to Source Energy Conversion Factors',
       [['', u'Site=>Source Conversion Factor'],
-       [u'Electricity', u'       3.167'],
-       [u'Natural Gas', u'       1.084'],
-       [u'District Cooling', u'       1.056'],
-       [u'District Heating', u'       3.613'],
-       [u'Steam', u'       0.300'],
-       [u'Gasoline', u'       1.050'],
-       [u'Diesel', u'       1.050'],
-       [u'Coal', u'       1.050'],
-       [u'Fuel Oil #1', u'       1.050'],
-       [u'Fuel Oil #2', u'       1.050'],
-       [u'Propane', u'       1.050']]),
+       [u'Electricity', 3.167],
+       [u'Natural Gas', 1.084],
+       [u'District Cooling', 1.056],
+       [u'District Heating', 3.613],
+       [u'Steam', 0.3],
+       [u'Gasoline', 1.05],
+       [u'Diesel', 1.05],
+       [u'Coal', 1.05],
+       [u'Fuel Oil #1', 1.05],
+       [u'Fuel Oil #2', 1.05],
+       [u'Propane', 1.05]]),
      (u'Building Area',
       [['', u'Area [m2]'],
-       [u'Total Building Area', u'      927.20'],
-       [u'Net Conditioned Building Area', u'      927.20'],
-       [u'Unconditioned Building Area', u'        0.00']])]
+       [u'Total Building Area', 927.2],
+       [u'Net Conditioned Building Area', 927.2],
+       [u'Unconditioned Building Area', 0.0]])]
 
 
 
 | Let us leave readtables for now.
 | It gives us the basic functionality to read any of the tables in the
 html output file.
-
-.. code:: python
-
-    

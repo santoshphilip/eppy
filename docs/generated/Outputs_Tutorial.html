@@ -68,7 +68,9 @@
 <p>So far we have been making changes to the IDF input file. How about
 looking at the outputs.</p>
 <p>Energyplus makes nice htmlout files that look like this.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet</span><span class="p">)</span> <span class="c"># display the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/Outputs_Tutorial_3_0.png" src="_images/Outputs_Tutorial_3_0.png" />
@@ -101,16 +103,15 @@ titletable, you can see the function documentation.</p>
 <span class="sd">table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<pre class="literal-block">
-'return a list of [(title, table), .....]ntitle = previous item with a &lt;b&gt; tagntable = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]'
-</pre>
+<div class="highlight-python"><pre>IndentationError: unexpected indent</pre>
+</div>
 <p>The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">]])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -127,10 +128,10 @@ this list. Let us look at the first item in the list.</p>
    <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
    <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
    <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
-  <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span>
-  <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span>
-  <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">],</span>
-  <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">]])</span>
+  <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>Nice. that is a little clearer</p>
@@ -149,10 +150,10 @@ this list. Let us look at the first item in the list.</p>
   <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
   <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
   <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
- <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span>
- <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">],</span>
- <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">],</span>
- <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;   140159.10&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">,</span> <span class="s">u&#39;      151.16&#39;</span><span class="p">]]</span>
+ <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]]</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -164,14 +165,14 @@ this list. Let us look at the first item in the list.</p>
 <span class="k">print</span> <span class="n">thirdrow</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="s">u&#39;    47694.47&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">,</span> <span class="s">u&#39;       51.44&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow_secondcolumn</span> <span class="o">=</span> <span class="n">thirdrow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">thirdrow_secondcolumn</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="s">u&#39;    47694.47&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">47694.47</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -214,22 +215,22 @@ Source Energy Conversion Factors&#8221;</p>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[(</span><span class="s">u&#39;Site to Source Energy Conversion Factors&#39;</span><span class="p">,</span>
   <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Site=&gt;Source Conversion Factor&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Electricity&#39;</span><span class="p">,</span> <span class="s">u&#39;       3.167&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Natural Gas&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.084&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;District Cooling&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.056&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;District Heating&#39;</span><span class="p">,</span> <span class="s">u&#39;       3.613&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Steam&#39;</span><span class="p">,</span> <span class="s">u&#39;       0.300&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Gasoline&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Diesel&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Coal&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Fuel Oil #1&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Fuel Oil #2&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Propane&#39;</span><span class="p">,</span> <span class="s">u&#39;       1.050&#39;</span><span class="p">]]),</span>
+   <span class="p">[</span><span class="s">u&#39;Electricity&#39;</span><span class="p">,</span> <span class="mf">3.167</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Natural Gas&#39;</span><span class="p">,</span> <span class="mf">1.084</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;District Cooling&#39;</span><span class="p">,</span> <span class="mf">1.056</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;District Heating&#39;</span><span class="p">,</span> <span class="mf">3.613</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Steam&#39;</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Gasoline&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Diesel&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Coal&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Fuel Oil #1&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Fuel Oil #2&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Propane&#39;</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">]]),</span>
  <span class="p">(</span><span class="s">u&#39;Building Area&#39;</span><span class="p">,</span>
   <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Area [m2]&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Total Building Area&#39;</span><span class="p">,</span> <span class="s">u&#39;      927.20&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Net Conditioned Building Area&#39;</span><span class="p">,</span> <span class="s">u&#39;      927.20&#39;</span><span class="p">],</span>
-   <span class="p">[</span><span class="s">u&#39;Unconditioned Building Area&#39;</span><span class="p">,</span> <span class="s">u&#39;        0.00&#39;</span><span class="p">]])]</span>
+   <span class="p">[</span><span class="s">u&#39;Total Building Area&#39;</span><span class="p">,</span> <span class="mf">927.2</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Net Conditioned Building Area&#39;</span><span class="p">,</span> <span class="mf">927.2</span><span class="p">],</span>
+   <span class="p">[</span><span class="s">u&#39;Unconditioned Building Area&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]])]</span>
 </pre></div>
 </div>
 <div class="line-block">
