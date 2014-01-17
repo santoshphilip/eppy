@@ -104,3 +104,26 @@ def test_has_name():
     # soup.b.contents[0] = u'EnergyPlus-Windows-OMP-32 7.2.0.006, YMD=2013.01.28 16:38'
     assert readhtml._has_name(soup.b.contents[0]) is False
     
+def test_lines_table():
+    """py.test for lines_table"""
+    # soup = BeautifulSoup(SAMPLE_HTML)
+    result = readhtml.lines_table(SAMPLE_HTML, False)
+    assert result == [[[u'Table of Contents', 
+            u'Report: Annual Building Utility Performance Summary', 
+            u'For: Entire Facility', 
+            u'Timestamp: 2014-01-13\n    16:47:19', 
+            u'Values gathered over      8760.00 hours', 
+            u'Site and Source Energy'], 
+        [[u'a', u'2'], [u'3', u'4']]], 
+    [[u'Site to Source Energy Conversion Factors'], 
+        [[u'b', u'6'], [u'7', u'8']]], 
+    [[u'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND', 
+            u'For: Meter', 
+            u'Timestamp: 2014-01-13\n    16:47:19', 
+            u'Custom Monthly Report'], 
+        [[u'c', u'16'], [u'17', u'18']]], 
+    [[u'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND', 
+            u'For: Meter', 
+            u'Timestamp: 2014-01-13\n    16:47:19', 
+            u'Custom Monthly Report'], 
+        [[u'd', u'26'], [u'27', u'28']]]]
