@@ -18,9 +18,8 @@
 """read the html outputs"""
 
 
-# import sys
-# print sys.version
-# import bs4
+import string
+import collections
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 class NotSimpleTable(Exception):
@@ -104,6 +103,8 @@ def _has_name(soup_obj):
     If it has a name it is a soup object"""
     try:
         name = soup_obj.name
+        if name == None:
+            return False
         return True
     except AttributeError, e:
         return False    
@@ -149,3 +150,35 @@ def lines_table(html_doc, tofloat=True):
         if tabletup:
             linestables.append(tabletup)
     return linestables
+
+def _asciidigits(s):
+    """if s is not ascii or digit, return an '_' """
+    if s not in string.ascii_letters + string.digits:
+        s = '_'
+    return s
+
+def _nospace(s):
+    """replace all non-ascii, non_digit or space with '_' """
+    return ''.join([_asciidigits(i) for i in s])
+
+def make_ntgrid(grid):
+    """make a named tuple grid
+    
+    [["",  "a b", "b c", "c d"],
+     ["x y", 1,     2,     3 ],
+     ["y z", 4,     5,     6 ],
+     ["z z", 7,     8,     9 ],]
+    will return
+    ntcol(x_y=ntrow(a_b=1, b_c=2, c_d=3), 
+          y_z=ntrow(a_b=4, b_c=5, c_d=6), 
+          z_z=ntrow(a_b=7, b_c=8, c_d=9))"""
+    hnames = [_nospace(n) for n in grid[0][1:]]
+    vnames = [_nospace(row[0]) for row in grid[1:]]
+    vnames_s = " ".join(vnames)
+    hnames_s = " ".join(hnames)
+    ntcol = collections.namedtuple('ntcol', vnames_s)
+    ntrow = collections.namedtuple('ntrow', hnames_s)
+    rdict = [dict(zip(hnames, row[1:])) for row in grid[1:]]  
+    ntrows = [ntrow(**rdict[i]) for i, name in enumerate(vnames)]
+    ntcols = ntcol(**dict(zip(vnames, ntrows)))
+    return ntcols

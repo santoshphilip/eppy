@@ -17,8 +17,9 @@
 
 """py.test for readhtml.py"""
 
-import eppy.readhtml as readhtml
+import collections
 from bs4 import BeautifulSoup
+import eppy.readhtml as readhtml
 from sample_html import sample_html as SAMPLE_HTML
 
 
@@ -127,3 +128,16 @@ def test_lines_table():
             u'Timestamp: 2014-01-13\n    16:47:19', 
             u'Custom Monthly Report'], 
         [[u'd', u'26'], [u'27', u'28']]]]
+
+def test_make_ntgrid():
+    """py.test make_ntgrid"""
+    grid = [["",  "a b", "b c", "c d"],
+     ["x y", 1,     2,     3 ],
+     ["y z", 4,     5,     6 ],
+     ["z z", 7,     8,     9 ],]
+    result = readhtml.make_ntgrid(grid)
+    ntcol = collections.namedtuple('ntcol', "x_y y_z z_z")
+    ntrow = collections.namedtuple('ntrow', "a_b b_c c_d")
+    assert result == ntcol(x_y=ntrow(a_b=1, b_c=2, c_d=3), 
+          y_z=ntrow(a_b=4, b_c=5, c_d=6), 
+          z_z=ntrow(a_b=7, b_c=8, c_d=9))
