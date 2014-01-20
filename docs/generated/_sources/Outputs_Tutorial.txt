@@ -206,36 +206,248 @@ Get the titles of all the tables
 Now let us grab the tables with the titles "Building Area" and "Site to
 Source Energy Conversion Factors"
 
+twotables = [htable for htable in htables if htable[0] in ["Building
+Area", "Site to Source Energy Conversion Factors"]] twotables
+
+| Let us leave readtables for now.
+| It gives us the basic functionality to read any of the tables in the
+html output file.
+
+Reading Tables
+~~~~~~~~~~~~~~
+
+
+The tables in the HTML page in general have text in the top header row.
+The first vertical row has text. The remaining cells have numbers. We
+can identify the numbers we need by looking at the labelin the top row
+and the label in the first column. Let us construct a simple example and
+explore this.
+
 .. code:: python
 
-    twotables = [htable for htable in htables if htable[0] in ["Building Area", "Site to Source Energy Conversion Factors"]]
-    twotables
+    # ignore the following three lines. I am using them to construct the table below
+    from IPython.display import HTML
+    atablestring = '<TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">\n <TR>\n  <TD>&nbsp;</TD>\n  <TD>a b</TD>\n  <TD>b c</TD>\n  <TD>c d</TD>\n </TR>\n <TR>\n  <TD>x y</TD>\n  <TD>1</TD>\n  <TD>2</TD>\n  <TD>3</TD>\n </TR>\n <TR>\n  <TD>y z</TD>\n  <TD>4</TD>\n  <TD>5</TD>\n  <TD>6</TD>\n </TR>\n <TR>\n  <TD>z z</TD>\n  <TD>7</TD>\n  <TD>8</TD>\n  <TD>9</TD>\n </TR>\n</TABLE>'
+    HTML(atablestring)
+
+
+
+.. raw:: html
+
+    <TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
+     <TR>
+      <TD>&nbsp;</TD>
+      <TD>a b</TD>
+      <TD>b c</TD>
+      <TD>c d</TD>
+     </TR>
+     <TR>
+      <TD>x y</TD>
+      <TD>1</TD>
+      <TD>2</TD>
+      <TD>3</TD>
+     </TR>
+     <TR>
+      <TD>y z</TD>
+      <TD>4</TD>
+      <TD>5</TD>
+      <TD>6</TD>
+     </TR>
+     <TR>
+      <TD>z z</TD>
+      <TD>7</TD>
+      <TD>8</TD>
+      <TD>9</TD>
+     </TR>
+    </TABLE>
+
+
+
+This table is actually in the follwoing form:
+
+.. code:: python
+
+    atable = [["",  "a b", "b c", "c d"],
+         ["x y", 1,     2,     3 ],
+         ["y z", 4,     5,     6 ],
+         ["z z", 7,     8,     9 ],]
+We can see the labels in the table. So we an look at row "x y" and
+column "c d". The value there is 3
+
+right now we can get to it by saying atable[1][3]
+
+.. code:: python
+
+    print atable[1][3]
+
+.. parsed-literal::
+
+    3
+
+
+readhtml has some functions that will let us address the values by the
+labels. We use a structure from python called named tuples to do this.
+The only limitation is that the labels have to be letters or digits.
+Named tuples does not allow spaces in the labels. We could replace the
+space with an underscore ' \_ '. So "a b" will become "a\_b". So we can
+look for row "x\_y" and column "c\_d". Let us try this out.
+
+.. code:: python
+
+    from eppy import readhtml
+    h_table = readhtml.named_grid_h(atable)
+.. code:: python
+
+    print h_table.x_y.c_d
+
+.. parsed-literal::
+
+    3
+
+
+We can still get to the value by index
+
+.. code:: python
+
+    print h_table[0][2]
+
+.. parsed-literal::
+
+    3
+
+
+Note that we used atable[1][3], but here we used h\_table[0][2]. That is
+because h\_table does not count the rows and columns where the labels
+are.
+
+We can also do the following:
+
+.. code:: python
+
+    print h_table.x_y[2]
+    # or
+    print h_table[0].c_d
+
+.. parsed-literal::
+
+    3
+    3
+
+
+Wow … that is pretty cool. What if we want to just check what the labels
+are ?
+
+.. code:: python
+
+    print h_table._fields
+
+.. parsed-literal::
+
+    ('x_y', 'y_z', 'z_z')
+
+
+That gives us the horizontal lables. How about the vertical labels ?
+
+.. code:: python
+
+    h_table.x_y._fields
 
 
 
 .. parsed-literal::
 
-    [(u'Site to Source Energy Conversion Factors',
-      [['', u'Site=>Source Conversion Factor'],
-       [u'Electricity', 3.167],
-       [u'Natural Gas', 1.084],
-       [u'District Cooling', 1.056],
-       [u'District Heating', 3.613],
-       [u'Steam', 0.3],
-       [u'Gasoline', 1.05],
-       [u'Diesel', 1.05],
-       [u'Coal', 1.05],
-       [u'Fuel Oil #1', 1.05],
-       [u'Fuel Oil #2', 1.05],
-       [u'Propane', 1.05]]),
-     (u'Building Area',
-      [['', u'Area [m2]'],
-       [u'Total Building Area', 927.2],
-       [u'Net Conditioned Building Area', 927.2],
-       [u'Unconditioned Building Area', 0.0]])]
+    ('a_b', 'b_c', 'c_d')
 
 
 
-| Let us leave readtables for now.
-| It gives us the basic functionality to read any of the tables in the
-html output file.
+There you go !!!
+
+How about if I want to use the labels differently ? Say I want to refer
+to the row first and then to the column. That woul be saying
+table.c\_d.x\_y. We can do that by using a different function
+
+.. code:: python
+
+    v_table = readhtml.named_grid_v(atable)
+    print v_table.c_d.x_y
+
+.. parsed-literal::
+
+    3
+
+
+And we can do the following
+
+.. code:: python
+
+    print v_table[2][0]
+    print v_table.c_d[0]
+    print v_table[2].x_y
+
+.. parsed-literal::
+
+    3
+    3
+    3
+
+
+Let us try to get the numbers in the first column and then get their sum
+
+.. code:: python
+
+    v_table.a_b
+
+
+
+.. parsed-literal::
+
+    ntrow(x_y=1, y_z=4, z_z=7)
+
+
+
+Look like we got the right column. But not in the right format. We
+really need a list of numbers
+
+.. code:: python
+
+    [cell for cell in v_table.a_b]
+
+
+
+.. parsed-literal::
+
+    [1, 4, 7]
+
+
+
+That looks like waht we wanted. Now let us get the sum
+
+.. code:: python
+
+    values_in_first_column = [cell for cell in v_table.a_b]
+    print values_in_first_column
+    print sum(values_in_first_column) # sum is a builtin function that will sum a list
+
+.. parsed-literal::
+
+    [1, 4, 7]
+    12
+
+
+To get the first row we use the variable h\_table
+
+.. code:: python
+
+    values_in_first_row = [cell for cell in h_table.x_y]
+    print values_in_first_row
+    print sum(values_in_first_row)
+
+.. parsed-literal::
+
+    [1, 2, 3]
+    6
+
+
+.. code:: python
+
+    

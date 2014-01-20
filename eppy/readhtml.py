@@ -190,8 +190,8 @@ def _make_ntgrid(grid):
     
 def named_grid_h(grid):
     """make a horizontal named grid"""
-    return make_ntgrid(grid)
+    return _make_ntgrid(grid)
     
 def named_grid_v(grid):
     """make a vertical named grid"""
-    return make_ntgrid(_transpose(grid))    
+    return _make_ntgrid(_transpose(grid))    

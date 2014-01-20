@@ -239,3 +239,11 @@ Source Energy Conversion Factors"
 | Let us leave readtables for now.
 | It gives us the basic functionality to read any of the tables in the
 html output file.
+
+Reading Tables
+--------------
+
+
+.. code:: python
+
+    
