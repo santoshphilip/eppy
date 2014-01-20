@@ -160,8 +160,13 @@ def _asciidigits(s):
 def _nospace(s):
     """replace all non-ascii, non_digit or space with '_' """
     return ''.join([_asciidigits(i) for i in s])
+    
 
-def make_ntgrid(grid):
+def _transpose(arr):
+    return map(list, zip(*arr))
+    
+
+def _make_ntgrid(grid):
     """make a named tuple grid
     
     [["",  "a b", "b c", "c d"],
@@ -182,3 +187,11 @@ def make_ntgrid(grid):
     ntrows = [ntrow(**rdict[i]) for i, name in enumerate(vnames)]
     ntcols = ntcol(**dict(zip(vnames, ntrows)))
     return ntcols
+    
+def named_grid_h(grid):
+    """make a horizontal named grid"""
+    return make_ntgrid(grid)
+    
+def named_grid_v(grid):
+    """make a vertical named grid"""
+    return make_ntgrid(_transpose(grid))    

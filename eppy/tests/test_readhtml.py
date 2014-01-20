@@ -135,7 +135,7 @@ def test_make_ntgrid():
      ["x y", 1,     2,     3 ],
      ["y z", 4,     5,     6 ],
      ["z z", 7,     8,     9 ],]
-    result = readhtml.make_ntgrid(grid)
+    result = readhtml._make_ntgrid(grid)
     ntcol = collections.namedtuple('ntcol', "x_y y_z z_z")
     ntrow = collections.namedtuple('ntrow', "a_b b_c c_d")
     assert result == ntcol(x_y=ntrow(a_b=1, b_c=2, c_d=3), 
