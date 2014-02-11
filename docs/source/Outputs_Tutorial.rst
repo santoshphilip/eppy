@@ -1,6 +1,6 @@
 
 Reading outputs from E+
------------------------
+=======================
 
 
 .. code:: python
@@ -12,6 +12,10 @@ Reading outputs from E+
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
+Using titletable() to get at the tables
+---------------------------------------
+
+
 So far we have been making changes to the IDF input file. How about
 looking at the outputs.
 
@@ -21,10 +25,10 @@ Energyplus makes nice htmlout files that look like this.
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
-    for_images.display_png(for_images.html_snippet) # display the image below
+    for_images.display_png(for_images.html_snippet1) # display the image below
 
 
-.. image:: Outputs_Tutorial_files/Outputs_Tutorial_3_0.png
+.. image:: Outputs_Tutorial_files/Outputs_Tutorial_4_0.png
 
 
 | If you look at the clipping of the html file above, you see tables
@@ -213,8 +217,245 @@ Area", "Site to Source Energy Conversion Factors"]] twotables
 | It gives us the basic functionality to read any of the tables in the
 html output file.
 
-Reading Tables
-~~~~~~~~~~~~~~
+Using lines\_table() to get at the tables
+-----------------------------------------
+
+
+We have been using titletable() to get at the tables. There is a
+constraint using function titletable(). Titletable() assumes that there
+is a unique title (in HTML bold) just above the table. It is assumed
+that this title will adequetly describe the table. This is true in most
+cases and titletable() is perfectly good to use. Unfortuntely there are
+some tables that do not follow this rule. The snippet below shows one of
+them.
+
+.. code:: python
+
+    from eppy import ex_inits #no need to know this code, it just shows the image below
+    for_images = ex_inits
+    for_images.display_png(for_images.html_snippet2) # display the image below
+
+
+.. image:: Outputs_Tutorial_files/Outputs_Tutorial_28_0.png
+
+
+Notice that the HTML snippet shows a table with three lines above it.
+The first two lines have information that describe the table. We need to
+look at both those lines to understand what the table contains. So we
+need a different function that will capture all those lines before the
+table. The funtion lines\_table() described below will do this.
+
+.. code:: python
+
+    from eppy import readhtml # the eppy module with functions to read the html
+    fname = "../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html" # the html file you want to read
+    filehandle = open(fname, 'r').read() # get a file handle to the html file
+    
+    
+    ltables = readhtml.lines_table(filehandle) # reads the tables with their titles
+
+The html snippet shown above is the last table in HTML file we just
+opened. We have used lines\_table() to read the tables into the variable
+ltables. We can get to the last table by ltable[-1]. Let us print it and
+see what we have.
+
+.. code:: python
+
+    import pprint
+    pp = pprint.PrettyPrinter()
+    pp.pprint(ltables[-1])
+
+
+.. parsed-literal::
+
+    [[u'Table of Contents',
+      u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
+      u'For: PERIMETER_MID_ZN_4',
+      u'Timestamp: 2014-02-07\n    12:29:08'],
+     [['',
+       u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
+       u'FANGERPPD {FOR HOURS SHOWN} []',
+       u'FANGERPPD []'],
+      [u'January', 102.637, 12.585, 32.231],
+      [u'February', 147.054, 10.5, 24.225],
+      [u'March', 286.835, 8.799, 16.86],
+      [u'April', 363.165, 7.704, 9.628],
+      [u'May', 428.458, 19.642, 21.401],
+      [u'June', 431.25, 10.092, 9.954],
+      [u'July', 432.134, 8.835, 7.959],
+      [u'August', 443.5, 9.743, 8.785],
+      [u'September', 408.833, 15.91, 14.855],
+      [u'October', 383.652, 6.919, 7.57],
+      [u'November', 243.114, 8.567, 15.256],
+      [u'December', 91.926, 14.298, 29.001],
+      [u'\xa0', u'\xa0', u'\xa0', u'\xa0'],
+      [u'Annual Sum or Average', 3762.56, 11.062, 16.458],
+      [u'Minimum of Months', 91.926, 6.919, 7.57],
+      [u'Maximum of Months', 443.5, 19.642, 32.231]]]
+
+
+We can see that ltables has captured all the lines before the table. Let
+us make our code more explicit to see this
+
+.. code:: python
+
+    last_ltable = ltables[-1]
+    lines_before_table = last_ltable[0]
+    table_itself = last_ltable[-1]
+    
+    pp.pprint(lines_before_table)
+
+
+.. parsed-literal::
+
+    [u'Table of Contents',
+     u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
+     u'For: PERIMETER_MID_ZN_4',
+     u'Timestamp: 2014-02-07\n    12:29:08']
+
+
+We found this table the easy way this time, because we knew it was the
+last one. How do we find it if we don't know where it is in the file ?
+Python comes to our rescue :-) Let assume that we want to find the table
+that has the following two lines before it.
+
+-  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
+-  For: PERIMETER\_MID\_ZN\_4
+
+
+.. code:: python
+
+    line1 = 'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT'
+    line2 = 'For: PERIMETER_MID_ZN_4'
+    #
+    # check if those two lines are before the table
+    line1 in lines_before_table and line2 in lines_before_table
+
+
+
+
+.. parsed-literal::
+
+    True
+
+
+
+.. code:: python
+
+    # find all the tables where those two lines are before the table
+    [ltable for ltable in ltables 
+        if line1 in ltable[0] and line2 in ltable[0]]
+
+
+
+
+.. parsed-literal::
+
+    [[[u'Table of Contents',
+       u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
+       u'For: PERIMETER_MID_ZN_4',
+       u'Timestamp: 2014-02-07\n    12:29:08'],
+      [['',
+        u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
+        u'FANGERPPD {FOR HOURS SHOWN} []',
+        u'FANGERPPD []'],
+       [u'January', 102.637, 12.585, 32.231],
+       [u'February', 147.054, 10.5, 24.225],
+       [u'March', 286.835, 8.799, 16.86],
+       [u'April', 363.165, 7.704, 9.628],
+       [u'May', 428.458, 19.642, 21.401],
+       [u'June', 431.25, 10.092, 9.954],
+       [u'July', 432.134, 8.835, 7.959],
+       [u'August', 443.5, 9.743, 8.785],
+       [u'September', 408.833, 15.91, 14.855],
+       [u'October', 383.652, 6.919, 7.57],
+       [u'November', 243.114, 8.567, 15.256],
+       [u'December', 91.926, 14.298, 29.001],
+       [u'\xa0', u'\xa0', u'\xa0', u'\xa0'],
+       [u'Annual Sum or Average', 3762.56, 11.062, 16.458],
+       [u'Minimum of Months', 91.926, 6.919, 7.57],
+       [u'Maximum of Months', 443.5, 19.642, 32.231]]]]
+
+
+
+That worked !
+
+What if you want to find the words "FANGER" and "PERIMETER\_MID\_ZN\_4"
+before the table. The following code will do it.
+
+.. code:: python
+
+    # sample code to illustrate what we are going to do
+    last_ltable = ltables[-1]
+    lines_before_table = last_ltable[0]
+    table_itself = last_ltable[-1]
+    
+    # join lines_before_table into a paragraph of text
+    justtext = '\n'.join(lines_before_table)
+    print justtext
+
+
+.. parsed-literal::
+
+    Table of Contents
+    Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
+    For: PERIMETER_MID_ZN_4
+    Timestamp: 2014-02-07
+        12:29:08
+
+
+.. code:: python
+
+    "FANGER" in justtext and "PERIMETER_MID_ZN_4" in justtext
+
+
+
+
+.. parsed-literal::
+
+    True
+
+
+
+.. code:: python
+
+    # Let us combine the this trick to find the table
+    [ltable for ltable in ltables 
+        if "FANGER" in '\n'.join(ltable[0]) and "PERIMETER_MID_ZN_4" in '\n'.join(ltable[0])]
+
+
+
+.. parsed-literal::
+
+    [[[u'Table of Contents',
+       u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
+       u'For: PERIMETER_MID_ZN_4',
+       u'Timestamp: 2014-02-07\n    12:29:08'],
+      [['',
+        u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
+        u'FANGERPPD {FOR HOURS SHOWN} []',
+        u'FANGERPPD []'],
+       [u'January', 102.637, 12.585, 32.231],
+       [u'February', 147.054, 10.5, 24.225],
+       [u'March', 286.835, 8.799, 16.86],
+       [u'April', 363.165, 7.704, 9.628],
+       [u'May', 428.458, 19.642, 21.401],
+       [u'June', 431.25, 10.092, 9.954],
+       [u'July', 432.134, 8.835, 7.959],
+       [u'August', 443.5, 9.743, 8.785],
+       [u'September', 408.833, 15.91, 14.855],
+       [u'October', 383.652, 6.919, 7.57],
+       [u'November', 243.114, 8.567, 15.256],
+       [u'December', 91.926, 14.298, 29.001],
+       [u'\xa0', u'\xa0', u'\xa0', u'\xa0'],
+       [u'Annual Sum or Average', 3762.56, 11.062, 16.458],
+       [u'Minimum of Months', 91.926, 6.919, 7.57],
+       [u'Maximum of Months', 443.5, 19.642, 32.231]]]]
+
+
+
+Extracting data from the tables
+-------------------------------
 
 
 The tables in the HTML page in general have text in the top header row.
@@ -447,7 +688,3 @@ To get the first row we use the variable h\_table
     [1, 2, 3]
     6
 
-
-.. code:: python
-
-    
