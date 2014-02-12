@@ -5,7 +5,7 @@ BRANCH,
     ,                         !- Pressure Drop Curve Name
     CHILLER:ELECTRIC,         !- Component 1 Object Type
     Central_Chiller,          !- Component 1 Name
-    Central_Chiller_Chilled_Water_Inlet_Node_Name,    !- Component 1 Inlet Node Name
+    p_loop Supply Inlet,      !- Component 1 Inlet Node Name
     Central_Chiller_np1_node,    !- Component 1 Outlet Node Name
     ,                         !- Component 1 Branch Control Type
     PIPE:ADIABATIC,           !- Component 2 Object Type
@@ -223,57 +223,12 @@ PIPE:ADIABATIC,
     np1_np2_node,             !- Inlet Node Name
     np2_Outlet_Node_Name;     !- Outlet Node Name
 
-PIPE:ADIABATIC,           
-    np1,                      !- Name
-    Central_Chiller_np1_node,    !- Inlet Node Name
-    np1_np2_node;             !- Outlet Node Name
-
-PIPE:ADIABATIC,           
-    np2,                      !- Name
-    np1_np2_node,             !- Inlet Node Name
-    np2_Outlet_Node_Name;     !- Outlet Node Name
-
 CHILLER:ELECTRIC,         
     Central_Chiller,          !- Name
     AirCooled,                !- Condenser Type
     ,                         !- Nominal Capacity
     ,                         !- Nominal COP
     p_loop Supply Inlet,      !- Chilled Water Inlet Node Name
-    Central_Chiller_np1_node,    !- Chilled Water Outlet Node Name
-    Central_Chiller_Condenser_Inlet_Node_Name,    !- Condenser Inlet Node Name
-    Central_Chiller_Condenser_Outlet_Node_Name,    !- Condenser Outlet Node Name
-    ,                         !- Minimum Part Load Ratio
-    ,                         !- Maximum Part Load Ratio
-    ,                         !- Optimum Part Load Ratio
-    ,                         !- Design Condenser Inlet Temperature
-    ,                         !- Temperature Rise Coefficient
-    ,                         !- Design Chilled Water Outlet Temperature
-    ,                         !- Design Chilled Water Flow Rate
-    ,                         !- Design Condenser Fluid Flow Rate
-    ,                         !- Coefficient 1 of Capacity Ratio Curve
-    ,                         !- Coefficient 2 of Capacity Ratio Curve
-    ,                         !- Coefficient 3 of Capacity Ratio Curve
-    ,                         !- Coefficient 1 of Power Ratio Curve
-    ,                         !- Coefficient 2 of Power Ratio Curve
-    ,                         !- Coefficient 3 of Power Ratio Curve
-    ,                         !- Coefficient 1 of Full Load Ratio Curve
-    ,                         !- Coefficient 2 of Full Load Ratio Curve
-    ,                         !- Coefficient 3 of Full Load Ratio Curve
-    ,                         !- Chilled Water Outlet Temperature Lower Limit
-    VariableFlow,             !- Chiller Flow Mode
-    0.0,                      !- Design Heat Recovery Water Flow Rate
-    Central_Chiller_Heat_Recovery_Inlet_Node_Name,    !- Heat Recovery Inlet Node Name
-    Central_Chiller_Heat_Recovery_Outlet_Node_Name,    !- Heat Recovery Outlet Node Name
-    1.0,                      !- Sizing Factor
-    0.0,                      !- Basin Heater Capacity
-    2.0;                      !- Basin Heater Setpoint Temperature
-
-CHILLER:ELECTRIC,         
-    Central_Chiller,          !- Name
-    AirCooled,                !- Condenser Type
-    ,                         !- Nominal Capacity
-    ,                         !- Nominal COP
-    Central_Chiller_Chilled_Water_Inlet_Node_Name,    !- Chilled Water Inlet Node Name
     Central_Chiller_np1_node,    !- Chilled Water Outlet Node Name
     Central_Chiller_Condenser_Inlet_Node_Name,    !- Condenser Inlet Node Name
     Central_Chiller_Condenser_Outlet_Node_Name,    !- Condenser Outlet Node Name

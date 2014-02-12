@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reading outputs from E+ &mdash; eppy 0.4.5b documentation</title>
+    <title>Reading outputs from E+ &mdash; eppy 0.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.5b',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.5b documentation" href="index.html" />
+    <link rel="top" title="eppy 0.4.6 documentation" href="index.html" />
     <link rel="next" title="New functions" href="newfunctions.html" />
     <link rel="prev" title="HVAC Loops" href="HVAC_Tutorial.html" /> 
   </head>
@@ -37,15 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.5b documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -72,7 +69,7 @@ looking at the outputs.</p>
 <p>Energyplus makes nice htmlout files that look like this.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
-<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet1</span><span class="p">)</span> <span class="c"># display the image below</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet1</span><span class="p">)</span> <span class="c">#display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/Outputs_Tutorial_4_0.png" src="_images/Outputs_Tutorial_4_0.png" />
@@ -100,13 +97,10 @@ data from any of it&#8217;s cells.</p>
 <p>If you open the python file readhtml.py and look at the function
 titletable, you can see the function documentation.</p>
 <p>It says the following</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;return a list of [(title, table), .....]</span>
-<span class="sd">title = previous item with a &lt;b&gt; tag</span>
-<span class="sd">table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&quot;&quot;&quot;</span>
-</pre></div>
-</div>
-<div class="highlight-python"><pre>IndentationError: unexpected indent</pre>
-</div>
+<blockquote>
+<div>&#8220;&#8221;&#8220;return a list of [(title, table), .....]
+title = previous item with a &lt;b&gt; tag
+table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</div></blockquote>
 <p>The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -619,15 +613,12 @@ really need a list of numbers</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >next</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.5b documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -565,13 +565,13 @@ def main(argv=None):
                 output = value
         
         if len(args) == 1:
-            iddfile = "../iddfiles/Energy+V6_0.idd"
+            # iddfile = "../iddfiles/Energy+V6_0.idd"
+            iddfile = "./resources/iddfiles/Energy+V7_0_0_036.idd"
             fname = args[0]
         elif len(args) == 2:
             iddfile = args[0]
             fname = args[1]
         # iddfile = "../iddfiles/Energy+V6_0.idd"
-        # iddfile = "./resources/iddfiles/Energy+V7_2_0.idd"
         print "readingfile"
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
         print "constructing the loops"

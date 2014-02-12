@@ -69,6 +69,23 @@ Now let us open file fname1 without setting the **idd** file
     except Exception, e:
         raise e
         
+
+::
+
+
+    ---------------------------------------------------------------------------
+    IDDNotSetError                            Traceback (most recent call last)
+
+    <ipython-input-3-44ad2b53d42c> in <module>()
+          2     idf1 = IDF(fname1)
+          3 except Exception, e:
+    ----> 4     raise e
+          5 
+
+
+    IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)
+
+
 OK. It does not let you do that and it raises an exception
 
 So let us set the **idd** file and then open the idf file
@@ -78,30 +95,6 @@ So let us set the **idd** file and then open the idf file
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
-
-
-::
-
-
-    ---------------------------------------------------------------------------
-    IDDAlreadySetError                        Traceback (most recent call last)
-
-    <ipython-input-15-e0e181a1b8ca> in <module>()
-          1 iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
-    ----> 2 IDF.setiddname(iddfile)
-          3 idf1 = IDF(fname1)
-
-
-    /Users/santoshphilip/Documents/coolshadow/eppy_git/eppy/eppy/modeleditor.py in setiddname(cls, arg, testing)
-        389             if testing == False:
-        390                 errortxt = "IDD file is set to: %s"  % (cls.iddname, )
-    --> 391                 raise IDDAlreadySetError(errortxt)
-        392     @classmethod
-        393     def getiddname(cls):
-
-
-    IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd
-
 
 That worked without raising an exception
 
@@ -122,7 +115,7 @@ this and should raise an exception.
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-16-52df819ac489> in <module>()
+    <ipython-input-5-52df819ac489> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
@@ -220,7 +213,7 @@ Let us set these values outside the range and see what happens
     ---------------------------------------------------------------------------
     RangeError                                Traceback (most recent call last)
 
-    <ipython-input-22-a824cb1ec673> in <module>()
+    <ipython-input-11-a824cb1ec673> in <module>()
           4     print building.checkrange("Loads_Convergence_Tolerance_Value")
           5 except RangeError, e:
     ----> 6     raise e
@@ -678,6 +671,15 @@ first material, but do it using a different function
 
     idf.removeidfobject(firstmaterial)
 
+
+
+
+.. parsed-literal::
+
+    ['MATERIAL', 'third material', '', '', '', '', '', 0.9, 0.7, 0.7]
+
+
+
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
@@ -801,85 +803,38 @@ Absorptance", "Solar Absorptance", etc.
 .. parsed-literal::
 
     [
-    Material,                 
-        F08 Metal surface,        !- Name
-        Smooth,                   !- Roughness
-        0.0008,                   !- Thickness
-        45.28,                    !- Conductivity
-        7824.0,                   !- Density
-        500.0;                    !- Specific Heat
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     , 
-    Material,                 
-        I01 25mm insulation board,    !- Name
-        MediumRough,              !- Roughness
-        0.0254,                   !- Thickness
-        0.03,                     !- Conductivity
-        43.0,                     !- Density
-        1210.0;                   !- Specific Heat
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     , 
-    Material,                 
-        I02 50mm insulation board,    !- Name
-        MediumRough,              !- Roughness
-        0.0508,                   !- Thickness
-        0.03,                     !- Conductivity
-        43.0,                     !- Density
-        1210.0;                   !- Specific Heat
-    , 
-    Material,                 
+    MATERIAL,                 
         G01a 19mm gypsum board,    !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
         0.16,                     !- Conductivity
-        800.0,                    !- Density
-        1090.0;                   !- Specific Heat
-    , 
-    Material,                 
-        M11 100mm lightweight concrete,    !- Name
-        MediumRough,              !- Roughness
-        0.1016,                   !- Thickness
-        0.53,                     !- Conductivity
-        1280.0,                   !- Density
-        840.0;                    !- Specific Heat
-    , 
-    Material,                 
-        F16 Acoustic tile,        !- Name
-        MediumSmooth,             !- Roughness
-        0.0191,                   !- Thickness
-        0.06,                     !- Conductivity
-        368.0,                    !- Density
-        590.0;                    !- Specific Heat
-    , 
-    Material,                 
-        M01 100mm brick,          !- Name
-        MediumRough,              !- Roughness
-        0.1016,                   !- Thickness
-        0.89,                     !- Conductivity
-        1920.0,                   !- Density
-        790.0;                    !- Specific Heat
-    , 
-    Material,                 
-        M15 200mm heavyweight concrete,    !- Name
-        MediumRough,              !- Roughness
-        0.2032,                   !- Thickness
-        1.95,                     !- Conductivity
-        2240.0,                   !- Density
-        900.0;                    !- Specific Heat
-    , 
-    Material,                 
-        M05 200mm concrete block,    !- Name
-        MediumRough,              !- Roughness
-        0.2032,                   !- Thickness
-        1.11,                     !- Conductivity
-        800.0,                    !- Density
-        920.0;                    !- Specific Heat
-    , 
-    Material,                 
-        G05 25mm wood,            !- Name
-        MediumSmooth,             !- Roughness
-        0.0254,                   !- Thickness
-        0.15,                     !- Conductivity
-        608.0,                    !- Density
-        1630.0;                   !- Specific Heat
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     ]
 
 
@@ -936,13 +891,16 @@ modeleditor.rename(idf, key, oldname, newname)
 .. parsed-literal::
 
     
-    Material,                 
+    MATERIAL,                 
         peanut butter,            !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
         0.16,                     !- Conductivity
-        800.0,                    !- Density
-        1090.0;                   !- Specific Heat
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
 
 
 
@@ -972,825 +930,44 @@ us look at the entir idf file, just to be sure
 .. parsed-literal::
 
     
-    Version,                  
-        7.2;                      !- Version Identifier
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     
-    SimulationControl,        
-        No,                       !- Do Zone Sizing Calculation
-        No,                       !- Do System Sizing Calculation
-        No,                       !- Do Plant Sizing Calculation
-        Yes,                      !- Run Simulation for Sizing Periods
-        Yes;                      !- Run Simulation for Weather File Run Periods
+    MATERIAL,                 
+        Shiny new material object,    !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     
-    Building,                 
-        Untitled,                 !- Name
-        0.0,                      !- North Axis
-        City,                     !- Terrain
-        0.04,                     !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullInteriorAndExterior,    !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        ;                         !- Minimum Number of Warmup Days
-    
-    Timestep,                 
-        4;                        !- Number of Timesteps per Hour
-    
-    Site:Location,            
-        CHICAGO_IL_USA TMY2-94846,    !- Name
-        41.78,                    !- Latitude
-        -87.75,                   !- Longitude
-        -6.0,                     !- Time Zone
-        190.0;                    !- Elevation
-    
-    RunPeriodControl:SpecialDays,
-        New Years Day,            !- Name
-        January 1,                !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Veterans Day,             !- Name
-        November 11,              !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Christmas,                !- Name
-        December 25,              !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Independence Day,         !- Name
-        July 4,                   !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        MLK Day,                  !- Name
-        3rd Monday in January,    !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Presidents Day,           !- Name
-        3rd Monday in February,    !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Memorial Day,             !- Name
-        Last Monday in May,       !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Labor Day,                !- Name
-        1st Monday in September,    !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Columbus Day,             !- Name
-        2nd Monday in October,    !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:SpecialDays,
-        Thanksgiving,             !- Name
-        4th Thursday in November,    !- Start Date
-        1,                        !- Duration
-        Holiday;                  !- Special Day Type
-    
-    RunPeriodControl:DaylightSavingTime,
-        2nd Sunday in March,      !- Start Date
-        1st Sunday in November;    !- End Date
-    
-    ScheduleTypeLimits,       
-        Any Number;               !- Name
-    
-    ScheduleTypeLimits,       
-        Fraction,                 !- Name
-        0.0,                      !- Lower Limit Value
-        1.0,                      !- Upper Limit Value
-        CONTINUOUS;               !- Numeric Type
-    
-    ScheduleTypeLimits,       
-        Temperature,              !- Name
-        -60,                      !- Lower Limit Value
-        200,                      !- Upper Limit Value
-        CONTINUOUS;               !- Numeric Type
-    
-    ScheduleTypeLimits,       
-        On/Off,                   !- Name
-        0,                        !- Lower Limit Value
-        1,                        !- Upper Limit Value
-        DISCRETE;                 !- Numeric Type
-    
-    ScheduleTypeLimits,       
-        Control Type,             !- Name
-        0,                        !- Lower Limit Value
-        4,                        !- Upper Limit Value
-        DISCRETE;                 !- Numeric Type
-    
-    ScheduleTypeLimits,       
-        Humidity,                 !- Name
-        10,                       !- Lower Limit Value
-        90,                       !- Upper Limit Value
-        CONTINUOUS;               !- Numeric Type
-    
-    ScheduleTypeLimits,       
-        Number;                   !- Name
-    
-    Schedule:Compact,         
-        Office Lights Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays,            !- Field 2
-        Until: 05:00,             !- Field 3
-        0.05,                     !- Field 4
-        Until: 07:00,             !- Field 5
-        0.1,                      !- Field 6
-        Until: 08:00,             !- Field 7
-        0.3,                      !- Field 8
-        Until: 17:00,             !- Field 9
-        0.9,                      !- Field 10
-        Until: 18:00,             !- Field 11
-        0.5,                      !- Field 12
-        Until: 20:00,             !- Field 13
-        0.3,                      !- Field 14
-        Until: 22:00,             !- Field 15
-        0.2,                      !- Field 16
-        Until: 23:00,             !- Field 17
-        0.1,                      !- Field 18
-        Until: 24:00,             !- Field 19
-        0.05,                     !- Field 20
-        For: SummerDesignDay,     !- Field 21
-        Until: 24:00,             !- Field 22
-        1.0,                      !- Field 23
-        For: Saturday,            !- Field 24
-        Until: 06:00,             !- Field 25
-        0.05,                     !- Field 26
-        Until: 08:00,             !- Field 27
-        0.1,                      !- Field 28
-        Until: 12:00,             !- Field 29
-        0.3,                      !- Field 30
-        Until: 17:00,             !- Field 31
-        0.15,                     !- Field 32
-        Until: 24:00,             !- Field 33
-        0.05,                     !- Field 34
-        For: WinterDesignDay,     !- Field 35
-        Until: 24:00,             !- Field 36
-        0.0,                      !- Field 37
-        For: Sunday Holidays AllOtherDays,    !- Field 38
-        Until: 24:00,             !- Field 39
-        0.05;                     !- Field 40
-    
-    Schedule:Compact,         
-        Office Equipment Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays,            !- Field 2
-        Until: 08:00,             !- Field 3
-        0.40,                     !- Field 4
-        Until: 12:00,             !- Field 5
-        0.90,                     !- Field 6
-        Until: 13:00,             !- Field 7
-        0.80,                     !- Field 8
-        Until: 17:00,             !- Field 9
-        0.90,                     !- Field 10
-        Until: 18:00,             !- Field 11
-        0.50,                     !- Field 12
-        Until: 24:00,             !- Field 13
-        0.40,                     !- Field 14
-        For: SummerDesignDay,     !- Field 15
-        Until: 24:00,             !- Field 16
-        1.0,                      !- Field 17
-        For: Saturday,            !- Field 18
-        Until: 06:00,             !- Field 19
-        0.30,                     !- Field 20
-        Until: 08:00,             !- Field 21
-        0.4,                      !- Field 22
-        Until: 12:00,             !- Field 23
-        0.5,                      !- Field 24
-        Until: 17:00,             !- Field 25
-        0.35,                     !- Field 26
-        Until: 24:00,             !- Field 27
-        0.30,                     !- Field 28
-        For: WinterDesignDay,     !- Field 29
-        Until: 24:00,             !- Field 30
-        0.0,                      !- Field 31
-        For: Sunday Holidays AllOtherDays,    !- Field 32
-        Until: 24:00,             !- Field 33
-        0.30;                     !- Field 34
-    
-    Schedule:Compact,         
-        Office Occupancy Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays,            !- Field 2
-        Until: 06:00,             !- Field 3
-        0.0,                      !- Field 4
-        Until: 07:00,             !- Field 5
-        0.1,                      !- Field 6
-        Until: 08:00,             !- Field 7
-        0.2,                      !- Field 8
-        Until: 12:00,             !- Field 9
-        0.95,                     !- Field 10
-        Until: 13:00,             !- Field 11
-        0.5,                      !- Field 12
-        Until: 17:00,             !- Field 13
-        0.95,                     !- Field 14
-        Until: 18:00,             !- Field 15
-        0.3,                      !- Field 16
-        Until: 20:00,             !- Field 17
-        0.1,                      !- Field 18
-        Until: 24:00,             !- Field 19
-        0.05,                     !- Field 20
-        For: SummerDesignDay,     !- Field 21
-        Until: 06:00,             !- Field 22
-        0.0,                      !- Field 23
-        Until: 22:00,             !- Field 24
-        1.0,                      !- Field 25
-        Until: 24:00,             !- Field 26
-        0.05,                     !- Field 27
-        For: Saturday,            !- Field 28
-        Until: 06:00,             !- Field 29
-        0.0,                      !- Field 30
-        Until: 08:00,             !- Field 31
-        0.1,                      !- Field 32
-        Until: 12:00,             !- Field 33
-        0.3,                      !- Field 34
-        Until: 17:00,             !- Field 35
-        0.1,                      !- Field 36
-        Until: 19:00,             !- Field 37
-        0.0,                      !- Field 38
-        Until: 24:00,             !- Field 39
-        0.0,                      !- Field 40
-        For: WinterDesignDay,     !- Field 41
-        Until: 24:00,             !- Field 42
-        0.0,                      !- Field 43
-        For: Sunday Holidays AllOtherDays,    !- Field 44
-        Until: 06:00,             !- Field 45
-        0.0,                      !- Field 46
-        Until: 18:00,             !- Field 47
-        0.0,                      !- Field 48
-        Until: 24:00,             !- Field 49
-        0.0;                      !- Field 50
-    
-    Schedule:Compact,         
-        Infiltration Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays SummerDesignDay,    !- Field 2
-        Until: 06:00,             !- Field 3
-        1.0,                      !- Field 4
-        Until: 22:00,             !- Field 5
-        0.0,                      !- Field 6
-        Until: 24:00,             !- Field 7
-        1.0,                      !- Field 8
-        For: Saturday WinterDesignDay,    !- Field 9
-        Until: 06:00,             !- Field 10
-        1.0,                      !- Field 11
-        Until: 18:00,             !- Field 12
-        0.0,                      !- Field 13
-        Until: 24:00,             !- Field 14
-        1.0,                      !- Field 15
-        For: Sunday Holidays AllOtherDays,    !- Field 16
-        Until: 24:00,             !- Field 17
-        1.0;                      !- Field 18
-    
-    Schedule:Compact,         
-        Infiltration Half On Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays SummerDesignDay,    !- Field 2
-        Until: 06:00,             !- Field 3
-        1.0,                      !- Field 4
-        Until: 22:00,             !- Field 5
-        0.5,                      !- Field 6
-        Until: 24:00,             !- Field 7
-        1.0,                      !- Field 8
-        For: Saturday WinterDesignDay,    !- Field 9
-        Until: 06:00,             !- Field 10
-        1.0,                      !- Field 11
-        Until: 18:00,             !- Field 12
-        0.5,                      !- Field 13
-        Until: 24:00,             !- Field 14
-        1.0,                      !- Field 15
-        For: Sunday Holidays AllOtherDays,    !- Field 16
-        Until: 24:00,             !- Field 17
-        1.0;                      !- Field 18
-    
-    Schedule:Compact,         
-        Infiltration Quarter On Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays SummerDesignDay,    !- Field 2
-        Until: 06:00,             !- Field 3
-        1.0,                      !- Field 4
-        Until: 22:00,             !- Field 5
-        0.25,                     !- Field 6
-        Until: 24:00,             !- Field 7
-        1.0,                      !- Field 8
-        For: Saturday WinterDesignDay,    !- Field 9
-        Until: 06:00,             !- Field 10
-        1.0,                      !- Field 11
-        Until: 18:00,             !- Field 12
-        0.25,                     !- Field 13
-        Until: 24:00,             !- Field 14
-        1.0,                      !- Field 15
-        For: Sunday Holidays AllOtherDays,    !- Field 16
-        Until: 24:00,             !- Field 17
-        1.0;                      !- Field 18
-    
-    Schedule:Compact,         
-        Hours of Operation Schedule,    !- Name
-        On/Off,                   !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays SummerDesignDay,    !- Field 2
-        Until: 06:00,             !- Field 3
-        0.0,                      !- Field 4
-        Until: 22:00,             !- Field 5
-        1.0,                      !- Field 6
-        Until: 24:00,             !- Field 7
-        0.0,                      !- Field 8
-        For: Saturday WinterDesignDay,    !- Field 9
-        Until: 06:00,             !- Field 10
-        0.0,                      !- Field 11
-        Until: 18:00,             !- Field 12
-        1.0,                      !- Field 13
-        Until: 24:00,             !- Field 14
-        0.0,                      !- Field 15
-        For: Sunday Holidays AllOtherDays,    !- Field 16
-        Until: 24:00,             !- Field 17
-        0.0;                      !- Field 18
-    
-    Schedule:Compact,         
-        Always On,                !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: AllDays,             !- Field 2
-        Until: 24:00,             !- Field 3
-        1.0;                      !- Field 4
-    
-    Schedule:Compact,         
-        Always Off,               !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: AllDays,             !- Field 2
-        Until: 24:00,             !- Field 3
-        0.0;                      !- Field 4
-    
-    Schedule:Compact,         
-        Heating Setpoint Schedule,    !- Name
-        Temperature,              !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays,            !- Field 2
-        Until: 05:00,             !- Field 3
-        15.6,                     !- Field 4
-        Until: 19:00,             !- Field 5
-        21.0,                     !- Field 6
-        Until: 24:00,             !- Field 7
-        15.6,                     !- Field 8
-        For SummerDesignDay,      !- Field 9
-        Until: 24:00,             !- Field 10
-        15.6,                     !- Field 11
-        For: Saturday,            !- Field 12
-        Until: 06:00,             !- Field 13
-        15.6,                     !- Field 14
-        Until: 17:00,             !- Field 15
-        21.0,                     !- Field 16
-        Until: 24:00,             !- Field 17
-        15.6,                     !- Field 18
-        For: WinterDesignDay,     !- Field 19
-        Until: 24:00,             !- Field 20
-        21.0,                     !- Field 21
-        For: Sunday Holidays AllOtherDays,    !- Field 22
-        Until: 24:00,             !- Field 23
-        15.6;                     !- Field 24
-    
-    Schedule:Compact,         
-        Cooling Setpoint Schedule,    !- Name
-        Temperature,              !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: Weekdays SummerDesignDay,    !- Field 2
-        Until: 06:00,             !- Field 3
-        30.0,                     !- Field 4
-        Until: 22:00,             !- Field 5
-        24.0,                     !- Field 6
-        Until: 24:00,             !- Field 7
-        30.0,                     !- Field 8
-        For: Saturday,            !- Field 9
-        Until: 06:00,             !- Field 10
-        30.0,                     !- Field 11
-        Until: 18:00,             !- Field 12
-        24.0,                     !- Field 13
-        Until: 24:00,             !- Field 14
-        30.0,                     !- Field 15
-        For WinterDesignDay,      !- Field 16
-        Until: 24:00,             !- Field 17
-        30.0,                     !- Field 18
-        For: Sunday Holidays AllOtherDays,    !- Field 19
-        Until: 24:00,             !- Field 20
-        30.0;                     !- Field 21
-    
-    Schedule:Compact,         
-        Office Activity Schedule,    !- Name
-        Any Number,               !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: AllDays,             !- Field 2
-        Until: 24:00,             !- Field 3
-        120.;                     !- Field 4
-    
-    Schedule:Compact,         
-        Office Work Eff. Schedule,    !- Name
-        Fraction,                 !- Schedule Type Limits Name
-        Through: 12/31,           !- Field 1
-        For: AllDays,             !- Field 2
-        Until: 24:00,             !- Field 3
-        0.0;                      !- Field 4
-    
-    Schedule:Compact,         
-        Office Clothing Schedule,    !- Name
-        Any Number,               !- Schedule Type Limits Name
-        Through: 04/30,           !- Field 1
-        For: AllDays,             !- Field 2
-        Until: 24:00,             !- Field 3
-        1.0,                      !- Field 4
-        Through: 09/30,           !- Field 5
-        For: AllDays,             !- Field 6
-        Until: 24:00,             !- Field 7
-        0.5,                      !- Field 8
-        Through: 12/31,           !- Field 9
-        For: AllDays,             !- Field 10
-        Until: 24:00,             !- Field 11
-        1.0;                      !- Field 12
-    
-    Material,                 
-        F08 Metal surface,        !- Name
-        Smooth,                   !- Roughness
-        0.0008,                   !- Thickness
-        45.28,                    !- Conductivity
-        7824.0,                   !- Density
-        500.0;                    !- Specific Heat
-    
-    Material,                 
-        I01 25mm insulation board,    !- Name
-        MediumRough,              !- Roughness
-        0.0254,                   !- Thickness
-        0.03,                     !- Conductivity
-        43.0,                     !- Density
-        1210.0;                   !- Specific Heat
-    
-    Material,                 
-        I02 50mm insulation board,    !- Name
-        MediumRough,              !- Roughness
-        0.0508,                   !- Thickness
-        0.03,                     !- Conductivity
-        43.0,                     !- Density
-        1210.0;                   !- Specific Heat
-    
-    Material,                 
+    MATERIAL,                 
         peanut butter,            !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
         0.16,                     !- Conductivity
-        800.0,                    !- Density
-        1090.0;                   !- Specific Heat
-    
-    Material,                 
-        M11 100mm lightweight concrete,    !- Name
-        MediumRough,              !- Roughness
-        0.1016,                   !- Thickness
-        0.53,                     !- Conductivity
-        1280.0,                   !- Density
-        840.0;                    !- Specific Heat
-    
-    Material,                 
-        F16 Acoustic tile,        !- Name
-        MediumSmooth,             !- Roughness
-        0.0191,                   !- Thickness
-        0.06,                     !- Conductivity
-        368.0,                    !- Density
-        590.0;                    !- Specific Heat
-    
-    Material,                 
-        M01 100mm brick,          !- Name
-        MediumRough,              !- Roughness
-        0.1016,                   !- Thickness
-        0.89,                     !- Conductivity
-        1920.0,                   !- Density
-        790.0;                    !- Specific Heat
-    
-    Material,                 
-        M15 200mm heavyweight concrete,    !- Name
-        MediumRough,              !- Roughness
-        0.2032,                   !- Thickness
-        1.95,                     !- Conductivity
-        2240.0,                   !- Density
-        900.0;                    !- Specific Heat
-    
-    Material,                 
-        M05 200mm concrete block,    !- Name
-        MediumRough,              !- Roughness
-        0.2032,                   !- Thickness
-        1.11,                     !- Conductivity
-        800.0,                    !- Density
-        920.0;                    !- Specific Heat
-    
-    Material,                 
-        G05 25mm wood,            !- Name
-        MediumSmooth,             !- Roughness
-        0.0254,                   !- Thickness
-        0.15,                     !- Conductivity
-        608.0,                    !- Density
-        1630.0;                   !- Specific Heat
-    
-    Material:AirGap,          
-        F04 Wall air space resistance,    !- Name
-        0.15;                     !- Thermal Resistance
-    
-    Material:AirGap,          
-        F05 Ceiling air space resistance,    !- Name
-        0.18;                     !- Thermal Resistance
-    
-    WindowMaterial:Glazing,   
-        Clear 3mm,                !- Name
-        SpectralAverage,          !- Optical Data Type
-        ,                         !- Window Glass Spectral Data Set Name
-        0.003,                    !- Thickness
-        0.837,                    !- Solar Transmittance at Normal Incidence
-        0.075,                    !- Front Side Solar Reflectance at Normal Incidence
-        0.075,                    !- Back Side Solar Reflectance at Normal Incidence
-        0.898,                    !- Visible Transmittance at Normal Incidence
-        0.081,                    !- Front Side Visible Reflectance at Normal Incidence
-        0.081,                    !- Back Side Visible Reflectance at Normal Incidence
-        0.0,                      !- Infrared Transmittance at Normal Incidence
-        0.84,                     !- Front Side Infrared Hemispherical Emissivity
-        0.84,                     !- Back Side Infrared Hemispherical Emissivity
-        0.9;                      !- Conductivity
-    
-    WindowMaterial:Gas,       
-        Air 13mm,                 !- Name
-        Air,                      !- Gas Type
-        0.0127;                   !- Thickness
-    
-    Construction,             
-        Exterior Floor,           !- Name
-        I02 50mm insulation board,    !- Outside Layer
-        M15 200mm heavyweight concrete;    !- Layer 2
-    
-    Construction,             
-        Interior Floor,           !- Name
-        F16 Acoustic tile,        !- Outside Layer
-        F05 Ceiling air space resistance,    !- Layer 2
-        M11 100mm lightweight concrete;    !- Layer 3
-    
-    Construction,             
-        Exterior Wall,            !- Name
-        M01 100mm brick,          !- Outside Layer
-        M15 200mm heavyweight concrete,    !- Layer 2
-        I02 50mm insulation board,    !- Layer 3
-        F04 Wall air space resistance,    !- Layer 4
-        peanut butter;            !- Layer 5
-    
-    Construction,             
-        Interior Wall,            !- Name
-        peanut butter,            !- Outside Layer
-        F04 Wall air space resistance,    !- Layer 2
-        peanut butter;            !- Layer 3
-    
-    Construction,             
-        Exterior Roof,            !- Name
-        M11 100mm lightweight concrete,    !- Outside Layer
-        F05 Ceiling air space resistance,    !- Layer 2
-        F16 Acoustic tile;        !- Layer 3
-    
-    Construction,             
-        Interior Ceiling,         !- Name
-        M11 100mm lightweight concrete,    !- Outside Layer
-        F05 Ceiling air space resistance,    !- Layer 2
-        F16 Acoustic tile;        !- Layer 3
-    
-    Construction,             
-        Exterior Window,          !- Name
-        Clear 3mm,                !- Outside Layer
-        Air 13mm,                 !- Layer 2
-        Clear 3mm;                !- Layer 3
-    
-    Construction,             
-        Interior Window,          !- Name
-        Clear 3mm;                !- Outside Layer
-    
-    Construction,             
-        Exterior Door,            !- Name
-        F08 Metal surface,        !- Outside Layer
-        I01 25mm insulation board;    !- Layer 2
-    
-    Construction,             
-        Interior Door,            !- Name
-        G05 25mm wood;            !- Outside Layer
+        800,                      !- Density
+        1090,                     !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
     
     CONSTRUCTION,             
         Interior Wall,            !- Name
         peanut butter,            !- Outside Layer
         Shiny new material object,    !- Layer 2
         peanut butter;            !- Layer 3
-    
-    GlobalGeometryRules,      
-        UpperLeftCorner,          !- Starting Vertex Position
-        Counterclockwise,         !- Vertex Entry Direction
-        Absolute,                 !- Coordinate System
-        Relative,                 !- Daylighting Reference Point Coordinate System
-        Absolute;                 !- Rectangular Surface Coordinate System
-    
-    Zone,                     
-        Box,                      !- Name
-        0.0,                      !- Direction of Relative North
-        0.288184,                 !- X Origin
-        0.756604,                 !- Y Origin
-        0.0,                      !- Z Origin
-        ,                         !- Type
-        1;                        !- Multiplier
-    
-    BuildingSurface:Detailed, 
-        F_Surf,                   !- Name
-        Floor,                    !- Surface Type
-        Exterior Floor,           !- Construction Name
-        Box,                      !- Zone Name
-        Ground,                   !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        NoSun,                    !- Sun Exposure
-        NoWind,                   !- Wind Exposure
-        0.0,                      !- View Factor to Ground
-        4,                        !- Number of Vertices
-        5.0,                      !- Vertex 1 Xcoordinate
-        6.0,                      !- Vertex 1 Ycoordinate
-        0.0,                      !- Vertex 1 Zcoordinate
-        5.0,                      !- Vertex 2 Xcoordinate
-        0.0,                      !- Vertex 2 Ycoordinate
-        0.0,                      !- Vertex 2 Zcoordinate
-        0.0,                      !- Vertex 3 Xcoordinate
-        0.0,                      !- Vertex 3 Ycoordinate
-        0.0,                      !- Vertex 3 Zcoordinate
-        0.0,                      !- Vertex 4 Xcoordinate
-        6.0,                      !- Vertex 4 Ycoordinate
-        0.0;                      !- Vertex 4 Zcoordinate
-    
-    BuildingSurface:Detailed, 
-        S_Wall,                   !- Name
-        Wall,                     !- Surface Type
-        Exterior Wall,            !- Construction Name
-        Box,                      !- Zone Name
-        Outdoors,                 !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        SunExposed,               !- Sun Exposure
-        WindExposed,              !- Wind Exposure
-        ,                         !- View Factor to Ground
-        4,                        !- Number of Vertices
-        0.0,                      !- Vertex 1 Xcoordinate
-        0.0,                      !- Vertex 1 Ycoordinate
-        3.0,                      !- Vertex 1 Zcoordinate
-        0.0,                      !- Vertex 2 Xcoordinate
-        0.0,                      !- Vertex 2 Ycoordinate
-        0.0,                      !- Vertex 2 Zcoordinate
-        5.0,                      !- Vertex 3 Xcoordinate
-        0.0,                      !- Vertex 3 Ycoordinate
-        0.0,                      !- Vertex 3 Zcoordinate
-        5.0,                      !- Vertex 4 Xcoordinate
-        0.0,                      !- Vertex 4 Ycoordinate
-        3.0;                      !- Vertex 4 Zcoordinate
-    
-    BuildingSurface:Detailed, 
-        N_Wall,                   !- Name
-        Wall,                     !- Surface Type
-        Exterior Wall,            !- Construction Name
-        Box,                      !- Zone Name
-        Outdoors,                 !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        SunExposed,               !- Sun Exposure
-        WindExposed,              !- Wind Exposure
-        ,                         !- View Factor to Ground
-        4,                        !- Number of Vertices
-        5.0,                      !- Vertex 1 Xcoordinate
-        6.0,                      !- Vertex 1 Ycoordinate
-        3.0,                      !- Vertex 1 Zcoordinate
-        5.0,                      !- Vertex 2 Xcoordinate
-        6.0,                      !- Vertex 2 Ycoordinate
-        0.0,                      !- Vertex 2 Zcoordinate
-        0.0,                      !- Vertex 3 Xcoordinate
-        6.0,                      !- Vertex 3 Ycoordinate
-        0.0,                      !- Vertex 3 Zcoordinate
-        0.0,                      !- Vertex 4 Xcoordinate
-        6.0,                      !- Vertex 4 Ycoordinate
-        3.0;                      !- Vertex 4 Zcoordinate
-    
-    BuildingSurface:Detailed, 
-        R_surf,                   !- Name
-        Roof,                     !- Surface Type
-        Exterior Roof,            !- Construction Name
-        Box,                      !- Zone Name
-        Outdoors,                 !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        SunExposed,               !- Sun Exposure
-        WindExposed,              !- Wind Exposure
-        ,                         !- View Factor to Ground
-        4,                        !- Number of Vertices
-        0.0,                      !- Vertex 1 Xcoordinate
-        6.0,                      !- Vertex 1 Ycoordinate
-        3.0,                      !- Vertex 1 Zcoordinate
-        0.0,                      !- Vertex 2 Xcoordinate
-        0.0,                      !- Vertex 2 Ycoordinate
-        3.0,                      !- Vertex 2 Zcoordinate
-        5.0,                      !- Vertex 3 Xcoordinate
-        0.0,                      !- Vertex 3 Ycoordinate
-        3.0,                      !- Vertex 3 Zcoordinate
-        5.0,                      !- Vertex 4 Xcoordinate
-        6.0,                      !- Vertex 4 Ycoordinate
-        3.0;                      !- Vertex 4 Zcoordinate
-    
-    BuildingSurface:Detailed, 
-        W_Wall,                   !- Name
-        Wall,                     !- Surface Type
-        Exterior Wall,            !- Construction Name
-        Box,                      !- Zone Name
-        Outdoors,                 !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        SunExposed,               !- Sun Exposure
-        WindExposed,              !- Wind Exposure
-        ,                         !- View Factor to Ground
-        4,                        !- Number of Vertices
-        0.0,                      !- Vertex 1 Xcoordinate
-        6.0,                      !- Vertex 1 Ycoordinate
-        3.0,                      !- Vertex 1 Zcoordinate
-        0.0,                      !- Vertex 2 Xcoordinate
-        6.0,                      !- Vertex 2 Ycoordinate
-        0.0,                      !- Vertex 2 Zcoordinate
-        0.0,                      !- Vertex 3 Xcoordinate
-        0.0,                      !- Vertex 3 Ycoordinate
-        0.0,                      !- Vertex 3 Zcoordinate
-        0.0,                      !- Vertex 4 Xcoordinate
-        0.0,                      !- Vertex 4 Ycoordinate
-        3.0;                      !- Vertex 4 Zcoordinate
-    
-    BuildingSurface:Detailed, 
-        E_Wall,                   !- Name
-        Wall,                     !- Surface Type
-        Exterior Wall,            !- Construction Name
-        Box,                      !- Zone Name
-        Outdoors,                 !- Outside Boundary Condition
-        ,                         !- Outside Boundary Condition Object
-        SunExposed,               !- Sun Exposure
-        WindExposed,              !- Wind Exposure
-        ,                         !- View Factor to Ground
-        4,                        !- Number of Vertices
-        5.0,                      !- Vertex 1 Xcoordinate
-        0.0,                      !- Vertex 1 Ycoordinate
-        3.0,                      !- Vertex 1 Zcoordinate
-        5.0,                      !- Vertex 2 Xcoordinate
-        0.0,                      !- Vertex 2 Ycoordinate
-        0.0,                      !- Vertex 2 Zcoordinate
-        5.0,                      !- Vertex 3 Xcoordinate
-        6.0,                      !- Vertex 3 Ycoordinate
-        0.0,                      !- Vertex 3 Zcoordinate
-        5.0,                      !- Vertex 4 Xcoordinate
-        6.0,                      !- Vertex 4 Ycoordinate
-        3.0;                      !- Vertex 4 Zcoordinate
-    
-    FenestrationSurface:Detailed,
-        S_Window,                 !- Name
-        Window,                   !- Surface Type
-        Exterior Window,          !- Construction Name
-        S_Wall,                   !- Building Surface Name
-        ,                         !- Outside Boundary Condition Object
-        ,                         !- View Factor to Ground
-        ,                         !- Shading Control Name
-        ,                         !- Frame and Divider Name
-        ,                         !- Multiplier
-        4,                        !- Number of Vertices
-        1.64142641902,            !- Vertex 1 Xcoordinate
-        0.0,                      !- Vertex 1 Ycoordinate
-        2.264479674,              !- Vertex 1 Zcoordinate
-        1.64142641902,            !- Vertex 2 Xcoordinate
-        0.0,                      !- Vertex 2 Ycoordinate
-        1.264479674,              !- Vertex 2 Zcoordinate
-        3.64142641902,            !- Vertex 3 Xcoordinate
-        0.0,                      !- Vertex 3 Ycoordinate
-        1.264479674,              !- Vertex 3 Zcoordinate
-        3.64142641902,            !- Vertex 4 Xcoordinate
-        0.0,                      !- Vertex 4 Ycoordinate
-        2.264479674;              !- Vertex 4 Zcoordinate
-    
-    HVACTemplate:Thermostat,  
-        Constant Setpoint Thermostat,    !- Name
-        ,                         !- Heating Setpoint Schedule Name
-        20,                       !- Constant Heating Setpoint
-        ,                         !- Cooling Setpoint Schedule Name
-        25;                       !- Constant Cooling Setpoint
-    
-    Output:VariableDictionary,
-        IDF;                      !- Key Field
     
 
 

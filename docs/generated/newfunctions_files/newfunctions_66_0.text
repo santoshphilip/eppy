@@ -1,12 +1,1 @@
-[
-MATERIAL,                 
-    Shiny new material object,    !- Name
-    ,                         !- Roughness
-    ,                         !- Thickness
-    ,                         !- Conductivity
-    ,                         !- Density
-    ,                         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-]
+['MATERIAL', 'third material', '', '', '', '', '', 0.9, 0.7, 0.7]

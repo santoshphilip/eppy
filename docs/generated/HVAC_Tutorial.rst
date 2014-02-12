@@ -162,7 +162,9 @@ Diagram of the loop
 | run the following program in the shell.
 | (you have to run it from the eppy/eppy folder)
 
-python ex_loopdiagram.py hhh1.idf
+# usage:
+# python ex_loopdiagram.py iddfile idffile
+python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf
 
 This will output a image by name hhh1.png. This image is shown below.
 
@@ -223,7 +225,8 @@ python ex_loopdiagram.py hhh_new.idf
 
 .. code:: python
 
-    reload(ex_inits)
+    from eppy import ex_inits #no need to know this code, it just shows the image below
+    for_images = ex_inits
     for_images.display_png(for_images.plantloop2) # display the image below
 
 

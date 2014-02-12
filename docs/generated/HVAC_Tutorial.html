@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>HVAC Loops &mdash; eppy 0.4.5b documentation</title>
+    <title>HVAC Loops &mdash; eppy 0.4.6 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.4.5b',
+        VERSION:     '0.4.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.5b documentation" href="index.html" />
+    <link rel="top" title="eppy 0.4.6 documentation" href="index.html" />
     <link rel="next" title="Reading outputs from E+" href="Outputs_Tutorial.html" />
     <link rel="prev" title="Eppy Tutorial" href="Main_Tutorial.html" /> 
   </head>
@@ -37,15 +37,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.5b documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -191,7 +188,9 @@ be replaced with a more complex branch.</p>
 <div class="line">run the following program in the shell.</div>
 <div class="line">(you have to run it from the eppy/eppy folder)</div>
 </div>
-<p>python ex_loopdiagram.py hhh1.idf</p>
+<p># usage:
+# python ex_loopdiagram.py iddfile idffile
+python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf</p>
 <p>This will output a image by name hhh1.png. This image is shown below.</p>
 <p><em>Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity</em></p>
@@ -239,7 +238,8 @@ the new branch would look like &#8220;chiller-&gt; pipe1-&gt;pipe2&#8221;</p>
 <div class="line">Let us draw the diagram of this file. (run this from eppy/eppy folder)</div>
 </div>
 <p>python ex_loopdiagram.py hhh_new.idf</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="nb">reload</span><span class="p">(</span><span class="n">ex_inits</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop2</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
@@ -468,15 +468,12 @@ using the functions next() and prev()</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >next</a> |</li>
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.5b documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

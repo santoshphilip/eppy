@@ -25,7 +25,7 @@ Energyplus makes nice htmlout files that look like this.
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
-    for_images.display_png(for_images.html_snippet1) # display the image below
+    for_images.display_png(for_images.html_snippet1) #display the image below
 
 
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_4_0.png
@@ -56,18 +56,9 @@ titletable, you can see the function documentation.
 
 It says the following
 
-.. code:: python
-
-        """return a list of [(title, table), .....]
-        title = previous item with a <b> tag
-        table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
-
-::
-
-
-    IndentationError: unexpected indent
-
-
+    """return a list of [(title, table), .....]
+    title = previous item with a <b> tag
+    table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
 
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.

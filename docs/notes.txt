@@ -1,3 +1,22 @@
+2014-02-11
+----------
+Steps for release
+- establish a release number (0.4.6)
+- change the release number in the documentation. (in .docs/source/conf.py)
+- change version number in ./eppy/eppy/__init__.py
+- rebuild the documentation
+-
+- upload code to pypi
+    - python setup.py sdist upload
+- install from pypi in virtualenv. eplus_sphinx (or eppy_sphinx)
+    - pip install --upgrade eppy 
+    - this is needed so that code api is there
+- rebuild the documentation
+- upload documentation to pypi 
+-
+- push to github
+- make a release on github with a new tag = release number
+
 2013-10-30
 ----------
 change documentation verison number in ./source/conf.py
