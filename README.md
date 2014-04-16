@@ -7,7 +7,7 @@ Eppy is a scripting language for E+ idf files, and E+ output files. Eppy is writ
 - Use conditions and filters when making changes to an idf file
 - Make changes to multiple idf files.
 - Read data from the output files of a E+ simulation run.
-- Based to the results of a E+ simulation run, generate the input file for the next simulation run.
+- Based on the results of a E+ simulation run, generate the input file for the next simulation run.
 
 So what does this matter? 
 Here are some of the things you can do with eppy:
