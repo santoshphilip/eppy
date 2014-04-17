@@ -31,6 +31,8 @@ The documentation is at:
 to get a quick sense of how it feels to use eppy, take a look at
 <http://pythonhosted.org//eppy/Main_Tutorial.html>
 
+The code repository is at <https://github.com/santoshphilip/eppy>
+
 
 email <santosh_philip@yahoo.com> me if you run into any issues.
 Put eppy in the subject line (the spam filter tends to be rather aggressive, and I might have to look in the junk folder)
@@ -41,7 +43,7 @@ The code is hosted on github <https://github.com/santoshphilip/eppy>, in case yo
 
 Some background to the project
 
-Eppy was developed over the last year, ASHRAE 1651-RP research project that required modifying large number of files and analyzing the results.
+Eppy was developed over the last year, for the ASHRAE 1651-RP research project that required modifying large number of files and analyzing the results.
 Eppy was partially funded by ASHRAE
 The original code was written in 2004 as a text interface for Energyplus and the scripting language was built on it's foundations
 The open source license is GPLv3
