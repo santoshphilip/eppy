@@ -129,7 +129,7 @@ def test_lines_table():
             u'Custom Monthly Report'], 
         [[u'd', u'26'], [u'27', u'28']]]]
 
-def test_named_tables():
+def test_report_tables():
     """py.test for test_named_tables"""
     result = readhtml.lines_table(SAMPLE_HTML, False)
     assert result == {u'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND': [[u'd', 26.0], [27.0, 28.0]], 

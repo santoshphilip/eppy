@@ -165,9 +165,9 @@ def _nospace(s):
 def _transpose(arr):
     return map(list, zip(*arr))
 
-def named_tables(lines_table):
+def report_tables(lines_table):
     """Uses the output of lines_table function to produce a set
-    of tables addressable by name """
+    of report tables addressable by name """
     tableDict = {}
     for i in range(len(lines_table)):
         tableName = lines_table[i][0]
