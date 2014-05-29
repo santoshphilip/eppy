@@ -165,19 +165,19 @@ def _nospace(s):
 def _transpose(arr):
     return map(list, zip(*arr))
 
-def create_grids(lines_table_output):
-    """ Uses the output of lines_table function to produce a set of grids addressable by name """
-    gridDict = {}
-    for i in range(len(lines_grid_output)):
-        gridName = lines_table_output[i][0]
-        if any("Report: " in s for s in gridName):
-            reportName = [s for s in gridName if "Report: " in s]
+def named_tables(lines_table):
+    """Uses the output of lines_table function to produce a set
+    of tables addressable by name """
+    tableDict = {}
+    for i in range(len(lines_table)):
+        tableName = lines_table[i][0]
+        if any("Report: " in s for s in tableName):
+            reportName = [s for s in tableName if "Report: " in s]
             if len(reportName) == 1:
                 reportName = reportName[0]
-            else: print 'FAIL!'
-            gridVals = lines_table_output[i][1]
-            gridDict[reportName] = gridVals
-    return gridDicts    
+            tableVals = lines_table[i][1]
+            tableDict[reportName] = tableVals
+    return tableDict 
 
 def _make_ntgrid(grid):
     """make a named tuple grid
