@@ -159,8 +159,7 @@ def _asciidigits(s):
 
 def _nospace(s):
     """replace all non-ascii, non_digit or space with '_' """
-    return ''.join([_asciidigits(i) for i in s])
-    
+    return ''.join([_asciidigits(i) for i in s])  
 
 def _transpose(arr):
     return map(list, zip(*arr))
@@ -173,7 +172,7 @@ def report_tables(lines_table):
         tableName = lines_table[i][0]
         if any("Report: " in s for s in tableName):
             reportName = [s for s in tableName if "Report: " in s]
-            if len(reportName) == 1:
+            assert len(reportName) == 1, 'Report name is not unique'
                 reportName = reportName[0]
             tableVals = lines_table[i][1]
             tableDict[reportName] = tableVals
