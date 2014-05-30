@@ -173,7 +173,7 @@ def report_tables(lines_table):
         if any("Report: " in s for s in tableName):
             reportName = [s for s in tableName if "Report: " in s]
             assert len(reportName) == 1, 'Report name is not unique'
-                reportName = reportName[0]
+            reportName = reportName[0]
             tableVals = lines_table[i][1]
             tableDict[reportName] = tableVals
     return tableDict 
