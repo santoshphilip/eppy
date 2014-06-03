@@ -2,7 +2,7 @@
 Reading outputs from E+
 =======================
 
-
+In[1]:
 .. code:: python
 
     # some initial set up
@@ -12,6 +12,7 @@ Reading outputs from E+
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
+
 Using titletable() to get at the tables
 ---------------------------------------
 
@@ -20,12 +21,14 @@ So far we have been making changes to the IDF input file. How about
 looking at the outputs.
 
 Energyplus makes nice htmlout files that look like this.
-
+In[4]:
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.html_snippet1) #display the image below
+
+
 
 
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_4_0.png
@@ -42,7 +45,7 @@ data from any of it's cells.
 is "47694.47"
 
 Let us use eppy to extract this number
-
+In[5]:
 .. code:: python
 
     from eppy import readhtml # the eppy module with functions to read the html
@@ -51,6 +54,7 @@ Let us use eppy to extract this number
     
     
     htables = readhtml.titletable(filehandle) # reads the tables with their titles
+
 If you open the python file readhtml.py and look at the function
 titletable, you can see the function documentation.
 
@@ -62,11 +66,13 @@ It says the following
 
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.
-
+In[7]:
 .. code:: python
 
     firstitem = htables[0]
     print firstitem
+
+
 
 .. parsed-literal::
 
@@ -75,12 +81,14 @@ this list. Let us look at the first item in the list.
 
 | Ughh !!! that is ugly. Hard to see what it is.
 | Let us use a python module to print it pretty
-
+In[8]:
 .. code:: python
 
     import pprint
     pp = pprint.PrettyPrinter()
     pp.pprint(firstitem)
+
+
 
 .. parsed-literal::
 
@@ -96,21 +104,25 @@ this list. Let us look at the first item in the list.
 
 
 Nice. that is a little clearer
-
+In[9]:
 .. code:: python
 
     firstitem_title = firstitem[0]
     pp.pprint(firstitem_title)
 
+
+
 .. parsed-literal::
 
     u'Site and Source Energy'
 
-
+In[10]:
 .. code:: python
 
     firstitem_table = firstitem[1]
     pp.pprint(firstitem_table)
+
+
 
 .. parsed-literal::
 
@@ -128,17 +140,19 @@ Nice. that is a little clearer
 | We know it is in the third row, second column of the table.
 
 Easy.
-
+In[11]:
 .. code:: python
 
     thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row
     print thirdrow
 
+
+
 .. parsed-literal::
 
     [u'Net Site Energy', 47694.47, 51.44, 51.44]
 
-
+In[12]:
 .. code:: python
 
     thirdrow_secondcolumn = thirdrow[1]
@@ -146,8 +160,9 @@ Easy.
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     47694.47
 
 
@@ -156,7 +171,7 @@ Easy.
 | That is why you see that weird 'u' letter.
 
 Let us convert it to a floating point number
-
+In[13]:
 .. code:: python
 
     net_site_energy = float(thirdrow_secondcolumn)
@@ -164,8 +179,9 @@ Let us convert it to a floating point number
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     47694.47
 
 
@@ -173,7 +189,7 @@ Let us convert it to a floating point number
 Let us have a little fun with the tables.
 
 Get the titles of all the tables
-
+In[14]:
 .. code:: python
 
     alltitles = [htable[0] for htable in htables]
@@ -181,8 +197,9 @@ Get the titles of all the tables
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     [u'Site and Source Energy',
      u'Site to Source Energy Conversion Factors',
      u'Building Area',
@@ -219,12 +236,14 @@ that this title will adequetly describe the table. This is true in most
 cases and titletable() is perfectly good to use. Unfortuntely there are
 some tables that do not follow this rule. The snippet below shows one of
 them.
-
+In[15]:
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.html_snippet2) # display the image below
+
+
 
 
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_28_0.png
@@ -235,7 +254,7 @@ The first two lines have information that describe the table. We need to
 look at both those lines to understand what the table contains. So we
 need a different function that will capture all those lines before the
 table. The funtion lines\_table() described below will do this.
-
+In[16]:
 .. code:: python
 
     from eppy import readhtml # the eppy module with functions to read the html
@@ -245,16 +264,19 @@ table. The funtion lines\_table() described below will do this.
     
     ltables = readhtml.lines_table(filehandle) # reads the tables with their titles
 
+
 The html snippet shown above is the last table in HTML file we just
 opened. We have used lines\_table() to read the tables into the variable
 ltables. We can get to the last table by ltable[-1]. Let us print it and
 see what we have.
-
+In[17]:
 .. code:: python
 
     import pprint
     pp = pprint.PrettyPrinter()
     pp.pprint(ltables[-1])
+
+
 
 
 .. parsed-literal::
@@ -287,7 +309,7 @@ see what we have.
 
 We can see that ltables has captured all the lines before the table. Let
 us make our code more explicit to see this
-
+In[18]:
 .. code:: python
 
     last_ltable = ltables[-1]
@@ -295,6 +317,8 @@ us make our code more explicit to see this
     table_itself = last_ltable[-1]
     
     pp.pprint(lines_before_table)
+
+
 
 
 .. parsed-literal::
@@ -313,7 +337,7 @@ that has the following two lines before it.
 -  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 -  For: PERIMETER\_MID\_ZN\_4
 
-
+In[19]:
 .. code:: python
 
     line1 = 'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT'
@@ -325,12 +349,13 @@ that has the following two lines before it.
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     True
 
 
-
+In[20]:
 .. code:: python
 
     # find all the tables where those two lines are before the table
@@ -340,8 +365,9 @@ that has the following two lines before it.
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     [[[u'Table of Contents',
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
@@ -373,7 +399,7 @@ That worked !
 
 What if you want to find the words "FANGER" and "PERIMETER\_MID\_ZN\_4"
 before the table. The following code will do it.
-
+In[21]:
 .. code:: python
 
     # sample code to illustrate what we are going to do
@@ -386,6 +412,8 @@ before the table. The following code will do it.
     print justtext
 
 
+
+
 .. parsed-literal::
 
     Table of Contents
@@ -394,7 +422,7 @@ before the table. The following code will do it.
     Timestamp: 2014-02-07
         12:29:08
 
-
+In[22]:
 .. code:: python
 
     "FANGER" in justtext and "PERIMETER_MID_ZN_4" in justtext
@@ -402,12 +430,13 @@ before the table. The following code will do it.
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     True
 
 
-
+In[23]:
 .. code:: python
 
     # Let us combine the this trick to find the table
@@ -416,8 +445,9 @@ before the table. The following code will do it.
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     [[[u'Table of Contents',
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
@@ -454,7 +484,7 @@ The first vertical row has text. The remaining cells have numbers. We
 can identify the numbers we need by looking at the labelin the top row
 and the label in the first column. Let us construct a simple example and
 explore this.
-
+In[24]:
 .. code:: python
 
     # ignore the following three lines. I am using them to construct the table below
@@ -464,53 +494,29 @@ explore this.
 
 
 
-.. raw:: html
 
-    <TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
-     <TR>
-      <TD>&nbsp;</TD>
-      <TD>a b</TD>
-      <TD>b c</TD>
-      <TD>c d</TD>
-     </TR>
-     <TR>
-      <TD>x y</TD>
-      <TD>1</TD>
-      <TD>2</TD>
-      <TD>3</TD>
-     </TR>
-     <TR>
-      <TD>y z</TD>
-      <TD>4</TD>
-      <TD>5</TD>
-      <TD>6</TD>
-     </TR>
-     <TR>
-      <TD>z z</TD>
-      <TD>7</TD>
-      <TD>8</TD>
-      <TD>9</TD>
-     </TR>
-    </TABLE>
 
 
 
 This table is actually in the follwoing form:
-
+In[25]:
 .. code:: python
 
     atable = [["",  "a b", "b c", "c d"],
          ["x y", 1,     2,     3 ],
          ["y z", 4,     5,     6 ],
          ["z z", 7,     8,     9 ],]
+
 We can see the labels in the table. So we an look at row "x y" and
 column "c d". The value there is 3
 
 right now we can get to it by saying atable[1][3]
-
+In[26]:
 .. code:: python
 
     print atable[1][3]
+
+
 
 .. parsed-literal::
 
@@ -523,14 +529,17 @@ The only limitation is that the labels have to be letters or digits.
 Named tuples does not allow spaces in the labels. We could replace the
 space with an underscore ' \_ '. So "a b" will become "a\_b". So we can
 look for row "x\_y" and column "c\_d". Let us try this out.
-
+In[27]:
 .. code:: python
 
     from eppy import readhtml
     h_table = readhtml.named_grid_h(atable)
+In[28]:
 .. code:: python
 
     print h_table.x_y.c_d
+
+
 
 .. parsed-literal::
 
@@ -538,10 +547,12 @@ look for row "x\_y" and column "c\_d". Let us try this out.
 
 
 We can still get to the value by index
-
+In[29]:
 .. code:: python
 
     print h_table[0][2]
+
+
 
 .. parsed-literal::
 
@@ -553,12 +564,14 @@ because h\_table does not count the rows and columns where the labels
 are.
 
 We can also do the following:
-
+In[30]:
 .. code:: python
 
     print h_table.x_y[2]
     # or
     print h_table[0].c_d
+
+
 
 .. parsed-literal::
 
@@ -568,10 +581,12 @@ We can also do the following:
 
 Wow … that is pretty cool. What if we want to just check what the labels
 are ?
-
+In[31]:
 .. code:: python
 
     print h_table._fields
+
+
 
 .. parsed-literal::
 
@@ -579,15 +594,16 @@ are ?
 
 
 That gives us the horizontal lables. How about the vertical labels ?
-
+In[32]:
 .. code:: python
 
     h_table.x_y._fields
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     ('a_b', 'b_c', 'c_d')
 
 
@@ -597,11 +613,13 @@ There you go !!!
 How about if I want to use the labels differently ? Say I want to refer
 to the row first and then to the column. That woul be saying
 table.c\_d.x\_y. We can do that by using a different function
-
+In[33]:
 .. code:: python
 
     v_table = readhtml.named_grid_v(atable)
     print v_table.c_d.x_y
+
+
 
 .. parsed-literal::
 
@@ -609,12 +627,14 @@ table.c\_d.x\_y. We can do that by using a different function
 
 
 And we can do the following
-
+In[34]:
 .. code:: python
 
     print v_table[2][0]
     print v_table.c_d[0]
     print v_table[2].x_y
+
+
 
 .. parsed-literal::
 
@@ -624,41 +644,45 @@ And we can do the following
 
 
 Let us try to get the numbers in the first column and then get their sum
-
+In[35]:
 .. code:: python
 
     v_table.a_b
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     ntrow(x_y=1, y_z=4, z_z=7)
 
 
 
 Look like we got the right column. But not in the right format. We
 really need a list of numbers
-
+In[36]:
 .. code:: python
 
     [cell for cell in v_table.a_b]
 
 
 
-.. parsed-literal::
 
+
+.. parsed-literal::
     [1, 4, 7]
 
 
 
 That looks like waht we wanted. Now let us get the sum
-
+In[37]:
 .. code:: python
 
     values_in_first_column = [cell for cell in v_table.a_b]
     print values_in_first_column
     print sum(values_in_first_column) # sum is a builtin function that will sum a list
+
+
 
 .. parsed-literal::
 
@@ -667,12 +691,14 @@ That looks like waht we wanted. Now let us get the sum
 
 
 To get the first row we use the variable h\_table
-
+In[38]:
 .. code:: python
 
     values_in_first_row = [cell for cell in h_table.x_y]
     print values_in_first_row
     print sum(values_in_first_row)
+
+
 
 .. parsed-literal::
 

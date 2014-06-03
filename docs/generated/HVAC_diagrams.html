@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to eppy’s documentation! &mdash; eppy 0.4.6.1 documentation</title>
+    <title>&lt;no title&gt; &mdash; eppy 0.4.6.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,8 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.1 documentation" href="#" />
-    <link rel="next" title="Installation" href="installation.html" /> 
+    <link rel="top" title="eppy 0.4.6.1 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,10 +32,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="installation.html" title="Installation"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">eppy 0.4.6.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -45,28 +41,72 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-eppy-s-documentation">
-<h1>Welcome to eppy&#8217;s documentation!<a class="headerlink" href="#welcome-to-eppy-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Main_Tutorial.html">Eppy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="HVAC_Tutorial.html">HVAC Loops</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Outputs_Tutorial.html">Reading outputs from E+</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newfunctions.html">New functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="eppy_api.html">Eppy API</a></li>
-</ul>
+  <p>In[1]:
+.. code:: python</p>
+<blockquote>
+<div>&#8220;&#8221;&#8220;HVAC diagrams&#8221;&#8220;&#8221;</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;HVAC diagrams&#39;</span>
+</pre></div>
 </div>
+<p>In[2]:
+.. code:: python</p>
+<blockquote>
+<div><p># you would normaly install eppy by doing
+# python setup.py install
+# or
+# pip install eppy
+# or
+# easy_install eppy</p>
+<p># if you have not done so, uncomment the following three lines
+import sys
+# pathnameto_eppy = &#8216;c:/eppy&#8217;
+pathnameto_eppy = &#8216;../&#8217;
+sys.path.append(pathnameto_eppy)</p>
+</div></blockquote>
+<p>In[3]:
+.. code:: python</p>
+<blockquote>
+<div>from eppy import modeleditor
+from eppy.modeleditor import IDF
+iddfile = &#8221;../eppy/resources/iddfiles/Energy+V8_0_0.idd&#8221;
+fname = &#8221;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&#8221;
+IDF.setiddname(iddfile)</div></blockquote>
+<p>In[4]:
+.. code:: python</p>
+<blockquote>
+<div>idf = IDF(fname)</div></blockquote>
+<p>In[5]:
+.. code:: python</p>
+<blockquote>
+<div># idf.model</div></blockquote>
+<p>In[6]:
+.. code:: python</p>
+<blockquote>
+<div><p>from eppy.EPlusInterfaceFunctions import readidf
+from eppy.ex_loopdiagram import makeairplantloop, makediagram</p>
+<p>print &#8220;readingfile&#8221;
+data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+print &#8220;constructing the loops&#8221;
+edges = makeairplantloop(data, commdct)
+print &#8220;making the diagram&#8221;
+g = makediagram(edges)
+dotname = &#8220;a.dot&#8221;
+pngname = &#8220;a.png&#8221;
+# dotname = &#8216;%s.dot&#8217; % (os.path.splitext(fname)[0])
+# pngname = &#8216;%s.png&#8217; % (os.path.splitext(fname)[0])
+g.write(dotname)
+g.write_png(pngname)</p>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>readingfile
+constructing the loops
+making the diagram
+</pre></div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
+</pre></div>
 </div>
+<p>In[ ]:
+.. code:: python</p>
 
 
           </div>
@@ -74,18 +114,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to eppy&#8217;s documentation!</a></li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-  <h4>Next topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="next chapter">Installation</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/HVAC_diagrams.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -111,10 +142,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="installation.html" title="Installation"
-             >next</a> |</li>
-        <li><a href="#">eppy 0.4.6.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

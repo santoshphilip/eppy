@@ -76,11 +76,12 @@ Diagramtically the the two sides of the loop will look like this::
 
 
 In eppy you could embody this is a list
-
+In[14]:
 .. code:: python
 
     supplyside = ['start_brandh',   [  'branch1',   'branch2',   'branch3'],   'end_branch']
     demandside = ['d_start_brandh', ['d_branch1', 'd_branch2', 'd_branch3'], 'd_end_branch']
+
 Eppy will build the build the shape/topology of the loop using the two
 lists above. Each branch will have a placeholder component, like a pipe
 or a duct::
@@ -115,7 +116,7 @@ Let us try this out ans see how it works.
 Building the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
+In[15]:
 .. code:: python
 
     # you would normaly install eppy by doing
@@ -131,6 +132,7 @@ Building the topology of the loop
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
 
+In[40]:
 .. code:: python
 
     from eppy.modeleditor import IDF
@@ -139,6 +141,7 @@ Building the topology of the loop
     from StringIO import StringIO
     iddfile = "../eppy/resources/iddfiles/Energy+V7_0_0_036.idd"
     IDF.setiddname(iddfile)
+In[41]:
 .. code:: python
 
     # make the topology of the loop
@@ -149,6 +152,7 @@ Building the topology of the loop
     hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
     idf.saveas("hhh1.idf")
 
+
 | We have made plant loop and saved it as hhh1.idf.
 | Now let us look at what the loop looks like.
 
@@ -156,26 +160,30 @@ Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
 
 
-| Eppy has a function that can draw the loops.
-| We'll use this to view the loop diagram.
+Eppy has a function that can draw the loops. We'll use this to view the
+loop diagram.
 
-| run the following program in the shell.
-| (you have to run it from the eppy/eppy folder)
+run the following program in the shell. (you have to run it from the
+eppy/eppy folder)
+
 
 # usage:
 # python ex_loopdiagram.py iddfile idffile
 python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf
 
+
 This will output a image by name hhh1.png. This image is shown below.
 
 *Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity*
-
+In[42]:
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.plantloop1) # display the image below
+
+
 
 
 .. image:: HVAC_Tutorial_files/HVAC_Tutorial_23_0.png
@@ -193,7 +201,7 @@ component sb0\_pipe.
 Let us replace it with a branch that has a chiller that is connected to
 a pipe which is turn connected to another pipe. So the connections in
 the new branch would look like "chiller-> pipe1->pipe2"
-
+In[43]:
 .. code:: python
 
     # make a new branch chiller->pipe1-> pipe2
@@ -218,16 +226,19 @@ the new branch would look like "chiller-> pipe1->pipe2"
     # this replaces the components in "branch" with the components in "listofcomponents"
     
     idf.saveas("hhh_new.idf")
+
 | We have saved this as file "hhh\_new.idf".
 | Let us draw the diagram of this file. (run this from eppy/eppy folder)
 
 python ex_loopdiagram.py hhh_new.idf
-
+In[44]:
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.plantloop2) # display the image below
+
+
 
 
 .. image:: HVAC_Tutorial_files/HVAC_Tutorial_29_0.png
@@ -245,7 +256,7 @@ It would be nice to move through the loop using functions "next()" and
 Eppy indeed has such functions
 
 Let us try to traverse the loop above.
-
+In[45]:
 .. code:: python
 
     # to traverse the loop we are going to call some functions ex_loopdiagrams.py, 
@@ -256,10 +267,11 @@ Let us try to traverse the loop above.
     edges = ex_loopdiagram.getedges(fname, iddfile)
     # edges are the lines that draw the nodes in the loop. 
     # The term comes from graph theory in mathematics
+
 The above code gets us the edges of the loop diagram. Once we have the
 edges, we can traverse through the diagram. Let us start with the
 "Central\_Chiller" and work our way down.
-
+In[46]:
 .. code:: python
 
     from eppy import walk_hvac
@@ -267,35 +279,43 @@ edges, we can traverse through the diagram. Let us start with the
     nextnodes = walk_hvac.next(edges, firstnode)
     print nextnodes
 
+
+
 .. parsed-literal::
 
     ['np1']
 
-
+In[47]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
     ['np2']
 
-
+In[48]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
     ['p_loop_supply_splitter']
 
-
+In[49]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
@@ -304,31 +324,37 @@ edges, we can traverse through the diagram. Let us start with the
 
 This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 'sb3\_pipe']. Let us follow one of them
-
+In[50]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
     ['p_loop_supply_mixer']
 
-
+In[51]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
     ['sb4_pipe']
 
-
+In[52]:
 .. code:: python
 
     nextnodes = walk_hvac.next(edges, nextnodes[0])
     print nextnodes
+
+
 
 .. parsed-literal::
 
@@ -338,72 +364,86 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 We have reached the end of this branch. There are no more components.
 
 We can follow this in reverse using the function prev()
-
+In[53]:
 .. code:: python
 
     lastnode = 'sb4_pipe'
     prevnodes = walk_hvac.prev(edges, lastnode)
     print prevnodes
 
+
+
 .. parsed-literal::
 
     ['p_loop_supply_mixer']
 
-
+In[54]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
     ['sb1_pipe', 'sb2_pipe', 'sb3_pipe']
 
-
+In[55]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
     ['p_loop_supply_splitter']
 
-
+In[56]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
     ['np2']
 
-
+In[57]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
     ['np1']
 
-
+In[58]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
     ['Central_Chiller']
 
-
+In[59]:
 .. code:: python
 
     prevnodes = walk_hvac.prev(edges, prevnodes[0])
     print prevnodes
+
+
 
 .. parsed-literal::
 
@@ -419,7 +459,7 @@ Building a Condensor loop
 We build the condensor loop the same way we built the plant loop. Pipes
 are put as place holders for the components. Let us build a new idf file
 with just a condensor loop in it.
-
+In[60]:
 .. code:: python
 
     condensorloop_idf = IDF(StringIO('')) 
@@ -429,6 +469,7 @@ with just a condensor loop in it.
     theloop = hvacbuilder.makecondenserloop(condensorloop_idf, loopname, sloop, dloop)
     condensorloop_idf.saveas("c_loop.idf")
     
+
 
 Again, just as we did in the plant loop, we can change the components of
 the loop, by replacing the branchs and traverse the loop using the
@@ -442,7 +483,7 @@ Building an air loop is similar to the plant and condensor loop. The
 difference is that instead of pipes , we have ducts as placeholder
 components. The other difference is that we have zones on the demand
 side.
-
+In[61]:
 .. code:: python
 
     airloop_idf = IDF(StringIO('')) 
@@ -451,6 +492,7 @@ side.
     dloop = ['zone1', 'zone2', 'zone3'] # zones on the demand side
     hvacbuilder.makeairloop(airloop_idf, loopname, sloop, dloop)
     airloop_idf.saveas("a_loop.idf")
+
 
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
