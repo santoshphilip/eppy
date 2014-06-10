@@ -178,6 +178,19 @@ def report_tables(html_doc):
             tableDict[reportName] = tableVals
     return tableDict
 
+def select_table(report_name, SAMPLE_HTML):
+    """Uses the output of report_tables function to produce a
+        set of nested tables where table values can be
+        addressed by column & row names"""
+    table_dict = report_tables(SAMPLE_HTML)
+    rptTable = readhtml.table_dict[report_name]
+    columnHdrs = rptTable[0]
+    tableContents = rptTable[1:len(columnHdrs)-1]
+    rowHdrs = zip(*tableContents)[0]
+    #tableData = zip(*tableContents)[1:len(tableContents[0])]
+
+    return rowHdrs
+
 def _make_ntgrid(grid):
     """make a named tuple grid
     
