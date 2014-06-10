@@ -3,5 +3,5 @@
 .DS_Store
 .ipynb_checkpoints/
 __pycache__
-*.sublime*
+*.sublime-workspace
 .commitLog
