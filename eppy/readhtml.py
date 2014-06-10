@@ -164,9 +164,10 @@ def _nospace(s):
 def _transpose(arr):
     return map(list, zip(*arr))
 
-def report_tables(lines_table):
+def report_tables(html_doc):
     """Uses the output of lines_table function to produce a set
     of report tables addressable by name """
+    lines_table = readhtml.lines_table(html_doc, True)
     tableDict = {}
     for i in range(len(lines_table)):
         tableName = lines_table[i][0]
@@ -175,7 +176,7 @@ def report_tables(lines_table):
             reportName = reportName[0]
             tableVals = lines_table[i][1]
             tableDict[reportName] = tableVals
-    return tableDict 
+    return tableDict
 
 def _make_ntgrid(grid):
     """make a named tuple grid
