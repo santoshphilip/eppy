@@ -131,7 +131,7 @@ def test_lines_table():
 
 def test_report_tables():
     """py.test for test_named_tables"""
-    lines_table = readhtml.lines_table(SAMPLE_HTML)
+    lines_table = readhtml.lines_table(SAMPLE_HTML, True)
     result = readhtml.report_tables(lines_table)
     assert result == {u'Report: Annual Building Utility Performance Summary': [[u'a', 2.0], [3.0, 4.0]],
     u'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND': [[u'c', 16.0], [17.0, 18.0]],
