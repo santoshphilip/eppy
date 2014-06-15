@@ -164,7 +164,7 @@ def _nospace(s):
 def _transpose(arr):
     return map(list, zip(*arr))
 
-def report_tables(html_doc):
+def _report_tables(html_doc):
     """Uses the output of lines_table function to produce a set
     of report tables addressable by name """
     lines_table = readhtml.lines_table(html_doc, True)
@@ -178,7 +178,7 @@ def report_tables(html_doc):
             tableDict[reportName] = tableVals
     return tableDict
 
-def select_table(report_name, SAMPLE_HTML):
+def select_report(report_name, SAMPLE_HTML):
     """Uses the output of report_tables function to produce a
         set of nested tables where table values can be
         addressed by column & row names"""
