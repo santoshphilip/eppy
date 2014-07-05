@@ -167,14 +167,14 @@ def _transpose(arr):
 def _report_tables(html_doc):
     """Uses the output of lines_table function to produce a set
     of report tables addressable by name """
-    lines_table = readhtml.lines_table(html_doc, True)
+    linesTable = lines_table(html_doc, True)
     tableDict = {}
-    for i in range(len(lines_table)):
-        tableName = lines_table[i][0]
+    for i in range(len(linesTable)):
+        tableName = linesTable[i][0]
         if any("Report: " in s for s in tableName):
             reportName = [s for s in tableName if "Report: " in s]
             reportName = reportName[0]
-            tableVals = lines_table[i][1]
+            tableVals = linesTable[i][1]
             tableDict[reportName] = tableVals
     return tableDict
 
