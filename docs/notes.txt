@@ -75,7 +75,7 @@ The following lines describe how to install eppy to use while writing the tutori
 
 
 installing the most current eppy
-- workon eppytutorial
+- workon eppytutorial # eppy_sphinx
 - pip uninstall eppy (not needed first time)
 - make an eppy egg
     - python setup.py sdist

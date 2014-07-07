@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>eppy.modeleditor &mdash; eppy 0.4.6 documentation</title>
+    <title>eppy.modeleditor &mdash; eppy 0.4.6.1 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -16,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.4.6',
+        VERSION:     '0.4.6.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6 documentation" href="../../index.html" />
+    <link rel="top" title="eppy 0.4.6.1 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">eppy 0.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">eppy 0.4.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,6 +69,7 @@
 <span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">makebunches</span>
 <span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">idfreader</span><span class="p">,</span> <span class="n">idfreader1</span>
 <span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">makeabunch</span>
+<span class="kn">import</span> <span class="nn">function_helpers</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 
 <span class="k">class</span> <span class="nc">NoObjectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -381,15 +380,66 @@
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
         <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
         <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
-    <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
+    <span class="c"># area = sum([floor.area for floor in floors])</span>
+    <span class="k">if</span> <span class="n">floors</span> <span class="o">!=</span> <span class="p">[]:</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea_floor</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea_roofceiling</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">area</span>
     
-<span class="k">def</span> <span class="nf">zonevolume</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">zonearea_floor</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
     <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
+        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
     <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">area</span>
+
+<span class="k">def</span> <span class="nf">zonearea_roofceiling</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;ROOF&#39;</span><span class="p">,</span> 
+                                                            <span class="s">&#39;CEILING&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
+        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">area</span>
+    
+<span class="k">def</span> <span class="nf">zone_height_min2max</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">surf_xyzs</span> <span class="o">=</span> <span class="p">[</span><span class="n">function_helpers</span><span class="o">.</span><span class="n">getcoords</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span><span class="p">]</span>
+    <span class="kn">import</span> <span class="nn">itertools</span> <span class="c"># to flatten the list</span>
+    <span class="n">surf_xyzs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">surf_xyzs</span><span class="p">))</span>
+    <span class="n">surf_zs</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">surf_xyzs</span><span class="p">]</span>
+    <span class="n">topz</span> <span class="o">=</span>  <span class="nb">max</span><span class="p">(</span><span class="n">surf_zs</span><span class="p">)</span>
+    <span class="n">botz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">surf_zs</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>    
+    <span class="k">return</span> <span class="n">height</span>
+    
+<span class="k">def</span> <span class="nf">zoneheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
+    <span class="n">roofs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;ROOF&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">floors</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">roofs</span> <span class="o">==</span> <span class="p">[]:</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_height_min2max</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>    
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_floor2roofheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">height</span>
+    
+<span class="k">def</span> <span class="nf">zone_floor2roofheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
     <span class="n">roofs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;ROOF&#39;</span><span class="p">]</span>
     <span class="n">ceilings</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;CEILING&#39;</span><span class="p">]</span>
     <span class="n">topsurfaces</span> <span class="o">=</span> <span class="n">roofs</span> <span class="o">+</span> <span class="n">ceilings</span>
@@ -405,11 +455,19 @@
         <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">floor</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
             <span class="n">botz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">botz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">botz</span><span class="p">)</span>
-
     <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>
+    
+    <span class="k">return</span> <span class="n">height</span>
+    
+    
+    
+<span class="k">def</span> <span class="nf">zonevolume</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">):</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">zoneheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">volume</span> <span class="o">=</span> <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
 
     <span class="k">return</span> <span class="n">volume</span>
+
 
 <div class="viewcode-block" id="IDF0"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF0">[docs]</a><span class="k">class</span> <span class="nc">IDF0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -427,9 +485,10 @@
     <span class="n">iddname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">idd_info</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">block</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idfname</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">setiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -468,7 +527,7 @@
 <div class="viewcode-block" id="IDF1"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1">[docs]</a><span class="k">class</span> <span class="nc">IDF1</span><span class="p">(</span><span class="n">IDF0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;subclass of IDF0. Uses functions of IDF0 </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IDF1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
 <div class="viewcode-block" id="IDF1.newidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.newidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">newidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aname</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="c"># def newidfobject(self, key, *args, **kwargs):</span>
@@ -504,12 +563,12 @@
         <span class="c"># form self.model.dt</span>
         <span class="c"># since idfobjects is just a wrapper for model.dt</span>
         <span class="n">key</span> <span class="o">=</span> <span class="n">idfobject</span><span class="o">.</span><span class="n">key</span>
-        <span class="n">theobjects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">theobjects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">theobject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">theobjects</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">theobject</span> <span class="ow">is</span> <span class="n">idfobject</span><span class="p">:</span>
                 <span class="n">theobjects</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                 <span class="c"># remove it from model too</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
 <div class="viewcode-block" id="IDF1.copyidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.copyidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">copyidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;add idfobject to this model</span>
 <span class="sd">        </span>
@@ -540,15 +599,28 @@
     <span class="sd">&quot;&quot;&quot;subclass of IDF1. Uses functions of IDF1 </span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IDF2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s">&quot;standard&quot;</span> <span class="c"># standard, nocomment or compressed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s">&quot;standard&quot;</span> <span class="c"># standard, </span>
+                                    <span class="c"># nocomment, </span>
+                                    <span class="c"># nocomment1,</span>
+                                    <span class="c"># nocomment2,</span>
+                                    <span class="c"># compressed</span>
     <span class="k">def</span> <span class="nf">idfstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">!=</span> <span class="s">&#39;standard&#39;</span><span class="p">:</span>
             <span class="n">st</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment&#39;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">st</span>
-            <span class="k">else</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment1&#39;</span><span class="p">:</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
+                <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment2&#39;</span><span class="p">:</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;compressed&#39;</span><span class="p">:</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
                 <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
@@ -569,8 +641,56 @@
     <span class="k">def</span> <span class="nf">saveas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">()</span>
         <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="c"># def initread(self, idfname):</span>
+    <span class="c">#     &quot;&quot;&quot;use the latest iddfile and read file fname&quot;&quot;&quot;</span>
+    <span class="c">#     from StringIO import StringIO</span>
+    <span class="c">#     from eppy.iddcurrent import iddcurrent</span>
+    <span class="c">#     iddfhandle = StringIO(iddcurrent.iddtxt)</span>
+    <span class="c">#     if self.getiddname() == None:</span>
+    <span class="c">#         self.setiddname(iddfhandle)</span>
+    <span class="c">#     self.idfname = idfname</span>
+    <span class="c">#     self.read()</span>
 </div>
-<span class="n">IDF</span> <span class="o">=</span> <span class="n">IDF2</span>
+<span class="k">class</span> <span class="nc">IDF3</span><span class="p">(</span><span class="n">IDF2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;subclass of IDF2. Uses functions of IDF1 and IDF2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IDF3</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">initread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;use the latest iddfile and read file fname</span>
+<span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+        <span class="kn">from</span> <span class="nn">eppy.iddcurrent</span> <span class="kn">import</span> <span class="n">iddcurrent</span>
+        <span class="n">iddfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">iddcurrent</span><span class="o">.</span><span class="n">iddtxt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getiddname</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfhandle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">initnew</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;use the latest iddfile and opens a new file</span>
+<span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+        <span class="kn">from</span> <span class="nn">eppy.iddcurrent</span> <span class="kn">import</span> <span class="n">iddcurrent</span>
+        <span class="n">iddfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">iddcurrent</span><span class="o">.</span><span class="n">iddtxt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getiddname</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfhandle</span><span class="p">)</span>
+        <span class="n">idfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfhandle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">initreadtxt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idftxt</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;use the latest iddfile and read txt</span>
+<span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+        <span class="kn">from</span> <span class="nn">eppy.iddcurrent</span> <span class="kn">import</span> <span class="n">iddcurrent</span>
+        <span class="n">iddfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">iddcurrent</span><span class="o">.</span><span class="n">iddtxt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getiddname</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfhandle</span><span class="p">)</span>
+        <span class="n">idfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfhandle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        
+
+<span class="n">IDF</span> <span class="o">=</span> <span class="n">IDF3</span>
         
                                     
 <span class="k">class</span> <span class="nc">something</span><span class="p">(</span><span class="n">IDF0</span><span class="p">):</span>
@@ -612,13 +732,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../index.html">eppy 0.4.6 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">eppy 0.4.6.1 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>
