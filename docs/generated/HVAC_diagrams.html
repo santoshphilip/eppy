@@ -41,72 +41,63 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <p>In[1]:
-.. code:: python</p>
-<blockquote>
-<div>&#8220;&#8221;&#8220;HVAC diagrams&#8221;&#8220;&#8221;</div></blockquote>
+  <div class="code python highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;HVAC diagrams&quot;&quot;&quot;</span>
+</pre></div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;HVAC diagrams&#39;</span>
 </pre></div>
 </div>
-<p>In[2]:
-.. code:: python</p>
-<blockquote>
-<div><p># you would normaly install eppy by doing
-# python setup.py install
-# or
-# pip install eppy
-# or
-# easy_install eppy</p>
-<p># if you have not done so, uncomment the following three lines
-import sys
-# pathnameto_eppy = &#8216;c:/eppy&#8217;
-pathnameto_eppy = &#8216;../&#8217;
-sys.path.append(pathnameto_eppy)</p>
-</div></blockquote>
-<p>In[3]:
-.. code:: python</p>
-<blockquote>
-<div>from eppy import modeleditor
-from eppy.modeleditor import IDF
-iddfile = &#8221;../eppy/resources/iddfiles/Energy+V8_0_0.idd&#8221;
-fname = &#8221;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&#8221;
-IDF.setiddname(iddfile)</div></blockquote>
-<p>In[4]:
-.. code:: python</p>
-<blockquote>
-<div>idf = IDF(fname)</div></blockquote>
-<p>In[5]:
-.. code:: python</p>
-<blockquote>
-<div># idf.model</div></blockquote>
-<p>In[6]:
-.. code:: python</p>
-<blockquote>
-<div><p>from eppy.EPlusInterfaceFunctions import readidf
-from eppy.ex_loopdiagram import makeairplantloop, makediagram</p>
-<p>print &#8220;readingfile&#8221;
-data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-print &#8220;constructing the loops&#8221;
-edges = makeairplantloop(data, commdct)
-print &#8220;making the diagram&#8221;
-g = makediagram(edges)
-dotname = &#8220;a.dot&#8221;
-pngname = &#8220;a.png&#8221;
-# dotname = &#8216;%s.dot&#8217; % (os.path.splitext(fname)[0])
-# pngname = &#8216;%s.png&#8217; % (os.path.splitext(fname)[0])
-g.write(dotname)
-g.write_png(pngname)</p>
-</div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>readingfile
-constructing the loops
-making the diagram
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
+
+<span class="c"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V8_0_0.idd&quot;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># idf.model</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.EPlusInterfaceFunctions</span> <span class="kn">import</span> <span class="n">readidf</span>
+<span class="kn">from</span> <span class="nn">eppy.ex_loopdiagram</span> <span class="kn">import</span> <span class="n">makeairplantloop</span><span class="p">,</span> <span class="n">makediagram</span>
+
+<span class="k">print</span> <span class="s">&quot;readingfile&quot;</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">commdct</span> <span class="o">=</span> <span class="n">readidf</span><span class="o">.</span><span class="n">readdatacommdct</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">iddfile</span><span class="o">=</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;constructing the loops&quot;</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">makeairplantloop</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;making the diagram&quot;</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">makediagram</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">dotname</span> <span class="o">=</span> <span class="s">&quot;a.dot&quot;</span>
+<span class="n">pngname</span> <span class="o">=</span> <span class="s">&quot;a.png&quot;</span>
+<span class="c"># dotname = &#39;%s.dot&#39; % (os.path.splitext(fname)[0])</span>
+<span class="c"># pngname = &#39;%s.png&#39; % (os.path.splitext(fname)[0])</span>
+<span class="n">g</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dotname</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">pngname</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>readingfile
+constructing the loops
+making the diagram</pre>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
 </div>
-<p>In[ ]:
-.. code:: python</p>
 
 
           </div>
@@ -147,7 +138,7 @@ making the diagram
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

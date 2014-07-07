@@ -9,7 +9,7 @@ documentation
 Python Lesson: Errors and Exceptions
 ------------------------------------
 
-In[1]:
+
 .. code:: python
 
     # you would normaly install eppy by doing
@@ -24,7 +24,6 @@ In[1]:
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
-
 
 When things go wrong in your eppy script, you get "Errors and
 Exceptions".
@@ -54,16 +53,15 @@ see how that happens.
 
 First let us try to open an **idf** file without setting an **idd**
 file.
-In[2]:
+
 .. code:: python
 
     from eppy import modeleditor 
     from eppy.modeleditor import IDF
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
-
 Now let us open file fname1 without setting the **idd** file
-In[3]:
+
 .. code:: python
 
     try:
@@ -72,9 +70,8 @@ In[3]:
         raise e
         
 
-
-
 ::
+
 
     ---------------------------------------------------------------------------
     IDDNotSetError                            Traceback (most recent call last)
@@ -92,19 +89,18 @@ In[3]:
 OK. It does not let you do that and it raises an exception
 
 So let us set the **idd** file and then open the idf file
-In[4]:
+
 .. code:: python
 
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
 
-
 That worked without raising an exception
 
 Now let us try to change the **idd** file. Eppy should not let you do
 this and should raise an exception.
-In[5]:
+
 .. code:: python
 
     try:
@@ -113,9 +109,8 @@ In[5]:
         raise e   
         
 
-
-
 ::
+
 
     ---------------------------------------------------------------------------
     IDDAlreadySetError                        Traceback (most recent call last)
@@ -146,7 +141,7 @@ demonstrate two new functions:
 -  EpBunch.checkrange(fieldname) # will throw an exception if the value
    is outside the range
 
-In[6]:
+
 .. code:: python
 
     from eppy import modeleditor 
@@ -154,19 +149,15 @@ In[6]:
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
-In[7]:
 .. code:: python
 
     # IDF.setiddname(iddfile)# idd ws set further up in this page
     idf1 = IDF(fname1)
 
-In[8]:
 .. code:: python
 
     building = idf1.idfobjects['building'.upper()][0]
     print building
-
-
 
 
 .. parsed-literal::
@@ -183,24 +174,20 @@ In[8]:
         6;                        !- Minimum Number of Warmup Days
     
 
-In[9]:
+
 .. code:: python
 
     print building.getrange("Loads_Convergence_Tolerance_Value")
-
-
 
 
 .. parsed-literal::
 
     {'maximum<': None, 'minimum': None, 'type': 'real', 'maximum': 0.5, 'minimum>': 0.0}
 
-In[10]:
+
 .. code:: python
 
     print building.checkrange("Loads_Convergence_Tolerance_Value")
-
-
 
 
 .. parsed-literal::
@@ -209,7 +196,7 @@ In[10]:
 
 
 Let us set these values outside the range and see what happens
-In[11]:
+
 .. code:: python
 
     building.Loads_Convergence_Tolerance_Value = 0.6
@@ -220,9 +207,8 @@ In[11]:
         raise e
         
 
-
-
 ::
+
 
     ---------------------------------------------------------------------------
     RangeError                                Traceback (most recent call last)
@@ -247,12 +233,10 @@ We have seen how to check the range of field in the idf object. What if
 you want to do a *range check* on all the fields in an idf object ? To
 do this we will need a list of all the fields in the idf object. We can
 do this easily by the following line
-In[12]:
+
 .. code:: python
 
     print building.fieldnames
-
-
 
 
 .. parsed-literal::
@@ -261,14 +245,12 @@ In[12]:
 
 
 So let us use this
-In[13]:
+
 .. code:: python
 
     for fieldname in building.fieldnames:
         print "%s = %s" % (fieldname, building[fieldname])
         
-
-
 
 .. parsed-literal::
 
@@ -285,7 +267,7 @@ In[13]:
 
 Now let us test if the values are in the legal range. We know that
 "Loads\_Convergence\_Tolerance\_Value" is out of range
-In[14]:
+
 .. code:: python
 
     from eppy.bunch_subclass import RangeError
@@ -296,8 +278,6 @@ In[14]:
         except RangeError as e:
             print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
             
-
-
 
 .. parsed-literal::
 
@@ -326,7 +306,7 @@ disk:
 -  Save it to the disk
 
 Here are the steps to do that
-In[15]:
+
 .. code:: python
 
     # some initial steps
@@ -341,8 +321,6 @@ In[15]:
     idf_fromfilename.printidf()
 
 
-
-
 .. parsed-literal::
 
     
@@ -374,7 +352,7 @@ In[15]:
         190.0;                    !- Elevation
     
 
-In[16]:
+
 .. code:: python
 
     # - now let us open a file from the disk differently
@@ -385,8 +363,6 @@ In[16]:
     idf_fromfilehandle.printidf()
 
 
-
-
 .. parsed-literal::
 
     
@@ -418,7 +394,7 @@ In[16]:
         190.0;                    !- Elevation
     
 
-In[17]:
+
 .. code:: python
 
     # So IDF object can be initialized with either a file name or a file handle
@@ -432,8 +408,6 @@ In[17]:
     idf_emptyfile.printidf()
 
 
-
-
 .. parsed-literal::
 
     
@@ -442,7 +416,7 @@ In[17]:
 It did not print anything. Why should it. It was empty.
 
 What if we give it a string that was not blank
-In[18]:
+
 .. code:: python
 
     # - The string does not have to be blank
@@ -451,8 +425,6 @@ In[18]:
     idf_notemptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_notemptyfile.printidf()
-
-
 
 
 .. parsed-literal::
@@ -466,7 +438,7 @@ In[18]:
 Aha !
 
 Now let us give it a file name
-In[19]:
+
 .. code:: python
 
     # - give it a file name
@@ -474,15 +446,12 @@ In[19]:
     # - Save it to the disk
     idf_notemptyfile.save()
 
-
 Let us confirm that the file was saved to disk
-In[20]:
+
 .. code:: python
 
     txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
     print txt
-
-
 
 
 .. parsed-literal::
@@ -494,12 +463,11 @@ In[20]:
 
 
 Yup ! that file was saved. Let us delete it since we were just playing
-In[21]:
+
 .. code:: python
 
     import os
     os.remove("notemptyfile.idf")
-
 
 Deleting, copying/adding and making new idfobjects
 --------------------------------------------------
@@ -511,7 +479,7 @@ Making a new idf object
 
 Let us start with a blank idf file and make some new "MATERIAL" objects
 in it
-In[22]:
+
 .. code:: python
 
     # making a blank idf object
@@ -519,21 +487,17 @@ In[22]:
     from StringIO import StringIO
     idf = IDF(StringIO(blankstr))
 
-
 To make and add a new idfobject object, we use the function
 IDF.newidfobject(). We want to make an object of type "MATERIAL"
-In[23]:
+
 .. code:: python
 
     newobject = idf.newidfobject("material".upper()) # the key for the object type has to be in upper case
                                          # .upper() makes it upper case
         
-In[24]:
 .. code:: python
 
     print newobject
-
-
 
 
 .. parsed-literal::
@@ -553,13 +517,11 @@ In[24]:
 
 
 Let us give this a name, say "Shiny new material object"
-In[25]:
+
 .. code:: python
 
     newobject.Name = "Shiny new material object"
     print newobject
-
-
 
 
 .. parsed-literal::
@@ -577,7 +539,7 @@ In[25]:
         0.7;                      !- Visible Absorptance
     
 
-In[26]:
+
 .. code:: python
 
     anothermaterial = idf.newidfobject("material".upper())
@@ -585,8 +547,6 @@ In[26]:
     thirdmaterial = idf.newidfobject("material".upper())
     thirdmaterial.Name = "third material"
     print thirdmaterial
-
-
 
 
 .. parsed-literal::
@@ -606,12 +566,10 @@ In[26]:
 
 
 Let us look at all the "MATERIAL" objects
-In[27]:
+
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-
 
 
 .. parsed-literal::
@@ -665,17 +623,14 @@ Deleting an idf object
 
 Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material
-In[28]:
+
 .. code:: python
 
     idf.popidfobject('MATERIAL', 1) # first material is '0', second is '1'
 
-In[29]:
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
-
-
 
 
 .. parsed-literal::
@@ -707,12 +662,11 @@ In[29]:
 
 You can see that the second material is gone ! Now let us remove the
 first material, but do it using a different function
-In[30]:
+
 .. code:: python
 
     firstmaterial = idf.idfobjects['MATERIAL'][-1]
 
-In[31]:
 .. code:: python
 
     idf.removeidfobject(firstmaterial)
@@ -720,18 +674,15 @@ In[31]:
 
 
 
-
-
 .. parsed-literal::
+
     ['MATERIAL', 'third material', '', '', '', '', '', 0.9, 0.7, 0.7]
 
 
-In[32]:
+
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
-
-
 
 
 .. parsed-literal::
@@ -762,20 +713,16 @@ Copying/Adding an idf object
 
 Having deleted two "MATERIAL" objects, we have only one left. Let us
 make a copy of this object and add it to our idf file
-In[33]:
+
 .. code:: python
 
     onlymaterial = idf.idfobjects["MATERIAL"][0]
-In[34]:
 .. code:: python
 
     idf.copyidfobject(onlymaterial)
-In[35]:
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-
 
 .. parsed-literal::
 
@@ -817,7 +764,7 @@ can do that too.
 Renaming an idf object
 ----------------------
 
-In[36]:
+
 .. code:: python
 
     gypboard = idf.newidfobject('MATERIAL', Name="G01a 19mm gypsum board",
@@ -826,12 +773,9 @@ In[36]:
                                 Conductivity=0.16,
                                 Density=800,
                                 Specific_Heat=1090)
-In[37]:
 .. code:: python
 
     print gypboard
-
-
 
 .. parsed-literal::
 
@@ -851,12 +795,10 @@ In[37]:
 
 newidfobject() also fills in the default values like "Thermal
 Absorptance", "Solar Absorptance", etc.
-In[38]:
+
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
-
-
 
 .. parsed-literal::
 
@@ -916,7 +858,7 @@ will have to change it in all those construction objects. Sounds
 painfull.
 
 Let us try this with an example:
-In[39]:
+
 .. code:: python
 
     interiorwall = idf.newidfobject("CONSTRUCTION", Name="Interior Wall",
@@ -924,8 +866,6 @@ In[39]:
                      Layer_2="Shiny new material object",
                      Layer_3="G01a 19mm gypsum board")
     print interiorwall
-
-
 
 
 .. parsed-literal::
@@ -941,16 +881,15 @@ In[39]:
 
 to rename gypboard and have that name change in all the places we call
 modeleditor.rename(idf, key, oldname, newname)
-In[40]:
+
 .. code:: python
 
     modeleditor.rename(idf, "MATERIAL", "G01a 19mm gypsum board", "peanut butter")
 
 
 
-
-
 .. parsed-literal::
+
     
     MATERIAL,                 
         peanut butter,            !- Name
@@ -965,12 +904,10 @@ In[40]:
 
 
 
-In[41]:
+
 .. code:: python
 
     print interiorwall
-
-
 
 .. parsed-literal::
 
@@ -985,12 +922,10 @@ In[41]:
 
 Now we have "peanut butter" everywhere. At least where we need it. Let
 us look at the entir idf file, just to be sure
-In[42]:
+
 .. code:: python
 
     idf.printidf()
-
-
 
 .. parsed-literal::
 
@@ -1043,7 +978,7 @@ Zone area and volume
 The idf file has zones with surfaces and windows. It is easy to get the
 attributes of the surfaces and windows as we have seen in the tutorial.
 Let us review this once more:
-In[43]:
+
 .. code:: python
 
     from eppy import modeleditor 
@@ -1051,11 +986,9 @@ In[43]:
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/box.idf"
     # IDF.setiddname(iddfile)
-In[44]:
 .. code:: python
 
     idf = IDF(fname1)
-In[45]:
 .. code:: python
 
     surfaces = idf.idfobjects["BuildingSurface:Detailed".upper()]
@@ -1063,8 +996,6 @@ In[45]:
     print "area = %s" % (surface.area, )
     print "tilt = %s" % (surface.tilt, )
     print "azimuth = %s" % (surface.azimuth, )
-
-
 
 .. parsed-literal::
 
@@ -1078,7 +1009,7 @@ Can we do the same for zones ?
 Not yet .. not yet. Not in this version on eppy
 
 But we can still get the area and volume of the zone
-In[46]:
+
 .. code:: python
 
     zones = idf.idfobjects["ZONE"]
@@ -1087,8 +1018,6 @@ In[46]:
     volume = modeleditor.zonevolume(idf, zone.Name)
     print "zone area = %s" % (area, )
     print "zone volume = %s" % (volume, )
-
-
 
 .. parsed-literal::
 

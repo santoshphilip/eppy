@@ -1,17 +1,16 @@
-In[1]:
+
 .. code:: python
 
     """HVAC diagrams"""
 
 
 
-
-
 .. parsed-literal::
+
     'HVAC diagrams'
 
 
-In[2]:
+
 .. code:: python
 
     # you would normaly install eppy by doing
@@ -26,7 +25,6 @@ In[2]:
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
-In[3]:
 .. code:: python
 
     from eppy import modeleditor 
@@ -34,15 +32,12 @@ In[3]:
     iddfile = "../eppy/resources/iddfiles/Energy+V8_0_0.idd"
     fname = "../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf"
     IDF.setiddname(iddfile)
-In[4]:
 .. code:: python
 
     idf = IDF(fname)
-In[5]:
 .. code:: python
 
     # idf.model
-In[6]:
 .. code:: python
 
     from eppy.EPlusInterfaceFunctions import readidf
@@ -62,8 +57,6 @@ In[6]:
     g.write_png(pngname)
 
 
-
-
 .. parsed-literal::
 
     readingfile
@@ -74,10 +67,11 @@ In[6]:
 
 
 .. parsed-literal::
+
     True
 
 
-In[ ]:
+
 .. code:: python
 
     
