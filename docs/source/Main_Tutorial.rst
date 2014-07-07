@@ -180,11 +180,13 @@ explain later.
 .. code:: python
 
     building = idf1.idfobjects['BUILDING'][0]
+
 Now we can do this:
 
 .. code:: python
 
     print building.Name
+
 
 .. parsed-literal::
 
@@ -196,9 +198,11 @@ Now that we've isolated the building name, we can change it.
 .. code:: python
 
     building.Name = "Empire State Building"
+
 .. code:: python
 
     print building.Name
+
 
 .. parsed-literal::
 
@@ -211,6 +215,7 @@ model and see.
 .. code:: python
 
     idf1.printidf()
+
 
 .. parsed-literal::
 
@@ -259,18 +264,21 @@ structure::
 
     object.fieldname = "New Field Name"
 
+
 Plugging the object name (building), the field name (Name) and our new
 field name ("Empire State Building") into this command gave us this:
 
 .. code:: python
 
     building.Name = "Empire State Building"
+
 .. code:: python
 
     import eppy
     # import eppy.ex_inits
     # reload(eppy.ex_inits)
     import eppy.ex_inits
+
 But how did we know that "Name" is one of the fields in the object
 "building"?
 
@@ -285,6 +293,7 @@ Let's take a look at the IDF editor:
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.idfeditor) 
+
 
 
 .. image:: Main_Tutorial_files/Main_Tutorial_34_0.png
@@ -311,6 +320,7 @@ Let us try to access the other fields.
 
     print building.Terrain
 
+
 .. parsed-literal::
 
     City
@@ -331,6 +341,7 @@ So "North Axis" becomes "North\_Axis".
 
     print building.North_Axis
 
+
 .. parsed-literal::
 
     30.0
@@ -348,6 +359,7 @@ Now we can do:
     print building.Solar_Distribution
     print building.Maximum_Number_of_Warmup_Days
     print building.Minimum_Number_of_Warmup_Days
+
 
 .. parsed-literal::
 
@@ -381,6 +393,7 @@ IDF Editor saves ::
         25,                      !- Maximum Number of Warmup Days
         6;                       !- Minimum Number of Warmup Days
 
+
 This a good place to find the field names too.
 
 It is easy to copy and paste from here. You can't do that from the IDF
@@ -409,6 +422,7 @@ a look at how lists work in python.
 
     fruits = ["apple", "orange", "bannana"] 
     # fruits is a list with three items in it.
+
 To get the first item in fruits we say:
 
 .. code:: python
@@ -433,6 +447,7 @@ get the third item in the list we'd need to input 2, like this:
 
     print fruits[2]
 
+
 .. parsed-literal::
 
     bannana
@@ -445,6 +460,7 @@ we call it firstfruit?
 
     firstfruit = fruits[0]
     print firstfruit
+
 
 .. parsed-literal::
 
@@ -462,6 +478,7 @@ We also can say
     print goodfruit
     print redfruit
     print fruits[0]
+
 
 .. parsed-literal::
 
@@ -485,6 +502,7 @@ The function 'len' will do this for us.
 
     print len(fruits)
 
+
 .. parsed-literal::
 
     3
@@ -500,12 +518,14 @@ This is easy:
 
 .. code:: python
 
-    idf1.save() 
+    idf1.save()
+
 If you'd like to do a "Save as..." use this:
 
 .. code:: python
 
     idf1.saveas('something.idf')
+
 Working with E+ objects
 -----------------------
 
@@ -537,6 +557,7 @@ Let us print all the "MATERIAL" objects in this model.
 
     materials = idf1.idfobjects["MATERIAL"]
     print materials
+
 
 .. parsed-literal::
 
@@ -634,9 +655,11 @@ items in this list.
 
     firstmaterial = materials[0]
     secondmaterial = materials[1]
+
 .. code:: python
 
     print firstmaterial
+
 
 .. parsed-literal::
 
@@ -656,6 +679,7 @@ Let us print secondmaterial
 .. code:: python
 
     print secondmaterial
+
 
 .. parsed-literal::
 
@@ -698,6 +722,7 @@ item on the list. Like so:
             "Steve Jobs", "Lady Gaga", "Santa Clause"]
     print bad_architects[3]
 
+
 .. parsed-literal::
 
     Lady Gaga
@@ -711,6 +736,7 @@ etc.
 
     print bad_architects[-1]
     print bad_architects[-2]
+
 
 .. parsed-literal::
 
@@ -726,9 +752,11 @@ You can also get more than one item in a list:
 
 bad_architects[first_slice:second_slice]
 
+
 .. code:: python
 
     print bad_architects[1:3] # slices at 1 and 3
+
 
 .. parsed-literal::
 
@@ -744,6 +772,7 @@ To understand this you need to see the list in the following manner::
      0               1              2             3            4              5
     -5              -4             -3            -2           -1
 
+
 The slice operation bad\_architects[1:3] slices right where the numbers
 are.
 
@@ -755,6 +784,7 @@ Let us try a few other slices:
 
     print bad_architects[2:-1] # slices at 2 and -1
     print bad_architects[-3:-1] # slices at -3 and -1
+
 
 .. parsed-literal::
 
@@ -770,6 +800,7 @@ You can also slice in the following way:
     print bad_architects[:2] 
     print bad_architects[-3:] 
     print bad_architects[:-2] 
+
 
 .. parsed-literal::
 
@@ -792,10 +823,12 @@ listname::
 
     listname.append(something)
 
+
 .. code:: python
 
     bad_architects.append("First-year students")
     print bad_architects
+
 
 .. parsed-literal::
 
@@ -812,12 +845,14 @@ looks like this:
 
 listname.remove(value) 
 
+
 An example:
 
 .. code:: python
 
     bad_architects.remove("First-year students")
     print bad_architects
+
 
 .. parsed-literal::
 
@@ -833,10 +868,12 @@ You should use the pop function. It looks like this:
 
 listname.pop(index)
 
+
 .. code:: python
 
     what_i_ate_today = ["coffee", "bacon", "eggs"]
     print what_i_ate_today
+
 
 .. parsed-literal::
 
@@ -849,6 +886,7 @@ listname.pop(index)
     # but I don't like vegetables
     print what_i_ate_today
 
+
 .. parsed-literal::
 
     ['coffee', 'bacon', 'eggs', 'vegetables']
@@ -860,6 +898,7 @@ listname.pop(index)
     what_i_ate_today.pop(-1) # use index of -1, since vegetables is the last item in the list
     print what_i_ate_today
 
+
 .. parsed-literal::
 
     ['coffee', 'bacon', 'eggs']
@@ -870,6 +909,7 @@ You can also remove the second item.
 .. code:: python
 
     what_i_ate_today.pop(1)
+
 
 
 
@@ -913,6 +953,7 @@ Let us get those "MATERIAL" objects again
 .. code:: python
 
     materials = idf1.idfobjects["MATERIAL"]
+
 With our newfound knowledge of lists, we can do a lot of things.
 
 Let us get the last material:
@@ -920,6 +961,7 @@ Let us get the last material:
 .. code:: python
 
     print materials[-1]
+
 
 .. parsed-literal::
 
@@ -939,6 +981,7 @@ How about the last two?
 .. code:: python
 
     print materials[-2:]
+
 
 .. parsed-literal::
 
@@ -973,6 +1016,7 @@ How many materials are in this model ?
 
     print len(materials)
 
+
 .. parsed-literal::
 
     10
@@ -987,9 +1031,11 @@ Let us remove the last material in the list
 .. code:: python
 
     was_last_material = materials.pop(-1)
+
 .. code:: python
 
     print len(materials)
+
 
 .. parsed-literal::
 
@@ -1005,6 +1051,7 @@ The last material used to be:
 .. code:: python
 
     print materials[-1]
+
 
 .. parsed-literal::
 
@@ -1033,6 +1080,7 @@ We still have the old last material
 
     print was_last_material
 
+
 .. parsed-literal::
 
     
@@ -1051,9 +1099,11 @@ Let us add it back to the list
 .. code:: python
 
     materials.append(was_last_material)
+
 .. code:: python
 
     print len(materials)
+
 
 .. parsed-literal::
 
@@ -1065,6 +1115,7 @@ Once again we have 10 materials and the last material is:
 .. code:: python
 
     print materials[-1]
+
 
 .. parsed-literal::
 
@@ -1096,6 +1147,7 @@ Obviously we would use the function 'newidfobject'.
 
 
 
+
 .. parsed-literal::
 
     
@@ -1119,6 +1171,7 @@ Obviously we would use the function 'newidfobject'.
 
 
 
+
 .. parsed-literal::
 
     11
@@ -1133,6 +1186,7 @@ new material was added
 .. code:: python
 
     print materials[-1]
+
 
 .. parsed-literal::
 
@@ -1168,9 +1222,11 @@ Let's do it now.
     materials[-1].Conductivity = 0.16
     materials[-1].Density = 600
     materials[-1].Specific_Heat = 1500
+
 .. code:: python
 
     print materials[-1]
+
 
 .. parsed-literal::
 
@@ -1199,6 +1255,7 @@ Copy an existing material
     materials = idf1.idfobjects["MATERIAL"]
     len(materials)
     materials[-1]
+
 
 
 
@@ -1238,6 +1295,7 @@ We'll use a 'for' loop to do this. ::
 
     for <variable> in <listname>:
         <do something>
+            
 
 A quick note about the second line. Notice that it's indented? There are
 4 blank spaces before the code starts::
@@ -1253,6 +1311,7 @@ A quick note about the second line. Notice that it's indented? There are
            of indentation in python
      if you'd like to know more, there is plenty of information
      about indentation in python on the web
+    
 
 It's elegant, but it means that the indentation of the code holds
 meaning.
@@ -1265,6 +1324,7 @@ Now let's make some fruit loops.
 .. code:: python
 
     fruits = ["apple", "orange", "bannana"] 
+
 Given the syntax I gave you before I started rambling about indentation,
 we can easily print every item in the fruits list by using a 'for' loop.
 
@@ -1272,6 +1332,7 @@ we can easily print every item in the fruits list by using a 'for' loop.
 
     for fruit in fruits:
        print fruit
+        
 
 .. parsed-literal::
 
@@ -1290,6 +1351,7 @@ Let's have python add some words to each fruit.
 
     for fruit in fruits:
         print "I am a fruit said the", fruit
+        
 
 .. parsed-literal::
 
@@ -1306,9 +1368,11 @@ Now we'll try to confuse you:
     for fruit in fruits: # steps through every item in fruits
         rottenfruit = "rotten " + fruit # changes each item to "rotten _____"
         rottenfruits.append(rottenfruit) # adds each changed item to the formerly empty list
+        
 .. code:: python
 
     print rottenfruits
+
 
 .. parsed-literal::
 
@@ -1319,6 +1383,7 @@ Now we'll try to confuse you:
 
     # here's a shorter way of writing it
     rottenfruits = ["rotten " + fruit for fruit in fruits]
+
 Did you follow all that??
 
 Just in case you didn't, let's review that last one::
@@ -1337,9 +1402,11 @@ Just in case you didn't, let's review that last one::
     ---------------------------------------
     give a new list that is a result of the "do something"
 
+
 .. code:: python
 
     print rottenfruits
+
 
 .. parsed-literal::
 
@@ -1359,10 +1426,12 @@ Indentation is also important in 'if' statements, as you'll see::
     if <someconstraint>:
         <if the first line is true, do this>
     <but if it's false, do this>
+               
 
 .. code:: python
 
     fruits = ["apple", "orange", "pear", "berry", "mango", "plum", "peach", "melon", "bannana"]
+
 .. code:: python
 
     for fruit in fruits:               # steps through every fruit in fruits
@@ -1370,6 +1439,7 @@ Indentation is also important in 'if' statements, as you'll see::
             print fruit                # if true, print the fruit
                                        # if false, python goes back to the 'for' loop 
                                           # and checks the next item in the list
+                    
 
 .. parsed-literal::
 
@@ -1388,9 +1458,11 @@ Let's say we want to pick only the fruits that start with the letter
             p_fruits.append(fruit)     # if the first letter is 'p', the item is added to p_fruits
                                        # if the first letter is not 'p', python goes back to the 'for' loop
                                           # and checks the next item in the list
+                    
 .. code:: python
 
     print p_fruits
+
 
 .. parsed-literal::
 
@@ -1401,6 +1473,7 @@ Let's say we want to pick only the fruits that start with the letter
 
     # here's a shorter way to write it
     p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
+
 ::
 
     [fruit for fruit in fruits if fruit.startswith("p")]
@@ -1418,10 +1491,12 @@ Let's say we want to pick only the fruits that start with the letter
     [fruit for fruit in fruits if fruit.startswith("p")]
     ----------------------------------------------------
     a fresh new list with those fruits
+    
 
 .. code:: python
 
     print p_fruits
+
 
 .. parsed-literal::
 
@@ -1446,6 +1521,7 @@ This is useful because you can use these lists inside of loops.
 
 
 
+
 .. parsed-literal::
 
     [0, 1, 2, 3]
@@ -1456,6 +1532,7 @@ This is useful because you can use these lists inside of loops.
 
     for i in range(4):
         print i
+        
 
 .. parsed-literal::
 
@@ -1471,6 +1548,7 @@ This is useful because you can use these lists inside of loops.
 
 
 
+
 .. parsed-literal::
 
     3
@@ -1481,6 +1559,7 @@ This is useful because you can use these lists inside of loops.
 
     for i in range(len(p_fruits)):
         print i
+        
 
 .. parsed-literal::
 
@@ -1493,6 +1572,7 @@ This is useful because you can use these lists inside of loops.
 
     for i in range(len(p_fruits)):
         print p_fruits[i]
+        
 
 .. parsed-literal::
 
@@ -1505,6 +1585,7 @@ This is useful because you can use these lists inside of loops.
 
     for i in range(len(p_fruits)):
         print i,  p_fruits[i]
+        
 
 .. parsed-literal::
 
@@ -1517,6 +1598,7 @@ This is useful because you can use these lists inside of loops.
 
     for item_from_enumerate in enumerate(p_fruits):
         print item_from_enumerate
+        
 
 .. parsed-literal::
 
@@ -1529,6 +1611,7 @@ This is useful because you can use these lists inside of loops.
 
     for i, fruit in enumerate(p_fruits):
         print i, fruit
+        
 
 .. parsed-literal::
 
@@ -1551,7 +1634,8 @@ We'll continue to work with the materials list.
 .. code:: python
 
     for material in materials:
-        print material.Name    
+        print material.Name 
+        
 
 .. parsed-literal::
 
@@ -1572,6 +1656,7 @@ We'll continue to work with the materials list.
 .. code:: python
 
     [material.Name for material in materials] 
+
 
 
 
@@ -1598,6 +1683,7 @@ We'll continue to work with the materials list.
 
 
 
+
 .. parsed-literal::
 
     ['Smooth',
@@ -1618,6 +1704,7 @@ We'll continue to work with the materials list.
 .. code:: python
 
     [material.Thickness for material in materials]
+
 
 
 
@@ -1644,6 +1731,7 @@ We'll continue to work with the materials list.
 
 
 
+
 .. parsed-literal::
 
     [0.1016, 0.1016, 0.2032, 0.2032]
@@ -1653,6 +1741,7 @@ We'll continue to work with the materials list.
 .. code:: python
 
     [material.Name for material in materials if material.Thickness > 0.1]
+
 
 
 
@@ -1668,9 +1757,11 @@ We'll continue to work with the materials list.
 .. code:: python
 
     thick_materials = [material for material in materials if material.Thickness > 0.1]
+
 .. code:: python
 
     thick_materials
+
 
 
 
@@ -1720,9 +1811,11 @@ We'll continue to work with the materials list.
     # change the names of the thick materials
     for material in thick_materials:
         material.Name = "THICK " + material.Name
+        
 .. code:: python
 
     thick_materials
+
 
 
 
@@ -1792,6 +1885,7 @@ Here's a helpful illustration:
 
 
 
+
 .. parsed-literal::
 
     ['F08 Metal surface',
@@ -1840,6 +1934,7 @@ Let us explore these functions
      
     # model, to_print, idd_info = idfreader(fname, iddfile)
     # surfaces = model['BUILDINGSURFACE:DETAILED'] # all the surfaces
+
 .. code:: python
 
     from eppy import modeleditor
@@ -1855,6 +1950,7 @@ Let us explore these functions
     fname1 = "../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
     idf1 = IDF(fname1)
     surfaces = idf1.idfobjects['BUILDINGSURFACE:DETAILED']
+
 .. code:: python
 
     # Let us look at the first surface
@@ -1862,6 +1958,7 @@ Let us explore these functions
     print "surface azimuth =",  surface.azimuth, "degrees"
     print "surface tilt =", surface.tilt, "degrees"
     print "surface area =", surface.area, "m2"
+
 
 .. parsed-literal::
 
@@ -1876,6 +1973,7 @@ Let us explore these functions
     s_names = [surface.Name for surface in surfaces]
     print s_names[:5] # print five of them
 
+
 .. parsed-literal::
 
     ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']
@@ -1887,6 +1985,7 @@ Let us explore these functions
     s_names_azm = [(sf.Name, sf.azimuth) for sf in surfaces]
     print s_names_azm[:5] # print five of them
 
+
 .. parsed-literal::
 
     [('WALL-1PF', 180.0), ('WALL-1PR', 90.0), ('WALL-1PB', 0.0), ('WALL-1PL', 270.0), ('TOP-1', 0.0)]
@@ -1897,6 +1996,7 @@ Let us explore these functions
     # or to do that in pretty printing
     for name, azimuth in s_names_azm[:5]: # just five of them
         print name, azimuth
+        
 
 .. parsed-literal::
 
@@ -1913,6 +2013,7 @@ Let us explore these functions
     s_names_tilt = [(sf.Name, sf.tilt) for sf in surfaces]
     for name, tilt in s_names_tilt[:5]: # just five of them
         print name, tilt
+        
 
 .. parsed-literal::
 
@@ -1929,6 +2030,7 @@ Let us explore these functions
     s_names_area = [(sf.Name, sf.area) for sf in surfaces]
     for name, area in s_names_area[:5]: # just five of them
         print name, area, "m2"
+        
 
 .. parsed-literal::
 
@@ -1948,6 +2050,7 @@ construnctions
     vertical_walls = [sf for sf in surfaces if sf.tilt == 90.0]
     print [sf.Name for sf in vertical_walls]
 
+
 .. parsed-literal::
 
     ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'FRONT-1', 'SB12', 'SB14', 'SB15', 'RIGHT-1', 'SB21', 'SB23', 'BACK-1', 'SB32', 'SB35', 'LEFT-1', 'SB41', 'SB43', 'SB45', 'SB51', 'SB54', 'WALL-1SF', 'WALL-1SR', 'WALL-1SB', 'WALL-1SL']
@@ -1958,6 +2061,7 @@ construnctions
     # north facing walls
     north_walls = [sf for sf in vertical_walls if sf.azimuth == 0.0]
     print [sf.Name for sf in north_walls]
+
 
 .. parsed-literal::
 
@@ -1970,6 +2074,7 @@ construnctions
     exterior_nwall = [sf for sf in north_walls if sf.Outside_Boundary_Condition == "Outdoors"]
     print [sf.Name for sf in exterior_nwall]
 
+
 .. parsed-literal::
 
     ['WALL-1PB', 'BACK-1', 'WALL-1SB']
@@ -1981,6 +2086,7 @@ construnctions
     north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
     for name, azimuth, construction in north_wall_info:
         print name, azimuth, construction
+        
 
 .. parsed-literal::
 
@@ -1994,12 +2100,14 @@ construnctions
     # change the construction in the exterior north walls
     for wall in exterior_nwall:
         wall.Construction_Name = "NORTHERN-WALL" # make sure such a construction exists in the model
+        
 .. code:: python
 
     # see the change
     north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
     for name, azimuth, construction in north_wall_info:
         print name, azimuth, construction
+        
 
 .. parsed-literal::
 
@@ -2013,6 +2121,7 @@ construnctions
     # see this in all surfaces
     for sf in surfaces:
         print sf.Name, sf.azimuth, sf.Construction_Name
+        
 
 .. parsed-literal::
 
