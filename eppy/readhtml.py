@@ -169,6 +169,7 @@ def _report_tables(html_doc):
     of report tables addressable by name """
     linesTable = lines_table(html_doc, True)
     tableDict = {}
+    reportDict = {}
     for i in range(len(linesTable)):
         reportHeader = linesTable[i][0]
         reportLst = [s for s in reportHeader if "Report: " in s]
