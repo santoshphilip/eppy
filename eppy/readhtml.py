@@ -171,9 +171,9 @@ def _report_tables(html_doc):
     tableDict = {}
     for i in range(len(linesTable)):
         tableName = linesTable[i][0]
+        reportLst = [s for s in tableName if "Report: " in s]
+        if reportLst: reportName = reportLst[0]
         if any("Report: " in s for s in tableName):
-            reportName = [s for s in tableName if "Report: " in s]
-            reportName = reportName[0]
             tableVals = linesTable[i][1]
             tableDict[reportName] = tableVals
     return tableDict
