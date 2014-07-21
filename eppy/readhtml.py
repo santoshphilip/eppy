@@ -177,6 +177,11 @@ def _report_tables(html_doc):
             tableName = reportHeader[len(reportHeader)-1]
             tableContents = linesTable[i][1]
             tableDict[tableName] = tableContents
+        else:
+            tableName = reportHeader[0]
+            tableContents = linesTable[i][1]
+            tableDict[tableName] = tableContents
+        reportDict[reportName] = tableDict
     return tableDict
 
 # def select_table(report_name, html_doc):
