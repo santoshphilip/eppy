@@ -576,7 +576,7 @@ def main(argv=None):
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
         print "constructing the loops"
         edges = makeairplantloop(data, commdct)
-        print edges
+        # print edges
         print "making the diagram"
         g = makediagram(edges)
         dotname = '%s.dot' % (os.path.splitext(fname)[0])

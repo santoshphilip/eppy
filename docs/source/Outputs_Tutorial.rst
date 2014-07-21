@@ -12,6 +12,7 @@ Reading outputs from E+
     # pathnameto_eppy = 'c:/eppy'
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
+
 Using titletable() to get at the tables
 ---------------------------------------
 
@@ -28,18 +29,20 @@ Energyplus makes nice htmlout files that look like this.
     for_images.display_png(for_images.html_snippet1) #display the image below
 
 
+
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_4_0.png
 
 
-| If you look at the clipping of the html file above, you see tables
-with data in them.
-| Eppy has functions that let you access of these tables and get the
-data from any of it's cells.
+If you look at the clipping of the html file above, you see tables with
+data in them. Eppy has functions that let you access of these tables and
+get the data from any of it's cells.
 
-| Let us say you want to find the "Net Site Energy".
-| This is in table "Site and Source Energy".
-| The number you want is in the third row, second column and it's value
-is "47694.47"
+Let us say you want to find the "Net Site Energy".
+
+This is in table "Site and Source Energy".
+
+The number you want is in the third row, second column and it's value is
+"47694.47"
 
 Let us use eppy to extract this number
 
@@ -51,6 +54,7 @@ Let us use eppy to extract this number
     
     
     htables = readhtml.titletable(filehandle) # reads the tables with their titles
+
 If you open the python file readhtml.py and look at the function
 titletable, you can see the function documentation.
 
@@ -59,6 +63,7 @@ It says the following
     """return a list of [(title, table), .....]
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
+    
 
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.
@@ -67,6 +72,7 @@ this list. Let us look at the first item in the list.
 
     firstitem = htables[0]
     print firstitem
+
 
 .. parsed-literal::
 
@@ -81,6 +87,7 @@ this list. Let us look at the first item in the list.
     import pprint
     pp = pprint.PrettyPrinter()
     pp.pprint(firstitem)
+
 
 .. parsed-literal::
 
@@ -102,6 +109,7 @@ Nice. that is a little clearer
     firstitem_title = firstitem[0]
     pp.pprint(firstitem_title)
 
+
 .. parsed-literal::
 
     u'Site and Source Energy'
@@ -111,6 +119,7 @@ Nice. that is a little clearer
 
     firstitem_table = firstitem[1]
     pp.pprint(firstitem_table)
+
 
 .. parsed-literal::
 
@@ -134,6 +143,7 @@ Easy.
     thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row
     print thirdrow
 
+
 .. parsed-literal::
 
     [u'Net Site Energy', 47694.47, 51.44, 51.44]
@@ -143,6 +153,7 @@ Easy.
 
     thirdrow_secondcolumn = thirdrow[1]
     thirdrow_secondcolumn
+
 
 
 
@@ -164,6 +175,7 @@ Let us convert it to a floating point number
 
 
 
+
 .. parsed-literal::
 
     47694.47
@@ -178,6 +190,7 @@ Get the titles of all the tables
 
     alltitles = [htable[0] for htable in htables]
     alltitles
+
 
 
 
@@ -204,8 +217,9 @@ Source Energy Conversion Factors"
 twotables = [htable for htable in htables if htable[0] in ["Building
 Area", "Site to Source Energy Conversion Factors"]] twotables
 
-| Let us leave readtables for now.
-| It gives us the basic functionality to read any of the tables in the
+Let us leave readtables for now.
+
+It gives us the basic functionality to read any of the tables in the
 html output file.
 
 Using lines\_table() to get at the tables
@@ -225,6 +239,7 @@ them.
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.html_snippet2) # display the image below
+
 
 
 .. image:: Outputs_Tutorial_files/Outputs_Tutorial_28_0.png
@@ -464,6 +479,7 @@ explore this.
 
 
 
+
 .. raw:: html
 
     <TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">
@@ -503,6 +519,7 @@ This table is actually in the follwoing form:
          ["x y", 1,     2,     3 ],
          ["y z", 4,     5,     6 ],
          ["z z", 7,     8,     9 ],]
+
 We can see the labels in the table. So we an look at row "x y" and
 column "c d". The value there is 3
 
@@ -528,9 +545,11 @@ look for row "x\_y" and column "c\_d". Let us try this out.
 
     from eppy import readhtml
     h_table = readhtml.named_grid_h(atable)
+
 .. code:: python
 
     print h_table.x_y.c_d
+
 
 .. parsed-literal::
 
@@ -542,6 +561,7 @@ We can still get to the value by index
 .. code:: python
 
     print h_table[0][2]
+
 
 .. parsed-literal::
 
@@ -560,6 +580,7 @@ We can also do the following:
     # or
     print h_table[0].c_d
 
+
 .. parsed-literal::
 
     3
@@ -573,6 +594,7 @@ are ?
 
     print h_table._fields
 
+
 .. parsed-literal::
 
     ('x_y', 'y_z', 'z_z')
@@ -583,6 +605,7 @@ That gives us the horizontal lables. How about the vertical labels ?
 .. code:: python
 
     h_table.x_y._fields
+
 
 
 
@@ -603,6 +626,7 @@ table.c\_d.x\_y. We can do that by using a different function
     v_table = readhtml.named_grid_v(atable)
     print v_table.c_d.x_y
 
+
 .. parsed-literal::
 
     3
@@ -616,6 +640,7 @@ And we can do the following
     print v_table.c_d[0]
     print v_table[2].x_y
 
+
 .. parsed-literal::
 
     3
@@ -628,6 +653,7 @@ Let us try to get the numbers in the first column and then get their sum
 .. code:: python
 
     v_table.a_b
+
 
 
 
@@ -646,6 +672,7 @@ really need a list of numbers
 
 
 
+
 .. parsed-literal::
 
     [1, 4, 7]
@@ -660,6 +687,7 @@ That looks like waht we wanted. Now let us get the sum
     print values_in_first_column
     print sum(values_in_first_column) # sum is a builtin function that will sum a list
 
+
 .. parsed-literal::
 
     [1, 4, 7]
@@ -673,6 +701,7 @@ To get the first row we use the variable h\_table
     values_in_first_row = [cell for cell in h_table.x_y]
     print values_in_first_row
     print sum(values_in_first_row)
+
 
 .. parsed-literal::
 
