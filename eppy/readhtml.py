@@ -170,20 +170,26 @@ def _report_tables(html_doc):
     linesTable = lines_table(html_doc, True)
     tableDict = {}
     reportDict = {}
+    tblCount = 0
     for i in range(len(linesTable)):
         reportHeader = linesTable[i][0]
-        reportLst = [s for s in reportHeader if "Report: " in s]
-        if reportLst: reportName = reportLst[0]
+        if tblCount > 0 and reportHeader != linesTable[i-1][0]: reportDict[reportName] = tableDict
         if any("Report: " in s for s in reportHeader):
+            reportLst = [s for s in reportHeader]
+            reportName = reportLst[0]
+
             tableName = reportHeader[len(reportHeader)-1]
             tableContents = linesTable[i][1]
             tableDict[tableName] = tableContents
+
+            tblCount = 0
         else:
             tableName = reportHeader[0]
             tableContents = linesTable[i][1]
             tableDict[tableName] = tableContents
-        reportDict[reportName] = tableDict
-    return tableDict
+
+            tblCount = tblCount + 1
+    return reportDict
 
 # def select_table(report_name, html_doc):
 #    """Uses the output of report_tables function to produce a
