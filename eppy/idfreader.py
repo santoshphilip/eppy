@@ -32,11 +32,10 @@ def iddversiontuple(afile):
         fhandle = open(afile, 'r')
     else:
         fhandle = afile
-    try:
-        line1 = fhandle.next()
-    except StopIteration as e:
-        return (0, )
+    line1 = fhandle.readline()
     line = line1.strip()
+    if line1 == '':
+        return (0, )
     v = line.split()[-1]
     return versiontuple(v)
     
@@ -60,6 +59,8 @@ def makebunches(data, commdct):
         bunchdt[key] = []
         objs = dt[key]
         for obj in objs:
+            # if obj[0] == "Construction:WindowDataFile":
+            #     print obj
             bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
