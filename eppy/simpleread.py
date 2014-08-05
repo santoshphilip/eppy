@@ -60,8 +60,8 @@ def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
     simpletxt = idf2txt(simpletxt)
     # - 
     if save:
-        open('a.txt', 'w').write(idfstr)
-        open('b.txt', 'w').write(simpletxt)
+        open('simpleread.idf', 'w').write(idfstr)
+        open('eppyread.idf', 'w').write(simpletxt)
     # do the compare      
     lines1 = idfstr.splitlines()
     lines2 = simpletxt.splitlines()
@@ -73,11 +73,13 @@ def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
                 line2 = float(line2[:-1])
                 if line1 != line2:
                     if verbose:
+                        print
                         print "%s- : %s" % (i, line1)
                         print "%s- : %s" % (i, line2)
                     return False
             except ValueError as e:
                 if verbose:
+                    print
                     print "%s- : %s" % (i, line1)
                     print "%s- : %s" % (i, line2)
                 return False    
