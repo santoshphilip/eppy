@@ -1,4 +1,7 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2014-08-05
+----------
+eppy can read fields dos path names with backslash '\' 
 2014-08-04
 ----------
 ran test for checking if eppy is reading all example files.
