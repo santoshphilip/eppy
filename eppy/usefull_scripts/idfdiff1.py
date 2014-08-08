@@ -60,24 +60,33 @@ def idfdiffs(idf1, idf2):
 
     for akey in keys:
         idfobjs1 = idf1.idfobjects[akey]
+        if idfobjs1:
+            import pdb; pdb.set_trace()
         idfobjs2 = idf2.idfobjects[akey]
-        for idfobj1, idfobj2 in zip(idfobjs1, idfobjs2):
-            for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)): 
-                                                        # undocumented
-                if f1 != f2:
-                    print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1), 
-                        idfobj1.objidd[i]['field'][0], # uncodumented var
-                        f1, f2, )
-        # if number of objects differ
-        if len(idfobjs1) != len(idfobjs2):
-            if len(idfobjs1) > len(idfobjs2):
-                for item in idfobjs1[-(len(idfobjs1) - len(idfobjs2)):]:
-                    print "%s, %s,  is not in %s" % (item.key.upper(), 
-                                getobjname(item), idf2.idfname,)
-            else:
-                for item in idfobjs2[-(len(idfobjs2) - len(idfobjs1)):]:
-                    print "%s, %s,  is not in %s" % (item.key.upper(), 
-                                getobjname(item), idf1.idfname,)
+        idfobjs1 = [(idfobj['obj'], idfobj) for idfobj in idfobjs1]
+        idfobjs2 = [(idfobj['obj'], idfobj) for idfobj in idfobjs2]
+        idfobjs1.sort()
+        idfobjs2.sort()
+        setidf1 = set([idfobj['obj'] for idfobj in idfobjs1
+                                if idfobj['obj']])
+        print setidf1
+        # for (k1, idfobj1), (k2, idfobj2) in zip(idfobjs1, idfobjs2):
+        #     for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
+        #                                                 # undocumented
+        #         if f1 != f2:
+        #             print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1),
+        #                 idfobj1.objidd[i]['field'][0], # uncodumented var
+        #                 f1, f2, )
+        # # if number of objects differ
+        # if len(idfobjs1) != len(idfobjs2):
+        #     if len(idfobjs1) > len(idfobjs2):
+        #         for k1, item in idfobjs1[-(len(idfobjs1) - len(idfobjs2)):]:
+        #             print "%s, %s,  is not in %s" % (item.key.upper(),
+        #                         getobjname(item), idf2.idfname,)
+        #     else:
+        #         for k1, item in idfobjs2[-(len(idfobjs2) - len(idfobjs1)):]:
+        #             print "%s, %s,  is not in %s" % (item.key.upper(),
+        #                         getobjname(item), idf1.idfname,)
                 
                 
  
@@ -114,3 +123,10 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
+
+
+# flag duplicates
+# duplicates are -> set([x for x in l if l.count(x) > 1])
+# - 
+# find items in one list and not the other -> use sets
+# compare items that are in both lists

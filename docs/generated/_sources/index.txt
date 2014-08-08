@@ -16,6 +16,7 @@ Contents:
     HVAC_Tutorial
     Outputs_Tutorial
     newfunctions
+    useful_scripts
     eppy_api
 
 Indices and tables

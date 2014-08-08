@@ -1,0 +1,23 @@
+  Material,
+    mat2,       !- Name
+    Rough,                  !- Roughness
+    0.0008,                  !- Thickness {m}
+    45.28,                   !- Conductivity {W/m-K}
+    7824,                    !- Density {kg/m3}
+    500;                     !- Specific Heat {J/kg-K}
+
+  Material,
+    mat1,  !- Name
+    MediumRough,             !- Roughness
+    0.0254,                  !- Thickness {m}
+    0.03,                    !- Conductivity {W/m-K}
+    43,                      !- Density {kg/m3}
+    1210;                    !- Specific Heat {J/kg-K}
+
+  Material,
+    mat3,  !- Name
+    MediumRough,             !- Roughness
+    0.0508,                  !- Thickness {m}
+    0.03,                    !- Conductivity {W/m-K}
+    43,                      !- Density {kg/m3}
+    1210;                    !- Specific Heat {J/kg-K}
