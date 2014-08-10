@@ -83,40 +83,12 @@ def idfdiffs(idf1, idf2):
                     print "%s %s  is not in %s" % (idfobj1.key.upper(),
                                 getobjname(idfobj1), idf2.idfname,)
                     break
-
-                # if idfobj1 == None or idfobj2 == None:
-                #     print idfobj1
-                #     print idfobj2
-                #     break
                 for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
                     if f1 != f2:
                         print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1),
                             idfobj1.objidd[i]['field'][0], # uncodumented var
                             f1, f2, )
         
-        # d_idfobjs1 = [(tuple(idfobj['obj'], idfobj)) for idfobj in idfobjs1]
-        # d_idfobjs2 = [(tuple(idfobj['obj'], idfobj)) for idfobj in idfobjs2]
-
-        # for (k1, idfobj1), (,idfobj2) in zip(idfobjs1, idfobjs2):
-        #     for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
-        #                                                 # undocumented
-        #         if f1 != f2:
-        #             print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1),
-        #                 idfobj1.objidd[i]['field'][0], # uncodumented var
-        #                 f1, f2, )
-        # # if number of objects differ
-        # if len(idfobjs1) != len(idfobjs2):
-        #     if len(idfobjs1) > len(idfobjs2):
-        #         for item in idfobjs1[-(len(idfobjs1) - len(idfobjs2)):]:
-        #             print "%s, %s,  is not in %s" % (item.key.upper(),
-        #                         getobjname(item), idf2.idfname,)
-        #     else:
-        #         for item in idfobjs2[-(len(idfobjs2) - len(idfobjs1)):]:
-        #             print "%s, %s,  is not in %s" % (item.key.upper(),
-        #                         getobjname(item), idf1.idfname,)
-                
-                
- 
 
 def main(argv=None):
     if argv is None:

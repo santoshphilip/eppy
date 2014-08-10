@@ -12,9 +12,11 @@ from eppy.bunch_subclass import BadEPFieldError
 from eppy.modeleditor import IDF
 
 # python idfdiff.py ../resources/iddfiles/Energy+V7_2_0.idd 
-# python idfdiff1.py ../resources/iddfiles/Energy+V7_2_0.idd f1.idf f2.idf 
+# python idfdiff2.py ../resources/iddfiles/Energy+V7_2_0.idd f1.idf f2.idf 
+# python idfdiff2.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/box.idf ../resources/idffiles/V_7_2/box_diff.idf
+# python idfdiff2.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/box.idf ../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf
 
-
+# 5ZoneCAVtoVAVWarmestTempFlow.idf
 iddfile = "../resources/iddfiles/Energy+V7_2_0.idd"
 fname1 = "../resources/idffiles/V_7_2/box.idf"
 fname2 = "../resources/idffiles/V_7_2/box_diff.idf"
@@ -34,6 +36,7 @@ for akey in keys:
         print names
         dups =  idfdiff_functions.find_duplicates(names)
         print dups
+        dupobjs = [for item in ]
         print idfobj.keys()
         print idfobj['objls']
         print '----'
