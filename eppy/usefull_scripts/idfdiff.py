@@ -15,13 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-"""do a diff between two idf files
-usage:
-    python idfdiff.py idd_file idf_file1 idf_file2"""
+"""
+do a diff between two idf files
+prints the difference in a csv file format.
+You can redirect the output to a csv file and open as a spreadsheet.
+
+"""
     
     
+import argparse
+
 import sys
-import getopt
+import itertools
 
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
@@ -50,6 +55,7 @@ def getobjname(item):
     return objname
 
 
+
 def idfdiffs(idf1, idf2):
     """print the diffs between the two idfs"""
     header = "Object Key, Object Name, Field Name, %s, %s" % (idf1.idfname, 
@@ -61,56 +67,46 @@ def idfdiffs(idf1, idf2):
     for akey in keys:
         idfobjs1 = idf1.idfobjects[akey]
         idfobjs2 = idf2.idfobjects[akey]
-        for idfobj1, idfobj2 in zip(idfobjs1, idfobjs2):
-            for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)): 
-                                                        # undocumented
-                if f1 != f2:
-                    print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1), 
-                        idfobj1.objidd[i]['field'][0], # uncodumented var
-                        f1, f2, )
-        # if number of objects differ
-        if len(idfobjs1) != len(idfobjs2):
-            if len(idfobjs1) > len(idfobjs2):
-                for item in idfobjs1[-(len(idfobjs1) - len(idfobjs2)):]:
-                    print "%s, %s,  is not in %s" % (item.key.upper(), 
-                                getobjname(item), idf2.idfname,)
-            else:
-                for item in idfobjs2[-(len(idfobjs2) - len(idfobjs1)):]:
-                    print "%s, %s,  is not in %s" % (item.key.upper(), 
-                                getobjname(item), idf1.idfname,)
-                
-                
- 
+        names = set([getobjname(i) for i in idfobjs1] + 
+                    [getobjname(i) for i in idfobjs2])
+        names = sorted(names)
+        idfobjs1 = sorted(idfobjs1, key=lambda idfobj: idfobj['obj'])
+        idfobjs2 = sorted(idfobjs2, key=lambda idfobj: idfobj['obj'])
+        for name in names:
+            n_idfobjs1 = [item for item in idfobjs1 if getobjname(item) == name]
+            n_idfobjs2 = [item for item in idfobjs2 if getobjname(item) == name]
+            for idfobj1, idfobj2 in itertools.izip_longest(n_idfobjs1, 
+                                                          n_idfobjs2):
+                if idfobj1 == None:
+                    print "%s %s  is not in %s" % (idfobj2.key.upper(),
+                                getobjname(idfobj2), idf1.idfname,)
+                    break
+                if idfobj2 == None:
+                    print "%s %s  is not in %s" % (idfobj1.key.upper(),
+                                getobjname(idfobj1), idf2.idfname,)
+                    break
+                for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
+                    if f1 != f2:
+                        print '%s, %s, %s, %s, %s' % (akey, getobjname(idfobj1),
+                            idfobj1.objidd[i]['field'][0], # uncodumented var
+                            f1, f2, )
+        
 
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
-        except getopt.error, msg:
-            raise Usage(msg)
+if __name__    == '__main__':
+    # do the argparse stuff
+    parser = argparse.ArgumentParser(usage=None, description=__doc__)
+    parser.add_argument('idd', action='store', 
+        help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+    parser.add_argument('file1', action='store', 
+        help='location of first with idf files = ./somewhere/f1.idf') 
+    parser.add_argument('file2', action='store', 
+        help='location of second with idf files = ./somewhere/f2.idf') 
+    nspace = parser.parse_args()
+    fname1 = nspace.file1
+    fname2 = nspace.file2
+    iddfile = nspace.idd
+    IDF.setiddname(iddfile)
+    idf1 = IDF(fname1)
+    idf2 = IDF(fname2)
+    idfdiffs(idf1, idf2)
     
-        # option processing
-        for option, value in opts:
-            if option == "-v":
-                verbose = True
-            if option in ("-h", "--help"):
-                raise Usage(help_message)
-            if option in ("-o", "--output"):
-                output = value
-        iddfile, fname1, fname2 = args
-        IDF.setiddname(iddfile)
-        idf1 = IDF(fname1)
-        idf2 = IDF(fname2)
-
-        idfdiffs(idf1, idf2)
-    
-    except Usage, err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
-        print >> sys.stderr, "\t for help use --help"
-        return 2
-
-
-if __name__ == "__main__":
-    sys.exit(main())
