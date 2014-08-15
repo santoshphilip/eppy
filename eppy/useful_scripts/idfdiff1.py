@@ -113,6 +113,7 @@ if __name__    == '__main__':
     idf1 = IDF(fname1)
     idf2 = IDF(fname2)
     thediffs = idfdiffs1(idf1, idf2)
+    csvdiffs = csvdiffs(thediffs)
     for key, value in thediffs.items():
         print key
         print value
