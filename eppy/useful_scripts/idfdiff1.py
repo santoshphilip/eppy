@@ -27,6 +27,7 @@ import argparse
 
 import sys
 import itertools
+from bs4 import BeautifulSoup, Tag
 
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
@@ -115,7 +116,45 @@ def idfdiffs1(idf1, idf2):
                                 idfobj1.objidd[i]['field'][0])] = (f1, f2)
     return thediffs
 
+def printcsv(csvdiffs):
+    """print the csv"""
+    for row in csvdiffs:
+        print ','.join([str(cell) for cell in row])
 
+def heading2table(soup, table, row):
+    """add heading row to table"""
+    tr = Tag(soup, name="tr")
+    table.append(tr)
+    for attr in row:
+        th = Tag(soup, name="th")
+        tr.append(th)
+        th.append(attr)
+    
+def row2table(soup, table, row):
+    """ad a row to the table"""
+    tr = Tag(soup, name="tr")
+    table.append(tr)
+    for attr in row:
+        td = Tag(soup, name="td")
+        tr.append(td)
+        td.append(attr)
+        
+        
+def printhtml(csvdiffs):
+    """print the html"""
+    soup = BeautifulSoup()
+    html = Tag(soup, name="html")
+    table = Tag(soup, name="table")
+    table.attrs.update(dict(border="1"))
+
+    soup.append(html)
+    html.append(table)
+    heading2table(soup, table, csvdiffs[0])
+    for row in csvdiffs[1:]:
+        row = [str(cell) for cell in row]
+        row2table(soup, table, row)
+    print soup.prettify()    
+        
 
 if __name__    == '__main__':
     # do the argparse stuff
@@ -135,11 +174,7 @@ if __name__    == '__main__':
     idf2 = IDF(fname2)
     thediffs = idfdiffs1(idf1, idf2)
     csvdiffs = makecsvdiffs(thediffs, idf1.idfname, idf2.idfname)
-    for row in csvdiffs:
-        print ','.join([str(cell) for cell in row])
-    # for key, value in thediffs.items():
-    #     print key
-    #     print value
-    #     print '-'
+    # printcsv(csvdiffs)
+    printhtml(csvdiffs)
     
 # python idfdiff1.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf
