@@ -57,11 +57,32 @@ def getobjname(item):
 
 def theheader(n1, n2):
     """return the csv header"""
-    return "Object Key, Object Name, Field Name, %s, %s" % (n1, n2)
+    s =  "Object Key, Object Name, Field Name, %s, %s" % (n1, n2)
+    return s.split(',')
 
+def makecsvdiffs(thediffs, n1, n2):
+    """treturn the csv to be displayed"""
+    def ishere(val):
+        if val == None:
+            return "not here" 
+        else:
+            return "is here"
+    rows = []
+    rows.append(theheader(n1, n2))
+    keys = thediffs.keys()
+    for key in keys:
+        if len(key) == 2:
+            rw2 = [''] + [ishere(i) for i in thediffs[key]]
+        else:
+            rw2 = list(thediffs[key])
+        rw1 = list(key)
+        rows.append(rw1 + rw2)
+    return rows
+        
         
 def idfdiffs1(idf1, idf2):
     """print the diffs between the two idfs"""
+    thediffs = {}
     keys = idf1.model.dtls # undocumented variable
 
     for akey in keys:
@@ -81,11 +102,11 @@ def idfdiffs1(idf1, idf2):
                                                           n_idfobjs2):
                 if idfobj1 == None:
                     thediffs[(idfobj2.key.upper(), 
-                                getobjname(idfobj2))] = idf1.idfname
+                                getobjname(idfobj2))] = (idf1.idfname, None)
                     break
                 if idfobj2 == None:
                     thediffs[(idfobj1.key.upper(), 
-                                getobjname(idfobj1))] = idf2.idfname
+                                getobjname(idfobj1))] = (None, idf2.idfname)
                     break
                 for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
                     if f1 != f2:
@@ -113,10 +134,12 @@ if __name__    == '__main__':
     idf1 = IDF(fname1)
     idf2 = IDF(fname2)
     thediffs = idfdiffs1(idf1, idf2)
-    csvdiffs = csvdiffs(thediffs)
-    for key, value in thediffs.items():
-        print key
-        print value
-        print '-'
+    csvdiffs = makecsvdiffs(thediffs, idf1.idfname, idf2.idfname)
+    for row in csvdiffs:
+        print ','.join([str(cell) for cell in row])
+    # for key, value in thediffs.items():
+    #     print key
+    #     print value
+    #     print '-'
     
 # python idfdiff1.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf

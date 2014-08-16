@@ -1,6 +1,5 @@
 Object Key, Object Name, Field Name, ../resources/idffiles/V_7_2/constructions.idf, ../resources/idffiles/V_7_2/constructions_diff.idf
-
-MATERIAL F08 Metal surface  is not in ../resources/idffiles/V_7_2/constructions_diff.idf
-MATERIAL F08 Metal surface haha  is not in ../resources/idffiles/V_7_2/constructions.idf
-MATERIAL, G05 25mm wood, Conductivity, 0.15, 0.155
-CONSTRUCTION, Exterior Door, Outside Layer, F08 Metal surface, F08 Metal surface haha
+MATERIAL,F08 Metal surface,,not here,is here
+CONSTRUCTION,Exterior Door,Outside Layer,F08 Metal surface,F08 Metal surface haha
+MATERIAL,G05 25mm wood,Conductivity,0.15,0.155
+MATERIAL,F08 Metal surface haha,,is here,not here
