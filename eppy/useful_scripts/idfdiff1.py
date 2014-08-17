@@ -58,7 +58,7 @@ def getobjname(item):
 
 def theheader(n1, n2):
     """return the csv header"""
-    s =  "Object Key, Object Name, Field Name, %s, %s" % (n1, n2)
+    s =  "Object Key, Object Name, Field Name, %s, %s" % ('file1', 'file2')
     return s.split(',')
 
 def makecsvdiffs(thediffs, n1, n2):
@@ -69,6 +69,9 @@ def makecsvdiffs(thediffs, n1, n2):
         else:
             return "is here"
     rows = []
+    rows.append(['file1 = %s' % (n1, )])
+    rows.append(['file2 = %s' % (n2, )])
+    rows.append('')
     rows.append(theheader(n1, n2))
     keys = thediffs.keys()
     for key in keys:
@@ -144,13 +147,19 @@ def printhtml(csvdiffs):
     """print the html"""
     soup = BeautifulSoup()
     html = Tag(soup, name="html")
+    para1 = Tag(soup, name="p")
+    para1.append(csvdiffs[0][0])
+    para2 = Tag(soup, name="p")
+    para2.append(csvdiffs[1][0])
     table = Tag(soup, name="table")
     table.attrs.update(dict(border="1"))
 
     soup.append(html)
+    html.append(para1)
+    html.append(para2)
     html.append(table)
-    heading2table(soup, table, csvdiffs[0])
-    for row in csvdiffs[1:]:
+    heading2table(soup, table, csvdiffs[3])
+    for row in csvdiffs[4:]:
         row = [str(cell) for cell in row]
         row2table(soup, table, row)
     print soup.prettify()    
