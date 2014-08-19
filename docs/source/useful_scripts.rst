@@ -49,7 +49,7 @@ Compare two idf files - idfdiff.py
 ----------------------------------
 
 
-this ceript will compare two idf files. The results will be displayed
+this script will compare two idf files. The results will be displayed
 printed in "csv" format or in "html" format.
 
 You would the script from the command line. This would be the terminal

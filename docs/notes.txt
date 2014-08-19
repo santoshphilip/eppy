@@ -13,6 +13,7 @@ Steps for release
     - this is needed so that code api is there
 - rebuild the documentation
 - upload documentation to pypi 
+python setup.py upload_docs --upload-dir=docs/generated
 -
 - push to github
 - make a release on github with a new tag = release number
