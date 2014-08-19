@@ -20,3 +20,5 @@
 from IPython.display import Image
 from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
 diffcsv = Image(filename='../../docs/images/diffcsv.png')
+filemerge = Image(filename='../../docs/images/filemerge.png')
+idfdiff_path = '../../docs/images/idfdiff.html'
