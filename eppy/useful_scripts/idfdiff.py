@@ -172,8 +172,8 @@ def printhtml(csvdiffs):
     for row in csvdiffs[4:]:
         row = [str(cell) for cell in row]
         row2table(soup, table, row)
+    # print soup.prettify()
     print soup    
-        
 
 if __name__    == '__main__':
     # do the argparse stuff
