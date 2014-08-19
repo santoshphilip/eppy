@@ -16,10 +16,9 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-do a diff between two idf files
-prints the difference in a csv file format.
-You can redirect the output to a csv file and open as a spreadsheet.
-
+Do a diff between two idf files.
+Prints the diff in csv  or html file format.
+You can redirect the output to a file and open the file using as a spreadsheet or by using a browser
 """
     
     

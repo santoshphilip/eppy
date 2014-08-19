@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Useful Scripts &mdash; eppy 0.4.6.1 documentation</title>
+    <title>Useful Scripts &mdash; eppy 0.4.6.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.1',
+        VERSION:     '0.4.6.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.1 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.4.6.2 documentation" href="index.html" />
     <link rel="next" title="Eppy API" href="eppy_api.html" />
     <link rel="prev" title="New functions" href="newfunctions.html" /> 
   </head>
@@ -35,15 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,6 +51,120 @@
             
   <div class="section" id="useful-scripts">
 <h1>Useful Scripts<a class="headerlink" href="#useful-scripts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="location-of-the-scripts">
+<h2>Location of the scripts<a class="headerlink" href="#location-of-the-scripts" title="Permalink to this headline">¶</a></h2>
+<p>Here are some scripts that you may find useful. They are in the folder
+&#8221;./eppy/useful_scripts&#8221;</p>
+<p>And now for some housekeeping before we start off</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">&quot;../eppy/useful_scripts&quot;</span><span class="p">)</span>
+<span class="c"># changes directory, so we are where the scripts are located</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
+
+<span class="c"># if you have not done so, the following three lines are needed</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you look in the folder &#8221;./eppy/useful_scripts&#8221;, you fill find the
+following scripts</p>
+<p>The scripts are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">eppyreadtest_folder</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">eppyreadtest_file</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compare-two-idf-files-idfdiff-py">
+<h2>Compare two idf files - idfdiff.py<a class="headerlink" href="#compare-two-idf-files-idfdiff-py" title="Permalink to this headline">¶</a></h2>
+<p>this ceript will compare two idf files. The results will be displayed
+printed in &#8220;csv&#8221; format or in &#8220;html&#8221; format.</p>
+<p>You would the script from the command line. This would be the terminal
+on Mac or unix, and the dos prompt on windows. Let us look at the help
+for this script, by typing:</p>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python idfdiff.py -h</pre>
+</div>
+<div class="highlight-python"><pre>usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
+
+Do a diff between two idf files. Prints the diff in csv or html file format.
+You can redirect the output to a file and open the file using as a spreadsheet
+or by using a browser
+
+positional arguments:
+  idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+  file1       location of first with idf files = ./somewhere/f1.idf
+  file2       location of second with idf files = ./somewhere/f2.idf
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --csv
+  --html</pre>
+</div>
+<p>Now let us try this with two files that are slightly different. If we
+open them in a file comparing software, it would look like this:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="kn">import</span> <span class="n">doc_images</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">doc_images</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">filemerge</span><span class="p">)</span> <span class="c"># display the image below</span>
+</pre></div>
+</div>
+<img alt="_images/useful_scripts_12_0.png" src="_images/useful_scripts_12_0.png" />
+<p>There are 4 differences between the files. Let us see what idfdiff.py
+does with the two files. We will use the &#8211;html option to print out the
+diff in html format.</p>
+<div class="code python highlight-python"><pre>%%bash
+# python idfdiff.py idd file1 file2
+python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf</pre>
+</div>
+<div class="highlight-python"><pre>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</pre>
+</div>
+<p>It does look like html :-). We need to redirect this output to a file
+and then open the file in a browser to see what it looks like. Displayed
+below is the html file</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="kn">import</span> <span class="n">doc_images</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">doc_images</span><span class="o">.</span><span class="n">idfdiff_path</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="n">h</span>
+</pre></div>
+</div>
+<html><p>file1 = ../resources/idffiles/V_7_2/constr.idf</p><p>file2 = ../resources/idffiles/V_7_2/constr_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>CONSTRUCTION</td><td>CLNG-1</td><td>Outside Layer</td><td>MAT-CLNG-1</td><td>MAT-CLNG-8</td></tr><tr><td>CONSTRUCTION</td><td>GARAGE-SLAB-1</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-E</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-U</td><td></td><td>not here</td><td>is here</td></tr><tr><td>OUTPUTCONTROL:TABLE:STYLE</td><td> </td><td>Column Separator</td><td>HTML</td><td>CSV</td></tr></table></html><p>Pretty straight forward. Scroll up and look at the origin text files,
+and see how idfdiff.py understands the difference</p>
+<p>Now let us try the same thin in csv format</p>
+<div class="code python highlight-python"><pre>%%bash
+# python idfdiff.py idd file1 file2
+python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf</pre>
+</div>
+<div class="highlight-python"><pre>file1 = ../resources/idffiles/V_7_2/constr.idf
+file2 = ../resources/idffiles/V_7_2/constr_diff.idf
+
+Object Key, Object Name, Field Name, file1, file2
+CONSTRUCTION,CLNG-1,Outside Layer,MAT-CLNG-1,MAT-CLNG-8
+CONSTRUCTION,GARAGE-SLAB-1,,is here,not here
+CONSTRUCTION,SB-E,,is here,not here
+CONSTRUCTION,SB-U,,not here,is here
+OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV</pre>
+</div>
+<p>We see the same output, but now in csv format. You can open it up as a
+spreadsheet</p>
+</div>
+<div class="section" id="eppyreadtest-folder-py">
+<h2>eppyreadtest_folder.py<a class="headerlink" href="#eppyreadtest-folder-py" title="Permalink to this headline">¶</a></h2>
+<p>Not yet documented</p>
+</div>
+<div class="section" id="eppyreadtest-file-py">
+<h2>eppyreadtest_file.py<a class="headerlink" href="#eppyreadtest-file-py" title="Permalink to this headline">¶</a></h2>
+<p>Not yet documented</p>
+</div>
 </div>
 
 
@@ -62,6 +173,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Useful Scripts</a><ul>
+<li><a class="reference internal" href="#location-of-the-scripts">Location of the scripts</a></li>
+<li><a class="reference internal" href="#compare-two-idf-files-idfdiff-py">Compare two idf files - idfdiff.py</a></li>
+<li><a class="reference internal" href="#eppyreadtest-folder-py">eppyreadtest_folder.py</a></li>
+<li><a class="reference internal" href="#eppyreadtest-file-py">eppyreadtest_file.py</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="newfunctions.html"
                         title="previous chapter">New functions</a></p>
@@ -97,15 +219,12 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              >next</a> |</li>
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
