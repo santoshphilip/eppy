@@ -81,8 +81,6 @@ class idd:
         st=mylib2.readfile(fname)
         nocom=removecomment(st,'!')
         idfst=nocom
-        nocom=removecomment(idfst,'\\')
-        idfst=nocom
         ls=string.split(idfst,';')
         lss=[]
         for el in ls:
@@ -152,8 +150,6 @@ class eplusdata:
         st=mylib2.readfile(fname)
         nocom=removecomment(st,'!')
         idfst=nocom
-        nocom=removecomment(idfst,'\\')
-        idfst=nocom
         ls=string.split(idfst,';')
         lss=[]
         for el in ls:
@@ -188,8 +184,6 @@ class eplusdata:
         st = fnamefobject.read()
         fnamefobject.close()
         nocom=removecomment(st,'!')
-        idfst=nocom
-        nocom=removecomment(idfst,'\\')
         idfst=nocom
         ls=string.split(idfst,';')
         lss=[]

@@ -1,4 +1,25 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+2014-08-05
+----------
+eppy can read fields dos path names with backslash '\' 
+2014-08-04
+----------
+ran test for checking if eppy is reading all example files.
+on a mac under EnergyPlus-8-1-0, the following files failed the read:
+
+- 12 False 4ZoneWithShading_Simple_1.idf
+- 13 False 4ZoneWithShading_Simple_2.idf
+the above two files used a keyword "End Lead Input" 
+the keyword was not in the IDD file. So it failed
+
+- 168 False EMSUserDefined5ZoneAirCooled.idf
+- 169 False EMSUserDefinedWindACAuto.idf
+- 225 False HospitalBaselineReheatReportEMS.idf
+- 355 False RetailPackagedTESCoil.idf
+the above 4 files used extended fields
+while testing the idd did not have the extended fields
+So they failed
+
 2013-12-21
 ----------
 on testing with issue13 updates, ony three files could not be read:

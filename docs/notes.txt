@@ -13,6 +13,7 @@ Steps for release
     - this is needed so that code api is there
 - rebuild the documentation
 - upload documentation to pypi 
+python setup.py upload_docs --upload-dir=docs/generated
 -
 - push to github
 - make a release on github with a new tag = release number
@@ -79,8 +80,8 @@ installing the most current eppy
 - pip uninstall eppy (not needed first time)
 - make an eppy egg
     - python setup.py sdist
-    - cd docs
+    -   
     - pip install ../dist/eppy-0.4.0.tar.gz 
         (version number may be different - check)
-    - rm -r ./dist
-    - rm -r ./eppy.egg-info
+    - rm -r ../dist
+    - rm -r ../eppy.egg-info
