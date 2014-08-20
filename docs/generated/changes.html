@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to eppy’s documentation! &mdash; eppy 0.4.6.2 documentation</title>
+    <title>Changes &mdash; eppy 0.4.6.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.2 documentation" href="#" />
-    <link rel="next" title="Installation" href="installation.html" /> 
+    <link rel="top" title="eppy 0.4.6.2 documentation" href="index.html" />
+    <link rel="prev" title="Eppy API" href="eppy_api.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,9 +37,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">eppy 0.4.6.2 documentation</a> &raquo;</li> 
+          <a href="eppy_api.html" title="Eppy API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">eppy 0.4.6.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,29 +48,35 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-eppy-s-documentation">
-<h1>Welcome to eppy&#8217;s documentation!<a class="headerlink" href="#welcome-to-eppy-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="changes">
+<h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>2014-08-19<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="release-r0-462">
+<h3>release r0.462<a class="headerlink" href="#release-r0-462" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Main_Tutorial.html">Eppy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="HVAC_Tutorial.html">HVAC Loops</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Outputs_Tutorial.html">Reading outputs from E+</a></li>
-<li class="toctree-l1"><a class="reference internal" href="newfunctions.html">New functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="useful_scripts.html">Useful Scripts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="eppy_api.html">Eppy API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes.html">Changes</a></li>
+<li><dl class="first docutils">
+<dt>added a script that can compare two idf files. It is documented in &#8220;Useful Scripts&#8221;. The script is in</dt>
+<dd><ul class="first last simple">
+<li>eppy/usefull_scripts/idfdiff.py</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>added two scripts that test if eppy works when new versions of energyplus are released. Documentation for this is not yet done. The scripts are</dt>
+<dd><ul class="first last simple">
+<li>eppy/usefull_scripts/eppyreadtest_file.py</li>
+<li>eppy/usefull_scripts/eppyreadtest_folder.py</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">fixed a bug where eppy would not read backslashes in a path name. Some idf objects have fields that are path names. On dos/windows machines these path names have backslashes</p>
+</li>
 </ul>
 </div>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
 </div>
 
 
@@ -79,20 +85,23 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to eppy&#8217;s documentation!</a><ul>
+<li><a class="reference internal" href="#">Changes</a><ul>
+<li><a class="reference internal" href="#id1">2014-08-19</a><ul>
+<li><a class="reference internal" href="#release-r0-462">release r0.462</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
 </ul>
 
-  <h4>Next topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="next chapter">Installation</a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="eppy_api.html"
+                        title="previous chapter">Eppy API</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/changes.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -122,9 +131,9 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
-             >next</a> |</li>
-        <li><a href="#">eppy 0.4.6.2 documentation</a> &raquo;</li> 
+          <a href="eppy_api.html" title="Eppy API"
+             >previous</a> |</li>
+        <li><a href="index.html">eppy 0.4.6.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
