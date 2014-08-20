@@ -1,0 +1,6 @@
+usage: eppy_version.py [-h]
+
+I print the current version of eppy. Being polite, I also say hello !
+
+optional arguments:
+  -h, --help  show this help message and exit

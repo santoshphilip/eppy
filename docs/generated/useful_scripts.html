@@ -81,19 +81,55 @@
 <p>If you look in the folder &#8221;./eppy/useful_scripts&#8221;, you fill find the
 following scripts</p>
 <p>The scripts are:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span> <span class="n">eppy_version</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span>
 <span class="o">-</span> <span class="n">eppyreadtest_folder</span><span class="o">.</span><span class="n">py</span>
 <span class="o">-</span> <span class="n">eppyreadtest_file</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </div>
+<div class="section" id="eppy-version-py">
+<h2>eppy_version.py<a class="headerlink" href="#eppy-version-py" title="Permalink to this headline">¶</a></h2>
+<p>Many scripts will print out some help information, if you use the &#8211;help
+option. Let us try that</p>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python eppy_version.py --help</pre>
+</div>
+<div class="highlight-python"><pre>usage: eppy_version.py [-h]
+
+I print the current version of eppy. Being polite, I also say hello !
+
+optional arguments:
+  -h, --help  show this help message and exit</pre>
+</div>
+<p>That was useful !</p>
+<p>Now let us try running the program</p>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python eppy_version.py</pre>
+</div>
+<div class="highlight-python"><pre>Hello! I am  eppy version 0.4.6.2</pre>
+</div>
+</div>
+<div class="section" id="redirecting-output-to-a-file">
+<h2>Redirecting output to a file<a class="headerlink" href="#redirecting-output-to-a-file" title="Permalink to this headline">¶</a></h2>
+<p>Most scripts will print the output to a terminal. Sometimes we want to
+send the output to a file, so that we can save it for posterity. We can
+do that py using &#8220;&gt;&#8221; with the filename after that. For eppy_version.py,
+it will look like this:</p>
+<p>python eppy_version.py &gt; save_output.txt</p>
+<p>Some of the following scripts will generate csv or html outputs. We can
+direct the output to a file with .html extension and open it in a
+browser</p>
+</div>
 <div class="section" id="compare-two-idf-files-idfdiff-py">
 <h2>Compare two idf files - idfdiff.py<a class="headerlink" href="#compare-two-idf-files-idfdiff-py" title="Permalink to this headline">¶</a></h2>
-<p>this script will compare two idf files. The results will be displayed
+<p>This script will compare two idf files. The results will be displayed
 printed in &#8220;csv&#8221; format or in &#8220;html&#8221; format.</p>
-<p>You would the script from the command line. This would be the terminal
-on Mac or unix, and the dos prompt on windows. Let us look at the help
-for this script, by typing:</p>
+<p>You would run the script from the command line. This would be the
+terminal on Mac or unix, and the dos prompt on windows. Let us look at
+the help for this script, by typing:</p>
 <div class="code python highlight-python"><pre>%%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
 python idfdiff.py -h</pre>
@@ -114,14 +150,14 @@ optional arguments:
   --csv
   --html</pre>
 </div>
-<p>Now let us try this with two files that are slightly different. If we
-open them in a file comparing software, it would look like this:</p>
+<p>Now let us try this with two &#8220;idf&#8221; files that are slightly different. If
+we open them in a file comparing software, it would look like this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="kn">import</span> <span class="n">doc_images</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">doc_images</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">filemerge</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/useful_scripts_12_0.png" src="_images/useful_scripts_12_0.png" />
+<img alt="_images/useful_scripts_21_0.png" src="_images/useful_scripts_21_0.png" />
 <p>There are 4 differences between the files. Let us see what idfdiff.py
 does with the two files. We will use the &#8211;html option to print out the
 diff in html format.</p>
@@ -159,8 +195,8 @@ CONSTRUCTION,SB-E,,is here,not here
 CONSTRUCTION,SB-U,,not here,is here
 OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV</pre>
 </div>
-<p>We see the same output, but now in csv format. You can open it up as a
-spreadsheet</p>
+<p>We see the same output, but now in csv format. You can redirect it to a
+&#8221;.csv&#8221; file and open it up as a spreadsheet</p>
 </div>
 <div class="section" id="eppyreadtest-folder-py">
 <h2>eppyreadtest_folder.py<a class="headerlink" href="#eppyreadtest-folder-py" title="Permalink to this headline">¶</a></h2>
@@ -182,6 +218,8 @@ spreadsheet</p>
   <ul>
 <li><a class="reference internal" href="#">Useful Scripts</a><ul>
 <li><a class="reference internal" href="#location-of-the-scripts">Location of the scripts</a></li>
+<li><a class="reference internal" href="#eppy-version-py">eppy_version.py</a></li>
+<li><a class="reference internal" href="#redirecting-output-to-a-file">Redirecting output to a file</a></li>
 <li><a class="reference internal" href="#compare-two-idf-files-idfdiff-py">Compare two idf files - idfdiff.py</a></li>
 <li><a class="reference internal" href="#eppyreadtest-folder-py">eppyreadtest_folder.py</a></li>
 <li><a class="reference internal" href="#eppyreadtest-file-py">eppyreadtest_file.py</a></li>
