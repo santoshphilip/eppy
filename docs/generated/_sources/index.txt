@@ -18,6 +18,7 @@ Contents:
     newfunctions
     useful_scripts
     eppy_api
+    changes
 
 Indices and tables
 ==================
