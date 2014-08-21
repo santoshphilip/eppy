@@ -1,3 +1,10 @@
+2014-08-20
+----------
+- review the code to get a global understanding of it
+- document the larger structure so that others can work on it
+- fix the quick hacks
+- revisit the strategies and data structure used
+
 2013-11-24
 ----------
 need a default setting for idd (maybe the latest one)
