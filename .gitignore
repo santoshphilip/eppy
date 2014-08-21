@@ -5,3 +5,6 @@
 __pycache__
 *.sublime-workspace
 .commitLog
+test.*
+Test.*
+TEST.*
