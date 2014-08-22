@@ -1,6 +1,8 @@
 2014-02-11
 ----------
 Steps for release
+- make notes in docs/source/changes.rst
+- 
 - establish a release number (0.4.6)
 - change the release number in the documentation. (in .docs/source/conf.py)
 - change version number in ./eppy/eppy/__init__.py
@@ -16,6 +18,8 @@ Steps for release
 python setup.py upload_docs --upload-dir=docs/generated
 -
 - push to github
+- git tag r0.46
+- git push origin r0.46
 - make a release on github with a new tag = release number
 
 2013-10-30
