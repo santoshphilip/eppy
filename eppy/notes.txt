@@ -1,3 +1,19 @@
+2014-08-26
+----------
+Development tasks
+
+- core programming and development
+    - docuementation
+    - 
+- python 3    
+- useful scripts
+- hvac modules - testing and development
+- outputs 
+- output graphing
+- input graphing
+- input calculations
+- web gui example ?
+- 
 2014-08-20
 ----------
 - review the code to get a global understanding of it
