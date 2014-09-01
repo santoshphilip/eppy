@@ -166,11 +166,11 @@ def makeplantloop(idf, loopname, sloop, dloop):
     # add branch names to the branchlist
     sbranchnames = flattencopy(sloop)
     # sbranchnames = sloop[1]
-    for branchname in sloop[1]:
+    for branchname in sbranchnames:
         sbranchlist.obj.append(branchname)
     dbranchnames = flattencopy(dloop)
     # dbranchnames = dloop[1]
-    for branchname in dloop[1]:
+    for branchname in dbranchnames:
         dbranchlist.obj.append(branchname)
 
     # make a pipe branch for all branches in the loop
@@ -542,11 +542,11 @@ def makecondenserloop(idf, loopname, sloop, dloop):
     # add branch names to the branchlist
     sbranchnames = flattencopy(sloop)
     # sbranchnames = sloop[1]
-    for branchname in sloop[1]:
+    for branchname in sbranchnames:
         sbranchlist.obj.append(branchname)
     dbranchnames = flattencopy(dloop)
     # dbranchnames = dloop[1]
-    for branchname in dloop[1]:
+    for branchname in dbranchnames:
         dbranchlist.obj.append(branchname)
 
     # make a pipe branch for all branches in the loop

@@ -154,11 +154,35 @@ Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
 
 
-Eppy has a function that can draw the loops. We'll use this to view the
-loop diagram.
+Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
+this diagram
 
-run the following program in the shell. (you have to run it from the
-eppy/eppy folder)
+See `Generating a Loop Diagram <useful_scripts.html#loopdiagram-py>`__
+page for details.
+
+See my `About <../about/>`__ page for details.
+
+See my `About <useful_scripts.html>`__ page for details.
+
+This is [an example][id] reference-style link.
+
+.. code:: python
+
+    import os
+    os.chdir("../eppy/useful_scripts")
+    # changes directory, so we are where the scripts are located
+.. code:: python
+
+    %%bash
+    # ignore the line above. It simply lets me run a command line from ipython notebook
+    python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../../docs/hhh1.idf
+
+.. parsed-literal::
+
+    constructing the loops
+    making the diagram
+    saved file: ../../docs/hhh1.dot
+    saved file: ../../docs/hhh1.png
 
 
 # usage:
@@ -179,7 +203,7 @@ shown seperately for clarity*
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_23_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_26_0.png
 
 
 Modifying the topology of the loop
@@ -234,7 +258,7 @@ python ex_loopdiagram.py hhh_new.idf
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_29_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_32_0.png
 
 
 This diagram shows the new components in the branch

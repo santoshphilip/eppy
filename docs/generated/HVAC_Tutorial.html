@@ -177,10 +177,27 @@ be replaced with a more complex branch.</p>
 </div>
 <div class="section" id="diagram-of-the-loop">
 <h3>Diagram of the loop<a class="headerlink" href="#diagram-of-the-loop" title="Permalink to this headline">¶</a></h3>
-<p>Eppy has a function that can draw the loops. We&#8217;ll use this to view the
-loop diagram.</p>
-<p>run the following program in the shell. (you have to run it from the
-eppy/eppy folder)</p>
+<p>Let us use the script &#8220;eppy/useful_scripts/loopdiagrams.py&#8221; to draw
+this diagram</p>
+<p>See <a class="reference external" href="useful_scripts.html#loopdiagram-py">Generating a Loop Diagram</a>
+page for details.</p>
+<p>See my <a class="reference external" href="../about/">About</a> page for details.</p>
+<p>See my <a class="reference external" href="useful_scripts.html">About</a> page for details.</p>
+<p>This is [an example][id] reference-style link.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s">&quot;../eppy/useful_scripts&quot;</span><span class="p">)</span>
+<span class="c"># changes directory, so we are where the scripts are located</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../../docs/hhh1.idf</pre>
+</div>
+<div class="highlight-python"><pre>constructing the loops
+making the diagram
+saved file: ../../docs/hhh1.dot
+saved file: ../../docs/hhh1.png</pre>
+</div>
 <p># usage:
 # python ex_loopdiagram.py iddfile idffile
 python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf</p>
@@ -192,7 +209,7 @@ shown seperately for clarity</em></p>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop1</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/HVAC_Tutorial_23_0.png" src="_images/HVAC_Tutorial_23_0.png" />
+<img alt="_images/HVAC_Tutorial_26_0.png" src="_images/HVAC_Tutorial_26_0.png" />
 </div>
 <div class="section" id="modifying-the-topology-of-the-loop">
 <h3>Modifying the topology of the loop<a class="headerlink" href="#modifying-the-topology-of-the-loop" title="Permalink to this headline">¶</a></h3>
@@ -236,7 +253,7 @@ the new branch would look like &#8220;chiller-&gt; pipe1-&gt;pipe2&#8221;</p>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop2</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/HVAC_Tutorial_29_0.png" src="_images/HVAC_Tutorial_29_0.png" />
+<img alt="_images/HVAC_Tutorial_32_0.png" src="_images/HVAC_Tutorial_32_0.png" />
 <p>This diagram shows the new components in the branch</p>
 </div>
 <div class="section" id="traversing-the-loop">

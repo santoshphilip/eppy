@@ -83,6 +83,7 @@ following scripts</p>
 <p>The scripts are:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="o">-</span> <span class="n">eppy_version</span><span class="o">.</span><span class="n">py</span>
 <span class="o">-</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span>
 <span class="o">-</span> <span class="n">eppyreadtest_folder</span><span class="o">.</span><span class="n">py</span>
 <span class="o">-</span> <span class="n">eppyreadtest_file</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
@@ -109,7 +110,7 @@ optional arguments:
 # ignore the line above. It simply lets me run a command line from ipython notebook
 python eppy_version.py</pre>
 </div>
-<div class="highlight-python"><pre>Hello! I am  eppy version 0.4.6.2</pre>
+<div class="highlight-python"><pre>Hello! I am  eppy version 0.4.6.3</pre>
 </div>
 </div>
 <div class="section" id="redirecting-output-to-a-file">
@@ -136,9 +137,9 @@ python idfdiff.py -h</pre>
 </div>
 <div class="highlight-python"><pre>usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
 
-Do a diff between two idf files. Prints the diff in csv or html file format.
-You can redirect the output to a file and open the file using as a spreadsheet
-or by using a browser
+Do a diff between two idf files. Prints the diff in csv or html file format. You
+can redirect the output to a file and open the file using as a spreadsheet or by
+using a browser
 
 positional arguments:
   idd         location of idd file = ./somewhere/eplusv8-0-1.idd
@@ -198,6 +199,61 @@ OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV</pre>
 <p>We see the same output, but now in csv format. You can redirect it to a
 &#8221;.csv&#8221; file and open it up as a spreadsheet</p>
 </div>
+<div class="section" id="loopdiagram-py">
+<h2>loopdiagram.py<a class="headerlink" href="#loopdiagram-py" title="Permalink to this headline">¶</a></h2>
+<p>This script will draw all the loops in an idf file. It is a bit of a
+hack. So it will work on most files, but sometimes it will not :-(. But
+it is pretty useful when it works.</p>
+<p>If it does not work, send us the idf file and we&#8217;ll try to fix the code</p>
+<p>Make sure <a class="reference external" href="http://www.research.att.com/sw/tools/graphviz/">grapphviz</a>
+is installed for this script to work</p>
+<p>Again, we&#8217;ll have to run the script from the terminal. Let us look at
+the help for this script</p>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python loopdiagram.py --help</pre>
+</div>
+<div class="highlight-python"><pre>usage: loopdiagram.py [-h] idd file
+
+draw all the  loops in the idf file
+There are two output files saved in the same location as the idf file:
+- idf_file_location/idf_filename.dot
+- idf_file_location/idf_filename.png
+
+positional arguments:
+  idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+  file        location of idf file = ./somewhere/f1.idf
+
+optional arguments:
+  -h, --help  show this help message and exit</pre>
+</div>
+<p>Pretty straightforward. Simply open png file and you will see the loop
+diagram. (ignore the dot file for now. it will be documented later)</p>
+<p>So let us try this out with and simple example file. We have a very
+simple plant loop in &#8221;../resources/idffiles/V_7_2/plantloop.idf&#8221;</p>
+<div class="code python highlight-python"><pre>%%bash
+# ignore the line above. It simply lets me run a command line from ipython notebook
+python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf</pre>
+</div>
+<div class="highlight-python"><pre>constructing the loops
+making the diagram
+saved file: ../resources/idffiles/V_7_2/plantloop.dot
+saved file: ../resources/idffiles/V_7_2/plantloop.png</pre>
+</div>
+<p>The script prints out it&#8217;s progress. On larger files, this might take a
+few seconds. If we open this file, it will look like the diagram below</p>
+<p><em>Note: the supply and demnd sides are not connected in the diagram, but
+shown seperately for clarity</em></p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="kn">import</span> <span class="n">doc_images</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">doc_images</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop</span><span class="p">)</span> <span class="c"># display the image below</span>
+</pre></div>
+</div>
+<img alt="_images/useful_scripts_37_0.png" src="_images/useful_scripts_37_0.png" />
+<p>That diagram is not a real system. Does this script really work ?</p>
+<p>Try it yourself. Draw the daigram for
+&#8221;../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf&#8221;</p>
+</div>
 <div class="section" id="eppyreadtest-folder-py">
 <h2>eppyreadtest_folder.py<a class="headerlink" href="#eppyreadtest-folder-py" title="Permalink to this headline">¶</a></h2>
 <p>Not yet documented</p>
@@ -221,6 +277,7 @@ OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV</pre>
 <li><a class="reference internal" href="#eppy-version-py">eppy_version.py</a></li>
 <li><a class="reference internal" href="#redirecting-output-to-a-file">Redirecting output to a file</a></li>
 <li><a class="reference internal" href="#compare-two-idf-files-idfdiff-py">Compare two idf files - idfdiff.py</a></li>
+<li><a class="reference internal" href="#loopdiagram-py">loopdiagram.py</a></li>
 <li><a class="reference internal" href="#eppyreadtest-folder-py">eppyreadtest_folder.py</a></li>
 <li><a class="reference internal" href="#eppyreadtest-file-py">eppyreadtest_file.py</a></li>
 </ul>

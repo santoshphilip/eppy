@@ -1,8 +1,8 @@
 usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
 
-Do a diff between two idf files. Prints the diff in csv or html file format.
-You can redirect the output to a file and open the file using as a spreadsheet
-or by using a browser
+Do a diff between two idf files. Prints the diff in csv or html file format. You
+can redirect the output to a file and open the file using as a spreadsheet or by
+using a browser
 
 positional arguments:
   idd         location of idd file = ./somewhere/eplusv8-0-1.idd

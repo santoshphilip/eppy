@@ -41,6 +41,7 @@ The scripts are:
 
     - eppy_version.py
     - idfdiff.py
+    - loopdiagram.py
     - eppyreadtest_folder.py
     - eppyreadtest_file.py
         
@@ -81,7 +82,7 @@ Now let us try running the program
 
 .. parsed-literal::
 
-    Hello! I am  eppy version 0.4.6.2
+    Hello! I am  eppy version 0.4.6.3
 
 
 Redirecting output to a file
@@ -120,9 +121,9 @@ the help for this script, by typing:
 
     usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
     
-    Do a diff between two idf files. Prints the diff in csv or html file format.
-    You can redirect the output to a file and open the file using as a spreadsheet
-    or by using a browser
+    Do a diff between two idf files. Prints the diff in csv or html file format. You
+    can redirect the output to a file and open the file using as a spreadsheet or by
+    using a browser
     
     positional arguments:
       idd         location of idd file = ./somewhere/eplusv8-0-1.idd
@@ -214,6 +215,86 @@ Now let us try the same thin in csv format
 
 We see the same output, but now in csv format. You can redirect it to a
 ".csv" file and open it up as a spreadsheet
+
+loopdiagram.py
+--------------
+
+
+This script will draw all the loops in an idf file. It is a bit of a
+hack. So it will work on most files, but sometimes it will not :-(. But
+it is pretty useful when it works.
+
+If it does not work, send us the idf file and we'll try to fix the code
+
+Make sure `grapphviz <http://www.research.att.com/sw/tools/graphviz/>`__
+is installed for this script to work
+
+Again, we'll have to run the script from the terminal. Let us look at
+the help for this script
+
+.. code:: python
+
+    %%bash
+    # ignore the line above. It simply lets me run a command line from ipython notebook
+    python loopdiagram.py --help
+
+.. parsed-literal::
+
+    usage: loopdiagram.py [-h] idd file
+    
+    draw all the  loops in the idf file
+    There are two output files saved in the same location as the idf file:
+    - idf_file_location/idf_filename.dot
+    - idf_file_location/idf_filename.png
+    
+    positional arguments:
+      idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+      file        location of idf file = ./somewhere/f1.idf
+    
+    optional arguments:
+      -h, --help  show this help message and exit
+
+
+Pretty straightforward. Simply open png file and you will see the loop
+diagram. (ignore the dot file for now. it will be documented later)
+
+So let us try this out with and simple example file. We have a very
+simple plant loop in "../resources/idffiles/V\_7\_2/plantloop.idf"
+
+.. code:: python
+
+    %%bash
+    # ignore the line above. It simply lets me run a command line from ipython notebook
+    python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf
+
+.. parsed-literal::
+
+    constructing the loops
+    making the diagram
+    saved file: ../resources/idffiles/V_7_2/plantloop.dot
+    saved file: ../resources/idffiles/V_7_2/plantloop.png
+
+
+The script prints out it's progress. On larger files, this might take a
+few seconds. If we open this file, it will look like the diagram below
+
+*Note: the supply and demnd sides are not connected in the diagram, but
+shown seperately for clarity*
+
+.. code:: python
+
+    from eppy.useful_scripts import doc_images #no need to know this code, it just shows the image below
+    for_images = doc_images
+    for_images.display_png(for_images.plantloop) # display the image below
+
+
+.. image:: useful_scripts_files/useful_scripts_37_0.png
+
+
+That diagram is not a real system. Does this script really work ?
+
+Try it yourself. Draw the daigram for
+"../resources/idffiles/V\_7\_2/5ZoneCAVtoVAVWarmestTempFlow.idf"
 
 eppyreadtest\_folder.py
 -----------------------
