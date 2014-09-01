@@ -1,6 +1,29 @@
 Changes
 =======
 
+2014-09-01
+----------
+
+- added a script eppy/useful_scripts/loopdiagram.py::
+
+    python loopdiagram.py --help
+    
+    usage: loopdiagram.py [-h] idd file
+
+    draw all the  loops in the idf file
+    There are two output files saved in the same location as the idf file:
+    - idf_file_location/idf_filename.dot
+    - idf_file_location/idf_filename.png
+
+    positional arguments:
+      idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+      file        location of idf file = ./somewhere/f1.idf
+
+    optional arguments:
+      -h, --help  show this help message and exit
+      
+- fixed a bug in hvacbuilder.makeplantloop and hvacbuilder.makecondenserloop
+
 2014-08-21
 ----------
 
