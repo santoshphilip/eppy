@@ -565,3 +565,4 @@ if __name__ == "__main__":
 
 # python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf
 # python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf
+# python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../../docs/c_loop.idf
