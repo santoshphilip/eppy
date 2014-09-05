@@ -1,10 +1,7 @@
 *~
 *.pyc
-.DS_Store
-.ipynb_checkpoints/
+.*
 __pycache__
-*.sublime-workspace
-.commitLog
 test.*
 Test.*
 TEST.*

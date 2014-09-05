@@ -1,2 +1,13 @@
 {
+	"folders":
+	[
+		{
+			"path": "/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy"
+			/* "file_exclude_patterns": ["*.txt"] */
+		}
+	],
+	/*"settings":
+	{
+		"tab_size": 20
+	}*/
 }
