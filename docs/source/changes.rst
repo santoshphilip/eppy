@@ -1,6 +1,15 @@
 Changes
 =======
 
+2014-08-21
+----------
+
+release r0.463
+~~~~~~~~~~~~~~
+
+- added eppy/useful_scripts/eppy_version.py
+- updated documentation to match
+
 2014-08-19
 ----------
 

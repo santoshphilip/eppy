@@ -1,0 +1,29 @@
+Development tasks
+
+- core programming and development
+    - documentation so others can do core development
+    - clean up all ugly hacks
+    - see if core data structure can be made more powerful
+- python 2 to python 3    
+- useful scripts
+    - collect useful scripts from users
+    - develop published coding style that useful scripts can follow
+        - may just be examples
+- hvac modules 
+    - testing and further development
+    - build example systems
+    - build generic functions that can plug in any hvac system
+- outputs parsing
+    - parsing html, csv, sqllite
+    - filtering output data using different logic
+    - comparing between models
+- display outputs 
+    - graphs
+    - tables
+    - data stream
+- output graphing
+- input graphing
+- input calculations
+- gui example ? - html, desktop, hosted online
+
+

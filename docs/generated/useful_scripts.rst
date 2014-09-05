@@ -39,22 +39,76 @@ The scripts are:
 
 ::
 
+    - eppy_version.py
     - idfdiff.py
     - eppyreadtest_folder.py
     - eppyreadtest_file.py
         
 
 
+eppy\_version.py
+----------------
+
+
+Many scripts will print out some help information, if you use the --help
+option. Let us try that
+
+.. code:: python
+
+    %%bash
+    # ignore the line above. It simply lets me run a command line from ipython notebook
+    python eppy_version.py --help
+
+.. parsed-literal::
+
+    usage: eppy_version.py [-h]
+    
+    I print the current version of eppy. Being polite, I also say hello !
+    
+    optional arguments:
+      -h, --help  show this help message and exit
+
+
+That was useful !
+
+Now let us try running the program
+
+.. code:: python
+
+    %%bash
+    # ignore the line above. It simply lets me run a command line from ipython notebook
+    python eppy_version.py
+
+.. parsed-literal::
+
+    Hello! I am  eppy version 0.4.6.2
+
+
+Redirecting output to a file
+----------------------------
+
+
+Most scripts will print the output to a terminal. Sometimes we want to
+send the output to a file, so that we can save it for posterity. We can
+do that py using ">" with the filename after that. For eppy\_version.py,
+it will look like this:
+
+python eppy_version.py > save_output.txt
+
+Some of the following scripts will generate csv or html outputs. We can
+direct the output to a file with .html extension and open it in a
+browser
+
 Compare two idf files - idfdiff.py
 ----------------------------------
 
 
-this script will compare two idf files. The results will be displayed
+This script will compare two idf files. The results will be displayed
 printed in "csv" format or in "html" format.
 
-You would the script from the command line. This would be the terminal
-on Mac or unix, and the dos prompt on windows. Let us look at the help
-for this script, by typing:
+You would run the script from the command line. This would be the
+terminal on Mac or unix, and the dos prompt on windows. Let us look at
+the help for this script, by typing:
 
 .. code:: python
 
@@ -81,8 +135,8 @@ for this script, by typing:
       --html
 
 
-Now let us try this with two files that are slightly different. If we
-open them in a file comparing software, it would look like this:
+Now let us try this with two "idf" files that are slightly different. If
+we open them in a file comparing software, it would look like this:
 
 .. code:: python
 
@@ -91,7 +145,7 @@ open them in a file comparing software, it would look like this:
     for_images.display_png(for_images.filemerge) # display the image below
 
 
-.. image:: useful_scripts_files/useful_scripts_12_0.png
+.. image:: useful_scripts_files/useful_scripts_21_0.png
 
 
 There are 4 differences between the files. Let us see what idfdiff.py
@@ -158,8 +212,8 @@ Now let us try the same thin in csv format
     OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV
 
 
-We see the same output, but now in csv format. You can open it up as a
-spreadsheet
+We see the same output, but now in csv format. You can redirect it to a
+".csv" file and open it up as a spreadsheet
 
 eppyreadtest\_folder.py
 -----------------------
