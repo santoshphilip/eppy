@@ -2,6 +2,4 @@
 *.pyc
 .*
 __pycache__
-test*.*
-Test*.*
-TEST*.*
+test*.ipynb
