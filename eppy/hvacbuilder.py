@@ -295,7 +295,16 @@ def renamenodes(idf, fieldtype):
     
 def getfieldnamesendswith(idfobject, endswith):
     """get the filednames for the idfobject based on endswith"""
+    # print idfobject.keys()
+    # print idfobject.obj
     objls = idfobject.objls
+    tmp = [name for name in objls if name.endswith(endswith)]
+    if tmp == []:
+        pass
+        # print endswith
+        # print idfobject.key
+        # print idfobject.Name
+        # print objls
     return [name for name in objls if name.endswith(endswith)]
     
 def getnodefieldname(idfobject, endswith, fluid=''):
@@ -304,6 +313,7 @@ def getnodefieldname(idfobject, endswith, fluid=''):
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
     nodenames = getfieldnamesendswith(idfobject, endswith)
+    # print nodenames
     fnodenames=[nd for nd in nodenames if nd.find(fluid)!=-1]
     if len(fnodenames) == 0:
         nodename = nodenames[0]
@@ -848,6 +858,7 @@ def makeairloop(idf, loopname, sloop, dloop):
     z_returnpth.Return_Air_Path_Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
     z_returnpth.Component_1_Object_Type = "AirLoopHVAC:ZoneMixer"
     z_returnpth.Component_1_Name = z_mixer.Name
+    return newairloop
     
 def main():
     from StringIO import StringIO
