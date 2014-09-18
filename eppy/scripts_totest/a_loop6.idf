@@ -1,0 +1,95 @@
+
+AIRLOOPHVAC,              
+    a_loop,                   !- Name
+    ,                         !- Controller List Name
+    ,                         !- Availability Manager List Name
+    0,                        !- Design Supply Air Flow Rate
+    a_loop Branches,          !- Branch List Name
+    a_loop Connectors,        !- Connector List Name
+    a_loop Supply Inlet,      !- Supply Side Inlet Node Name
+    a_loop Demand Outlet,     !- Demand Side Outlet Node Name
+    a_loop Demand Inlet,      !- Demand Side Inlet Node Names
+    a_loop Supply Outlet;     !- Supply Side Outlet Node Names
+
+BRANCH,                   
+    sb0,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb0_duct,                 !- Component 1 Name
+    a_loop Supply Inlet,      !- Component 1 Inlet Node Name
+    sb0_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb1,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb1_duct,                 !- Component 1 Name
+    sb1_duct_inlet,           !- Component 1 Inlet Node Name
+    sb1_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb2,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb2_duct,                 !- Component 1 Name
+    sb2_duct_inlet,           !- Component 1 Inlet Node Name
+    sb2_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb3,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb3_duct,                 !- Component 1 Name
+    sb3_duct_inlet,           !- Component 1 Inlet Node Name
+    sb3_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb4,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb4_duct,                 !- Component 1 Name
+    sb4_duct_inlet,           !- Component 1 Inlet Node Name
+    a_loop Supply Outlet,     !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCHLIST,               
+    a_loop Branches,          !- Name
+    sb0,                      !- Branch 1 Name
+    sb1,                      !- Branch 2 Name
+    sb2,                      !- Branch 3 Name
+    sb3,                      !- Branch 4 Name
+    sb4;                      !- Branch 5 Name
+
+DUCT,                     
+    sb0_duct,                 !- Name
+    sb0_duct_inlet,           !- Inlet Node Name
+    sb0_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb1_duct,                 !- Name
+    sb1_duct_inlet,           !- Inlet Node Name
+    sb1_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb2_duct,                 !- Name
+    sb2_duct_inlet,           !- Inlet Node Name
+    sb2_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb3_duct,                 !- Name
+    sb3_duct_inlet,           !- Inlet Node Name
+    sb3_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb4_duct,                 !- Name
+    sb4_duct_inlet,           !- Inlet Node Name
+    sb4_duct_outlet;          !- Outlet Node Name

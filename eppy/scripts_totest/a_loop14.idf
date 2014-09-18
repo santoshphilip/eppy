@@ -1,0 +1,181 @@
+
+AIRTERMINAL:SINGLEDUCT:UNCONTROLLED,
+    zone1DirectAir,           !- Name
+    ,                         !- Availability Schedule Name
+    zone1 Inlet Node,         !- Zone Supply Air Node Name
+    autosize;                 !- Maximum Air Flow Rate
+
+AIRTERMINAL:SINGLEDUCT:UNCONTROLLED,
+    zone2DirectAir,           !- Name
+    ,                         !- Availability Schedule Name
+    zone2 Inlet Node,         !- Zone Supply Air Node Name
+    autosize;                 !- Maximum Air Flow Rate
+
+AIRTERMINAL:SINGLEDUCT:UNCONTROLLED,
+    zone3DirectAir,           !- Name
+    ,                         !- Availability Schedule Name
+    zone3 Inlet Node,         !- Zone Supply Air Node Name
+    autosize;                 !- Maximum Air Flow Rate
+
+ZONEHVAC:EQUIPMENTLIST,   
+    zone1 equip list,         !- Name
+    AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
+    zone1DirectAir,           !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1;                        !- Zone Equipment 1 Heating or NoLoad Sequence
+
+ZONEHVAC:EQUIPMENTLIST,   
+    zone2 equip list,         !- Name
+    AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
+    zone2DirectAir,           !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1;                        !- Zone Equipment 1 Heating or NoLoad Sequence
+
+ZONEHVAC:EQUIPMENTLIST,   
+    zone3 equip list,         !- Name
+    AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
+    zone3DirectAir,           !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1;                        !- Zone Equipment 1 Heating or NoLoad Sequence
+
+ZONEHVAC:EQUIPMENTCONNECTIONS,
+    zone1,                    !- Zone Name
+    zone1 equip list,         !- Zone Conditioning Equipment List Name
+    zone1 Inlet Node,         !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    zone1 Node,               !- Zone Air Node Name
+    zone1 Outlet Node;        !- Zone Return Air Node Name
+
+ZONEHVAC:EQUIPMENTCONNECTIONS,
+    zone2,                    !- Zone Name
+    zone2 equip list,         !- Zone Conditioning Equipment List Name
+    zone2 Inlet Node,         !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    zone2 Node,               !- Zone Air Node Name
+    zone2 Outlet Node;        !- Zone Return Air Node Name
+
+ZONEHVAC:EQUIPMENTCONNECTIONS,
+    zone3,                    !- Zone Name
+    zone3 equip list,         !- Zone Conditioning Equipment List Name
+    zone3 Inlet Node,         !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    zone3 Node,               !- Zone Air Node Name
+    zone3 Outlet Node;        !- Zone Return Air Node Name
+
+AIRLOOPHVAC,              
+    a_loop,                   !- Name
+    ,                         !- Controller List Name
+    ,                         !- Availability Manager List Name
+    0,                        !- Design Supply Air Flow Rate
+    a_loop Branches,          !- Branch List Name
+    a_loop Connectors,        !- Connector List Name
+    a_loop Supply Inlet,      !- Supply Side Inlet Node Name
+    a_loop Demand Outlet,     !- Demand Side Outlet Node Name
+    a_loop Demand Inlet,      !- Demand Side Inlet Node Names
+    a_loop Supply Outlet;     !- Supply Side Outlet Node Names
+
+    AIRLOOPHVAC:ZONESPLITTER,;
+
+BRANCH,                   
+    sb0,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb0_duct,                 !- Component 1 Name
+    a_loop Supply Inlet,      !- Component 1 Inlet Node Name
+    sb0_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb1,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb1_duct,                 !- Component 1 Name
+    sb1_duct_inlet,           !- Component 1 Inlet Node Name
+    sb1_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb2,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb2_duct,                 !- Component 1 Name
+    sb2_duct_inlet,           !- Component 1 Inlet Node Name
+    sb2_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb3,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb3_duct,                 !- Component 1 Name
+    sb3_duct_inlet,           !- Component 1 Inlet Node Name
+    sb3_duct_outlet,          !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCH,                   
+    sb4,                      !- Name
+    0,                        !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    duct,                     !- Component 1 Object Type
+    sb4_duct,                 !- Component 1 Name
+    sb4_duct_inlet,           !- Component 1 Inlet Node Name
+    a_loop Supply Outlet,     !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+BRANCHLIST,               
+    a_loop Branches,          !- Name
+    sb0,                      !- Branch 1 Name
+    sb1,                      !- Branch 2 Name
+    sb2,                      !- Branch 3 Name
+    sb3,                      !- Branch 4 Name
+    sb4;                      !- Branch 5 Name
+
+CONNECTOR:SPLITTER,       
+    a_loop_supply_splitter,    !- Name
+    sb0,                      !- Inlet Branch Name
+    sb1,                      !- Outlet Branch 1 Name
+    sb2,                      !- Outlet Branch 2 Name
+    sb3;                      !- Outlet Branch 3 Name
+
+CONNECTOR:MIXER,          
+    a_loop_supply_mixer,      !- Name
+    sb4,                      !- Outlet Branch Name
+    sb1,                      !- Inlet Branch 1 Name
+    sb2,                      !- Inlet Branch 2 Name
+    sb3;                      !- Inlet Branch 3 Name
+
+CONNECTORLIST,            
+    a_loop Connectors,        !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    a_loop_supply_splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    a_loop_supply_mixer;      !- Connector 2 Name
+
+DUCT,                     
+    sb0_duct,                 !- Name
+    a_loop Supply Inlet,      !- Inlet Node Name
+    sb0_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb1_duct,                 !- Name
+    sb1_duct_inlet,           !- Inlet Node Name
+    sb1_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb2_duct,                 !- Name
+    sb2_duct_inlet,           !- Inlet Node Name
+    sb2_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb3_duct,                 !- Name
+    sb3_duct_inlet,           !- Inlet Node Name
+    sb3_duct_outlet;          !- Outlet Node Name
+
+DUCT,                     
+    sb4_duct,                 !- Name
+    sb4_duct_inlet,           !- Inlet Node Name
+    a_loop Supply Outlet;     !- Outlet Node Name
