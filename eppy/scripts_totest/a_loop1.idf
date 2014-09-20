@@ -1,6 +1,0 @@
-
-AIRLOOPHVAC,              
-    a_loop,                   !- Name
-    ,                         !- Controller List Name
-    ,                         !- Availability Manager List Name
-    0;                        !- Design Supply Air Flow Rate

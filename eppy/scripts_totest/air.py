@@ -14,7 +14,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     newairloop = idf.newidfobject("AirLoopHVAC".upper(), loopname)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     fields = SomeFields.a_fields
 
@@ -36,7 +36,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         newairloop[thefield] = fieldname
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
 
     # make the branch lists for this air loop    
@@ -45,7 +45,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
 
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # add branch names to the branchlist
     sbranchnames = flattencopy(sloop)
@@ -54,7 +54,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         sbranchlist.obj.append(branchname)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # supply side
     sbranchs = []
@@ -63,7 +63,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         sbranchs.append(branch)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # rename inlet outlet of endpoints of loop
     anode = "Component_1_Inlet_Node_Name"
@@ -74,7 +74,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     sbranchs[-1][anode] =  newairloop[sameoutnode]
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
     dname = sbranchs[0]['Component_1_Name'] # get the duct name
@@ -85,7 +85,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     aduct.Outlet_Node_Name = newairloop[sameoutnode]
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # 
     # # TODO : test if there are parallel branches
@@ -94,7 +94,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
                     newairloop.Connector_List_Name)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     sconnlist.Connector_1_Object_Type = "Connector:Splitter"
     sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
@@ -102,7 +102,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make splitters and mixers
     s_splitter = idf.newidfobject("CONNECTOR:SPLITTER", 
@@ -113,7 +113,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     s_mixer.obj.extend([sloop[-1]] + sloop[1])
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # demand side loop for airloop is made below 
     #ZoneHVAC:EquipmentConnections
@@ -130,7 +130,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         equipconn[fldname] = "%s Outlet Node" % (zone, )
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make ZoneHVAC:EquipmentList
     for zone in dloop:
@@ -147,7 +147,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         z_equiplst.Zone_Equipment_1_Heating_or_NoLoad_Sequence = 1
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make AirTerminal:SingleDuct:Uncontrolled
     for zone in dloop:
@@ -164,7 +164,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         z_airterm.Maximum_Air_Flow_Rate = 'autosize'
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # MAKE AirLoopHVAC:ZoneSplitter
     # zone = dloop[0]
@@ -172,7 +172,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     z_splitter = idf.newidfobject(key)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     z_splitter.Name = "%s Demand Side Splitter" % (loopname, )
     z_splitter.Inlet_Node_Name = newairloop.Demand_Side_Inlet_Node_Names
@@ -185,7 +185,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         z_splitter[fld] = z_equipconn.Zone_Air_Inlet_Node_or_NodeList_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make AirLoopHVAC:SupplyPath
     key = "AirLoopHVAC:SupplyPath".upper()
@@ -193,7 +193,7 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     z_supplypth.Name = "%sSupplyPath" % (loopname, )
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     fld1 = "Supply_Air_Path_Inlet_Node_Name"
     fld2 = "Demand_Side_Inlet_Node_Names"
@@ -202,24 +202,24 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     z_supplypth.Component_1_Name = z_splitter.Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make AirLoopHVAC:ZoneMixer
     key = "AirLoopHVAC:ZoneMixer".upper()
     z_mixer = idf.newidfobject(key)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     z_mixer.Name = "%s Demand Side Mixer" % (loopname, )
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     z_mixer.Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     for i, zone in enumerate(dloop):
         z_equipconn = modeleditor.getobjects(idf.idfobjects, 
@@ -230,14 +230,14 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
         z_mixer[fld] = z_equipconn.Zone_Return_Air_Node_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     # make AirLoopHVAC:ReturnPath
     key = "AirLoopHVAC:ReturnPath".upper()
     z_returnpth = idf.newidfobject(key)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     z_returnpth.Name = "%sReturnPath" % (loopname, )
     z_returnpth.Return_Air_Path_Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
@@ -245,6 +245,6 @@ def makeairloop1(idf, loopname, sloop, dloop, testing=None):
     z_returnpth.Component_1_Name = z_mixer.Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
-    if testn == None: return newairloop
+    if testn == None: return None
     # -------- testing ---------
     return newairloop

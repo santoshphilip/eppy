@@ -1,12 +1,19 @@
-def makeplantloop(idf, loopname, sloop, dloop):
+def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     """make plant loop with pip components"""
+    # -------- <testing ---------
+    testn = 0
+    # -------- testing> ---------
     newplantloop = idf.newidfobject("PLANTLOOP", loopname)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     fields = SomeFields.p_fields
 
     # for use in bunch
     flnames = [field.replace(' ', '_') for field in fields]
 
-    # implify naming
+    # simplify naming
     fields1 = [field.replace('Plant Side', 'Supply') for field in fields]
     fields1 = [field.replace('Demand Side', 'Demand') for field in fields1]
     fields1 = [field[:field.find('Name') - 1] for field in fields1]
@@ -18,22 +25,41 @@ def makeplantloop(idf, loopname, sloop, dloop):
     fieldnames = ['%s %s' % (loopname, field) for field in fields1]
     for fieldname, thefield in zip(fieldnames, flnames):
         newplantloop[thefield] = fieldname
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     
     # make the branch lists for this plant loop    
     sbranchlist = idf.newidfobject("BRANCHLIST",
                     newplantloop.Plant_Side_Branch_List_Name)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     dbranchlist = idf.newidfobject("BRANCHLIST",
                     newplantloop.Demand_Side_Branch_List_Name)
-
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     # add branch names to the branchlist
     sbranchnames = flattencopy(sloop)
     # sbranchnames = sloop[1]
     for branchname in sbranchnames:
         sbranchlist.obj.append(branchname)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     dbranchnames = flattencopy(dloop)
     # dbranchnames = dloop[1]
     for branchname in dbranchnames:
         dbranchlist.obj.append(branchname)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
 
     # make a pipe branch for all branches in the loop
 
@@ -42,6 +68,10 @@ def makeplantloop(idf, loopname, sloop, dloop):
     for bname in sbranchnames:
         branch = makepipebranch(idf, bname)
         sbranchs.append(branch)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     # rename inlet outlet of endpoints of loop
     anode = "Component_1_Inlet_Node_Name"
     sameinnode = "Plant_Side_Inlet_Node_Name"
@@ -49,6 +79,10 @@ def makeplantloop(idf, loopname, sloop, dloop):
     anode = "Component_1_Outlet_Node_Name"
     sameoutnode = "Plant_Side_Outlet_Node_Name"
     sbranchs[-1][anode] =  newplantloop[sameoutnode]
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
     pname = sbranchs[0]['Component_1_Name'] # get the pipe name
     apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
@@ -56,6 +90,10 @@ def makeplantloop(idf, loopname, sloop, dloop):
     pname = sbranchs[-1]['Component_1_Name'] # get the pipe name
     apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
     apipe.Outlet_Node_Name = newplantloop[sameoutnode]
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
 
     # demand side
     dbranchs = []
