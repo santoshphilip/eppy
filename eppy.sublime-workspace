@@ -4,12 +4,28 @@
 		"selected_items":
 		[
 			[
-				"repo",
-				"reportHeader"
+				"lines",
+				"lines_table"
+			],
+			[
+				"tabl",
+				"tableNm"
 			],
 			[
 				"report",
-				"reportName"
+				"reportDict"
+			],
+			[
+				"in",
+				"indx"
+			],
+			[
+				"repor",
+				"reportHeader"
+			],
+			[
+				"repo",
+				"reportHeader"
 			],
 			[
 				"re",
@@ -18,14 +34,6 @@
 			[
 				"reportl",
 				"reportLst"
-			],
-			[
-				"repor",
-				"reportTables"
-			],
-			[
-				"lines",
-				"linesTable"
 			],
 			[
 				"Sam",
@@ -188,6 +196,14 @@
 	"buffers":
 	[
 		{
+			"file": "eppy.sublime-project",
+			"settings":
+			{
+				"buffer_size": 293,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "eppy/modeleditor.py",
 			"settings":
 			{
@@ -200,6 +216,14 @@
 			"settings":
 			{
 				"buffer_size": 7908,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "eppy/tests/test_report_tables/test_report_tables.py",
+			"settings":
+			{
+				"buffer_size": 2716,
 				"line_ending": "Unix"
 			}
 		},
@@ -218,17 +242,45 @@
 				"buffer_size": 5516,
 				"line_ending": "Unix"
 			}
+		},
+		{
+			"file": "/Users/eayoungs/repo/Sim/Templates/Scripting/Output/ASHRAE90.1_RetailStandalone_STD2010_SalemTable.html",
+			"settings":
+			{
+				"buffer_size": 460156,
+				"line_ending": "Unix"
+			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 327.0,
+		"height": 387.0,
 		"selected_items":
 		[
 			[
 				":w",
 				":w - Save"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"javascr",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
 			],
 			[
 				":W",
@@ -267,8 +319,21 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy",
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy/resources",
+		"/Users/eayoungs/repo/Code/Sandbox/eppy_test"
+	],
 	"file_history":
 	[
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy/useful_scripts/test.csv",
+		"/Users/eayoungs/repo/Code/Sandbox/eppy_test/test-readhtml-report_tables.py",
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy/__init__.py",
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy/__init__.pyc",
+		"/Users/eayoungs/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy.sublime-workspace",
+		"/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/docs/generated/searchindex.js",
 		"/Users/eayoungs/repo/Code/Simulation_Tools/Scripting/eppy/eppy/useful_scripts/idfdiff.py",
 		"/Users/eayoungs/repo/Code/Simulation_Tools/Scripting/IdfEdit/EpPy-ZoneHVAC.py",
 		"/Users/eayoungs/repo/Code/Simulation_Tools/Scripting/IdfEdit/EpPy-RenameField.py",
@@ -343,7 +408,6 @@
 		"/Users/eayoungs/Documents/Dev/IDF_Editor-Show.py",
 		"/Applications/eppy-0.4.6/eppy/readhtml.py",
 		"/Applications/eppy-0.4.6/eppy/walk_hvac.py",
-		"/Users/eayoungs/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
 		"/Users/eayoungs/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/Users/eayoungs/repo/Code/Simulation_Tools/Scripting/IdfEdit/functionCall.py",
 		"/Users/eayoungs/repo/Code/Simulation_Tools/Scripting/IdfEdit/ZoneHVAC_Object_Sets.py",
@@ -390,13 +454,7 @@
 		"/Users/eayoungs/repo/Sim/EnergyPlus/NorthWest_Housing_Alt/Ikoi-So_Terrace/Ikoi-So_Constructions.osm",
 		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/SmOfficeConstructions.idf",
 		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/Constructions.idf",
-		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/StndAlnRetConstructions.idf",
-		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/Constructions.osm",
-		"/Applications/EnergyPlus-8-0-0/DataSets/ASHRAE_2005_HOF_Materials.idf",
-		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/DB_ASHRAE-2007_Templates/DB_CZ4/DB_CZ4_Construction_Template-Sim.idf",
-		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/DB_ASHRAE-2007_Templates/DB_CZ5/DB_CZ5_Contruction_Template.dsb",
-		"/Applications/EnergyPlus-8-0-0/DataSets/CompositeWallConstructions.idf",
-		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/MedAptConstructions.idf"
+		"/Users/eayoungs/Dropbox/Professional/Work/Templates/Model_Inputs/EnergyPlus/Constructions/StndAlnRetConstructions.idf"
 	],
 	"find":
 	{
@@ -414,6 +472,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Report:",
+			"HVAC Sizing Summary",
+			"Report:",
+			"Report: ",
+			"Report: HVAC Sizing Summary",
+			"reportNm",
+			"reportDict",
+			"'])\n",
+			"reportDict",
+			"tblCount",
+			"tableDict",
+			"reportName",
+			"            ",
 			"table2val_matrix",
 			"titletable",
 			"lines_table",
@@ -528,20 +599,7 @@
 			"OutdoorAir:NodeList object",
 			"RESIDENTIAL_1ST_E-WINDACOAINNODE",
 			"Residential_1st_E-",
-			"Schedule:COmpact",
-			"CYCLINGFANSCH",
-			"Fan:",
-			"RESIDENTIAL_1ST_E-WINDACFAN",
-			"RESIDENTIAL_1ST_E-ZONEHVACBASEBOARDCONVECTIVEELECTRIC",
-			"FANANDCOILAVAILSCHED",
-			"Compact",
-			"FANANDCOILAVAILSCHED",
-			"Residential_1st_E-ZoneHVACBaseboardConvectiveElectric",
-			"RESIDENTIAL_1ST_E-ZONEHVACBASEBOARDCONVECTIVEELECTRIC",
-			"RESIDENTIAL_1ST_E-ZONEHVACBASEBOARDCONVECTIVEELECTRIC2",
-			"Always On Discrete 1",
-			"Residential_1st_E-ZoneHVACBaseboardConvectiveElectric",
-			"ZONE HVAC BASEBOARD CONVECTIVE ELECTRIC 8"
+			"Schedule:COmpact"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -581,11 +639,40 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "eppy.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 293,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250,
+								250
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
 					"file": "eppy/modeleditor.py",
 					"semi_transient": false,
 					"settings":
@@ -597,8 +684,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								712,
+								712
 							]
 						],
 						"settings":
@@ -611,11 +698,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "eppy/readhtml.py",
 					"semi_transient": false,
 					"settings":
@@ -627,8 +714,8 @@
 						"selection":
 						[
 							[
-								1662,
-								1663
+								5777,
+								5777
 							]
 						],
 						"settings":
@@ -638,14 +725,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 517.0,
+						"translation.y": 2785.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 3,
+					"file": "eppy/tests/test_report_tables/test_report_tables.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2716,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								877,
+								877
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 73.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "eppy/tests/sample_html.py",
 					"semi_transient": false,
 					"settings":
@@ -671,11 +788,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "eppy/tests/test_readhtml.py",
 					"semi_transient": false,
 					"settings":
@@ -687,8 +804,8 @@
 						"selection":
 						[
 							[
-								789,
-								789
+								4733,
+								4744
 							]
 						],
 						"settings":
@@ -697,11 +814,41 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 704.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/eayoungs/repo/Sim/Templates/Scripting/Output/ASHRAE90.1_RetailStandalone_STD2010_SalemTable.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 460156,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								653,
+								653
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -762,11 +909,11 @@
 	},
 	"select_project":
 	{
-		"height": 0.0,
+		"height": 500.0,
 		"selected_items":
 		[
 		],
-		"width": 0.0
+		"width": 380.0
 	},
 	"select_symbol":
 	{
@@ -776,14 +923,15 @@
 		],
 		"width": 0.0
 	},
+	"selected_group": 0,
 	"settings":
 	{
 	},
 	"show_minimap": true,
-	"show_open_files": false,
+	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 257.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
