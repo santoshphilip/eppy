@@ -100,6 +100,10 @@ def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     for bname in dbranchnames:
         branch = makepipebranch(idf, bname)
         dbranchs.append(branch)
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in branch
     anode = "Component_1_Inlet_Node_Name"
     sameinnode = "Demand_Side_Inlet_Node_Name"
@@ -107,6 +111,10 @@ def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     anode = "Component_1_Outlet_Node_Name"
     sameoutnode = "Demand_Side_Outlet_Node_Name"
     dbranchs[-1][anode] =  newplantloop[sameoutnode]
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
     pname = dbranchs[0]['Component_1_Name'] # get the pipe name
     apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
@@ -114,6 +122,10 @@ def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     pname = dbranchs[-1]['Component_1_Name'] # get the pipe name
     apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
     apipe.Outlet_Node_Name = newplantloop[sameoutnode]
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
 
 
     # TODO : test if there are parallel branches
@@ -130,6 +142,10 @@ def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     dconnlist.Connector_1_Name = "%s_demand_splitter" % (loopname, )
     dconnlist.Connector_2_Object_Type = "Connector:Mixer"
     dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname, )
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
 
     # make splitters and mixers
     s_splitter = idf.newidfobject("CONNECTOR:SPLITTER", 
@@ -145,5 +161,10 @@ def makeplantloop1(idf, loopname, sloop, dloop, testing=None):
     d_mixer = idf.newidfobject("CONNECTOR:MIXER", 
         dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
+    # -------- <testing ---------
+    testn = doingtesting(testing, testn, newplantloop)
+    if testn == None: return None
+    # -------- testing> ---------
+
     return newplantloop
 
