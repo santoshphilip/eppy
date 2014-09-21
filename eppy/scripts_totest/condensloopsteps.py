@@ -33,5 +33,5 @@ doasLoop = None
 while doasLoop == None:
     n += 1
     condensloop_idf = IDF(StringIO(''))
-    doasLoop = hvacbuilder.makecondenserloop1(condensloop_idf, loopname, sloop, dloop, testing=n)
+    doasLoop = hvacbuilder.makecondenserloop(condensloop_idf, loopname, sloop, dloop, testing=n)
     condensloop_idf.saveas("c_loop%s.idf" % (n, ))

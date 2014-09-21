@@ -30,5 +30,5 @@ doasLoop = None
 while doasLoop == None:
     n += 1
     airloop_idf = IDF(StringIO(''))
-    doasLoop = hvacbuilder.makeairloop1(airloop_idf, loopname, sloop, dloop, testing=n)
+    doasLoop = hvacbuilder.makeairloop(airloop_idf, loopname, sloop, dloop, testing=n)
     airloop_idf.saveas("a_loop%s.idf" % (n, ))
