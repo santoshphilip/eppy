@@ -14,8 +14,9 @@
 
 # You should have received a copy of the GNU General Public License
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
-"""I print the current version of eppy. Being polite, I also say hello !"""
+"""I echo the location of your .IDD file"""
 
+import argparse
 import sys
 
 
@@ -26,7 +27,9 @@ import eppy
 
 if __name__    == '__main__':
     # do the argparse stuff
-    #parser = argparse.ArgumentParser(usage=None, description=__doc__)
-    #nspace = parser.parse_args()
-    #version = eppy.__version__
-    print "Hello! I am  eppy version"
+    parser = argparse.ArgumentParser(usage=None, description=__doc__)
+    nspace = parser.parse_args()
+    parser.add_argument('idd', action='store', 
+        help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+    iddfile = nspace.idd
+    print iddfile
