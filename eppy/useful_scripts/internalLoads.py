@@ -16,7 +16,6 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 """I print the current version of eppy. Being polite, I also say hello !"""
 
-import argparse
 import sys
 
 
