@@ -23,7 +23,7 @@ import sys
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
 
-import eppy
+from eppy.modeleditor import IDF
 
 if __name__    == '__main__':
     # do the argparse stuff
@@ -35,4 +35,8 @@ if __name__    == '__main__':
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile
-    print iddfile, idffile
+    # read the contents of the simulation file for manipulation
+    IDF.setiddname(iddfile)
+    idfcnts = IDF(idffile)
+    idfobjs = idfcnts.idfobjects
+    print idfobjs
