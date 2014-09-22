@@ -14,7 +14,11 @@
 
 # You should have received a copy of the GNU General Public License
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
-"""I echo the location of your .IDD file"""
+
+"""
+I change the value and input method of internal load objects,
+To specify a value of watts/SF for lighting or equipment
+"""
 
 import argparse
 import sys
