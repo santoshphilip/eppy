@@ -30,6 +30,9 @@ if __name__    == '__main__':
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
     parser.add_argument('idd', action='store', 
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+    parser.add_argument('simfile', action='store', 
+        help='location of first with idf files = ./somewhere/f1.idf')
     nspace = parser.parse_args()
     iddfile = nspace.idd
-    print iddfile
+    idffile = nspace.simfile
+    print iddfile, idffile
