@@ -2,8 +2,8 @@
 	"folders":
 	[
 		{
-			"path": "/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy"
-			/* "file_exclude_patterns": ["*.txt"] */
+			"path": "/Users/eayoungs/repo/Code/SimTools/Scripting/eppy/eppy",
+			"file_exclude_patterns": [".*"] 
 		},
 		{
 			"path": "/Users/eayoungs/repo/Code/Sandbox/eppy_test"
