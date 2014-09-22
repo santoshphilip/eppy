@@ -28,8 +28,8 @@ import eppy
 if __name__    == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
-    nspace = parser.parse_args()
     parser.add_argument('idd', action='store', 
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+    nspace = parser.parse_args()
     iddfile = nspace.idd
     print iddfile
