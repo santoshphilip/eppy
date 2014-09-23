@@ -59,7 +59,7 @@ if __name__    == '__main__':
     parser.add_argument('spckeywd', action='store', 
         help='Keyword of phrase in object names to indicate space type')
     parser.add_argument('val', action='store', 
-        help='New value of load objects for space type')
+        help='New value of load objects for space type', type=float)
     parser.add_argument('unitsel', action='store', 
         help='New value of load objects for space type')
     parser.add_argument('ldtyp', action='store', 
