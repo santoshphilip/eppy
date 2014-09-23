@@ -29,6 +29,11 @@ sys.path.append(pathnameto_eplusscripting)
 
 from eppy.modeleditor import IDF
 
+#def convert_iptosi(ipval):
+#	"""Return value per square meter, given value per square foot"""
+#	sival = ipval*10.764
+#	return sival
+
 if __name__    == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
@@ -42,13 +47,17 @@ if __name__    == '__main__':
         help='New value of load objects for space type')
     parser.add_argument('unitsel', action='store', 
         help='New value of load objects for space type')
+    parser.add_argument('ldtyp', action='store', 
+        help='Name of load type to be edited')
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile
     value = nspace.val
     unit = nspace.unitsel
+    loadtype = nspace.ldtyp
     # read the contents of the simulation file for manipulation
     IDF.setiddname(iddfile)
     idfcnts = IDF(idffile)
     idfobjs = idfcnts.idfobjects
-    print unit
+    loadobjs = idfobjs[loadtype]
+    print loadobjs
