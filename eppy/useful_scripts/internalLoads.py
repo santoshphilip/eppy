@@ -35,12 +35,20 @@ if __name__    == '__main__':
     parser.add_argument('idd', action='store', 
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
     parser.add_argument('simfile', action='store', 
-        help='location of first with idf files = ./somewhere/f1.idf')
+        help='location of idf simulation file = ./somewhere/f1.idf')
+    parser.add_argument('spckeywd', action='store', 
+        help='Keyword of phrase in object names to indicate space type')
+    parser.add_argument('val', action='store', 
+        help='New value of load objects for space type')
+    parser.add_argument('unitsel', action='store', 
+        help='New value of load objects for space type')
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile
+    value = nspace.val
+    unit = nspace.unitsel
     # read the contents of the simulation file for manipulation
     IDF.setiddname(iddfile)
     idfcnts = IDF(idffile)
     idfobjs = idfcnts.idfobjects
-    print idfobjs
+    print unit
