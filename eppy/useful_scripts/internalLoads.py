@@ -35,8 +35,8 @@ def convert_iptosi(valueip):
 	valuesi = float(valueip)*10.764
 	return valuesi
 
-def assign_loads(unit, value, loadtp, spacenm):
-    if unit == 'IP':
+def assign_loads(unitfg, value, loadtp, spacenm):
+    if unitfg:
         value = convert_iptosi(value)
     chloads = []
     loadobjs = idfobjs[loadtp]
@@ -47,7 +47,7 @@ def assign_loads(unit, value, loadtp, spacenm):
                 loadobjs.Design_Level_Calculation_Method = 'Watts/Area'
                 loadobjs.Design_Level = ''
                 chloads.append(loadobjs.Name)
-    return chloads
+    return chloads, value
 
 if __name__    == '__main__':
     # do the argparse stuff
@@ -62,18 +62,19 @@ if __name__    == '__main__':
         help='Keyword of phrase in object names to indicate space type')
     parser.add_argument('val', action='store', 
         help='New value of load objects for space type', type=float)
-    parser.add_argument('--unitconv', action='store_true', 
+    parser.add_argument('-u', '--unitconv', action='store_true', 
         help='New value of load objects for space type')
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile
     value = nspace.val
-    unit = nspace.unitconv
+    unitfg = nspace.unitconv
     loadtp = nspace.ldtyp
     spacenm = nspace.spckeywd
     # read the contents of the simulation file for manipulation
     IDF.setiddname(iddfile)
     idfcnts = IDF(idffile)
     idfobjs = idfcnts.idfobjects
-    chloads = assign_loads(unit, value, loadtp, spacenm)
+    chloads = assign_loads(unitfg, value, loadtp, spacenm)
+    idfcnts.saveas(idffile+'_lds.idf')
     print chloads
