@@ -29,10 +29,10 @@ sys.path.append(pathnameto_eplusscripting)
 
 from eppy.modeleditor import IDF
 
-#def convert_iptosi(ipval):
-#	"""Return value per square meter, given value per square foot"""
-#	sival = ipval*10.764
-#	return sival
+def convert_iptosi(ipval):
+	"""Return value per square meter, given value per square foot"""
+	sival = float(ipval)*10.764
+	return sival
 
 if __name__    == '__main__':
     # do the argparse stuff
@@ -60,4 +60,5 @@ if __name__    == '__main__':
     idfcnts = IDF(idffile)
     idfobjs = idfcnts.idfobjects
     loadobjs = idfobjs[loadtype]
-    print loadobjs
+    sival = convert_iptosi(value)
+    print sival
