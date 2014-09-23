@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2014 Eric Youngson
 
 # This file is part of eppy.
 
@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
+
+
 """
 I change the value and input method of internal load objects,
 To specify a value of watts/SF for lighting or equipment
@@ -23,16 +25,29 @@ To specify a value of watts/SF for lighting or equipment
 import argparse
 import sys
 
-
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
 
 from eppy.modeleditor import IDF
 
-def convert_iptosi(ipval):
+def convert_iptosi(valueip):
 	"""Return value per square meter, given value per square foot"""
-	sival = float(ipval)*10.764
-	return sival
+	valuesi = float(valueip)*10.764
+	return valuesi
+
+def assign_loads(unit, value, loadtp, spacenm):
+    if unit == 'IP':
+        value = convert_iptosi(value)
+    chloads = []
+    loadobjs = idfobjs[loadtp]
+    for loadobjs in loadobjs:
+        if spacenm in loadobjs.Name:
+            loadobjs.Watts_per_Zone_Floor_Area = value
+            if loadobjs.Design_Level_Calculation_Method != 'Watts/Area':
+                loadobjs.Design_Level_Calculation_Method = 'Watts/Area'
+                loadobjs.Design_Level = ''
+                chloads.append(loadobjs.Name)
+    return chloads
 
 if __name__    == '__main__':
     # do the argparse stuff
@@ -54,11 +69,11 @@ if __name__    == '__main__':
     idffile = nspace.simfile
     value = nspace.val
     unit = nspace.unitsel
-    loadtype = nspace.ldtyp
+    loadtp = nspace.ldtyp
+    spacenm = nspace.spckeywd
     # read the contents of the simulation file for manipulation
     IDF.setiddname(iddfile)
     idfcnts = IDF(idffile)
     idfobjs = idfcnts.idfobjects
-    loadobjs = idfobjs[loadtype]
-    sival = convert_iptosi(value)
-    print sival
+    chloads = assign_loads(unit, value, loadtp, spacenm)
+    print chloads
