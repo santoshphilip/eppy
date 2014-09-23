@@ -56,19 +56,19 @@ if __name__    == '__main__':
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
     parser.add_argument('simfile', action='store', 
         help='location of idf simulation file = ./somewhere/f1.idf')
+    parser.add_argument('ldtyp', action='store', 
+        help='Name of load type to be edited')
     parser.add_argument('spckeywd', action='store', 
         help='Keyword of phrase in object names to indicate space type')
     parser.add_argument('val', action='store', 
         help='New value of load objects for space type', type=float)
-    parser.add_argument('unitsel', action='store', 
+    parser.add_argument('--unitconv', action='store_true', 
         help='New value of load objects for space type')
-    parser.add_argument('ldtyp', action='store', 
-        help='Name of load type to be edited')
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile
     value = nspace.val
-    unit = nspace.unitsel
+    unit = nspace.unitconv
     loadtp = nspace.ldtyp
     spacenm = nspace.spckeywd
     # read the contents of the simulation file for manipulation
