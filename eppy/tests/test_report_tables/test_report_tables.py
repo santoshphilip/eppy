@@ -21,9 +21,9 @@ def _report_tables(linesTable):
                     #print(reportNm[indx], reportHeader[2], 'Report')
                     reportDict[reportHeader[j]] = linesTable[i][1]
                 else: 
-                    #print(reportNm[indx], reportHeader[2], 'Table')
+                    print(reportNm[indx], reportHeader[2], 'Table')
                 indx = indx+1
-        return reportDict.keys()
+    return reportDict.keys()
 
 # def select_table(report_name, table_name, html_doc):
 #    """Uses the output of report_tables function to produce a
