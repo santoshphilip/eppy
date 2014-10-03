@@ -20,13 +20,12 @@ def _report_tables(linesTable):
             if 'Report: ' in reportHeader[j]:
                 reportNm.append(reportHeader[j])
                 if reportNm[indx] != reportNm[indx-1]:
-                    print('!=',reportNm[indx], reportHeader[2], 'Report')
+                    #print('!=',reportNm[indx], reportHeader[2], 'Report')
                     reportDict[reportHeader[j]] = linesTable[i][1]
-                else: 
-                    print(reportNm[indx], reportHeader[2], 'Table')
+                #else: 
+                #    print(reportNm[indx], reportHeader[2], 'Table')
                 indx = indx+1
-    pp.pprint(reportDict.keys())
-    return 
+    return reportDict.keys()
 
 # def select_table(report_name, table_name, html_doc):
 #    """Uses the output of report_tables function to produce a
