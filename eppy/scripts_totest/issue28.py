@@ -41,3 +41,4 @@ newDOASsupplyBranch = hvacbuilder.replacebranch(airloop_idf, doasLoop, mainSuppl
 
 # def replacebranch(idf, loop, branch,
 #                 listofcomponents, fluid='', debugsave=False):
+airloop_idf.saveas("a_loop1.idf")

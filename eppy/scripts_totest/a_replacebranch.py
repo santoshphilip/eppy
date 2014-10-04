@@ -20,6 +20,7 @@ loopname = "a_loop"
 sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'] # supply side of the loop
 dloop = ['zone1', 'zone2', 'zone3'] # zones on the demand side
 doasLoop = hvacbuilder.makeairloop(airloop_idf, loopname, sloop, dloop)
+airloop_idf.outputtype = 'compressed'
 airloop_idf.saveas("a_branch0.idf")
 
 n = 0
@@ -47,4 +48,5 @@ while newDOASsupplyBranch == None:
         mainSupplyBranch, doasListOfComp, fluid='Air',
         testing=n)
 
+    airloop_idf.outputtype = 'compressed'
     airloop_idf.saveas("a_branch%s.idf" % (n, ))
