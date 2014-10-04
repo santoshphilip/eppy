@@ -158,39 +158,9 @@ Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
 this diagram
 
 See `Generating a Loop Diagram <useful_scripts.html#loopdiagram-py>`__
-page for details.
+page for details on how to do this
 
-See my `About <../about/>`__ page for details.
-
-See my `About <useful_scripts.html>`__ page for details.
-
-This is [an example][id] reference-style link.
-
-.. code:: python
-
-    import os
-    os.chdir("../eppy/useful_scripts")
-    # changes directory, so we are where the scripts are located
-.. code:: python
-
-    %%bash
-    # ignore the line above. It simply lets me run a command line from ipython notebook
-    python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../../docs/hhh1.idf
-
-.. parsed-literal::
-
-    constructing the loops
-    making the diagram
-    saved file: ../../docs/hhh1.dot
-    saved file: ../../docs/hhh1.png
-
-
-# usage:
-# python ex_loopdiagram.py iddfile idffile
-python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf
-
-
-This will output a image by name hhh1.png. This image is shown below.
+Below is the diagram for this simple loop
 
 *Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity*
@@ -203,7 +173,7 @@ shown seperately for clarity*
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_26_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_23_0.png
 
 
 Modifying the topology of the loop
@@ -258,7 +228,7 @@ python ex_loopdiagram.py hhh_new.idf
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_32_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_29_0.png
 
 
 This diagram shows the new components in the branch
@@ -497,3 +467,13 @@ side.
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
 using the functions next() and prev()
+
+.. code:: python
+
+    
+.. code:: python
+
+    
+.. code:: python
+
+    

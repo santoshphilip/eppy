@@ -5,3 +5,10 @@
 - document stepped display
     - rename folder 
     - document it in sphinx ?
+- merge into master 
+- update develop branch
+-
+- do you need a develop documentation
+----
+later
+- continue on doc    

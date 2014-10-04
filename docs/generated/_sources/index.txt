@@ -19,6 +19,7 @@ Contents:
     useful_scripts
     eppy_api
     changes
+    developer_documentation
 
 Indices and tables
 ==================

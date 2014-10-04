@@ -1,0 +1,9 @@
+Another Table of Contents
+=========================
+
+We'll put stuff here later
+
+.. toctree::
+    :maxdepth: 1
+
+    first_nother 
