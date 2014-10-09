@@ -3,4 +3,7 @@
 .*
 __pycache__
 test*.ipynb
+
+/venv
+
 *.sublime-workspace
