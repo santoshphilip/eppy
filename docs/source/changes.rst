@@ -1,6 +1,11 @@
 Changes
 =======
 
+2014-10-04
+----------
+
+- There is a developer documentation section in the documentation. This is for people who will be working on the code
+
 2014-09-01
 ----------
 
