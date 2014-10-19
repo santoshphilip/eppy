@@ -1,3 +1,6 @@
+2014-10-19
+----------
+made a new branch i31_loopdiagram for issue 31
 2014-08-26
 ----------
 Development tasks
