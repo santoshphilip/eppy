@@ -533,6 +533,40 @@ def getedges(fname, iddfile):
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     edges = makeairplantloop(data, commdct)
     return edges
+
+def replace_colon(s, replacewith='__'):
+    """replace the colon with something"""
+    return s.replace(":", replacewith)
+    
+def clean_edges(arg):
+    if isinstance(arg, basestring): # Python 3: isinstance(arg, str)
+        return replace_colon(arg)
+    try:
+        return tuple(clean_edges(x) for x in arg)
+    except TypeError: # catch when for loop fails
+        return replace_colon(arg) # not a sequence so just return repr
+
+# start pytests +++++++++++++++++++++++
+
+def test_replace_colon():
+    """py.test for replace_colon"""
+    data = (("zone:aap", '@', "zone@aap"),# s, r, replaced
+    )    
+    for s, r, replaced in data:
+        result = replace_colon(s, r)
+        assert result == replaced
+        
+def test_cleanedges():
+    """py.test for cleanedges"""
+    data = (([('a:a', 'a'), (('a', 'a'), 'a:a'), ('a:a', ('a', 'a'))],
+    (('a__a', 'a'), (('a', 'a'), 'a__a'), ('a__a', ('a', 'a')))), 
+    # edg, clean_edg
+    )
+    for edg, clean_edg in data:
+        result = clean_edges(edg)
+        assert result == clean_edg
+        
+# end pytests +++++++++++++++++++++++
     
 def main():
     from argparse import RawTextHelpFormatter
@@ -550,7 +584,8 @@ def main():
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     print "constructing the loops"
     edges = makeairplantloop(data, commdct)
-    # print edges
+    print "cleaning edges"
+    edges = clean_edges(edges)
     print "making the diagram"
     g = makediagram(edges)
     dotname = '%s.dot' % (os.path.splitext(fname)[0])
