@@ -1267,7 +1267,7 @@ GlobalGeometryRules,
     Relative;                 !- Coordinate System
 
 Zone,                     
-    Building_SAPZone2,        !- Name
+    Building__SAPZone2,       !- Name
     0.0,                      !- Direction of Relative North
     0.0,                      !- X Origin
     0.0,                      !- Y Origin
@@ -1280,7 +1280,7 @@ Zone,
     TARP;                     !- Zone Inside Convection Algorithm
 
 Zone,                     
-    Building_SAPZone1,        !- Name
+    Building__SAPZone1,       !- Name
     0.0,                      !- Direction of Relative North
     0.0,                      !- X Origin
     0.0,                      !- Y Origin
@@ -1293,10 +1293,10 @@ Zone,
     TARP;                     !- Zone Inside Convection Algorithm
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_GroundFloor_0_0_0,    !- Name
+    Building__SAPZone2_GroundFloor_0_0_0,    !- Name
     Floor,                    !- Surface Type
     Project ground floor,     !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Ground,                   !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     NoSun,                    !- Sun Exposure
@@ -1317,10 +1317,10 @@ BuildingSurface:Detailed,
     0.0;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_Roof_1_0_0,    !- Name
+    Building__SAPZone2_Roof_1_0_0,    !- Name
     Roof,                     !- Surface Type
     Project flat roof,        !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1341,10 +1341,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_Wall_2_0_0,    !- Name
+    Building__SAPZone2_Wall_2_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1365,10 +1365,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_Wall_3_0_0,    !- Name
+    Building__SAPZone2_Wall_3_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1389,10 +1389,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_Wall_4_0_0,    !- Name
+    Building__SAPZone2_Wall_4_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1413,12 +1413,12 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone2_Partition_5_0_0,    !- Name
+    Building__SAPZone2_Partition_5_0_0,    !- Name
     Wall,                     !- Surface Type
     Project partition_Rev,    !- Construction Name
-    Building_SAPZone2,        !- Zone Name
+    Building__SAPZone2,       !- Zone Name
     Adiabatic,                !- Outside Boundary Condition
-    Building_SAPZone1_Partition_3_0_10000,    !- Outside Boundary Condition Object
+    Building__SAPZone1_Partition_3_0_10000,    !- Outside Boundary Condition Object
     NoSun,                    !- Sun Exposure
     NoWind,                   !- Wind Exposure
     0.0,                      !- View Factor to Ground
@@ -1437,12 +1437,12 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_Partition_3_0_10000,    !- Name
+    Building__SAPZone1_Partition_3_0_10000,    !- Name
     Wall,                     !- Surface Type
     Project partition,        !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Adiabatic,                !- Outside Boundary Condition
-    Building_SAPZone2_Partition_5_0_0,    !- Outside Boundary Condition Object
+    Building__SAPZone2_Partition_5_0_0,    !- Outside Boundary Condition Object
     NoSun,                    !- Sun Exposure
     NoWind,                   !- Wind Exposure
     0.0,                      !- View Factor to Ground
@@ -1461,10 +1461,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_GroundFloor_0_0_0,    !- Name
+    Building__SAPZone1_GroundFloor_0_0_0,    !- Name
     Floor,                    !- Surface Type
     Project ground floor,     !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Ground,                   !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     NoSun,                    !- Sun Exposure
@@ -1485,10 +1485,10 @@ BuildingSurface:Detailed,
     0.0;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_Roof_1_0_0,    !- Name
+    Building__SAPZone1_Roof_1_0_0,    !- Name
     Roof,                     !- Surface Type
     Project flat roof,        !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1509,10 +1509,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_Wall_2_0_0,    !- Name
+    Building__SAPZone1_Wall_2_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1533,10 +1533,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_Wall_4_0_0,    !- Name
+    Building__SAPZone1_Wall_4_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1557,10 +1557,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 BuildingSurface:Detailed, 
-    Building_SAPZone1_Wall_5_0_0,    !- Name
+    Building__SAPZone1_Wall_5_0_0,    !- Name
     Wall,                     !- Surface Type
     Project wall,             !- Construction Name
-    Building_SAPZone1,        !- Zone Name
+    Building__SAPZone1,       !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
     SunExposed,               !- Sun Exposure
@@ -1581,10 +1581,10 @@ BuildingSurface:Detailed,
     3.5;                      !- Vertex 4 Zcoordinate
 
 FenestrationSurface:Detailed,
-    Building_SAPZone2_Wall_2_0_0_0_0_0_Win,    !- Name
+    Building__SAPZone2_Wall_2_0_0_0_0_0_Win,    !- Name
     Window,                   !- Surface Type
     1001,                     !- Construction Name
-    Building_SAPZone2_Wall_2_0_0,    !- Building Surface Name
+    Building__SAPZone2_Wall_2_0_0,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     0.5,                      !- View Factor to Ground
     ,                         !- Shading Control Name
@@ -1605,10 +1605,10 @@ FenestrationSurface:Detailed,
     1.3;                      !- Vertex 4 Zcoordinate
 
 FenestrationSurface:Detailed,
-    Building_SAPZone2_Wall_4_0_0_0_0_0_Win,    !- Name
+    Building__SAPZone2_Wall_4_0_0_0_0_0_Win,    !- Name
     Window,                   !- Surface Type
     1001,                     !- Construction Name
-    Building_SAPZone2_Wall_4_0_0,    !- Building Surface Name
+    Building__SAPZone2_Wall_4_0_0,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     0.5,                      !- View Factor to Ground
     ,                         !- Shading Control Name
@@ -1629,10 +1629,10 @@ FenestrationSurface:Detailed,
     1.3;                      !- Vertex 4 Zcoordinate
 
 FenestrationSurface:Detailed,
-    Building_SAPZone1_Wall_2_0_0_0_0_0_Win,    !- Name
+    Building__SAPZone1_Wall_2_0_0_0_0_0_Win,    !- Name
     Window,                   !- Surface Type
     1001,                     !- Construction Name
-    Building_SAPZone1_Wall_2_0_0,    !- Building Surface Name
+    Building__SAPZone1_Wall_2_0_0,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     0.5,                      !- View Factor to Ground
     ,                         !- Shading Control Name
@@ -1653,10 +1653,10 @@ FenestrationSurface:Detailed,
     1.3;                      !- Vertex 4 Zcoordinate
 
 FenestrationSurface:Detailed,
-    Building_SAPZone1_Wall_4_0_0_0_0_0_Win,    !- Name
+    Building__SAPZone1_Wall_4_0_0_0_0_0_Win,    !- Name
     Window,                   !- Surface Type
     1001,                     !- Construction Name
-    Building_SAPZone1_Wall_4_0_0,    !- Building Surface Name
+    Building__SAPZone1_Wall_4_0_0,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     0.5,                      !- View Factor to Ground
     ,                         !- Shading Control Name
@@ -1704,8 +1704,8 @@ WindowProperty:FrameAndDivider,
     0.5;                      !- Inside Reveal Solar Absorptance
 
 PEOPLE,                   
-    People Building_SAPZone2,    !- Name
-    Building_SAPZone2,        !- Zone or ZoneList Name
+    People Building__SAPZone2,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
     ETI_Occ,                  !- Number of People Schedule Name
     People/Area,              !- Number of People Calculation Method
     ,                         !- Number of People
@@ -1725,8 +1725,8 @@ PEOPLE,
     AirVelocitySchedule;      !- Air Velocity Schedule Name
 
 PEOPLE,                   
-    People Building_SAPZone1,    !- Name
-    Building_SAPZone1,        !- Zone or ZoneList Name
+    People Building__SAPZone1,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
     ETI_Occ,                  !- Number of People Schedule Name
     People/Area,              !- Number of People Calculation Method
     ,                         !- Number of People
@@ -1746,8 +1746,8 @@ PEOPLE,
     AirVelocitySchedule;      !- Air Velocity Schedule Name
 
 ElectricEquipment,        
-    Building_SAPZone2 Equipment 1,    !- Name
-    Building_SAPZone2,        !- Zone or ZoneList Name
+    Building__SAPZone2 Equipment 1,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
     ETI_Equip,                !- Schedule Name
     Watts/Area,               !- Design Level Calculation Method
     ,                         !- Design Level
@@ -1759,8 +1759,8 @@ ElectricEquipment,
     ELECTRIC EQUIPMENT#Building:SAPZone2#05;    !- EndUse Subcategory
 
 ElectricEquipment,        
-    Building_SAPZone1 Equipment 1,    !- Name
-    Building_SAPZone1,        !- Zone or ZoneList Name
+    Building__SAPZone1 Equipment 1,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
     ETI_Equip,                !- Schedule Name
     Watts/Area,               !- Design Level Calculation Method
     ,                         !- Design Level
@@ -1772,8 +1772,8 @@ ElectricEquipment,
     ELECTRIC EQUIPMENT#Building:SAPZone1#05;    !- EndUse Subcategory
 
 ZoneInfiltration:DesignFlowRate,
-    Building_SAPZone2 Infiltration,    !- Name
-    Building_SAPZone2,        !- Zone or ZoneList Name
+    Building__SAPZone2 Infiltration,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
     2,                        !- Schedule Name
     AirChanges/Hour,          !- Design Flow Rate Calculation Method
     ,                         !- Design Flow Rate
@@ -1786,8 +1786,8 @@ ZoneInfiltration:DesignFlowRate,
     0.0;                      !- Velocity Squared Term Coefficient
 
 ZoneInfiltration:DesignFlowRate,
-    Building_SAPZone1 Infiltration,    !- Name
-    Building_SAPZone1,        !- Zone or ZoneList Name
+    Building__SAPZone1 Infiltration,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
     2,                        !- Schedule Name
     AirChanges/Hour,          !- Design Flow Rate Calculation Method
     ,                         !- Design Flow Rate
@@ -1800,7 +1800,7 @@ ZoneInfiltration:DesignFlowRate,
     0.0;                      !- Velocity Squared Term Coefficient
 
 DesignSpecification:OutdoorAir,
-    Building_SAPZone1 Design Specification Outdoor Air Object,    !- Name
+    Building__SAPZone1 Design Specification Outdoor Air Object,    !- Name
     Sum,                      !- Outdoor Air Method
     0.012,                    !- Outdoor Air Flow per Person
     0.000000,                 !- Outdoor Air Flow per Zone Floor Area
@@ -1809,7 +1809,7 @@ DesignSpecification:OutdoorAir,
     2;                        !- Outdoor Air Flow Rate Fraction Schedule Name
 
 DesignSpecification:OutdoorAir,
-    Building_SAPZone2 Design Specification Outdoor Air Object,    !- Name
+    Building__SAPZone2 Design Specification Outdoor Air Object,    !- Name
     Sum,                      !- Outdoor Air Method
     0.012,                    !- Outdoor Air Flow per Person
     0.000000,                 !- Outdoor Air Flow per Zone Floor Area
@@ -1818,21 +1818,21 @@ DesignSpecification:OutdoorAir,
     2;                        !- Outdoor Air Flow Rate Fraction Schedule Name
 
 DesignSpecification:ZoneAirDistribution,
-    Building_SAPZone1 Design Specification Zone Air Distribution Object,    !- Name
+    Building__SAPZone1 Design Specification Zone Air Distribution Object,    !- Name
     1.0,                      !- Zone Air Distribution Effectiveness in Cooling Mode
     1.0,                      !- Zone Air Distribution Effectiveness in Heating Mode
     ,                         !- Zone Air Distribution Effectiveness Schedule Name
     0.0;                      !- Zone Secondary Recirculation Fraction
 
 DesignSpecification:ZoneAirDistribution,
-    Building_SAPZone2 Design Specification Zone Air Distribution Object,    !- Name
+    Building__SAPZone2 Design Specification Zone Air Distribution Object,    !- Name
     1.0,                      !- Zone Air Distribution Effectiveness in Cooling Mode
     1.0,                      !- Zone Air Distribution Effectiveness in Heating Mode
     ,                         !- Zone Air Distribution Effectiveness Schedule Name
     0.0;                      !- Zone Secondary Recirculation Fraction
 
 Sizing:Zone,              
-    Building_SAPZone1,        !- Zone or ZoneList Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
     SupplyAirTemperature,     !- Zone Cooling Design Supply Air Temperature Input Method
     14.0,                     !- Zone Cooling Design Supply Air Temperature
     10.0,                     !- Zone Cooling Design Supply Air Temperature Difference
@@ -1841,7 +1841,7 @@ Sizing:Zone,
     10.0,                     !- Zone Heating Design Supply Air Temperature Difference
     0.009,                    !- Zone Cooling Design Supply Air Humidity Ratio
     0.004,                    !- Zone Heating Design Supply Air Humidity Ratio
-    Building_SAPZone1 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
+    Building__SAPZone1 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
     1.25,                     !- Zone Heating Sizing Factor
     1.15,                     !- Zone Cooling Sizing Factor
     DesignDay,                !- Cooling Design Air Flow Method
@@ -1854,10 +1854,10 @@ Sizing:Zone,
     0.00203,                  !- Heating Maximum Air Flow per Zone Floor Area
     0.14158,                  !- Heating Maximum Air Flow
     0.3,                      !- Heating Maximum Air Flow Fraction
-    Building_SAPZone1 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
+    Building__SAPZone1 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
 
 Sizing:Zone,              
-    Building_SAPZone2,        !- Zone or ZoneList Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
     SupplyAirTemperature,     !- Zone Cooling Design Supply Air Temperature Input Method
     14.0,                     !- Zone Cooling Design Supply Air Temperature
     10.0,                     !- Zone Cooling Design Supply Air Temperature Difference
@@ -1866,7 +1866,7 @@ Sizing:Zone,
     10.0,                     !- Zone Heating Design Supply Air Temperature Difference
     0.009,                    !- Zone Cooling Design Supply Air Humidity Ratio
     0.004,                    !- Zone Heating Design Supply Air Humidity Ratio
-    Building_SAPZone2 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
+    Building__SAPZone2 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
     1.25,                     !- Zone Heating Sizing Factor
     1.15,                     !- Zone Cooling Sizing Factor
     DesignDay,                !- Cooling Design Air Flow Method
@@ -1879,7 +1879,7 @@ Sizing:Zone,
     0.00203,                  !- Heating Maximum Air Flow per Zone Floor Area
     0.14158,                  !- Heating Maximum Air Flow
     0.3,                      !- Heating Maximum Air Flow Fraction
-    Building_SAPZone2 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
+    Building__SAPZone2 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
 
 Sizing:Plant,             
     LTHW Loop,                !- Plant or Condenser Loop Name
@@ -1894,122 +1894,122 @@ Sizing:Plant,
     10.0;                     !- Loop Design Temperature Difference
 
 ZoneControl:Thermostat,   
-    Building_SAPZone1 Thermostat,    !- Name
-    Building_SAPZone1,        !- Zone or ZoneList Name
+    Building__SAPZone1 Thermostat,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
     48,                       !- Control Type Schedule Name
     ThermostatSetpoint:DualSetpoint,    !- Control 1 Object Type
-    Building_SAPZone1 Dual SP;    !- Control 1 Name
+    Building__SAPZone1 Dual SP;    !- Control 1 Name
 
 ZoneControl:Thermostat,   
-    Building_SAPZone2 Thermostat,    !- Name
-    Building_SAPZone2,        !- Zone or ZoneList Name
+    Building__SAPZone2 Thermostat,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
     48,                       !- Control Type Schedule Name
     ThermostatSetpoint:DualSetpoint,    !- Control 1 Object Type
-    Building_SAPZone2 Dual SP;    !- Control 1 Name
+    Building__SAPZone2 Dual SP;    !- Control 1 Name
 
 ThermostatSetpoint:DualSetpoint,
-    Building_SAPZone1 Dual SP,    !- Name
+    Building__SAPZone1 Dual SP,    !- Name
     ETI_Heat_Zone1,           !- Heating Setpoint Temperature Schedule Name
     ETI_Cool;                 !- Cooling Setpoint Temperature Schedule Name
 
 ThermostatSetpoint:DualSetpoint,
-    Building_SAPZone2 Dual SP,    !- Name
+    Building__SAPZone2 Dual SP,    !- Name
     ETI_Heat_Zone2,           !- Heating Setpoint Temperature Schedule Name
     ETI_Cool;                 !- Cooling Setpoint Temperature Schedule Name
 
 ZoneHVAC:Baseboard:Convective:Water,
-    Building_SAPZone2 Water Convector,    !- Name
+    Building__SAPZone2 Water Convector,    !- Name
     Off,                      !- Availability Schedule Name
-    Building:SAPZone2 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
-    Building:SAPZone2 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
+    Building__SAPZone2 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
+    Building__SAPZone2 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
     autosize,                 !- UFactor Times Area Value
     autosize,                 !- Maximum Water Flow Rate
     0.01;                     !- Convergence Tolerance
 
 ZoneHVAC:Baseboard:Convective:Water,
-    Building_SAPZone1 Water Convector,    !- Name
+    Building__SAPZone1 Water Convector,    !- Name
     Off,                      !- Availability Schedule Name
-    Building:SAPZone1 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
-    Building:SAPZone1 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
+    Building__SAPZone1 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
+    Building__SAPZone1 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
     autosize,                 !- UFactor Times Area Value
     autosize,                 !- Maximum Water Flow Rate
     0.01;                     !- Convergence Tolerance
 
 ZoneHVAC:Baseboard:Convective:Water,
-    Building_SAPZone1 Water Convector/1/1,    !- Name
+    Building__SAPZone1 Water Convector/1/1,    !- Name
     2,                        !- Availability Schedule Name
-    Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
-    Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
+    Building__SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
+    Building__SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
     autosize,                 !- UFactor Times Area Value
     autosize,                 !- Maximum Water Flow Rate
     0.01;                     !- Convergence Tolerance
 
 ZoneHVAC:Baseboard:Convective:Water,
-    Building_SAPZone2 Water Convector/1/1,    !- Name
+    Building__SAPZone2 Water Convector/1/1,    !- Name
     2,                        !- Availability Schedule Name
-    Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
-    Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
+    Building__SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
+    Building__SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
     autosize,                 !- UFactor Times Area Value
     autosize,                 !- Maximum Water Flow Rate
     0.01;                     !- Convergence Tolerance
 
 ZoneHVAC:Baseboard:Convective:Electric,
-    Building_SAPZone1 Electric Convector,    !- Name
+    Building__SAPZone1 Electric Convector,    !- Name
     Off,                      !- Availability Schedule Name
     0.01,                     !- Nominal Capacity
     1.0;                      !- Efficiency
 
 ZoneHVAC:Baseboard:Convective:Electric,
-    Building_SAPZone2 Electric Convector,    !- Name
+    Building__SAPZone2 Electric Convector,    !- Name
     Off,                      !- Availability Schedule Name
     0.01,                     !- Nominal Capacity
     1.0;                      !- Efficiency
 
 ZoneHVAC:EquipmentList,   
-    Building_SAPZone1 Equipment,    !- Name
+    Building__SAPZone1 Equipment,    !- Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 1 Object Type
-    Building:SAPZone1 Water Convector,    !- Zone Equipment 1 Name
+    Building__SAPZone1 Water Convector,    !- Zone Equipment 1 Name
     1,                        !- Zone Equipment 1 Cooling Sequence
     1,                        !- Zone Equipment 1 Heating or NoLoad Sequence
     ZoneHVAC:Baseboard:Convective:Electric,    !- Zone Equipment 2 Object Type
-    Building:SAPZone1 Electric Convector,    !- Zone Equipment 2 Name
+    Building__SAPZone1 Electric Convector,    !- Zone Equipment 2 Name
     2,                        !- Zone Equipment 2 Cooling Sequence
     2,                        !- Zone Equipment 2 Heating or NoLoad Sequence
     ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 3 Object Type
-    Building:SAPZone1 Water Convector/1/1,    !- Zone Equipment 3 Name
+    Building__SAPZone1 Water Convector/1/1,    !- Zone Equipment 3 Name
     3,                        !- Zone Equipment 3 Cooling Sequence
     3;                        !- Zone Equipment 3 Heating or NoLoad Sequence
 
 ZoneHVAC:EquipmentList,   
-    Building_SAPZone2 Equipment,    !- Name
+    Building__SAPZone2 Equipment,    !- Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 1 Object Type
-    Building:SAPZone2 Water Convector,    !- Zone Equipment 1 Name
+    Building__SAPZone2 Water Convector,    !- Zone Equipment 1 Name
     1,                        !- Zone Equipment 1 Cooling Sequence
     1,                        !- Zone Equipment 1 Heating or NoLoad Sequence
     ZoneHVAC:Baseboard:Convective:Electric,    !- Zone Equipment 2 Object Type
-    Building:SAPZone2 Electric Convector,    !- Zone Equipment 2 Name
+    Building__SAPZone2 Electric Convector,    !- Zone Equipment 2 Name
     2,                        !- Zone Equipment 2 Cooling Sequence
     2,                        !- Zone Equipment 2 Heating or NoLoad Sequence
     ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 3 Object Type
-    Building:SAPZone2 Water Convector/1/1,    !- Zone Equipment 3 Name
+    Building__SAPZone2 Water Convector/1/1,    !- Zone Equipment 3 Name
     3,                        !- Zone Equipment 3 Cooling Sequence
     3;                        !- Zone Equipment 3 Heating or NoLoad Sequence
 
 ZoneHVAC:EquipmentConnections,
-    Building_SAPZone1,        !- Zone Name
-    Building_SAPZone1 Equipment,    !- Zone Conditioning Equipment List Name
+    Building__SAPZone1,       !- Zone Name
+    Building__SAPZone1 Equipment,    !- Zone Conditioning Equipment List Name
     ,                         !- Zone Air Inlet Node or NodeList Name
     ,                         !- Zone Air Exhaust Node or NodeList Name
-    Building:SAPZone1 Air Node,    !- Zone Air Node Name
-    Building:SAPZone1 Return Air Node;    !- Zone Return Air Node Name
+    Building__SAPZone1 Air Node,    !- Zone Air Node Name
+    Building__SAPZone1 Return Air Node;    !- Zone Return Air Node Name
 
 ZoneHVAC:EquipmentConnections,
-    Building_SAPZone2,        !- Zone Name
-    Building_SAPZone2 Equipment,    !- Zone Conditioning Equipment List Name
+    Building__SAPZone2,       !- Zone Name
+    Building__SAPZone2 Equipment,    !- Zone Conditioning Equipment List Name
     ,                         !- Zone Air Inlet Node or NodeList Name
     ,                         !- Zone Air Exhaust Node or NodeList Name
-    Building:SAPZone2 Zone Air Node,    !- Zone Air Node Name
-    Building:SAPZone2 Return Outlet;    !- Zone Return Air Node Name
+    Building__SAPZone2 Zone Air Node,    !- Zone Air Node Name
+    Building__SAPZone2 Return Outlet;    !- Zone Return Air Node Name
 
 Branch,                   
     LTHW Loop Demand Side Inlet Branch,    !- Name
@@ -2042,23 +2042,23 @@ Branch,
     Active;                   !- Component 1 Branch Control Type
 
 Branch,                   
-    Building_SAPZone2 Water Convector DHW Plant Loop Branch,    !- Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Name
     autosize,                 !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
-    Building:SAPZone2 Water Convector,    !- Component 1 Name
-    Building:SAPZone2 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
-    Building:SAPZone2 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Building__SAPZone2 Water Convector,    !- Component 1 Name
+    Building__SAPZone2 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building__SAPZone2 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
     Active;                   !- Component 1 Branch Control Type
 
 Branch,                   
-    Building_SAPZone1 Water Convector DHW Plant Loop Branch,    !- Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch,    !- Name
     autosize,                 !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
-    Building:SAPZone1 Water Convector,    !- Component 1 Name
-    Building:SAPZone1 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
-    Building:SAPZone1 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Building__SAPZone1 Water Convector,    !- Component 1 Name
+    Building__SAPZone1 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building__SAPZone1 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
     Active;                   !- Component 1 Branch Control Type
 
 Branch,                   
@@ -2122,13 +2122,13 @@ Branch,
     Bypass;                   !- Component 1 Branch Control Type
 
 Branch,                   
-    Building_SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Name
     autosize,                 !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
-    Building:SAPZone1 Water Convector/1/1,    !- Component 1 Name
-    Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
-    Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Building__SAPZone1 Water Convector/1/1,    !- Component 1 Name
+    Building__SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building__SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
     Active;                   !- Component 1 Branch Control Type
 
 Branch,                   
@@ -2142,13 +2142,13 @@ Branch,
     Passive;                  !- Component 1 Branch Control Type
 
 Branch,                   
-    Building_SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Name
     autosize,                 !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
     ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
-    Building:SAPZone2 Water Convector/1/1,    !- Component 1 Name
-    Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
-    Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Building__SAPZone2 Water Convector/1/1,    !- Component 1 Name
+    Building__SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building__SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
     Active;                   !- Component 1 Branch Control Type
 
 Branch,                   
@@ -2226,8 +2226,8 @@ BranchList,
     LTHW Loop Demand Side Inlet Branch,    !- Branch 1 Name
     LTHW Loop Demand Side Bypass Branch,    !- Branch 2 Name
     Water Outlet Group DHW Plant Loop Branch,    !- Branch 3 Name
-    Building_SAPZone2 Water Convector DHW Plant Loop Branch,    !- Branch 4 Name
-    Building_SAPZone1 Water Convector DHW Plant Loop Branch,    !- Branch 5 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Branch 4 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch,    !- Branch 5 Name
     LTHW Loop Demand Side Outlet Branch;    !- Branch 6 Name
 
 BranchList,               
@@ -2240,9 +2240,9 @@ BranchList,
     Primary HT HW Loop Demand Side Branches,    !- Name
     Primary HT HW Loop Demand Side Inlet Branch,    !- Branch 1 Name
     Primary HT HW Loop Demand Side Bypass Branch,    !- Branch 2 Name
-    Building_SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 3 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 3 Name
     Auxiliary Water Heater HW Plant Loop Branch,    !- Branch 4 Name
-    Building_SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 5 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 5 Name
     Primary HT HW Loop Demand Side Outlet Branch;    !- Branch 6 Name
 
 BranchList,               
@@ -2259,8 +2259,8 @@ Connector:Splitter,
     LTHW Loop Demand Side Inlet Branch,    !- Inlet Branch Name
     LTHW Loop Demand Side Bypass Branch,    !- Outlet Branch 1 Name
     Water Outlet Group DHW Plant Loop Branch,    !- Outlet Branch 2 Name
-    Building_SAPZone2 Water Convector DHW Plant Loop Branch,    !- Outlet Branch 3 Name
-    Building_SAPZone1 Water Convector DHW Plant Loop Branch;    !- Outlet Branch 4 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Outlet Branch 3 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch;    !- Outlet Branch 4 Name
 
 Connector:Splitter,       
     LTHW Loop Supply Splitter,    !- Name
@@ -2271,9 +2271,9 @@ Connector:Splitter,
     Primary HT HW Loop Demand Splitter,    !- Name
     Primary HT HW Loop Demand Side Inlet Branch,    !- Inlet Branch Name
     Primary HT HW Loop Demand Side Bypass Branch,    !- Outlet Branch 1 Name
-    Building_SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Outlet Branch 2 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Outlet Branch 2 Name
     Auxiliary Water Heater HW Plant Loop Branch,    !- Outlet Branch 3 Name
-    Building_SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Outlet Branch 4 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Outlet Branch 4 Name
 
 Connector:Splitter,       
     Primary HT HW Loop Supply Splitter,    !- Name
@@ -2288,8 +2288,8 @@ Connector:Mixer,
     LTHW Loop Demand Side Outlet Branch,    !- Outlet Branch Name
     Water Outlet Group DHW Plant Loop Branch,    !- Inlet Branch 1 Name
     LTHW Loop Demand Side Bypass Branch,    !- Inlet Branch 2 Name
-    Building_SAPZone2 Water Convector DHW Plant Loop Branch,    !- Inlet Branch 3 Name
-    Building_SAPZone1 Water Convector DHW Plant Loop Branch;    !- Inlet Branch 4 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Inlet Branch 3 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch;    !- Inlet Branch 4 Name
 
 Connector:Mixer,          
     LTHW Loop Supply Mixer,    !- Name
@@ -2300,9 +2300,9 @@ Connector:Mixer,
     Primary HT HW Loop Demand Mixer,    !- Name
     Primary HT HW Loop Demand Side Outlet Branch,    !- Outlet Branch Name
     Primary HT HW Loop Demand Side Bypass Branch,    !- Inlet Branch 1 Name
-    Building_SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Inlet Branch 2 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Inlet Branch 2 Name
     Auxiliary Water Heater HW Plant Loop Branch,    !- Inlet Branch 3 Name
-    Building_SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Inlet Branch 4 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Inlet Branch 4 Name
 
 Connector:Mixer,          
     Primary HT HW Loop Supply Mixer,    !- Name
@@ -2671,7 +2671,7 @@ SetpointManager:Scheduled,
     Primary HT HW Loop Setpoint Manager Node List;    !- Setpoint Node or NodeList Name
 
 WaterUse:Equipment,       
-    Building_SAPZone1 Water Outlet,    !- Name
+    Building__SAPZone1 Water Outlet,    !- Name
     ,                         !- EndUse Subcategory
     1.11111111111e-05,        !- Peak Flow Rate
     ETI_DHW,                  !- Flow Rate Fraction Schedule Name
@@ -2693,7 +2693,7 @@ WaterUse:Connections,
     None,                     !- Drain Water Heat Exchanger Type
     Plant,                    !- Drain Water Heat Exchanger Destination
     1500.0,                   !- Drain Water Heat Exchanger UFactor Times Area
-    Building_SAPZone1 Water Outlet;    !- Water Use Equipment 1 Name
+    Building__SAPZone1 Water Outlet;    !- Water Use Equipment 1 Name
 
 Curve:Linear,             
     100% efficient,           !- Name
@@ -2858,19 +2858,19 @@ Output:Variable,
     timestep;                 !- Reporting Frequency
 
 Output:Meter,             
-    Electricity_Facility,     !- Name
+    Electricity__Facility,    !- Name
     timestep;                 !- Reporting Frequency
 
 Output:Meter,             
-    Gas_Facility,             !- Name
+    Gas__Facility,            !- Name
     timestep;                 !- Reporting Frequency
 
 Output:Meter,             
-    DistrictHeating_Facility,    !- Name
+    DistrictHeating__Facility,    !- Name
     timestep;                 !- Reporting Frequency
 
 Output:Meter,             
-    SolarWater_Facility,      !- Name
+    SolarWater__Facility,     !- Name
     timestep;                 !- Reporting Frequency
 
 Output:Diagnostics,       
