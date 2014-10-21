@@ -190,3 +190,61 @@ def cross(a, b, axisa=-1, axisb=-1, axisc=-1, axis=None):
     else:
         # This works because we are moving the last axis
         return rollaxis(cp, -1, axisc)
+
+def dot(a, b, strict=False):
+    """
+    Return the dot product of two arrays.
+
+    .. note::
+      Works only with 2-D arrays at the moment.
+
+    This function is the equivalent of `numpy.dot` that takes masked values
+    into account, see `numpy.dot` for details.
+
+    Parameters
+    ----------
+    a, b : ndarray
+        Inputs arrays.
+    strict : bool, optional
+        Whether masked data are propagated (True) or set to 0 (False) for the
+        computation. Default is False.
+        Propagating the mask means that if a masked value appears in a row or
+        column, the whole row or column is considered masked.
+
+    See Also
+    --------
+    numpy.dot : Equivalent function for ndarrays.
+
+    Examples
+    --------
+    >>> a = ma.array([[1, 2, 3], [4, 5, 6]], mask=[[1, 0, 0], [0, 0, 0]])
+    >>> b = ma.array([[1, 2], [3, 4], [5, 6]], mask=[[1, 0], [0, 0], [0, 0]])
+    >>> np.ma.dot(a, b)
+    masked_array(data =
+     [[21 26]
+     [45 64]],
+                 mask =
+     [[False False]
+     [False False]],
+           fill_value = 999999)
+    >>> np.ma.dot(a, b, strict=True)
+    masked_array(data =
+     [[-- --]
+     [-- 64]],
+                 mask =
+     [[ True  True]
+     [ True False]],
+           fill_value = 999999)
+
+    """
+    #!!!: Works only with 2D arrays. There should be a way to get it to run with higher dimension
+    if strict and (a.ndim == 2) and (b.ndim == 2):
+        a = mask_rows(a)
+        b = mask_cols(b)
+    #
+    d = np.dot(filled(a, 0), filled(b, 0))
+    #
+    am = (~getmaskarray(a))
+    bm = (~getmaskarray(b))
+    m = ~np.dot(am, bm)
+    return masked_array(d, mask=m)
