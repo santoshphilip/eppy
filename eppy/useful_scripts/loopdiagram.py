@@ -527,7 +527,7 @@ def makeairplantloop(data, commdct):
     # edges = edges + moreedges    
     return edges
 
-
+# ----------changes to fix the Designbuildier file problem----------------
 def getedges(fname, iddfile):
     """return the edges of the idf file fname"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
@@ -545,6 +545,7 @@ def clean_edges(arg):
         return tuple(clean_edges(x) for x in arg)
     except TypeError: # catch when for loop fails
         return replace_colon(arg) # not a sequence so just return repr
+# ----------changes to fix the Designbuildier file problem----------------
 
 # start pytests +++++++++++++++++++++++
 
