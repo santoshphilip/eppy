@@ -1,6 +1,11 @@
 Changes
 =======
 
+2014-10-21
+----------
+
+- fixed a bug in script eppy/useful_scripts/loopdiagram.py
+
 2014-10-04
 ----------
 
