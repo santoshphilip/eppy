@@ -19,8 +19,12 @@
 # Written by Eric Youngson eric@successionecological.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
 
-import eppy.geometry.py_numeric.py as py_numeric
+import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 
 def test_cross():
 	"""test the cross product of two vectors"""
+	a = 3
+	b = 2
+	c = py_numeric.cross(a,b)
+	assert c == 6

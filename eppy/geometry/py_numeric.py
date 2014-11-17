@@ -132,4 +132,5 @@ def cross(a, b, axisa=-1, axisb=-1, axisc=-1, axis=None):
 
     """
 
-    
+    c = a * b
+    return c
