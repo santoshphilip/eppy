@@ -29,5 +29,6 @@ def test_cross():
 	x = [1,2,3]
 	y = [4,5,6]
 	z = py_numeric.cross(x,y)
+	print z
 
 	assert z == [-3,6,-3]
