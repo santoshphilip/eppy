@@ -9,3 +9,4 @@ venv/
 .commitLog
 eppy/tests/test_report_tables/
 *.ipynb
+.idea/
