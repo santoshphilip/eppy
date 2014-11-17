@@ -1,0 +1,6 @@
+Branch: i30_pythongeometry | Intent: Create module of native Python functions to
+	replace numpy functions used in eppy geometry modules
+Commit Intent: Create a new file to contain module and initialize efforts
+---------------------------------------------------------------------------------------
+*/eppy/geometry/pyNumeric.py
+-
