@@ -17,8 +17,6 @@
 
 """This module is used to implement native Python functions to replace those called from numpy,
 	when using eppy with Rhino"""
-# Wrote by Tuan Tran trantuan@hawaii.edu / tranhuuanhtuan@gmail.com
-# School of Architecture, University of Hawaii at Manoa
+# Written by Eric Youngson eric@successionecological.com / eayoungs@gmail.com
+# Succession Ecological Services: Portland, Oregon
 
-####### The following code within the block credited by ActiveState Code Recipes code.activestate.com
-## {{{ http://code.activestate.com/recipes/578276/ (r1)
