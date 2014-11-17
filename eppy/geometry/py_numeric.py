@@ -20,7 +20,7 @@
 # Written by Eric Youngson eric@successionecological.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
 
-def cross(a, b, axisa=-1, axisb=-1, axisc=-1, axis=None):
+def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
     """
     Return the cross product of two (arrays of) vectors.
 
@@ -132,5 +132,6 @@ def cross(a, b, axisa=-1, axisb=-1, axisc=-1, axis=None):
 
     """
 
-    c = a * b
-    return c
+    #http://mathworld.wolfram.com/CrossProduct.html
+    uxv = (u[1]*v[2]-u[2]*v[1])-(u[0]*v[2]-u[2]*v[0])+(u[0]*v[1]-u[1]*v[0])
+    return uxv

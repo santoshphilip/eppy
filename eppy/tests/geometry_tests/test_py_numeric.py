@@ -24,7 +24,10 @@ from eppy.pytest_helpers import almostequal
 
 def test_cross():
 	"""test the cross product of two vectors"""
-	a = 3
-	b = 2
-	c = py_numeric.cross(a,b)
-	assert c == 6
+	
+	#Vector cross-product.
+	x = [1,2,3]
+	y = [4,5,6]
+	z = py_numeric.cross(x,y)
+
+	assert z == [-3,6,-3]
