@@ -19,11 +19,13 @@
 # Wrote by Tuan Tran trantuan@hawaii.edu / tranhuuanhtuan@gmail.com
 # School of Architecture, University of Hawaii at Manoa
 
-####### The following code within the block credited by ActiveState Code Recipes code.activestate.com
-## {{{ http://code.activestate.com/recipes/578276/ (r1)
+# ###### The following code within the block credited by ActiveState Code
+#        Recipes code.activestate.com
+# # {{{ http://code.activestate.com/recipes/578276/ (r1)
 
 import numpy as np
 import math
+
 
 def area(poly):
     """Area of a polygon poly""" 
