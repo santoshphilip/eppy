@@ -15,10 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
-"""This module is used to implement native Python functions to replace those called from numpy,
-	when using eppy with Rhino"""
+"""This module is used to implement native Python functions to replace those
+    called from numpy, when using eppy with Rhino"""
 # Written by Eric Youngson eric@successionecological.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
+
 
 def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
     """
@@ -132,8 +133,8 @@ def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
 
     """
 
-    #http://mathworld.wolfram.com/CrossProduct.html
-    uxv = [0,0,0]
+    # http://mathworld.wolfram.com/CrossProduct.html
+    uxv = [0, 0, 0]
     uxv[0] = (u[1]*v[2]-u[2]*v[1])
     uxv[1] = -(u[0]*v[2]-u[2]*v[0])
     uxv[2] = (u[0]*v[1]-u[1]*v[0])
