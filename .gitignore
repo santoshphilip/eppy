@@ -6,4 +6,4 @@ test*.ipynb
 
 /venv
 
-*.sublime-workspace
+*.sublime-*
