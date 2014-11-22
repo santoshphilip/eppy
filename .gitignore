@@ -4,6 +4,7 @@
 __pycache__
 test*.ipynb
 
-/venv
+*sublime*
 
 *.sublime-*
+/venv
