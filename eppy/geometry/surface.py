@@ -23,7 +23,10 @@
 #        Recipes code.activestate.com
 # # {{{ http://code.activestate.com/recipes/578276/ (r1)
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError as e:
+    import py_numeric
 import math
 
 
