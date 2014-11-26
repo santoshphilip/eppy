@@ -16,6 +16,18 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """sample script - autosize all autosizable fields"""
+# email to jason
+# Jason,
+#   Try out the attached script.
+# (you might have to change file pathnames)
+# 
+# I don't think you could have written it on your own :-(
+# It became apparent to me that eppy needs functions that allows it to look into the idd structure for any object and field
+# I'll put some thought into this and see how best to write this.
+# If that functionality is done well, hopefully anyone should be able to write the equivalent code to what I wrote in the attached file. 
+# 
+# 
+# Santosh
 
 import sys
 pathnameto_eplusscripting = "../../"
