@@ -23,8 +23,8 @@ import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 
 
-def test_cross():
-	"""test the cross product of two vectors"""
+def test_3dim_cross():
+    """test the cross product of two 3 dimentional vectors"""
 
     # Vector cross-product.
     x = [1, 2, 3]
@@ -32,3 +32,15 @@ def test_cross():
     z = py_numeric.cross(x, y)
 
     assert z == [-3, 6, -3]
+
+
+def test_ndim_cross():
+    """test the cross product of two n dimentional vectors"""
+
+    # Vector cross-product.
+    x = [1, 2]
+    y = [4, 5, 6]
+    py_numeric.cross(x, y)
+
+    assert z == [-3, 6, -3]
+
