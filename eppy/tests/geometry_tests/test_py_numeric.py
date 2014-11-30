@@ -40,6 +40,6 @@ def test_ndim_cross():
     # Vector cross-product.
     x = [1, 2]
     y = [4, 5, 6]
-    py_numeric.cross(x, y)
+    z = py_numeric.cross(x, y)
 
-    assert z == [-3, 6, -3]
+    assert z == 'ERROR'

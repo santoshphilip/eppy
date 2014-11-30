@@ -145,4 +145,6 @@ def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
         uxv = [u[1]*v[2]-u[2]*v[1],
                -(u[0]*v[2]-u[2]*v[0]),
                u[0]*v[1]-u[1]*v[0]]
+    else:
+            uxv = 'ERROR'
     return uxv
