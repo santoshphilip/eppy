@@ -34,13 +34,13 @@ def test_3dim_cross():
     assert z == [-3, 6, -3]
 
 
-def test_ndim_cross():
-    """test the cross product of two n dimentional vectors"""
-
-    # Vector cross-product.
-    x = [1, 2]
-    y = [4, 5, 6]
-    py_numeric.cross(x, y)
-
-    assert z == [-3, 6, -3]
+#def test_ndim_cross():
+#    """test the cross product of two n dimentional vectors"""
+#
+#    # Vector cross-product.
+#    x = [1, 2]
+#    y = [4, 5, 6]
+#    py_numeric.cross(x, y)
+#
+#    assert z == [-3, 6, -3]
 
