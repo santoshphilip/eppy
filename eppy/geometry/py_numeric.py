@@ -136,9 +136,12 @@ def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
     uDim = len(u)
     vDim = len(v)
 
+    uxv = []
+
     # http://mathworld.wolfram.com/CrossProduct.html
     if uDim == vDim == 3: 
-        uxv = [0, 0, 0]
+        for i in range(uDim): 
+            uxv.append(0)
         uxv[0] = (u[1]*v[2]-u[2]*v[1])
         uxv[1] = -(u[0]*v[2]-u[2]*v[0])
         uxv[2] = (u[0]*v[1]-u[1]*v[0])
