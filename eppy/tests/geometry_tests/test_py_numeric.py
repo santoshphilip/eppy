@@ -34,5 +34,5 @@ def vctr_cross():
     assert z == [-3, 6, -3]
 
 
-# def vctr_dot():
-#
+def vctr_dot():
+    assert 2 == 2
