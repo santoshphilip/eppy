@@ -35,4 +35,11 @@ def vctr_cross():
 
 
 def vctr_dot():
-    assert 2 == 2
+    """test the dot product of two 3 dimentional vectors"""
+
+    # Vector dot-product.
+    x = [1, 2, 3]
+    y = [4, 5, 6]
+    z = py_numeric.dot(x, y)
+
+    assert z == [4, 10, 18]
