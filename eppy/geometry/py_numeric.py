@@ -21,7 +21,7 @@
 # Succession Ecological Services: Portland, Oregon
 
 
-def cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
+def vctr_cross(u, v, axisa=-1, axisb=-1, axisc=-1, axis=None):
     """
     Return the cross product of two (arrays of) vectors.
 
