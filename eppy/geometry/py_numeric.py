@@ -73,3 +73,24 @@ def vctr_cross(u, v):
     else:
             uxv = 'ERROR'
     return uxv
+
+
+def vctr_dot(u, v):
+    """
+    """
+
+    uDim = len(u)
+    vDim = len(v)
+
+    u_dot_v = []
+
+    # http://reference.wolfram.com/language/ref/Dot.html
+    if uDim == vDim == 3:
+        for i in range(uDim):
+            uxv.append(0)
+        uxv = [u[0]*v[0],
+               u[1]*v[1],
+               u[2]*v[2]]
+    else:
+            u_dot_v = 'ERROR'
+    return u_dot_v
