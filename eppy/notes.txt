@@ -1,3 +1,7 @@
+2014-12-12
+----------
+need stub files to quickly open a file
+put then in stub folder
 2014-08-26
 ----------
 Development tasks
