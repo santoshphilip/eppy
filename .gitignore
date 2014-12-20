@@ -7,3 +7,5 @@ test*.ipynb
 *sublime*
 
 /venv
+dist/
+eppy.egg-info/
