@@ -23,7 +23,7 @@ import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 
 
-def vctr_cross():
+def test_vctr_cross():
     """test the cross product of two 3 dimentional vectors"""
 
     # Vector cross-product.
@@ -34,7 +34,7 @@ def vctr_cross():
     assert z == [-3, 6, -3]
 
 
-def vctr_dot():
+def test_vctr_dot():
     """test the dot product of two 3 dimentional vectors"""
 
     # Vector dot-product.
