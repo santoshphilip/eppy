@@ -23,23 +23,23 @@ import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 
 
-def vctr_cross():
+def test_vctr_cross():
     """test the cross product of two 3 dimentional vectors"""
 
     # Vector cross-product.
     x = [1, 2, 3]
     y = [4, 5, 6]
-    z = py_numeric.cross(x, y)
+    z = py_numeric.vctr_cross(x, y)
 
     assert z == [-3, 6, -3]
 
 
-def vctr_dot():
+def test_vctr_dot():
     """test the dot product of two 3 dimentional vectors"""
 
     # Vector dot-product.
     x = [1, 2, 3]
     y = [4, 5, 6]
-    z = py_numeric.dot(x, y)
+    z = py_numeric.vctr_dot(x, y)
 
     assert z == [4, 10, 18]

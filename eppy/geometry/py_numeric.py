@@ -77,6 +77,7 @@ def vctr_cross(u, v):
 
 def vctr_dot(u, v):
     """
+    Return the dot product of two 3 dimentional vectors.
     """
 
     uDim = len(u)
@@ -87,8 +88,8 @@ def vctr_dot(u, v):
     # http://reference.wolfram.com/language/ref/Dot.html
     if uDim == vDim == 3:
         for i in range(uDim):
-            uxv.append(0)
-        uxv = [u[0]*v[0],
+            u_dot_v.append(0)
+        u_dot_v = [u[0]*v[0],
                u[1]*v[1],
                u[2]*v[2]]
     else:
