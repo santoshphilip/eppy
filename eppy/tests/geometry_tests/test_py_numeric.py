@@ -34,6 +34,17 @@ def test_vctr_cross():
     assert z == [-3, 6, -3]
 
 
+def test_2dim_cross():
+    """test the cross product of two 2 dimentional vectors"""
+
+    # 2 dim cross-product.
+    x = [1, 2]
+    y = [4, 5]
+    z = py_numeric.vctr_cross(x, y)
+
+    assert z == 'ERROR'
+
+
 def test_vctr_dot():
     """test the dot product of two 3 dimentional vectors"""
 
