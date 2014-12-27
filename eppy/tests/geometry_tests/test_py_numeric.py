@@ -76,3 +76,36 @@ def test_vctr_dot():
     z = py_numeric.vctr_dot(x, y)
 
     assert z == [4, 10, 18]
+
+
+def test_2dim_dot():
+    """test the dot product of two 2 dimentional vectors"""
+
+    # 2 dim dot-product.
+    x = [1, 2]
+    y = [4, 5]
+    z = py_numeric.vctr_dot(x, y)
+
+    assert z == 'ERROR'
+
+
+def test_4dim_dot():
+    """test the dot product of two 2 dimentional vectors"""
+
+    # 4 dim dot-product.
+    x = [1, 2, 3, 4]
+    y = [5, 6, 7, 8]
+    z = py_numeric.vctr_dot(x, y)
+
+    assert z == 'ERROR'
+
+
+def test_mdim_dot():
+    """test the dot product of two 2 dimentional vectors"""
+
+    # Mixed dim dot-product.
+    x = [1, 2, 3]
+    y = [4, 5, 6, 7]
+    z = py_numeric.vctr_dot(x, y)
+
+    assert z == 'ERROR'
