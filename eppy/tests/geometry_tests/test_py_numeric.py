@@ -45,6 +45,28 @@ def test_2dim_cross():
     assert z == 'ERROR'
 
 
+def test_4dim_cross():
+    """test the cross product of two 2 dimentional vectors"""
+
+    # 4 dim cross-product.
+    x = [1, 2, 3, 4]
+    y = [5, 6, 7, 8]
+    z = py_numeric.vctr_cross(x, y)
+
+    assert z == 'ERROR'
+
+
+def test_mdim_cross():
+    """test the cross product of two 2 dimentional vectors"""
+
+    # Mixed dim cross-product.
+    x = [1, 2, 3]
+    y = [4, 5, 6, 7]
+    z = py_numeric.vctr_cross(x, y)
+
+    assert z == 'ERROR'
+
+
 def test_vctr_dot():
     """test the dot product of two 3 dimentional vectors"""
 
