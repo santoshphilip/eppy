@@ -23,6 +23,7 @@ import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 
 
+# Start vector cross product tests
 def test_vctr_cross():
     """test the cross product of two 3 dimentional vectors"""
 
@@ -57,7 +58,7 @@ def test_4dim_cross():
 
 
 def test_mdim_cross():
-    """test the cross product of two 2 dimentional vectors"""
+    """test the cross product of two 4 dimentional vectors"""
 
     # Mixed dim cross-product.
     x = [1, 2, 3]
@@ -67,8 +68,9 @@ def test_mdim_cross():
     assert z == 'ERROR'
 
 
+# Start vector dot product tests
 def test_vctr_dot():
-    """test the dot product of two 3 dimentional vectors"""
+    """test the dot product of two mixed dimentional vectors"""
 
     # Vector dot-product.
     x = [1, 2, 3]
@@ -90,7 +92,7 @@ def test_2dim_dot():
 
 
 def test_4dim_dot():
-    """test the dot product of two 2 dimentional vectors"""
+    """test the dot product of two 4 dimentional vectors"""
 
     # 4 dim dot-product.
     x = [1, 2, 3, 4]
@@ -101,7 +103,7 @@ def test_4dim_dot():
 
 
 def test_mdim_dot():
-    """test the dot product of two 2 dimentional vectors"""
+    """test the dot product of two mixed dimentional vectors"""
 
     # Mixed dim dot-product.
     x = [1, 2, 3]

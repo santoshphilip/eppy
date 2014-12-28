@@ -25,9 +25,9 @@ def vctr_cross(u, v):
     """
     Return the cross product of two 3 dimentional vectors.
 
-    The cross product of `a` and `b` in :math:`R^3` is a vector perpendicular
-    to both `a` and `b`.  If `a` and `b` are arrays of vectors, the vectors
-    are defined by the last axis of `a` and `b` by default, and these axes
+    The cross product of `u` and `v` in :math:`R^3` is a vector perpendicular
+    to both `u` and `v`.  If `u` and `v` are arrays of vectors, the vectors
+    are defined by the last axis of `u` and `v` by default, and these axes
     can have dimensions 2 or 3.
 
     Parameters
@@ -78,6 +78,38 @@ def vctr_cross(u, v):
 def vctr_dot(u, v):
     """
     Return the dot product of two 3 dimentional vectors.
+
+    The dot product of `u` and `v` in :math:`R^3` is a vector perpendicular
+    to both `u` and `v`.  If `u` and `v` are arrays of vectors, the vectors
+    are defined by the last axis of `u` and `v` by default, and these axes
+    can have dimensions 2 or 3.
+
+    Parameters
+    ----------
+    u : array_like
+        Components of the first vector(s).
+    v : array_like
+        Components of the second vector(s).
+
+    Returns
+    -------
+    uxv : 3darray
+        Vector dot product(s).
+
+    Raises
+    ------
+    ValueError
+        When the dimension of the vector(s) in `u` and/or `v` does not
+        equal 3.
+
+    Examples
+    --------
+    Vector dot-product.
+
+    >>> x = [1, 2, 3]
+    >>> y = [4, 5, 6]
+    >>> np.dot(x, y)
+    array([-3,  6, -3])
     """
 
     uDim = len(u)
