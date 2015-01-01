@@ -1,0 +1,3 @@
+{'memo': ['Air Space in Opaque Construction'], 'min-fields': ['2']}
+{'field': ['Name'], 'type': ['alpha'], 'reference': ['MaterialName'], 'required-field': ['']}
+{'units': ['m2-K/W'], 'field': ['Thermal Resistance'], 'minimum>': ['0'], 'type': ['real']}
