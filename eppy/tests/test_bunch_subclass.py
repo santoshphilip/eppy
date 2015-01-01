@@ -20,6 +20,8 @@
 # This test is ugly because I have to send file names and not able to send file handles
 import os
 import pytest
+from StringIO import StringIO
+
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
 import eppy.bunch_subclass as bunch_subclass
@@ -379,14 +381,10 @@ import random
 
 def test_EpBunch():
     """py.test for EpBunch"""
-    iddfile = "./walls%s.idd" % (random.randint(11111, 99999))
-    fname = "./walls%s.idf" % (random.randint(11111, 99999))
-    open(iddfile, 'wb').write(iddtxt)
-    open(fname, 'wb').write(idftxt)
-    # iddfile = "./walls.idd"
-    # iddfile = "../iddfiles/Energy+V6_0.idd"
-    # fname = "./walls.idf" # small file with only surfaces
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    
+    iddfile = StringIO(iddtxt)
+    fname = StringIO(idftxt)
+    block, data, commdct = readidf.readdatacommdct1(fname, iddfile=iddfile)
 
     # setup code walls - can be generic for any object
     dt = data.dt
@@ -483,8 +481,6 @@ def test_EpBunch():
     # retrieve a valid field that has no value
     assert bconstr.Layer_10 == ''
     assert bconstr["Layer_10"] == ''
-    os.remove(iddfile)
-    os.remove(fname)
 
 def test_extendlist():
     """py.test for extendlist"""
@@ -618,4 +614,6 @@ class TestEpBunch(object):
                 with pytest.raises(theexception):
                     result = idfobject.checkrange(fieldname)
             
+
+
 # test_EpBunch()
