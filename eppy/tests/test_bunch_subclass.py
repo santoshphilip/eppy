@@ -22,6 +22,7 @@ import os
 import pytest
 from StringIO import StringIO
 
+
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
 import eppy.bunch_subclass as bunch_subclass
@@ -616,4 +617,67 @@ class TestEpBunch(object):
             
 
 
-# test_EpBunch()
+bldfidf = """
+Version,
+    6.0;
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+BuildingSurface:Detailed,
+  Zn001:Wall001,           !- Name
+  Wall,                    !- Surface Type
+  EXTWALL80,               !- Construction Name
+  West Zone,               !- Zone Name
+  Outdoors,                !- Outside Boundary Condition
+  ,                        !- Outside Boundary Condition Object
+  SunExposed,              !- Sun Exposure
+  WindExposed,             !- Wind Exposure
+  0.5000000,               !- View Factor to Ground
+  4,                       !- Number of Vertices
+  0,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+  0,0,0,  !- X,Y,Z ==> Vertex 2 {m}
+  6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
+  6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+"""
+# test_EpBunch1()
+# import idfreader
+import eppy.idfreader as idfreader
+
+def test_EpBunch1():
+    """py.test for EpBunch1"""
+    iddfile = StringIO(iddtxt)
+    idffile = StringIO(bldfidf)    
+    block, data, commdct = readidf.readdatacommdct1(idffile, iddfile=iddfile)
+    key = "BUILDING"
+    objs = data.dt[key]
+    obj = objs[0]
+    obj_i = data.dtls.index(key)
+    bunchobj = idfreader.makeabunch(commdct, obj, obj_i)
+    
+    # assertions
+    assert bunchobj.Name == "Empire State Building"
+    bunchobj.Name = "Kutub Minar"
+    assert bunchobj.Name == "Kutub Minar"
+    prnt =  bunchobj.__repr__()
+    result = """
+BUILDING,                 
+    Kutub Minar,              !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+"""
+    assert prnt == result
+    print bunchobj.objidd
+    assert 1 == 0

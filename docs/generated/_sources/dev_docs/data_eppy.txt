@@ -1,13 +1,11 @@
 
-Data Structure of eppy
-======================
+Underlying Data Structure of eppy
+=================================
 
 
 As described in previous sections, eppy was built on EplusInterface
 
-Open a small **idf** file to explore the data structure
--------------------------------------------------------
-
+Let us open a small **idf** file to explore the data structure
 
 .. code:: python
 
@@ -588,6 +586,10 @@ So we do it in the following way:
 *Note:* Some simplifications were made in the explanations above. So
 take it with a pinch of salt :-)
 
+EpBunch
+~~~~~~~
+
+
 The code of EpBunch is in eppy/bunch\_subclass.py. If you look at the
 code you will see The subclassing happening in the following manner:
 
@@ -605,7 +607,3 @@ subclassed dict just stops working, or does very strange things. So I
 built it in a carefull and incremental way, fully testing before
 subclassing again. Each subclass implements some functionality and the
 next one implements more.
-
-.. code:: python
-
-    

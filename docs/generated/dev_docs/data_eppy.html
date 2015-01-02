@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Data Structure of eppy &mdash; eppy 0.4.6.3 documentation</title>
+    <title>Underlying Data Structure of eppy &mdash; eppy 0.4.6.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="eppy 0.4.6.3 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation for eppy" href="index.html" />
-    <link rel="next" title="classes eppy" href="classes_eppy.html" />
+    <link rel="next" title="EpBunch" href="epbunch.html" />
     <link rel="prev" title="The Future of eppy" href="future_eppy.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="classes_eppy.html" title="classes eppy"
+          <a href="epbunch.html" title="EpBunch"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="future_eppy.html" title="The Future of eppy"
@@ -54,11 +54,10 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="data-structure-of-eppy">
-<h1>Data Structure of eppy<a class="headerlink" href="#data-structure-of-eppy" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="underlying-data-structure-of-eppy">
+<h1>Underlying Data Structure of eppy<a class="headerlink" href="#underlying-data-structure-of-eppy" title="Permalink to this headline">¶</a></h1>
 <p>As described in previous sections, eppy was built on EplusInterface</p>
-<div class="section" id="open-a-small-idf-file-to-explore-the-data-structure">
-<h2>Open a small <strong>idf</strong> file to explore the data structure<a class="headerlink" href="#open-a-small-idf-file-to-explore-the-data-structure" title="Permalink to this headline">¶</a></h2>
+<p>Let us open a small <strong>idf</strong> file to explore the data structure</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
 <span class="c"># python setup.py install</span>
 <span class="c"># or</span>
@@ -117,7 +116,6 @@ MATERIAL:AIRGAP,
 MATERIAL:AIRGAP,
     F05 Ceiling air space resistance,    !- Name
     0.18;                     !- Thermal Resistance</pre>
-</div>
 </div>
 <div class="section" id="original-data-structure-in-eplusinterface">
 <h2>Original Data Structure in EPlusInterface<a class="headerlink" href="#original-data-structure-in-eplusinterface" title="Permalink to this headline">¶</a></h2>
@@ -507,6 +505,9 @@ EpBunch will make changes to the <strong>airgap</strong> list</li>
 </ul>
 <p><em>Note:</em> Some simplifications were made in the explanations above. So
 take it with a pinch of salt :-)</p>
+</div>
+<div class="section" id="epbunch">
+<h3>EpBunch<a class="headerlink" href="#epbunch" title="Permalink to this headline">¶</a></h3>
 <p>The code of EpBunch is in eppy/bunch_subclass.py. If you look at the
 code you will see The subclassing happening in the following manner:</p>
 <ul class="simple">
@@ -535,8 +536,7 @@ next one implements more.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Data Structure of eppy</a><ul>
-<li><a class="reference internal" href="#open-a-small-idf-file-to-explore-the-data-structure">Open a small <strong>idf</strong> file to explore the data structure</a></li>
+<li><a class="reference internal" href="#">Underlying Data Structure of eppy</a><ul>
 <li><a class="reference internal" href="#original-data-structure-in-eplusinterface">Original Data Structure in EPlusInterface</a><ul>
 <li><a class="reference internal" href="#idf1-model-dtls-overview">idf1.model.dtls - Overview</a></li>
 <li><a class="reference internal" href="#idf1-model-dt-overview">idf1.model.dt - Overview</a></li>
@@ -547,6 +547,7 @@ next one implements more.</p>
 </li>
 <li><a class="reference internal" href="#syntactic-sugar">Syntactic Sugar</a><ul>
 <li><a class="reference internal" href="#bunch">Bunch</a></li>
+<li><a class="reference internal" href="#epbunch">EpBunch</a></li>
 </ul>
 </li>
 </ul>
@@ -557,8 +558,8 @@ next one implements more.</p>
   <p class="topless"><a href="future_eppy.html"
                         title="previous chapter">The Future of eppy</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="classes_eppy.html"
-                        title="next chapter">classes eppy</a></p>
+  <p class="topless"><a href="epbunch.html"
+                        title="next chapter">EpBunch</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/dev_docs/data_eppy.txt"
@@ -591,7 +592,7 @@ next one implements more.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="classes_eppy.html" title="classes eppy"
+          <a href="epbunch.html" title="EpBunch"
              >next</a> |</li>
         <li class="right" >
           <a href="future_eppy.html" title="The Future of eppy"

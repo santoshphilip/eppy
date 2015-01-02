@@ -16,7 +16,8 @@ Topics
     phil_eppy
     hist_eppy
     future_eppy
-    Data Structure of eppy <data_eppy>
+    data_eppy
+    epbunch
     Classes in eppy <classes_eppy>
     pytest_eppy
     doc_eppy
