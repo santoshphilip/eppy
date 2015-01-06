@@ -139,9 +139,9 @@ not know what I was doing when I wrote this code and now we are stuck
 with it</p>
 <p>There are three varaibles that hold all the data we need. They are:</p>
 <ul class="simple">
-<li>idf1.model.dtls</li>
-<li>idf1.model.dt</li>
-<li>idf1.idd_info</li>
+<li><tt class="docutils literal"><span class="pre">idf1.model.dtls</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">idf1.model.dt</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">idf1.idd_info</span></tt></li>
 </ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">dtls</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span> <span class="c"># names of all the idf objects</span>
 <span class="n">dt</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span> <span class="c"># the idf model</span>
@@ -169,11 +169,11 @@ with it</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="mi">683</span>
 </pre></div>
 </div>
+<p>Couple of points to note about <tt class="docutils literal"><span class="pre">dtls</span></tt>:</p>
 <ul class="simple">
 <li><strong>dtls</strong> is a list of all the names of the Energyplus objects.</li>
-<li>the list contains all the names in the <strong>idd</strong> file</li>
-<li>this is usally more than the number of objects in the <strong>idf</strong> file</li>
-<li>the list is in the same order as they are in the <strong>idd</strong> file</li>
+<li>This list is extracted from the the <strong>idd</strong> file</li>
+<li>the list is in the same order as the objects in the <strong>idd</strong> file</li>
 </ul>
 </div>
 <div class="section" id="idf1-model-dt-overview">
@@ -184,19 +184,19 @@ with it</p>
 </div>
 <div class="highlight-python"><pre>&lt;type 'dict'&gt;</pre>
 </div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># print 10 of the keys</span>
+<span class="k">print</span> <span class="n">dt</span><span class="o">.</span><span class="n">keys</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;ZONEHVAC:OUTDOORAIRUNIT&#39;</span><span class="p">,</span> <span class="s">&#39;TABLE:TWOINDEPENDENTVARIABLES&#39;</span><span class="p">,</span> <span class="s">&#39;ENERGYMANAGEMENTSYSTEM:INTERNALVARIABLE&#39;</span><span class="p">,</span> <span class="s">&#39;AVAILABILITYMANAGER:NIGHTCYCLE&#39;</span><span class="p">,</span> <span class="s">&#39;GROUNDHEATTRANSFER:SLAB:BLDGPROPS&#39;</span><span class="p">,</span> <span class="s">&#39;GENERATOR:MICROTURBINE&#39;</span><span class="p">,</span> <span class="s">&#39;SHADING:BUILDING:DETAILED&#39;</span><span class="p">,</span> <span class="s">&#39;EVAPORATIVECOOLER:INDIRECT:RESEARCHSPECIAL&#39;</span><span class="p">,</span> <span class="s">&#39;ZONEHVAC:PACKAGEDTERMINALAIRCONDITIONER&#39;</span><span class="p">,</span> <span class="s">&#39;CONSTRUCTION:WINDOWDATAFILE&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># dt is a dict</span>
 <span class="n">number_of_keys</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 <span class="k">print</span> <span class="n">number_of_keys</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="mi">683</span>
-</pre></div>
-</div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># print 10 of the keys</span>
-<span class="k">print</span> <span class="n">dt</span><span class="o">.</span><span class="n">keys</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;ZONEHVAC:OUTDOORAIRUNIT&#39;</span><span class="p">,</span> <span class="s">&#39;TABLE:TWOINDEPENDENTVARIABLES&#39;</span><span class="p">,</span> <span class="s">&#39;ENERGYMANAGEMENTSYSTEM:INTERNALVARIABLE&#39;</span><span class="p">,</span> <span class="s">&#39;AVAILABILITYMANAGER:NIGHTCYCLE&#39;</span><span class="p">,</span> <span class="s">&#39;GROUNDHEATTRANSFER:SLAB:BLDGPROPS&#39;</span><span class="p">,</span> <span class="s">&#39;GENERATOR:MICROTURBINE&#39;</span><span class="p">,</span> <span class="s">&#39;SHADING:BUILDING:DETAILED&#39;</span><span class="p">,</span> <span class="s">&#39;EVAPORATIVECOOLER:INDIRECT:RESEARCHSPECIAL&#39;</span><span class="p">,</span> <span class="s">&#39;ZONEHVAC:PACKAGEDTERMINALAIRCONDITIONER&#39;</span><span class="p">,</span> <span class="s">&#39;CONSTRUCTION:WINDOWDATAFILE&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -400,7 +400,7 @@ to be converted to a float</li>
 <em>&#8220;Syntactic sugar is a computer science term that refers to syntax
 within a programming language that is designed to make things easier to
 read or to express, while alternative ways of expressing them exist&#8221;</em></p>
-<p>Wikwpedia article on <a class="reference external" href="http://en.wikipedia.org/wiki/Syntactic_sugar">syntactic
+<p>Wikipedia article on <a class="reference external" href="http://en.wikipedia.org/wiki/Syntactic_sugar">syntactic
 sugar</a></p>
 <p><strong>All the rest of the code in eppy is simply syntactic sugar over the
 data structure in model.dtls, model.dt and idd_info</strong></p>
@@ -416,9 +416,8 @@ idd_info to do so.</p>
 <li><a class="reference external" href="https://pypi.python.org/pypi/bunch/1.0.1">https://pypi.python.org/pypi/bunch/1.0.1</a></li>
 <li><a class="reference external" href="https://github.com/dsc/bunch">https://github.com/dsc/bunch</a></li>
 </ul>
-<p>Below is a brief demo of how we will be using bunch</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bunch</span> <span class="kn">import</span> <span class="n">Bunch</span>
-<span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<p>Let us first take a look at a dict</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
 <span class="n">adict</span>
 </pre></div>
 </div>
@@ -439,7 +438,8 @@ idd_info to do so.</p>
 </pre></div>
 </div>
 <p>Bunch allows us to do this with a lot less typing</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bunchdict</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bunch</span> <span class="kn">import</span> <span class="n">Bunch</span>
+<span class="n">bunchdict</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bunchdict</span>
 <span class="k">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">a</span>
 <span class="k">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">b</span>
@@ -492,7 +492,7 @@ replaced by an underscore</li>
 </ul>
 <p>So we do it in the following way:</p>
 <ul class="simple">
-<li>we make a new dict, or rather a Bunch from the <strong>airgap</strong> list.</li>
+<li>we make a new Bunch from the <strong>airgap</strong> list.</li>
 <li>The Bunch is made by by doing airgap1 = Bunch( {&#8220;Name&#8221; : &#8220;F04 Wall
 air space resistance&#8221;, &#8220;Thermal_Resistance&#8221; : 0.15} )</li>
 <li>This will allow us to use the dot notation we see in bunch</li>
@@ -524,6 +524,7 @@ subclassed dict just stops working, or does very strange things. So I
 built it in a carefull and incremental way, fully testing before
 subclassing again. Each subclass implements some functionality and the
 next one implements more.</p>
+<p><strong>EpBunch</strong> is described in more detail in the next section</p>
 </div>
 </div>
 </div>

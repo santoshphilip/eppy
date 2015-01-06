@@ -60,11 +60,13 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Santosh Philip (santosh_philip at yahoo.com)</td>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Santosh Philip</td>
 </tr>
 </tbody>
 </table>
-<p>The <em>Philosophy of eppy</em> alludes to the <em>Unix Philosophy</em> that speaks of doing one thing and doing it well. Unix has the tradition of having small tools that do a single thing. A number of tools can be stitched together to do a more complex task.</p>
+<p>The <em>Philosophy of eppy</em> alludes to the <a class="reference external" href="http://en.wikipedia.org/wiki/Unix_philosophy">Unix Philosophy</a>. The philosophy of eppy takes inspiration from the <em>Unix Philosophy</em>, that speaks of doing one thing and doing it well. Unix has the tradition of having small tools that do a single thing. A number of tools can be stitched together to do a more complex task.
+Of course, since eppy is written in Python, it adheres to the &#8220;Zen of Python&#8221;</p>
+<p>The rules of Unix are shown in the appendix at the bottom of this page.(You may find that eppy breaks the rules at times)</p>
 <div class="section" id="purpose-of-eppy">
 <h2>Purpose of Eppy<a class="headerlink" href="#purpose-of-eppy" title="Permalink to this headline">¶</a></h2>
 <p>The purpose of eppy is to be a <em>scripting language</em> to Energyplus. So what does that mean ? Let us start by describing what it is not.</p>
@@ -98,6 +100,29 @@
 <p>Both the idd file and idf file are text files. If you look at these files, you will see that there is a clear structure that is visible to you, the reader. Eppy reads these text files and pushes it into classic python data structures, like lists and dictionaries. Once this information is in lists and dicts, it becomes much easier to walk through the data structure and to add, delete and change the information.</p>
 <p>At it&#8217;s heart, eppy is simply a scripting language that puts the idd and idf file into a python data structure. Then it uses the power of python to edit the idf file.</p>
 </div>
+<div class="section" id="appendix-unix-philosophy">
+<h2>Appendix: Unix Philosophy<a class="headerlink" href="#appendix-unix-philosophy" title="Permalink to this headline">¶</a></h2>
+<p>From <a class="reference external" href="http://www.catb.org/esr/writings/taoup/html/ch01s06.html">http://www.catb.org/esr/writings/taoup/html/ch01s06.html</a>:</p>
+<ul class="simple">
+<li>Rule of Modularity: Write simple parts connected by clean interfaces.</li>
+<li>Rule of Clarity: Clarity is better than cleverness.</li>
+<li>Rule of Composition: Design programs to be connected to other programs.</li>
+<li>Rule of Separation: Separate policy from mechanism; separate interfaces from engines.</li>
+<li>Rule of Simplicity: Design for simplicity; add complexity only where you must.</li>
+<li>Rule of Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.</li>
+<li>Rule of Transparency: Design for visibility to make inspection and debugging easier.</li>
+<li>Rule of Robustness: Robustness is the child of transparency and simplicity.</li>
+<li>Rule of Representation: Fold knowledge into data so program logic can be stupid and robust.</li>
+<li>Rule of Least Surprise: In interface design, always do the least surprising thing.</li>
+<li>Rule of Silence: When a program has nothing surprising to say, it should say nothing.</li>
+<li>Rule of Repair: When you must fail, fail noisily and as soon as possible.</li>
+<li>Rule of Economy: Programmer time is expensive; conserve it in preference to machine time.</li>
+<li>Rule of Generation: Avoid hand-hacking; write programs to write programs when you can.</li>
+<li>Rule of Optimization: Prototype before polishing. Get it working before you optimize it.</li>
+<li>Rule of Diversity: Distrust all claims for “one true way”.</li>
+<li>Rule of Extensibility: Design for the future, because it will be here sooner than you think.</li>
+</ul>
+</div>
 </div>
 
 
@@ -114,6 +139,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#idd-file-and-eppy">Idd file and eppy</a></li>
+<li><a class="reference internal" href="#appendix-unix-philosophy">Appendix: Unix Philosophy</a></li>
 </ul>
 </li>
 </ul>

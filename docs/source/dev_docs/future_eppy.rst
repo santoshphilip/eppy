@@ -3,6 +3,9 @@ The Future of eppy
 
 The future of eppy lies in the use of eppy to build a more comprehensive tool kit to work with Energyplus models. In a sense eppy should not grow much at all. Eppy should become more effective as tool kit at a very granular level. 
 
+Longterm TODOs for eppy
+-----------------------
+
 Some of the possibilities for the future growth of eppy are:
 
 - A geometry builder for Energyplus. The open source 3-D software Blender has a python scripting language. One possibility would be to use Blender as a geometry interface for eppy and Energyplus

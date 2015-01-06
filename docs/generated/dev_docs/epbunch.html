@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="eppy 0.4.6.3 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation for eppy" href="index.html" />
-    <link rel="next" title="classes eppy" href="classes_eppy.html" />
+    <link rel="next" title="IDF in modeleditor" href="modeleditor.html" />
     <link rel="prev" title="Underlying Data Structure of eppy" href="data_eppy.html" /> 
   </head>
   <body>
@@ -39,7 +39,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="classes_eppy.html" title="classes eppy"
+          <a href="modeleditor.html" title="IDF in modeleditor"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="data_eppy.html" title="Underlying Data Structure of eppy"
@@ -64,21 +64,27 @@
 </tr>
 </tbody>
 </table>
-<p>I had completely forgotten how I had written EpBunch. Spent long time
-reviewing the code and even writing more unit tests to understand what
-is going on.</p>
-<p>This is not the type of coding that non-professional programmers are
-likey to do. I have had the code reviewed by other people ar python
-meetups. thier reaction is that the code is OK. I am not doing anythin
+<p>EpBunch is at the heart of what makes eppy easy to use. Specifically
+Epbunch is what allows us to use the syntax <tt class="docutils literal"><span class="pre">building.Name</span></tt> and
+<tt class="docutils literal"><span class="pre">building.North_Axis</span></tt>. Some advanced coding had to be done to make
+this happen. Coding that would be easy for professional programmers, but
+not for us ordinary folk :-(</p>
+<p>Most of us who are going to be coding eppy are not professional
+programmers. I was completely out of my depth when I did this coding. I
+had the code reviewed by programmers who do this for a living (at python
+meetups in the Bay Area). In their opinion, I was not doing anything
 fundamentally wrong.</p>
-<p>Developing and debugging this code was tricky,</p>
-<p>Now I have to figure out how to describe it.</p>
+<p>Below is a fairly long explanation, to ease you into the code. Read
+through the whole thing without trying to understand every detail, just
+getting a birds eye veiw of the explanation. Then read it again, you
+will start to grok some of the details. All the code here is working
+code, so you can experiment with it.</p>
 <div class="section" id="magic-methods-dunders-of-python">
 <h2>Magic Methods (Dunders) of Python<a class="headerlink" href="#magic-methods-dunders-of-python" title="Permalink to this headline">¶</a></h2>
 <p>To understand how EpBunch or Bunch is coded, one has to have an
-understanding of the magic methods of Python. For a background on magic
-methods, see <a class="reference external" href="http://www.rafekettler.com/magicmethods.html">http://www.rafekettler.com/magicmethods.html</a>. Let us dive
-straight into this with some examples</p>
+understanding of the magic methods of Python. (For a background on magic
+methods, take a look at <a class="reference external" href="http://www.rafekettler.com/magicmethods.html">http://www.rafekettler.com/magicmethods.html</a>)
+Let us dive straight into this with some examples</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">adict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c"># create a dictionary</span>
 <span class="k">print</span> <span class="n">adict</span>
 <span class="k">print</span> <span class="n">adict</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
@@ -93,11 +99,11 @@ straight into this with some examples</p>
 <p>What happens when we say d[&#8216;a&#8217;] ?</p>
 <p>This is where the magic methods come in. Magic methods are methods that
 work behind the scenes and do some magic. So when we say d[&#8216;a&#8217;], The
-dict is calling the method `<strong>getitem</strong>(&#8216;a&#8217;)&#8217;.</p>
-<p>Magic methods have a double underscore, called <strong>dunder</strong> methods for
-short</p>
+dict is calling the method <tt class="docutils literal"><span class="pre">__getitem__('a')</span></tt>.</p>
+<p>Magic methods have a <em>double underscore</em> &#8220;<tt class="docutils literal"><span class="pre">__</span></tt>&#8221;, called <strong>dunder</strong>
+methods for short</p>
 <p>Let us override that method and see what happens.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="c"># we are subclassing dict here</span>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Funnydict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="s">&quot;key = </span><span class="si">%s</span><span class="s">, value = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -109,7 +115,7 @@ short</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>As expected</p>
+<p>The print worked as expected. Now let us try to print the values</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
 </pre></div>
@@ -118,7 +124,8 @@ short</p>
 <span class="n">key</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">20</span>
 </pre></div>
 </div>
-<p>So it is true, funny[&#8216;a&#8217;] does call _<em>getitem</em>_(a)</p>
+<p>Now that worked very differently from a dict</p>
+<p>So it is true, funny[&#8216;a&#8217;] does call <tt class="docutils literal"><span class="pre">__getitem__()</span></tt> that we just wrote</p>
 <p>Let us go back to the variable <strong>adict</strong></p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># to jog our memory</span>
 <span class="k">print</span> <span class="n">adict</span>
@@ -401,9 +408,9 @@ i     =   0                  1                               2</pre>
 </div>
 <div class="section" id="variables-and-names-in-python">
 <h2>Variables and Names in Python<a class="headerlink" href="#variables-and-names-in-python" title="Permalink to this headline">¶</a></h2>
-<p>At this point your reaction may, &#8220;I don&#8217;t see how all those values
-changed&#8221;. If such question arises in your mind, you need to read the
-following:</p>
+<p>At this point your reaction may, &#8220;I don&#8217;t see how all those values in
+<tt class="docutils literal"><span class="pre">idf1.model.dt</span></tt> changed&#8221;. If such question arises in your mind, you
+need to read the following:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#other-languages-have-variables">Other languages have
 &#8216;variables&#8217;</a></li>
@@ -413,7 +420,69 @@ following:</p>
 values</a></li>
 </ul>
 <p>This is especially important if you are experienced in other languages,
-and you expect the behavior to be a little different</p>
+and you expect the behavior to be a little different. Actually follow
+and read those links in any case.</p>
+</div>
+<div class="section" id="continuing-with-epbunch">
+<h2>Continuing with EpBunch<a class="headerlink" href="#continuing-with-epbunch" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="epbunch-1">
+<h3>EpBunch_1<a class="headerlink" href="#epbunch-1" title="Permalink to this headline">¶</a></h3>
+<p>The code for EpBunch in the earlier section will work, but has been
+simplified for clarity. In file <tt class="docutils literal"><span class="pre">bunch_subclass.py</span></tt> take a look at the
+class <strong>EpBunch_1</strong> . This class does the first override of
+<tt class="docutils literal"><span class="pre">__setattr__</span></tt> and <tt class="docutils literal"><span class="pre">__getattr__</span></tt>. You will see that the code is a
+little more involved, dealing with edge conditions and catching
+exceptions.</p>
+<p><strong>EpBunch_1</strong> also defines <tt class="docutils literal"><span class="pre">__repr__</span></tt>. This lets you print EpBunch in
+a human readable format. Further research indicates that <tt class="docutils literal"><span class="pre">__str__</span></tt>
+should have been used to do this, not <tt class="docutils literal"><span class="pre">__repr__</span></tt> :-(</p>
+</div>
+<div class="section" id="epbunch-2">
+<h3>EpBunch_2<a class="headerlink" href="#epbunch-2" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">EpBunch_2</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_1</span></tt>.</p>
+<p>It overrides <tt class="docutils literal"><span class="pre">__setattr__</span></tt> and <tt class="docutils literal"><span class="pre">__getattr__</span></tt> to add a small
+functionality that has not been documented or used. The idea was to give
+the ability to shorten field names with alias. So
+<tt class="docutils literal"><span class="pre">building.Maximum_Number_of_Warmup_Days</span></tt> could be made into
+<tt class="docutils literal"><span class="pre">building.warmupdays</span></tt>.</p>
+<p>I seemed like a good idea when I wrote it. Ignore it for now, although
+it may make a comeback :-)</p>
+</div>
+<div class="section" id="epbunch-3">
+<h3>EpBunch_3<a class="headerlink" href="#epbunch-3" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">EpBunch_3</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_2</span></tt>.</p>
+<p>EpBunch_3 adds the ability to add functions to EpBunch objects. This
+would allow the object to make calculations using data within the
+object. So <tt class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></tt> object has all the geometry data
+of the object. The function &#8216;area&#8217; will let us calculate the are of the
+object even though area is not a field in <tt class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></tt>.</p>
+<p>So you can call <tt class="docutils literal"><span class="pre">idf1.idfobjects[&quot;BuildingSurface:Detailed&quot;][0].area</span></tt>
+and get the area of the surface.</p>
+<p>At the moment, the functions can use only data within the object for
+it&#8217;s calculation. We need to extend this functionality so that
+calculations can be done using data outside the object. This would be
+useful in calculating the volume of a Zone. Such a calculation would
+need data from the surfaces that the aone refers to.</p>
+</div>
+<div class="section" id="epbunch-4">
+<h3>EpBunch_4<a class="headerlink" href="#epbunch-4" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">EpBunch_4</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_3</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_4</span></tt> overrides <tt class="docutils literal"><span class="pre">_setitem__</span></tt> and <tt class="docutils literal"><span class="pre">__getitem__</span></tt>. Right now
+<tt class="docutils literal"><span class="pre">airgap.Name</span></tt> works. This update allows <tt class="docutils literal"><span class="pre">airgap[&quot;Name&quot;]</span></tt> to work
+correctly too</p>
+</div>
+<div class="section" id="epbunch-5">
+<h3>EpBunch_5<a class="headerlink" href="#epbunch-5" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_4</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> adds functions that allows you to call functions
+<tt class="docutils literal"><span class="pre">getrange</span></tt> and <tt class="docutils literal"><span class="pre">checkrange</span></tt> for a field</p>
+</div>
+<div class="section" id="finally-epbunch">
+<h3>Finally EpBunch<a class="headerlink" href="#finally-epbunch" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">EpBunch</span> <span class="pre">=</span> <span class="pre">EpBunch_5</span></tt></p>
+<p>Finally <tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> is named as EpBunch. So the rest of the code uses
+EpBunch and in effect it uses <tt class="docutils literal"><span class="pre">Epbunch_5</span></tt></p>
+</div>
 </div>
 </div>
 
@@ -430,6 +499,15 @@ and you expect the behavior to be a little different</p>
 <li><a class="reference internal" href="#open-an-idf-file">Open an IDF file</a></li>
 <li><a class="reference internal" href="#subclassing-of-bunch">Subclassing of Bunch</a></li>
 <li><a class="reference internal" href="#variables-and-names-in-python">Variables and Names in Python</a></li>
+<li><a class="reference internal" href="#continuing-with-epbunch">Continuing with EpBunch</a><ul>
+<li><a class="reference internal" href="#epbunch-1">EpBunch_1</a></li>
+<li><a class="reference internal" href="#epbunch-2">EpBunch_2</a></li>
+<li><a class="reference internal" href="#epbunch-3">EpBunch_3</a></li>
+<li><a class="reference internal" href="#epbunch-4">EpBunch_4</a></li>
+<li><a class="reference internal" href="#epbunch-5">EpBunch_5</a></li>
+<li><a class="reference internal" href="#finally-epbunch">Finally EpBunch</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -438,8 +516,8 @@ and you expect the behavior to be a little different</p>
   <p class="topless"><a href="data_eppy.html"
                         title="previous chapter">Underlying Data Structure of eppy</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="classes_eppy.html"
-                        title="next chapter">classes eppy</a></p>
+  <p class="topless"><a href="modeleditor.html"
+                        title="next chapter">IDF in modeleditor</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/dev_docs/epbunch.txt"
@@ -472,7 +550,7 @@ and you expect the behavior to be a little different</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="classes_eppy.html" title="classes eppy"
+          <a href="modeleditor.html" title="IDF in modeleditor"
              >next</a> |</li>
         <li class="right" >
           <a href="data_eppy.html" title="Underlying Data Structure of eppy"

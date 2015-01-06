@@ -1,9 +1,14 @@
 Philosophy of Eppy
 ==================
 
-:Author: Santosh Philip (santosh_philip at yahoo.com)
+:Author: Santosh Philip
 
-The *Philosophy of eppy* alludes to the *Unix Philosophy* that speaks of doing one thing and doing it well. Unix has the tradition of having small tools that do a single thing. A number of tools can be stitched together to do a more complex task.
+The *Philosophy of eppy* alludes to the `Unix Philosophy <http://en.wikipedia.org/wiki/Unix_philosophy>`_. The philosophy of eppy takes inspiration from the *Unix Philosophy*, that speaks of doing one thing and doing it well. Unix has the tradition of having small tools that do a single thing. A number of tools can be stitched together to do a more complex task.   
+Of course, since eppy is written in Python, it adheres to the "Zen of Python" 
+
+The rules of Unix are shown in the appendix at the bottom of this page.(You may find that eppy breaks the rules at times)
+
+
 
 Purpose of Eppy
 ---------------
@@ -47,3 +52,26 @@ Both the idd file and idf file are text files. If you look at these files, you w
 
 At it's heart, eppy is simply a scripting language that puts the idd and idf file into a python data structure. Then it uses the power of python to edit the idf file.
 
+
+Appendix: Unix Philosophy
+-------------------------
+
+From http://www.catb.org/esr/writings/taoup/html/ch01s06.html:
+
+- Rule of Modularity: Write simple parts connected by clean interfaces.
+- Rule of Clarity: Clarity is better than cleverness.
+- Rule of Composition: Design programs to be connected to other programs.
+- Rule of Separation: Separate policy from mechanism; separate interfaces from engines.
+- Rule of Simplicity: Design for simplicity; add complexity only where you must.
+- Rule of Parsimony: Write a big program only when it is clear by demonstration that nothing else will do.
+- Rule of Transparency: Design for visibility to make inspection and debugging easier.
+- Rule of Robustness: Robustness is the child of transparency and simplicity.
+- Rule of Representation: Fold knowledge into data so program logic can be stupid and robust.
+- Rule of Least Surprise: In interface design, always do the least surprising thing.
+- Rule of Silence: When a program has nothing surprising to say, it should say nothing.
+- Rule of Repair: When you must fail, fail noisily and as soon as possible.
+- Rule of Economy: Programmer time is expensive; conserve it in preference to machine time.
+- Rule of Generation: Avoid hand-hacking; write programs to write programs when you can.
+- Rule of Optimization: Prototype before polishing. Get it working before you optimize it.
+- Rule of Diversity: Distrust all claims for “one true way”.
+- Rule of Extensibility: Design for the future, because it will be here sooner than you think.

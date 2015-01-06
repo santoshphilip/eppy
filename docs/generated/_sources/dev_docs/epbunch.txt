@@ -5,27 +5,32 @@ EpBunch
 
 :Author: Santosh Philip.
 
-I had completely forgotten how I had written EpBunch. Spent long time
-reviewing the code and even writing more unit tests to understand what
-is going on.
+EpBunch is at the heart of what makes eppy easy to use. Specifically
+Epbunch is what allows us to use the syntax ``building.Name`` and
+``building.North_Axis``. Some advanced coding had to be done to make
+this happen. Coding that would be easy for professional programmers, but
+not for us ordinary folk :-(
 
-This is not the type of coding that non-professional programmers are
-likey to do. I have had the code reviewed by other people ar python
-meetups. thier reaction is that the code is OK. I am not doing anythin
+Most of us who are going to be coding eppy are not professional
+programmers. I was completely out of my depth when I did this coding. I
+had the code reviewed by programmers who do this for a living (at python
+meetups in the Bay Area). In their opinion, I was not doing anything
 fundamentally wrong.
 
-Developing and debugging this code was tricky,
-
-Now I have to figure out how to describe it.
+Below is a fairly long explanation, to ease you into the code. Read
+through the whole thing without trying to understand every detail, just
+getting a birds eye veiw of the explanation. Then read it again, you
+will start to grok some of the details. All the code here is working
+code, so you can experiment with it.
 
 Magic Methods (Dunders) of Python
 ---------------------------------
 
 
 To understand how EpBunch or Bunch is coded, one has to have an
-understanding of the magic methods of Python. For a background on magic
-methods, see http://www.rafekettler.com/magicmethods.html. Let us dive
-straight into this with some examples
+understanding of the magic methods of Python. (For a background on magic
+methods, take a look at http://www.rafekettler.com/magicmethods.html)
+Let us dive straight into this with some examples
 
 .. code:: python
 
@@ -45,16 +50,16 @@ What happens when we say d['a'] ?
 
 This is where the magic methods come in. Magic methods are methods that
 work behind the scenes and do some magic. So when we say d['a'], The
-dict is calling the method \`\ **getitem**\ ('a')'.
+dict is calling the method ``__getitem__('a')``.
 
-Magic methods have a double underscore, called **dunder** methods for
-short
+Magic methods have a *double underscore* "``__``\ ", called **dunder**
+methods for short
 
 Let us override that method and see what happens.
 
 .. code:: python
 
-    class Funnydict(dict):
+    class Funnydict(dict): # we are subclassing dict here
         def __getitem__(self, key):
             value = super(Funnydict, self).__getitem__(key)
             return "key = %s, value = %s" % (key, value)
@@ -67,7 +72,7 @@ Let us override that method and see what happens.
     {'a': 10, 'b': 20}
 
 
-As expected
+The print worked as expected. Now let us try to print the values
 
 .. code:: python
 
@@ -80,7 +85,9 @@ As expected
     key = b, value = 20
 
 
-So it is true, funny['a'] does call \_\ *getitem*\ \_(a)
+Now that worked very differently from a dict
+
+So it is true, funny['a'] does call ``__getitem__()`` that we just wrote
 
 Let us go back to the variable **adict**
 
@@ -456,9 +463,9 @@ Variables and Names in Python
 -----------------------------
 
 
-At this point your reaction may, "I don't see how all those values
-changed". If such question arises in your mind, you need to read the
-following:
+At this point your reaction may, "I don't see how all those values in
+``idf1.model.dt`` changed". If such question arises in your mind, you
+need to read the following:
 
 -  `Other languages have
    'variables' <http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#other-languages-have-variables>`__
@@ -468,8 +475,88 @@ following:
    values <http://nedbatchelder.com/text/names.html>`__
 
 This is especially important if you are experienced in other languages,
-and you expect the behavior to be a little different
+and you expect the behavior to be a little different. Actually follow
+and read those links in any case.
 
-.. code:: python
+Continuing with EpBunch
+-----------------------
 
-    
+
+EpBunch\_1
+~~~~~~~~~~
+
+
+The code for EpBunch in the earlier section will work, but has been
+simplified for clarity. In file ``bunch_subclass.py`` take a look at the
+class **EpBunch\_1** . This class does the first override of
+``__setattr__`` and ``__getattr__``. You will see that the code is a
+little more involved, dealing with edge conditions and catching
+exceptions.
+
+**EpBunch\_1** also defines ``__repr__``. This lets you print EpBunch in
+a human readable format. Further research indicates that ``__str__``
+should have been used to do this, not ``__repr__`` :-(
+
+EpBunch\_2
+~~~~~~~~~~
+
+
+``EpBunch_2`` is subclassed from ``EpBunch_1``.
+
+It overrides ``__setattr__`` and ``__getattr__`` to add a small
+functionality that has not been documented or used. The idea was to give
+the ability to shorten field names with alias. So
+``building.Maximum_Number_of_Warmup_Days`` could be made into
+``building.warmupdays``.
+
+I seemed like a good idea when I wrote it. Ignore it for now, although
+it may make a comeback :-)
+
+EpBunch\_3
+~~~~~~~~~~
+
+
+``EpBunch_3`` is subclassed from ``EpBunch_2``.
+
+EpBunch\_3 adds the ability to add functions to EpBunch objects. This
+would allow the object to make calculations using data within the
+object. So ``BuildingSurface:Detailed`` object has all the geometry data
+of the object. The function 'area' will let us calculate the are of the
+object even though area is not a field in ``BuildingSurface:Detailed``.
+
+So you can call ``idf1.idfobjects["BuildingSurface:Detailed"][0].area``
+and get the area of the surface.
+
+At the moment, the functions can use only data within the object for
+it's calculation. We need to extend this functionality so that
+calculations can be done using data outside the object. This would be
+useful in calculating the volume of a Zone. Such a calculation would
+need data from the surfaces that the aone refers to.
+
+EpBunch\_4
+~~~~~~~~~~
+
+
+``EpBunch_4`` is subclassed from ``EpBunch_3``.
+
+``EpBunch_4`` overrides ``_setitem__`` and ``__getitem__``. Right now
+``airgap.Name`` works. This update allows ``airgap["Name"]`` to work
+correctly too
+
+EpBunch\_5
+~~~~~~~~~~
+
+
+``EpBunch_5`` is subclassed from ``EpBunch_4``.
+
+``EpBunch_5`` adds functions that allows you to call functions
+``getrange`` and ``checkrange`` for a field
+
+Finally EpBunch
+~~~~~~~~~~~~~~~
+
+
+``EpBunch = EpBunch_5``
+
+Finally ``EpBunch_5`` is named as EpBunch. So the rest of the code uses
+EpBunch and in effect it uses ``Epbunch_5``

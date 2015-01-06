@@ -18,6 +18,6 @@ Topics
     future_eppy
     data_eppy
     epbunch
-    Classes in eppy <classes_eppy>
+    modeleditor
     pytest_eppy
     doc_eppy

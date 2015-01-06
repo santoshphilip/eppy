@@ -100,9 +100,9 @@ with it
 
 There are three varaibles that hold all the data we need. They are:
 
--  idf1.model.dtls
--  idf1.model.dt
--  idf1.idd\_info
+-  ``idf1.model.dtls``
+-  ``idf1.model.dt``
+-  ``idf1.idd_info``
 
 
 .. code:: python
@@ -143,10 +143,11 @@ idf1.model.dtls - Overview
     683
 
 
+Couple of points to note about ``dtls``:
+
 -  **dtls** is a list of all the names of the Energyplus objects.
--  the list contains all the names in the **idd** file
--  this is usally more than the number of objects in the **idf** file
--  the list is in the same order as they are in the **idd** file
+-  This list is extracted from the the **idd** file
+-  the list is in the same order as the objects in the **idd** file
 
 
 idf1.model.dt - Overview
@@ -165,6 +166,16 @@ idf1.model.dt - Overview
 
 .. code:: python
 
+    # print 10 of the keys
+    print dt.keys()[:10]
+
+.. parsed-literal::
+
+    ['ZONEHVAC:OUTDOORAIRUNIT', 'TABLE:TWOINDEPENDENTVARIABLES', 'ENERGYMANAGEMENTSYSTEM:INTERNALVARIABLE', 'AVAILABILITYMANAGER:NIGHTCYCLE', 'GROUNDHEATTRANSFER:SLAB:BLDGPROPS', 'GENERATOR:MICROTURBINE', 'SHADING:BUILDING:DETAILED', 'EVAPORATIVECOOLER:INDIRECT:RESEARCHSPECIAL', 'ZONEHVAC:PACKAGEDTERMINALAIRCONDITIONER', 'CONSTRUCTION:WINDOWDATAFILE']
+
+
+.. code:: python
+
     # dt is a dict
     number_of_keys = len(dt.keys())
     print number_of_keys
@@ -172,16 +183,6 @@ idf1.model.dt - Overview
 .. parsed-literal::
 
     683
-
-
-.. code:: python
-
-    # print 10 of the keys
-    print dt.keys()[:10]
-
-.. parsed-literal::
-
-    ['ZONEHVAC:OUTDOORAIRUNIT', 'TABLE:TWOINDEPENDENTVARIABLES', 'ENERGYMANAGEMENTSYSTEM:INTERNALVARIABLE', 'AVAILABILITYMANAGER:NIGHTCYCLE', 'GROUNDHEATTRANSFER:SLAB:BLDGPROPS', 'GENERATOR:MICROTURBINE', 'SHADING:BUILDING:DETAILED', 'EVAPORATIVECOOLER:INDIRECT:RESEARCHSPECIAL', 'ZONEHVAC:PACKAGEDTERMINALAIRCONDITIONER', 'CONSTRUCTION:WINDOWDATAFILE']
 
 
 -  The keys of **dt** are names of the objects (note that they are in
@@ -446,7 +447,7 @@ https://www.princeton.edu/~achaney/tmve/wiki100k/docs/Syntactic\_sugar.html
 within a programming language that is designed to make things easier to
 read or to express, while alternative ways of expressing them exist"*
 
-Wikwpedia article on `syntactic
+Wikipedia article on `syntactic
 sugar <http://en.wikipedia.org/wiki/Syntactic_sugar>`__
 
 **All the rest of the code in eppy is simply syntactic sugar over the
@@ -467,11 +468,10 @@ Bunch is a great library that subclasses dict. You can see it at:
 -  https://pypi.python.org/pypi/bunch/1.0.1
 -  https://github.com/dsc/bunch
 
-Below is a brief demo of how we will be using bunch
+Let us first take a look at a dict
 
 .. code:: python
 
-    from bunch import Bunch
     adict = {'a':1, 'b':2, 'c':3}
     adict
 
@@ -503,6 +503,7 @@ Bunch allows us to do this with a lot less typing
 
 .. code:: python
 
+    from bunch import Bunch
     bunchdict = Bunch(adict)
     print bunchdict
     print bunchdict.a
@@ -572,7 +573,7 @@ It is a little tricky tring to use bunch with airgap, because:
 
 So we do it in the following way:
 
--  we make a new dict, or rather a Bunch from the **airgap** list.
+-  we make a new Bunch from the **airgap** list.
 -  The Bunch is made by by doing airgap1 = Bunch( {"Name" : "F04 Wall
    air space resistance", "Thermal\_Resistance" : 0.15} )
 -  This will allow us to use the dot notation we see in bunch
@@ -607,3 +608,5 @@ subclassed dict just stops working, or does very strange things. So I
 built it in a carefull and incremental way, fully testing before
 subclassing again. Each subclass implements some functionality and the
 next one implements more.
+
+**EpBunch** is described in more detail in the next section
