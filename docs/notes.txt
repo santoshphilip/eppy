@@ -37,7 +37,7 @@ Steps for release
 - install from pypi in virtualenv. eplus_sphinx (or eppy_sphinx)
     - pip install --upgrade eppy 
     - this is needed so that code api is there
-- rebuild the documentation
+- rebuild the documentation (make html from ./docs)
 - upload documentation to pypi 
 python setup.py upload_docs --upload-dir=docs/generated
 -

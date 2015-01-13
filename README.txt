@@ -21,7 +21,7 @@ Here are some of the things you can do with eppy:
 - Find the energy use of all the models in a folder (or of models that were run after a certain date)
 
 You can install from :
-<https://pypi.python.org/pypi/eppy/0.4.6>
+<https://pypi.python.org/pypi/eppy/>
 
 The documentation is at:
 <http://pythonhosted.org//eppy/>
