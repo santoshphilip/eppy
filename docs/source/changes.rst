@@ -1,6 +1,12 @@
 Changes
 =======
 
+2015-01-06
+----------
+
+- Added a stubs folder with scripts that can be used as templates
+- Developer documentation has been completed
+
 2014-10-21
 ----------
 
