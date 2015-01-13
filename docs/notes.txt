@@ -1,3 +1,27 @@
+2015-01-13
+----------
+updated notes on publishing the documentation.
+
+1. main docs
+- ipython notebook to make the docs in ./docs
+- ipython nbconvert --to rst ../*.ipynb # run from ./docs/source
+- put the rst file names in index.rst
+
+2. developer docs
+- ipython notebook to make the docs in ./docs/source/dev_docs/
+- ipython nbconvert --to rst ./*.ipynb # run from ./docs/source/dev_docs/
+- put the rst file names in index.rst
+
+- set the correct version number in ./source/conf.py
+- make html # run from ./docs
+- correct any errors
+- git push to remote
+- goto <https://readthedocs.org/dashboard/> and build docs again
+
+notes on reducing rst errors from ipython notebook
+- instead of multiple lines do multiple paragraphs
+- indent raw text
+
 2014-02-11
 ----------
 Steps for release
