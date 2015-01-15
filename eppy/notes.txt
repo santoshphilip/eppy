@@ -1,3 +1,8 @@
+2015-01-14
+----------
+Check Alex Martelli's response in 
+<http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list>
+to understand how to use collections.MutableSequence
 2015-01-01
 ----------
 Need following people
