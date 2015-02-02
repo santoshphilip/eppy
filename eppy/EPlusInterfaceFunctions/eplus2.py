@@ -24,9 +24,10 @@
 # 
 # VERSION: 0.001
 
-import mylib1,mylib2,mylib3,string
+import mylib3
+import string
 
-class eplusdict:
+class eplusdict(object):
 	"""
 	use this when you want to use a dictionary
 	but want to maintain the order of the items.
@@ -67,7 +68,7 @@ class eplusdict:
 # 		self.adict[name]=content
 	
 	
-class ordereddict:
+class ordereddict(object):
 	"""
 	use this when you want to use a dictionary
 	but want to maintain the order of the items.
@@ -264,7 +265,7 @@ class eplusdict2(eplusdict1):
 		return bb
 
 
-class nocomment:
+class nocomment(object):
 	"""
 	strips the commentts form the energyplus file
 	"""
@@ -299,7 +300,7 @@ class nocomment:
 		mylib2.str2file(filename,`self`)
 
 
-class nocomment1:
+class nocomment1(object):
 	"""
 	strips the commentts form the energyplus file
 	"""
@@ -335,7 +336,7 @@ class nocomment1:
 		mylib2.str2file(filename,`self`)
 
 
-class parseidd:
+class parseidd(object):
 	"""
 	Complete parser for .idd file
 	works well

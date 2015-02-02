@@ -33,13 +33,11 @@ import sys
 import getopt
 import os
 import string
-import user
 import copy
 
 
 
-sys.path.append(user.home+'/Library/PythonFiles')
-import mylib1,mylib2,mylib3
+import mylib3
 
 
 
@@ -55,10 +53,11 @@ def removecomment(st,c):
         l=ls[i].split(c)
         ls[i]=l[0]
     
-    return string.join(ls,linesep)
+    # return string.join(ls,linesep)
+    return linesep.join(ls)
     
 
-class idd:
+class idd(object):
     def __init__(self,dictfile,version=2):
         if version==2:
             # version==2. This is a just a flag I am using
@@ -102,7 +101,7 @@ class idd:
 
 
 
-class eplusdata:
+class eplusdata(object):
 
     def __init__(self,dictfile=None,fname=None):
         if fname==None and dictfile==None:
@@ -118,9 +117,10 @@ class eplusdata:
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile,fnamefobject)
         from StringIO import StringIO
-        if isinstance(fname,(file, StringIO)) and isinstance(dictfile,str):
+        from io import FileIO
+        if isinstance(fname,(FileIO, StringIO)) and isinstance(dictfile,str):
             self.makedict(dictfile,fname)
-        if isinstance(fname,(file, StringIO)) and isinstance(dictfile,idd):
+        if isinstance(fname,(FileIO, StringIO)) and isinstance(dictfile,idd):
             self.makedict(dictfile,fname)
 
     def __repr__(self):
@@ -185,10 +185,12 @@ class eplusdata:
         fnamefobject.close()
         nocom=removecomment(st,'!')
         idfst=nocom
-        ls=string.split(idfst,';')
+        # ls=string.split(idfst,';')
+        ls = idfst.split(';')
         lss=[]
         for el in ls:
-            lst=string.split(el,',')
+            # lst=string.split(el,',')
+            lst = el.split(',')
             lss.append(lst)
         
         for i in range(0,len(lss)):

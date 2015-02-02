@@ -31,11 +31,9 @@ import sys
 import getopt
 import os
 import string
-import user
-
-sys.path.append(user.home+'/Library/PythonFiles')
-import mylib1,mylib2,mylib3
-import eplus2,time
+import mylib2, mylib3
+import eplus2
+import time
 
 import cPickle
 
@@ -65,13 +63,15 @@ def get_nocom_vars(st):
     nocom1=nocomment(st1,'\\')# remove '\' comments
     st1=nocom
     st2=nocom1
-    ls=string.split(st2,';')
+    # ls=string.split(st2,';')
+    ls = st2.split(';')
     lss=[]
     
     # break the .idd file into a nested list
     #=======================================
     for el in ls:
-        item=string.split(el,',')
+        # item=string.split(el,',')
+        item = el.split(',')
         lss.append(item)
     for i in range(0,len(lss)):
         for j in range(0,len(lss[i])):
@@ -108,7 +108,8 @@ def extractidddata(fname,debug=False):
     see what the change is
     """
     from StringIO import StringIO
-    if isinstance(fname, (file, StringIO)):
+    from io import FileIO
+    if isinstance(fname, (FileIO, StringIO)):
         st = fname.read()
     else:
         st=mylib2.readfile(fname)
@@ -303,7 +304,8 @@ def extractidddata(fname,debug=False):
             for el in it:
                 if len(el.split())==0:
                     break
-                dt[el.split()[0].lower()].append(string.join(el.split()[1:]))
+                # dt[el.split()[0].lower()].append(string.join(el.split()[1:]))
+                dt[el.split()[0].lower()].append(' '.join(el.split()[1:]))
                                 
             
             ls.append(dt)

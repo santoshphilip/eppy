@@ -679,5 +679,5 @@ BUILDING,
     6;                        !- Minimum Number of Warmup Days
 """
     assert prnt == result
-    print bunchobj.objidd
-    assert 1 == 0
+    # print bunchobj.objidd
+    # assert 1 == 0

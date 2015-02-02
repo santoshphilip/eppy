@@ -17,7 +17,8 @@
 
 """helper functions for the functions called by bunchdt"""
 import itertools
-import geometry.surface
+# import geometry
+from geometry import surface as g_surface
 
 def grouper(n, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
@@ -35,25 +36,25 @@ def getcoords(dt):
 def area(dt):
     """area of the surface"""
     coords = getcoords(dt)
-    return geometry.surface.area(coords)
+    return g_surface.area(coords)
     
 def height(dt):
     """height of the surface"""
     coords = getcoords(dt)
-    return geometry.surface.height(coords)
+    return g_surface.height(coords)
     
 def width(dt):
     """width of the surface"""
     coords = getcoords(dt)
-    return geometry.surface.width(coords)
+    return g_surface.width(coords)
     
 def azimuth(dt):
     """azimuth of the surface"""
     coords = getcoords(dt)
-    return geometry.surface.azimuth(coords)
+    return g_surface.azimuth(coords)
     
 def tilt(dt):
     """tilt of the surface"""
     coords = getcoords(dt)
-    return geometry.surface.tilt(coords)
+    return g_surface.tilt(coords)
     
