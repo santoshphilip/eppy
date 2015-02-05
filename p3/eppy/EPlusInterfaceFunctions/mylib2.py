@@ -35,7 +35,7 @@ def readfile(filename):
     f=open(filename,'rb')
     data=f.read()
     f.close()
-    return data
+    return data.decode()
 
 def printlist(ls):
     for n in range(0,len(ls)):

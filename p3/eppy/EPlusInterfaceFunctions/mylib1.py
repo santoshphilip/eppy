@@ -32,7 +32,7 @@ import string
 def writeStr2File(pathname,s):
 #	writes a string to file
 	fname=pathname
-	f=open(fname,'wb')
+	f=open(fname,'wt')
 	f.write(s)
 	f.close()
 	
@@ -41,5 +41,5 @@ def readfile(pathname):
 	f=open(pathname,'rb')
 	data=f.read()
 	f.close()	
-	return data
+	return data.decode()
 

@@ -25,7 +25,7 @@
 # VERSION: 0.004
 #last update 21 Apr 2004
 
-
+import pdb 
 #this is a test version ... not for real use
 #dammit i am using it
 
@@ -104,6 +104,7 @@ class idd(object):
 class eplusdata(object):
 
     def __init__(self,dictfile=None,fname=None):
+        # pdb.set_trace()
         if fname==None and dictfile==None:
             self.dt,self.dtls={},[]
         if isinstance(dictfile,str) and fname==None:
@@ -114,7 +115,7 @@ class eplusdata(object):
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile,fnamefobject)
         if isinstance(fname,str) and isinstance(dictfile,idd):
-            fnamefobject = open(fname, 'r')
+            fnamefobject = open(fname, 'r', encoding="ISO-8859-1")
             self.makedict(dictfile,fnamefobject)
         from io import StringIO
         from io import FileIO

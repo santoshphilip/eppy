@@ -27,11 +27,13 @@
 ## VERSION: 0.003
 ## Last updated 21 Apr 2004
 
+import pdb
+
 import sys
 import getopt
 import os
 import string
-from . import mylib2, mylib3
+from . import mylib1, mylib2, mylib3
 from . import eplus2
 import time
 
@@ -97,7 +99,7 @@ def removeblanklines(st):
     lss=[]
     for el in ls:
         ell=el.strip()
-        if ell!='':
+        if ell:
             lss.append(el)
     st1=linesep.join(lss)
     return st1
@@ -110,6 +112,8 @@ def extractidddata(fname,debug=False):
     Each text file is incrementally different. You can do a diff 
     see what the change is
     """
+    # pdb.set_trace()
+    # print(debug, fname)
     from io import StringIO
     from io import FileIO
     if isinstance(fname, (FileIO, StringIO)):
@@ -245,12 +249,12 @@ def extractidddata(fname,debug=False):
     
     if debug:
         fname='nocom8.txt'
-        f=open(fname,'wb')
+        f=open(fname,'wt')
         k=0
         for i in range(len(blocklst)):
             for j in range(len(blocklst[i])):
                 f.write(blocklst[i][j]+'\n')
-                f.write(lss[k])
+                # f.write(lss[k])
                 k=k+1
         
         f.close()
@@ -269,7 +273,7 @@ def extractidddata(fname,debug=False):
     
     if debug:
         fname='nocom9.txt'
-        f=open(fname,'wb')
+        f=open(fname,'wt')
         k=0
         for i in range(len(blocklst)):
             for j in range(len(blocklst[i])):
