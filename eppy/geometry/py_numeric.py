@@ -21,7 +21,7 @@
 # Succession Ecological Services: Portland, Oregon
 
 
-# Error object
+# Exception class
 class LinAlgError(Exception):
     """
     Generic Python-exception-derived object raised by linalg functions.
@@ -162,3 +162,7 @@ def vctr_dot(u, v):
     else:
             u_dot_v = 'ERROR'
     return u_dot_v
+
+
+    def vctr_det(u, v, w):
+        return

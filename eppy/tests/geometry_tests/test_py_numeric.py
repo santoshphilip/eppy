@@ -111,3 +111,15 @@ def test_mdim_dot():
     z = py_numeric.vctr_dot(x, y)
 
     assert z == 'ERROR'
+
+
+def test_vctr_det():
+    """test calculation of the determinant of a three dimentional"""
+
+    # Three dim determinant
+    x = [1, 2, 3]
+    y = [4, 5, 6]
+    z = [7, 8, 9]
+    a = py_numeric.vctr_det(x, y)
+
+    assert a == 6.6613e-16
