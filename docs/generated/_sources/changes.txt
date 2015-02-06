@@ -1,10 +1,24 @@
 Changes
 =======
 
-2014-10-04
+release r0.464a
+~~~~~~~~~~~~~~~
+
+2015-01-13
 ----------
 
-- There is a developer documentation section in the documentation. This is for people who will be working on the code
+r0.464a released on 2015-01-13. This in alpha release of this version. There may be minor updates after review from users.
+
+2015-01-06
+----------
+
+- Developer documentation has been completed
+- Added a stubs folder with scripts that can be used as templates
+
+2014-10-21
+----------
+
+- fixed a bug in script eppy/useful_scripts/loopdiagram.py
 
 2014-09-01
 ----------
@@ -29,20 +43,20 @@ Changes
       
 - fixed a bug in hvacbuilder.makeplantloop and hvacbuilder.makecondenserloop
 
-2014-08-21
-----------
-
 release r0.463
 ~~~~~~~~~~~~~~
+
+2014-08-21
+----------
 
 - added eppy/useful_scripts/eppy_version.py
 - updated documentation to match
 
-2014-08-19
-----------
-
 release r0.462
 ~~~~~~~~~~~~~~
+
+2014-08-19
+----------
 
 - added a script that can compare two idf files. It is documented in "Useful Scripts". The script is in 
     - eppy/usefull_scripts/idfdiff.py

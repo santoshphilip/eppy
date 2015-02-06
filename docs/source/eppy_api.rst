@@ -12,4 +12,7 @@ Eppy API
 .. autoclass:: IDF
    :members:
 
+.. automodule:: eppy.bunch_subclass
 
+.. autoclass:: EpBunch_1
+   :members:
