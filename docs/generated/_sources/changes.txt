@@ -1,20 +1,62 @@
 Changes
 =======
 
-2014-08-21
+release r0.464a
+~~~~~~~~~~~~~~~
+
+2015-01-13
 ----------
+
+r0.464a released on 2015-01-13. This in alpha release of this version. There may be minor updates after review from users.
+
+2015-01-06
+----------
+
+- Developer documentation has been completed
+- Added a stubs folder with scripts that can be used as templates
+
+2014-10-21
+----------
+
+- fixed a bug in script eppy/useful_scripts/loopdiagram.py
+
+2014-09-01
+----------
+
+- added a script eppy/useful_scripts/loopdiagram.py::
+
+    python loopdiagram.py --help
+    
+    usage: loopdiagram.py [-h] idd file
+
+    draw all the  loops in the idf file
+    There are two output files saved in the same location as the idf file:
+    - idf_file_location/idf_filename.dot
+    - idf_file_location/idf_filename.png
+
+    positional arguments:
+      idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+      file        location of idf file = ./somewhere/f1.idf
+
+    optional arguments:
+      -h, --help  show this help message and exit
+      
+- fixed a bug in hvacbuilder.makeplantloop and hvacbuilder.makecondenserloop
 
 release r0.463
 ~~~~~~~~~~~~~~
 
+2014-08-21
+----------
+
 - added eppy/useful_scripts/eppy_version.py
 - updated documentation to match
 
-2014-08-19
-----------
-
 release r0.462
 ~~~~~~~~~~~~~~
+
+2014-08-19
+----------
 
 - added a script that can compare two idf files. It is documented in "Useful Scripts". The script is in 
     - eppy/usefull_scripts/idfdiff.py

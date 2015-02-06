@@ -1,0 +1,1 @@
+opendiff a_branch$1.idf a_branch$2.idf 

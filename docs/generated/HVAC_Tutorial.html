@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>HVAC Loops &mdash; eppy 0.4.6.3 documentation</title>
+    <title>HVAC Loops &mdash; eppy 0.4.6.4a documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.3',
+        VERSION:     '0.4.6.4a',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.3 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.4.6.4a documentation" href="index.html" />
     <link rel="next" title="Reading outputs from E+" href="Outputs_Tutorial.html" />
     <link rel="prev" title="Eppy Tutorial" href="Main_Tutorial.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -177,14 +177,11 @@ be replaced with a more complex branch.</p>
 </div>
 <div class="section" id="diagram-of-the-loop">
 <h3>Diagram of the loop<a class="headerlink" href="#diagram-of-the-loop" title="Permalink to this headline">¶</a></h3>
-<p>Eppy has a function that can draw the loops. We&#8217;ll use this to view the
-loop diagram.</p>
-<p>run the following program in the shell. (you have to run it from the
-eppy/eppy folder)</p>
-<p># usage:
-# python ex_loopdiagram.py iddfile idffile
-python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf</p>
-<p>This will output a image by name hhh1.png. This image is shown below.</p>
+<p>Let us use the script &#8220;eppy/useful_scripts/loopdiagrams.py&#8221; to draw
+this diagram</p>
+<p>See <a class="reference external" href="useful_scripts.html#loopdiagram-py">Generating a Loop Diagram</a>
+page for details on how to do this</p>
+<p>Below is the diagram for this simple loop</p>
 <p><em>Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity</em></p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
@@ -469,7 +466,7 @@ using the functions next() and prev()</p>
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.3 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
