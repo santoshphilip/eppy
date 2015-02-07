@@ -2,7 +2,7 @@ Numpy functions to be recreated in Python
 
 1. [x] Cross product
 2. [x] Dot product
-3. [ ] Determinant
+3. [x] Determinant
 4. [ ] Array
 5. [ ] Square root
 6. [ ] Arc-cosine
