@@ -117,9 +117,10 @@ def test_vctr_det():
     """test calculation of the determinant of a three dimentional"""
 
     # Three dim determinant
-    x = [1, 2, 3]
-    y = [4, 5, 6]
-    z = [7, 8, 9]
-    a = py_numeric.vctr_det(x, y)
+    # 
+    x = [5, -2, 1]
+    y = [0, 3, -1]
+    z = [2, 0, 7]
+    a = py_numeric.vctr_det(x, y, z)
 
-    assert a == 6.6613e-16
+    assert a == 103
