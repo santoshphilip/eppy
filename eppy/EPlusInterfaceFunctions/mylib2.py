@@ -34,6 +34,7 @@ ret='\r\n'
 def readfile(filename):
     f=open(filename,'rb')
     data=f.read()
+    data = data.decode('utf-8')
     f.close()
     return data
 

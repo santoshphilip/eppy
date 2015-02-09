@@ -30,16 +30,18 @@ import string
 
 
 def writeStr2File(pathname,s):
-#	writes a string to file
-	fname=pathname
-	f=open(fname,'wb')
-	f.write(s)
-	f.close()
-	
+#   writes a string to file
+    fname=pathname
+    f=open(fname,'wb')
+    s = s.encode()
+    f.write(s)
+    f.close()
+    
 def readfile(pathname):
-#	retrun the data in the file
-	f=open(pathname,'rb')
-	data=f.read()
-	f.close()	
-	return data
+#   retrun the data in the file
+    f=open(pathname,'rb')
+    data=f.read()
+    data = data.decode()
+    f.close()   
+    return data
 

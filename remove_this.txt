@@ -1,0 +1,10 @@
+file reads are in:
+- parse_idd.py
+- eplusdata.py
+- mylib1.py
+- mylib2.py
+- simpleread.py
+
+files writes are in:
+- mylib1
+- parse_idd.py

@@ -182,6 +182,7 @@ class eplusdata(object):
             dt,dtls=self.initdict(dictfile)
         # st=mylib2.readfile(fname)
         st = fnamefobject.read()
+        st = st.decode()
         fnamefobject.close()
         nocom=removecomment(st,'!')
         idfst=nocom
