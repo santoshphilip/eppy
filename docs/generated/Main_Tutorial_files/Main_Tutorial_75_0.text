@@ -1,9 +1,0 @@
-
-Material,                 
-    I01 25mm insulation board,    !- Name
-    MediumRough,              !- Roughness
-    0.0254,                   !- Thickness
-    0.03,                     !- Conductivity
-    43.0,                     !- Density
-    1210.0;                   !- Specific Heat
-

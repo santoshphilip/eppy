@@ -1,9 +1,0 @@
-key = BUILDING #-in range
-Name = Empire State Building #-in range
-North_Axis = 30.0 #-in range
-Terrain = City #-in range
-Loads_Convergence_Tolerance_Value = 0.6 #-****OUT OF RANGE****
-Temperature_Convergence_Tolerance_Value = 0.4 #-in range
-Solar_Distribution = FullExterior #-in range
-Maximum_Number_of_Warmup_Days = 25 #-in range
-Minimum_Number_of_Warmup_Days = 6 #-in range
