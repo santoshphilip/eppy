@@ -138,7 +138,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         first_i = i + 1
 
         newfields = []
-        for i in range(1, len(comm[first_i:]) / len(repnames) + 1):
+        for i in range(1, len(comm[first_i:]) // len(repnames) + 1):
             for fcomment in fcomments:
                 nfcomment = dict(fcomment)
                 fld = nfcomment['field'][0]

@@ -111,7 +111,7 @@ def extractidddata(fname,debug=False):
     from io import FileIO
     if isinstance(fname, (FileIO, StringIO)):
         st = fname.read()
-        st = st.decode()
+        st = st.decode('ISO-8859-2')
     else:
         st=mylib2.readfile(fname)
     (nocom,nocom1,blocklst)=get_nocom_vars(st)
@@ -248,10 +248,8 @@ def extractidddata(fname,debug=False):
         for i in range(len(blocklst)):
             for j in range(len(blocklst[i])):
                 atxt = blocklst[i][j]+'\n'
-                atxt.encode()
                 f.write(atxt)
                 atxt = lss[k]
-                atxt = atxt.encode()
                 f.write(atxt)
                 k=k+1
         
@@ -276,8 +274,8 @@ def extractidddata(fname,debug=False):
         for i in range(len(blocklst)):
             for j in range(len(blocklst[i])):
                 atxt = blocklst[i][j]+'\n'
-                f.write(atxt.encode())
-                f.write(lst[i][j].encode())
+                f.write(atxt)
+                f.write(lst[i][j])
                 k=k+1
         
         f.close()

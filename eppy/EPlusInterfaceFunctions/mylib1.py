@@ -33,7 +33,6 @@ def writeStr2File(pathname,s):
 #   writes a string to file
     fname=pathname
     f=open(fname,'wb')
-    s = s.encode()
     f.write(s)
     f.close()
     
@@ -41,7 +40,7 @@ def readfile(pathname):
 #   retrun the data in the file
     f=open(pathname,'rb')
     data=f.read()
-    data = data.decode()
+    data = data.decode('ISO-8859-2')
     f.close()   
     return data
 

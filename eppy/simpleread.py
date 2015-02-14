@@ -57,7 +57,7 @@ def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
     # - 
     # do a simple read
     simpletxt = idfhandle2.read()
-    simpletxt = simpletxt.decode()
+    simpletxt = simpletxt.decode('ISO-8859-2')
     simpletxt = idf2txt(simpletxt)
     # - 
     if save:
