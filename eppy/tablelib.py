@@ -67,7 +67,7 @@ def table2matrix(table):
 
 def equal_matrixsize(mat1, mat2):
     """return true if the mat1 and mat2 have same configuration of cells"""
-    if mat1 == mat2: 
+    if mat1 == mat2:
         return True
     if len(mat1) == len(mat2):
         for i in range(len(mat1)):

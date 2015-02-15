@@ -24,6 +24,10 @@
 # 
 # VERSION: 0.001
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 
 import string
@@ -32,14 +36,14 @@ import string
 def writeStr2File(pathname,s):
 #   writes a string to file
     fname=pathname
-    f=open(fname,'wb')
+    f = open(fname,'wb')
     f.write(s)
     f.close()
     
 def readfile(pathname):
 #   retrun the data in the file
-    f=open(pathname,'rb')
-    data=f.read()
+    f = open(pathname,'rb')
+    data = f.read()
     data = data.decode('ISO-8859-2')
     f.close()   
     return data
