@@ -20,6 +20,11 @@ With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 # see iddgaps6.py on usage
 # TODO : need unit tests for all htese functions
 
@@ -37,20 +42,19 @@ see: SCHEDULE:DAY:LIST as an example"""
 # / field varB 2
 # / field varC 2
 # / above pattern continues
-# - 
+#
 # find objects where the fields are not named
 # do the following only for those objects
 # find the first field that has an integer. This is a repeating field
 # gather the repeating field names (without the integer)
 # generate all the repeating fields for all variables
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
-
-import sys
-from pprint import pprint
-from EPlusInterfaceFunctions import readidf
-
-import bunchhelpers
+import eppy.bunchhelpers as bunchhelpers
 
 def cleaniddfield(acomm):
     """make all the keys lower case"""
@@ -62,11 +66,11 @@ def cleaniddfield(acomm):
         if key != key.lower():
             acomm.pop(key)
     return acomm
-    
+
 def cleancommdct(commdct):
     """make all keys in commdct lower case"""
-    return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]    
-    
+    return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
+
 def getfields(comm):
     """get all the fields that have the key 'field' """
     fields = []
@@ -74,7 +78,7 @@ def getfields(comm):
         if field.has_key('field'):
             fields.append(field)
     return fields
-    
+
 def repeatingfieldsnames(fields):
     """get the names of the repeating fields"""
     fnames = [field['field'][0] for field in fields]
@@ -84,7 +88,6 @@ def repeatingfieldsnames(fields):
     dct = dict(fnames)
     repnames = fnames[:len(dct.keys())]
     return repnames
-    
 
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
 def missingkeys_standard(commdct, dtls, skiplist=None):
@@ -109,29 +112,31 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
 
         # get all fields
         fields = getfields(comm)
-    
+
         # get repeating field names
         repnames = repeatingfieldsnames(fields)
-    
+
         try:
             first = repnames[0][0] % (1, )
-        except IndexError, e:
+        except IndexError, err:
             nofirstfields.append(key_txt)
             continue
         # print first
 
         # get all comments of the first repeating field names
         firstnames = [repname[0] % (1, ) for repname in repnames]
-        fcomments = [field for field in fields if bunchhelpers.onlylegalchar(field['field'][0]) in firstnames]
+        fcomments = [field for field in fields
+                     if bunchhelpers.onlylegalchar(field['field'][0])
+                     in firstnames]
         fcomments = [dict(fcomment) for fcomment in fcomments]
-        for cm in fcomments:
-            fld = cm['field'][0]
+        for cmt in fcomments:
+            fld = cmt['field'][0]
             fld = bunchhelpers.onlylegalchar(fld)
             fld = bunchhelpers.replaceint(fld)
-            cm['field'] = [fld]
+            cmt['field'] = [fld]
 
-        for i, cm in enumerate(comm[1:]):
-            thefield = cm['field'][0]
+        for i, cmt in enumerate(comm[1:]):
+            thefield = cmt['field'][0]
             thefield = bunchhelpers.onlylegalchar(thefield)
             if thefield == first:
                 break
@@ -146,7 +151,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
                 nfcomment['field'] = [fld]
                 newfields.append(nfcomment)
 
-        for i, cm in enumerate(comm):
+        for i, cmt in enumerate(comm):
             if i < first_i:
                 continue
             else:
@@ -156,16 +161,16 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
     return nofirstfields
 
 def missingkeys_nonstandard(commdct, dtls, objectlist, afield='afiled %s'):
-    """This is an object list where thre is no first field name 
+    """This is an object list where thre is no first field name
     to give a hint of what the first field name should be"""
     afield = 'afield %s'
     for key_txt in objectlist:
         key_i = dtls.index(key_txt.upper())
         comm = commdct[key_i]
-        for i, cm in enumerate(comm):
-            if cm == {}:
+        for i, cmt in enumerate(comm):
+            if cmt == {}:
                 first_i = i
                 break
-        for i, cm in enumerate(comm):
+        for i, cmt in enumerate(comm):
             if i >= first_i:
                 comm[i]['field'] = afield % (i - first_i +1,)

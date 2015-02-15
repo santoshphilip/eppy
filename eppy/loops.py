@@ -23,17 +23,18 @@ uses the following objects
 ['plantloop', ]
 """
 
-import sys
-# sys.path.append('../EPlusInputcode')
-from EPlusInterfaceFunctions import readidf
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 def extractfields(data, commdct, objkey, fieldlists):
-    """get all the objects of objkey. 
+    """get all the objects of objkey.
     fieldlists will have a fieldlist for each of those objects.
     return the contents of those fields"""
-    # TODO : this assumes that the field list identical for 
-    # each instance of the object. This is not true. 
-    # So we should have a field list for each instance of the object 
+    # TODO : this assumes that the field list identical for
+    # each instance of the object. This is not true.
+    # So we should have a field list for each instance of the object
     # and map them with a zip
     objindex = data.dtls.index(objkey)
     objcomm = commdct[objindex]
@@ -43,7 +44,7 @@ def extractfields(data, commdct, objkey, fieldlists):
         try:
             thefieldcomms = dct['field']
             objfields.append(thefieldcomms[0])
-        except KeyError, e:
+        except KeyError, err:
             objfields.append(None)
     fieldindexes = []
     for fieldlist in fieldlists:
@@ -62,7 +63,7 @@ def extractfields(data, commdct, objkey, fieldlists):
         for item in fieldindex:
             try:
                 innerlst.append(theobject[item])
-            except IndexError, e:
+            except IndexError, err:
                 break
         fieldcontents.append(innerlst)
         # fieldcontents.append([theobject[item] for item in fieldindex])
@@ -72,20 +73,21 @@ def plantloopfieldlists(data):
     """return the plantloopfield list"""
     objkey = 'plantloop'.upper()
     numobjects = len(data.dt[objkey])
-    return [['Name',
-       'Plant Side Inlet Node Name',
-       'Plant Side Outlet Node Name',
-       'Plant Side Branch List Name',
-       'Demand Side Inlet Node Name',
-       'Demand Side Outlet Node Name',
-       'Demand Side Branch List Name']] * numobjects
-    
+    return [[
+        'Name',
+        'Plant Side Inlet Node Name',
+        'Plant Side Outlet Node Name',
+        'Plant Side Branch List Name',
+        'Demand Side Inlet Node Name',
+        'Demand Side Outlet Node Name',
+        'Demand Side Branch List Name']] * numobjects
+
 def plantloopfields(data, commdct):
     """get plantloop fields to diagram it"""
     fieldlists = plantloopfieldlists(data)
     objkey = 'plantloop'.upper()
     return extractfields(data, commdct, objkey, fieldlists)
-    
+
 def branchlist2branches(data, commdct, branchlist):
     """get branches from the branchlist"""
     objkey = 'BranchList'.upper()
@@ -95,10 +97,10 @@ def branchlist2branches(data, commdct, branchlist):
     for theobject in theobjects:
         fieldlists.append(range(2, len(theobject)))
     blists = extractfields(data, commdct, objkey, fieldlists)
-    thebranches = [branches for name, branches in zip(objnames, 
-                                        blists) if name == branchlist]
+    thebranches = [branches for name, branches in zip(objnames, blists)
+                   if name == branchlist]
     return thebranches[0]
-    
+
 def branch_inlet_outlet(data, commdct, branchname):
     """return the inlet and outlet of a branch"""
     objkey = 'Branch'.upper()
@@ -108,7 +110,7 @@ def branch_inlet_outlet(data, commdct, branchname):
     inletindex = 6
     outletindex = len(theobject) - 2
     return [theobject[inletindex], theobject[outletindex]]
-    
+
 def splittermixerfieldlists(data, commdct, objkey):
     """docstring for splittermixerfieldlists"""
     objkey = objkey.upper()
@@ -117,7 +119,7 @@ def splittermixerfieldlists(data, commdct, objkey):
     theobjects = data.dt[objkey]
     fieldlists = []
     for theobject in theobjects:
-        fieldlist = range(1,len(theobject))
+        fieldlist = range(1, len(theobject))
         fieldlists.append(fieldlist)
     return fieldlists
 
@@ -133,7 +135,7 @@ def mixerfields(data, commdct):
     fieldlists = splittermixerfieldlists(data, commdct, objkey)
     return extractfields(data, commdct, objkey, fieldlists)
 
-        
+
 def repeatingfields(theidd, commdct, objkey, flds):
     """return a list of repeating fields
     fld is in format 'Component %s Name'
@@ -154,7 +156,7 @@ def repeatingfields(theidd, commdct, objkey, flds):
                 if objcomm[i]['field'][0] == thefield:
                     thefields.append(thefield)
                     indx = indx + 1
-            except KeyError, e:
+            except KeyError, err:
                 pass
         allfields.append(thefields)
     allfields = zip(*allfields)
@@ -169,14 +171,14 @@ def getfieldindex(data, commdct, objkey, fname):
     """given objkey and fieldname, return its index"""
     objindex = data.dtls.index(objkey)
     objcomm = commdct[objindex]
-    for i, item in enumerate(objcomm): 
+    for i_index, item in enumerate(objcomm):
         try:
             if item['field'] == [fname]:
                 break
-        except KeyError, e:
+        except KeyError, err:
             pass
-    return i
-    
+    return i_index
+
 def getadistus(data, commdct):
     """docstring for fname"""
     objkey = "ZoneHVAC:AirDistributionUnit".upper()
@@ -202,7 +204,7 @@ def makeadistu_inlets(data, commdct):
             try:
                 if comm['field'][0].find(airinletnode) != -1:
                     airinlets.append(comm['field'][0])
-            except KeyError, e:
+            except KeyError, err:
                 pass
         adistu_inlets[adistu] = airinlets
     return adistu_inlets

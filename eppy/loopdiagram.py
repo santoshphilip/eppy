@@ -16,30 +16,30 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """draw plant and air loop
+
+
 s_plantloop5.py + s_airloop2.py
 removed arrow between demand and supply
 has main with arguments"""
 # copy of s_airplantloop1.py
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import pydot
 import sys
 import os
 import getopt
 # sys.path.append('../EPlusInputcode')
-from EPlusInterfaceFunctions import readidf
-import loops
-
-help_message = '''
-The help message goes here.
-'''
+from eppy.EPlusInterfaceFunctions import readidf
+import eppy.loops as loops
 
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
-
-
-
 
 def firstisnode(edge):
     if type(edge[0]) == tuple:
@@ -58,7 +58,7 @@ def bothnodes(edge):
         return True
     else:
         return False
-    
+
 def dropnodes(edges):
     """draw a graph without the nodes"""
     newedges = []
@@ -74,7 +74,7 @@ def dropnodes(edges):
                     newtup = (edge1[0], edge[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, e:
+                    except ValueError, err:
                         newedges.append(newtup)
                     added = True
         elif secondisnode(edge):
@@ -83,7 +83,7 @@ def dropnodes(edges):
                     newtup = (edge[0], edge1[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, e:
+                    except ValueError, err:
                         newedges.append(newtup)
                     added = True
         # gets the hanging nodes - nodes with no connection
@@ -94,53 +94,59 @@ def dropnodes(edges):
                 newedges.append((edge[0], edge[1][0]))
         added = False
     return newedges
-    
-    
+
+
 def test_dropnodes():
     """py.test for dropnodes"""
     # test 1
     node = "node"
-    (a,b,c,d,e,f,g,h,i) = (('a', node),'b',('c', node),'d',
-        ('e', node),'f',('g', node),'h',('i', node))
-    edges = [(a, b),
-    (b, c),
-    (c, d),
-    (d, e),
-    (e, f),
-    (f, g),
-    (g, h),
-    (h, i),]
+    (a, b, c, d, e, f, g, h, i) = (
+        ('a', node), 'b', ('c', node), 'd',
+        ('e', node), 'f', ('g', node), 'h', ('i', node))
+    edges = [
+        (a, b),
+        (b, c),
+        (c, d),
+        (d, e),
+        (e, f),
+        (f, g),
+        (g, h),
+        (h, i),]
     theresult = [('a', 'b'), ('b', 'd'), ('d', 'f'), ('f', 'h'), ('h', 'i')]
     result = dropnodes(edges)
     assert result == theresult
     # test 2
-    (a,b,c,d,e,f,g,h,i,j) = (('a', node),'b',('c', node),
-        ('d', node),'e','f',('g', node),('h', node),'i',('j', node))
-    edges = [(a, b),
-    (b, c),
-    (c, e),
-    (e, g),
-    (g, i),
-    (i, j),
-    (b, d),
-    (d, f),
-    (f, h),
-    (h, i),]
-    theresult = [('a', 'b'), ('b', 'e'), ('e', 'i'), ('i', 'j'), 
-            ('b', 'f'), ('f', 'i')]
+    (a, b, c, d, e, f, g, h, i, j) = (
+        ('a', node), 'b', ('c', node),
+        ('d', node), 'e', 'f', ('g', node), ('h', node), 'i', ('j', node))
+    edges = [
+        (a, b),
+        (b, c),
+        (c, e),
+        (e, g),
+        (g, i),
+        (i, j),
+        (b, d),
+        (d, f),
+        (f, h),
+        (h, i),]
+    theresult = [
+        ('a', 'b'), ('b', 'e'), ('e', 'i'), ('i', 'j'),
+        ('b', 'f'), ('f', 'i')]
     result = dropnodes(edges)
     assert result == theresult
-    
+
 def makeanode(name):
     return pydot.Node(name, shape="plaintext", label=name)
-    
+
 def makeabranch(name):
     return pydot.Node(name, shape="box3d", label=name)
 
 def makeendnode(name):
-    return pydot.Node(name, shape="doubleoctagon", label=name, 
+    return pydot.Node(
+        name, shape="doubleoctagon", label=name,
         style="filled", fillcolor="#e4e4e4")
-    
+
 def istuple(x):
     return type(x) == tuple
 
@@ -162,25 +168,27 @@ def edges2nodes(edges):
     justnodes = nodedict.keys()
     justnodes.sort()
     return justnodes
-    
+
 def test_edges2nodes():
     """py.test for edges2nodes"""
     thedata = (([("a", "b"), ("b", "c"), ("c", "d")],
-    ["a", "b", "c", "d"]), # edges, nodes
-    )
+                ["a", "b", "c", "d"]), # edges, nodes
+              )
     for edges, nodes in thedata:
-        result = edges2nodes(edges)   
+        result = edges2nodes(edges)
         assert result == nodes
-        
+
 
 def makediagram(edges):
     """make the diagram with the edges"""
     graph = pydot.Dot(graph_type='digraph')
     nodes = edges2nodes(edges)
-    epnodes = [(node, 
-        makeanode(node[0])) for node in nodes if nodetype(node)=="epnode"]
-    endnodes = [(node, 
-        makeendnode(node[0])) for node in nodes if nodetype(node)=="EndNode"]
+    epnodes = [(
+        node,
+        makeanode(node[0])) for node in nodes if nodetype(node) == "epnode"]
+    endnodes = [(
+        node,
+        makeendnode(node[0])) for node in nodes if nodetype(node) == "EndNode"]
     epbr = [(node, makeabranch(node)) for node in nodes if not istuple(node)]
     nodedict = dict(epnodes + epbr + endnodes)
     for value in nodedict.values():
@@ -207,7 +215,7 @@ def transpose2d(mtx):
         for j in range(len(mtx[i])):
             trmtx[j].append(mtx[i][j])
     return trmtx
-##   -------------------------    
+##   -------------------------
 ##    from python cookbook 2nd edition page 162
     # map(mtx, zip(*arr))
 
@@ -225,11 +233,14 @@ def makebranchcomponents(data, commdct, anode="epnode"):
     inletfields = loops.repeatingfields(data, commdct, objkey, inletfield)
     outletfields = loops.repeatingfields(data, commdct, objkey, outletfield)
 
-    inlts = loops.extractfields(data, commdct, 
+    inlts = loops.extractfields(
+        data, commdct,
         objkey, [inletfields] * numobjects)
-    cmps = loops.extractfields(data, commdct, 
+    cmps = loops.extractfields(
+        data, commdct,
         objkey, [cnamefields] * numobjects)
-    otlts = loops.extractfields(data, commdct, 
+    otlts = loops.extractfields(
+        data, commdct,
         objkey, [outletfields] * numobjects)
 
     zipped = zip(inlts, cmps, otlts)
@@ -257,19 +268,19 @@ def makeairplantloop(data, commdct):
     #     outlet1
     #     outlet2
     splitters = loops.splitterfields(data, commdct)
-    #     
+    #
     # mixer
     #     outlet
     #     inlet1
     #     inlet2
 
     mixers = loops.mixerfields(data, commdct)
-    #     
+    #
     # supply barnchlist
     #     branch1 -> inlet, outlet
     #     branch2 -> inlet, outlet
     #     branch3 -> inlet, outlet
-    #         
+    #
     # CONNET INLET OUTLETS
     edges = []
 
@@ -294,7 +305,7 @@ def makeairplantloop(data, commdct):
     for splitter in splitters:
         # splitter_inlet = inletbranch.node
         splittername = splitter[0]
-        inletbranchname = splitter[1] 
+        inletbranchname = splitter[1]
         splitter_inlet = branch_i_o[inletbranchname]["outlet"]
         # edges = splitter_inlet -> splittername
         edges.append(((splitter_inlet, anode), splittername))
@@ -302,14 +313,15 @@ def makeairplantloop(data, commdct):
         outletbranchnames = [br for br in splitter[2:]]
         splitter_outlets = [branch_i_o[br]["inlet"] for br in outletbranchnames]
         # edges = [splittername -> outlet for outlet in splitter_outlets]
-        moreedges = [(splittername, 
-                            (outlet, anode)) for outlet in splitter_outlets]
+        moreedges = [(
+            splittername,
+            (outlet, anode)) for outlet in splitter_outlets]
         edges = edges + moreedges
 
     for mixer in mixers:
         # mixer_outlet = outletbranch.node
         mixername = mixer[0]
-        outletbranchname = mixer[1] 
+        outletbranchname = mixer[1]
         mixer_outlet = branch_i_o[outletbranchname]["inlet"]
         # edges = mixername -> mixer_outlet
         edges.append((mixername, (mixer_outlet, anode)))
@@ -327,17 +339,18 @@ def makeairplantloop(data, commdct):
     #     demandinlet = plantloop[4]
     #     demandoutlet = plantloop[5]
     #     # edges = [supplyoutlet -> demandinlet, demandoutlet -> supplyinlet]
-    #     moreedges = [((supplyoutlet, endnode), (demandinlet, endnode)), 
+    #     moreedges = [((supplyoutlet, endnode), (demandinlet, endnode)),
     #         ((demandoutlet, endnode), (supplyinlet, endnode))]
     #     edges = edges + moreedges
-    #     
+    #
     # -----------air loop stuff----------------------
     # from s_airloop2.py
     # Get the demand and supply nodes from 'airloophvac'
     # in airloophvac get:
     #   get branch, supplyinlet, supplyoutlet, demandinlet, demandoutlet
     objkey = "airloophvac".upper()
-    fieldlists = [["Branch List Name",
+    fieldlists = [[
+        "Branch List Name",
         "Supply Side Inlet Node Name",
         "Demand Side Outlet Node Name",
         "Demand Side Inlet Node Names",
@@ -390,7 +403,8 @@ def makeairplantloop(data, commdct):
     # in ZoneHVAC:EquipmentConnections:
     #   get Name, equiplist, zoneairnode, returnnode
     objkey = "ZoneHVAC:EquipmentConnections".upper()
-    singlefields = ["Zone Name", "Zone Conditioning Equipment List Name", 
+    singlefields = [
+        "Zone Name", "Zone Conditioning Equipment List Name",
         "Zone Air Node Name", "Zone Return Air Node Name"]
     repeatfields = []
     fieldlist = singlefields + repeatfields
@@ -410,8 +424,8 @@ def makeairplantloop(data, commdct):
     for key, equips in equiplistdct.items():
         enames = [equips[i] for i in range(1, len(equips), 2)]
         equiplistdct[key] = enames
-    # adistuunit -> room    
-    # adistuunit <- VAVreheat 
+    # adistuunit -> room
+    # adistuunit <- VAVreheat
     # airinlet -> VAVreheat
     # in ZoneHVAC:AirDistributionUnit:
     #   get Name, equiplist, zoneairnode, returnnode
@@ -505,7 +519,7 @@ def makeairplantloop(data, commdct):
         zonename = equipconnection[0]
         returnnode = equipconnection[-1]
         edges.append((zonename, (returnnode, anode)))
-    
+
     # connect equips to room
     for equipconnection in equipconnections:
         zonename = equipconnection[0]
@@ -513,7 +527,7 @@ def makeairplantloop(data, commdct):
         for zequip in equiplistdct[zequiplistname]:
             edges.append((zequip, zonename))
 
-    # adistuunit <- adistu_component 
+    # adistuunit <- adistu_component
     for adistuunit in adistuunits:
         unitname = adistuunit[0]
         compname = adistuunit[2]
@@ -529,11 +543,11 @@ def makeairplantloop(data, commdct):
     # supplyairnode -> uncontrolled
     for uncontrolled in uncontrolleds:
         name = uncontrolled[0]
-        airnode = uncontrolled[1]            
+        airnode = uncontrolled[1]
         edges.append(((airnode, anode), name))
-                
 
-    # edges = edges + moreedges    
+
+    # edges = edges + moreedges
     return edges
 
 
@@ -549,7 +563,7 @@ def main(argv=None):
             opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
         except getopt.error, msg:
             raise Usage(msg)
-    
+
         # option processing
         for option, value in opts:
             if option == "-v":
@@ -558,26 +572,24 @@ def main(argv=None):
                 raise Usage(help_message)
             if option in ("-o", "--output"):
                 output = value
-                
-        iddfile = "../iddfiles/Energy+V6_0.idd"
+
+        iddfile = "./resources/iddfiles/Energy+V6_0.idd"
         fname = args[0]
-        iddfile = "../iddfiles/Energy+V6_0.idd"
-        print "readingfile"
+        print("readingfile")
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-        print "constructing the loops"
+        print("constructing the loops")
         edges = makeairplantloop(data, commdct)
-        print edges
-        print "making the diagram"
+        print(edges)
+        print("making the diagram")
         g = makediagram(edges)
         dotname = '%s.dot' % (os.path.splitext(fname)[0])
         pngname = '%s.png' % (os.path.splitext(fname)[0])
         g.write(dotname)
         g.write_png(pngname)
     except Usage, err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
-        print >> sys.stderr, "\t for help use --help"
+        sys.stderr.write()(sys.argv[0].split("/")[-1] + ": " + str(err.msg))
+        sys.stderr.write()("\t for help use --help")
         return 2
-
 
 if __name__ == "__main__":
     sys.exit(main())
