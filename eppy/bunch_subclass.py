@@ -17,25 +17,29 @@
 
 
 """sub class bunch in steps going from data, aliases, functions"""
-# TODO : go thru with a fine tooth comb. make unit tests
+
+from __future__ import absolute_import
+from __future__ import print_function
 
 import sys
 import copy
-from EPlusInterfaceFunctions import readidf
-from bunch import *
-import bunchhelpers
+from eppy.EPlusInterfaceFunctions import readidf
+from bunch import Bunch
+import eppy.bunchhelpers
 
 class BadEPFieldError(Exception):
+    """an exception"""
     pass
 
 class RangeError(Exception):
+    """an Exception"""
     pass
-    
+
 
 def somevalues(dt):
     """returns some values"""
     return dt.Name, dt.Construction_Name, dt.obj
-    
+
 def extendlist(lst, i, value=''):
     """extend the list so that you have i-th value"""
     if i < len(lst):
@@ -86,8 +90,8 @@ class EpBunch_1(Bunch):
         lines[-1] = '    %s;' % (lines[-1], )# ';' after last line
         lines = [line.ljust(26) for line in lines] # ljsut the lines
         filler = '%s    !- %s'
-        nlines = [filler % (line, comm) for line, 
-            comm in zip(lines[1:], comments[1:])]# adds comments to line
+        nlines = [filler % (line, comm) for line,
+                  comm in zip(lines[1:], comments[1:])]# adds comments to line
         nlines.insert(0, lines[0])# first line without comment
         s = '\n'.join(nlines)
         return '\n%s\n' % (s, )
@@ -113,7 +117,7 @@ class EpBunch_2(EpBunch_1):
             return super(EpBunch_2, self).__getattr__(origname)
         except KeyError, e:
             return super(EpBunch_2, self).__getattr__(name)
-    
+
 class EpBunch_3(EpBunch_2):
     """Has data, aliases, functions in bunch"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
@@ -139,7 +143,7 @@ class EpBunch_3(EpBunch_2):
                 return func(self)
         except KeyError, e:
             return super(EpBunch_3, self).__getattr__(name)
-            
+
 class EpBunch_4(EpBunch_3):
     """h implements __getitem__ and __setitem__"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
@@ -167,28 +171,28 @@ class EpBunch_4(EpBunch_3):
             except IndexError, e:
                 extendlist(self['obj'], i)
                 self['obj'][i] = value
-            
+
         else:
             s = "unknown field %s" % (key, )
             raise BadEPFieldError(s)
-        
 
-# TODO unit test    
+
+# TODO unit test
 def fieldnames(bch):
     return bch.objls
-    
+
 def fieldvalues(bch):
     return bch.obj
-    
+
 class EpBunchFunctionClass(object):
     pass
-    
+
 class GetRange(EpBunchFunctionClass):
     def __init__(self, arg):
         self.bch = arg
     def func(self, fieldname):
         """get the ranges for this field"""
-        bch =self.bch
+        bch = self.bch
         keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
         index = bch.objls.index(fieldname)
         fielddct_orig = bch.objidd[index]
@@ -206,7 +210,7 @@ class GetRange(EpBunchFunctionClass):
             for key in keys[:-1]:
                 if therange[key]:
                     therange[key] = int(therange[key][0])
-        return therange    
+        return therange
 
 class CheckRange(EpBunchFunctionClass):
     def __init__(self, arg):
@@ -251,8 +255,8 @@ class EpBunch_5(EpBunch_4):
         self['__functions']['fieldvalues'] = fieldvalues
         self['__functions']['getrange'] = GetRange(self)
         self['__functions']['checkrange'] = CheckRange(self)
-        
-            
+
+
 EpBunch = EpBunch_5
 
 def main():
@@ -276,34 +280,34 @@ def main():
     wallfields[0] = ['key']
     wallfields = [field[0] for field in wallfields]
     wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-    print wall_fields[:20]
+    print(wall_fields[:20])
 
     bwall = EpBunch(dwall, wall_fields)
 
-    print bwall.Name
-    print data.dt[wallkey][0][1]
+    print(bwall.Name)
+    print(data.dt[wallkey][0][1])
     bwall.Name = 'Gumby'
-    print bwall.Name
-    print data.dt[wallkey][0][1]
-    print
+    print(bwall.Name)
+    print(data.dt[wallkey][0][1])
+    print()
 
     # set aliases
-    bwall.__aliases = {'Constr':'Construction_Name'} 
+    bwall.__aliases = {'Constr':'Construction_Name'}
 
-    print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
-    print "wall.Constr = %s" % (bwall.Constr, )
-    print
-    print "change wall.Constr"
+    print("wall.Construction_Name = %s" % (bwall.Construction_Name, ))
+    print("wall.Constr = %s" % (bwall.Constr, ))
+    print()
+    print ("change wall.Constr")
     bwall.Constr = 'AnewConstr'
-    print "wall.Constr = %s" % (bwall.Constr, )
-    print "wall.Constr = %s" % (data.dt[wallkey][0][3], )
-    print
+    print("wall.Constr = %s" % (bwall.Constr, ))
+    print("wall.Constr = %s" % (data.dt[wallkey][0][3], ))
+    print()
 
     # add functions
-    bwall.__functions = {'svalues':somevalues} 
+    bwall.__functions = {'svalues':somevalues}
 
-    print bwall.svalues
-    print bwall.__functions
+    print(bwall.svalues)
+    print(bwall.__functions)
 
 
 
