@@ -32,6 +32,7 @@ def nestedtable(table):
         return True
 
 class NotSimpleTable(Exception):
+    """Exception Object"""
     pass
 
 

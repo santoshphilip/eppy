@@ -118,7 +118,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
 
         try:
             first = repnames[0][0] % (1, )
-        except IndexError, err:
+        except IndexError:
             nofirstfields.append(key_txt)
             continue
         # print first

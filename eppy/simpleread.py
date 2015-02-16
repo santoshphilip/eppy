@@ -23,7 +23,7 @@ def nocomment(astr, com='!'):
 
 
 def _tofloat(num):
-    """convert to float"""
+    """to float"""
     try:
         return float(num)
     except ValueError:

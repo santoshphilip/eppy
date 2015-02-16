@@ -41,7 +41,7 @@ def intinlist(lst):
         try:
             item = int(item)
             return True
-        except ValueError, err:
+        except ValueError:
             pass
     return False
 
@@ -52,7 +52,7 @@ def replaceint(fname, replacewith='%s'):
         try:
             word = int(word)
             words[i] = replacewith
-        except ValueError, err:
+        except ValueError:
             pass
     return ' '.join(words)
 

@@ -54,7 +54,7 @@ def table2matrix(table):
         for td in tr('td'):
             try:
                 row.append(td.contents[0])
-            except IndexError, e:
+            except IndexError:
                 row.append('')
         rows.append(row)
     return rows
@@ -70,13 +70,13 @@ def table2val_matrix(table):
         for td in tr('td'):
             try:
                 val = td.contents[0]
-            except IndexError, e:
+            except IndexError:
                 row.append('')
             else:
                 try:
                     val = float(val)
                     row.append(val)
-                except ValueError, e:
+                except ValueError:
                     row.append(val)
         rows.append(row)
     return rows
@@ -111,7 +111,7 @@ def _has_name(soup_obj):
         if name == None:
             return False
         return True
-    except AttributeError, e:
+    except AttributeError:
         return False
 
 def lines_table(html_doc, tofloat=True):

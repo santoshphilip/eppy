@@ -74,6 +74,7 @@ def makebunches(data, commdct):
 def convertfields(key_comm, obj):
     """convert the float and interger fields"""
     def apass(aaa):
+        """pass thru"""
         return aaa
     typefunc = dict(integer=int, real=float)
     # types = [comm.get('type', [None])[0] for comm in key_comm]
@@ -85,7 +86,7 @@ def convertfields(key_comm, obj):
         try:
             val = conv(val)
             obj[i] = val
-        except ValueError, err:
+        except ValueError:
             pass
     return obj
 
