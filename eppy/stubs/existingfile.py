@@ -7,6 +7,11 @@
 # or
 # easy_install eppy
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 # if you have not done so, uncomment the following three lines
 import sys
 # pathnameto_eppy = 'c:/eppy'
