@@ -115,7 +115,10 @@ def extractidddata(fname, debug=False):
     from io import FileIO
     if isinstance(fname, (FileIO, StringIO)):
         st = fname.read()
-        st = st.decode('ISO-8859-2')
+        try:
+            st = st.decode('ISO-8859-2')
+        except AttributeError:
+            pass
     else:
         st = mylib2.readfile(fname)
     (nocom, nocom1, blocklst) = get_nocom_vars(st)

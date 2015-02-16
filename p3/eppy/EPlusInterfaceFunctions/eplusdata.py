@@ -190,7 +190,10 @@ class eplusdata(object):
             dt, dtls = self.initdict(dictfile)
         # st = mylib2.readfile(fname)
         st = fnamefobject.read()
-        st = st.decode('ISO-8859-2')
+        try:
+            st = st.decode('ISO-8859-2')
+        except AttributeError:
+            pass
         fnamefobject.close()
         nocom = removecomment(st, '!')
         idfst = nocom
