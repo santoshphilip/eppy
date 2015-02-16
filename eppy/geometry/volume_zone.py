@@ -22,6 +22,11 @@
 # Find the intersection between two lines
 # V = (1/6)*|(a-d).((b-d)x(c-d))| http://en.wikipedia.org/wiki/Tetrahedron
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import numpy as np
 
 def vol_tehrahedron(poly):
@@ -30,15 +35,15 @@ def vol_tehrahedron(poly):
     b = np.array(poly[1])
     c = np.array(poly[2])
     d = np.array(poly[3])
-    return abs(np.dot((a-d), np.cross((b-d),(c-d))) / 6)
+    return abs(np.dot((a-d), np.cross((b-d), (c-d))) / 6)
 
-def central_p(poly1,poly2):
+def central_p(poly1, poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
         central_point += np.array(poly1[i]) + np.array(poly2[i])
     return central_point/ (len(poly1)) / 2
 
-def vol(poly1,poly2):
+def vol(poly1, poly2):
     """"volume of a zone defined by two polygon bases """
     c_point = central_p(poly1, poly2)
     c_point = (c_point[0], c_point[1], c_point[2])
@@ -48,10 +53,10 @@ def vol(poly1,poly2):
     poly2.append(poly2[0])
     for i in range(N-2):
         # the upper part
-        tehrahedron = [c_point,poly1[0], poly1[i+1], poly1[i+2]]
+        tehrahedron = [c_point, poly1[0], poly1[i+1], poly1[i+2]]
         vol_therah += vol_tehrahedron(tehrahedron)
         # the bottom part
-        tehrahedron = [c_point,poly2[0], poly2[i+1], poly2[i+2]]
+        tehrahedron = [c_point, poly2[0], poly2[i+1], poly2[i+2]]
         vol_therah += vol_tehrahedron(tehrahedron)
     # the middle part
     for i in range(N):

@@ -18,6 +18,11 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 ## modified by Tuan Tran trantuan@hawaii.edu at L+U, www.coolshadow.com
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import numpy as np
 
 # area of a polygon
@@ -43,14 +48,15 @@ def height(poly):
     for i in range(N):
         h += (poly[i][2])
     return h/N
-        
+
 #unit normal vector of plane defined by points a, b, and c
 def unit_normal(a, b, c):
-    x = np.linalg.det([[1,a[1],a[2]],[1,b[1],b[2]],[1,c[1],c[2]]])
-    y = np.linalg.det([[a[0],1,a[2]],[b[0],1,b[2]],[c[0],1,c[2]]])
-    z = np.linalg.det([[a[0],a[1],1],[b[0],b[1],1],[c[0],c[1],1]])
+    x = np.linalg.det([[1, a[1], a[2]], [1, b[1], b[2]], [1, c[1], c[2]]])
+    y = np.linalg.det([[a[0], 1, a[2]], [b[0], 1, b[2]], [c[0], 1, c[2]]])
+    z = np.linalg.det([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])
     magnitude = (x**2 + y**2 + z**2)**.5
-    if magnitude < 0.00000001: mag = (0,0,0)
+    if magnitude < 0.00000001:
+        mag = (0, 0, 0)
     else: mag = (x/magnitude, y/magnitude, z/magnitude)
     return mag
 ## end of http://code.activestate.com/recipes/578276/ }}}
