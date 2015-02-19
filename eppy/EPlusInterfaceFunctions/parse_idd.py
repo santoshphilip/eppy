@@ -36,7 +36,6 @@ from __future__ import unicode_literals
 
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 import eppy.EPlusInterfaceFunctions.mylib3 as mylib3
-import eppy.EPlusInterfaceFunctions.eplus2 as eplus2
 
 import cPickle
 

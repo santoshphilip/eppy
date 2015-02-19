@@ -306,8 +306,9 @@ def test_floorinterzone():
 
 def test_window():
     """py.test for window"""
-    fsdtxt = """FenestrationSurface:Detailed, WF-1, WINDOW, Dbl Clr 3mm/13mm
-    Air, FRONT-1, , 0.5, , , 1, 4, 3.0, 0.0, 2.1, 3.0, 0.0, 0.9, 16.8, 0.0,
+    fsdtxt = """FenestrationSurface:Detailed, WF-1, WINDOW, 
+    Dbl Clr 3mm/13mm Air, FRONT-1, , 0.5, , , 1, 4, 3.0, 0.0, 2.1, 3.0, 0.0, 
+    0.9, 16.8, 0.0,
     0.9, 16.8, 0.0, 2.1;"""
     simpleobjtxt = """WINDOW, WF-1, Dbl Clr 3mm/13mm Air, FRONT-1, , , 1, 0, 0,
     13.8, 1.2;"""
