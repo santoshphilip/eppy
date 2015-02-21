@@ -449,6 +449,7 @@ class IDF0(object):
     idd_info = None
     block = None
     def __init__(self, idfname=None):
+        import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()

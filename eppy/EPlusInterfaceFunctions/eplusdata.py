@@ -46,23 +46,24 @@ import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 
 
 
-def removecomment(st, c):
-    # the comment is similar to that in python.
-    # any charachter after the # is treated as a comment
-    # until the end of the line
-    # st is the string to be de-commented
-    # c is the comment phrase
-    linesep = mylib3.getlinesep(st)
-    ls = st.split(linesep)
-    for i in range(len(ls)):
-        l = ls[i].split(c)
-        ls[i] = l[0]
+def removecomment(astr, cphrase):
+    """
+    the comment is similar to that in python.
+    any charachter after the # is treated as a comment
+    until the end of the line
+    astr is the string to be de-commented
+    cphrase is the comment phrase"""
+    linesep = mylib3.getlinesep(astr)
+    alist = astr.split(linesep)
+    for i in range(len(alist)):
+        alist1 = alist[i].split(cphrase)
+        alist[i] = alist1[0]
 
-    # return string.join(ls, linesep)
-    return linesep.join(ls)
+    # return string.join(alist, linesep)
+    return linesep.join(alist)
 
 
-class idd(object):
+class Idd(object):
     def __init__(self, dictfile, version=2):
         if version == 2:
             # version == 2. This is a just a flag I am using
@@ -109,23 +110,24 @@ class idd(object):
 class eplusdata(object):
 
     def __init__(self, dictfile=None, fname=None):
+        import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
             self.dt, self.dtls = {}, []
         if isinstance(dictfile, str) and fname == None:
             self.initdict(dictfile)
-        if isinstance(dictfile, idd) and fname == None:
+        if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
         if isinstance(fname, str) and isinstance(dictfile, str):
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile, fnamefobject)
-        if isinstance(fname, str) and isinstance(dictfile, idd):
+        if isinstance(fname, str) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile, fnamefobject)
         from StringIO import StringIO
         from io import FileIO
         if isinstance(fname, (FileIO, StringIO)) and isinstance(dictfile, str):
             self.makedict(dictfile, fname)
-        if isinstance(fname, (FileIO, StringIO)) and isinstance(dictfile, idd):
+        if isinstance(fname, (FileIO, StringIO)) and isinstance(dictfile, Idd):
             self.makedict(dictfile, fname)
 
     def __repr__(self):
@@ -150,7 +152,7 @@ class eplusdata(object):
     #------------------------------------------
     def initdict(self, fname):
         #create a blank dictionary
-        if isinstance(fname, idd):
+        if isinstance(fname, Idd):
             self.dt, self.dtls = fname.dt, fname.dtls
             return self.dt, self.dtls
 
@@ -183,7 +185,7 @@ class eplusdata(object):
         #stuff file data into the blank dictionary
         #fname = './exapmlefiles/5ZoneDD.idf'
         #fname = './1ZoneUncontrolled.idf'
-        if isinstance(dictfile, idd):
+        if isinstance(dictfile, Idd):
             localidd = copy.deepcopy(dictfile)
             dt, dtls = localidd.dt, localidd.dtls
         else:

@@ -38,7 +38,7 @@ def readidf(idfname):
     iddtxt = open(iddfile, 'r').read()
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
-    theidd = eplusdata.idd(block, 2)
+    theidd = eplusdata.Idd(block, 2)
     data = eplusdata.eplusdata(theidd, idfname)
     return data
 
@@ -51,7 +51,7 @@ def readiddidf(idfname):
     iddtxt = open(iddfile, 'r').read()
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
-    theidd = eplusdata.idd(block, 2)
+    theidd = eplusdata.Idd(block, 2)
     data = eplusdata.eplusdata(theidd, idfname)
     return theidd, data
 
@@ -63,7 +63,7 @@ def readiddstuff(idfname):
     iddtxt = open(iddfile, 'r').read()
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
-    theidd = eplusdata.idd(block, 2)
+    theidd = eplusdata.Idd(block, 2)
     data = eplusdata.eplusdata(theidd, idfname)
     return block, commlst, commdct
 
@@ -77,7 +77,7 @@ def readdatacommlst(idfname):
     iddtxt = open(iddfile, 'r').read()
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
-    theidd = eplusdata.idd(block, 2)
+    theidd = eplusdata.Idd(block, 2)
     data = eplusdata.eplusdata(theidd, idfname)
     return data, commlst
 
@@ -85,7 +85,7 @@ def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
     """read the idf file"""
     if not commdct:
         block, commlst, commdct = parse_idd.extractidddata(iddfile)
-        theidd = eplusdata.idd(block, 2)
+        theidd = eplusdata.Idd(block, 2)
     else:
         theidd = iddfile
     data = eplusdata.eplusdata(theidd, idfname)
@@ -97,8 +97,8 @@ def readdatacommdct1(
     """read the idf file"""
     if not commdct:
         block, commlst, commdct = parse_idd.extractidddata(iddfile)
-        theidd = eplusdata.idd(block, 2)
+        theidd = eplusdata.Idd(block, 2)
     else:
-        theidd = eplusdata.idd(block, 2)
+        theidd = eplusdata.Idd(block, 2)
     data = eplusdata.eplusdata(theidd, idfname)
     return block, data, commdct

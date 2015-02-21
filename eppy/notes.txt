@@ -1,3 +1,8 @@
+2015-02-20
+----------
+doing pylint
+- I don't have full coverage in pytest
+- make pytest out of documentation examples
 2015-01-14
 ----------
 Check Alex Martelli's response in 
