@@ -17,8 +17,13 @@
 
 """py.test for bunch_subclass"""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 # This test is ugly because I have to send file names and not able to send file handles
-import os
+
 import pytest
 from StringIO import StringIO
 
@@ -378,23 +383,22 @@ BuildingSurface:Detailed,
     CLEAR 3MM;               !- Layer 3
 """
 
-import random
 
 def test_EpBunch():
     """py.test for EpBunch"""
-    
+
     iddfile = StringIO(iddtxt)
     fname = StringIO(idftxt)
     block, data, commdct = readidf.readdatacommdct1(fname, iddfile=iddfile)
 
     # setup code walls - can be generic for any object
-    dt = data.dt
+    ddtt = data.dt
     dtls = data.dtls
     wall_i = dtls.index('BuildingSurface:Detailed'.upper())
     wallkey = 'BuildingSurface:Detailed'.upper()
     wallidd = commdct[wall_i]
 
-    dwalls = dt[wallkey]
+    dwalls = ddtt[wallkey]
     dwall = dwalls[0]
 
 
@@ -402,8 +406,15 @@ def test_EpBunch():
     wallfields[0] = ['key']
     wallfields = [field[0] for field in wallfields]
     wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-    assert wall_fields[:20] == ['key', 'Name', 'Surface_Type', 'Construction_Name', 'Zone_Name', 'Outside_Boundary_Condition', 'Outside_Boundary_Condition_Object', 'Sun_Exposure', 'Wind_Exposure', 'View_Factor_to_Ground', 'Number_of_Vertices', 'Vertex_1_Xcoordinate', 'Vertex_1_Ycoordinate', 'Vertex_1_Zcoordinate', 'Vertex_2_Xcoordinate', 'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate', 'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
-    
+    assert wall_fields[:20] == [
+        'key', 'Name', 'Surface_Type',
+        'Construction_Name', 'Zone_Name', 'Outside_Boundary_Condition',
+        'Outside_Boundary_Condition_Object', 'Sun_Exposure', 'Wind_Exposure',
+        'View_Factor_to_Ground', 'Number_of_Vertices', 'Vertex_1_Xcoordinate',
+        'Vertex_1_Ycoordinate', 'Vertex_1_Zcoordinate', 'Vertex_2_Xcoordinate',
+        'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate',
+        'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
+
 
     bwall = EpBunch(dwall, wall_fields, wallidd)
 
@@ -417,7 +428,7 @@ def test_EpBunch():
     assert bwall.Name == data.dt[wallkey][0][1]
 
     # set aliases
-    bwall.__aliases = {'Constr':'Construction_Name'} 
+    bwall.__aliases = {'Constr':'Construction_Name'}
 
     # print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
     # print "wall.Constr = %s" % (bwall.Constr, )
@@ -431,13 +442,19 @@ def test_EpBunch():
     assert bwall.Constr == data.dt[wallkey][0][3]
 
     # add functions
-    bwall.__functions = {'svalues':bunch_subclass.somevalues} 
+    bwall.__functions = {'svalues':bunch_subclass.somevalues}
 
     # print bwall.svalues
-    assert bwall.svalues == ('Gumby', 'AnewConstr', ['BuildingSurface:Detailed', 'Gumby', 'Wall', 'AnewConstr', 'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed', '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000', '0', '0', '6.096000', '0', '3.048000'])
-    
+    assert bwall.svalues == (
+        'Gumby', 'AnewConstr',
+        [
+            'BuildingSurface:Detailed', 'Gumby', 'Wall', 'AnewConstr',
+            'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed',
+            '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000',
+            '0', '0', '6.096000', '0', '3.048000'])
+
     # print bwall.__functions
-    
+
     # test __getitem__
     assert bwall["Name"] == data.dt[wallkey][0][1]
     # test __setitem__
@@ -448,7 +465,13 @@ def test_EpBunch():
     assert data.dt[wallkey][0][1] == newname
     # test functions and alias again
     assert bwall.Constr == data.dt[wallkey][0][3]
-    assert bwall.svalues == (newname, 'AnewConstr', ['BuildingSurface:Detailed', newname, 'Wall', 'AnewConstr', 'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed', '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000', '0', '0', '6.096000', '0', '3.048000'])
+    assert bwall.svalues == (
+        newname, 'AnewConstr',
+        [
+            'BuildingSurface:Detailed', newname, 'Wall', 'AnewConstr',
+            'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed',
+            '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000',
+            '0', '0', '6.096000', '0', '3.048000'])
     # test bunch_subclass.BadEPFieldError
     with pytest.raises(bunch_subclass.BadEPFieldError):
         bwall.Name_atypo = "newname"
@@ -464,7 +487,7 @@ def test_EpBunch():
     constr_i = dtls.index('Construction'.upper())
     constrkey = 'Construction'.upper()
     constridd = commdct[constr_i]
-    dconstrs = dt[constrkey]
+    dconstrs = ddtt[constrkey]
     dconstr = dconstrs[0]
     constrfields = [comm.get('field') for comm in commdct[constr_i]]
     constrfields[0] = ['key']
@@ -473,86 +496,103 @@ def test_EpBunch():
     bconstr = EpBunch(dconstr, constr_fields, constridd)
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"
-    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter']
+    assert bconstr.obj == [
+        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
+        'CLEAR 3MM', 'butter']
     bconstr.Layer_7 = "cheese"
-    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter', '', '', 'cheese']
+    assert bconstr.obj == [
+        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
+        'CLEAR 3MM', 'butter', '', '', 'cheese']
     bconstr["Layer_8"] = "jam"
-    assert bconstr.obj == ['Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM', 'CLEAR 3MM', 'butter', '', '', 'cheese', 'jam']
-    
+    assert bconstr.obj == [
+        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
+        'CLEAR 3MM', 'butter', '', '', 'cheese', 'jam']
+
     # retrieve a valid field that has no value
     assert bconstr.Layer_10 == ''
     assert bconstr["Layer_10"] == ''
 
 def test_extendlist():
     """py.test for extendlist"""
-    data = (([1,2,3], 2, 0, [1,2,3]), # lst, i, value, nlst
-    ([1,2,3], 3, 0, [1,2,3,0]), # lst, i, value, nlst
-    ([1,2,3], 5, 0, [1,2,3,0,0,0]), # lst, i, value, nlst
-    ([1,2,3], 7, 0, [1,2,3,0,0,0,0,0]), # lst, i, value, nlst
+    data = (
+        ([1, 2, 3], 2, 0, [1, 2, 3]), # lst, i, value, nlst
+        ([1, 2, 3], 3, 0, [1, 2, 3, 0]), # lst, i, value, nlst
+        ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]), # lst, i, value, nlst
+        ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]), # lst, i, value, nlst
     )
     for lst, i, value, nlst in data:
         bunch_subclass.extendlist(lst, i, value=value)
         assert lst == nlst
-    
+
 class TestEpBunch(object):
     """py.test for EpBunch.getrange, EpBunch.checkrange"""
     def initdata(self):
-        obj, objls, objidd = (['BUILDING',
-        'Empire State Building',
-        30.0,
-        'City',
-        0.04,
-        0.4,
-        'FullExterior',
-        25,
-        6], #obj
-    
-        ['key',
-        'Name',
-        'North_Axis',
-        'Terrain',
-        'Loads_Convergence_Tolerance_Value',
-        'Temperature_Convergence_Tolerance_Value',
-        'Solar_Distribution',
-        'Maximum_Number_of_Warmup_Days',
-        'Minimum_Number_of_Warmup_Days'],
-    
-        # the following objidd are made up
-        [{},
-        {},
-        {'type': ['real']},
-        {'type': ['choice']},
-    
-        {'maximum': ['.5'],
-        'minimum>': ['0.0'],
-        'type': ['real']},
-    
-        {'maximum': ['.5'],
-        'minimum>': ['0.0'],
-        'type': ['real']},
-    
-        {'type': ['choice']},
-    
-        {'maximum':None, 'minimum':None, 'maximum<':['5'], 'minimum>':['-3'],
-        'type': ['integer']},
-    
-        {'maximum':['5'], 'minimum':['-3'], 'maximum<':None, 'minimum>':None,
-        'type': ['real']},
-        ])
+        obj, objls, objidd = (
+            [
+                'BUILDING',
+                'Empire State Building',
+                30.0,
+                'City',
+                0.04,
+                0.4,
+                'FullExterior',
+                25,
+                6], #obj
+
+            [
+                'key',
+                'Name',
+                'North_Axis',
+                'Terrain',
+                'Loads_Convergence_Tolerance_Value',
+                'Temperature_Convergence_Tolerance_Value',
+                'Solar_Distribution',
+                'Maximum_Number_of_Warmup_Days',
+                'Minimum_Number_of_Warmup_Days'],
+
+            # the following objidd are made up
+            [
+                {},
+                {},
+                {'type': ['real']},
+                {'type': ['choice']},
+
+                {
+                    'maximum': ['.5'],
+                    'minimum>': ['0.0'],
+                    'type': ['real']},
+
+                {
+                    'maximum': ['.5'],
+                    'minimum>': ['0.0'],
+                    'type': ['real']},
+
+                {'type': ['choice']},
+
+                {
+                    'maximum':None, 'minimum':None, 'maximum<':['5'],
+                    'minimum>':['-3'],
+                    'type': ['integer']},
+
+                {
+                    'maximum':['5'], 'minimum':['-3'], 'maximum<':None,
+                    'minimum>':None,
+                    'type': ['real']},
+                ])
         return obj, objls, objidd
-    
+
     def test_getrange(self):
         data = (
             (
-            "Loads_Convergence_Tolerance_Value",
-            {'maximum': .5, 'minimum>': 0.0, 'maximum<':None, 
-            'minimum':None, 'type': 'real'},
-         ), # fieldname, theranges
+                "Loads_Convergence_Tolerance_Value",
+                {
+                    'maximum': .5, 'minimum>': 0.0, 'maximum<':None,
+                    'minimum':None, 'type': 'real'},), # fieldname, theranges
             (
-            "Maximum_Number_of_Warmup_Days",
-            {'maximum': None, 'minimum>': -3, 'maximum<':5, 
-            'minimum':None, 'type': 'integer'},
-         ), # fieldname, theranges
+                "Maximum_Number_of_Warmup_Days",
+                {
+                    'maximum': None, 'minimum>': -3, 'maximum<':5,
+                    'minimum':None, 'type': 'integer'},), # fieldname, theranges
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
@@ -563,46 +603,46 @@ class TestEpBunch(object):
     def test_checkrange(self):
         data = (
             ("Minimum_Number_of_Warmup_Days",
-            4, False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             4, False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-            6, True, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
+             6, True, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-            5, False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             5, False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-            -3, False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             -3, False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-            -4, True, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
-            # - 
+             -4, True, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
+            # -
             ("Maximum_Number_of_Warmup_Days",
-            4, False, None), 
-                # fieldname, fieldvalue, isexception, theexception        
+             4, False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("Maximum_Number_of_Warmup_Days",
-            5, True, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
+             5, True, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
             ("Maximum_Number_of_Warmup_Days",
-            -3, True, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
+             -3, True, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
             ("Loads_Convergence_Tolerance_Value",
-            0.3, False, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
+             0.3, False, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
             ("Loads_Convergence_Tolerance_Value",
-            0, True, bunch_subclass.RangeError), 
-                # fieldname, fieldvalue, isexception, theexception
-            # - 
+             0, True, bunch_subclass.RangeError),
+            # fieldname, fieldvalue, isexception, theexception
+            # -
             ("North_Axis",
-            0, False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             0, False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("Name",
-            'Empire State Building', False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             'Empire State Building', False, None),
+            # fieldname, fieldvalue, isexception, theexception
             ("key",
-            'BUILDING', False, None), 
-                # fieldname, fieldvalue, isexception, theexception
+             'BUILDING', False, None),
+            # fieldname, fieldvalue, isexception, theexception
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
@@ -614,7 +654,7 @@ class TestEpBunch(object):
             else:
                 with pytest.raises(theexception):
                     result = idfobject.checkrange(fieldname)
-            
+
 
 
 bldfidf = """
@@ -654,19 +694,19 @@ import eppy.idfreader as idfreader
 def test_EpBunch1():
     """py.test for EpBunch1"""
     iddfile = StringIO(iddtxt)
-    idffile = StringIO(bldfidf)    
+    idffile = StringIO(bldfidf)
     block, data, commdct = readidf.readdatacommdct1(idffile, iddfile=iddfile)
     key = "BUILDING"
     objs = data.dt[key]
     obj = objs[0]
     obj_i = data.dtls.index(key)
     bunchobj = idfreader.makeabunch(commdct, obj, obj_i)
-    
+
     # assertions
     assert bunchobj.Name == "Empire State Building"
     bunchobj.Name = "Kutub Minar"
     assert bunchobj.Name == "Kutub Minar"
-    prnt =  bunchobj.__repr__()
+    prnt = bunchobj.__repr__()
     result = """
 BUILDING,                 
     Kutub Minar,              !- Name

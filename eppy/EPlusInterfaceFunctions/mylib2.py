@@ -32,117 +32,127 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os, pickle, cPickle
-import string
+# import string
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 
 
-ret = '\r\n'
+RET = '\r\n'
 
 def readfile(filename):
-    f = open(filename, 'rb')
-    data = f.read()
+    """readfile"""
+    fhandle = open(filename, 'rb')
+    data = fhandle.read()
     data = data.decode('ISO-8859-2')
-    f.close()
+    fhandle.close()
     return data
 
-def printlist(ls):
-    for n in range(0, len(ls)):
-        print(ls[n])
+def printlist(alist):
+    """printlist"""
+    for num in range(0, len(alist)):
+        print(alist[num])
 
-def printdict(d):
-    dl = d.keys()
-    dl.sort()
-    for i in range(0, len(dl)):
-        print(dl[i], d[dl[i]])
+def printdict(adict):
+    """printdict"""
+    dlist = adict.keys()
+    dlist.sort()
+    for i in range(0, len(dlist)):
+        print(dlist[i], adict[dlist[i]])
 
 def tabfile2list(fname):
+    "tabfile2list"
     #dat = mylib1.readfileasmac(fname)
     #data = string.strip(dat)
     data = mylib1.readfileasmac(fname)
     #data = data[:-2]#remove the last return
-    alist = string.split(data, '\r')#since I read it as a mac file
-    blist = string.split(alist[1], '\t')
+    alist = data.split('\r')#since I read it as a mac file
+    blist = alist[1].split('\t')
 
     clist = []
-    for n in range(0, len(alist)):
-        ilist = string.split(alist[n], '\t')
+    for num in range(0, len(alist)):
+        ilist = alist[num].split('\t')
         clist = clist+[ilist]
     cclist = clist[:-1]#the last element is turning out to be empty
     return cclist
 
 def tabstr2list(data):
-    alist = string.split(data, os.linesep)
-    blist = string.split(alist[1], '\t')
+    """tabstr2list"""
+    alist = data.split(os.linesep)
+    blist = alist[1].split('\t')
 
     clist = []
-    for n in range(0, len(alist)):
-        ilist = string.split(alist[n], '\t')
+    for num in range(0, len(alist)):
+        ilist = alist[num].split('\t')
         clist = clist+[ilist]
     cclist = clist[:-1]
       #the last element is turning out to be empty
       #this is because the string ends with a os.linesep
     return cclist
 
-def list2doe(l):
-    eq = ''
+def list2doe(alist):
+    """list2doe"""
+    theequal = ''
     astr = ''
-    lenj = len(l)
-    leni = len(l[0])
+    lenj = len(alist)
+    leni = len(alist[0])
     for i in range(0, leni-1):
         for j in range(0, lenj):
             if j == 0:
-                astr = astr+l[j][i+1]+eq+l[j][0]+ret
+                astr = astr + alist[j][i + 1] + theequal + alist[j][0] + RET
             else:
-                astr = astr+l[j][0]+eq+l[j][i+1]+ret
-        astr = astr+ret
+                astr = astr + alist[j][0] + theequal + alist[j][i + 1] + RET
+        astr = astr + RET
     return astr
 
 def tabfile2doefile(tabfile, doefile):
+    """tabfile2doefile"""
     alist = tabfile2list(tabfile)
     astr = list2doe(alist)
-    mylib1.writeStr2File(doefile, astr)
+    mylib1.write_str2file(doefile, astr)
 
-def tabstr2doestr(st):
-    alist = tabstr2list(st)
+def tabstr2doestr(astr):
+    """tabstr2doestr"""
+    alist = tabstr2list(astr)
     astr = list2doe(alist)
     return astr
 
 def makedoedict(str1):
-    blocklist = string.split(str1, '..')
+    """makedoedict"""
+    blocklist = str1.split('..')
     blocklist = blocklist[:-1]#remove empty item after last '..'
     blockdict = {}
     belongsdict = {}
-    for n in range(0, len(blocklist)):
-        blocklist[n] = blocklist[n].strip()
-        linelist = string.split(blocklist[n], os.linesep)
+    for num in range(0, len(blocklist)):
+        blocklist[num] = blocklist[num].strip()
+        linelist = blocklist[num].split(os.linesep)
         aline = linelist[0]
-        alinelist = string.split(aline, '=')
+        alinelist = aline.split('=')
         name = alinelist[0].strip()
         aline = linelist[1]
-        alinelist = string.split(aline, '=')
+        alinelist = aline.split('=')
         belongs = alinelist[-1].strip()
-        theblock = blocklist[n]+os.linesep+'..'+os.linesep+os.linesep
+        theblock = blocklist[num] + os.linesep + '..' + os.linesep + os.linesep
             #put the '..' back in the block
         blockdict[name] = theblock
         belongsdict[name] = belongs
     return [blockdict, belongsdict]
 
-def makedoetree(d, b):
-    dl = d.keys()
-    bl = b.keys()
-    dl.sort()
-    bl.sort()
+def makedoetree(ddict, bdict):
+    """makedoetree"""
+    dlist = ddict.keys()
+    blist = bdict.keys()
+    dlist.sort()
+    blist.sort()
     #make space dict
     doesnot = 'DOES NOT'
     lst = []
-    for n in range(0, len(bl)):
-        if b[bl[n]] == doesnot:#belong
-            lst = lst + [bl[n]]
+    for num in range(0, len(blist)):
+        if bdict[blist[num]] == doesnot:#belong
+            lst = lst + [blist[num]]
 
     doedict = {}
-    for n in range(0, len(lst)):
-        #print lst[n]
-        doedict[lst[n]] = {}
+    for num in range(0, len(lst)):
+        #print lst[num]
+        doedict[lst[num]] = {}
     lv1list = doedict.keys()
     lv1list.sort()
 
@@ -151,10 +161,10 @@ def makedoetree(d, b):
     for i in range(0, len(lv1list)):
         walllist = []
         adict = doedict[lv1list[i]]
-        #loop thru the entire bl dictonary and list the ones that belong into walllist
-        for n in range(0, len(bl)):
-            if b[bl[n]] == lv1list[i]:
-                walllist = walllist+[bl[n]]
+        #loop thru the entire blist dictonary and list the ones that belong into walllist
+        for num in range(0, len(blist)):
+            if bdict[blist[num]] == lv1list[i]:
+                walllist = walllist + [blist[num]]
         #put walllist into dict
         for j in range(0, len(walllist)):
             adict[walllist[j]] = {}
@@ -169,165 +179,168 @@ def makedoetree(d, b):
         for j in range(0, len(walllist)):
             windlist = []
             adict2 = adict1[walllist[j]]
-           #loop thru the entire bl dictonary and list the ones that belong into windlist
-            for n in range(0, len(bl)):
-                if b[bl[n]] == walllist[j]:
-                    windlist = windlist+[bl[n]]
+           #loop thru the entire blist dictonary and list the ones that belong into windlist
+            for num in range(0, len(blist)):
+                if bdict[blist[num]] == walllist[j]:
+                    windlist = windlist + [blist[num]]
             #put walllist into dict
             for k in range(0, len(windlist)):
                 adict2[windlist[k]] = {}
     return doedict
 
 def tree2doe(str1):
+    """tree2doe"""
     retstuff = makedoedict(str1)
     ddict = makedoetree(retstuff[0], retstuff[1])
-    d = retstuff[0]
+    ddict = retstuff[0]
     retstuff[1] = {}# don't need it anymore
 
     str1 = ''#just re-using it
-    L1list = ddict.keys()
-    L1list.sort()
-    for i in range(0, len(L1list)):
-        str1 = str1+d[L1list[i]]
-        L2list = ddict[L1list[i]].keys()
-        L2list.sort()
-        for j in range(0, len(L2list)):
-            str1 = str1+d[L2list[j]]
-            L3list = ddict[L1list[i]][L2list[j]].keys()
-            L3list.sort()
-            for k in range(0, len(L3list)):
-                str1 = str1+d[L3list[k]]
+    l1list = ddict.keys()
+    l1list.sort()
+    for i in range(0, len(l1list)):
+        str1 = str1 + ddict[l1list[i]]
+        l2list = ddict[l1list[i]].keys()
+        l2list.sort()
+        for j in range(0, len(l2list)):
+            str1 = str1 + ddict[l2list[j]]
+            l3list = ddict[l1list[i]][l2list[j]].keys()
+            l3list.sort()
+            for k in range(0, len(l3list)):
+                str1 = str1 + ddict[l3list[k]]
     return str1
 
-def Mtabstr2doestr(st1):
+def mtabstr2doestr(st1):
+    """mtabstr2doestr"""
     seperator = '$ =============='
-    ls = string.split(st1, seperator)
+    alist = st1.split(seperator)
 
     #this removes all the tabs that excel
     #puts after the seperator and before the next line
-    for n in range(0, len(ls)):
-        ls[n] = string.lstrip(ls[n])
+    for num in range(0, len(alist)):
+        alist[num] = alist[num].lstrip()
     st2 = ''
-    for n in range(0, len(ls)):
-        alist = tabstr2list(ls[n])
-        st2 = st2+list2doe(alist)
+    for num in range(0, len(alist)):
+        alist = tabstr2list(alist[num])
+        st2 = st2 + list2doe(alist)
 
-    lss = string.split(st2, '..')
-    mylib1.writeStr2File('forfinal.txt', st2)#for debugging
+    lss = st2.split('..')
+    mylib1.write_str2file('forfinal.txt', st2)#for debugging
     print(len(lss))
 
 
     st3 = tree2doe(st2)
-    lsss = string.split(st3, '..')
+    lsss = st3.split('..')
     print(len(lsss))
     return st3
 
-def getoneblock(st, start, end):
-#get the block bounded by start and end
-#doesn't work for multiple blocks
-    ls = string.split(st, start)
-    st = ls[-1]
-    ls = string.split(st, end)
-    st = ls[0]
-    return st
+def getoneblock(astr, start, end):
+    """get the block bounded by start and end
+    doesn't work for multiple blocks"""
+    alist = astr.split(start)
+    astr = alist[-1]
+    alist = astr.split(end)
+    astr = alist[0]
+    return astr
 
-def doestr2tabstr(st, kword):
-    ls = string.split(st, '..')
-    del st
+def doestr2tabstr(astr, kword):
+    """doestr2tabstr"""
+    alist = astr.split('..')
+    del astr
     #strip junk put .. back
-    for n in range(0, len(ls)):
-        ls[n] = string.strip(ls[n])
-        ls[n] = ls[n]+os.linesep+'..'+os.linesep
-    ls.pop()
+    for num in range(0, len(alist)):
+        alist[num] = alist[num].strip()
+        alist[num] = alist[num] + os.linesep + '..' + os.linesep
+    alist.pop()
 
     lblock = []
-    for n in range(0, len(ls)):
-        linels = string.split(ls[n], os.linesep)
+    for num in range(0, len(alist)):
+        linels = alist[num].split(os.linesep)
         firstline = linels[0]
-        assignls = string.split(firstline, '=')
-        keyword = string.strip(assignls[-1])
+        assignls = firstline.split('=')
+        keyword = assignls[-1].strip()
         if keyword == kword:
-            lblock = lblock+[ls[n]]
+            lblock = lblock + [alist[num]]
             #print firstline
 
     #get all val
     lval = []
-    for n in range(0, len(lblock)):
-        block = lblock[n]
-        linel = string.split(block, os.linesep)
+    for num in range(0, len(lblock)):
+        block = lblock[num]
+        linel = block.split(os.linesep)
         lvalin = []
         for k in range(0, len(linel)):
             line = linel[k]
-            assignl = string.split(line, '=')
+            assignl = line.split('=')
             if k == 0:
-                lvalin = lvalin+[assignl[0]]
+                lvalin = lvalin + [assignl[0]]
             else:
                 if assignl[-1] == '..':
                     assignl[-1] = '.'
-                lvalin = lvalin+[assignl[-1]]
+                lvalin = lvalin + [assignl[-1]]
         lvalin.pop()
-        lval = lval+[lvalin]
+        lval = lval + [lvalin]
 
     #get keywords
     kwordl = []
     block = lblock[0]
-    linel = string.split(block, os.linesep)
+    linel = block.split(os.linesep)
     for k in range(0, len(linel)):
         line = linel[k]
-        assignl = string.split(line, '=')
+        assignl = line.split('=')
         if k == 0:
-            kword = ' =  '+string.strip(assignl[1])
+            kword = ' =  ' + assignl[1].strip()
         else:
             if assignl[0] == '..':
                 assignl[0] = '.'
             else:
-                assignl[0] = assignl[0]+'='
-            kword = string.strip(assignl[0])
-        kwordl = kwordl+[kword]
+                assignl[0] = assignl[0] + '='
+            kword = assignl[0].strip()
+        kwordl = kwordl + [kword]
     kwordl.pop()
 
-    st = ''
-    for n in range(0, len(kwordl)):
+    astr = ''
+    for num in range(0, len(kwordl)):
         linest = ''
-        linest = linest+kwordl[n]
+        linest = linest + kwordl[num]
         for k in range(0, len(lval)):
-            linest = linest+'\t'+lval[k][n]
-        st = st+linest+os.linesep
+            linest = linest + '\t' + lval[k][num]
+        astr = astr + linest + os.linesep
 
-    return st
+    return astr
 
-def myreplace(s, f, r):
-    "in string s replace all occurences of f with r"
-    alist = string.split(s, f)
-    new_s = string.join(alist, r)
+def myreplace(astr, thefind, thereplace):
+    """in string astr replace all occurences of thefind with thereplace"""
+    alist = astr.split(thefind)
+    new_s = alist.split(thereplace)
     return new_s
 
-def fslicebefore(s, sub):
-    "Return the slice starting at sub in string s"
-    f = string.find(s, sub)
-    return s[f:]
+def fslicebefore(astr, sub):
+    """Return the slice starting at sub in string astr"""
+    findex = astr.find(sub)
+    return astr[findex:]
 
-def fsliceafter(s, sub):
-    "Return the slice after at sub in string s"
-    f = string.find(s, sub)
-    return s[f+len(sub):]
+def fsliceafter(astr, sub):
+    """Return the slice after at sub in string astr"""
+    findex = astr.find(sub)
+    return astr[findex + len(sub):]
 
 def pickleload(fname):
-    "same as pickle.load(f).takes filename as parameter"
-    f = open(fname, 'rb')
-    return pickle.load(f)
+    """same as pickle.load(fhandle).takes filename as parameter"""
+    fhandle = open(fname, 'rb')
+    return pickle.load(fhandle)
 
-def pickledump(o, fname):
-    "same as pickle.dump(o, f).takes filename as parameter"
-    f = open(fname, 'wb')
-    pickle.dump(o, f)
+def pickledump(theobject, fname):
+    """same as pickle.dump(theobject, fhandle).takes filename as parameter"""
+    fhandle = open(fname, 'wb')
+    pickle.dump(theobject, fhandle)
 
 def cpickleload(fname):
-    "same as pickle.load(f).takes filename as parameter"
-    f = open(fname, 'rb')
-    return cPickle.load(f)
+    """same as pickle.load(fhandle).takes filename as parameter"""
+    fhandle = open(fname, 'rb')
+    return cPickle.load(fhandle)
 
-def cpickledump(o, fname):
-    "same as pickle.dump(o, f).takes filename as parameter"
-    f = open(fname, 'wb')
-    cPickle.dump(o, f)
+def cpickledump(theobject, fname):
+    """same as pickle.dump(theobject, fhandle).takes filename as parameter"""
+    fhandle = open(fname, 'wb')
+    cPickle.dump(theobject, fhandle)
