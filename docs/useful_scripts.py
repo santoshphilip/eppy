@@ -1,3 +1,6 @@
+from subprocess import call
+import os   
+
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
 
@@ -61,21 +64,21 @@ sys.path.append(pathnameto_eppy)
 
 # <codecell>
 
-%%bash
+# %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-python eppy_version.py --help
+os.system("python eppy_version.py --help")
 
 # <markdowncell>
 
 # That was useful !
-# 
+#
 # Now let us try running the program
 
 # <codecell>
 
-%%bash
+# %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-python eppy_version.py
+os.system("python eppy_version.py")
 
 # <headingcell level=2>
 
@@ -99,7 +102,7 @@ python eppy_version.py
 
 # <markdowncell>
 
-# This script will compare two idf files. The results will be displayed printed in "csv" format or in "html" format. 
+# This script will compare two idf files. The results will be displayed printed in "csv" format or in "html" format.
 
 # <markdowncell>
 
@@ -107,9 +110,9 @@ python eppy_version.py
 
 # <codecell>
 
-%%bash
+# %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-python idfdiff.py -h
+os.system("python idfdiff.py -h")
 
 # <markdowncell>
 
@@ -127,14 +130,14 @@ for_images.display_png(for_images.filemerge) # display the image below
 
 # <codecell>
 
-%%bash
+# %%bash
 # python idfdiff.py idd file1 file2
-python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf 
+os.system("python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf")
 
 # <rawcell>
 
 # reprinting the output again for clarity:
-# 
+#
 # <html><p>file1 = ../resources/idffiles/V_7_2/constructions.idf</p><p>file2 = ../resources/idffiles/V_7_2/constructions_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>MATERIAL</td><td>F08 Metal surface</td><td></td><td>not here</td><td>is here</td></tr><tr><td>MATERIAL</td><td>F08 Metal surface haha</td><td></td><td>is here</td><td>not here</td></tr><tr><td>MATERIAL</td><td>G05 25mm wood</td><td>Conductivity</td><td>0.15</td><td>0.155</td></tr><tr><td>CONSTRUCTION</td><td>Exterior Door</td><td>Outside Layer</td><td>F08 Metal surface</td><td>F08 Metal surface haha</td></tr></table></html>
 
 # <markdowncell>
@@ -158,9 +161,9 @@ h
 
 # <codecell>
 
-%%bash
+# %%bash
 # python idfdiff.py idd file1 file2
-python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+os.system("python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf")
 
 # <markdowncell>
 
@@ -172,36 +175,36 @@ python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idf
 
 # <markdowncell>
 
-# This script will draw all the loops in an idf file. It is a bit of a hack. So it will work on most files, but sometimes it will not :-(. But it is pretty useful when it works. 
-# 
+# This script will draw all the loops in an idf file. It is a bit of a hack. So it will work on most files, but sometimes it will not :-(. But it is pretty useful when it works.
+#
 # If it does not work, send us the idf file and we'll try to fix the code
-# 
+#
 # Make sure [grapphviz](http://www.research.att.com/sw/tools/graphviz/) is installed for this script to work
-# 
+#
 # Again, we'll have to run the script from the terminal. Let us look at the help for this script
 
 # <codecell>
 
-%%bash
+# %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-python loopdiagram.py --help
+os.system("python loopdiagram.py --help")
 
 # <markdowncell>
 
 # Pretty straightforward. Simply open png file and you will see the loop diagram. (ignore the dot file for now. it will be documented later)
-# 
+#
 # So let us try this out with and simple example file. We have a very simple plant loop in "../resources/idffiles/V_7_2/plantloop.idf"
 
 # <codecell>
 
-%%bash
+# %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf
+os.system("python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf")
 
 # <markdowncell>
 
 # The script prints out it's progress. On larger files, this might take a few seconds. If we open this file, it will look like the diagram below
-# 
+#
 # *Note: the supply and demnd sides are not connected in the diagram, but shown seperately for clarity*
 
 # <codecell>
@@ -213,7 +216,7 @@ for_images.display_png(for_images.plantloop) # display the image below
 # <markdowncell>
 
 # That diagram is not a real system. Does this script really work ?
-# 
+#
 # Try it yourself. Draw the daigram for "../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf"
 
 # <headingcell level=2>
@@ -232,3 +235,5 @@ for_images.display_png(for_images.plantloop) # display the image below
 
 # Not yet documented
 
+
+os.chdir("../../docs")

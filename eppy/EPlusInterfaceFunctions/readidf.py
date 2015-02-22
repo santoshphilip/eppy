@@ -39,7 +39,7 @@ def readidf(idfname):
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return data
 
 
@@ -52,7 +52,7 @@ def readiddidf(idfname):
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return theidd, data
 
 def readiddstuff(idfname):
@@ -64,7 +64,7 @@ def readiddstuff(idfname):
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return block, commlst, commdct
 
 
@@ -78,7 +78,7 @@ def readdatacommlst(idfname):
     block, commlst, commdct = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return data, commlst
 
 def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
@@ -88,7 +88,7 @@ def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
         theidd = eplusdata.Idd(block, 2)
     else:
         theidd = iddfile
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return data, commdct
 
 def readdatacommdct1(
@@ -100,5 +100,5 @@ def readdatacommdct1(
         theidd = eplusdata.Idd(block, 2)
     else:
         theidd = eplusdata.Idd(block, 2)
-    data = eplusdata.eplusdata(theidd, idfname)
+    data = eplusdata.Eplusdata(theidd, idfname)
     return block, data, commdct

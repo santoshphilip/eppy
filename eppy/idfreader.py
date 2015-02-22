@@ -92,7 +92,7 @@ def convertfields(key_comm, obj):
 
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
-    import pdb; pdb.set_trace()
+    # import pdbdb; pdb.set_trace()
     for key in data.dt.keys():
         objs = data.dt[key]
         for i, obj in enumerate(objs):
@@ -157,7 +157,7 @@ def idfreader(fname, iddfile, conv=True):
 def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
     """read idf file and reutrn bunches"""
     versiontuple = iddversiontuple(iddfile)
-    import pdb; pdb.set_trace()
+  # import pdbdb; pdb.set_trace()
     block, data, commdct = readidf.readdatacommdct1(
         fname,
         iddfile=iddfile,

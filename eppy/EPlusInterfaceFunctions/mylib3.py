@@ -23,7 +23,7 @@
 # Please send all bug reports, enhancement proposals, questions and comments to that address.
 #
 # VERSION: 0.001
-
+"""legacy code from EPlusInterface"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -32,29 +32,29 @@ from __future__ import unicode_literals
 
 
 
-dossep = '\r\n'
-macsep = '\r'
-unixsep = '\n'
+DOSSEP = '\r\n'
+MACSEP = '\r'
+UNIXSEP = '\n'
 
-def getlinesep(st):
-#returns the line seperators used in the string st
-#mac is '\r'
-#dos is '\r\n'
-#unix is '\n'
+def getlinesep(astr):
+    """returns the line seperators used in the string astr
+    mac is '\r'
+    dos is '\r\n'
+    unix is '\n'"""
     lsep = None
-    if len(st) == 0:
+    if len(astr) == 0:
         lsep = None
-    # r = string.count(st,'\r')
-    r  = st.count('\r')
-    # n = string.count(st,'\n')
-    n  = st.count('\n')
-    if n == r == 0:
+    # rcount = string.count(astr,'\r')
+    rcount = astr.count('\r')
+    # ncount = string.count(astr,'\n')
+    ncount = astr.count('\n')
+    if ncount == rcount == 0:
         lsep = None
-    if n == 0:
+    if ncount == 0:
         lsep = '\r'
-    if r == 0:
+    if rcount == 0:
         lsep = '\n'
-    if n == r:
+    if ncount == rcount:
         lsep = '\r\n'
     return lsep
 
