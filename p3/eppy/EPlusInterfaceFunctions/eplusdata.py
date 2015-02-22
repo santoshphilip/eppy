@@ -35,8 +35,6 @@
 
 
 
-import getopt
-import os
 import copy
 
 
@@ -46,23 +44,25 @@ import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 
 
 
-def removecomment(st, c):
-    # the comment is similar to that in python.
-    # any charachter after the # is treated as a comment
-    # until the end of the line
-    # st is the string to be de-commented
-    # c is the comment phrase
-    linesep = mylib3.getlinesep(st)
-    ls = st.split(linesep)
-    for i in range(len(ls)):
-        l = ls[i].split(c)
-        ls[i] = l[0]
+def removecomment(astr, cphrase):
+    """
+    the comment is similar to that in python.
+    any charachter after the # is treated as a comment
+    until the end of the line
+    astr is the string to be de-commented
+    cphrase is the comment phrase"""
+    linesep = mylib3.getlinesep(astr)
+    alist = astr.split(linesep)
+    for i in range(len(alist)):
+        alist1 = alist[i].split(cphrase)
+        alist[i] = alist1[0]
 
-    # return string.join(ls, linesep)
-    return linesep.join(ls)
+    # return string.join(alist, linesep)
+    return linesep.join(alist)
 
 
-class idd(object):
+class Idd(object):
+    """Idd object"""
     def __init__(self, dictfile, version=2):
         if version == 2:
             # version == 2. This is a just a flag I am using
@@ -72,22 +72,24 @@ class idd(object):
             return
         self.dt, self.dtls = self.initdict(dictfile)
     def initdict2(self, dictfile):
+        """initdict2"""
         dt = {}
         dtls = []
-        d = dictfile
-        for el in d:
-            dt[el[0].upper()] = [] #dict keys for objects always in caps
-            dtls.append(el[0].upper())
+        adict = dictfile
+        for element in adict:
+            dt[element[0].upper()] = [] #dict keys for objects always in caps
+            dtls.append(element[0].upper())
         return dt, dtls
 
     def initdict(self, fname):
-        st = mylib2.readfile(fname)
-        nocom = removecomment(st, '!')
+        """initdict"""
+        astr = mylib2.readfile(fname)
+        nocom = removecomment(astr, '!')
         idfst = nocom
-        ls = string.split(idfst, ';')
+        alist = idfst.split(';')
         lss = []
-        for el in ls:
-            lst = string.split(el, ',')
+        for element in alist:
+            lst = element.split(',')
             lss.append(lst)
 
         for i in range(0, len(lss)):
@@ -96,71 +98,83 @@ class idd(object):
 
         dt = {}
         dtls = []
-        for el in lss:
-            if el[0] == '':
+        for element in lss:
+            if element[0] == '':
                 continue
-            dt[el[0].upper()] = []
-            dtls.append(el[0].upper())
+            dt[element[0].upper()] = []
+            dtls.append(element[0].upper())
 
         return dt, dtls
 
 
 
-class eplusdata(object):
-
+class Eplusdata(object):
+    """Eplusdata"""
     def __init__(self, dictfile=None, fname=None):
+        # import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
             self.dt, self.dtls = {}, []
         if isinstance(dictfile, str) and fname == None:
             self.initdict(dictfile)
-        if isinstance(dictfile, idd) and fname == None:
+        if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
         if isinstance(fname, str) and isinstance(dictfile, str):
-            fnamefobject = open(fname, 'r')
+            fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        if isinstance(fname, str) and isinstance(dictfile, idd):
-            fnamefobject = open(fname, 'r')
+        if isinstance(fname, str) and isinstance(dictfile, Idd):
+            fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
         from io import StringIO
-        from io import FileIO
-        if isinstance(fname, (FileIO, StringIO)) and isinstance(dictfile, str):
-            self.makedict(dictfile, fname)
-        if isinstance(fname, (FileIO, StringIO)) and isinstance(dictfile, idd):
-            self.makedict(dictfile, fname)
+        try:
+            # will fial in python3 because of file
+            if isinstance(
+                    fname, (file, StringIO)) and isinstance(dictfile, str):
+                self.makedict(dictfile, fname)
+            if isinstance(
+                    fname, (file, StringIO)) and isinstance(dictfile, Idd):
+                self.makedict(dictfile, fname)
+        except NameError:
+            from io import IOBase
+            if isinstance(
+                    fname, (IOBase, StringIO)) and isinstance(dictfile, str):
+                self.makedict(dictfile, fname)
+            if isinstance(
+                    fname, (IOBase, StringIO)) and isinstance(dictfile, Idd):
+                self.makedict(dictfile, fname)
 
     def __repr__(self):
         #print dictionary
         dt = self.dt
         dtls = self.dtls
-        dossep = mylib3.unixsep # using a unix EOL
-        st = ''
+        DOSSEP = mylib3.UNIXSEP # using a unix EOL
+        astr = ''
         for node in dtls:
             nodedata = dt[node.upper()]
             for block in nodedata:
                 for i in range(len(block)):
-                    fformat = '     %s,'+dossep
+                    fformat = '     %s,'+ DOSSEP
                     if i == 0:
-                        fformat = '%s,'+dossep
+                        fformat = '%s,'+ DOSSEP
                     if i == len(block)-1:
-                        fformat = '     %s;'+dossep*2
-                    st = st+ fformat %block[i]
+                        fformat = '     %s;'+ DOSSEP*2
+                    astr = astr+ fformat %block[i]
 
-        return st
+        return astr
 
     #------------------------------------------
     def initdict(self, fname):
-        #create a blank dictionary
-        if isinstance(fname, idd):
+        """create a blank dictionary"""
+        if isinstance(fname, Idd):
             self.dt, self.dtls = fname.dt, fname.dtls
             return self.dt, self.dtls
 
-        st = mylib2.readfile(fname)
-        nocom = removecomment(st, '!')
+        astr = mylib2.readfile(fname)
+        nocom = removecomment(astr, '!')
         idfst = nocom
-        ls = string.split(idfst, ';')
+        alist = idfst.split(';')
         lss = []
-        for el in ls:
-            lst = string.split(el, ',')
+        for element in alist:
+            lst = element.split(',')
             lss.append(lst)
 
         for i in range(0, len(lss)):
@@ -169,51 +183,51 @@ class eplusdata(object):
 
         dt = {}
         dtls = []
-        for el in lss:
-            if el[0] == '':
+        for element in lss:
+            if element[0] == '':
                 continue
-            dt[el[0].upper()] = []
-            dtls.append(el[0].upper())
+            dt[element[0].upper()] = []
+            dtls.append(element[0].upper())
 
         self.dt, self.dtls = dt, dtls
         return dt, dtls
 
     #------------------------------------------
     def makedict(self, dictfile, fnamefobject):
-        #stuff file data into the blank dictionary
+        """stuff file data into the blank dictionary"""
         #fname = './exapmlefiles/5ZoneDD.idf'
         #fname = './1ZoneUncontrolled.idf'
-        if isinstance(dictfile, idd):
+        if isinstance(dictfile, Idd):
             localidd = copy.deepcopy(dictfile)
             dt, dtls = localidd.dt, localidd.dtls
         else:
             dt, dtls = self.initdict(dictfile)
-        # st = mylib2.readfile(fname)
-        st = fnamefobject.read()
+        # astr = mylib2.readfile(fname)
+        astr = fnamefobject.read()
         try:
-            st = st.decode('ISO-8859-2')
+            astr = astr.decode('ISO-8859-2')
         except AttributeError:
             pass
         fnamefobject.close()
-        nocom = removecomment(st, '!')
+        nocom = removecomment(astr, '!')
         idfst = nocom
-        # ls = string.split(idfst, ';')
-        ls = idfst.split(';')
+        # alist = string.split(idfst, ';')
+        alist = idfst.split(';')
         lss = []
-        for el in ls:
-            # lst = string.split(el, ',')
-            lst = el.split(',')
+        for element in alist:
+            # lst = string.split(element, ',')
+            lst = element.split(',')
             lss.append(lst)
 
         for i in range(0, len(lss)):
             for j in range(0, len(lss[i])):
                 lss[i][j] = lss[i][j].strip()
 
-        for el in lss:
-            node = el[0].upper()
+        for element in lss:
+            node = element[0].upper()
             if node in dt:
                 #stuff data in this key
-                dt[node.upper()].append(el)
+                dt[node.upper()].append(element)
             else:
                 #scream
                 if node == '':
@@ -224,13 +238,13 @@ class eplusdata(object):
         return dt, dtls
 
     def replacenode(self, othereplus, node):
-        #replace the node here with the node from othereplus
+        """replace the node here with the node from othereplus"""
         node = node.upper()
         self.dt[node.upper()] = othereplus.dt[node.upper()]
 
     def add2node(self, othereplus, node):
-        #add the node here with the node from othereplus
-        #this will potentially have duplicates
+        """add the node here with the node from othereplus
+        this will potentially have duplicates"""
         node = node.upper()
         self.dt[node.upper()] = self.dt[node.upper()] + othereplus.dt[node.upper()]
 
@@ -247,12 +261,12 @@ class eplusdata(object):
         reflist is an item in the dictionary
         getrefs gathers all the fields refered by reflist
         """
-        ls = []
-        for el in reflist:
-            if el[0].upper() in self.dt:
-                for elm in self.dt[el[0].upper()]:
-                    ls.append(elm[el[1]])
-        return ls
+        alist = []
+        for element in reflist:
+            if element[0].upper() in self.dt:
+                for elm in self.dt[element[0].upper()]:
+                    alist.append(elm[element[1]])
+        return alist
 
 
 #------------------------------------------

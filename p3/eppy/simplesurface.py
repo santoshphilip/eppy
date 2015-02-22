@@ -1,4 +1,5 @@
-"""from BUILDINGSURFACE:DETAILED and FENESTRATIONSURFACE:DETAILED make a wall floor, celiling etc or a window"""
+"""from BUILDINGSURFACE:DETAILED and FENESTRATIONSURFACE:DETAILED make a wall
+floor, celiling etc or a window"""
 
 # key fields:
 # Name

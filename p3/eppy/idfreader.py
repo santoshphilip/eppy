@@ -35,10 +35,14 @@ def iddversiontuple(afile):
         """version tuple"""
         return tuple([int(num) for num in vers.split(".")])
     if type(afile) == str:
-        fhandle = open(afile, 'r')
+        fhandle = open(afile, 'rb')
     else:
         fhandle = afile
     line1 = fhandle.readline()
+    try:
+        line1 = line1.decode('ISO-8859-2')
+    except AttributeError:
+        pass    
     line = line1.strip()
     if line1 == '':
         return (0, )
@@ -74,6 +78,7 @@ def makebunches(data, commdct):
 def convertfields(key_comm, obj):
     """convert the float and interger fields"""
     def apass(aaa):
+        """pass thru"""
         return aaa
     typefunc = dict(integer=int, real=float)
     # types = [comm.get('type', [None])[0] for comm in key_comm]
@@ -85,12 +90,13 @@ def convertfields(key_comm, obj):
         try:
             val = conv(val)
             obj[i] = val
-        except ValueError as err:
+        except ValueError:
             pass
     return obj
 
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
+    # import pdbdb; pdb.set_trace()
     for key in list(data.dt.keys()):
         objs = data.dt[key]
         for i, obj in enumerate(objs):
@@ -155,6 +161,7 @@ def idfreader(fname, iddfile, conv=True):
 def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
     """read idf file and reutrn bunches"""
     versiontuple = iddversiontuple(iddfile)
+  # import pdbdb; pdb.set_trace()
     block, data, commdct = readidf.readdatacommdct1(
         fname,
         iddfile=iddfile,

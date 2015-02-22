@@ -17,11 +17,17 @@
 
 """pytest for bunchhelpers"""
 
+
+
+
+
+
 import eppy.bunchhelpers as bunchhelpers
 
 def test_onlylegalchar():
     """py.test for onlylegalchar"""
-    data = (('abc', 'abc'), # name, newname
+    data = (
+        ('abc', 'abc'), # name, newname
         ('abc {mem}', 'abc mem'), # name, newname
         ('abc {mem} #1', 'abc mem 1'), # name, newname
     )
@@ -31,7 +37,8 @@ def test_onlylegalchar():
 
 def test_makefieldname():
     """py.test for makefieldname"""
-    data = (('aname', 'aname'), # namefromidd, bunchname
+    data = (
+        ('aname', 'aname'), # namefromidd, bunchname
         ('a name', 'a_name'), # namefromidd, bunchname
         ('a name #1', 'a_name_1'), # namefromidd, bunchname
     )
@@ -41,7 +48,8 @@ def test_makefieldname():
 
 def testintinlist():
     """pytest for intinlist"""
-    data = (('this is', False), # lst, hasint
+    data = (
+        ('this is', False), # lst, hasint
         ('this is 1', True), # lst, hasint
         ('this 54 is ', True), # lst, hasint
     )
@@ -51,11 +59,12 @@ def testintinlist():
 
 def test_replaceint():
     """pytest for replaceint"""
-    data = (('this is', 'this is'), # fname, newname
+    data = (
+        ('this is', 'this is'), # fname, newname
         ('this is 54', 'this is %s'), # fname, newname
         # ('this is #54', 'this is %s'), # fname, newname
     )
     for fname, newname in data:
         result = bunchhelpers.replaceint(fname)
         assert result == newname
-        
+

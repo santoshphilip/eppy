@@ -30,8 +30,8 @@ import eppy.geometry.surface as surface
 def area(poly):
     """Calculation of zone area"""
     poly_xy = []
-    N = len(poly)
-    for i in range(N):
+    num = len(poly)
+    for i in range(num):
         poly[i] = poly[i][0:2] + (0,)
         poly_xy.append(poly[i])
     return surface.area(poly)

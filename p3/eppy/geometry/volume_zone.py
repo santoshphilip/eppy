@@ -31,11 +31,11 @@ import numpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
-    a = np.array(poly[0])
-    b = np.array(poly[1])
-    c = np.array(poly[2])
-    d = np.array(poly[3])
-    return abs(np.dot((a-d), np.cross((b-d), (c-d))) / 6)
+    a_pnt = np.array(poly[0])
+    b_pnt = np.array(poly[1])
+    c_pnt = np.array(poly[2])
+    d_pnt = np.array(poly[3])
+    return abs(np.dot((a_pnt - d_pnt), np.cross((b_pnt - d_pnt), (c_pnt - d_pnt))) / 6)
 
 def central_p(poly1, poly2):
     central_point = np.array([0.0, 0.0, 0.0])

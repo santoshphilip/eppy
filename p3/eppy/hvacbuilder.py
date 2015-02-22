@@ -60,20 +60,20 @@ def flattencopy(lst):
     indefficient on large lists"""
     # modified from
     # http://stackoverflow.com/questions/2158395/flatten-an-irregular-list-of-lists-in-python
-    TheList = copy.deepcopy(lst)
-    listIsNested = True
-    while listIsNested:                 #outer loop
-        keepChecking = False
-        Temp = []
-        for element in TheList:         #inner loop
+    thelist = copy.deepcopy(lst)
+    list_is_nested = True
+    while list_is_nested:                 #outer loop
+        keepchecking = False
+        atemp = []
+        for element in thelist:         #inner loop
             if isinstance(element, list):
-                Temp.extend(element)
-                keepChecking = True
+                atemp.extend(element)
+                keepchecking = True
             else:
-                Temp.append(element)
-        listIsNested = keepChecking     #determine if outer loop exits
-        TheList = Temp[:]
-    return TheList
+                atemp.append(element)
+        list_is_nested = keepchecking     #determine if outer loop exits
+        thelist = atemp[:]
+    return thelist
 
 def test_flattencopy():
     """py.test for flattencopy"""
@@ -146,7 +146,7 @@ def getbranchcomponents(idf, branch, utest=False):
                 break
             objname = branch[fobjname % (i, )]
             complist.append((objtype, objname))
-        except bunch_subclass.BadEPFieldError as err:
+        except bunch_subclass.BadEPFieldError:
             break
     if utest:
         return complist
@@ -236,7 +236,7 @@ def initinletoutlet(idf, idfobject, force=False):
                 return True
             else:
                 return False
-        except AttributeError as err: # field may be a list
+        except AttributeError: # field may be a list
             return False
 
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
@@ -286,7 +286,7 @@ def doingtesting(testing, testn, result=None):
 def returnnone():
     """return None"""
     return None
-    
+
 def makeairloop(idf, loopname, sloop, dloop, testing=None):
     """make an airloop"""
     # -------- testing ---------
@@ -1012,7 +1012,7 @@ def replacebranch(
         try:
             fieldname = 'Connector_%s_Object_Type' % (i, )
             ctype = supplyconlist[fieldname]
-        except bunch_subclass.BadEPFieldError as err:
+        except bunch_subclass.BadEPFieldError:
             break
         if ctype.strip() == '':
             break
@@ -1059,7 +1059,7 @@ def replacebranch(
             try:
                 fieldname = 'Connector_%s_Object_Type' % (i, )
                 ctype = demandconlist[fieldname]
-            except bunch_subclass.BadEPFieldError as err:
+            except bunch_subclass.BadEPFieldError:
                 break
             if ctype.strip() == '':
                 break

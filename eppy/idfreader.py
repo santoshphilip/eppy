@@ -35,10 +35,14 @@ def iddversiontuple(afile):
         """version tuple"""
         return tuple([int(num) for num in vers.split(".")])
     if type(afile) == str:
-        fhandle = open(afile, 'r')
+        fhandle = open(afile, 'rb')
     else:
         fhandle = afile
     line1 = fhandle.readline()
+    try:
+        line1 = line1.decode('ISO-8859-2')
+    except AttributeError:
+        pass    
     line = line1.strip()
     if line1 == '':
         return (0, )

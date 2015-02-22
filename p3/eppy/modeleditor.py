@@ -75,7 +75,6 @@ def extendlist(lst, i, value=''):
 
 def newrawobject(data, commdct, key):
     """make a new object for key"""
-    dt = data.dt
     dtls = data.dtls
     key = key.upper()
 
@@ -89,9 +88,9 @@ def newrawobject(data, commdct, key):
             func_select = dict(real=float, integer=int)
             try:
                 obj[i] = func_select[typ](obj[i])
-            except IndexError as e:
+            except IndexError:
                 break
-            except ValueError as e: # if value = autocalculate
+            except ValueError: # if value = autocalculate
                 continue
     obj[0] = key
     obj = poptrailing(obj) # remove the blank items in a repeating field.
@@ -110,7 +109,6 @@ def addthisbunch(bunchdt, data, commdct, thisbunch):
 
 def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
-    dt = data.dt
     dtls = data.dtls
     key = obj[0].upper()
     key_i = dtls.index(key)
@@ -137,8 +135,8 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
-    for k, v in list(kwargs.items()):
-        abunch[k] = v
+    for key, value in list(kwargs.items()):
+        abunch[key] = value
     return abunch
 
 def getnamedargs(*args, **kwargs):
@@ -172,16 +170,15 @@ def getobject(bunchdt, key, name):
     theobjs = [idfobj for idfobj in idfobjects if idfobj.Name.upper() == name.upper()]
     try:
         return theobjs[0]
-    except IndexError as e:
+    except IndexError:
         return None
 
 def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
-    key = idfobject.obj[0].upper()
-    for k, v in list(kwargs.items()):
+    for key, value in list(kwargs.items()):
         if not isfieldvalue(
                 bunchdt, data, commdct,
-                idfobject, k, v, places=places):
+                idfobject, key, value, places=places):
             return False
     return True
 
@@ -211,7 +208,7 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
     extensible_i = [i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
-    except IndexError as e:
+    except IndexError:
         return theobject
 
 def removeextensibles(bunchdt, data, commdct, key, objname):
@@ -223,12 +220,12 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
     extensible_i = [i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
-    except IndexError as e:
+    except IndexError:
         return theobject
     while True:
         try:
-            p = theobject.obj.pop(extensible_i)
-        except IndexError as e:
+            popped = theobject.obj.pop(extensible_i)
+        except IndexError:
             break
     return theobject
 
@@ -259,7 +256,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
                 if idfobj[fieldname].upper() == 'AUTOCALCULATE':
                     if value.upper() == 'AUTOCALCULATE':
                         return True
-            except AttributeError as e:
+            except AttributeError:
                 pass
             return almostequal(float(idfobj[fieldname]), float(value), places, False)
     # check retaincase
@@ -277,10 +274,10 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     key2 = idfobj2.obj[0].upper()
     if key1 != key2:
         raise NotSameObjectError
-    v2 = idfobj2[fieldname]
+    vee2 = idfobj2[fieldname]
     return isfieldvalue(
         bunchdt, data, commdct,
-        idfobj1, fieldname, v2, places=places)
+        idfobj1, fieldname, vee2, places=places)
 
 def getrefnames(idf, objname):
     """get the reference names for this object"""
@@ -334,6 +331,7 @@ def rename(idf, objkey, objname, newname):
     return theobject
 
 def zonearea(idf, zonename, debug=False):
+    """zone area"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -349,6 +347,7 @@ def zonearea(idf, zonename, debug=False):
     return area
 
 def zonearea_floor(idf, zonename, debug=False):
+    """zone area - floor"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -360,6 +359,7 @@ def zonearea_floor(idf, zonename, debug=False):
     return area
 
 def zonearea_roofceiling(idf, zonename, debug=False):
+    """zone area - roof, ceiling"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -372,6 +372,7 @@ def zonearea_roofceiling(idf, zonename, debug=False):
     return area
 
 def zone_height_min2max(idf, zonename, debug=False):
+    """zone height = max-min"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -385,6 +386,7 @@ def zone_height_min2max(idf, zonename, debug=False):
     return height
 
 def zoneheight(idf, zonename, debug=False):
+    """zone height"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -397,6 +399,7 @@ def zoneheight(idf, zonename, debug=False):
     return height
 
 def zone_floor2roofheight(idf, zonename, debug=False):
+    """zone floor to roof height"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
@@ -421,6 +424,7 @@ def zone_floor2roofheight(idf, zonename, debug=False):
     return height
 
 def zonevolume(idf, zonename):
+    """zone volume"""
     area = zonearea(idf, zonename)
     height = zoneheight(idf, zonename)
     volume = area * height
@@ -445,6 +449,7 @@ class IDF0(object):
     idd_info = None
     block = None
     def __init__(self, idfname=None):
+        # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
@@ -484,11 +489,11 @@ class IDF0(object):
         self.__class__.setidd(idd_info, block)
     def save(self):
         # TODO unit test
-        s = str(self.model)
-        open(self.idfname, 'w').write(s)
+        astr = str(self.model)
+        open(self.idfname, 'w').write(astr)
     def saveas(self, filename):
-        s = str(self.model)
-        open(filename, 'w').write(s)
+        astr = str(self.model)
+        open(filename, 'w').write(astr)
 
 class IDF1(IDF0):
     """subclass of IDF0. Uses functions of IDF0
@@ -578,39 +583,39 @@ class IDF2(IDF1):
                                     # compressed
     def idfstr(self):
         if self.outputtype != 'standard':
-            st = self.model.__repr__()
+            astr = self.model.__repr__()
             if self.outputtype == 'nocomment':
-                return st
+                return astr
             elif self.outputtype == 'nocomment1':
-                slist = st.split('\n')
+                slist = astr.split('\n')
                 slist = [item.strip() for item in slist]
                 return '\n'.join(slist)
             elif self.outputtype == 'nocomment2':
-                slist = st.split('\n')
+                slist = astr.split('\n')
                 slist = [item.strip() for item in slist]
                 slist = [item for item in slist if item != '']
                 return '\n'.join(slist)
             elif self.outputtype == 'compressed':
-                slist = st.split('\n')
+                slist = astr.split('\n')
                 slist = [item.strip() for item in slist]
                 return ' '.join(slist)
         # else:
-        st = ''
+        astr = ''
         dtls = self.model.dtls
         for objname in dtls:
             for obj in self.idfobjects[objname]:
-                st = st + obj.__repr__()
-        return st
+                astr = astr + obj.__repr__()
+        return astr
     def printidf(self):
         """print the idf"""
         print(self.idfstr())
     def save(self):
         """save with comments"""
-        s = self.idfstr()
-        open(self.idfname, 'w').write(s)
+        astr = self.idfstr()
+        open(self.idfname, 'w').write(astr)
     def saveas(self, filename):
-        s = self.idfstr()
-        open(filename, 'w').write(s)
+        astr = self.idfstr()
+        open(filename, 'w').write(astr)
     # def initread(self, idfname):
     #     """use the latest iddfile and read file fname"""
     #     from StringIO import StringIO
@@ -662,10 +667,4 @@ class IDF3(IDF2):
 
 IDF = IDF3
 
-
-class something(IDF0):
-    """docstring for something"""
-    def __init__(self, arg):
-        super(something, self).__init__()
-        self.arg = arg
 

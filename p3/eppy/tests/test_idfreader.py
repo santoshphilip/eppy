@@ -17,6 +17,11 @@
 
 """pytest for idfreader. very few tests"""
 
+
+
+
+
+
 import eppy.idfreader as idfreader
 from io import StringIO
 
@@ -27,4 +32,3 @@ def test_iddversiontuple():
     fhandle = StringIO(iddtxt)
     result = idfreader.iddversiontuple(fhandle)
     assert result == (9, 8, 4)
-    

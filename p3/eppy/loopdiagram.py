@@ -38,6 +38,7 @@ import eppy.loops as loops
 
 
 class Usage(Exception):
+    """Usage"""
     def __init__(self, msg):
         self.msg = msg
 

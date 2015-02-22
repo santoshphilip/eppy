@@ -17,7 +17,12 @@
 
 """py.test for class IDF"""
 
-# if you have not done so, uncomment the following three lines
+
+
+
+
+
+
 
 
 from eppy.modeleditor import IDF0
@@ -42,7 +47,6 @@ iddsnippet = iddcurrent.iddtxt
 from io import StringIO
 iddfhandle = StringIO(iddsnippet)
 
-from eppy import modeleditor
 from eppy.modeleditor import IDF
 
 if IDF.getiddname() == None:

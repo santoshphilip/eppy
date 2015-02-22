@@ -1,3 +1,13 @@
+2015-02-22
+----------
+https://code.google.com/p/pydot/downloads/detail?name=pydot-1.0.28.zip
+
+pyvenv ~/venvs/eppy3
+source ~/venvs/eppy3/bin/activate
+
+2to3 -w ./
+python3 setup.py install # -> did not work
+
 2015-02-01
 ----------
 # run from ./postp2

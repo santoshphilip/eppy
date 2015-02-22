@@ -119,10 +119,10 @@ class Eplusdata(object):
         if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
         if isinstance(fname, str) and isinstance(dictfile, str):
-            fnamefobject = open(fname, 'r')
+            fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
         if isinstance(fname, str) and isinstance(dictfile, Idd):
-            fnamefobject = open(fname, 'r')
+            fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
         from StringIO import StringIO
         try:
@@ -204,7 +204,10 @@ class Eplusdata(object):
             dt, dtls = self.initdict(dictfile)
         # astr = mylib2.readfile(fname)
         astr = fnamefobject.read()
-        astr = astr.decode('ISO-8859-2')
+        try:
+            astr = astr.decode('ISO-8859-2')
+        except AttributeError:
+            pass
         fnamefobject.close()
         nocom = removecomment(astr, '!')
         idfst = nocom

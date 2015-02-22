@@ -65,7 +65,7 @@ def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
     try:
         simpletxt = simpletxt.decode('ISO-8859-2')
     except AttributeError:
-        raise e
+        pass
     simpletxt = idf2txt(simpletxt)
     # -
     if save:
