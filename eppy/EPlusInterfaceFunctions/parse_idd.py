@@ -115,14 +115,20 @@ def extractidddata(fname, debug=False):
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
-            astr = astr.decode('ISO-8859-2')
+            try:
+                astr = astr.decode('ISO-8859-2')
+            except AttributeError:
+                pass 
         else:
             astr = mylib2.readfile(fname)
-            # astr = astr.decode('ISO-8859-2')
+            # astr = astr.decode('ISO-8859-2') -> mylib1 does a decode
     except NameError:
         if isinstance(fname, (FileIO, StringIO)):
             astr = fname.read()
-            astr = astr.decode('ISO-8859-2')
+            try:
+                astr = astr.decode('ISO-8859-2')
+            except AttributeError:
+                pass
         else:
             astr = mylib2.readfile(fname)
             # astr = astr.decode('ISO-8859-2') -> mylib2.readfile has decoded

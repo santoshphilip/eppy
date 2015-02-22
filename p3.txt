@@ -1,11 +1,5 @@
 2015-02-01
 ----------
-
-run ./docs/openfile.py
-to find errors
-
-2015-02-01
-----------
 # run from ./postp2
 in each folder run:
 sh 2to3sh.sh 
