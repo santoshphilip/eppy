@@ -56,6 +56,10 @@ class LinAlgError(Exception):
 _linalg_error_extobj = None
 
 
+def _raise_linalgerror_singular(err, flag):
+    raise LinAlgError("Singular matrix")
+
+
 def vctr_cross(u, v):
     """
     Return the cross product of two 3 dimentional vectors.
