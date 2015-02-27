@@ -1,6 +1,10 @@
 Branch: eayoungs | Intent: Create 'useful scripts' to be used during simulation
-Commit Intent: 
+Commit Intent: Verify operation with EnergyPlus example file (.INP)
 ---------------------------------------------------------------------------------------
 *eppy/useful_scripts/internal_loads.py*
--Changed the help message for the --units flag, seems to be borrowed  from another
- argument
+-Reordered parameter list in assign_loads function to match order of parameters specified
+ at the command line...
+-Reordered the argument parse block to reflect same...
+
+*eppy/useful_scripts/InputSim/RefBldgSecondarySchoolNew2004_Chicago.idf*
+-Added file to git repo for tracking
