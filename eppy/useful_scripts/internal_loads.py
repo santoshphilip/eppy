@@ -63,7 +63,7 @@ if __name__    == '__main__':
     parser.add_argument('val', action='store', 
         help='New value of load objects for space type', type=float)
     parser.add_argument('-u', '--unitconv', action='store_true', 
-        help='New value of load objects for space type')
+        help='Indicates conversion from IP units to SI')
     nspace = parser.parse_args()
     iddfile = nspace.idd
     idffile = nspace.simfile

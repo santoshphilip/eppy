@@ -1,0 +1,6 @@
+Branch: eayoungs | Intent: Create 'useful scripts' to be used during simulation
+Commit Intent: 
+---------------------------------------------------------------------------------------
+*eppy/useful_scripts/internal_loads.py*
+-Changed the help message for the --units flag, seems to be borrowed  from another
+ argument
