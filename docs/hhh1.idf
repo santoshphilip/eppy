@@ -101,15 +101,19 @@ BRANCH,
 
 BRANCHLIST,               
     p_loop Supply Branchs,    !- Name
-    sb1,                      !- Branch 1 Name
-    sb2,                      !- Branch 2 Name
-    sb3;                      !- Branch 3 Name
+    sb0,                      !- Branch 1 Name
+    sb1,                      !- Branch 2 Name
+    sb2,                      !- Branch 3 Name
+    sb3,                      !- Branch 4 Name
+    sb4;                      !- Branch 5 Name
 
 BRANCHLIST,               
     p_loop Demand Branchs,    !- Name
-    db1,                      !- Branch 1 Name
-    db2,                      !- Branch 2 Name
-    db3;                      !- Branch 3 Name
+    db0,                      !- Branch 1 Name
+    db1,                      !- Branch 2 Name
+    db2,                      !- Branch 3 Name
+    db3,                      !- Branch 4 Name
+    db4;                      !- Branch 5 Name
 
 CONNECTOR:SPLITTER,       
     p_loop_supply_splitter,    !- Name

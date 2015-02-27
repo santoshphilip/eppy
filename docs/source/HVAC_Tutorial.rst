@@ -154,19 +154,13 @@ Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
 
 
-Eppy has a function that can draw the loops. We'll use this to view the
-loop diagram.
+Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
+this diagram
 
-run the following program in the shell. (you have to run it from the
-eppy/eppy folder)
+See `Generating a Loop Diagram <useful_scripts.html#loopdiagram-py>`__
+page for details on how to do this
 
-
-# usage:
-# python ex_loopdiagram.py iddfile idffile
-python ex_loopdiagram.py ./resources/iddfiles/Energy+V7_0_0_036.idd hhh1.idf
-
-
-This will output a image by name hhh1.png. This image is shown below.
+Below is the diagram for this simple loop
 
 *Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity*
@@ -473,3 +467,13 @@ side.
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
 using the functions next() and prev()
+
+.. code:: python
+
+    
+.. code:: python
+
+    
+.. code:: python
+
+    

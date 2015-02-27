@@ -458,7 +458,13 @@ class IDF0(object):
         cls.idd_info = iddinfo
         cls.block = block
     def read(self):
-        """read the idf file"""
+        """read the idf file and the idd file.
+        If the idd file had been already read, it will not be read again.
+        Read populates the following data structures:
+        
+        - idfobjects
+        - model
+        - idd_info # done only once"""
         # TODO unit test
         if self.getiddname() == None:
             errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"

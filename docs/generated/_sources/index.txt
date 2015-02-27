@@ -19,9 +19,10 @@ Contents:
     useful_scripts
     eppy_api
     changes
+    dev_docs/index
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
