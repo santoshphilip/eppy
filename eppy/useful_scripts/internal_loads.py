@@ -16,7 +16,6 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 
-
 """
 I change the value and input method of internal load objects,
 To specify a value of watts/SF for lighting or equipment
@@ -30,10 +29,12 @@ sys.path.append(pathnameto_eplusscripting)
 
 from eppy.modeleditor import IDF
 
+
 def convert_iptosi(valueip):
-	"""Return value per square meter, given value per square foot"""
-	valuesi = float(valueip)*10.764
-	return valuesi
+    """Return value per square meter, given value per square foot"""
+    valuesi = float(valueip)*10.764
+    return valuesi
+
 
 def assign_loads(unitfg, value, loadtp, spacenm):
     if unitfg:
@@ -49,20 +50,26 @@ def assign_loads(unitfg, value, loadtp, spacenm):
                 chloads.append(loadobjs.Name)
     return chloads, value
 
-if __name__    == '__main__':
+
+if __name__ == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
-    parser.add_argument('idd', action='store', 
+    parser.add_argument(
+        'idd', action='store',
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
-    parser.add_argument('simfile', action='store', 
+    parser.add_argument(
+        'simfile', action='store',
         help='location of idf simulation file = ./somewhere/f1.idf')
-    parser.add_argument('val', action='store', 
+    parser.add_argument(
+        'val', action='store',
         help='New value of load objects for space type', type=float)
-    parser.add_argument('-u', '--unitconv', action='store_true', 
+    parser.add_argument(
+        '-u', '--unitconv', action='store_true',
         help='Indicates conversion from IP units to SI')
-    parser.add_argument('ldtyp', action='store', 
-        help='Name of load type to be edited')
-    parser.add_argument('spckeywd', action='store', 
+    parser.add_argument(
+        'ldtyp', action='store', help='Name of load type to be edited')
+    parser.add_argument(
+        'spckeywd', action='store',
         help='Keyword of phrase in object names to indicate space type')
     nspace = parser.parse_args()
     iddfile = nspace.idd
