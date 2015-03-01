@@ -23,11 +23,16 @@ To specify a value of watts/SF for lighting or equipment
 
 import argparse
 import sys
+import platform
+from eppy.modeleditor import IDF
 
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
 
-from eppy.modeleditor import IDF
+# Initialize platform-specific path to .IDD file.
+platfm = platform.system()
+if platfm == 'Darwin':
+    dwn_idd = '/Applications/EnergyPlus-8-1-0/Energy+.idd'
 
 
 def convert_iptosi(valueip):
@@ -55,8 +60,9 @@ if __name__ == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
     parser.add_argument(
-        'idd', action='store',
-        help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+        'idd', action='store', nargs='?', default=dwn_idd,
+        help='location of idd file = ./somewhere/eplusv8-0-1.idd \
+        (default: Energy+ default install location')
     parser.add_argument(
         'simfile', action='store',
         help='location of idf simulation file = ./somewhere/f1.idf')
