@@ -1,10 +1,10 @@
 Branch: eayoungs | Intent: Create 'useful scripts' to be used during simulation
-Commit Intent: Verify operation with EnergyPlus example file (.INP)
+Commit Intent: Reorder CLI imput arguments to be internally consistent and logically
+	ordered
 ---------------------------------------------------------------------------------------
-*eppy/useful_scripts/internal_loads.py*
--
+*.gitignore*
+-Added appended string for files output by script...
 
-*eppy/useful_scripts/InputSim/* *
--Added new Ipython notebook for working with files, and prototyping...
--Added local prototype building with use-type related to current project...
--Converted simulation file with eppy to strip out everything else for easy diff...
+*eppy/useful_scripts/internal_loads.py*
+-Swapped the position of the unit conversion flag and the value to be interally
+ consistent

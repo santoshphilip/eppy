@@ -35,7 +35,7 @@ def convert_iptosi(valueip):
 	valuesi = float(valueip)*10.764
 	return valuesi
 
-def assign_loads(value, unitfg, loadtp, spacenm):
+def assign_loads(unitfg, value, loadtp, spacenm):
     if unitfg:
         value = convert_iptosi(value)
     chloads = []
