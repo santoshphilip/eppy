@@ -13,3 +13,4 @@ eppy/tests/test_report_tables/
 
 dist/
 eppy.egg-info/
+eppy/useful_scripts/InputSim/
