@@ -59,6 +59,9 @@ class LinAlgError(Exception):
 _linalg_error_extobj = None
 
 
+class MatrixDimError(LinAlgError): pass
+
+
 def _raise_linalgerror_singular(err, flag):
     raise LinAlgError("Singular matrix")
 
@@ -81,9 +84,11 @@ def test_2dim_cross():
     # 2 dim cross-product.
     x = [1, 2]
     y = [4, 5]
-    z = py_numeric.vctr_cross(x, y)
 
-    assert z == 'ERROR'
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_cross(x, y)
+
+    assert 'list index out of range' in str(execinfo.value)
 
 
 def test_4dim_cross():
