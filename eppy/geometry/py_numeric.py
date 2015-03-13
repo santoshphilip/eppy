@@ -56,7 +56,8 @@ class LinAlgError(Exception):
 _linalg_error_extobj = None
 
 
-class MatrixDimError(LinAlgError): pass
+class MatrixDimError(LinAlgError):
+    pass
 
 
 def _raise_linalgerror_singular(err, flag):
@@ -110,8 +111,8 @@ def vctr_cross(u, v):
         for i in range(uDim):
             uxv.append(0)
             uxv = [u[1]*v[2]-u[2]*v[1],
-            -(u[0]*v[2]-u[2]*v[0]),
-            u[0]*v[1]-u[1]*v[0]]
+                -(u[0]*v[2]-u[2]*v[0]),
+                u[0]*v[1]-u[1]*v[0]]
     except MatrixDimError as e:
         uxv = e
     return uxv
