@@ -24,48 +24,6 @@ from eppy.pytest_helpers import almostequal
 import pytest
 
 
-# Exception class
-class LinAlgError(Exception):
-    """
-    Generic Python-exception-derived object raised by linalg functions.
-
-    General purpose exception class, derived from Python's exception.Exception
-    class, programmatically raised in linalg functions when a Linear
-    Algebra-related condition would prevent further correct execution of the
-    function.
-
-    Parameters
-    ----------
-    None
-
-    Examples
-    --------
-    >>> from numpy import linalg as LA
-    >>> LA.inv(np.zeros((2,2)))
-    Traceback (most recent call last):
-      File "<stdin>", line 1, in <module>
-      File "...linalg.py", line 350,
-        in inv return wrap(solve(a, identity(a.shape[0], dtype=a.dtype)))
-      File "...linalg.py", line 249,
-        in solve
-        raise LinAlgError('Singular matrix')
-    numpy.linalg.LinAlgError: Singular matrix
-
-    """
-    pass
-
-# Dealing with errors in _umath_linalg
-
-_linalg_error_extobj = None
-
-
-class MatrixDimError(LinAlgError): pass
-
-
-def _raise_linalgerror_singular(err, flag):
-    raise LinAlgError("Singular matrix")
-
-
 # Start vector cross product tests
 def test_vctr_cross():
     """test the cross product of two 3 dimentional vectors"""
@@ -170,15 +128,15 @@ def test_vctr_det():
     assert a == 103
 
 
-def test_singular_vctr_det():
-    """test calculation of a singular determinant of a three dimentional"""
-
-    # Assertions about exceptions: http://pytest.org/latest/assert.html
-    with pytest.raises(LinAlgError) as execinfo:
-        # Three dim determinant
-        x = [1, 0, 0]
-        y = [-2, 0, 0]
-        z = [4, 6, 1]
-        a = py_numeric.vctr_det(x, y, z)
-
-    assert 'Singular matrix' in str(execinfo.value)
+# def test_singular_vctr_det():
+#     """test calculation of a singular determinant of a three dimentional"""
+# 
+#     # Assertions about exceptions: http://pytest.org/latest/assert.html
+#     with pytest.raises(LinAlgError) as execinfo:
+#         # Three dim determinant
+#         x = [1, 0, 0]
+#         y = [-2, 0, 0]
+#         z = [4, 6, 1]
+#         a = py_numeric.vctr_det(x, y, z)
+# 
+#     assert 'Singular matrix' in str(execinfo.value)
