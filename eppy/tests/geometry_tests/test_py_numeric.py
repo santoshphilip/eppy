@@ -169,11 +169,12 @@ def test_singular_vctr_det():
     """test calculation of a singular determinant of a three dimentional"""
 
     # Assertions about exceptions: http://pytest.org/latest/assert.html
-    with pytest.raises(_raise_linalgerror_singular) as execinfo:
+    with pytest.raises(LinAlgError) as execinfo:
         # Three dim determinant
         x = [1, 0, 0]
         y = [-2, 0, 0]
         z = [4, 6, 1]
         a = py_numeric.vctr_det(x, y, z)
+    print execinfo
 
     assert 'Singular matrix' in str(execinfo.value)

@@ -183,7 +183,8 @@ def vctr_det(u, v, w):
                 + A[0][1] * A[1][0] * A[2][2] + A[0][0] * A[1][2]
                 * A[2][1])
                 )
-        except _raise_linalgerror_singular:
-            print("ERROR: Singluar Matrix")
+        except LinAlgError as e:
+            if
+                print("ERROR: Singluar Matrix")
         else:
             return det_A
