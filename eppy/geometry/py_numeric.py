@@ -56,6 +56,9 @@ class LinAlgError(Exception):
 _linalg_error_extobj = None
 
 
+class MatrixDimError(LinAlgError): pass
+
+
 def _raise_linalgerror_singular(err, flag):
     raise LinAlgError("Singular matrix")
 
