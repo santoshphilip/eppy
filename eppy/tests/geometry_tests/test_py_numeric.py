@@ -175,6 +175,5 @@ def test_singular_vctr_det():
         y = [-2, 0, 0]
         z = [4, 6, 1]
         a = py_numeric.vctr_det(x, y, z)
-    print execinfo
 
     assert 'Singular matrix' in str(execinfo.value)
