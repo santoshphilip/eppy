@@ -1,9 +1,0 @@
-Branch: eayoungs | Intent: Create 'useful scripts' to be used during simulation
-Commit Intent: Detect system at run-time, default Energy+.idd file lcoation based on
-	default install
----------------------------------------------------------------------------------------
-*eppy/useful_scripts/internal_loads.py*
--Imported platform library...
--Added a code block to detect system type (with Darwin only, to simplify debug)...
--Modified the positional argument for location of the .IDD file to be optional and to
- default to install location for the system where the script is being run
