@@ -10,6 +10,7 @@ venv/
 eppy/tests/test_report_tables/
 *.ipynb
 .idea/
+*out*
 
 dist/
 eppy.egg-info/
