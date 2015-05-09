@@ -680,4 +680,4 @@ BUILDING,
 """
     assert prnt == result
     print bunchobj.objidd
-    assert 1 == 0
+    # assert 1 == 0
