@@ -1,5 +1,7 @@
-.idea
 .commitLog
+out.*
+eppy/useful_scripts/InputSim/
+.*/
 .ipynb_checkpoints/
 *.sublime*
 *test*
