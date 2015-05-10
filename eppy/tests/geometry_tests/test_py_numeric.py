@@ -56,9 +56,11 @@ def test_4dim_cross():
     # 4 dim cross-product.
     x = [1, 2, 3, 4]
     y = [5, 6, 7, 8]
-    z = py_numeric.vctr_cross(x, y)
 
-    assert z == 'ERROR'
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_cross(x, y)
+
+    assert 'FALSE' in str(execinfo.value)
 
 
 def test_mdim_cross():

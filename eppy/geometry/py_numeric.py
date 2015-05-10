@@ -164,9 +164,9 @@ def vctr_dot(u, v):
     if uDim == vDim == 3:
         for i in range(uDim):
             u_dot_v.append(0)
-        u_dot_v = [u[0]*v[0],
-                   u[1]*v[1],
-                   u[2]*v[2]]
+            u_dot_v = [u[0]*v[0],
+                    u[1]*v[1],
+                    u[2]*v[2]]
     else:
             u_dot_v = 'ERROR'
     return u_dot_v
