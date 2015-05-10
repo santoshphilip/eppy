@@ -69,9 +69,11 @@ def test_mdim_cross():
     # Mixed dim cross-product.
     x = [1, 2, 3]
     y = [4, 5, 6, 7]
-    z = py_numeric.vctr_cross(x, y)
+    
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_cross(x, y)
 
-    assert z == 'ERROR'
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 # Start vector dot product tests
