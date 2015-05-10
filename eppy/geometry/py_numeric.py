@@ -107,14 +107,16 @@ def vctr_cross(u, v):
     uxv = []
 
     # http://mathworld.wolfram.com/CrossProduct.html
-    try:
-        for i in range(uDim):
-            uxv.append(0)
-            uxv = [u[1]*v[2]-u[2]*v[1],
-                -(u[0]*v[2]-u[2]*v[0]),
-                u[0]*v[1]-u[1]*v[0]]
-    except MatrixDimError as e:
-        uxv = e
+    if uDim == vDim == 3:
+        try:
+            for i in range(uDim):
+                uxv.append(0)
+                uxv = [u[1]*v[2]-u[2]*v[1],
+                    -(u[0]*v[2]-u[2]*v[0]),
+                    u[0]*v[1]-u[1]*v[0]]
+        except LinAlgError as e:
+            uxv = e
+    else: raise IndexError('Vector has invalid dimensions')
     return uxv
 
 

@@ -47,7 +47,7 @@ def test_2dim_cross():
     with pytest.raises(IndexError) as execinfo:
         z = py_numeric.vctr_cross(x, y)
 
-    assert 'list index out of range' in str(execinfo.value)
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 def test_4dim_cross():
@@ -60,7 +60,7 @@ def test_4dim_cross():
     with pytest.raises(IndexError) as execinfo:
         z = py_numeric.vctr_cross(x, y)
 
-    assert 'FALSE' in str(execinfo.value)
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 def test_mdim_cross():
