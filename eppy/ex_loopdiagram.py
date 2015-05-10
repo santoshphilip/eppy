@@ -24,14 +24,19 @@ usage:
     python ex_loopdiagram.py fname.idf"""
 # copy of s_airplantloop1.py
 
-import pydot
-import sys
-import os
 import getopt
-# sys.path.append('../EPlusInputcode')
+import os
+import sys
+import tempfile
+
+import pydot
+
 from EPlusInterfaceFunctions import readidf
 import loops
+from modeleditor import IDF
 
+
+# sys.path.append('../EPlusInputcode')
 help_message = '''
 The help message goes here.
 '''
@@ -539,13 +544,37 @@ def makeairplantloop(data, commdct):
     # edges = edges + moreedges    
     return edges
 
-
 def getedges(fname, iddfile):
     """return the edges of the idf file fname"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     edges = makeairplantloop(data, commdct)
     return edges
+
     
+def sanitize(fname, iddfile):
+    """
+    DesignBuilder makes zone names by concatenating the building name with the
+    zone name joined by a ':'. These are carried through into branch and node
+    names. This does not wotk with pydot which breaks at colons. The solution
+    used here is to create a temporary file where the polluted names have been
+    sanitized and use that to generate the graph instead.
+    
+    """
+    IDF.setiddname(iddfile)
+    idf = IDF(fname)
+    zones = [zone.Name for zone in idf.idfobjects['ZONE']]
+    sanitized_zones = [zone.replace(":", "-") for zone in zones]
+    with open(fname, 'rb') as idf:
+        lines = idf.readlines()
+    temp = tempfile.mkstemp(dir=os.path.dirname(fname), suffix=".temp.idf")[1]
+    with open(temp, 'wb') as sanitized_idf:
+        for line in lines:
+            for z, sz in zip(zones, sanitized_zones):
+                line = line.replace(z, sz)
+            sanitized_idf.write(line)
+    return temp
+
+
 def main(argv=None):
     if argv is None:
         argv = sys.argv
@@ -562,18 +591,23 @@ def main(argv=None):
             if option in ("-h", "--help"):
                 raise Usage(help_message)
             if option in ("-o", "--output"):
-                output = value
+                output = value  
         
         if len(args) == 1:
             # iddfile = "../iddfiles/Energy+V6_0.idd"
-            iddfile = "./resources/iddfiles/Energy+V7_0_0_036.idd"
+#            iddfile = "./resources/iddfiles/Energy+V7_0_0_036.idd"
+            iddfile = "./resources/iddfiles/Energy+V8_1_0.idd"
             fname = args[0]
         elif len(args) == 2:
             iddfile = args[0]
             fname = args[1]
         # iddfile = "../iddfiles/Energy+V6_0.idd"
-        print "readingfile"
+        print "sanitizing file"
+        old_name = fname
+        fname = sanitize(fname, iddfile)
+        print "reading file"
         data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+        fname = old_name
         print "constructing the loops"
         edges = makeairplantloop(data, commdct)
         # print edges
