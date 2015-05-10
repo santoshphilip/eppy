@@ -1,7 +1,10 @@
 Numpy functions to be recreated in Python
 
 ** Revise all functions to included exception handling
-** Add custom exception for sinlular matrix (?)
+   [x] Cross product
+   [ ] Dot product
+   [ ] Determinant
+** Add custom exceptions linear algebra errors
 1. [x] Cross product
 2. [x] Dot product
 3. [x] Determinant
