@@ -192,6 +192,6 @@ def vctr_det(u, v, w):
                 * A[2][1])
                 )
         except LinAlgError as e:
-                print("ERROR: Singluar Matrix")
-        else:
-            return det_A
+            det_A = e
+    else: raise IndexError('Vector has invalid dimensions')
+    return det_A
