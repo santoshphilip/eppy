@@ -69,7 +69,7 @@ def test_mdim_cross():
     # Mixed dim cross-product.
     x = [1, 2, 3]
     y = [4, 5, 6, 7]
-    
+
     with pytest.raises(IndexError) as execinfo:
         z = py_numeric.vctr_cross(x, y)
 
@@ -94,9 +94,11 @@ def test_2dim_dot():
     # 2 dim dot-product.
     x = [1, 2]
     y = [4, 5]
-    z = py_numeric.vctr_dot(x, y)
 
-    assert z == 'ERROR'
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_dot(x, y)
+
+    assert 'Vector has invalid dimensions' in str(execinfo.value) 
 
 
 def test_4dim_dot():
@@ -105,9 +107,11 @@ def test_4dim_dot():
     # 4 dim dot-product.
     x = [1, 2, 3, 4]
     y = [5, 6, 7, 8]
-    z = py_numeric.vctr_dot(x, y)
 
-    assert z == 'ERROR'
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_dot(x, y)
+
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 def test_mdim_dot():
@@ -116,9 +120,11 @@ def test_mdim_dot():
     # Mixed dim dot-product.
     x = [1, 2, 3]
     y = [4, 5, 6, 7]
-    z = py_numeric.vctr_dot(x, y)
 
-    assert z == 'ERROR'
+    with pytest.raises(IndexError) as execinfo:
+        z = py_numeric.vctr_dot(x, y)
+
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 def test_vctr_det():
@@ -135,7 +141,7 @@ def test_vctr_det():
 
 # def test_singular_vctr_det():
 #     """test calculation of a singular determinant of a three dimentional"""
-# 
+#
 #     # Assertions about exceptions: http://pytest.org/latest/assert.html
 #     with pytest.raises(LinAlgError) as execinfo:
 #         # Three dim determinant
@@ -143,5 +149,5 @@ def test_vctr_det():
 #         y = [-2, 0, 0]
 #         z = [4, 6, 1]
 #         a = py_numeric.vctr_det(x, y, z)
-# 
+#
 #     assert 'Singular matrix' in str(execinfo.value)

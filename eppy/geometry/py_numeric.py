@@ -164,13 +164,15 @@ def vctr_dot(u, v):
 
     # http://reference.wolfram.com/language/ref/Dot.html
     if uDim == vDim == 3:
-        for i in range(uDim):
-            u_dot_v.append(0)
-            u_dot_v = [u[0]*v[0],
-                    u[1]*v[1],
-                    u[2]*v[2]]
-    else:
-            u_dot_v = 'ERROR'
+        try:
+            for i in range(uDim):
+                u_dot_v.append(0)
+                u_dot_v = [u[0]*v[0],
+                        u[1]*v[1],
+                        u[2]*v[2]]
+        except LinAlgError as e:
+            u_dot_v = e 
+    else: raise IndexError('Vector has invalid dimensions')
     return u_dot_v
 
 
