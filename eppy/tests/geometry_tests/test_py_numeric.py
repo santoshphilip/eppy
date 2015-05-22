@@ -20,7 +20,6 @@
 # Succession Ecological Services: Portland, Oregon
 
 import eppy.geometry.py_numeric as py_numeric
-from eppy.geometry.py_numeric import LinAlgError
 from eppy.pytest_helpers import almostequal
 import pytest
 
