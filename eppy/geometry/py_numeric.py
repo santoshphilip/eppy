@@ -22,10 +22,7 @@
 
 
 class LinAlgError(Exception):
-    """docstring for LinAlgError"""
-    def __init__(self, arg):
-        super(LinAlgError, self).__init__()
-        self.arg = arg
+    pass
 
 
 def vctr_cross(u, v):
@@ -156,6 +153,8 @@ def vctr_det(u, v, w):
                 + A[0][1] * A[1][0] * A[2][2] + A[0][0] * A[1][2]
                 * A[2][1])
                 )
+            if det_A == 0:
+                raise Exception('Singular Determinant')
         except LinAlgError as e:
             det_A = e
     else: raise IndexError('Vector has invalid dimensions')

@@ -144,5 +144,7 @@ def test_singular_vctr_det():
     x = [1, 0, 0]
     y = [-2, 0, 0]
     z = [4, 6, 1]
-    A = py_numeric.vctr_det(x, y, z)
-    assert A == 0
+
+    with pytest.raises(Exception) as execinfo:
+        A = py_numeric.vctr_det(x, y, z)
+    assert 'Singular Determinant' in str(execinfo.value)
