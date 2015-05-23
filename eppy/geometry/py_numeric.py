@@ -21,6 +21,13 @@
 # Succession Ecological Services: Portland, Oregon
 
 
+class LinAlgError(Exception):
+    """docstring for LinAlgError"""
+    def __init__(self, arg):
+        super(LinAlgError, self).__init__()
+        self.arg = arg
+
+
 def vctr_cross(u, v):
     """
     Return the cross product of two 3 dimentional vectors.
