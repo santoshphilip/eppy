@@ -1,6 +1,17 @@
 Changes
 =======
 
+2015-05-26
+----------
+
+idf.save(lineendings='default')
+idf.saveas(fname, lineendings='default')
+
+- optional argument lineendings
+    - if lineendings='default', uses the line endings of the platform
+    - if lineendings='windows', forces windows line endings
+    - if lineendings='unix', forces unix line endings
+
 release r0.464a
 ~~~~~~~~~~~~~~~
 

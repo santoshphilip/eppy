@@ -648,8 +648,30 @@ class IDF3(IDF2):
         self.idfname = idfhandle
         self.read()
         
+class IDF4(IDF3):
+    """subclass of IDF3. Uses functions of IDF1, IDF2, IDF3"""
+    def __init__(self, idfname=None):
+        super(IDF4, self).__init__(idfname)
+    def save(self, filename=None, lineendings='default'):
+        """lineendings = ['default', 'windows', 'unix' ]"""
+        if filename is None:
+            filename = self.idfname
+        s = self.idfstr()
+        if lineendings == 'default':
+            pass
+        elif lineendings == 'windows':
+            s = '!- Windows Line endings \n' + s
+            slines = s.splitlines()
+            s = '\r\n'.join(slines)
+        elif lineendings == 'unix':
+            s = '!- Unix Line endings \n' + s
+            slines = s.splitlines()
+            s = '\n'.join(slines)
+        open(filename, 'w').write(s)
+    def saveas(self, filename, lineendings='default'):
+        self.save(filename=filename, lineendings=lineendings)
 
-IDF = IDF3
+IDF = IDF4
         
                                     
 class something(IDF0):
