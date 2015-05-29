@@ -22,6 +22,8 @@ import bunch_subclass
 import modeleditor
 from modeleditor import IDF
 
+class WhichLoopError(Exception):
+    pass
 
 class SomeFields(object):
     c_fields = ['Condenser Side Inlet Node Name',
@@ -191,7 +193,6 @@ def getnodefieldname(idfobject, endswith, fluid=''):
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
     nodenames = getfieldnamesendswith(idfobject, endswith)
-    # print nodenames
     fnodenames=[nd for nd in nodenames if nd.find(fluid)!=-1]
     if len(fnodenames) == 0:
         nodename = nodenames[0]
@@ -215,10 +216,10 @@ def connectcomponents(idf, components, fluid=''):
         # nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
         return components
     for i in range(len(components) - 1):
-        thiscomp = components[i]
-        nextcomp = components[i + 1]
-        initinletoutlet(idf, thiscomp, force=False)
-        initinletoutlet(idf, nextcomp, force=False)
+        thiscomp, thiscompnode= components[i]
+        nextcomp, nextcompnode = components[i + 1]
+        initinletoutlet(idf, thiscomp, thiscompnode, force=False)
+        initinletoutlet(idf, nextcomp, nextcompnode, force=False)
         betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
         outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
         thiscomp[outletnodename] = [thiscomp[outletnodename], betweennodename]
@@ -227,7 +228,7 @@ def connectcomponents(idf, components, fluid=''):
     return components
      
     
-def initinletoutlet(idf, idfobject, force=False):
+def initinletoutlet(idf, idfobject, thisnode, force=False):
     """initialze values for all the inlet outlet nodes for the object.
     if force == False, it willl init only if field = '' """
     def blankfield(fieldvalue):
@@ -239,12 +240,28 @@ def initinletoutlet(idf, idfobject, force=False):
                 return False
         except AttributeError, e: # field may be a list
             return False
+    def trimfields(fields, thisnode):
+        if len(fields) > 1:
+            if thisnode is not None:
+                fields = [field for field in fields 
+                    if field.startswith(thisnode)]
+                return fields
+            else:
+                print "Where should this loop connect ?"
+                print idfobject.key, idfobject.Name
+                print [field.split("Inlet_Node_Name")[0] 
+                                for field in inletfields]
+                raise WhichLoopError
+        else:
+            return fields
             
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
+    inletfields = trimfields(inletfields, thisnode) # or warn with exception
     for inletfield in inletfields:
         if blankfield(idfobject[inletfield]) == True or force == True:
             idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
     outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
+    outletfields = trimfields(outletfields, thisnode) # or warn with exception
     for outletfield in outletfields:
         if blankfield(idfobject[outletfield]) == True or force == True:
             idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
@@ -885,8 +902,8 @@ def replacebranch(idf, loop, branch,
         # empty the old branch
         # fill in the new components with the node names into this branch
 
-    components = listofcomponents
-    connectcomponents(idf, components, fluid=fluid)
+    components = [item[0] for item in listofcomponents]
+    connectcomponents(idf, listofcomponents, fluid=fluid)
     if debugsave:
         idf.savecopy("hhh3.idf")
     # -------- testing ---------
