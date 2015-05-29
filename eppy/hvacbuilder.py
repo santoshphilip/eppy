@@ -207,8 +207,8 @@ def connectcomponents(idf, components, fluid=''):
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
     if len(components) == 1:
-        thiscomp = components[0]
-        initinletoutlet(idf, thiscomp, force=False)
+        thiscomp, thiscompnode = components[0]
+        initinletoutlet(idf, thiscomp, thiscompnode, force=False)
         outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
         thiscomp[outletnodename] = [thiscomp[outletnodename],
              thiscomp[outletnodename]]
@@ -885,6 +885,55 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     return newcondenserloop
 
+def _clean_listofcomponents(listofcomponents):
+    """force it to be a list of tuples"""
+    def totuple(item):
+        if isinstance(item, (tuple, list)):
+            return item
+        else:
+            return (item, None)
+    return [totuple(item) for item in listofcomponents]
+    
+def test__clean_listofcomponents():
+    """py.test for _clean_listofcomponents"""
+    data = (([1, 2], [(1, None), (2, None)]), # lst, clst
+        ([(1, None), 2], [(1, None), (2, None)]), # lst, clst
+        ([(1, 'stuff'), 2], [(1, 'stuff'), (2, None)]), # lst, clst
+    )    
+    for lst, clst in data:
+        result = _clean_listofcomponents(lst)
+        assert result == clst
+
+def _clean_listofcomponents_tuples(listofcomponents_tuples):
+    """force 3 items in the tuple"""
+    def to3tuple(item):
+        if len(item) == 3:
+            return item
+        else:
+            return (item[0], item[1], None)
+    return [to3tuple(item) for item in listofcomponents_tuples]
+    
+def test__clean_listofcomponents_tuples():
+    """py.test for _clean_listofcomponents_tuples"""
+    data = (([(1,2), (2,3)], [(1,2,None), (2,3,None)]), # lst, clst
+            ([(1,2, None), (2,3)], [(1,2,None), (2,3,None)]), # lst, clst
+            ([(1,2, 'stuff'), (2,3)], [(1,2,'stuff'), (2,3,None)]), # lst, clst
+    )    
+    for lst, clst in data:
+        result = _clean_listofcomponents_tuples(lst)
+        assert result == clst
+
+def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid):
+    listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
+    branch = idf.getobject('BRANCH', branchname) # args are (key, name)
+    listofcomponents = []
+    for comp_type, comp_name, compnode in listofcomponents_tuples:
+        comp = idf.newidfobject(comp_type.upper(), comp_name)
+        listofcomponents.append((comp, compnode))
+    newbr = replacebranch(idf, loop, branch, listofcomponents,
+        debugsave=False, fluid=fluid)
+    return newbr
+
 def replacebranch(idf, loop, branch, 
                 listofcomponents, fluid='',
                 debugsave=False,
@@ -901,7 +950,8 @@ def replacebranch(idf, loop, branch,
         # change the node names in the component
         # empty the old branch
         # fill in the new components with the node names into this branch
-
+    listofcomponents = _clean_listofcomponents(listofcomponents)
+    
     components = [item[0] for item in listofcomponents]
     connectcomponents(idf, listofcomponents, fluid=fluid)
     if debugsave:
