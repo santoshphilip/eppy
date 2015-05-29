@@ -1,11 +1,20 @@
 Changes
 =======
 
+2015-05-27
+----------
+
+- idf.saveas(newname) changes the idf.idfname to newname
+    - so the next idf.save() will save to newname
+- to retain the original idf.idfname use idf.savecopy(copyname)
+
+
 2015-05-26
 ----------
 
-idf.save(lineendings='default')
-idf.saveas(fname, lineendings='default')
+updated the following:
+- idf.save(lineendings='default')
+- idf.saveas(fname, lineendings='default')
 
 - optional argument lineendings
     - if lineendings='default', uses the line endings of the platform

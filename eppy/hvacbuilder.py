@@ -205,6 +205,15 @@ def connectcomponents(idf, components, fluid=''):
     fluid is only needed if there are air and water nodes
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
+    if len(components) == 1:
+        thiscomp = components[0]
+        initinletoutlet(idf, thiscomp, force=False)
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
+        thiscomp[outletnodename] = [thiscomp[outletnodename],
+             thiscomp[outletnodename]]
+        # inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
+        # nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
+        return components
     for i in range(len(components) - 1):
         thiscomp = components[i]
         nextcomp = components[i + 1]
@@ -860,7 +869,7 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     return newcondenserloop
 
 def replacebranch(idf, loop, branch, 
-                listofcomponents, fluid='', 
+                listofcomponents, fluid='',
                 debugsave=False,
                 testing=None):
     """It will replace the components in the branch with components in 
@@ -879,7 +888,7 @@ def replacebranch(idf, loop, branch,
     components = listofcomponents
     connectcomponents(idf, components, fluid=fluid)
     if debugsave:
-        idf.saveas("hhh3.idf")
+        idf.savecopy("hhh3.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None: return None
@@ -888,6 +897,8 @@ def replacebranch(idf, loop, branch,
 
     thebranch = branch
     componentsintobranch(idf, thebranch, components, fluid=fluid)
+    if debugsave:
+        idf.savecopy("hhh4.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None: return None
@@ -897,7 +908,7 @@ def replacebranch(idf, loop, branch,
     # # do the renaming
     renamenodes(idf, 'node')
     if debugsave:
-        idf.saveas("hhh7.idf")
+        idf.savecopy("hhh7.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None: return None
@@ -1003,7 +1014,7 @@ def replacebranch(idf, loop, branch,
     # -------- testing ---------
 
     if debugsave:
-        idf.saveas("hhh8.idf")
+        idf.savecopy("hhh8.idf")
 
     # # gather all renamed nodes
     # # do the renaming
@@ -1013,7 +1024,7 @@ def replacebranch(idf, loop, branch,
     if testn == None: return None
     # -------- testing ---------
     if debugsave:
-        idf.saveas("hhh9.idf")
+        idf.savecopy("hhh9.idf")
     return thebranch
 
 def main():
@@ -1033,7 +1044,7 @@ def main():
     sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
     dloop = ['zone1', 'zone2', 'zone3']
     makeairloop(idf1, loopname, sloop, dloop)
-    idf1.saveas("hh1.idf")
+    idf1.savecopy("hh1.idf")
 
 
 if __name__ == '__main__':

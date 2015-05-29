@@ -669,7 +669,12 @@ class IDF4(IDF3):
             s = '\n'.join(slines)
         open(filename, 'w').write(s)
     def saveas(self, filename, lineendings='default'):
-        self.save(filename=filename, lineendings=lineendings)
+        self.idfname = filename
+        self.save(lineendings=lineendings)
+    def savecopy(self, filename, lineendings='default'):
+        """save a copy as filename"""
+        self.save(filename, lineendings=lineendings)
+    
 
 IDF = IDF4
         
