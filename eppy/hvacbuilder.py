@@ -923,15 +923,24 @@ def test__clean_listofcomponents_tuples():
         result = _clean_listofcomponents_tuples(lst)
         assert result == clst
 
-def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid):
+def getmakeidfobject(idf, key, name):
+    """get idfobject or make it if it does not exist"""
+    idfobject = idf.getobject(key, name)
+    if not idfobject:
+         return idf.newidfobject(key, name)
+    else:
+        return idfobject
+
+def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid='', 
+                    debugsave=False):
     listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
     branch = idf.getobject('BRANCH', branchname) # args are (key, name)
     listofcomponents = []
     for comp_type, comp_name, compnode in listofcomponents_tuples:
-        comp = idf.newidfobject(comp_type.upper(), comp_name)
+        comp = getmakeidfobject(idf, comp_type.upper(), comp_name)
         listofcomponents.append((comp, compnode))
     newbr = replacebranch(idf, loop, branch, listofcomponents,
-        debugsave=False, fluid=fluid)
+        debugsave=debugsave, fluid=fluid)
     return newbr
 
 def replacebranch(idf, loop, branch, 
