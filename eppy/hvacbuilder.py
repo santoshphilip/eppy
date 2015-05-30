@@ -187,13 +187,19 @@ def getfieldnamesendswith(idfobject, endswith):
         # print objls
     return [name for name in objls if name.endswith(endswith)]
     
-def getnodefieldname(idfobject, endswith, fluid=''):
+def getnodefieldname(idfobject, endswith, fluid=None, startswith=None):
     """return the field name of the node
     fluid is only needed if there are air and water nodes
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
+    if startswith is None:
+        startswith = ''
+    if fluid is None:
+        fluid = ''
     nodenames = getfieldnamesendswith(idfobject, endswith)
+    nodenames = [name for name in nodenames if name.startswith(startswith)]
     fnodenames=[nd for nd in nodenames if nd.find(fluid)!=-1]
+    fnodenames = [name for name in fnodenames if name.startswith(startswith)]
     if len(fnodenames) == 0:
         nodename = nodenames[0]
     else:
@@ -201,15 +207,18 @@ def getnodefieldname(idfobject, endswith, fluid=''):
     return nodename
         
     
-def connectcomponents(idf, components, fluid=''):
+def connectcomponents(idf, components, fluid=None):
     """rename nodes so that the components get connected
     fluid is only needed if there are air and water nodes
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
+    if fluid is None:
+        fluid = ''
     if len(components) == 1:
         thiscomp, thiscompnode = components[0]
         initinletoutlet(idf, thiscomp, thiscompnode, force=False)
-        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", 
+            fluid=fluid, startswith=thiscompnode)
         thiscomp[outletnodename] = [thiscomp[outletnodename],
              thiscomp[outletnodename]]
         # inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
@@ -221,7 +230,8 @@ def connectcomponents(idf, components, fluid=''):
         initinletoutlet(idf, thiscomp, thiscompnode, force=False)
         initinletoutlet(idf, nextcomp, nextcompnode, force=False)
         betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
-        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", 
+                fluid=fluid, startswith=thiscompnode)
         thiscomp[outletnodename] = [thiscomp[outletnodename], betweennodename]
         inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
         nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
@@ -267,11 +277,14 @@ def initinletoutlet(idf, idfobject, thisnode, force=False):
             idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
     return idfobject
     
-def componentsintobranch(idf, branch, componentlist, fluid=''):
+def componentsintobranch(idf, branch, listofcomponents, fluid=None):
     """insert a list of components into a branch
     fluid is only needed if there are air and water nodes in same object
     fluid is Air or Water or ''. 
     if the fluid is Steam, use Water"""
+    if fluid is None:
+        fluid = ''
+    componentlist = [item[0] for item in listofcomponents]
     # assumes that the nodes of the component connect to each other
     # empty branch if it has existing components
     thebranchname = branch.Name
@@ -281,12 +294,14 @@ def componentsintobranch(idf, branch, componentlist, fluid=''):
     e_index = idf.getextensibleindex('BRANCH', thebranchname)
     theobj = thebranch.obj
     modeleditor.extendlist(theobj, e_index) # just being careful here
-    for comp in componentlist:
+    for comp, compnode in listofcomponents:
         theobj.append(comp.key)
         theobj.append(comp.Name)
-        inletnodename = getnodefieldname(comp, "Inlet_Node_Name", fluid)
+        inletnodename = getnodefieldname(comp, "Inlet_Node_Name", fluid=fluid,  
+            startswith=compnode)
         theobj.append(comp[inletnodename])
-        outletnodename = getnodefieldname(comp, "Outlet_Node_Name", fluid)
+        outletnodename = getnodefieldname(comp, "Outlet_Node_Name", 
+            fluid=fluid, startswith=compnode)
         theobj.append(comp[outletnodename])
         theobj.append('')
     
@@ -931,8 +946,10 @@ def getmakeidfobject(idf, key, name):
     else:
         return idfobject
 
-def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid='', 
+def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid=None, 
                     debugsave=False):
+    if fluid is None:
+        fluid = ''
     listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
     branch = idf.getobject('BRANCH', branchname) # args are (key, name)
     listofcomponents = []
@@ -944,11 +961,13 @@ def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid='',
     return newbr
 
 def replacebranch(idf, loop, branch, 
-                listofcomponents, fluid='',
+                listofcomponents, fluid=None,
                 debugsave=False,
                 testing=None):
     """It will replace the components in the branch with components in 
     listofcomponents"""
+    if fluid is None:
+        fluid = ''
     # -------- testing ---------
     testn = 0
     # -------- testing ---------    
@@ -972,7 +991,7 @@ def replacebranch(idf, loop, branch,
     fields = SomeFields.a_fields
 
     thebranch = branch
-    componentsintobranch(idf, thebranch, components, fluid=fluid)
+    componentsintobranch(idf, thebranch, listofcomponents, fluid=fluid)
     if debugsave:
         idf.savecopy("hhh4.idf")
     # -------- testing ---------
