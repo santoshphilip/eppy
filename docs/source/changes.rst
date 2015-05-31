@@ -1,6 +1,13 @@
 Changes
 =======
 
+2015-05-30
+----------
+
+- bugfix in ./eppy/Air:useful_scripts/idfdiff.py
+- added in ./eppy/Air:useful_scripts/idfdiff_missing.py
+    - this displays only the missing objects in either file
+
 2015-05-27
 ----------
 

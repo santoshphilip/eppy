@@ -116,19 +116,19 @@ def idfdiffs(idf1, idf2):
                                                           n_idfobjs2):
                 if idfobj1 == None:
                     thediffs[(idfobj2.key.upper(), 
-                                getobjname(idfobj2))] = (None, idf1.idfname) #(idf1.idfname, None) -> old
+                                getobjname(idfobj2))] = (None, idf1.idfname) #(idf1.idfname, None)
                     break
                 if idfobj2 == None:
                     thediffs[(idfobj1.key.upper(), 
-                                getobjname(idfobj1))] = (idf2.idfname, None) # (None, idf2.idfname) -> old
+                                getobjname(idfobj1))] = (idf2.idfname, None) # (None, idf2.idfname)
                     break
-                for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
-                    if i == 0:
-                        f1, f2 = f1.upper(), f2.upper()
-                    if f1 != f2:
-                        thediffs[(akey, 
-                                getobjname(idfobj1),    
-                                idfobj1.objidd[i]['field'][0])] = (f1, f2)
+                # for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
+                #     if i == 0:
+                #         f1, f2 = f1.upper(), f2.upper()
+                #     if f1 != f2:
+                #         thediffs[(akey,
+                #                 getobjname(idfobj1),
+                #                 idfobj1.objidd[i]['field'][0])] = (f1, f2)
     return thediffs
 
 def printcsv(csvdiffs):
