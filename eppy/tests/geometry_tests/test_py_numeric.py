@@ -22,6 +22,7 @@
 import eppy.geometry.py_numeric as py_numeric
 from eppy.pytest_helpers import almostequal
 import pytest
+from eppy.geometry.py_numeric import LinAlgError
 
 
 # Start vector cross product tests
@@ -145,6 +146,7 @@ def test_singular_vctr_det():
     y = [-2, 0, 0]
     z = [4, 6, 1]
 
-    with pytest.raises(Exception) as execinfo:
+    with pytest.raises(LinAlgError) as execinfo:
         A = py_numeric.vctr_det(x, y, z)
-    assert 'Singular Determinant' in str(execinfo.value)
+        print A
+    assert 'Singular matrix' in str(execinfo.value)
