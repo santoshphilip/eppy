@@ -2,15 +2,15 @@ Numpy functions to be recreated in Python
 
 ** Revise all functions to included exception handling
    [x] Cross product
-   [ ] Dot product
-   [ ] Determinant
+   [x] Dot product
+   [x] Determinant
 ** Add custom exceptions linear algebra errors
 1. [x] Cross product
 2. [x] Dot product
 3. [x] Determinant
-4. [ ] Array
-5. [ ] Square root
-6. [ ] Arc-cosine
+4. [ ] Array *This functionis rarely used and can be accomplished with a native Python libary*
+5. [ ] Square root *This fuction is available from the native Python library, math*
+6. [ ] Arc-cosine *This fuction is available from the native Python library, math*
 
 -------------------------------------------------------------------------------------------------------------------------
 

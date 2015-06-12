@@ -98,7 +98,7 @@ def test_2dim_dot():
     with pytest.raises(IndexError) as execinfo:
         z = py_numeric.vctr_dot(x, y)
 
-    assert 'Vector has invalid dimensions' in str(execinfo.value) 
+    assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 def test_4dim_dot():
@@ -127,6 +127,7 @@ def test_mdim_dot():
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
+# Start vector determinant tests
 def test_vctr_det():
     """test calculation of the determinant of a three dimentional"""
 
