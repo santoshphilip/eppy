@@ -23,6 +23,7 @@ try:
 except ImportError as e:
     import py_numeric as np
 
+
 # area of a polygon
 def area(poly):
     if len(poly) < 3: # not a plane - no area
