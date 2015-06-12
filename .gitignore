@@ -2,8 +2,8 @@
 .commitLog
 .ipynb_checkpoints/
 *.sublime*
-*test*
 venv/
+InputSim/
 
 #===============================https://github.com/github/gitignore.git============================
 
