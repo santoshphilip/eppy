@@ -126,7 +126,7 @@ def test_mdim_dot():
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
-
+# Start vector determinant tests
 def test_vctr_det():
     """test calculation of the determinant of a three dimentional"""
 
