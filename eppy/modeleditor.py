@@ -534,7 +534,7 @@ class IDF1(IDF0):
         idfobject usually comes from another idf file
         or it can be used to copy within this idf file"""
         # TODO unit test
-        addthisbunch(self.idfobjects, 
+        return addthisbunch(self.idfobjects, 
                             self.model,
                             self.idd_info,
                             idfobject)
