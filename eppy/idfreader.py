@@ -28,7 +28,7 @@ def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
     def versiontuple(v):
         return tuple(map(int, (v.split("."))))
-    if type(afile) == str:
+    if type(afile) == str or type(afile) == unicode:
         fhandle = open(afile, 'r')
     else:
         fhandle = afile

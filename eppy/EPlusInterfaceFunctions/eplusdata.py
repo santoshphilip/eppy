@@ -107,18 +107,18 @@ class eplusdata:
     def __init__(self,dictfile=None,fname=None):
         if fname==None and dictfile==None:
             self.dt,self.dtls={},[]
-        if isinstance(dictfile,str) and fname==None:
+        if isinstance(dictfile,(str,unicode)) and fname==None:
             self.initdict(dictfile)
         if isinstance(dictfile,idd) and fname==None:
             self.initdict(dictfile)
-        if isinstance(fname,str) and isinstance(dictfile,str):
+        if isinstance(fname,(str,unicode)) and isinstance(dictfile,(str,unicode)):
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile,fnamefobject)
-        if isinstance(fname,str) and isinstance(dictfile,idd):
+        if isinstance(fname,(str,unicode)) and isinstance(dictfile,idd):
             fnamefobject = open(fname, 'r')
             self.makedict(dictfile,fnamefobject)
         from StringIO import StringIO
-        if isinstance(fname,(file, StringIO)) and isinstance(dictfile,str):
+        if isinstance(fname,(file, StringIO)) and isinstance(dictfile,(str,unicode)):
             self.makedict(dictfile,fname)
         if isinstance(fname,(file, StringIO)) and isinstance(dictfile,idd):
             self.makedict(dictfile,fname)
