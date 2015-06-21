@@ -92,7 +92,7 @@ def angle2vecs(vec1,vec2):
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
-    return math.degrees(math.arccos(cos_angle)) 
+    return math.degrees(math.acos(cos_angle)) 
 
 # orienation of a polygon poly
 def azimuth(poly):
