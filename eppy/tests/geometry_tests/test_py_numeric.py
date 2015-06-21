@@ -26,13 +26,13 @@ from eppy.geometry.py_numeric import LinAlgError
 
 
 # Start vector cross product tests
-def test_vctr_cross():
+def test_cross():
     """test the cross product of two 3 dimentional vectors"""
 
     # Vector cross-product.
     x = [1, 2, 3]
     y = [4, 5, 6]
-    z = py_numeric.vctr_cross(x, y)
+    z = py_numeric.cross(x, y)
 
     assert z == [-3, 6, -3]
 
@@ -45,7 +45,7 @@ def test_2dim_cross():
     y = [4, 5]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_cross(x, y)
+        z = py_numeric.cross(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
@@ -58,7 +58,7 @@ def test_4dim_cross():
     y = [5, 6, 7, 8]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_cross(x, y)
+        z = py_numeric.cross(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
@@ -71,19 +71,19 @@ def test_mdim_cross():
     y = [4, 5, 6, 7]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_cross(x, y)
+        z = py_numeric.cross(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 # Start vector dot product tests
-def test_vctr_dot():
+def test_dot():
     """test the dot product of two mixed dimentional vectors"""
 
     # Vector dot-product.
     x = [1, 2, 3]
     y = [4, 5, 6]
-    z = py_numeric.vctr_dot(x, y)
+    z = py_numeric.dot(x, y)
 
     assert z == [4, 10, 18]
 
@@ -96,7 +96,7 @@ def test_2dim_dot():
     y = [4, 5]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_dot(x, y)
+        z = py_numeric.dot(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
@@ -109,7 +109,7 @@ def test_4dim_dot():
     y = [5, 6, 7, 8]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_dot(x, y)
+        z = py_numeric.dot(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
@@ -122,25 +122,25 @@ def test_mdim_dot():
     y = [4, 5, 6, 7]
 
     with pytest.raises(IndexError) as execinfo:
-        z = py_numeric.vctr_dot(x, y)
+        z = py_numeric.dot(x, y)
 
     assert 'Vector has invalid dimensions' in str(execinfo.value)
 
 
 # Start vector determinant tests
-def test_vctr_det():
+def test_det():
     """test calculation of the determinant of a three dimentional"""
 
     # Three dim determinant
     x = [5, -2, 1]
     y = [0, 3, -1]
     z = [2, 0, 7]
-    a = py_numeric.vctr_det(x, y, z)
+    a = py_numeric.linalg.det(x, y, z)
 
     assert a == 103
 
 
-def test_singular_vctr_det():
+def test_singular_det():
     """test calculation of a singular determinant of a three dimentional"""
     # Three dim determinant
     x = [1, 0, 0]
@@ -148,6 +148,6 @@ def test_singular_vctr_det():
     z = [4, 6, 1]
 
     with pytest.raises(Exception) as execinfo:
-        A = py_numeric.vctr_det(x, y, z)
+        A = py_numeric.linalg.det(x, y, z)
         print A
     assert 'Singular matrix' in str(execinfo.value)

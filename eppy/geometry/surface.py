@@ -25,9 +25,11 @@
 
 try:
     import numpy as np
+    import numpy.arccos as arccos
 except ImportError as e:
     import py_numeric as np
-import math
+    from math import acos as arccos
+import array
 
 
 def area(poly):
@@ -92,15 +94,15 @@ def angle2vecs(vec1,vec2):
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
-    return math.degrees(math.acos(cos_angle)) 
+    return math.degrees(arccos(cos_angle)) 
 
 # orienation of a polygon poly
 def azimuth(poly):
     """Azimuth of a polygon poly"""
     N = len(poly) - 1
     vec = unit_normal(poly[0], poly[1], poly[N])
-    vec_azi = np.array([vec[0], vec[1], 0])
-    vec_N = np.array([0, 1, 0])
+    vec_azi = array.array([vec[0], vec[1], 0])
+    vec_N = array.array([0, 1, 0])
     # update by Santosh
     # angle2vecs gives the smallest angle between the vectors
     # so for a west wall angle2vecs will give 90
@@ -115,8 +117,8 @@ def tilt(poly):
     """Tilt of a polygon poly"""
     N = len(poly) - 1
     vec = unit_normal(poly[0], poly[1], poly[N])
-    vec_alt = np.array([vec[0], vec[1], vec[2]])
-    vec_z = np.array([0,0,1])
+    vec_alt = array.array([vec[0], vec[1], vec[2]])
+    vec_z = array.array([0,0,1])
     # return (90 - angle2vecs(vec_alt, vec_z)) # update by Santosh
     return (angle2vecs(vec_alt, vec_z))
     

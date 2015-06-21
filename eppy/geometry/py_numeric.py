@@ -20,12 +20,13 @@
 # Written by Eric Youngson eric@scneco.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
 
+import py_linalg as linalg
 
 class LinAlgError(Exception):
     pass
 
 
-def vctr_cross(u, v):
+def cross(u, v):
     """
     Return the cross product of two 3 dimentional vectors.
 
@@ -81,7 +82,7 @@ def vctr_cross(u, v):
     return uxv
 
 
-def vctr_dot(u, v):
+def dot(u, v):
     """
     Return the dot product of two 3 dimentional vectors.
 
@@ -134,27 +135,3 @@ def vctr_dot(u, v):
     else:
         raise IndexError('Vector has invalid dimensions')
     return u_dot_v
-
-
-def vctr_det(u, v, w):
-    uDim = len(u)
-    vDim = len(v)
-    wDim = len(w)
-
-    det_A = []
-
-    if uDim == vDim == wDim == 3:
-        try:
-            # http://mathworld.wolfram.com/Determinant.html
-            A = [[u[0], u[1], u[2]], [v[0], v[1], v[2]], [w[0], w[1], w[2]]]
-            det_A = (A[0][0] * A[1][1] * A[2][2] + A[0][1] * A[1][2] *
-                     A[2][0] + A[0][2] * A[1][0] * A[2][1] - (A[0][2] *
-                     A[1][1] * A[2][0] + A[0][1] * A[1][0] * A[2][2] +
-                     A[0][0] * A[1][2] * A[2][1]))
-            if det_A == 0:
-                raise Exception('Singular matrix')
-        except LinAlgError as e:
-            det_A = e
-    else:
-        raise IndexError('Vector has invalid dimensions')
-    return det_A
