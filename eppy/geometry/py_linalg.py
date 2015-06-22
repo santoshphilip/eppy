@@ -25,17 +25,11 @@ class LinAlgError(Exception):
     pass
 
 
-def det(u, v, w):
-    uDim = len(u)
-    vDim = len(v)
-    wDim = len(w)
-
-    det_A = []
-
-    if uDim == vDim == wDim == 3:
+def det(A):
+    if len(A) == 3 and [len(vec)==3 for vec in A]:
         try:
             # http://mathworld.wolfram.com/Determinant.html
-            A = [[u[0], u[1], u[2]], [v[0], v[1], v[2]], [w[0], w[1], w[2]]]
+            det_A = []
             det_A = (A[0][0] * A[1][1] * A[2][2] + A[0][1] * A[1][2] *
                      A[2][0] + A[0][2] * A[1][0] * A[2][1] - (A[0][2] *
                      A[1][1] * A[2][0] + A[0][1] * A[1][0] * A[2][2] +

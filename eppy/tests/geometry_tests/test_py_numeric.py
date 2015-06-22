@@ -135,7 +135,9 @@ def test_det():
     x = [5, -2, 1]
     y = [0, 3, -1]
     z = [2, 0, 7]
-    a = py_numeric.linalg.det(x, y, z)
+    mat = [x, y, z]
+
+    a = py_numeric.linalg.det(mat)
 
     assert a == 103
 
@@ -146,8 +148,9 @@ def test_singular_det():
     x = [1, 0, 0]
     y = [-2, 0, 0]
     z = [4, 6, 1]
+    mat = [x, y, z]
 
     with pytest.raises(Exception) as execinfo:
-        A = py_numeric.linalg.det(x, y, z)
+        A = py_numeric.linalg.det(mat)
         print A
     assert 'Singular matrix' in str(execinfo.value)
