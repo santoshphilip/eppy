@@ -22,8 +22,13 @@
 ####### The following code within the block credited by ActiveState Code Recipes code.activestate.com
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 
-import numpy as np
+try:
+    import numpy as np
+    from numpy  import arccos as arccos
+except ImportError as e:
+   from math import acos as arccos 
 import math
+
 
 def area(poly):
     """Area of a polygon poly""" 
@@ -87,7 +92,7 @@ def angle2vecs(vec1,vec2):
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
-    return math.degrees(np.arccos(cos_angle)) 
+    return math.degrees(arccos(cos_angle)) 
 
 # orienation of a polygon poly
 def azimuth(poly):
