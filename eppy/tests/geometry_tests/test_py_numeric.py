@@ -152,5 +152,4 @@ def test_singular_det():
 
     with pytest.raises(Exception) as execinfo:
         A = py_numeric.linalg.det(mat)
-        print A
     assert 'Singular matrix' in str(execinfo.value)
