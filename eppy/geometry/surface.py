@@ -23,7 +23,7 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 
 try:
-    import numpy as np
+    import py_numeric as np
     from numpy import arccos as arccos
     from numpy import sqrt as sqrt
     from numpy import array as array
@@ -97,6 +97,7 @@ def angle2vecs(vec1,vec2):
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
+    print type(cos_angle)
     return math.degrees(arccos(cos_angle)) 
 
 # orienation of a polygon poly

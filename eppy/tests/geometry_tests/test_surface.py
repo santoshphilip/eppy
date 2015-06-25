@@ -84,4 +84,3 @@ def test_tilt():
     for poly,answer in data:
         result = surface.tilt(poly)
         assert almostequal(answer, result, places=3) == True
-       

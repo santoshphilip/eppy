@@ -1,4 +1,4 @@
-# Copyright (c) 2014 Eric Youngson
+# Copyright (c) 2014 Eric Allen Youngson
 
 # This file is part of eppy.
 
@@ -122,14 +122,11 @@ def dot(u, v):
     uDim = len(u)
     vDim = len(v)
 
-    u_dot_v = []
-
     # http://reference.wolfram.com/language/ref/Dot.html
     if uDim == vDim == 3:
         try:
             for i in range(uDim):
-                u_dot_v.append(0)
-                u_dot_v = [u[0]*v[0], u[1]*v[1], u[2]*v[2]]
+                u_dot_v = sum([u[0]*v[0], u[1]*v[1], u[2]*v[2]])
         except LinAlgError as e:
             u_dot_v = e
     else:

@@ -85,7 +85,7 @@ def test_dot():
     y = [4, 5, 6]
     z = py_numeric.dot(x, y)
 
-    assert z == [4, 10, 18]
+    assert z == 32
 
 
 def test_2dim_dot():
@@ -140,16 +140,3 @@ def test_det():
     a = py_numeric.linalg.det(mat)
 
     assert a == 103
-
-
-def test_singular_det():
-    """test calculation of a singular determinant of a three dimentional"""
-    # Three dim determinant
-    x = [1, 0, 0]
-    y = [-2, 0, 0]
-    z = [4, 6, 1]
-    mat = [x, y, z]
-
-    with pytest.raises(Exception) as execinfo:
-        A = py_numeric.linalg.det(mat)
-    assert 'Singular matrix' in str(execinfo.value)
