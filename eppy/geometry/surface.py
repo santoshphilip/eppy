@@ -43,6 +43,8 @@ def area(poly):
         total[0] += prod[0]
         total[1] += prod[1]
         total[2] += prod[2]
+    if total == [0, 0, 0]:  # points are in a straight line - no area
+        return 0
     result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
     return abs(result/2)
 
