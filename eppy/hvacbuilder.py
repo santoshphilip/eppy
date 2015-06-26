@@ -284,6 +284,7 @@ def componentsintobranch(idf, branch, listofcomponents, fluid=None):
     if the fluid is Steam, use Water"""
     if fluid is None:
         fluid = ''
+    print "listofcomponents", listofcomponents
     componentlist = [item[0] for item in listofcomponents]
     # assumes that the nodes of the component connect to each other
     # empty branch if it has existing components

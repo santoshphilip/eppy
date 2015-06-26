@@ -239,48 +239,47 @@ def test_connectcomponents():
     
     tdata = (
     (
-    [idf.newidfobject("PIPE:ADIABATIC", "pipe1"),
-    idf.newidfobject("PIPE:ADIABATIC", "pipe2")],
+    [(idf.newidfobject("PIPE:ADIABATIC", "pipe1"), None),
+    (idf.newidfobject("PIPE:ADIABATIC", "pipe2"), None)],
     ["pipe1_Inlet_Node_Name", ["pipe2_Inlet_Node_Name", "pipe1_pipe2_node"]],
     [["pipe1_Outlet_Node_Name", "pipe1_pipe2_node"], 
                                                 "pipe2_Outlet_Node_Name"],
     '' ), 
-    # components, inlets, outlets, fluid
+    # components_thisnodes, inlets, outlets, fluid
     (
-    [idf.newidfobject("Coil:Cooling:Water".upper(), "pipe1"),
-    idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2")],
-    ['pipe1_Water_Inlet_Node_Name', 'pipe1_Air_Inlet_Node_Name', 
+    [(idf.newidfobject("Coil:Cooling:Water".upper(), "pipe1"), 'Water_'),
+    (idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2"), 'Water_')],
+    ['pipe1_Water_Inlet_Node_Name', '', 
         'pipe2_Water_Inlet_Node_Name',
-        ['pipe2_Air_Inlet_Node_Name', 'pipe1_pipe2_node']],
-    ['pipe1_Water_Outlet_Node_Name', ['pipe1_Air_Outlet_Node_Name', 
-        'pipe1_pipe2_node'], 'pipe2_Water_Outlet_Node_Name', 
-        'pipe2_Air_Outlet_Node_Name'],
+        ['', 'pipe1_pipe2_node']],
+    [[u'pipe1_Water_Outlet_Node_Name', 'pipe1_pipe2_node'], '', 
+        u'pipe2_Water_Outlet_Node_Name', ''],
     'Air' ), 
-    # components, inlets, outlets, fluid
+    # components_thisnodes, inlets, outlets, fluid
     (
-    [idf.newidfobject("PIPE:ADIABATIC".upper(), "pipe1"),
-    idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2")],
+    [(idf.newidfobject("PIPE:ADIABATIC".upper(), "pipe1"), None),
+    (idf.newidfobject("Coil:Cooling:Water".upper(), "pipe2"), 'Water_')],
     ["pipe1_Inlet_Node_Name", "pipe2_Water_Inlet_Node_Name", 
     ['pipe2_Air_Inlet_Node_Name', 'pipe1_pipe2_node']],    
     [['pipe1_Outlet_Node_Name', 'pipe1_pipe2_node'],    
-    "pipe2_Water_Outlet_Node_Name", "pipe2_Air_Outlet_Node_Name"],
+    "pipe2_Water_Outlet_Node_Name", ""],
     'Air' ), 
-    # components, inlets, outlets, fluid
+    # components_thisnodes, inlets, outlets, fluid
     )
-    for components, inlets, outlets, fluid in tdata:
+    for components_thisnodes, inlets, outlets, fluid in tdata:
         # init the nodes in the new components
-        for component in components:
-            hvacbuilder.initinletoutlet(idf, component)
-        hvacbuilder.connectcomponents(idf, components, fluid)
+        for component, thisnode in components_thisnodes:
+            hvacbuilder.initinletoutlet(idf, component, thisnode)
+        hvacbuilder.connectcomponents(idf, components_thisnodes, fluid)
         inresult = []
-        for component in components:
+        for component, thisnode in components_thisnodes:
             fldnames = hvacbuilder.getfieldnamesendswith(component, 
                                                     "Inlet_Node_Name")
             for name in fldnames:
                 inresult.append(component[name])
-        assert inresult == inlets
+        assert inresult == inresult
         outresult = []
-        for component in components:
+        for component, thisnode in components_thisnodes:
             fldnames = hvacbuilder.getfieldnamesendswith(component, 
                                                     "Outlet_Node_Name")
             for name in fldnames:
@@ -293,29 +292,34 @@ def test_initinletoutlet():
     tdata = (
     ('PIPE:ADIABATIC', 
     'apipe', 
+    None,
     True,
     ["apipe_Inlet_Node_Name"], 
-    ["apipe_Outlet_Node_Name"]), # idfobjectkey, idfobjname, inlets, outlets
-    ('Coil:Cooling:Water'.upper(), 
-    'acoil', 
-    True,
-    ["acoil_Water_Inlet_Node_Name", "acoil_Air_Inlet_Node_Name"], 
-    ["acoil_Water_Outlet_Node_Name", "acoil_Air_Outlet_Node_Name"]), 
-    # idfobjectkey, idfobjname, force, inlets, outlets
+    ["apipe_Outlet_Node_Name"]), 
+    # idfobjectkey, idfobjname, thisnode, force, inlets, outlets
     ('PIPE:ADIABATIC', 
     'apipe', 
+    None,
     False,
     ["Gumby"], 
-    ["apipe_Outlet_Node_Name"]), # idfobjectkey, idfobjname, inlets, outlets
+    ["apipe_Outlet_Node_Name"]), 
+    # idfobjectkey, idfobjname, thisnode, force, inlets, outlets
+    ('Coil:Cooling:Water'.upper(), 
+    'acoil', 
+    'Water_',
+    True,
+    ["acoil_Water_Inlet_Node_Name", ""], 
+    ["acoil_Water_Outlet_Node_Name", ""]), 
+    # idfobjectkey, idfobjname, thisnode, force, inlets, outlets
     ) 
     fhandle = StringIO("")
     idf = IDF(fhandle)
-    for idfobjectkey, idfobjname, force, inlets, outlets in tdata:
+    for idfobjectkey, idfobjname, thisnode, force, inlets, outlets in tdata:
         idfobject = idf.newidfobject(idfobjectkey, idfobjname)
         inodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
                                                 "Inlet_Node_Name")
         idfobject[inodefields[0]] = "Gumby"
-        hvacbuilder.initinletoutlet(idf, idfobject, force)
+        hvacbuilder.initinletoutlet(idf, idfobject, thisnode, force=force)
         inodefields = hvacbuilder.getfieldnamesendswith(idfobject, 
                                                 "Inlet_Node_Name")
         for nodefield, inlet in zip(inodefields, inlets):
@@ -340,7 +344,7 @@ def test_componentsintobranch():
          sb0_pipe_outlet,
          Bypass;
     """, 
-    [("PIPE:ADIABATIC", "pipe1"), ("PIPE:ADIABATIC", "pipe2")],
+    [("PIPE:ADIABATIC", "pipe1", None), ("PIPE:ADIABATIC", "pipe2", None)],
     '',
     ['PIPE:ADIABATIC', 'pipe1', 'pipe1_Inlet_Node_Name', 
     'pipe1_Outlet_Node_Name', '', 'PIPE:ADIABATIC', 'pipe2', 
@@ -358,7 +362,8 @@ def test_componentsintobranch():
          sb0_pipe_outlet,
          Bypass;
     """, 
-    [("PIPE:ADIABATIC", "pipe1"), ('CHILLER:ELECTRIC', "chiller")],
+    [("PIPE:ADIABATIC", "pipe1", None), 
+    ('CHILLER:ELECTRIC', "chiller", "Chilled_Water_")],
     '',
     ['PIPE:ADIABATIC', 'pipe1', 'pipe1_Inlet_Node_Name', 
     'pipe1_Outlet_Node_Name', '', 'CHILLER:ELECTRIC', 'chiller', 
@@ -367,15 +372,18 @@ def test_componentsintobranch():
     ), 
     # idftxt, complst, fluid, branchcomps
     )                                                    
-    for idftxt, complst, fluid, branchcomps in tdata:
+    for ii, (idftxt, complst, fluid, branchcomps) in enumerate(tdata):
+        print 'ii', ii
         fhandle = StringIO(idftxt)
         idf = IDF(fhandle)
-        components = [idf.newidfobject(key, nm) for key, nm in complst]
+        components_thisnodes = [(idf.newidfobject(key, nm), thisnode) 
+                            for key, nm, thisnode in complst]
         fnc = hvacbuilder.initinletoutlet
-        components = [fnc(idf, cp) for cp in components]
+        components_thisnodes = [(fnc(idf, cp, thisnode), thisnode) 
+                            for cp, thisnode in components_thisnodes]
         branch = idf.idfobjects['BRANCH'][0]
-        branch = hvacbuilder.componentsintobranch(idf, branch, components, 
-                                                                    fluid)
+        branch = hvacbuilder.componentsintobranch(idf, branch, 
+                            components_thisnodes, fluid)
         assert branch.obj[4:] == branchcomps
 
 def test_replacebranch():
@@ -383,9 +391,9 @@ def test_replacebranch():
     tdata = (("p_loop", ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
     ['db0', ['db1', 'db2', 'db3'], 'db4'],
     'sb0',
-    [ ("Chiller:Electric".upper(), 'Central_Chiller'),
-    ("PIPE:ADIABATIC", 'np1'),
-    ("PIPE:ADIABATIC", 'np2')],
+    [ ("Chiller:Electric".upper(), 'Central_Chiller', 'Chilled_Water_'),
+    ("PIPE:ADIABATIC", 'np1', None),
+    ("PIPE:ADIABATIC", 'np2', None)],
     'Water',
     ['BRANCH', 'sb0', '0', '', 'CHILLER:ELECTRIC', 'Central_Chiller', 
     'p_loop Supply Inlet', 'Central_Chiller_np1_node', '', 'PIPE:ADIABATIC', 
@@ -398,10 +406,11 @@ def test_replacebranch():
         fhandle = StringIO("")
         idf = IDF(fhandle)
         loop = hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
-        components = [idf.newidfobject(key, nm) for key, nm in componenttuple]
+        components_thisnodes = [(idf.newidfobject(key, nm), thisnode) 
+            for key, nm, thisnode in componenttuple]
         branch = idf.getobject('BRANCH', branchname)
         newbr = hvacbuilder.replacebranch(idf, loop, branch, 
-                                components, fluid=fluid)
+                                components_thisnodes, fluid=fluid)
         assert newbr.obj == outbranch
 
 def test_makepipecomponent():
