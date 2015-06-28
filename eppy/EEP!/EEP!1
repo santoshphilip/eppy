@@ -1,7 +1,7 @@
 # EEP!: 1
 * Title: Standard for the use of logging in Eppy 
-* Version: 0.0.2
-* Last-Modified: 26 Jun 2015
+* Version: 0.0.3
+* Last-Modified: 28 Jun 2015
 * Author: Jamie Bull jamie.bull@oco-carbon.com
 * Status: Draft
 * Type: Standards Track
@@ -13,7 +13,7 @@ This inaugural Eppy Enhancement Proposal (EEP!) puts forward use cases
 for logging, from both a developer and a user perspective.
 
 The proposal is not that logging is made a requirement, just that logging
-can be implemented easily and consistently where a developer sees a need.
+should be implemented easily and consistently where a developer sees a need.
 
 ## Rationale
 Logging has two main use cases, each of which has unique characteristics
@@ -40,16 +40,15 @@ variable and perhaps invalid inputs.
 ## Proposed standards
 
 ### Logging module
-All logging should use a logging configuration file. This could either be
-directly in a python file (quicker to code), or alternatively an .ini
-file (easier for users to edit). This will help to ensure a consistent
-logging format is followed across modules. To implement logging within a
+All logging should use a logging configuration file. This is done using an .ini
+file which is easy for users to edit. This will help to ensure a consistent
+logging format is followed across modules. To implement ad hoc logging within a
 module, all that needs to be added is the following code:
 
-	import eppy.log_config  # module location tbd
+	from eppy import eppylog
 	
 	# create a module-level logger 
-	logger = log_config.get_logger(__name__)
+	logger = eppylog.getlogger(__name__)
 	
 	# used as follows
 	logger.debug("This is a DEBUG level message")
@@ -75,32 +74,35 @@ The default should be no logging, to be turned on when needed.
 
 ### Log format
 * standard log format
-This would log to a (rotating?) text file saved with a .log extension.
+This will log to a rotating text file saved with a .log extension.
+Format still needs deciding and implementing.
+
 * json format
-This would save to a .json file. Suggested schema would be:
+This logs to a rotating json file. The schema is:
 
-'timestamp': unix timestamp,
-'log_level': one of the Python log levels, e.g. INFO, DEBUG
-'call': module and function name
-'args': list of positional args
-'kwargs': dict of keyword args
-'return_values': list of return values
+[{'timestamp': unix timestamp,
+  'log_level': integer representing a Python log levels, e.g. INFO = 20
+  'call': module and function name
+  'args': list of positional args
+  'kwargs': dict of keyword args
+  'return_values': list of return values},
+  ...]
     
-## Implementation
-It should be possible to use a decorator to implement logging. There is an
+## Decorator
+It is also be possible to use a decorator to implement logging. There is an
 example of using a decorator to log function calls available from the Python
-Wiki [2]. For our purposes, it will need modifying to include the parameters
-and return value, as well as to take a log level parameter.
+Wiki [2]. This has been modified to include the parameters and return value,
+as well as to take a log level parameter.
 
-When used in a module it would look like:
+When used in a module it looks like:
     
-    @logged(debug)
+    @loglevel('debug')
     def my_function(a, b, c=0):
         return a * b + c
         
     print my_function(2, 4, 6)
 
-In json format this would append something like:
+In json format this appends the following to a log.json rotating log file:
 
     [{'timestamp': 1435317572,
       'log_level': 'DEBUG',
