@@ -167,9 +167,9 @@ def getobject(bunchdt, key, name):
     You should not have more than one"""
     # TODO : throw exception if more than one object, or return more objects    idfobjects = bunchdt[key]
     if idfobjects:
-        uniqueID = idfobjects[0].objls[1] # second item in list is a unique ID
+        unique_id = idfobjects[0].objls[1] # second item in list is a unique ID
     theobjs = [idfobj for idfobj in idfobjects if
-               idfobj[uniqueID].upper() == name.upper()]
+               idfobj[unique_id].upper() == name.upper()]
     try:
         return theobjs[0]
     except IndexError:

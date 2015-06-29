@@ -28,12 +28,12 @@ from eppy.iddcurrent import iddcurrent
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
-import bunch
-import pytest
 
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
+import bunch 
+import pytest
 
 
 iddsnippet = iddcurrent.iddtxt
@@ -53,7 +53,7 @@ if IDF.getiddname() == None:
 
 def test_poptrailing():
     """py.test for poptrailing"""
-    data = (
+    tdata = (
         (
             [1, 2, 3, '', 56, '', '', '', ''],
             [1, 2, 3, '', 56]
@@ -70,13 +70,13 @@ def test_poptrailing():
 
 def test_extendlist():
     """py.test for extendlist"""
-    data = (
+    tdata = (
         ([1, 2, 3], 2, 0, [1, 2, 3]), # lst, i, value, nlst
         ([1, 2, 3], 3, 0, [1, 2, 3, 0]), # lst, i, value, nlst
         ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]), # lst, i, value, nlst
         ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]), # lst, i, value, nlst
     )
-    for lst, i, value, nlst in data:
+    for lst, i, value, nlst in tdata:
         modeleditor.extendlist(lst, i, value=value)
         assert lst == nlst
 
@@ -173,7 +173,7 @@ def test_getobject():
         ('ZONE', 'PLENUM-1'.lower(), bunchdt['ZONE'][0]), # key, name, theobject
         ('ZONE', 'PLENUM-A', None), # key, name, theobject
         ('ZONEHVAC:EQUIPMENTCONNECTIONS', 'SPACE1-1',
-            bunchdt['ZONEHVAC:EQUIPMENTCONNECTIONS'][0]), # key, name, theobject
+         bunchdt['ZONEHVAC:EQUIPMENTCONNECTIONS'][0]), # key, name, theobject
     )
     for key, name, theobject in thedata:
         result = modeleditor.getobject(bunchdt, key, name)
