@@ -6,11 +6,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from logging import Logger
+import json
 
 from testfixtures import LogCapture
 import pytest
 
 from eppy import eppylog
+
 
 @eppylog.loglevel('info')
 def decorated_info_function(a, b, c=0):
@@ -26,31 +28,68 @@ def test_getlogger():
     logger1 = eppylog.getlogger(__name__)
     assert isinstance(logger1, Logger)
 
-def test_logdecorator():
-    """test that logging using a decorator works
-    """
-    with LogCapture() as l:
-        decorated_info_function(2, 4, c=6)
-    l.records[0].msg['timestamp'] = 1435000000.0
-    l.check(("eppy.tests.test_eppylog",
-        "INFO",
-        "{u'log_level': 20, u'timestamp': 1435000000.0, u'args': (2, 4), u'call': u'eppy.tests.test_eppylog.decorated_info_function', u'return_values': [14], u'kwargs': {'c': 6}}",)
-            )
-
-    with LogCapture() as l:
-        decorated_debug_function(2, 4, c=6)
-    l.records[0].msg['timestamp'] = 1435000000.0
-    l.check(("eppy.tests.test_eppylog",
-        "DEBUG",
-        "{u'log_level': 10, u'timestamp': 1435000000.0, u'args': (2, 4), u'call': u'eppy.tests.test_eppylog.decorated_debug_function', u'return_values': [14], u'kwargs': {'c': 6}}",)
-            )
-
-def test_sethandlerlevel():
-    """check that setting the handler level for a given handler works.
+class TestLogDecorator:
+    
+    def setup_method(self, test_method):
+        """set log levels to DEBUG
+        """
+        self.logs = ['file', 'json', 'console']
+        self.current_levels = [eppylog.getloggerlevel(log) for
+                               log in self.logs]
+        for log, level in zip(self.logs, self.current_levels):
+            eppylog.setloggerlevel(log, 'DEBUG')
+        
+    def teardown_method(self, test_method):
+        """reset log levels to initial levels
+        """
+        for log, level in zip(self.logs, self.current_levels):
+            eppylog.setloggerlevel(log, level)
+        
+    def test_logdecorator(self):
+        """test that logging using a decorator works
+        """
+        with LogCapture() as l:
+            decorated_info_function(2, 4, c=6)
+        l.check(
+            ('console',
+             'INFO',
+             u"function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"),
+            ('json',
+             'INFO',
+             u"{u'function': u'eppy.tests.test_eppylog.decorated_info_function', u'returns': [14], u'args': (2, 4), u'log_level': u'INFO', u'kwargs': {'c': 6}}"),
+            ('file',
+             'INFO',
+             u"function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"))
+    
+        with LogCapture() as l:
+            decorated_debug_function(2, 4, c=6)
+        l.check(
+            ('console',
+             'DEBUG',
+             u"function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"),
+            ('json',
+             'DEBUG',
+             u"{u'function': u'eppy.tests.test_eppylog.decorated_debug_function', u'returns': [14], u'args': (2, 4), u'log_level': u'DEBUG', u'kwargs': {'c': 6}}"),
+            ('file',
+             'DEBUG',
+             u"function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"))
+    
+    
+def test_setloggerlevel():
+    """check that setting the log level for a given logger works.
     """
     # get current handler level
-    current_level = eppylog.gethandlerlevel('jsonHandler')
-    eppylog.sethandlerlevel('jsonHandler', 'INFO')
-    new_level = eppylog.gethandlerlevel('jsonHandler')
-    eppylog.sethandlerlevel('jsonHandler', current_level)
+    current_level = eppylog.getloggerlevel('json')
+    eppylog.setloggerlevel('json', 'INFO')
+#    logger = eppylog.getlogger('json').debug("'Shouldn't see this'")
+#    logger = eppylog.getlogger('json').info("'Should see this'")
+    new_level = eppylog.getloggerlevel('json')
+    eppylog.setloggerlevel('json', current_level)
     assert new_level == 'INFO'
+
+
+def test_jsonlog():
+    """check that each JSON log entry is valid JSON
+    """
+    with open('eppy.json', 'r') as json_log:
+        logs = [json.loads(record) for record in json_log.readlines()]
