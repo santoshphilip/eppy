@@ -123,10 +123,6 @@ def namebunch(abunch, aname):
         abunch.Name = aname
     return abunch
 
-def renamebunch(bunchdt, commdct, oldname, newname):
-    """rename this bunch and change name in all references"""
-    pass
-
 def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
@@ -547,7 +543,7 @@ class IDF1(IDF0):
         idfobject usually comes from another idf file
         or it can be used to copy within this idf file"""
         # TODO unit test
-        return addthisbunch(self.idfobjects, 
+        return addthisbunch(self.idfobjects,
                             self.model,
                             self.idd_info,
                             idfobject)
@@ -662,7 +658,7 @@ class IDF3(IDF2):
         idfhandle = StringIO(idftxt)
         self.idfname = idfhandle
         self.read()
-        
+
 class IDF4(IDF3):
     """subclass of IDF3. Uses functions of IDF1, IDF2, IDF3"""
     def __init__(self, idfname=None):
@@ -689,14 +685,14 @@ class IDF4(IDF3):
     def savecopy(self, filename, lineendings='default'):
         """save a copy as filename"""
         self.save(filename, lineendings=lineendings)
-    
+
 
 IDF = IDF4
-        
-                                    
+
+
 class something(IDF0):
     """docstring for something"""
     def __init__(self, arg):
         super(something, self).__init__()
         self.arg = arg
-        
+
