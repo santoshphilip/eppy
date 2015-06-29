@@ -1,6 +1,33 @@
 Changes
 =======
 
+2015-05-30
+----------
+
+- bugfix in ./eppy/Air:useful_scripts/idfdiff.py
+- added in ./eppy/Air:useful_scripts/idfdiff_missing.py
+    - this displays only the missing objects in either file
+
+2015-05-27
+----------
+
+- idf.saveas(newname) changes the idf.idfname to newname
+    - so the next idf.save() will save to newname
+- to retain the original idf.idfname use idf.savecopy(copyname)
+
+
+2015-05-26
+----------
+
+updated the following:
+- idf.save(lineendings='default')
+- idf.saveas(fname, lineendings='default')
+
+- optional argument lineendings
+    - if lineendings='default', uses the line endings of the platform
+    - if lineendings='windows', forces windows line endings
+    - if lineendings='unix', forces unix line endings
+
 release r0.464a
 ~~~~~~~~~~~~~~~
 
