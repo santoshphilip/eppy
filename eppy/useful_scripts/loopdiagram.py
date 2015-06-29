@@ -545,7 +545,6 @@ def clean_edges(arg):
         return tuple(clean_edges(x) for x in arg)
     except TypeError: # catch when for loop fails
         return replace_colon(arg) # not a sequence so just return repr
-# ----------changes to fix the Designbuildier file problem----------------
 
 # start pytests +++++++++++++++++++++++
 
