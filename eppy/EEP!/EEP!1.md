@@ -1,8 +1,8 @@
 # EEP!: 1
 * Title: Standard for the use of logging in Eppy 
-* Version: 0.0.4
+* Version: 0.0.6
 * Last-Modified: 29 Jun 2015
-* Author: Jamie Bull jamie.bull@oco-carbon.com
+* Author: Jamie Bull <jamie.bull@oco-carbon.com>
 * Status: Draft
 * Type: Standards Track
 * Created: 17-Jun-2015
@@ -40,29 +40,29 @@ variable and perhaps invalid inputs.
 ## Proposed standards
 
 ### Logging module
-All logging should use a logging configuration file. This is done using an .ini
-file which is easy for users to edit. This will help to ensure a consistent
-logging format is followed across modules. To implement ad-hoc logging within a
-module, all that needs to be added is the following code:
+All logging in Eppy should make use of the **eppylog** module. This will 
+help to ensure a consistent logging format is followed across modules.
 
-	from eppy import eppylog
-	
-	# create a module-level logger 
-	logger = eppylog.getlogger(__name__)
-	
-	# used as follows
-	logger.debug("This is a DEBUG level message")
-	logger.info("This is an INFO level message")
+To implement ad-hoc logging within a module, all that needs to be added
+is the following code:
+```python
+from eppy import eppylog
 
-### Log levels
+# create a module-level logger 
+logger = eppylog.getlogger(__name__)
+
+# used as follows
+logger.debug("This is a DEBUG level message")
+logger.info("This is an INFO level message")
+```
+### Verbosity & log levels
 The level for a logging call should generally follow those recommended by
-the logging module documentation, "Logging HOWTO" [1] in the Python
+the logging module documentation, ["Logging HOWTO"] [1] in the Python
 documentation. For the most part, developers will be interested in the
-DEBUG level messages which contain details of data and parameters,
-while users will likely be more concerned with INFO level messages which
+`DEBUG` level messages which contain details of data and parameters,
+while users will likely be more concerned with `INFO` level messages which
 track the 10000 ft view of activity.
 
-### Verbosity
 Given that there are at least two use cases, and that logs can grow
 very large, there should be a verbosity flag that can be set to hide
 messages below a given level. Messages could be hidden either in a log
@@ -70,58 +70,94 @@ file for a specific logging level, or by not logging them at all (e.g.
 not logging at the debug level for general users). This should be set in
 the config file and should be configurable during runtime.
 
-The default should be no logging, to be turned on when needed.
+The default is no logging, other than for `CRITICAL` messages, if any.
+More verbose logging can then be activated when needed.
 
-### Log format
-* standard log format
+The verbosity of a logger can be set in two ways. Firsty, by changing
+the value for the `level` parameter of a logger in the **eppylog.ini**
+file.
+```
+[logger_console]
+level = DEBUG
+handlers = consoleHandler
+qualname = console
+```
+Secondly, you can set log levels programmatically as follows:
+```python
+from eppy import eppylog
+
+# log all debug-level or higher messages to the JSON log
+eppylog.setloggerlevel('json', 'DEBUG')
+# log all info-level or higher messages to the console
+eppylog.setloggerlevel('console', 'INFO')
+```
+
+### Log formats
+**"console"** logs to _std.err._
+
+This logs directly to the console:
+
+```
+29/06/2015 11:19:07 INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+29/06/2015 11:20:32 DEBUG    function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+```
+**"file"** logs to _eppylog.log_
+
 This will log to a rotating text file saved with a .log extension. Format is as
 follows:
 
-29/06/2015 11:19:07 file         INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
-29/06/2015 11:20:32 file         INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+```
+29/06/2015 11:19:07 INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+29/06/2015 11:20:32 DEBUG    function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+```
+**"json"** logs to _eppylog.json_
 
-* json format
 This logs to a rotating json file. The schema is:
 
+```
 {"asctime": "YYYY-MM-DD HH:MM:SS,mmm",
 "function": module.function, 
 "returns": [list of return values], 
 "args": [list of positional args], 
 "log_level": log level, e.g. DEBUG, 
 "kwargs": {dict of keyword args}}
-    
+``` 
 ## Decorator
-It is also be possible to use a decorator to implement logging. There is an
-example of using a decorator to log function calls available from the Python
-Wiki [2]. This has been modified to include the parameters and return value,
+It is also possible to use a decorator to implement logging. Using a decorator 
+has three benefits. Firstly, it's much easier to write. Secondly, it reduces clutter
+within functions since the logging happens outside the function itself. And thirdly,
+it encourages breaking functions down into smaller units which can be logged (and also
+tested) individually.
+
+There is an example of using a decorator to log function calls available from the [Python
+Wiki] [2]. This has been modified to include the parameters and return value,
 as well as to take a log level parameter.
 
 When used in a module it looks like:
-    
-    from eppy import eppylog
-    
-    @eppylog.loglevel('debug')
-    def my_function(a, b, c=0):
-        return a * b + c
-        
-    my_function(2, 4, 6)
+```python
+from eppy import eppylog
 
+@eppylog.loglevel('debug')
+def my_function(a, b, c=0):
+    return a * b + c
+
+my_function(2, 4, 6)
+```
 In json format this appends a JSON-formatted record like the following to an
 eppy.json rotating log file:
 
+```
 {"asctime": "2015-06-29 11:27:13,296", "function": "eppy.my_module.my_function", "returns": [14], "args": [2, 4], "log_level": 10, "kwargs": {"c": 6}}
-	
-Using a decorator to implement this gives three benefits. Firstly, it's much
-easier to write. Secondly, it reduces clutter within functions since the
-logging happens outside the function itself. And thirdly, it encourages
-breaking functions down into smaller units which can be logged (and also
-tested) individually.
+```	
 
 ## References
-[1] Logging HOWTO, Vinay Sajip
-https://docs.python.org/2/howto/logging.html
-[2] Logging decorator with specified logger
-https://wiki.python.org/moin/PythonDecoratorLibrary#Logging_decorator_with_specified_logger_.28or_default.29
+[1]: <https://docs.python.org/2/howto/logging.html> "Logging HOWTO, Vinay Sajip"
+
+[2]: <https://wiki.python.org/moin/PythonDecoratorLibrary#Logging_decorator_with_specified_logger_.28or_default.29> "Logging decorator with specified logger"
+[1] ["Logging HOWTO", Vinay Sajip](https://docs.python.org/2/howto/logging.html)
+
+[2] ["Logging decorator with specified logger", Python Decorator Library](https://wiki.python.org/moin/PythonDecoratorLibrary#Logging_decorator_with_specified_logger_.28or_default.29)
+
 
 ## Copyright
 This document has been placed in the public domain.
