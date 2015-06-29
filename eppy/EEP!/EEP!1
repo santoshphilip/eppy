@@ -1,7 +1,7 @@
 # EEP!: 1
 * Title: Standard for the use of logging in Eppy 
-* Version: 0.0.3
-* Last-Modified: 28 Jun 2015
+* Version: 0.0.4
+* Last-Modified: 29 Jun 2015
 * Author: Jamie Bull jamie.bull@oco-carbon.com
 * Status: Draft
 * Type: Standards Track
@@ -42,7 +42,7 @@ variable and perhaps invalid inputs.
 ### Logging module
 All logging should use a logging configuration file. This is done using an .ini
 file which is easy for users to edit. This will help to ensure a consistent
-logging format is followed across modules. To implement ad hoc logging within a
+logging format is followed across modules. To implement ad-hoc logging within a
 module, all that needs to be added is the following code:
 
 	from eppy import eppylog
@@ -74,19 +74,21 @@ The default should be no logging, to be turned on when needed.
 
 ### Log format
 * standard log format
-This will log to a rotating text file saved with a .log extension.
-Format still needs deciding and implementing.
+This will log to a rotating text file saved with a .log extension. Format is as
+follows:
+
+29/06/2015 11:19:07 file         INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
+29/06/2015 11:20:32 file         INFO     function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]
 
 * json format
 This logs to a rotating json file. The schema is:
 
-[{'timestamp': unix timestamp,
-  'log_level': integer representing a Python log levels, e.g. INFO = 20
-  'call': module and function name
-  'args': list of positional args
-  'kwargs': dict of keyword args
-  'return_values': list of return values},
-  ...]
+{"asctime": "YYYY-MM-DD HH:MM:SS,mmm",
+"function": module.function, 
+"returns": [list of return values], 
+"args": [list of positional args], 
+"log_level": log level, e.g. DEBUG, 
+"kwargs": {dict of keyword args}}
     
 ## Decorator
 It is also be possible to use a decorator to implement logging. There is an
@@ -96,20 +98,18 @@ as well as to take a log level parameter.
 
 When used in a module it looks like:
     
-    @loglevel('debug')
+    from eppy import eppylog
+    
+    @eppylog.loglevel('debug')
     def my_function(a, b, c=0):
         return a * b + c
         
-    print my_function(2, 4, 6)
+    my_function(2, 4, 6)
 
-In json format this appends the following to a log.json rotating log file:
+In json format this appends a JSON-formatted record like the following to an
+eppy.json rotating log file:
 
-    [{'timestamp': 1435317572,
-      'log_level': 'DEBUG',
-	  'call': my_function,
-	  'args': [2, 4],
-	  'kwargs': {'c': 6},
-	  'return_values': [14]}]
+{"asctime": "2015-06-29 11:27:13,296", "function": "eppy.my_module.my_function", "returns": [14], "args": [2, 4], "log_level": 10, "kwargs": {"c": 6}}
 	
 Using a decorator to implement this gives three benefits. Firstly, it's much
 easier to write. Secondly, it reduces clutter within functions since the
