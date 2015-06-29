@@ -1,3 +1,19 @@
+# Copyright (c) 2015 Jamie Bull
+
+# This file is part of eppy.
+
+# Eppy is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# Eppy is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 """py.test for eppylog"""
 
 from __future__ import absolute_import
@@ -7,6 +23,7 @@ from __future__ import unicode_literals
 
 from logging import Logger
 import json
+import os
 
 from testfixtures import LogCapture
 import pytest
@@ -21,6 +38,7 @@ def decorated_info_function(a, b, c=0):
 @eppylog.loglevel('debug')
 def decorated_debug_function(a, b, c=0):
     return a * b + c
+
 
 def test_getlogger():
     """ensure a logger is created when we try to create one.
@@ -74,7 +92,36 @@ class TestLogDecorator:
              'DEBUG',
              u"function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"))
     
-    
+    def test_logobjects(self):
+        """test logging of objects works as expected, with decorated overridden
+        class methods being logged, and the __repr__ value being used in the
+        logs rather than a reference
+        """
+        class DummyObject(object):
+            
+            def __repr__(self):
+                return 'dummy object'
+            
+            @eppylog.loglevel('debug')
+            def __getattr__(self, *args, **kwargs):
+                return "I'm an attribute"
+        
+        with LogCapture() as l:
+            obj = DummyObject()
+            obj.x
+
+        l.check(
+            ('console',
+             'DEBUG',
+             u"function: eppy.tests.test_eppylog.__getattr__, args: (dummy object, 'x'), kwargs: {}, returns: [I'm an attribute]"),
+            ('json',
+             'DEBUG',
+             u'{u\'function\': u\'eppy.tests.test_eppylog.__getattr__\', u\'returns\': [u"I\'m an attribute"], u\'args\': (dummy object, \'x\'), u\'log_level\': u\'DEBUG\', u\'kwargs\': {}}'),
+            ('file',
+             'DEBUG',
+             u"function: eppy.tests.test_eppylog.__getattr__, args: (dummy object, 'x'), kwargs: {}, returns: [I'm an attribute]"))
+        
+
 def test_setloggerlevel():
     """check that setting the log level for a given logger works.
     """
