@@ -35,9 +35,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -1213,16 +1210,16 @@ Peanut Butter</pre>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;F08 Metal surface&#39;</span><span class="p">,</span>
- <span class="s">&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
- <span class="s">&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
- <span class="s">&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
- <span class="s">&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
- <span class="s">&#39;M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s">&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;M05 200mm concrete block&#39;</span><span class="p">,</span>
- <span class="s">&#39;G05 25mm wood&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M05 200mm concrete block&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
  <span class="s">&#39;Peanut Butter&#39;</span><span class="p">,</span>
  <span class="s">&#39;Peanut Butter&#39;</span><span class="p">]</span>
 </pre></div>
@@ -1230,16 +1227,16 @@ Peanut Butter</pre>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Roughness</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Smooth&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s">&#39;MediumSmooth&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Smooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
  <span class="s">&#39;MediumSmooth&#39;</span><span class="p">,</span>
  <span class="s">&#39;MediumSmooth&#39;</span><span class="p">]</span>
 </pre></div>
@@ -1270,10 +1267,10 @@ Peanut Butter</pre>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span> <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s">&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;M05 200mm concrete block&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M05 200mm concrete block&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thick_materials</span> <span class="o">=</span> <span class="p">[</span><span class="n">material</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span> <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">]</span>
@@ -1379,16 +1376,16 @@ working with the same items.</p>
 <span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;F08 Metal surface&#39;</span><span class="p">,</span>
- <span class="s">&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
- <span class="s">&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
- <span class="s">&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
- <span class="s">&#39;THICK M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
- <span class="s">&#39;THICK M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s">&#39;THICK M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s">&#39;THICK M05 200mm concrete block&#39;</span><span class="p">,</span>
- <span class="s">&#39;G05 25mm wood&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M05 200mm concrete block&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
  <span class="s">&#39;Peanut Butter&#39;</span><span class="p">,</span>
  <span class="s">&#39;Peanut Butter&#39;</span><span class="p">]</span>
 </pre></div>
@@ -1436,10 +1433,10 @@ calculated from these coordinates.</p>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Let us look at the first surface</span>
-<span class="n">surface</span> <span class="o">=</span> <span class="n">surfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">print</span> <span class="s">&quot;surface azimuth =&quot;</span><span class="p">,</span>  <span class="n">surface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
-<span class="k">print</span> <span class="s">&quot;surface tilt =&quot;</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
-<span class="k">print</span> <span class="s">&quot;surface area =&quot;</span><span class="p">,</span> <span class="n">surface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s">&quot;m2&quot;</span>
+<span class="n">asurface</span> <span class="o">=</span> <span class="n">surfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="s">&quot;surface azimuth =&quot;</span><span class="p">,</span>  <span class="n">asurface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
+<span class="k">print</span> <span class="s">&quot;surface tilt =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
+<span class="k">print</span> <span class="s">&quot;surface area =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s">&quot;m2&quot;</span>
 </pre></div>
 </div>
 <div class="highlight-python"><pre>surface azimuth = 180.0 degrees
@@ -1451,7 +1448,7 @@ surface area = 18.3 m2</pre>
 <span class="k">print</span> <span class="n">s_names</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c"># print five of them</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">&#39;TOP-1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">u&#39;TOP-1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># surface names and azimuths</span>
@@ -1459,7 +1456,7 @@ surface area = 18.3 m2</pre>
 <span class="k">print</span> <span class="n">s_names_azm</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c"># print five of them</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[(</span><span class="s">&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;TOP-1&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[(</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;TOP-1&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># or to do that in pretty printing</span>
@@ -1504,7 +1501,7 @@ construnctions</p>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">vertical_walls</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">&#39;FRONT-1&#39;</span><span class="p">,</span> <span class="s">&#39;SB12&#39;</span><span class="p">,</span> <span class="s">&#39;SB14&#39;</span><span class="p">,</span> <span class="s">&#39;SB15&#39;</span><span class="p">,</span> <span class="s">&#39;RIGHT-1&#39;</span><span class="p">,</span> <span class="s">&#39;SB21&#39;</span><span class="p">,</span> <span class="s">&#39;SB23&#39;</span><span class="p">,</span> <span class="s">&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">&#39;SB32&#39;</span><span class="p">,</span> <span class="s">&#39;SB35&#39;</span><span class="p">,</span> <span class="s">&#39;LEFT-1&#39;</span><span class="p">,</span> <span class="s">&#39;SB41&#39;</span><span class="p">,</span> <span class="s">&#39;SB43&#39;</span><span class="p">,</span> <span class="s">&#39;SB45&#39;</span><span class="p">,</span> <span class="s">&#39;SB51&#39;</span><span class="p">,</span> <span class="s">&#39;SB54&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SF&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SR&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SB&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SL&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">u&#39;FRONT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB12&#39;</span><span class="p">,</span> <span class="s">u&#39;SB14&#39;</span><span class="p">,</span> <span class="s">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s">u&#39;RIGHT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB21&#39;</span><span class="p">,</span> <span class="s">u&#39;SB23&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB32&#39;</span><span class="p">,</span> <span class="s">u&#39;SB35&#39;</span><span class="p">,</span> <span class="s">u&#39;LEFT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB41&#39;</span><span class="p">,</span> <span class="s">u&#39;SB43&#39;</span><span class="p">,</span> <span class="s">u&#39;SB45&#39;</span><span class="p">,</span> <span class="s">u&#39;SB51&#39;</span><span class="p">,</span> <span class="s">u&#39;SB54&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SL&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># north facing walls</span>
@@ -1512,7 +1509,7 @@ construnctions</p>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">north_walls</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">&#39;SB15&#39;</span><span class="p">,</span> <span class="s">&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SB&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># north facing exterior walls</span>
@@ -1520,7 +1517,7 @@ construnctions</p>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">exterior_nwall</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">&#39;WALL-1SB&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># print out some more details of the north wall</span>
@@ -1687,9 +1684,6 @@ rather quickly.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >next</a> |</li>

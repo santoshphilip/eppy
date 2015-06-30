@@ -237,8 +237,8 @@ Traversing the loop
 ~~~~~~~~~~~~~~~~~~~
 
 
-It would be nice to move through the loop using functions "next()" and
-"prev()"
+It would be nice to move through the loop using functions "nextnode()"
+and "prevnode()"
 
 Eppy indeed has such functions
 
@@ -263,46 +263,46 @@ edges, we can traverse through the diagram. Let us start with the
 
     from eppy import walk_hvac
     firstnode = "Central_Chiller"
-    nextnodes = walk_hvac.next(edges, firstnode)
+    nextnodes = walk_hvac.nextnode(edges, firstnode)
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['np1']
+    [u'np1']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['np2']
+    [u'np2']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_splitter']
+    [u'p_loop_supply_splitter']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['sb1_pipe', 'sb2_pipe', 'sb3_pipe']
+    [u'sb1_pipe', u'sb2_pipe', u'sb3_pipe']
 
 
 This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
@@ -310,29 +310,29 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_mixer']
+    [u'p_loop_supply_mixer']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['sb4_pipe']
+    [u'sb4_pipe']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
@@ -343,78 +343,78 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 
 We have reached the end of this branch. There are no more components.
 
-We can follow this in reverse using the function prev()
+We can follow this in reverse using the function prevnode()
 
 .. code:: python
 
     lastnode = 'sb4_pipe'
-    prevnodes = walk_hvac.prev(edges, lastnode)
+    prevnodes = walk_hvac.prevnode(edges, lastnode)
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_mixer']
+    [u'p_loop_supply_mixer']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['sb1_pipe', 'sb2_pipe', 'sb3_pipe']
+    [u'sb1_pipe', u'sb2_pipe', u'sb3_pipe']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_splitter']
+    [u'p_loop_supply_splitter']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['np2']
+    [u'np2']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['np1']
+    [u'np1']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['Central_Chiller']
+    [u'Central_Chiller']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
@@ -444,7 +444,7 @@ with just a condensor loop in it.
 
 Again, just as we did in the plant loop, we can change the components of
 the loop, by replacing the branchs and traverse the loop using the
-functions next() and prev()
+functions nextnode() and prevnode()
 
 Building an Air Loop
 --------------------
@@ -466,14 +466,4 @@ side.
 
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
-using the functions next() and prev()
-
-.. code:: python
-
-    
-.. code:: python
-
-    
-.. code:: python
-
-    
+using the functions nextnode() and prevnode()

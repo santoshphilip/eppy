@@ -235,8 +235,8 @@ the new branch would look like &#8220;chiller-&gt; pipe1-&gt;pipe2&#8221;</p>
 </div>
 <div class="section" id="traversing-the-loop">
 <h3>Traversing the loop<a class="headerlink" href="#traversing-the-loop" title="Permalink to this headline">¶</a></h3>
-<p>It would be nice to move through the loop using functions &#8220;next()&#8221; and
-&#8220;prev()&#8221;</p>
+<p>It would be nice to move through the loop using functions &#8220;nextnode()&#8221;
+and &#8220;prevnode()&#8221;</p>
 <p>Eppy indeed has such functions</p>
 <p>Let us try to traverse the loop above.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># to traverse the loop we are going to call some functions ex_loopdiagrams.py,</span>
@@ -254,51 +254,51 @@ edges, we can traverse through the diagram. Let us start with the
 &#8220;Central_Chiller&#8221; and work our way down.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">walk_hvac</span>
 <span class="n">firstnode</span> <span class="o">=</span> <span class="s">&quot;Central_Chiller&quot;</span>
-<span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">firstnode</span><span class="p">)</span>
+<span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">firstnode</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;np1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;np2&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">&#39;sb3_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This leads us to three components -&gt; [&#8216;sb1_pipe&#8217;, &#8216;sb2_pipe&#8217;,
 &#8216;sb3_pipe&#8217;]. Let us follow one of them</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;sb4_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb4_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
@@ -306,51 +306,51 @@ edges, we can traverse through the diagram. Let us start with the
 </pre></div>
 </div>
 <p>We have reached the end of this branch. There are no more components.</p>
-<p>We can follow this in reverse using the function prev()</p>
+<p>We can follow this in reverse using the function prevnode()</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">lastnode</span> <span class="o">=</span> <span class="s">&#39;sb4_pipe&#39;</span>
-<span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">lastnode</span><span class="p">)</span>
+<span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">lastnode</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">&#39;sb3_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;np2&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;np1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Central_Chiller&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Central_Chiller&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prev</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
@@ -375,7 +375,7 @@ with just a condensor loop in it.</p>
 </div>
 <p>Again, just as we did in the plant loop, we can change the components of
 the loop, by replacing the branchs and traverse the loop using the
-functions next() and prev()</p>
+functions nextnode() and prevnode()</p>
 </div>
 <div class="section" id="building-an-air-loop">
 <h2>Building an Air Loop<a class="headerlink" href="#building-an-air-loop" title="Permalink to this headline">¶</a></h2>
@@ -393,7 +393,7 @@ side.</p>
 </div>
 <p>Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
-using the functions next() and prev()</p>
+using the functions nextnode() and prevnode()</p>
 </div>
 </div>
 

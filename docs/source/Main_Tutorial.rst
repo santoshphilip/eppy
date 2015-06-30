@@ -1662,16 +1662,16 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['F08 Metal surface',
-     'I01 25mm insulation board',
-     'I02 50mm insulation board',
-     'G01a 19mm gypsum board',
-     'M11 100mm lightweight concrete',
-     'F16 Acoustic tile',
-     'M01 100mm brick',
-     'M15 200mm heavyweight concrete',
-     'M05 200mm concrete block',
-     'G05 25mm wood',
+    [u'F08 Metal surface',
+     u'I01 25mm insulation board',
+     u'I02 50mm insulation board',
+     u'G01a 19mm gypsum board',
+     u'M11 100mm lightweight concrete',
+     u'F16 Acoustic tile',
+     u'M01 100mm brick',
+     u'M15 200mm heavyweight concrete',
+     u'M05 200mm concrete block',
+     u'G05 25mm wood',
      'Peanut Butter',
      'Peanut Butter']
 
@@ -1686,16 +1686,16 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['Smooth',
-     'MediumRough',
-     'MediumRough',
-     'MediumSmooth',
-     'MediumRough',
-     'MediumSmooth',
-     'MediumRough',
-     'MediumRough',
-     'MediumRough',
-     'MediumSmooth',
+    [u'Smooth',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumSmooth',
+     u'MediumRough',
+     u'MediumSmooth',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumSmooth',
      'MediumSmooth',
      'MediumSmooth']
 
@@ -1747,10 +1747,10 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['M11 100mm lightweight concrete',
-     'M01 100mm brick',
-     'M15 200mm heavyweight concrete',
-     'M05 200mm concrete block']
+    [u'M11 100mm lightweight concrete',
+     u'M01 100mm brick',
+     u'M15 200mm heavyweight concrete',
+     u'M05 200mm concrete block']
 
 
 
@@ -1888,16 +1888,16 @@ Here's a helpful illustration:
 
 .. parsed-literal::
 
-    ['F08 Metal surface',
-     'I01 25mm insulation board',
-     'I02 50mm insulation board',
-     'G01a 19mm gypsum board',
-     'THICK M11 100mm lightweight concrete',
-     'F16 Acoustic tile',
-     'THICK M01 100mm brick',
-     'THICK M15 200mm heavyweight concrete',
-     'THICK M05 200mm concrete block',
-     'G05 25mm wood',
+    [u'F08 Metal surface',
+     u'I01 25mm insulation board',
+     u'I02 50mm insulation board',
+     u'G01a 19mm gypsum board',
+     u'THICK M11 100mm lightweight concrete',
+     u'F16 Acoustic tile',
+     u'THICK M01 100mm brick',
+     u'THICK M15 200mm heavyweight concrete',
+     u'THICK M05 200mm concrete block',
+     u'G05 25mm wood',
      'Peanut Butter',
      'Peanut Butter']
 
@@ -1954,10 +1954,10 @@ Let us explore these functions
 .. code:: python
 
     # Let us look at the first surface
-    surface = surfaces[0]
-    print "surface azimuth =",  surface.azimuth, "degrees"
-    print "surface tilt =", surface.tilt, "degrees"
-    print "surface area =", surface.area, "m2"
+    asurface = surfaces[0]
+    print "surface azimuth =",  asurface.azimuth, "degrees"
+    print "surface tilt =", asurface.tilt, "degrees"
+    print "surface area =", asurface.area, "m2"
 
 
 .. parsed-literal::
@@ -1976,7 +1976,7 @@ Let us explore these functions
 
 .. parsed-literal::
 
-    ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']
+    [u'WALL-1PF', u'WALL-1PR', u'WALL-1PB', u'WALL-1PL', u'TOP-1']
 
 
 .. code:: python
@@ -1988,7 +1988,7 @@ Let us explore these functions
 
 .. parsed-literal::
 
-    [('WALL-1PF', 180.0), ('WALL-1PR', 90.0), ('WALL-1PB', 0.0), ('WALL-1PL', 270.0), ('TOP-1', 0.0)]
+    [(u'WALL-1PF', 180.0), (u'WALL-1PR', 90.0), (u'WALL-1PB', 0.0), (u'WALL-1PL', 270.0), (u'TOP-1', 0.0)]
 
 
 .. code:: python
@@ -2053,7 +2053,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'FRONT-1', 'SB12', 'SB14', 'SB15', 'RIGHT-1', 'SB21', 'SB23', 'BACK-1', 'SB32', 'SB35', 'LEFT-1', 'SB41', 'SB43', 'SB45', 'SB51', 'SB54', 'WALL-1SF', 'WALL-1SR', 'WALL-1SB', 'WALL-1SL']
+    [u'WALL-1PF', u'WALL-1PR', u'WALL-1PB', u'WALL-1PL', u'FRONT-1', u'SB12', u'SB14', u'SB15', u'RIGHT-1', u'SB21', u'SB23', u'BACK-1', u'SB32', u'SB35', u'LEFT-1', u'SB41', u'SB43', u'SB45', u'SB51', u'SB54', u'WALL-1SF', u'WALL-1SR', u'WALL-1SB', u'WALL-1SL']
 
 
 .. code:: python
@@ -2065,7 +2065,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PB', 'SB15', 'BACK-1', 'WALL-1SB']
+    [u'WALL-1PB', u'SB15', u'BACK-1', u'WALL-1SB']
 
 
 .. code:: python
@@ -2077,7 +2077,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PB', 'BACK-1', 'WALL-1SB']
+    [u'WALL-1PB', u'BACK-1', u'WALL-1SB']
 
 
 .. code:: python
