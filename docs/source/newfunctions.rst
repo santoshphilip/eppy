@@ -2,13 +2,11 @@
 New functions
 =============
 
-
 These are recently written functions that have not made it into the main
 documentation
 
 Python Lesson: Errors and Exceptions
 ------------------------------------
-
 
 .. code:: python
 
@@ -34,7 +32,6 @@ Exceptions <http://docs.python.org/2/tutorial/errors.html>`__
 
 Setting IDD name
 ----------------
-
 
 When you work with Energyplus you are working with **idf** files (files
 that have the extension \*.idf). There is another file that is very
@@ -136,7 +133,6 @@ Excellent!! It raised the exception we were expecting.
 Check range for fields
 ----------------------
 
-
 The fields of idf objects often have a range of legal values. The
 following functions will let you discover what that range is and test if
 your value lies within that range
@@ -146,7 +142,6 @@ demonstrate two new functions:
 -  EpBunch.getrange(fieldname) # will return the ranges for that field
 -  EpBunch.checkrange(fieldname) # will throw an exception if the value
    is outside the range
-
 
 .. code:: python
 
@@ -240,7 +235,6 @@ So the Range Check works
 Looping through all the fields in an idf object
 -----------------------------------------------
 
-
 We have seen how to check the range of field in the idf object. What if
 you want to do a *range check* on all the fields in an idf object ? To
 do this we will need a list of all the fields in the idf object. We can
@@ -308,7 +302,6 @@ You see, we caught the out of range value
 
 Blank idf file
 --------------
-
 
 Until now in all our examples, we have been reading an idf file from
 disk:
@@ -531,10 +524,8 @@ Yup ! that file was saved. Let us delete it since we were just playing
 Deleting, copying/adding and making new idfobjects
 --------------------------------------------------
 
-
 Making a new idf object
 ~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Let us start with a blank idf file and make some new "MATERIAL" objects
 in it
@@ -675,10 +666,8 @@ As we can see there are three MATERIAL idfobjects. They are:
 2. Lousy material
 3. third material
 
-
 Deleting an idf object
 ~~~~~~~~~~~~~~~~~~~~~~
-
 
 Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material
@@ -765,10 +754,8 @@ So we have two ways of deleting an idf object:
 1. popidfobject -> give it the idf key: "MATERIAL", and the index number
 2. removeidfobject -> give it the idf object to be deleted
 
-
 Copying/Adding an idf object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Having deleted two "MATERIAL" objects, we have only one left. Let us
 make a copy of this object and add it to our idf file
@@ -816,13 +803,11 @@ idf objects from other idf files too.
 Making an idf object with named arguments
 -----------------------------------------
 
-
 What if we wanted to make an idf object with values for it's fields? We
 can do that too.
 
 Renaming an idf object
 ----------------------
-
 
 .. code:: python
 
@@ -900,13 +885,12 @@ Absorptance", "Solar Absorptance", etc.
 Renaming an idf object
 ----------------------
 
-
 It is easy to rename an idf object. If we want to rename the gypboard
 object that we created above, we simply say:
 
-    gypboard.Name = "a new name".
+                    gypboard.Name = "a new name".
 
-
+                
 But this could create a problem. What if this gypboard is part of a
 "CONSTRUCTION" object. The construction object will refer to the
 gypboard by name. If we change the name of the gypboard, we should
@@ -1033,7 +1017,6 @@ us look at the entir idf file, just to be sure
 Zone area and volume
 --------------------
 
-
 The idf file has zones with surfaces and windows. It is easy to get the
 attributes of the surfaces and windows as we have seen in the tutorial.
 Let us review this once more:
@@ -1093,4 +1076,3 @@ Some notes on the zone area calculation:
    zone area
 -  if there are no floors, ceilings or roof, we are out of luck. The
    function returns 0
-

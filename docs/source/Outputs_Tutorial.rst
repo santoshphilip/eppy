@@ -2,7 +2,6 @@
 Reading outputs from E+
 =======================
 
-
 .. code:: python
 
     # some initial set up
@@ -15,7 +14,6 @@ Reading outputs from E+
 
 Using titletable() to get at the tables
 ---------------------------------------
-
 
 So far we have been making changes to the IDF input file. How about
 looking at the outputs.
@@ -60,11 +58,11 @@ titletable, you can see the function documentation.
 
 It says the following
 
-    """return a list of [(title, table), .....]
+                    """return a list of [(title, table), .....]
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
     
-
+                
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.
 
@@ -225,7 +223,6 @@ html output file.
 Using lines\_table() to get at the tables
 -----------------------------------------
 
-
 We have been using titletable() to get at the tables. There is a
 constraint using function titletable(). Titletable() assumes that there
 is a unique title (in HTML bold) just above the table. It is assumed
@@ -327,7 +324,6 @@ that has the following two lines before it.
 
 -  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 -  For: PERIMETER\_MID\_ZN\_4
-
 
 .. code:: python
 
@@ -462,7 +458,6 @@ before the table. The following code will do it.
 
 Extracting data from the tables
 -------------------------------
-
 
 The tables in the HTML page in general have text in the top header row.
 The first vertical row has text. The remaining cells have numbers. We
@@ -709,6 +704,3 @@ To get the first row we use the variable h\_table
     6
 
 
-.. code:: python
-
-    

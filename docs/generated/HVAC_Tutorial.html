@@ -95,7 +95,7 @@ side</li>
 <p>The two ends of the supply side connect to the two ends of the demand
 side.</p>
 <p>Diagramtically the the two sides of the loop will look like this:</p>
-<div class="highlight-python"><pre>Supply Side:
+<div class="highlight-python"><pre>                Supply Side:
 ------------
                 -&gt; branch1 -&gt;
 start_branch   --&gt; branch2 --&gt; end_branch
@@ -224,7 +224,8 @@ the new branch would look like &#8220;chiller-&gt; pipe1-&gt;pipe2&#8221;</p>
 <div class="line">We have saved this as file &#8220;hhh_new.idf&#8221;.</div>
 <div class="line">Let us draw the diagram of this file. (run this from eppy/eppy folder)</div>
 </div>
-<p>python ex_loopdiagram.py hhh_new.idf</p>
+<blockquote>
+<div>python ex_loopdiagram.py hhh_new.idf</div></blockquote>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop2</span><span class="p">)</span> <span class="c"># display the image below</span>
@@ -465,7 +466,7 @@ using the functions nextnode() and prevnode()</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>
