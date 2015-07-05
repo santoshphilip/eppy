@@ -2,8 +2,10 @@
 HVAC Loops
 ==========
 
+
 Conceptual Introduction to HVAC Loops
 -------------------------------------
+
 
 Eppy builds threee kinds of loops for the energyplus idf file:
 
@@ -54,7 +56,7 @@ side.
 
 Diagramtically the the two sides of the loop will look like this::
 
-                    Supply Side:
+    Supply Side:
     ------------
                     -> branch1 -> 
     start_branch   --> branch2 --> end_branch
@@ -66,7 +68,7 @@ Diagramtically the the two sides of the loop will look like this::
     d_start_branch   --> d_branch2 --> d_end_branch
                       -> d_branch3 ->
     
-                
+
 In eppy you could embody this is a list
 
 .. code:: python
@@ -78,19 +80,19 @@ Eppy will build the build the shape/topology of the loop using the two
 lists above. Each branch will have a placeholder component, like a pipe
 or a duct::
 
-                    
+    
     branch1 = --duct--
 
-                
+
 Now we will have to replace the placeholder with the real components
 that make up the loop. For instance, branch1 should really have a
 pre-heat coil leading to a supply fan leading to a cooling coil leading
 to a heating coil::
 
-                    
+    
     new_branch = pre-heatcoil -> supplyfan -> coolingcoil -> heatingcoil
 
-                
+
 Eppy lets you build a new branch and you can replace branch1 with
 new\_branch
 
@@ -100,6 +102,7 @@ components, once the initial toplogy is right
 Building a Plant loops
 ----------------------
 
+
 Eppy can build up the topology of a plant loop using single pipes in a
 branch. Once we do that the simple branch in the loop we have built can
 be replaced with a more complex branch.
@@ -108,6 +111,7 @@ Let us try this out ans see how it works.
 
 Building the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 .. code:: python
 
@@ -149,6 +153,7 @@ Building the topology of the loop
 Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
 
+
 Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
 this diagram
 
@@ -173,6 +178,7 @@ shown seperately for clarity*
 
 Modifying the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Let us make a new branch and replace the exisiting branch
 
@@ -201,19 +207,81 @@ the new branch would look like "chiller-> pipe1->pipe2"
     # get the branch we are trying to modify
     branch = idf.getobject('BRANCH', 'sb0') # args are (key, name)
     listofcomponents = [chiller, pipe1, pipe2] # the new components are connected in this order
+
+Now we are going to try to replace **branch** with the a branch made up
+of **listofcomponents**
+
+-  We will do this by calling the function replacebranch
+-  Calling replacebranch can throw an exception ``WhichLoopError``
+-  In a moment, you will see why this exception is important
+
+
+.. code:: python
+
+    try:
+        newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
+    except hvacbuilder.WhichLoopError as e:
+        print e
+
+
+.. parsed-literal::
+
+    Where should this loop connect ?
+    CHILLER:ELECTRIC - Central_Chiller
+    [u'Chilled_Water_', u'Condenser_', u'Heat_Recovery_']
     
-    newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
-    # in "loop"
-    # this replaces the components in "branch" with the components in "listofcomponents"
+
+
+The above code throws the exception. It says that the idfobject
+``CHILLER:ELECTRIC - Central_Chiller`` has three possible connections.
+The chiller has inlet outlet nodes for the following
+
+-  Chilled water
+-  Condenser
+-  Heat Recovery
+
+eppy does not know which one to connect to, and it needs your help. We
+know that the chiller needs to be connected to the chilled water inlet
+and outlet. Simply copy ``Chilled_Water_`` from the text in the
+exception and paste as shown in the code below. (make sure you copy it
+exactly. eppy is a little nerdy about that)
+
+.. code:: python
+
+    # instead of passing chiller to the function, we pass a tuple (chiller, 'Chilled_Water_').
+    # This lets eppy know where the connection should be made.
+    # The idfobject pipe does not have this ambiguity. So pipes do not need this extra information
+    listofcomponents = [(chiller, 'Chilled_Water_'), pipe1, pipe2]
+    
+    try:
+        newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
+    except Exception as e:
+        print e
+    else: # else will run only if the try suceeds
+        print "no exception was thrown"
     
     idf.saveas("hhh_new.idf")
+
+
+.. parsed-literal::
+
+    no exception was thrown
+
+
+*Tagential note*: The ``"try .. except .. else"`` statement is useful
+here. If you have not run across it before, take a look at these two
+links
+
+-  http://shahriar.svbtle.com/the-possibly-forgotten-optional-else-in-python-try-statement
+-  https://docs.python.org/2/tutorial/errors.html
+
 
 | We have saved this as file "hhh\_new.idf".
 | Let us draw the diagram of this file. (run this from eppy/eppy folder)
 
-                python ex_loopdiagram.py hhh_new.idf
+python ex_loopdiagram.py hhh_new.idf
 
-                
+
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
@@ -222,13 +290,33 @@ the new branch would look like "chiller-> pipe1->pipe2"
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_29_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_34_0.png
 
 
 This diagram shows the new components in the branch
 
+Work flow with ``WhichLoopError``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+When you are writing scripts don't bother to use ``try .. except`` for
+``WhichLoopError``.
+
+-  Simply allow the exception to be raised.
+-  Use the information in the exception to update your code
+-  You may have to do this a couple of times in your script.
+-  In a sense you are letting eppy tell you how to update the script.
+
+*Question:* I am writing an application using eppy, not just a script.
+The above workflow does not work for me
+
+*Response:* Aha ! If that is the case, open an issue in
+`github/eppy <https://github.com/santoshphilip/eppy>`__. We are lazy
+people. We don't write code unless it is needed :-)
+
 Traversing the loop
 ~~~~~~~~~~~~~~~~~~~
+
 
 It would be nice to move through the loop using functions "nextnode()"
 and "prevnode()"
@@ -421,6 +509,7 @@ All the way to where the loop ends
 Building a Condensor loop
 -------------------------
 
+
 We build the condensor loop the same way we built the plant loop. Pipes
 are put as place holders for the components. Let us build a new idf file
 with just a condensor loop in it.
@@ -441,6 +530,7 @@ functions nextnode() and prevnode()
 Building an Air Loop
 --------------------
 
+
 Building an air loop is similar to the plant and condensor loop. The
 difference is that instead of pipes , we have ducts as placeholder
 components. The other difference is that we have zones on the demand
@@ -458,3 +548,7 @@ side.
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
 using the functions nextnode() and prevnode()
+
+.. code:: python
+
+    

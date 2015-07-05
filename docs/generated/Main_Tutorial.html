@@ -84,7 +84,7 @@ R-value of the roof until you get to the expected energy use.</li>
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>Here is a short IDF file that I’ll be using as an example to start us
 off</p>
-<div class="highlight-python"><pre>                VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.2;                     !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -342,15 +342,15 @@ field.</p>
 <p>Eppy also does this.</p>
 <p>Let us take a look at the &#8220;BUILDING&#8221; object in the text file that the
 IDF Editor saves</p>
-<div class="highlight-python"><pre>            BUILDING,
-White House,             !- Name
-30.,                     !- North Axis {deg}
-City,                    !- Terrain
-0.04,                    !- Loads Convergence Tolerance Value
-0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-FullExterior,            !- Solar Distribution
-25,                      !- Maximum Number of Warmup Days
-6;                       !- Minimum Number of Warmup Days</pre>
+<div class="highlight-python"><pre>BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days</pre>
 </div>
 <p>This a good place to find the field names too.</p>
 <p>It is easy to copy and paste from here. You can&#8217;t do that from the IDF
@@ -612,8 +612,7 @@ Lady Gaga</pre>
 <div class="section" id="slicing-a-list">
 <h3>Slicing a list<a class="headerlink" href="#slicing-a-list" title="Permalink to this headline">¶</a></h3>
 <p>You can also get more than one item in a list:</p>
-<blockquote>
-<div>bad_architects[first_slice:second_slice]</div></blockquote>
+<p>bad_architects[first_slice:second_slice]</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c"># slices at 1 and 3</span>
 </pre></div>
 </div>
@@ -622,7 +621,7 @@ Lady Gaga</pre>
 </div>
 <p>How do I make sense of this?</p>
 <p>To understand this you need to see the list in the following manner:</p>
-<div class="highlight-python"><pre>                [ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
+<div class="highlight-python"><pre>[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
  ^               ^              ^             ^            ^              ^
  0               1              2             3            4              5
 -5              -4             -3            -2           -1</pre>
@@ -675,8 +674,7 @@ listname:</p>
 <p>There are two ways to do this, based on the information you have. If you
 have the value of the object, you&#8217;ll want to use the remove function. It
 looks like this:</p>
-<blockquote>
-<div>listname.remove(value)</div></blockquote>
+<p>listname.remove(value)</p>
 <p>An example:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;First-year students&quot;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bad_architects</span>
@@ -689,8 +687,7 @@ looks like this:</p>
 <p>What if you appended an item by mistake and just want to remove the last
 item in the list?</p>
 <p>You should use the pop function. It looks like this:</p>
-<blockquote>
-<div>listname.pop(index)</div></blockquote>
+<p>listname.pop(index)</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;coffee&quot;</span><span class="p">,</span> <span class="s">&quot;bacon&quot;</span><span class="p">,</span> <span class="s">&quot;eggs&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">what_i_ate_today</span>
 </pre></div>
@@ -961,12 +958,12 @@ any (or every) item in the list.</p>
 <p>Here&#8217;s how to tell python to step through each item in a list, and then
 do something to every single item.</p>
 <p>We&#8217;ll use a &#8216;for&#8217; loop to do this.</p>
-<div class="highlight-python"><pre>            for &lt;variable&gt; in &lt;listname&gt;:
-&lt;do something&gt;</pre>
+<div class="highlight-python"><pre>for &lt;variable&gt; in &lt;listname&gt;:
+    &lt;do something&gt;</pre>
 </div>
 <p>A quick note about the second line. Notice that it&#8217;s indented? There are
 4 blank spaces before the code starts:</p>
-<div class="highlight-python"><pre>                in python, indentations are used
+<div class="highlight-python"><pre>in python, indentations are used
 to determine the grouping of statements
        some languages use symbols to mark
        where the function code starts and stops
@@ -1027,7 +1024,7 @@ I am a fruit said the bannana</pre>
 </div>
 <p>Did you follow all that??</p>
 <p>Just in case you didn&#8217;t, let&#8217;s review that last one:</p>
-<div class="highlight-python"><pre>                ["rotten " + fruit for fruit in fruits]
+<div class="highlight-python"><pre>["rotten " + fruit for fruit in fruits]
                    -------------------
                    This is the "for loop"
                    it steps through each fruit in fruits
@@ -1052,7 +1049,7 @@ give a new list that is a result of the "do something"</pre>
 <p>But what if you don&#8217;t want to change <em>every</em> item in a list?</p>
 <p>We can use an &#8216;if&#8217; statement to operate on only some items in the list.</p>
 <p>Indentation is also important in &#8216;if&#8217; statements, as you&#8217;ll see:</p>
-<div class="highlight-python"><pre>                if &lt;someconstraint&gt;:
+<div class="highlight-python"><pre>if &lt;someconstraint&gt;:
     &lt;if the first line is true, do this&gt;
 &lt;but if it's false, do this&gt;</pre>
 </div>
@@ -1090,7 +1087,7 @@ give a new list that is a result of the "do something"</pre>
 <span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[</span><span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span> <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>                [fruit for fruit in fruits if fruit.startswith("p")]
+<div class="highlight-python"><pre>[fruit for fruit in fruits if fruit.startswith("p")]
        -------------------
        for loop
 
@@ -1698,7 +1695,7 @@ rather quickly.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

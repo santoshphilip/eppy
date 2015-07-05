@@ -248,7 +248,7 @@ def initinletoutlet(idf, idfobject, thisnode, force=False):
                 return fields
             else:
                 print("Where should this loop connect ?")
-                print(idfobject.key, idfobject.Name)
+                print("%s - %s" % (idfobject.key, idfobject.Name))
                 print([field.split("Inlet_Node_Name")[0]
                        for field in inletfields])
                 raise WhichLoopError
