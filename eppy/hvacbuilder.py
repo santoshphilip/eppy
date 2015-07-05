@@ -997,7 +997,7 @@ def getmakeidfobject(idf, key, name):
 
 def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid=None,
                    debugsave=False):
-    """do I even use this ?"""
+    """do I even use this ? .... yup! I do"""
     if fluid is None:
         fluid = ''
     listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
