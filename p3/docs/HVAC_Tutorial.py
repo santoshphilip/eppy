@@ -127,7 +127,7 @@ demandside = ['d_start_brandh', ['d_branch1', 'd_branch2', 'd_branch3'], 'd_end_
 # if you have not done so, uncomment the following three lines
 import sys
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../'
+pathnameto_eppy = '../p3'
 sys.path.append(pathnameto_eppy) 
 
 # <codecell>

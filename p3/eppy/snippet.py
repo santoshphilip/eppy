@@ -147,5 +147,12 @@ BuildingSurface:Detailed,
     30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3 {m}
     30.5,0.0,3.0;  !- X,Y,Z ==> Vertex 4 {m}
 
+ZoneHVAC:EquipmentConnections,
+    SPACE1-1,                   !- Zone Name
+    AnEquipmentList,            !- Zone Conditioning Equipment List Name
+    AnAirInletNode,             !- Zone Air Inlet Node or NodeList Name
+    AnExhaustNode,              !- Zone Air Exhaust Node or NodeList Name
+    AZoneAirNode,               !- Zone Air Node Name
+    AZoneReturnAirNode;         !- Zone Return Air Node Name
 """
 

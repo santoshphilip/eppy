@@ -25,7 +25,7 @@
 # if you have not done so, uncomment the following three lines
 import sys
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../'
+pathnameto_eppy = '../p3'
 sys.path.append(pathnameto_eppy) 
 
 # <markdowncell>

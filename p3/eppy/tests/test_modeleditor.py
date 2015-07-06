@@ -22,28 +22,30 @@
 
 
 
-import pytest
+from io import StringIO
+
+from eppy.iddcurrent import iddcurrent
+from eppy.iddcurrent import iddcurrent
+from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 
-import bunch
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
-from eppy.modeleditor import IDF
+import bunch 
+import pytest
 
-from eppy.iddcurrent import iddcurrent
+
 iddsnippet = iddcurrent.iddtxt
 
 idfsnippet = snippet.idfsnippet
 
-from io import StringIO
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with the old reading
-from eppy.iddcurrent import iddcurrent
 iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
@@ -51,7 +53,7 @@ if IDF.getiddname() == None:
 
 def test_poptrailing():
     """py.test for poptrailing"""
-    data = (
+    tdata = (
         (
             [1, 2, 3, '', 56, '', '', '', ''],
             [1, 2, 3, '', 56]
@@ -68,13 +70,13 @@ def test_poptrailing():
 
 def test_extendlist():
     """py.test for extendlist"""
-    data = (
+    tdata = (
         ([1, 2, 3], 2, 0, [1, 2, 3]), # lst, i, value, nlst
         ([1, 2, 3], 3, 0, [1, 2, 3, 0]), # lst, i, value, nlst
         ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]), # lst, i, value, nlst
         ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]), # lst, i, value, nlst
     )
-    for lst, i, value, nlst in data:
+    for lst, i, value, nlst in tdata:
         modeleditor.extendlist(lst, i, value=value)
         assert lst == nlst
 
@@ -170,6 +172,8 @@ def test_getobject():
         ('ZONE', 'PLENUM-1', bunchdt['ZONE'][0]), # key, name, theobject
         ('ZONE', 'PLENUM-1'.lower(), bunchdt['ZONE'][0]), # key, name, theobject
         ('ZONE', 'PLENUM-A', None), # key, name, theobject
+        ('ZONEHVAC:EQUIPMENTCONNECTIONS', 'SPACE1-1',
+         bunchdt['ZONEHVAC:EQUIPMENTCONNECTIONS'][0]), # key, name, theobject
     )
     for key, name, theobject in thedata:
         result = modeleditor.getobject(bunchdt, key, name)

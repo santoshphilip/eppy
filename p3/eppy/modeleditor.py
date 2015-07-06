@@ -22,10 +22,14 @@
 
 
 
+import copy
+
 from eppy.idfreader import idfreader1
 from eppy.idfreader import makeabunch
+
 import eppy.function_helpers as function_helpers
-import copy
+
+
 
 class NoObjectError(Exception):
     """Exception Object"""
@@ -123,10 +127,6 @@ def namebunch(abunch, aname):
         abunch.Name = aname
     return abunch
 
-def renamebunch(bunchdt, commdct, oldname, newname):
-    """rename this bunch and change name in all references"""
-    pass
-
 def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
@@ -163,11 +163,13 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
 
 def getobject(bunchdt, key, name):
     """get the object if you have the key and the name
-    retunrs a list of objects, in case you have more than one
+    returns a list of objects, in case you have more than one
     You should not have more than one"""
-    # TODO : throw exception if more than one object, or return more objects
-    idfobjects = bunchdt[key]
-    theobjs = [idfobj for idfobj in idfobjects if idfobj.Name.upper() == name.upper()]
+    # TODO : throw exception if more than one object, or return more objects    idfobjects = bunchdt[key]
+    if idfobjects:
+        unique_id = idfobjects[0].objls[1] # second item in list is a unique ID
+    theobjs = [idfobj for idfobj in idfobjects if
+               idfobj[unique_id].upper() == name.upper()]
     try:
         return theobjs[0]
     except IndexError:
@@ -547,11 +549,10 @@ class IDF1(IDF0):
         idfobject usually comes from another idf file
         or it can be used to copy within this idf file"""
         # TODO unit test
-        addthisbunch(
-            self.idfobjects,
-            self.model,
-            self.idd_info,
-            idfobject)
+        return addthisbunch(self.idfobjects,
+                            self.model,
+                            self.idd_info,
+                            idfobject)
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
@@ -664,7 +665,40 @@ class IDF3(IDF2):
         self.idfname = idfhandle
         self.read()
 
+class IDF4(IDF3):
+    """subclass of IDF3. Uses functions of IDF1, IDF2, IDF3"""
+    def __init__(self, idfname=None):
+        super(IDF4, self).__init__(idfname)
+    def save(self, filename=None, lineendings='default'):
+        """lineendings = ['default', 'windows', 'unix' ]"""
+        if filename is None:
+            filename = self.idfname
+        s = self.idfstr()
+        if lineendings == 'default':
+            pass
+        elif lineendings == 'windows':
+            s = '!- Windows Line endings \n' + s
+            slines = s.splitlines()
+            s = '\r\n'.join(slines)
+        elif lineendings == 'unix':
+            s = '!- Unix Line endings \n' + s
+            slines = s.splitlines()
+            s = '\n'.join(slines)
+        open(filename, 'w').write(s)
+    def saveas(self, filename, lineendings='default'):
+        self.idfname = filename
+        self.save(lineendings=lineendings)
+    def savecopy(self, filename, lineendings='default'):
+        """save a copy as filename"""
+        self.save(filename, lineendings=lineendings)
 
-IDF = IDF3
 
+IDF = IDF4
+
+
+class something(IDF0):
+    """docstring for something"""
+    def __init__(self, arg):
+        super(something, self).__init__()
+        self.arg = arg
 

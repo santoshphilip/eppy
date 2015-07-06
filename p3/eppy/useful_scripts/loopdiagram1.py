@@ -151,8 +151,7 @@ def edges2nodes(edges):
         nodes.append(e2)
     nodedict = dict([(n, None) for n in nodes])
     justnodes = list(nodedict.keys())
-    # justnodes.sort()
-    justnodes = sorted(justnodes, key=lambda x: str(x[0]))
+    justnodes.sort()
     return justnodes
     
 def test_edges2nodes():
@@ -203,6 +202,42 @@ def transpose2d(mtx):
 ##    from python cookbook 2nd edition page 162
     # map(mtx, zip(*arr))
 
+def makebranchgrapsh(data, commdct):
+    """return the edges for the all branches"""
+    allgraphs = []
+    alledges = []
+
+    objkey = 'BRANCH'
+    cnamefield = "Component %s Name"
+    inletfield = "Component %s Inlet Node Name"
+    outletfield = "Component %s Outlet Node Name"
+
+    numobjects = len(data.dt[objkey])
+    cnamefields = loops.repeatingfields(data, commdct, objkey, cnamefield)
+    inletfields = loops.repeatingfields(data, commdct, objkey, inletfield)
+    outletfields = loops.repeatingfields(data, commdct, objkey, outletfield)
+
+    inlts = loops.extractfields(data, commdct, 
+        objkey, [inletfields] * numobjects)
+    cmps = loops.extractfields(data, commdct, 
+        objkey, [cnamefields] * numobjects)
+    otlts = loops.extractfields(data, commdct, 
+        objkey, [outletfields] * numobjects)
+
+    zipped = list(zip(inlts, cmps, otlts))
+    tzipped = [transpose2d(item) for item in zipped]
+    for i in range(len(data.dt[objkey])):
+        tt = tzipped[i]
+        # branchname = data.dt[objkey][i][1]
+        edges = []
+        for t0 in tt:
+            edges = edges + [(t0[0], t0[1]), (t0[1], t0[2])]
+        g=pydot.graph_from_edges(edges, directed=True)
+        allgraphs.append(g)
+        alledges = alledges + edges
+    return alledges
+
+
 def makebranchcomponents(data, commdct, anode="epnode"):
     """return the edges jointing the components of a branch"""
     alledges = []
@@ -232,6 +267,7 @@ def makebranchcomponents(data, commdct, anode="epnode"):
         edges = []
         for t0 in tt:
             edges = edges + [((t0[0], anode), t0[1]), (t0[1], (t0[2], anode))]
+            print(edges)
         alledges = alledges + edges
     return alledges
 
@@ -273,13 +309,13 @@ def makeairplantloop(data, commdct):
         br_name = br[1]
         in_out = loops.branch_inlet_outlet(data, commdct, br_name)
         branch_i_o[br_name] = dict(list(zip(["inlet", "outlet"], in_out)))
-    # for br_name, in_out in branch_i_o.items():
-    #     edges.append(((in_out["inlet"], anode), br_name))
-    #     edges.append((br_name, (in_out["outlet"], anode)))
+    for br_name, in_out in list(branch_i_o.items()):
+        edges.append(((in_out["inlet"], anode), br_name))
+        edges.append((br_name, (in_out["outlet"], anode)))
 
     # instead of doing the branch
     # do the content of the branch
-    edges = makebranchcomponents(data, commdct)
+    # edges = makebranchcomponents(data, commdct)
 
 
     # connect splitter to nodes
@@ -546,6 +582,7 @@ def clean_edges(arg):
         return tuple(clean_edges(x) for x in arg)
     except TypeError: # catch when for loop fails
         return replace_colon(arg) # not a sequence so just return repr
+# ----------changes to fix the Designbuildier file problem----------------
 
 # start pytests +++++++++++++++++++++++
 
@@ -589,8 +626,8 @@ def main():
     edges = clean_edges(edges)
     print("making the diagram")
     g = makediagram(edges)
-    dotname = '%s.dot' % (os.path.splitext(fname)[0])
-    pngname = '%s.png' % (os.path.splitext(fname)[0])
+    dotname = '%s_branch.dot' % (os.path.splitext(fname)[0])
+    pngname = '%s_branch.png' % (os.path.splitext(fname)[0])
     g.write(dotname)
     print("saved file: %s" % (dotname, ))
     g.write_png(pngname)

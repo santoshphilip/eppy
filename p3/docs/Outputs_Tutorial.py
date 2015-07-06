@@ -12,7 +12,7 @@
 # you will need the following lines
 import sys
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../'
+pathnameto_eppy = '../p3'
 sys.path.append(pathnameto_eppy) 
 
 # <headingcell level=2>

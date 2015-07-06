@@ -151,7 +151,8 @@ def edges2nodes(edges):
         nodes.append(e2)
     nodedict = dict([(n, None) for n in nodes])
     justnodes = nodedict.keys()
-    justnodes.sort()
+    # justnodes.sort()
+    justnodes = sorted(justnodes, key=lambda x: str(x[0]))
     return justnodes
     
 def test_edges2nodes():

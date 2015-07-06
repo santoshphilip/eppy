@@ -210,9 +210,7 @@ class GetRange(EpBunchFunctionClass):
         if therange['type'] == 'real':
             for key in keys[:-1]:
                 if therange[key]:
-                    flt = float(therange[key][0])
-                    # print(flt)
-                    # therange[key] = round(flt, 5)
+                    therange[key] = float(therange[key][0])
         if therange['type'] == 'integer':
             for key in keys[:-1]:
                 if therange[key]:

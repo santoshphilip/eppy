@@ -27,6 +27,8 @@ import eppy.bunch_subclass as bunch_subclass
 import eppy.modeleditor as modeleditor
 from eppy.modeleditor import IDF
 
+class WhichLoopError(Exception):
+    pass
 
 class SomeFields(object):
     """Some fields"""
@@ -74,19 +76,6 @@ def flattencopy(lst):
         list_is_nested = keepchecking     #determine if outer loop exits
         thelist = atemp[:]
     return thelist
-
-def test_flattencopy():
-    """py.test for flattencopy"""
-    tdata = (([1, 2], [1, 2]), #lst , nlst -a
-             ([1, 2, [3, 4]], [1, 2, 3, 4]), #lst , nlst
-             ([1, 2, [3, [4, 5, 6], 7, 8]], [1, 2, 3, 4, 5, 6, 7, 8]),
-             #lst , nlst
-             ([1, 2, [3, [4, 5, [6, 7], 8], 9]], [1, 2, 3, 4, 5, 6, 7, 8, 9]),
-             #lst , nlst
-            )
-    for lst, nlst in tdata:
-        result = flattencopy(lst)
-        assert result == nlst
 
 def makepipecomponent(idf, pname):
     """make a pipe component
@@ -182,26 +171,25 @@ def renamenodes(idf, fieldtype):
 
 def getfieldnamesendswith(idfobject, endswith):
     """get the filednames for the idfobject based on endswith"""
-    # print idfobject.keys()
-    # print idfobject.obj
     objls = idfobject.objls
     tmp = [name for name in objls if name.endswith(endswith)]
     if tmp == []:
         pass
-        # print endswith
-        # print idfobject.key
-        # print idfobject.Name
-        # print objls
     return [name for name in objls if name.endswith(endswith)]
 
-def getnodefieldname(idfobject, endswith, fluid=''):
+def getnodefieldname(idfobject, endswith, fluid=None, startswith=None):
     """return the field name of the node
     fluid is only needed if there are air and water nodes
     fluid is Air or Water or ''.
     if the fluid is Steam, use Water"""
+    if startswith is None:
+        startswith = ''
+    if fluid is None:
+        fluid = ''
     nodenames = getfieldnamesendswith(idfobject, endswith)
-    # print nodenames
+    nodenames = [name for name in nodenames if name.startswith(startswith)]
     fnodenames = [nd for nd in nodenames if nd.find(fluid) != -1]
+    fnodenames = [name for name in fnodenames if name.startswith(startswith)]
     if len(fnodenames) == 0:
         nodename = nodenames[0]
     else:
@@ -209,24 +197,38 @@ def getnodefieldname(idfobject, endswith, fluid=''):
     return nodename
 
 
-def connectcomponents(idf, components, fluid=''):
+def connectcomponents(idf, components, fluid=None):
     """rename nodes so that the components get connected
     fluid is only needed if there are air and water nodes
     fluid is Air or Water or ''.
     if the fluid is Steam, use Water"""
+    if fluid is None:
+        fluid = ''
+    if len(components) == 1:
+        thiscomp, thiscompnode = components[0]
+        initinletoutlet(idf, thiscomp, thiscompnode, force=False)
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name",
+                                          fluid=fluid, startswith=thiscompnode)
+        thiscomp[outletnodename] = [thiscomp[outletnodename],
+                                    thiscomp[outletnodename]]
+        # inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
+        # nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
+        return components
     for i in range(len(components) - 1):
-        thiscomp = components[i]
-        nextcomp = components[i + 1]
-        initinletoutlet(idf, thiscomp, force=False)
-        initinletoutlet(idf, nextcomp, force=False)
+        thiscomp, thiscompnode = components[i]
+        nextcomp, nextcompnode = components[i + 1]
+        initinletoutlet(idf, thiscomp, thiscompnode, force=False)
+        initinletoutlet(idf, nextcomp, nextcompnode, force=False)
         betweennodename = "%s_%s_node" % (thiscomp.Name, nextcomp.Name)
-        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name", fluid)
+        outletnodename = getnodefieldname(thiscomp, "Outlet_Node_Name",
+                                          fluid=fluid, startswith=thiscompnode)
         thiscomp[outletnodename] = [thiscomp[outletnodename], betweennodename]
         inletnodename = getnodefieldname(nextcomp, "Inlet_Node_Name", fluid)
         nextcomp[inletnodename] = [nextcomp[inletnodename], betweennodename]
     return components
 
-def initinletoutlet(idf, idfobject, force=False):
+
+def initinletoutlet(idf, idfobject, thisnode, force=False):
     """initialze values for all the inlet outlet nodes for the object.
     if force == False, it willl init only if field = '' """
     def blankfield(fieldvalue):
@@ -238,22 +240,41 @@ def initinletoutlet(idf, idfobject, force=False):
                 return False
         except AttributeError: # field may be a list
             return False
+    def trimfields(fields, thisnode):
+        if len(fields) > 1:
+            if thisnode is not None:
+                fields = [field for field in fields
+                          if field.startswith(thisnode)]
+                return fields
+            else:
+                print("Where should this loop connect ?")
+                print("%s - %s" % (idfobject.key, idfobject.Name))
+                print([field.split("Inlet_Node_Name")[0]
+                       for field in inletfields])
+                raise WhichLoopError
+        else:
+            return fields
 
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
+    inletfields = trimfields(inletfields, thisnode) # or warn with exception
     for inletfield in inletfields:
         if blankfield(idfobject[inletfield]) == True or force == True:
             idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
     outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
+    outletfields = trimfields(outletfields, thisnode) # or warn with exception
     for outletfield in outletfields:
         if blankfield(idfobject[outletfield]) == True or force == True:
             idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
     return idfobject
 
-def componentsintobranch(idf, branch, componentlist, fluid=''):
+def componentsintobranch(idf, branch, listofcomponents, fluid=None):
     """insert a list of components into a branch
     fluid is only needed if there are air and water nodes in same object
     fluid is Air or Water or ''.
     if the fluid is Steam, use Water"""
+    if fluid is None:
+        fluid = ''
+    componentlist = [item[0] for item in listofcomponents]
     # assumes that the nodes of the component connect to each other
     # empty branch if it has existing components
     thebranchname = branch.Name
@@ -263,12 +284,14 @@ def componentsintobranch(idf, branch, componentlist, fluid=''):
     e_index = idf.getextensibleindex('BRANCH', thebranchname)
     theobj = thebranch.obj
     modeleditor.extendlist(theobj, e_index) # just being careful here
-    for comp in componentlist:
+    for comp, compnode in listofcomponents:
         theobj.append(comp.key)
         theobj.append(comp.Name)
-        inletnodename = getnodefieldname(comp, "Inlet_Node_Name", fluid)
+        inletnodename = getnodefieldname(comp, "Inlet_Node_Name", fluid=fluid,
+                                         startswith=compnode)
         theobj.append(comp[inletnodename])
-        outletnodename = getnodefieldname(comp, "Outlet_Node_Name", fluid)
+        outletnodename = getnodefieldname(comp, "Outlet_Node_Name",
+                                          fluid=fluid, startswith=compnode)
         theobj.append(comp[outletnodename])
         theobj.append('')
 
@@ -944,13 +967,57 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     return newcondenserloop
 
-def replacebranch(
-        idf, loop, branch,
-        listofcomponents, fluid='',
-        debugsave=False,
-        testing=None):
+def _clean_listofcomponents(listofcomponents):
+    """force it to be a list of tuples"""
+    def totuple(item):
+        """return a tuple"""
+        if isinstance(item, (tuple, list)):
+            return item
+        else:
+            return (item, None)
+    return [totuple(item) for item in listofcomponents]
+
+def _clean_listofcomponents_tuples(listofcomponents_tuples):
+    """force 3 items in the tuple"""
+    def to3tuple(item):
+        """return a 3 item tuple"""
+        if len(item) == 3:
+            return item
+        else:
+            return (item[0], item[1], None)
+    return [to3tuple(item) for item in listofcomponents_tuples]
+
+def getmakeidfobject(idf, key, name):
+    """get idfobject or make it if it does not exist"""
+    idfobject = idf.getobject(key, name)
+    if not idfobject:
+        return idf.newidfobject(key, name)
+    else:
+        return idfobject
+
+def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid=None,
+                   debugsave=False):
+    """do I even use this ? .... yup! I do"""
+    if fluid is None:
+        fluid = ''
+    listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
+    branch = idf.getobject('BRANCH', branchname) # args are (key, name)
+    listofcomponents = []
+    for comp_type, comp_name, compnode in listofcomponents_tuples:
+        comp = getmakeidfobject(idf, comp_type.upper(), comp_name)
+        listofcomponents.append((comp, compnode))
+    newbr = replacebranch(idf, loop, branch, listofcomponents,
+                          debugsave=debugsave, fluid=fluid)
+    return newbr
+
+def replacebranch(idf, loop, branch,
+                  listofcomponents, fluid=None,
+                  debugsave=False,
+                  testing=None):
     """It will replace the components in the branch with components in
     listofcomponents"""
+    if fluid is None:
+        fluid = ''
     # -------- testing ---------
     testn = 0
     # -------- testing ---------
@@ -961,11 +1028,12 @@ def replacebranch(
         # change the node names in the component
         # empty the old branch
         # fill in the new components with the node names into this branch
+    listofcomponents = _clean_listofcomponents(listofcomponents)
 
-    components = listofcomponents
-    connectcomponents(idf, components, fluid=fluid)
+    components = [item[0] for item in listofcomponents]
+    connectcomponents(idf, listofcomponents, fluid=fluid)
     if debugsave:
-        idf.saveas("hhh3.idf")
+        idf.savecopy("hhh3.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None:
@@ -974,7 +1042,9 @@ def replacebranch(
     fields = SomeFields.a_fields
 
     thebranch = branch
-    componentsintobranch(idf, thebranch, components, fluid=fluid)
+    componentsintobranch(idf, thebranch, listofcomponents, fluid=fluid)
+    if debugsave:
+        idf.savecopy("hhh4.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None:
@@ -985,7 +1055,7 @@ def replacebranch(
     # # do the renaming
     renamenodes(idf, 'node')
     if debugsave:
-        idf.saveas("hhh7.idf")
+        idf.savecopy("hhh7.idf")
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None:
@@ -1074,7 +1144,6 @@ def replacebranch(
                 lastbranchname = connector.Outlet_Branch_Name
                 cbranchname = lastbranchname
                 isfirst = False
-            # print cbranchname, thebranch
             if cbranchname == thebranch.Name:
                 # rename end nodes
                 comps = getbranchcomponents(idf, thebranch)
@@ -1102,7 +1171,7 @@ def replacebranch(
     # -------- testing ---------
 
     if debugsave:
-        idf.saveas("hhh8.idf")
+        idf.savecopy("hhh8.idf")
 
     # # gather all renamed nodes
     # # do the renaming
@@ -1113,7 +1182,7 @@ def replacebranch(
         returnnone()
     # -------- testing ---------
     if debugsave:
-        idf.saveas("hhh9.idf")
+        idf.savecopy("hhh9.idf")
     return thebranch
 
 def main():
@@ -1134,7 +1203,7 @@ def main():
     sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
     dloop = ['zone1', 'zone2', 'zone3']
     makeairloop(idf1, loopname, sloop, dloop)
-    idf1.saveas("hh1.idf")
+    idf1.savecopy("hh1.idf")
 
 
 if __name__ == '__main__':

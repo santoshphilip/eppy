@@ -29,7 +29,7 @@ os.chdir("../eppy/useful_scripts")
 # <codecell>
 
 # you would normaly install eppy by doing
-# python3 setup.py install
+# python setup.py install
 # or
 # pip install eppy
 # or
@@ -65,8 +65,8 @@ sys.path.append(pathnameto_eppy)
 # <codecell>
 
 # %%bash
-# ignore the line above. It simply lets me run a command line from ipython3 notebook
-os.system("python3 eppy_version.py --help")
+# ignore the line above. It simply lets me run a command line from ipython notebook
+os.system("python eppy_version.py --help")
 
 # <markdowncell>
 
@@ -77,8 +77,8 @@ os.system("python3 eppy_version.py --help")
 # <codecell>
 
 # %%bash
-# ignore the line above. It simply lets me run a command line from ipython3 notebook
-os.system("python3 eppy_version.py")
+# ignore the line above. It simply lets me run a command line from ipython notebook
+os.system("python eppy_version.py")
 
 # <headingcell level=2>
 
@@ -90,7 +90,7 @@ os.system("python3 eppy_version.py")
 
 # <rawcell>
 
-# python3 eppy_version.py > save_output.txt
+# python eppy_version.py > save_output.txt
 
 # <markdowncell>
 
@@ -111,8 +111,8 @@ os.system("python3 eppy_version.py")
 # <codecell>
 
 # %%bash
-# ignore the line above. It simply lets me run a command line from ipython3 notebook
-os.system("python3 idfdiff.py -h")
+# ignore the line above. It simply lets me run a command line from ipython notebook
+os.system("python idfdiff.py -h")
 
 # <markdowncell>
 
@@ -131,8 +131,8 @@ for_images.display_png(for_images.filemerge) # display the image below
 # <codecell>
 
 # %%bash
-# python3 idfdiff.py idd file1 file2
-os.system("python3 idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf")
+# python idfdiff.py idd file1 file2
+os.system("python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf")
 
 # <rawcell>
 
@@ -162,8 +162,8 @@ h
 # <codecell>
 
 # %%bash
-# python3 idfdiff.py idd file1 file2
-os.system("python3 idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf")
+# python idfdiff.py idd file1 file2
+os.system("python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf")
 
 # <markdowncell>
 
@@ -186,8 +186,8 @@ os.system("python3 idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../r
 # <codecell>
 
 # %%bash
-# ignore the line above. It simply lets me run a command line from ipython3 notebook
-# os.system("python3 loopdiagram.py --help")
+# ignore the line above. It simply lets me run a command line from ipython notebook
+os.system("python loopdiagram.py --help")
 
 # <markdowncell>
 
@@ -198,8 +198,8 @@ os.system("python3 idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../r
 # <codecell>
 
 # %%bash
-# ignore the line above. It simply lets me run a command line from ipython3 notebook
-# os.system("python3 loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf")
+# ignore the line above. It simply lets me run a command line from ipython notebook
+os.system("python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf")
 
 # <markdowncell>
 
