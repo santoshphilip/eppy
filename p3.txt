@@ -1,3 +1,11 @@
+2015-07-05
+----------
+- pydot3k works for pydot in python3
+- changed line in loopdiagram.py - line 154
+    - justnodes.sort()
+    - to
+    - justnodes = sorted(justnodes, key=lambda x: str(x[0]))
+
 2015-02-22
 ----------
 https://code.google.com/p/pydot/downloads/detail?name=pydot-1.0.28.zip
