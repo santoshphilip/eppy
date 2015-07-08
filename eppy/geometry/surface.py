@@ -23,16 +23,16 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 
 try:
-    import py_numeric as np
-    from math import acos as arccos
-    from math import sqrt as sqrt
-    from tinynumpy import array as array
-    from tinynumpy import multiply as mult
+    import numpy as np
+    from numpy import acos as arccos
+    from numpy import sqrt as sqrt
+    from numpy import array as array
 except ImportError as e:
     import py_numeric as np
     from math import acos as arccos
     from math import sqrt as sqrt
     from tinynumpy import array as array
+    from tinynumpy import multiply as mult
 import math
 
 
