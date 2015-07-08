@@ -363,6 +363,12 @@ def linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None):
     else:
         return a
 
+def multiply(ndarray_vec1, ndarray_vec2):
+    c = []
+    for a, b in zip(ndarray_vec1, ndarray_vec2):
+        c.append(a*b)
+    cRay = array(c)
+    return cRay
 
 ## The class
 
