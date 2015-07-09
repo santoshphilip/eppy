@@ -3,9 +3,6 @@
 
 # This file is part of EPlusInterface.
 #
-# EPlusInterface is free software; you can redistribute it and/or modify
-# the Free Software Foundation; either version 2 of the License, or
-#
 # EPlusInterface is distributed in the hope that it will be useful,
 #
 # along with EPlusInterface; if not, write to the Free Software

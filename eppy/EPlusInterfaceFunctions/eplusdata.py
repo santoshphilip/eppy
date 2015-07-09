@@ -1,11 +1,8 @@
 """Legacy code from EPlusInterface"""
-# EPlusInterface (EPI) - An interface for EnergyPlus
 # Copyright (C) 2004 Santosh Philip
 
+# EPlusInterface (EPI) - An interface for EnergyPlus
 # This file is part of EPlusInterface.
-#
-# EPlusInterface is free software; you can redistribute it and/or modify
-# the Free Software Foundation; either version 2 of the License, or
 #
 # EPlusInterface is distributed in the hope that it will be useful,
 #
@@ -31,11 +28,8 @@ from __future__ import unicode_literals
 
 import copy
 
-
-
-import eppy.EPlusInterfaceFunctions.mylib3 as mylib3
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
-
+import eppy.EPlusInterfaceFunctions.mylib3 as mylib3
 
 
 def removecomment(astr, cphrase):
