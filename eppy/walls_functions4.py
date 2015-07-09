@@ -17,12 +17,17 @@
 
 """do just walls in eplusinterface"""
 
-from idfreader import idfreader
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+from eppy.idfreader import idfreader
 
 
 iddfile = "../iddfiles/Energy+V7_2_0.idd"
 fname = "../idffiles/V_7_2/box_tiltrot.idf"
- 
+
 bunchdt, data, commdct = idfreader(fname, iddfile)
 surfaces = bunchdt['BUILDINGSURFACE:DETAILED'.upper()]
 # surfaces = bunchdt['FenestrationSurface:Detailed'.upper()]
@@ -42,6 +47,6 @@ for surface in surfaces:
     # coords = surface.coords
     # print name, area, height, width, azimuth, tilt
     # print name, azimuth
-    print name, area, azimuth, tilt
+    print(name, area, azimuth, tilt)
 
 

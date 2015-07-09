@@ -20,13 +20,15 @@
 # Jason,
 #   Try out the attached script.
 # (you might have to change file pathnames)
-# 
+#
 # I don't think you could have written it on your own :-(
-# It became apparent to me that eppy needs functions that allows it to look into the idd structure for any object and field
+# It became apparent to me that eppy needs functions that allows it to look
+# into the idd structure for any object and field
 # I'll put some thought into this and see how best to write this.
-# If that functionality is done well, hopefully anyone should be able to write the equivalent code to what I wrote in the attached file. 
-# 
-# 
+# If that functionality is done well, hopefully anyone should be able to write
+# the equivalent code to what I wrote in the attached file.
+#
+#
 # Santosh
 
 import sys
@@ -40,9 +42,9 @@ from eppy import bunch_subclass
 def autosize_fieldname(idfobject):
     """return autsizeable field names in idfobject"""
     # undocumented stuff in this code
-    return [fname for (fname, dct) in zip(idfobject.objls, 
-                                          idfobject['objidd']) 
-                                    if dct.has_key('autosizable')]
+    return [fname for (fname, dct) in zip(idfobject.objls,
+                                          idfobject['objidd'])
+            if dct.has_key('autosizable')]
 
 iddfile = "../resources/iddfiles/Energy+V8_0_0.idd"
 fname1 = "../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf"
@@ -52,14 +54,14 @@ idf = IDF(fname1)
 idf.saveas("./a.idf")
 
 
-                                    
-                                    
+
+
 allidfobjects = idf.idfobjects
 for objname in allidfobjects.keys():
     idfobjects = allidfobjects[objname]
     for idfobject in idfobjects:
         autofields = autosize_fieldname(idfobject)
         for autofield in autofields:
-            idfobject[autofield]= "autosize"                            
-                
-idf.saveas("./b.idf")                                                              
+            idfobject[autofield] = "autosize"
+
+idf.saveas("./b.idf")

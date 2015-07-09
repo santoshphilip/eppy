@@ -16,44 +16,51 @@
 # along with eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """helper functions for the functions called by bunchdt"""
-import itertools
-import geometry.surface
 
-def grouper(n, iterable, fillvalue=None):
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import itertools
+# import geometry
+from eppy.geometry import surface as g_surface
+
+def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
-    args = [iter(iterable)] * n
+    args = [iter(iterable)] * num
     return itertools.izip_longest(fillvalue=fillvalue, *args)
-    
-def getcoords(dt):
+
+def getcoords(ddtt):
     """return the coordinates of the surface"""
-    n_vertices_index = dt.objls.index('Number_of_Vertices')
+    n_vertices_index = ddtt.objls.index('Number_of_Vertices')
     first_x = n_vertices_index + 1 # X of first coordinate
-    pts = dt.obj[first_x:]
+    pts = ddtt.obj[first_x:]
     return list(grouper(3, pts))
 
-def area(dt):
+def area(ddtt):
     """area of the surface"""
-    coords = getcoords(dt)
-    return geometry.surface.area(coords)
-    
-def height(dt):
+    coords = getcoords(ddtt)
+    return g_surface.area(coords)
+
+def height(ddtt):
     """height of the surface"""
-    coords = getcoords(dt)
-    return geometry.surface.height(coords)
-    
-def width(dt):
+    coords = getcoords(ddtt)
+    return g_surface.height(coords)
+
+def width(ddtt):
     """width of the surface"""
-    coords = getcoords(dt)
-    return geometry.surface.width(coords)
-    
-def azimuth(dt):
+    coords = getcoords(ddtt)
+    return g_surface.width(coords)
+
+def azimuth(ddtt):
     """azimuth of the surface"""
-    coords = getcoords(dt)
-    return geometry.surface.azimuth(coords)
-    
-def tilt(dt):
+    coords = getcoords(ddtt)
+    return g_surface.azimuth(coords)
+
+def tilt(ddtt):
     """tilt of the surface"""
-    coords = getcoords(dt)
-    return geometry.surface.tilt(coords)
-    
+    coords = getcoords(ddtt)
+    return g_surface.tilt(coords)
+
