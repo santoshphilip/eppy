@@ -37,13 +37,13 @@ def vol_tehrahedron(poly):
     b = np.array(poly[1])
     c = np.array(poly[2])
     d = np.array(poly[3])
-    return abs(dot((a-d), cross((b-d),(c-d))) / 6)
+    return abs(np.divide(dot((a-d), cross((b-d),(c-d))), 6))
 
 def central_p(poly1,poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
         central_point = np.add(central_point, np.add(np.array(poly1[i]), np.array(poly2[i])))
-    return central_point/ (len(poly1)) / 2
+    return np.divide(np.divide(central_point, (len(poly1))), 2)
 
 def vol(poly1,poly2):
     """"volume of a zone defined by two polygon bases """
