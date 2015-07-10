@@ -42,7 +42,7 @@ def vol_tehrahedron(poly):
 def central_p(poly1,poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
-        central_point += np.add(np.array(poly1[i]), np.array(poly2[i]))
+        central_point = np.add(central_point, np.add(np.array(poly1[i]), np.array(poly2[i])))
     return central_point/ (len(poly1)) / 2
 
 def vol(poly1,poly2):
