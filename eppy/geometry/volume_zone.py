@@ -22,7 +22,14 @@
 # Find the intersection between two lines
 # V = (1/6)*|(a-d).((b-d)x(c-d))| http://en.wikipedia.org/wiki/Tetrahedron
 
-import numpy as np
+try:
+    import numpy as np
+    from numpy import dot as dot
+    from numpy import cross as cross
+except ImportError as e:
+    from py_numeric import dot as dot
+    from py_numeric import cross as cross
+    import tinynumpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
@@ -30,12 +37,12 @@ def vol_tehrahedron(poly):
     b = np.array(poly[1])
     c = np.array(poly[2])
     d = np.array(poly[3])
-    return abs(np.dot((a-d), np.cross((b-d),(c-d))) / 6)
+    return abs(dot((a-d), cross((b-d),(c-d))) / 6)
 
 def central_p(poly1,poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
-        central_point += np.array(poly1[i]) + np.array(poly2[i])
+        central_point += np.add(np.array(poly1[i]), np.array(poly2[i]))
     return central_point/ (len(poly1)) / 2
 
 def vol(poly1,poly2):

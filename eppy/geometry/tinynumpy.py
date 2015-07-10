@@ -370,6 +370,27 @@ def multiply(ndarray_vec1, ndarray_vec2):
     cRay = array(c)
     return cRay
 
+def divide(ndarray_vec1, integer):
+    c = []
+    for a in ndarray_vec1:
+        c.append(a / integer)
+    cRay = array(c)
+    return cRay
+
+def add(ndarray_vec1, ndarray_vec2):
+    c = []
+    for a, b in zip(ndarray_vec1, ndarray_vec2):
+        c.append(a+b)
+    cRay = array(c)
+    return cRay
+
+def subtract(ndarray_vec1, ndarray_vec2):
+    c = []
+    for a, b in zip(ndarray_vec1, ndarray_vec2):
+        c.append(a-b)
+    cRay = array(c)
+    return cRay
+
 ## The class
 
 class ndarray(object):

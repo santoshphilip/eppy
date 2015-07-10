@@ -30,5 +30,6 @@ data = (([(0,0,0),(1,0,0),(1,1,0),(0,1,0)],[(0,0,1),(1,0,1),(1,1,1),(0,1,1)],1),
 def test_volume():
     for poly1,poly2,answer in data:
         result = volume_zone.vol(poly1,poly2)
+        print result
         assert almostequal(answer, result, places=4) == True
     
