@@ -19,7 +19,7 @@
 # Written by Eric Youngson eric@successionecological.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
 
-import eppy.geometry.py_numeric as py_numeric
+import eppy.geometry.tinynumpy as py_numeric
 from eppy.pytest_helpers import almostequal
 import pytest
 from eppy.geometry.py_numeric import LinAlgError
