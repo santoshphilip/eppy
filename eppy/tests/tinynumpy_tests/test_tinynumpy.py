@@ -13,7 +13,7 @@ import pytest
 from _pytest import runner
 from pytest import raises, skip
 
-import tinynumpy as tnp
+import eppy.geometry.tinynumpy as tnp
 
 # Numpy is optional. If not available, will compare against ourselves.
 try:
@@ -264,7 +264,7 @@ if __name__ == '__main__':
         # Run
         print('\nRunning tests ...\n')
         for name in test_functions:
-            print('Running %s ... ' % name, end='')
+            print('Running %s ... ' % name)
             func = globals()[name]
             try:
                 func()

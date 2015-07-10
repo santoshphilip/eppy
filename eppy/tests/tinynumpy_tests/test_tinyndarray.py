@@ -1,6 +1,12 @@
-import tinynumpy
-import numpy
+import eppy.geometry.tinynumpy as tinynumpy
 import unittest
+import pytest
+
+# Numpy is optional. If not available, will compare against ourselves.
+try:
+    import numpy as np
+except ImportError:
+    numpy = tinynumpy
 
 #numpy.set_printoptions(formatter={'float': repr})
 
