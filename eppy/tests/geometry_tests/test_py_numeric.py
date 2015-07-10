@@ -22,7 +22,6 @@
 import eppy.geometry.tinynumpy as py_numeric
 from eppy.pytest_helpers import almostequal
 import pytest
-from eppy.geometry.py_numeric import LinAlgError
 
 
 # Start vector cross product tests

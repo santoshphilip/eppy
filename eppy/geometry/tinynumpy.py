@@ -44,7 +44,7 @@ import sys
 import ctypes
 
 from math import sqrt
-import py_linalg as linalg
+import tinylinalg as linalg
 
 # Python 2/3 compat
 if sys.version_info >= (3, ):
@@ -128,6 +128,7 @@ def _size_for_shape(shape):
 def squeeze_strides(s):
     """ Pop strides for singular dimensions. """
     return tuple([s[0]] + [s[i] for i in range(1, len(s)) if s[i] != s[i-1]])
+
 
 def _shape_from_object(obj):
     
