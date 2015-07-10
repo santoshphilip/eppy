@@ -37,7 +37,8 @@ def vol_tehrahedron(poly):
     b = np.array(poly[1])
     c = np.array(poly[2])
     d = np.array(poly[3])
-    return abs(np.divide(dot((a-d), cross((b-d),(c-d))), 6))
+    return abs(dot(np.subtract(a,d), cross(np.subtract(b,d),
+                np.subtract(c,d))) / 6)
 
 def central_p(poly1,poly2):
     central_point = np.array([0.0, 0.0, 0.0])
