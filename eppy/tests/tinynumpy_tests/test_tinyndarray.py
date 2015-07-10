@@ -4,7 +4,7 @@ import pytest
 
 # Numpy is optional. If not available, will compare against ourselves.
 try:
-    import numpy as np
+    import numpy
 except ImportError:
     numpy = tinynumpy
 
