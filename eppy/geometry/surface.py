@@ -28,7 +28,7 @@ try:
     from numpy import sqrt as sqrt
     from numpy import array as array
 except ImportError as e:
-    import py_numeric as np
+    import tinynumpy as np
     from math import acos as arccos
     from math import sqrt as sqrt
     from tinynumpy import array as array

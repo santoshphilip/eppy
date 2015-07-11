@@ -27,8 +27,8 @@ try:
     from numpy import dot as dot
     from numpy import cross as cross
 except ImportError as e:
-    from py_numeric import dot as dot
-    from py_numeric import cross as cross
+    from tinynumpy import dot as dot
+    from tinynumpy import cross as cross
     import tinynumpy as np
 
 def vol_tehrahedron(poly):
