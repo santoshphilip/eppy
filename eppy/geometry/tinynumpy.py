@@ -44,7 +44,10 @@ import sys
 import ctypes
 
 from math import sqrt
+import itertools as itr
+import operator
 import tinylinalg as linalg
+from tinylinalg import LinAlgError as LinAlgError
 
 # Python 2/3 compat
 if sys.version_info >= (3, ):
@@ -427,8 +430,7 @@ def dot(u, v):
     # http://reference.wolfram.com/language/ref/Dot.html
     if uDim == vDim == 3:
         try:
-            for i in range(uDim):
-                u_dot_v = sum([u[0]*v[0], u[1]*v[1], u[2]*v[2]])
+            u_dot_v = sum(itr.imap(operator.mul, u, v))
         except LinAlgError as e:
             u_dot_v = e
     else:
