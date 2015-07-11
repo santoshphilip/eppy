@@ -1,6 +1,10 @@
 """Legacy code from EPlusInterface"""
 # Copyright (C) 2004 Santosh Philip
-
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 # EPlusInterface (EPI) - An interface for EnergyPlus
 # This file is part of EPlusInterface.
 #
