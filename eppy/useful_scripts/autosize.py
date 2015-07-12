@@ -1,6 +1,9 @@
 # Copyright (c) 2012 Santosh Philip
-
-# along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 """sample script - autosize all autosizable fields"""
 # email to jason

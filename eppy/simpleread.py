@@ -1,3 +1,9 @@
+# Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 """read the idf file by just parsing the text"""
 
 from __future__ import absolute_import

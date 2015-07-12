@@ -1,3 +1,9 @@
+# Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 """change the edges in loopdaigram so that there are no names with colons (:) """
 
 def replace_colon(s, replacewith='__'):

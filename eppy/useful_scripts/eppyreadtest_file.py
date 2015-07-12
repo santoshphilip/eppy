@@ -1,3 +1,9 @@
+# Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 """
 script to test idf reads in eppy.
 Use to read test a single idf file

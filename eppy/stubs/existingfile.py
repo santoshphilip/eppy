@@ -1,4 +1,9 @@
 """open an existing idf file in eppy"""
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 # you would normaly install eppy by doing
 # python setup.py install

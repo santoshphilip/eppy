@@ -1,4 +1,9 @@
 """sample html for pytesting"""
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 from __future__ import absolute_import
 from __future__ import division

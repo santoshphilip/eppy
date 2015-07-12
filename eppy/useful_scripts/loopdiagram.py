@@ -1,4 +1,9 @@
 # Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 """draw all the  loops in the idf file
 There are two output files saved in the same location as the idf file:

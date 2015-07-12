@@ -1,4 +1,9 @@
 # Copyright (c) 2012 Tuan Tran
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 ## modified by Tuan Tran trantuan@hawaii.edu at L+U, www.coolshadow.com
