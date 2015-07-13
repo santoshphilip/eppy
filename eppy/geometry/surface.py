@@ -26,12 +26,10 @@ try:
     import numpy as np
     from numpy import acos as arccos
     from numpy import sqrt as sqrt
-    from numpy import array as array
 except ImportError as e:
     import tinynumpy as np
     from math import acos as arccos
     from math import sqrt as sqrt
-    from tinynumpy import array as array
     from tinynumpy import multiply as mult
 import math
 
@@ -107,8 +105,8 @@ def azimuth(poly):
     """Azimuth of a polygon poly"""
     N = len(poly) - 1
     vec = unit_normal(poly[0], poly[1], poly[N])
-    vec_azi = array([vec[0], vec[1], 0])
-    vec_N = array([0, 1, 0])
+    vec_azi = np.array([vec[0], vec[1], 0])
+    vec_N = np.array([0, 1, 0])
     # update by Santosh
     # angle2vecs gives the smallest angle between the vectors
     # so for a west wall angle2vecs will give 90
@@ -123,8 +121,8 @@ def tilt(poly):
     """Tilt of a polygon poly"""
     N = len(poly) - 1
     vec = unit_normal(poly[0], poly[1], poly[N])
-    vec_alt = array([vec[0], vec[1], vec[2]])
-    vec_z = array([0,0,1])
+    vec_alt = np.array([vec[0], vec[1], vec[2]])
+    vec_z = np.array([0,0,1])
     # return (90 - angle2vecs(vec_alt, vec_z)) # update by Santosh
     return (angle2vecs(vec_alt, vec_z))
     
