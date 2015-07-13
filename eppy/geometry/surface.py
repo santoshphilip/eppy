@@ -24,13 +24,10 @@
 
 try:
     import numpy as np
-    from numpy import acos as arccos
-    from numpy import sqrt as sqrt
+    from numpy import arccos as acos
 except ImportError as e:
     import tinynumpy as np
-    from math import acos as arccos
-    from math import sqrt as sqrt
-    from tinynumpy import multiply as mult
+    from math import acos as acos
 import math
 
 
@@ -93,12 +90,12 @@ def height(poly):
 def angle2vecs(vec1,vec2):
     # vector a * vector b = |a|*|b|* cos(angle between vector a and vector b)
     dot = np.dot(vec1,vec2)
-    vec1_modulus = sqrt(mult(vec1, vec1).sum())
-    vec2_modulus = sqrt(mult(vec2, vec2).sum())
+    vec1_modulus = np.sqrt(np.multiply(vec1, vec1).sum())
+    vec2_modulus = np.sqrt(np.multiply(vec2, vec2).sum())
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
     else: cos_angle = dot / (vec1_modulus * vec2_modulus)
-    return math.degrees(arccos(cos_angle)) 
+    return math.degrees(acos(cos_angle)) 
 
 # orienation of a polygon poly
 def azimuth(poly):
