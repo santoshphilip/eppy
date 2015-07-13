@@ -1,6 +1,13 @@
 Changes
 =======
 
+2015-07-12
+----------
+
+- python3 version of eppy is in ./p3/eppy
+- eppy license has transitioned from GPLv3 to MIT license
+- made some bugfixes to hvacbuilder.py
+
 2015-05-30
 ----------
 

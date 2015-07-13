@@ -1,4 +1,4 @@
-"""run this in ipython and expliore.
+"""run this in ipython and explore.
 Looks like idd is being read wrong."""
 import sys
 # pathnameto_eppy = 'c:/eppy'
