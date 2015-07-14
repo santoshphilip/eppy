@@ -10,7 +10,7 @@ updated notes on publishing the documentation.
 2. developer docs
 - ipython notebook to make the docs in ./docs/source/dev_docs/
 - ipython nbconvert --to rst ./*.ipynb # run from ./docs/source/dev_docs/
-- put the rst file names in index.rst
+- put the rst file names in index.rst # DONE - ignore
 
 - set the correct version number in ./source/conf.py
 - make html # run from ./docs
@@ -25,6 +25,8 @@ notes on reducing rst errors from ipython notebook
 2014-02-11
 ----------
 Steps for release
+- merge develop to master
+- make any copyright updates to ./LICENSE and ./docs/source/LICENSE.rst
 - make notes in docs/source/changes.rst
 - 
 - establish a release number (0.4.6)
