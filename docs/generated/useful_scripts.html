@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Useful Scripts &mdash; eppy 0.4.6.4a documentation</title>
+    <title>Useful Scripts &mdash; eppy 0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.4a',
+        VERSION:     '0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.4a documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
     <link rel="next" title="Eppy API" href="eppy_api.html" />
     <link rel="prev" title="New functions" href="newfunctions.html" /> 
   </head>
@@ -35,15 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -110,7 +107,7 @@ optional arguments:
 # ignore the line above. It simply lets me run a command line from ipython notebook
 python eppy_version.py</pre>
 </div>
-<div class="highlight-python"><pre>Hello! I am  eppy version 0.4.6.3</pre>
+<div class="highlight-python"><pre>Hello! I am  eppy version 0.4.6.4a</pre>
 </div>
 </div>
 <div class="section" id="redirecting-output-to-a-file">
@@ -137,9 +134,9 @@ python idfdiff.py -h</pre>
 </div>
 <div class="highlight-python"><pre>usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
 
-Do a diff between two idf files. Prints the diff in csv or html file format. You
-can redirect the output to a file and open the file using as a spreadsheet or by
-using a browser
+Do a diff between two idf files. Prints the diff in csv or html file format.
+You can redirect the output to a file and open the file using as a spreadsheet
+or by using a browser
 
 positional arguments:
   idd         location of idd file = ./somewhere/eplusv8-0-1.idd
@@ -166,7 +163,7 @@ diff in html format.</p>
 # python idfdiff.py idd file1 file2
 python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf</pre>
 </div>
-<div class="highlight-python"><pre>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</pre>
+<div class="highlight-python"><pre>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</pre>
 </div>
 <p>reprinting the output again for clarity:</p>
 <p>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border=&#8221;1&#8221;&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</p>
@@ -201,6 +198,8 @@ OUTPUTCONTROL:TABLE:STYLE, ,Column Separator,HTML,CSV</pre>
 </div>
 <div class="section" id="loopdiagram-py">
 <h2>loopdiagram.py<a class="headerlink" href="#loopdiagram-py" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="diagrams-of-hvac-loops">
+<h3>Diagrams of HVAC loops<a class="headerlink" href="#diagrams-of-hvac-loops" title="Permalink to this headline">¶</a></h3>
 <p>This script will draw all the loops in an idf file. It is a bit of a
 hack. So it will work on most files, but sometimes it will not :-(. But
 it is pretty useful when it works.</p>
@@ -236,6 +235,7 @@ simple plant loop in &#8221;../resources/idffiles/V_7_2/plantloop.idf&#8221;</p>
 python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf</pre>
 </div>
 <div class="highlight-python"><pre>constructing the loops
+cleaning edges
 making the diagram
 saved file: ../resources/idffiles/V_7_2/plantloop.dot
 saved file: ../resources/idffiles/V_7_2/plantloop.png</pre>
@@ -249,10 +249,24 @@ shown seperately for clarity</em></p>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
-<img alt="_images/useful_scripts_37_0.png" src="_images/useful_scripts_37_0.png" />
+<img alt="_images/useful_scripts_38_0.png" src="_images/useful_scripts_38_0.png" />
 <p>That diagram is not a real system. Does this script really work ?</p>
 <p>Try it yourself. Draw the daigram for
 &#8221;../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf&#8221;</p>
+</div>
+<div class="section" id="names-in-loopdiagrams">
+<h3>Names in loopdiagrams<a class="headerlink" href="#names-in-loopdiagrams" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://www.designbuilder.co.uk">Designbuilder</a> is an energyplus
+editor autogenerates object names like &#8220;MyHouse:SAPZone1&#8221;</li>
+<li>Note the &#8221;:&#8221; in the name.</li>
+<li>Unfortunatley &#8221;:&#8221; is a reserved character when making a loop
+diagrams. (eppy uses pydot and grapphviz which has this constraint)</li>
+<li>to work around this, loopdiagram will replace all &#8221;:&#8221; with a &#8220;__&#8221;</li>
+<li>So the names in the diagram will not match the names in your file,
+but you can make out what is going on</li>
+</ul>
+</div>
 </div>
 <div class="section" id="eppyreadtest-folder-py">
 <h2>eppyreadtest_folder.py<a class="headerlink" href="#eppyreadtest-folder-py" title="Permalink to this headline">¶</a></h2>
@@ -277,7 +291,11 @@ shown seperately for clarity</em></p>
 <li><a class="reference internal" href="#eppy-version-py">eppy_version.py</a></li>
 <li><a class="reference internal" href="#redirecting-output-to-a-file">Redirecting output to a file</a></li>
 <li><a class="reference internal" href="#compare-two-idf-files-idfdiff-py">Compare two idf files - idfdiff.py</a></li>
-<li><a class="reference internal" href="#loopdiagram-py">loopdiagram.py</a></li>
+<li><a class="reference internal" href="#loopdiagram-py">loopdiagram.py</a><ul>
+<li><a class="reference internal" href="#diagrams-of-hvac-loops">Diagrams of HVAC loops</a></li>
+<li><a class="reference internal" href="#names-in-loopdiagrams">Names in loopdiagrams</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#eppyreadtest-folder-py">eppyreadtest_folder.py</a></li>
 <li><a class="reference internal" href="#eppyreadtest-file-py">eppyreadtest_file.py</a></li>
 </ul>
@@ -319,15 +337,12 @@ shown seperately for clarity</em></p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              >next</a> |</li>
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

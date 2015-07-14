@@ -1,4 +1,9 @@
 """open an existing idf file in eppy"""
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 # you would normaly install eppy by doing
 # python setup.py install
@@ -6,6 +11,11 @@
 # pip install eppy
 # or
 # easy_install eppy
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 # if you have not done so, uncomment the following three lines
 import sys

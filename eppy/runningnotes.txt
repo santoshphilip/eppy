@@ -1,4 +1,11 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+
+2015-05-26
+----------
+Have a toggle that can force the line endings
+idf.save(lineendings='default')
+idf.saveas(fname, lineendings='default')
+
 2014-08-05
 ----------
 eppy can read fields dos path names with backslash '\' 

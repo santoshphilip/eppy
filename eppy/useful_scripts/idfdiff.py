@@ -1,18 +1,10 @@
 # Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
-# This file is part of eppy.
-
-# Eppy is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# Eppy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """
@@ -20,8 +12,12 @@ Do a diff between two idf files.
 Prints the diff in csv  or html file format.
 You can redirect the output to a file and open the file using as a spreadsheet or by using a browser
 """
-    
-    
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+
 import argparse
 
 import sys
@@ -57,7 +53,7 @@ def getobjname(item):
 
 def theheader(n1, n2):
     """return the csv header"""
-    s =  "Object Key, Object Name, Field Name, %s, %s" % ('file1', 'file2')
+    s = "Object Key, Object Name, Field Name, %s, %s" % ('file1', 'file2')
     return s.split(',')
 
 class DtlsSorter(object):
@@ -65,13 +61,13 @@ class DtlsSorter(object):
     def __init__(self, dtls):
         self.dtlsorder = {j:i for i, j in enumerate(dtls)}
     def getkey(self, item):
-        return self.dtlsorder[item[0]] # item[0] is the object key   
+        return self.dtlsorder[item[0]] # item[0] is the object key
 
 def makecsvdiffs(thediffs, dtls, n1, n2):
     """return the csv to be displayed"""
     def ishere(val):
         if val == None:
-            return "not here" 
+            return "not here"
         else:
             return "is here"
     rows = []
@@ -92,8 +88,8 @@ def makecsvdiffs(thediffs, dtls, n1, n2):
         rw1 = list(key)
         rows.append(rw1 + rw2)
     return rows
-        
-        
+
+
 def idfdiffs(idf1, idf2):
     """return the diffs between the two idfs"""
     thediffs = {}
@@ -102,37 +98,40 @@ def idfdiffs(idf1, idf2):
     for akey in keys:
         idfobjs1 = idf1.idfobjects[akey]
         idfobjs2 = idf2.idfobjects[akey]
-        names = set([getobjname(i) for i in idfobjs1] + 
+        names = set([getobjname(i) for i in idfobjs1] +
                     [getobjname(i) for i in idfobjs2])
         names = sorted(names)
         idfobjs1 = sorted(idfobjs1, key=lambda idfobj: idfobj['obj'])
         idfobjs2 = sorted(idfobjs2, key=lambda idfobj: idfobj['obj'])
         for name in names:
-            n_idfobjs1 = [item for item in idfobjs1 
-                            if getobjname(item) == name]
-            n_idfobjs2 = [item for item in idfobjs2 
-                            if getobjname(item) == name]
-            for idfobj1, idfobj2 in itertools.izip_longest(n_idfobjs1, 
-                                                          n_idfobjs2):
+            n_idfobjs1 = [item for item in idfobjs1
+                          if getobjname(item) == name]
+            n_idfobjs2 = [item for item in idfobjs2
+                          if getobjname(item) == name]
+            for idfobj1, idfobj2 in itertools.izip_longest(n_idfobjs1,
+                                                           n_idfobjs2):
                 if idfobj1 == None:
                     thediffs[(idfobj2.key.upper(), 
-                                getobjname(idfobj2))] = (idf1.idfname, None)
+                                getobjname(idfobj2))] = (None, idf1.idfname) #(idf1.idfname, None) -> old
                     break
                 if idfobj2 == None:
                     thediffs[(idfobj1.key.upper(), 
-                                getobjname(idfobj1))] = (None, idf2.idfname)
+                                getobjname(idfobj1))] = (idf2.idfname, None) # (None, idf2.idfname) -> old
                     break
                 for i, (f1, f2) in enumerate(zip(idfobj1.obj, idfobj2.obj)):
+                    if i == 0:
+                        f1, f2 = f1.upper(), f2.upper()
                     if f1 != f2:
-                        thediffs[(akey, 
-                                getobjname(idfobj1),    
-                                idfobj1.objidd[i]['field'][0])] = (f1, f2)
+                        thediffs[(
+                            akey,
+                            getobjname(idfobj1),
+                            idfobj1.objidd[i]['field'][0])] = (f1, f2)
     return thediffs
 
 def printcsv(csvdiffs):
     """print the csv"""
     for row in csvdiffs:
-        print ','.join([str(cell) for cell in row])
+        print(','.join([str(cell) for cell in row]))
 
 def heading2table(soup, table, row):
     """add heading row to table"""
@@ -142,7 +141,7 @@ def heading2table(soup, table, row):
         th = Tag(soup, name="th")
         tr.append(th)
         th.append(attr)
-    
+
 def row2table(soup, table, row):
     """ad a row to the table"""
     tr = Tag(soup, name="tr")
@@ -151,8 +150,8 @@ def row2table(soup, table, row):
         td = Tag(soup, name="td")
         tr.append(td)
         td.append(attr)
-        
-        
+
+
 def printhtml(csvdiffs):
     """print the html"""
     soup = BeautifulSoup()
@@ -173,17 +172,20 @@ def printhtml(csvdiffs):
         row = [str(cell) for cell in row]
         row2table(soup, table, row)
     # print soup.prettify()
-    print soup    
+    print(soup)
 
-if __name__    == '__main__':
+if __name__ == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
-    parser.add_argument('idd', action='store', 
+    parser.add_argument(
+        'idd', action='store',
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
-    parser.add_argument('file1', action='store', 
-        help='location of first with idf files = ./somewhere/f1.idf') 
-    parser.add_argument('file2', action='store', 
-        help='location of second with idf files = ./somewhere/f2.idf') 
+    parser.add_argument(
+        'file1', action='store',
+        help='location of first with idf files = ./somewhere/f1.idf')
+    parser.add_argument(
+        'file2', action='store',
+        help='location of second with idf files = ./somewhere/f2.idf')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--csv', action='store_true')
     group.add_argument('--html', action='store_true')
@@ -194,15 +196,15 @@ if __name__    == '__main__':
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
     idf2 = IDF(fname2)
-    dtls = idf1.model.dtls # undocumented variable    
+    dtls = idf1.model.dtls # undocumented variable
     thediffs = idfdiffs(idf1, idf2)
     csvdiffs = makecsvdiffs(thediffs, dtls, idf1.idfname, idf2.idfname)
     if nspace.csv:
         printcsv(csvdiffs)
     elif nspace.html:
         printhtml(csvdiffs)
-    
-    
+
+
 # python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
 # python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
 # python idfdiff2.py --html ../resources/iddfiles/Energy+V8_0_0.idd ../resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf ../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf

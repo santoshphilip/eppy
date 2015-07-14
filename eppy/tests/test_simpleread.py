@@ -1,4 +1,14 @@
 """py.test for simpleread.py"""
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import StringIO
 import eppy.simpleread as simpleread
@@ -6,35 +16,35 @@ import eppy.simpleread as simpleread
 def test_idf2txt():
     """py.test for idf2txt"""
     data = ((
-"""
-VERSION,                  
-    7.3;                      !- Version Identifier
+        """
+        VERSION,
+            7.3;                      !- Version Identifier
 
-SIMULATIONCONTROL,        
-    Yes,                      !- Do Zone Sizing Calculation
-    Yes,                      !- Do System Sizing Calculation
-    Yes,                      !- Do Plant Sizing Calculation
-    No,                       !- Run Simulation for Sizing Periods
-    Yes;                      !- Run Simulation for Weather File Run Periods
+        SIMULATIONCONTROL,
+            Yes,                      !- Do Zone Sizing Calculation
+            Yes,                      !- Do System Sizing Calculation
+            Yes,                      !- Do Plant Sizing Calculation
+            No,                       !- Run Simulation for Sizing Periods
+            Yes;                      !- Run Simulation for Weather File Run Periods
 
-BUILDING,                 
-    Empire State Building,    !- Name
-    30.0,                     !- North Axis
-    City,                     !- Terrain
-    0.04,                     !- Loads Convergence Tolerance Value
-    0.4,                      !- Temperature Convergence Tolerance Value
-    FullExterior,             !- Solar Distribution
-    25,                       !- Maximum Number of Warmup Days
-    6;                        !- Minimum Number of Warmup Days
+        BUILDING,
+            Empire State Building,    !- Name
+            30.0,                     !- North Axis
+            City,                     !- Terrain
+            0.04,                     !- Loads Convergence Tolerance Value
+            0.4,                      !- Temperature Convergence Tolerance Value
+            FullExterior,             !- Solar Distribution
+            25,                       !- Maximum Number of Warmup Days
+            6;                        !- Minimum Number of Warmup Days
 
-SITE:LOCATION,            
-    CHICAGO_IL_USA TMY2-94846,    !- Name
-    41.78,                    !- Latitude
-    -87.75,                   !- Longitude
-    -6.0,                     !- Time Zone
-    190.0;                    !- Elevation
-""",
-""";
+        SITE:LOCATION,
+            CHICAGO_IL_USA TMY2-94846,    !- Name
+            41.78,                    !- Latitude
+            -87.75,                   !- Longitude
+            -6.0,                     !- Time Zone
+            190.0;                    !- Elevation
+        """,
+        """;
 
 BUILDING,
 Empire State Building,
@@ -62,12 +72,12 @@ CHICAGO_IL_USA TMY2-94846,
 
 VERSION,
 7.3;
-"""    ), # intxt, outtxt
-    )
+"""), # intxt, outtxt
+           )
     for intxt, outtxt in data:
         result = simpleread.idf2txt(intxt)
         assert result == outtxt
-        
+
 def test_idfreadtest():
     """py.test for idfreadtest"""
     data = (("""!IDD_Version 7.2.0.006
@@ -104,18 +114,18 @@ Site:Location,
   N4 ; \\field Elevation
 
 """,
-"""
-VERSION,                  
+             """
+VERSION,
     7.3;                      !- Version Identifier
 
-SIMULATIONCONTROL,        
+SIMULATIONCONTROL,
     Yes,                      !- Do Zone Sizing Calculation
     Yes,                      !- Do System Sizing Calculation
     Yes,                      !- Do Plant Sizing Calculation
     No,                       !- Run Simulation for Sizing Periods
     Yes;                      !- Run Simulation for Weather File Run Periods
 
-BUILDING,                 
+BUILDING,
     Empire State Building,    !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
@@ -125,15 +135,15 @@ BUILDING,
     25,                       !- Maximum Number of Warmup Days
     6;                        !- Minimum Number of Warmup Days
 
-SITE:LOCATION,            
+SITE:LOCATION,
     CHICAGO_IL_USA TMY2-94846,    !- Name
     41.78,                    !- Latitude
     -87.75,                   !- Longitude
     -6.0,                     !- Time Zone
     190.0;                    !- Elevation
 """
-    ), # iddtxt, idftxt
-    )
+            ), # iddtxt, idftxt
+           )
     for iddtxt, idftxt in data:
         iddhandle = StringIO.StringIO(iddtxt)
         idfhandle1 = StringIO.StringIO(idftxt)

@@ -82,7 +82,7 @@ Now let us try running the program
 
 .. parsed-literal::
 
-    Hello! I am  eppy version 0.4.6.3
+    Hello! I am  eppy version 0.4.6.4a
 
 
 Redirecting output to a file
@@ -121,9 +121,9 @@ the help for this script, by typing:
 
     usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
     
-    Do a diff between two idf files. Prints the diff in csv or html file format. You
-    can redirect the output to a file and open the file using as a spreadsheet or by
-    using a browser
+    Do a diff between two idf files. Prints the diff in csv or html file format.
+    You can redirect the output to a file and open the file using as a spreadsheet
+    or by using a browser
     
     positional arguments:
       idd         location of idd file = ./somewhere/eplusv8-0-1.idd
@@ -161,7 +161,7 @@ diff in html format.
 
 .. parsed-literal::
 
-    <html><p>file1 = ../resources/idffiles/V_7_2/constructions.idf</p><p>file2 = ../resources/idffiles/V_7_2/constructions_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>MATERIAL</td><td>F08 Metal surface</td><td></td><td>not here</td><td>is here</td></tr><tr><td>MATERIAL</td><td>F08 Metal surface haha</td><td></td><td>is here</td><td>not here</td></tr><tr><td>MATERIAL</td><td>G05 25mm wood</td><td>Conductivity</td><td>0.15</td><td>0.155</td></tr><tr><td>CONSTRUCTION</td><td>Exterior Door</td><td>Outside Layer</td><td>F08 Metal surface</td><td>F08 Metal surface haha</td></tr></table></html>
+    <html><p>file1 = ../resources/idffiles/V_7_2/constructions.idf</p><p>file2 = ../resources/idffiles/V_7_2/constructions_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>MATERIAL</td><td>F08 Metal surface</td><td></td><td>is here</td><td>not here</td></tr><tr><td>MATERIAL</td><td>F08 Metal surface haha</td><td></td><td>not here</td><td>is here</td></tr><tr><td>MATERIAL</td><td>G05 25mm wood</td><td>Conductivity</td><td>0.15</td><td>0.155</td></tr><tr><td>CONSTRUCTION</td><td>Exterior Door</td><td>Outside Layer</td><td>F08 Metal surface</td><td>F08 Metal surface haha</td></tr></table></html>
 
 
 reprinting the output again for clarity:
@@ -220,6 +220,10 @@ loopdiagram.py
 --------------
 
 
+Diagrams of HVAC loops
+~~~~~~~~~~~~~~~~~~~~~~
+
+
 This script will draw all the loops in an idf file. It is a bit of a
 hack. So it will work on most files, but sometimes it will not :-(. But
 it is pretty useful when it works.
@@ -270,6 +274,7 @@ simple plant loop in "../resources/idffiles/V\_7\_2/plantloop.idf"
 .. parsed-literal::
 
     constructing the loops
+    cleaning edges
     making the diagram
     saved file: ../resources/idffiles/V_7_2/plantloop.dot
     saved file: ../resources/idffiles/V_7_2/plantloop.png
@@ -288,13 +293,27 @@ shown seperately for clarity*
     for_images.display_png(for_images.plantloop) # display the image below
 
 
-.. image:: useful_scripts_files/useful_scripts_37_0.png
+.. image:: useful_scripts_files/useful_scripts_38_0.png
 
 
 That diagram is not a real system. Does this script really work ?
 
 Try it yourself. Draw the daigram for
 "../resources/idffiles/V\_7\_2/5ZoneCAVtoVAVWarmestTempFlow.idf"
+
+Names in loopdiagrams
+~~~~~~~~~~~~~~~~~~~~~
+
+
+-  `Designbuilder <http://www.designbuilder.co.uk>`__ is an energyplus
+   editor autogenerates object names like "MyHouse:SAPZone1"
+-  Note the ":" in the name.
+-  Unfortunatley ":" is a reserved character when making a loop
+   diagrams. (eppy uses pydot and grapphviz which has this constraint)
+-  to work around this, loopdiagram will replace all ":" with a "\_\_"
+-  So the names in the diagram will not match the names in your file,
+   but you can make out what is going on
+
 
 eppyreadtest\_folder.py
 -----------------------

@@ -1,0 +1,2877 @@
+
+Version,                  
+    8.1.0.009;                !- Version Identifier
+
+SimulationControl,        
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+Building,                 
+    Building,                 !- Name
+    0.0,                      !- North Axis
+    Urban,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+ShadowCalculation,        
+    AverageOverDaysInFrequency,    !- Calculation Method
+    20,                       !- Calculation Frequency
+    15000,                    !- Maximum Figures in Shadow Overlap Calculations
+    SutherlandHodgman,        !- Polygon Clipping Algorithm
+    SimpleSkyDiffuseModeling;    !- Sky Diffuse Modeling Algorithm
+
+SurfaceConvectionAlgorithm:Inside,
+    TARP;                     !- Algorithm
+
+SurfaceConvectionAlgorithm:Outside,
+    DOE-2;                    !- Algorithm
+
+HeatBalanceAlgorithm,     
+    ConductionTransferFunction,    !- Algorithm
+    2000.0;                   !- Surface Temperature Upper Limit
+
+ZoneCapacitanceMultiplier:ResearchSpecial,
+    1.0,                      !- Temperature Capacity Multiplier
+    1.0,                      !- Humidity Capacity Multiplier
+    1.0,                      !- Carbon Dioxide Capacity Multiplier
+    1.0;                      !- Generic Contaminant Capacity Multiplier
+
+Timestep,                 
+    6;                        !- Number of Timesteps per Hour
+
+ConvergenceLimits,        
+    1,                        !- Minimum System Timestep
+    20;                       !- Maximum HVAC Iterations
+
+ProgramControl,           
+    1;                        !- Number of Threads Allowed
+
+Site:Location,            
+    Unseen University,        !- Name
+    51.5248,                  !- Latitude
+    0.1336,                   !- Longitude
+    0.0,                      !- Time Zone
+    34.678;                   !- Elevation
+
+SizingPeriod:DesignDay,   
+    Summer Design Day in ETI Dwellings Jul,    !- Name
+    7,                        !- Month
+    15,                       !- Day of Month
+    SummerDesignDay,          !- Day Type
+    27.2,                     !- Maximum DryBulb Temperature
+    9.4,                      !- Daily DryBulb Temperature Range
+    ,                         !- DryBulb Temperature Range Modifier Type
+    ,                         !- DryBulb Temperature Range Modifier Day Schedule Name
+    WetBulb,                  !- Humidity Condition Type
+    18.7,                     !- Wetbulb or DewPoint at Maximum DryBulb
+    ,                         !- Humidity Condition Day Schedule Name
+    ,                         !- Humidity Ratio at Maximum DryBulb
+    ,                         !- Enthalpy at Maximum DryBulb
+    ,                         !- Daily WetBulb Temperature Range
+    100582.4,                 !- Barometric Pressure
+    0.0,                      !- Wind Speed
+    0.0,                      !- Wind Direction
+    0,                        !- Rain Indicator
+    0,                        !- Snow Indicator
+    1,                        !- Daylight Saving Time Indicator
+    ,                         !- Solar Model Indicator
+    ,                         !- Beam Solar Day Schedule Name
+    ,                         !- Diffuse Solar Day Schedule Name
+    ,                         !- ASHRAE Clear Sky Optical Depth for Beam Irradiance taub
+    ,                         !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance taud
+    0.98;                     !- Sky Clearness
+
+SizingPeriod:DesignDay,   
+    Winter Design Day in ETI Dwellings,    !- Name
+    1,                        !- Month
+    15,                       !- Day of Month
+    WinterDesignDay,          !- Day Type
+    -4.4,                     !- Maximum DryBulb Temperature
+    0.0,                      !- Daily DryBulb Temperature Range
+    ,                         !- DryBulb Temperature Range Modifier Type
+    ,                         !- DryBulb Temperature Range Modifier Day Schedule Name
+    WetBulb,                  !- Humidity Condition Type
+    -4.4,                     !- Wetbulb or DewPoint at Maximum DryBulb
+    ,                         !- Humidity Condition Day Schedule Name
+    ,                         !- Humidity Ratio at Maximum DryBulb
+    ,                         !- Enthalpy at Maximum DryBulb
+    ,                         !- Daily WetBulb Temperature Range
+    100582.4,                 !- Barometric Pressure
+    12.3,                     !- Wind Speed
+    0.0,                      !- Wind Direction
+    0,                        !- Rain Indicator
+    0,                        !- Snow Indicator
+    0,                        !- Daylight Saving Time Indicator
+    ,                         !- Solar Model Indicator
+    ,                         !- Beam Solar Day Schedule Name
+    ,                         !- Diffuse Solar Day Schedule Name
+    ,                         !- ASHRAE Clear Sky Optical Depth for Beam Irradiance taub
+    ,                         !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance taud
+    0.0;                      !- Sky Clearness
+
+RunPeriod,                
+    ETI Dwellings,            !- Name
+    5,                        !- Begin Month
+    7,                        !- Begin Day of Month
+    5,                        !- End Month
+    11,                       !- End Day of Month
+    UseWeatherFile,           !- Day of Week for Start Day
+    No,                       !- Use Weather File Holidays and Special Days
+    No,                       !- Use Weather File Daylight Saving Period
+    Yes,                      !- Apply Weekend Holiday Rule
+    Yes,                      !- Use Weather File Rain Indicators
+    Yes,                      !- Use Weather File Snow Indicators
+    1;                        !- Number of Times Runperiod to be Repeated
+
+RunPeriodControl:DaylightSavingTime,
+    Last Sunday in March,     !- Start Date
+    Last Sunday in October;    !- End Date
+
+Site:GroundTemperature:BuildingSurface,
+    18.0,                     !- January Ground Temperature
+    18.0,                     !- February Ground Temperature
+    18.0,                     !- March Ground Temperature
+    18.0,                     !- April Ground Temperature
+    18.0,                     !- May Ground Temperature
+    18.0,                     !- June Ground Temperature
+    18.0,                     !- July Ground Temperature
+    18.0,                     !- August Ground Temperature
+    18.0,                     !- September Ground Temperature
+    18.0,                     !- October Ground Temperature
+    18.0,                     !- November Ground Temperature
+    18.0;                     !- December Ground Temperature
+
+Site:GroundTemperature:FCfactorMethod,
+    4.16,                     !- January Ground Temperature
+    5.3,                      !- February Ground Temperature
+    7.51,                     !- March Ground Temperature
+    9.61,                     !- April Ground Temperature
+    13.58,                    !- May Ground Temperature
+    15.67,                    !- June Ground Temperature
+    16.24,                    !- July Ground Temperature
+    15.18,                    !- August Ground Temperature
+    12.74,                    !- September Ground Temperature
+    9.69,                     !- October Ground Temperature
+    6.69,                     !- November Ground Temperature
+    4.7;                      !- December Ground Temperature
+
+Site:GroundTemperature:Shallow,
+    14.0,                     !- January Surface Ground Temperature
+    14.0,                     !- February Surface Ground Temperature
+    14.0,                     !- March Surface Ground Temperature
+    14.0,                     !- April Surface Ground Temperature
+    14.0,                     !- May Surface Ground Temperature
+    14.0,                     !- June Surface Ground Temperature
+    14.0,                     !- July Surface Ground Temperature
+    14.0,                     !- August Surface Ground Temperature
+    14.0,                     !- September Surface Ground Temperature
+    14.0,                     !- October Surface Ground Temperature
+    14.0,                     !- November Surface Ground Temperature
+    14.0;                     !- December Surface Ground Temperature
+
+Site:GroundTemperature:Deep,
+    14.0,                     !- January Deep Ground Temperature
+    14.0,                     !- February Deep Ground Temperature
+    14.0,                     !- March Deep Ground Temperature
+    14.0,                     !- April Deep Ground Temperature
+    14.0,                     !- May Deep Ground Temperature
+    14.0,                     !- June Deep Ground Temperature
+    14.0,                     !- July Deep Ground Temperature
+    14.0,                     !- August Deep Ground Temperature
+    14.0,                     !- September Deep Ground Temperature
+    14.0,                     !- October Deep Ground Temperature
+    14.0,                     !- November Deep Ground Temperature
+    14.0;                     !- December Deep Ground Temperature
+
+Site:GroundReflectance,   
+    0.2,                      !- January Ground Reflectance
+    0.2,                      !- February Ground Reflectance
+    0.2,                      !- March Ground Reflectance
+    0.2,                      !- April Ground Reflectance
+    0.2,                      !- May Ground Reflectance
+    0.2,                      !- June Ground Reflectance
+    0.2,                      !- July Ground Reflectance
+    0.2,                      !- August Ground Reflectance
+    0.2,                      !- September Ground Reflectance
+    0.2,                      !- October Ground Reflectance
+    0.2,                      !- November Ground Reflectance
+    0.2;                      !- December Ground Reflectance
+
+Site:GroundReflectance:SnowModifier,
+    2.0,                      !- Ground Reflected Solar Modifier
+    2.0;                      !- Daylighting Ground Reflected Solar Modifier
+
+Site:WaterMainsTemperature,
+    Correlation,              !- Calculation Method
+    ,                         !- Temperature Schedule Name
+    10.0,                     !- Annual Average Outdoor Air Temperature
+    20.0;                     !- Maximum Difference In Monthly Average Outdoor Air Temperatures
+
+ScheduleTypeLimits,       
+    Any Number;               !- Name
+
+ScheduleTypeLimits,       
+    Fraction,                 !- Name
+    0.0,                      !- Lower Limit Value
+    1.0,                      !- Upper Limit Value
+    CONTINUOUS;               !- Numeric Type
+
+ScheduleTypeLimits,       
+    Temperature,              !- Name
+    -60,                      !- Lower Limit Value
+    200,                      !- Upper Limit Value
+    CONTINUOUS;               !- Numeric Type
+
+ScheduleTypeLimits,       
+    Control Type,             !- Name
+    0,                        !- Lower Limit Value
+    4,                        !- Upper Limit Value
+    DISCRETE;                 !- Numeric Type
+
+ScheduleTypeLimits,       
+    On/Off,                   !- Name
+    0,                        !- Lower Limit Value
+    1,                        !- Upper Limit Value
+    DISCRETE;                 !- Numeric Type
+
+Schedule:Day:Hourly,      
+    0,                        !- Name
+    Any Number,               !- Schedule Type Limits Name
+    0.0,                      !- Hour 1
+    0.0,                      !- Hour 2
+    0.0,                      !- Hour 3
+    0.0,                      !- Hour 4
+    0.0,                      !- Hour 5
+    0.0,                      !- Hour 6
+    0.0,                      !- Hour 7
+    0.0,                      !- Hour 8
+    0.0,                      !- Hour 9
+    0.0,                      !- Hour 10
+    0.0,                      !- Hour 11
+    0.0,                      !- Hour 12
+    0.0,                      !- Hour 13
+    0.0,                      !- Hour 14
+    0.0,                      !- Hour 15
+    0.0,                      !- Hour 16
+    0.0,                      !- Hour 17
+    0.0,                      !- Hour 18
+    0.0,                      !- Hour 19
+    0.0,                      !- Hour 20
+    0.0,                      !- Hour 21
+    0.0,                      !- Hour 22
+    0.0,                      !- Hour 23
+    0.0;                      !- Hour 24
+
+Schedule:Day:Hourly,      
+    50,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    50.0,                     !- Hour 1
+    50.0,                     !- Hour 2
+    50.0,                     !- Hour 3
+    50.0,                     !- Hour 4
+    50.0,                     !- Hour 5
+    50.0,                     !- Hour 6
+    50.0,                     !- Hour 7
+    50.0,                     !- Hour 8
+    50.0,                     !- Hour 9
+    50.0,                     !- Hour 10
+    50.0,                     !- Hour 11
+    50.0,                     !- Hour 12
+    50.0,                     !- Hour 13
+    50.0,                     !- Hour 14
+    50.0,                     !- Hour 15
+    50.0,                     !- Hour 16
+    50.0,                     !- Hour 17
+    50.0,                     !- Hour 18
+    50.0,                     !- Hour 19
+    50.0,                     !- Hour 20
+    50.0,                     !- Hour 21
+    50.0,                     !- Hour 22
+    50.0,                     !- Hour 23
+    50.0;                     !- Hour 24
+
+Schedule:Day:Hourly,      
+    Off,                      !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    0.0,                      !- Hour 1
+    0.0,                      !- Hour 2
+    0.0,                      !- Hour 3
+    0.0,                      !- Hour 4
+    0.0,                      !- Hour 5
+    0.0,                      !- Hour 6
+    0.0,                      !- Hour 7
+    0.0,                      !- Hour 8
+    0.0,                      !- Hour 9
+    0.0,                      !- Hour 10
+    0.0,                      !- Hour 11
+    0.0,                      !- Hour 12
+    0.0,                      !- Hour 13
+    0.0,                      !- Hour 14
+    0.0,                      !- Hour 15
+    0.0,                      !- Hour 16
+    0.0,                      !- Hour 17
+    0.0,                      !- Hour 18
+    0.0,                      !- Hour 19
+    0.0,                      !- Hour 20
+    0.0,                      !- Hour 21
+    0.0,                      !- Hour 22
+    0.0,                      !- Hour 23
+    0.0;                      !- Hour 24
+
+Schedule:Day:Hourly,      
+    Summer Control Type Day Sch,    !- Name
+    Control Type,             !- Schedule Type Limits Name
+    4.0,                      !- Hour 1
+    4.0,                      !- Hour 2
+    4.0,                      !- Hour 3
+    4.0,                      !- Hour 4
+    4.0,                      !- Hour 5
+    4.0,                      !- Hour 6
+    4.0,                      !- Hour 7
+    4.0,                      !- Hour 8
+    4.0,                      !- Hour 9
+    4.0,                      !- Hour 10
+    4.0,                      !- Hour 11
+    4.0,                      !- Hour 12
+    4.0,                      !- Hour 13
+    4.0,                      !- Hour 14
+    4.0,                      !- Hour 15
+    4.0,                      !- Hour 16
+    4.0,                      !- Hour 17
+    4.0,                      !- Hour 18
+    4.0,                      !- Hour 19
+    4.0,                      !- Hour 20
+    4.0,                      !- Hour 21
+    4.0,                      !- Hour 22
+    4.0,                      !- Hour 23
+    4.0;                      !- Hour 24
+
+Schedule:Day:Hourly,      
+    Winter Control Type Day Sch,    !- Name
+    Control Type,             !- Schedule Type Limits Name
+    4.0,                      !- Hour 1
+    4.0,                      !- Hour 2
+    4.0,                      !- Hour 3
+    4.0,                      !- Hour 4
+    4.0,                      !- Hour 5
+    4.0,                      !- Hour 6
+    4.0,                      !- Hour 7
+    4.0,                      !- Hour 8
+    4.0,                      !- Hour 9
+    4.0,                      !- Hour 10
+    4.0,                      !- Hour 11
+    4.0,                      !- Hour 12
+    4.0,                      !- Hour 13
+    4.0,                      !- Hour 14
+    4.0,                      !- Hour 15
+    4.0,                      !- Hour 16
+    4.0,                      !- Hour 17
+    4.0,                      !- Hour 18
+    4.0,                      !- Hour 19
+    4.0,                      !- Hour 20
+    4.0,                      !- Hour 21
+    4.0,                      !- Hour 22
+    4.0,                      !- Hour 23
+    4.0;                      !- Hour 24
+
+Schedule:Day:Hourly,      
+    Summer Control Type Day Sch - cool,    !- Name
+    Control Type,             !- Schedule Type Limits Name
+    2.0,                      !- Hour 1
+    2.0,                      !- Hour 2
+    2.0,                      !- Hour 3
+    2.0,                      !- Hour 4
+    2.0,                      !- Hour 5
+    2.0,                      !- Hour 6
+    2.0,                      !- Hour 7
+    2.0,                      !- Hour 8
+    2.0,                      !- Hour 9
+    2.0,                      !- Hour 10
+    2.0,                      !- Hour 11
+    2.0,                      !- Hour 12
+    2.0,                      !- Hour 13
+    2.0,                      !- Hour 14
+    2.0,                      !- Hour 15
+    2.0,                      !- Hour 16
+    2.0,                      !- Hour 17
+    2.0,                      !- Hour 18
+    2.0,                      !- Hour 19
+    2.0,                      !- Hour 20
+    2.0,                      !- Hour 21
+    2.0,                      !- Hour 22
+    2.0,                      !- Hour 23
+    2.0;                      !- Hour 24
+
+Schedule:Day:Hourly,      
+    Winter Control Type Day Sch - heat,    !- Name
+    Control Type,             !- Schedule Type Limits Name
+    1.0,                      !- Hour 1
+    1.0,                      !- Hour 2
+    1.0,                      !- Hour 3
+    1.0,                      !- Hour 4
+    1.0,                      !- Hour 5
+    1.0,                      !- Hour 6
+    1.0,                      !- Hour 7
+    1.0,                      !- Hour 8
+    1.0,                      !- Hour 9
+    1.0,                      !- Hour 10
+    1.0,                      !- Hour 11
+    1.0,                      !- Hour 12
+    1.0,                      !- Hour 13
+    1.0,                      !- Hour 14
+    1.0,                      !- Hour 15
+    1.0,                      !- Hour 16
+    1.0,                      !- Hour 17
+    1.0,                      !- Hour 18
+    1.0,                      !- Hour 19
+    1.0,                      !- Hour 20
+    1.0,                      !- Hour 21
+    1.0,                      !- Hour 22
+    1.0,                      !- Hour 23
+    1.0;                      !- Hour 24
+
+Schedule:Week:Daily,      
+    Off,                      !- Name
+    Off,                      !- Sunday ScheduleDay Name
+    Off,                      !- Monday ScheduleDay Name
+    Off,                      !- Tuesday ScheduleDay Name
+    Off,                      !- Wednesday ScheduleDay Name
+    Off,                      !- Thursday ScheduleDay Name
+    Off,                      !- Friday ScheduleDay Name
+    Off,                      !- Saturday ScheduleDay Name
+    Off,                      !- Holiday ScheduleDay Name
+    Off,                      !- SummerDesignDay ScheduleDay Name
+    Off,                      !- WinterDesignDay ScheduleDay Name
+    Off,                      !- CustomDay1 ScheduleDay Name
+    Off;                      !- CustomDay2 ScheduleDay Name
+
+Schedule:Week:Daily,      
+    Summer Control Type Week Sch,    !- Name
+    Summer Control Type Day Sch,    !- Sunday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Monday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Tuesday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Wednesday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Thursday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Friday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Saturday ScheduleDay Name
+    Summer Control Type Day Sch,    !- Holiday ScheduleDay Name
+    Summer Control Type Day Sch,    !- SummerDesignDay ScheduleDay Name
+    Summer Control Type Day Sch,    !- WinterDesignDay ScheduleDay Name
+    Summer Control Type Day Sch,    !- CustomDay1 ScheduleDay Name
+    Summer Control Type Day Sch;    !- CustomDay2 ScheduleDay Name
+
+Schedule:Week:Daily,      
+    Winter Control Type Week Sch,    !- Name
+    Winter Control Type Day Sch,    !- Sunday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Monday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Tuesday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Wednesday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Thursday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Friday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Saturday ScheduleDay Name
+    Winter Control Type Day Sch,    !- Holiday ScheduleDay Name
+    Winter Control Type Day Sch,    !- SummerDesignDay ScheduleDay Name
+    Winter Control Type Day Sch,    !- WinterDesignDay ScheduleDay Name
+    Winter Control Type Day Sch,    !- CustomDay1 ScheduleDay Name
+    Winter Control Type Day Sch;    !- CustomDay2 ScheduleDay Name
+
+Schedule:Week:Daily,      
+    Summer Control Type Week Sch - cool,    !- Name
+    Summer Control Type Day Sch - cool,    !- Sunday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Monday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Tuesday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Wednesday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Thursday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Friday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Saturday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- Holiday ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- SummerDesignDay ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- WinterDesignDay ScheduleDay Name
+    Summer Control Type Day Sch - cool,    !- CustomDay1 ScheduleDay Name
+    Summer Control Type Day Sch - cool;    !- CustomDay2 ScheduleDay Name
+
+Schedule:Week:Daily,      
+    Winter Control Type Week Sch - heat,    !- Name
+    Winter Control Type Day Sch - heat,    !- Sunday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Monday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Tuesday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Wednesday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Thursday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Friday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Saturday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- Holiday ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- SummerDesignDay ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- WinterDesignDay ScheduleDay Name
+    Winter Control Type Day Sch - heat,    !- CustomDay1 ScheduleDay Name
+    Winter Control Type Day Sch - heat;    !- CustomDay2 ScheduleDay Name
+
+Schedule:Compact,         
+    75,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    40;                       !- Field 4
+
+Schedule:Compact,         
+    Ambient Temp Schedule,    !- Name
+    Any Number,               !- Schedule Type Limits Name
+    THROUGH: 12/31,           !- Field 1
+    FOR: AllDays,             !- Field 2
+    UNTIL: 24:00,             !- Field 3
+    22.0;                     !- Field 4
+
+Schedule:Compact,         
+    ASHP Tank Temp Schedule,    !- Name
+    Any Number,               !- Schedule Type Limits Name
+    THROUGH: 12/31,           !- Field 1
+    FOR: AllDays,             !- Field 2
+    UNTIL: 24:00,             !- Field 3
+    50;                       !- Field 4
+
+Schedule:Compact,         
+    Hot Water Set Point Temp Schedule,    !- Name
+    Any Number,               !- Schedule Type Limits Name
+    THROUGH: 12/31,           !- Field 1
+    FOR: AllDays,             !- Field 2
+    UNTIL: 24:00,             !- Field 3
+    48;                       !- Field 4
+
+Schedule:Compact,         
+    PlantHPWHSch,             !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1.0;                      !- Field 4
+
+Schedule:Compact,         
+    PlantHPWHTempSch,         !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    70;                       !- Field 4
+
+Schedule:Compact,         
+    On,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1;                        !- Field 4
+
+Schedule:Compact,         
+    Off,                      !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0;                        !- Field 4
+
+Schedule:Compact,         
+    Work efficiency,          !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0;                        !- Field 4
+
+Schedule:Compact,         
+    OpaqueShade,              !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0;                        !- Field 4
+
+Schedule:Compact,         
+    Zone Comfort Control Type Sched,    !- Name
+    Control Type,             !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    4;                        !- Field 4
+
+Schedule:Compact,         
+    Design Days Only,         !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 24:00,             !- Field 3
+    1,                        !- Field 4
+    For: AllOtherDays,        !- Field 5
+    Until: 24:00,             !- Field 6
+    0;                        !- Field 7
+
+Schedule:Compact,         
+    2,                        !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1;                        !- Field 4
+
+Schedule:Compact,         
+    7,                        !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0;                        !- Field 4
+
+Schedule:Compact,         
+    41,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    80;                       !- Field 4
+
+Schedule:Compact,         
+    46,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    20;                       !- Field 4
+
+Schedule:Compact,         
+    47,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    100;                      !- Field 4
+
+Schedule:Compact,         
+    48,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    4;                        !- Field 4
+
+Schedule:Compact,         
+    60,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    48;                       !- Field 4
+
+Schedule:Compact,         
+    61,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    20;                       !- Field 4
+
+Schedule:Compact,         
+    63,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    50;                       !- Field 4
+
+Schedule:Compact,         
+    71,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    -0.5;                     !- Field 4
+
+Schedule:Compact,         
+    72,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.1;                      !- Field 4
+
+Schedule:Compact,         
+    89,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    900;                      !- Field 4
+
+Schedule:Compact,         
+    90,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    600;                      !- Field 4
+
+Schedule:Compact,         
+    91,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.5;                      !- Field 4
+
+Schedule:Compact,         
+    99,                       !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1;                        !- Field 4
+
+Schedule:Compact,         
+    TypOperativeTempControlSch,    !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 31 Dec,          !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 24:00,             !- Field 3
+    0.0,                      !- Field 4
+    For: AllOtherDays,        !- Field 5
+    Until: 24:00,             !- Field 6
+    0.5;                      !- Field 7
+
+Schedule:Compact,         
+    AirVelocitySchedule,      !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    .137;                     !- Field 4
+
+Schedule:Compact,         
+    ETI_Cool,                 !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 31 Dec,          !- Field 1
+    For: Weekdays SummerDesignDay,    !- Field 2
+    Until: 05:00,             !- Field 3
+    100,                      !- Field 4
+    Until: 10:00,             !- Field 5
+    100,                      !- Field 6
+    Until: 17:00,             !- Field 7
+    100,                      !- Field 8
+    Until: 24:00,             !- Field 9
+    100,                      !- Field 10
+    For: Weekends,            !- Field 11
+    Until: 05:00,             !- Field 12
+    100,                      !- Field 13
+    Until: 10:00,             !- Field 14
+    100,                      !- Field 15
+    Until: 17:00,             !- Field 16
+    100,                      !- Field 17
+    Until: 24:00,             !- Field 18
+    100,                      !- Field 19
+    For: Holidays,            !- Field 20
+    Until: 05:00,             !- Field 21
+    100,                      !- Field 22
+    Until: 10:00,             !- Field 23
+    100,                      !- Field 24
+    Until: 17:00,             !- Field 25
+    100,                      !- Field 26
+    Until: 24:00,             !- Field 27
+    100,                      !- Field 28
+    For: WinterDesignDay AllOtherDays,    !- Field 29
+    Until: 24:00,             !- Field 30
+    100;                      !- Field 31
+
+Schedule:Compact,         
+    ETI_DHW,                  !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    0.0,                      !- Field 4
+    Until: 08:00,             !- Field 5
+    1.0,                      !- Field 6
+    Until: 10:00,             !- Field 7
+    0.0,                      !- Field 8
+    Until: 16:30,             !- Field 9
+    0.5,                      !- Field 10
+    Until: 22:00,             !- Field 11
+    0.0,                      !- Field 12
+    Until: 24:00,             !- Field 13
+    0.0,                      !- Field 14
+    For: WinterDesignDay,     !- Field 15
+    Until: 00:30,             !- Field 16
+    0.0,                      !- Field 17
+    Until: 08:00,             !- Field 18
+    1.0,                      !- Field 19
+    Until: 10:00,             !- Field 20
+    0.0,                      !- Field 21
+    Until: 16:30,             !- Field 22
+    0.5,                      !- Field 23
+    Until: 22:00,             !- Field 24
+    0.0,                      !- Field 25
+    Until: 24:00,             !- Field 26
+    0.0,                      !- Field 27
+    For: SummerDesignDay,     !- Field 28
+    Until: 00:30,             !- Field 29
+    0.0,                      !- Field 30
+    Until: 08:00,             !- Field 31
+    1.0,                      !- Field 32
+    Until: 10:00,             !- Field 33
+    0.0,                      !- Field 34
+    Until: 16:30,             !- Field 35
+    0.5,                      !- Field 36
+    Until: 22:00,             !- Field 37
+    0.0,                      !- Field 38
+    Until: 24:00,             !- Field 39
+    0.0,                      !- Field 40
+    For: Weekdays,            !- Field 41
+    Until: 00:30,             !- Field 42
+    0.0,                      !- Field 43
+    Until: 08:00,             !- Field 44
+    1.0,                      !- Field 45
+    Until: 10:00,             !- Field 46
+    0.0,                      !- Field 47
+    Until: 16:30,             !- Field 48
+    0.5,                      !- Field 49
+    Until: 22:00,             !- Field 50
+    0.0,                      !- Field 51
+    Until: 24:00,             !- Field 52
+    0.0,                      !- Field 53
+    For: AllOtherDays,        !- Field 54
+    Until: 24:00,             !- Field 55
+    0;                        !- Field 56
+
+Schedule:Compact,         
+    ETI_Heat_Zone1,           !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    12.0,                     !- Field 4
+    Until: 06:30,             !- Field 5
+    21.0,                     !- Field 6
+    Until: 09:30,             !- Field 7
+    12.0,                     !- Field 8
+    Until: 16:30,             !- Field 9
+    21.0,                     !- Field 10
+    Until: 23:30,             !- Field 11
+    12.0,                     !- Field 12
+    Until: 24:00,             !- Field 13
+    12.0,                     !- Field 14
+    For: WinterDesignDay,     !- Field 15
+    Until: 00:30,             !- Field 16
+    12.0,                     !- Field 17
+    Until: 06:30,             !- Field 18
+    21.0,                     !- Field 19
+    Until: 09:30,             !- Field 20
+    12.0,                     !- Field 21
+    Until: 16:30,             !- Field 22
+    21.0,                     !- Field 23
+    Until: 23:30,             !- Field 24
+    12.0,                     !- Field 25
+    Until: 24:00,             !- Field 26
+    12.0,                     !- Field 27
+    For: SummerDesignDay,     !- Field 28
+    Until: 00:30,             !- Field 29
+    12.0,                     !- Field 30
+    Until: 06:30,             !- Field 31
+    21.0,                     !- Field 32
+    Until: 09:30,             !- Field 33
+    12.0,                     !- Field 34
+    Until: 16:30,             !- Field 35
+    21.0,                     !- Field 36
+    Until: 23:30,             !- Field 37
+    12.0,                     !- Field 38
+    Until: 24:00,             !- Field 39
+    12.0,                     !- Field 40
+    For: Weekdays,            !- Field 41
+    Until: 00:30,             !- Field 42
+    12.0,                     !- Field 43
+    Until: 06:30,             !- Field 44
+    21.0,                     !- Field 45
+    Until: 09:30,             !- Field 46
+    12.0,                     !- Field 47
+    Until: 16:30,             !- Field 48
+    21.0,                     !- Field 49
+    Until: 23:30,             !- Field 50
+    12.0,                     !- Field 51
+    Until: 24:00,             !- Field 52
+    12.0,                     !- Field 53
+    For: AllOtherDays,        !- Field 54
+    Until: 24:00,             !- Field 55
+    0;                        !- Field 56
+
+Schedule:Compact,         
+    ETI_Heat_Zone2,           !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    9.0,                      !- Field 4
+    Until: 06:30,             !- Field 5
+    18.0,                     !- Field 6
+    Until: 09:30,             !- Field 7
+    9.0,                      !- Field 8
+    Until: 16:30,             !- Field 9
+    18.0,                     !- Field 10
+    Until: 23:30,             !- Field 11
+    9.0,                      !- Field 12
+    Until: 24:00,             !- Field 13
+    9.0,                      !- Field 14
+    For: WinterDesignDay,     !- Field 15
+    Until: 00:30,             !- Field 16
+    9.0,                      !- Field 17
+    Until: 06:30,             !- Field 18
+    18.0,                     !- Field 19
+    Until: 09:30,             !- Field 20
+    9.0,                      !- Field 21
+    Until: 16:30,             !- Field 22
+    18.0,                     !- Field 23
+    Until: 23:30,             !- Field 24
+    9.0,                      !- Field 25
+    Until: 24:00,             !- Field 26
+    9.0,                      !- Field 27
+    For: SummerDesignDay,     !- Field 28
+    Until: 00:30,             !- Field 29
+    9.0,                      !- Field 30
+    Until: 06:30,             !- Field 31
+    18.0,                     !- Field 32
+    Until: 09:30,             !- Field 33
+    9.0,                      !- Field 34
+    Until: 16:30,             !- Field 35
+    18.0,                     !- Field 36
+    Until: 23:30,             !- Field 37
+    9.0,                      !- Field 38
+    Until: 24:00,             !- Field 39
+    9.0,                      !- Field 40
+    For: Weekdays,            !- Field 41
+    Until: 00:30,             !- Field 42
+    9.0,                      !- Field 43
+    Until: 06:30,             !- Field 44
+    18.0,                     !- Field 45
+    Until: 09:30,             !- Field 46
+    9.0,                      !- Field 47
+    Until: 16:30,             !- Field 48
+    18.0,                     !- Field 49
+    Until: 23:30,             !- Field 50
+    9.0,                      !- Field 51
+    Until: 24:00,             !- Field 52
+    9.0,                      !- Field 53
+    For: AllOtherDays,        !- Field 54
+    Until: 24:00,             !- Field 55
+    0;                        !- Field 56
+
+Schedule:Compact,         
+    ETI_Equip,                !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    5.0,                      !- Field 4
+    Until: 06:30,             !- Field 5
+    10.0,                     !- Field 6
+    Until: 09:30,             !- Field 7
+    5.0,                      !- Field 8
+    Until: 16:30,             !- Field 9
+    10.0,                     !- Field 10
+    Until: 23:30,             !- Field 11
+    5.0,                      !- Field 12
+    Until: 24:00,             !- Field 13
+    5.0,                      !- Field 14
+    For: WinterDesignDay,     !- Field 15
+    Until: 00:30,             !- Field 16
+    5.0,                      !- Field 17
+    Until: 06:30,             !- Field 18
+    10.0,                     !- Field 19
+    Until: 09:30,             !- Field 20
+    5.0,                      !- Field 21
+    Until: 16:30,             !- Field 22
+    10.0,                     !- Field 23
+    Until: 23:30,             !- Field 24
+    5.0,                      !- Field 25
+    Until: 24:00,             !- Field 26
+    5.0,                      !- Field 27
+    For: SummerDesignDay,     !- Field 28
+    Until: 00:30,             !- Field 29
+    5.0,                      !- Field 30
+    Until: 06:30,             !- Field 31
+    10.0,                     !- Field 32
+    Until: 09:30,             !- Field 33
+    5.0,                      !- Field 34
+    Until: 16:30,             !- Field 35
+    10.0,                     !- Field 36
+    Until: 23:30,             !- Field 37
+    5.0,                      !- Field 38
+    Until: 24:00,             !- Field 39
+    5.0,                      !- Field 40
+    For: Weekdays,            !- Field 41
+    Until: 00:30,             !- Field 42
+    5.0,                      !- Field 43
+    Until: 06:30,             !- Field 44
+    10.0,                     !- Field 45
+    Until: 09:30,             !- Field 46
+    5.0,                      !- Field 47
+    Until: 16:30,             !- Field 48
+    10.0,                     !- Field 49
+    Until: 23:30,             !- Field 50
+    5.0,                      !- Field 51
+    Until: 24:00,             !- Field 52
+    5.0,                      !- Field 53
+    For: AllOtherDays,        !- Field 54
+    Until: 24:00,             !- Field 55
+    0;                        !- Field 56
+
+Schedule:Compact,         
+    ETI_Occ,                  !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    0,                        !- Field 4
+    Until: 06:30,             !- Field 5
+    1,                        !- Field 6
+    Until: 09:30,             !- Field 7
+    0,                        !- Field 8
+    Until: 16:30,             !- Field 9
+    1,                        !- Field 10
+    Until: 23:30,             !- Field 11
+    0,                        !- Field 12
+    Until: 24:00,             !- Field 13
+    0,                        !- Field 14
+    For: WinterDesignDay,     !- Field 15
+    Until: 00:30,             !- Field 16
+    0,                        !- Field 17
+    Until: 06:30,             !- Field 18
+    1,                        !- Field 19
+    Until: 09:30,             !- Field 20
+    0,                        !- Field 21
+    Until: 16:30,             !- Field 22
+    1,                        !- Field 23
+    Until: 23:30,             !- Field 24
+    0,                        !- Field 25
+    Until: 24:00,             !- Field 26
+    0,                        !- Field 27
+    For: SummerDesignDay,     !- Field 28
+    Until: 00:30,             !- Field 29
+    0,                        !- Field 30
+    Until: 06:30,             !- Field 31
+    1,                        !- Field 32
+    Until: 09:30,             !- Field 33
+    0,                        !- Field 34
+    Until: 16:30,             !- Field 35
+    1,                        !- Field 36
+    Until: 23:30,             !- Field 37
+    0,                        !- Field 38
+    Until: 24:00,             !- Field 39
+    0,                        !- Field 40
+    For: Weekdays,            !- Field 41
+    Until: 00:30,             !- Field 42
+    0,                        !- Field 43
+    Until: 06:30,             !- Field 44
+    1,                        !- Field 45
+    Until: 09:30,             !- Field 46
+    0,                        !- Field 47
+    Until: 16:30,             !- Field 48
+    1,                        !- Field 49
+    Until: 23:30,             !- Field 50
+    0,                        !- Field 51
+    Until: 24:00,             !- Field 52
+    0,                        !- Field 53
+    For: AllOtherDays,        !- Field 54
+    Until: 24:00,             !- Field 55
+    0;                        !- Field 56
+
+Schedule:Compact,         
+    ETI_StorageOn,            !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    1,                        !- Field 4
+    Until: 24:00,             !- Field 5
+    1,                        !- Field 6
+    For: WinterDesignDay,     !- Field 7
+    Until: 00:30,             !- Field 8
+    1,                        !- Field 9
+    Until: 24:00,             !- Field 10
+    1,                        !- Field 11
+    For: SummerDesignDay,     !- Field 12
+    Until: 00:30,             !- Field 13
+    1,                        !- Field 14
+    Until: 24:00,             !- Field 15
+    1,                        !- Field 16
+    For: Weekdays,            !- Field 17
+    Until: 00:30,             !- Field 18
+    1,                        !- Field 19
+    Until: 24:00,             !- Field 20
+    1,                        !- Field 21
+    For: AllOtherDays,        !- Field 22
+    Until: 24:00,             !- Field 23
+    0;                        !- Field 24
+
+Schedule:Compact,         
+    ETI_StorageOff,           !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: Weekends,            !- Field 2
+    Until: 00:30,             !- Field 3
+    0,                        !- Field 4
+    Until: 24:00,             !- Field 5
+    0,                        !- Field 6
+    For: WinterDesignDay,     !- Field 7
+    Until: 00:30,             !- Field 8
+    0,                        !- Field 9
+    Until: 24:00,             !- Field 10
+    0,                        !- Field 11
+    For: SummerDesignDay,     !- Field 12
+    Until: 00:30,             !- Field 13
+    0,                        !- Field 14
+    Until: 24:00,             !- Field 15
+    0,                        !- Field 16
+    For: Weekdays,            !- Field 17
+    Until: 00:30,             !- Field 18
+    0,                        !- Field 19
+    Until: 24:00,             !- Field 20
+    0,                        !- Field 21
+    For: AllOtherDays,        !- Field 22
+    Until: 24:00,             !- Field 23
+    0;                        !- Field 24
+
+Schedule:Compact,         
+    Activity Schedule 25,     !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    144;                      !- Field 4
+
+Schedule:Compact,         
+    Clothing Schedule 25,     !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 4/1,             !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1,                        !- Field 4
+    Through: 9/30,            !- Field 5
+    For: AllDays,             !- Field 6
+    Until: 24:00,             !- Field 7
+    .5,                       !- Field 8
+    Through: 12/31,           !- Field 9
+    For: AllDays,             !- Field 10
+    Until: 24:00,             !- Field 11
+    1;                        !- Field 12
+
+Schedule:Compact,         
+    Activity Schedule 32,     !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    144;                      !- Field 4
+
+Schedule:Compact,         
+    Clothing Schedule 32,     !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 4/1,             !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1,                        !- Field 4
+    Through: 9/30,            !- Field 5
+    For: AllDays,             !- Field 6
+    Until: 24:00,             !- Field 7
+    .5,                       !- Field 8
+    Through: 12/31,           !- Field 9
+    For: AllDays,             !- Field 10
+    Until: 24:00,             !- Field 11
+    1;                        !- Field 12
+
+Material,                 
+    ExternalWallMaterialInner,    !- Name
+    Rough,                    !- Roughness
+    0.1,                      !- Thickness
+    0.0999774395614,          !- Conductivity
+    1000.0,                   !- Density
+    1228.86399819,            !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.6,                      !- Solar Absorptance
+    0.6;                      !- Visible Absorptance
+
+Material,                 
+    ExternalRoofMaterialInner,    !- Name
+    Rough,                    !- Roughness
+    0.1,                      !- Thickness
+    0.0999774395614,          !- Conductivity
+    1000.0,                   !- Density
+    1228.86399819,            !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.6,                      !- Solar Absorptance
+    0.6;                      !- Visible Absorptance
+
+Material,                 
+    ExternalFloorMaterialInner,    !- Name
+    Rough,                    !- Roughness
+    0.1,                      !- Thickness
+    0.0999774395614,          !- Conductivity
+    1000.0,                   !- Density
+    1228.86399819,            !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.6,                      !- Solar Absorptance
+    0.6;                      !- Visible Absorptance
+
+Material,                 
+    InternalPartitionMaterial,    !- Name
+    Rough,                    !- Roughness
+    0.1,                      !- Thickness
+    1.6,                      !- Conductivity
+    1000.0,                   !- Density
+    1228.86399819,            !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.6,                      !- Solar Absorptance
+    0.6;                      !- Visible Absorptance
+
+WindowMaterial:SimpleGlazingSystem,
+    ExternalWindowMaterial,    !- Name
+    0.999774395614,           !- UFactor
+    0.80;                     !- Solar Heat Gain Coefficient
+
+Construction,             
+    Project Wall,             !- Name
+    ExternalWallMaterialInner;    !- Outside Layer
+
+Construction,             
+    Project Flat Roof,        !- Name
+    ExternalRoofMaterialInner;    !- Outside Layer
+
+Construction,             
+    Project Ground Floor,     !- Name
+    ExternalFloorMaterialInner;    !- Outside Layer
+
+Construction,             
+    Project Partition,        !- Name
+    InternalPartitionMaterial;    !- Outside Layer
+
+Construction,             
+    Project Partition_Rev,    !- Name
+    InternalPartitionMaterial;    !- Outside Layer
+
+Construction,             
+    1001,                     !- Name
+    ExternalWindowMaterial;    !- Outside Layer
+
+GlobalGeometryRules,      
+    LowerLeftCorner,          !- Starting Vertex Position
+    CounterClockWise,         !- Vertex Entry Direction
+    Relative;                 !- Coordinate System
+
+Zone,                     
+    Building__SAPZone2,       !- Name
+    0.0,                      !- Direction of Relative North
+    0.0,                      !- X Origin
+    0.0,                      !- Y Origin
+    0.0,                      !- Z Origin
+    1,                        !- Type
+    1,                        !- Multiplier
+    ,                         !- Ceiling Height
+    ,                         !- Volume
+    ,                         !- Floor Area
+    TARP;                     !- Zone Inside Convection Algorithm
+
+Zone,                     
+    Building__SAPZone1,       !- Name
+    0.0,                      !- Direction of Relative North
+    0.0,                      !- X Origin
+    0.0,                      !- Y Origin
+    0.0,                      !- Z Origin
+    1,                        !- Type
+    1,                        !- Multiplier
+    ,                         !- Ceiling Height
+    ,                         !- Volume
+    ,                         !- Floor Area
+    TARP;                     !- Zone Inside Convection Algorithm
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_GroundFloor_0_0_0,    !- Name
+    Floor,                    !- Surface Type
+    Project ground floor,     !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Ground,                   !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    1.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    0.0;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_Roof_1_0_0,    !- Name
+    Roof,                     !- Surface Type
+    Project flat roof,        !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    3.5,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    3.5,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_Wall_2_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_Wall_3_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_Wall_4_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone2_Partition_5_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project partition_Rev,    !- Construction Name
+    Building__SAPZone2,       !- Zone Name
+    Adiabatic,                !- Outside Boundary Condition
+    Building__SAPZone1_Partition_3_0_10000,    !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    0.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_Partition_3_0_10000,    !- Name
+    Wall,                     !- Surface Type
+    Project partition,        !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Adiabatic,                !- Outside Boundary Condition
+    Building__SAPZone2_Partition_5_0_0,    !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    0.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_GroundFloor_0_0_0,    !- Name
+    Floor,                    !- Surface Type
+    Project ground floor,     !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Ground,                   !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    1.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -9.60054943396,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -9.60054943396,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    0.0;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_Roof_1_0_0,    !- Name
+    Roof,                     !- Surface Type
+    Project flat roof,        !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.0,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -9.60054943396,           !- Vertex 1 Ycoordinate
+    3.5,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -9.60054943396,           !- Vertex 2 Ycoordinate
+    3.5,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_Wall_2_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -9.60054943396,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -9.60054943396,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_Wall_4_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -9.60054943396,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -9.60054943396,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    Building__SAPZone1_Wall_5_0_0,    !- Name
+    Wall,                     !- Surface Type
+    Project wall,             !- Construction Name
+    Building__SAPZone1,       !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    0.5,                      !- View Factor to Ground
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -9.60054943396,           !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -9.60054943396,           !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    -9.60054943396,           !- Vertex 3 Ycoordinate
+    3.5,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    -9.60054943396,           !- Vertex 4 Ycoordinate
+    3.5;                      !- Vertex 4 Zcoordinate
+
+FenestrationSurface:Detailed,
+    Building__SAPZone2_Wall_2_0_0_0_0_0_Win,    !- Name
+    Window,                   !- Surface Type
+    1001,                     !- Construction Name
+    Building__SAPZone2_Wall_2_0_0,    !- Building Surface Name
+    ,                         !- Outside Boundary Condition Object
+    0.5,                      !- View Factor to Ground
+    ,                         !- Shading Control Name
+    1,                        !- Frame and Divider Name
+    1,                        !- Multiplier
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    0.8,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.8,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    1.3,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    1.3;                      !- Vertex 4 Zcoordinate
+
+FenestrationSurface:Detailed,
+    Building__SAPZone2_Wall_4_0_0_0_0_0_Win,    !- Name
+    Window,                   !- Surface Type
+    1001,                     !- Construction Name
+    Building__SAPZone2_Wall_4_0_0,    !- Building Surface Name
+    ,                         !- Outside Boundary Condition Object
+    0.5,                      !- View Factor to Ground
+    ,                         !- Shading Control Name
+    1,                        !- Frame and Divider Name
+    1,                        !- Multiplier
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    1.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    1.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    1.3,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    1.3;                      !- Vertex 4 Zcoordinate
+
+FenestrationSurface:Detailed,
+    Building__SAPZone1_Wall_2_0_0_0_0_0_Win,    !- Name
+    Window,                   !- Surface Type
+    1001,                     !- Construction Name
+    Building__SAPZone1_Wall_2_0_0,    !- Building Surface Name
+    ,                         !- Outside Boundary Condition Object
+    0.5,                      !- View Factor to Ground
+    ,                         !- Shading Control Name
+    1,                        !- Frame and Divider Name
+    1,                        !- Multiplier
+    4,                        !- Number of Vertices
+    9.60054943396,            !- Vertex 1 Xcoordinate
+    -9.60054943396,           !- Vertex 1 Ycoordinate
+    0.8,                      !- Vertex 1 Zcoordinate
+    9.60054943396,            !- Vertex 2 Xcoordinate
+    -4.80027471698,           !- Vertex 2 Ycoordinate
+    0.8,                      !- Vertex 2 Zcoordinate
+    9.60054943396,            !- Vertex 3 Xcoordinate
+    -4.80027471698,           !- Vertex 3 Ycoordinate
+    1.3,                      !- Vertex 3 Zcoordinate
+    9.60054943396,            !- Vertex 4 Xcoordinate
+    -9.60054943396,           !- Vertex 4 Ycoordinate
+    1.3;                      !- Vertex 4 Zcoordinate
+
+FenestrationSurface:Detailed,
+    Building__SAPZone1_Wall_4_0_0_0_0_0_Win,    !- Name
+    Window,                   !- Surface Type
+    1001,                     !- Construction Name
+    Building__SAPZone1_Wall_4_0_0,    !- Building Surface Name
+    ,                         !- Outside Boundary Condition Object
+    0.5,                      !- View Factor to Ground
+    ,                         !- Shading Control Name
+    1,                        !- Frame and Divider Name
+    1,                        !- Multiplier
+    4,                        !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    -4.80027471698,           !- Vertex 1 Ycoordinate
+    1.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    -9.60054943396,           !- Vertex 2 Ycoordinate
+    1.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    -9.60054943396,           !- Vertex 3 Ycoordinate
+    1.3,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    -4.80027471698,           !- Vertex 4 Ycoordinate
+    1.3;                      !- Vertex 4 Zcoordinate
+
+WindowProperty:FrameAndDivider,
+    1,                        !- Name
+    0.04,                     !- Frame Width
+    0.0,                      !- Frame Outside Projection
+    0.0,                      !- Frame Inside Projection
+    9.5,                      !- Frame Conductance
+    1.0,                      !- Ratio of FrameEdge Glass Conductance to CenterOfGlass Conductance
+    0.5,                      !- Frame Solar Absorptance
+    0.5,                      !- Frame Visible Absorptance
+    0.9,                      !- Frame Thermal Hemispherical Emissivity
+    DividedLite,              !- Divider Type
+    0.02,                     !- Divider Width
+    1.0,                      !- Number of Horizontal Dividers
+    1.0,                      !- Number of Vertical Dividers
+    0.0,                      !- Divider Outside Projection
+    0.0,                      !- Divider Inside Projection
+    9.5,                      !- Divider Conductance
+    1.0,                      !- Ratio of DividerEdge Glass Conductance to CenterOfGlass Conductance
+    0.5,                      !- Divider Solar Absorptance
+    0.5,                      !- Divider Visible Absorptance
+    0.9,                      !- Divider Thermal Hemispherical Emissivity
+    0.5,                      !- Outside Reveal Solar Absorptance
+    0.0,                      !- Inside Sill Depth
+    0.5,                      !- Inside Sill Solar Absorptance
+    0.0,                      !- Inside Reveal Depth
+    0.5;                      !- Inside Reveal Solar Absorptance
+
+PEOPLE,                   
+    People Building__SAPZone2,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
+    ETI_Occ,                  !- Number of People Schedule Name
+    People/Area,              !- Number of People Calculation Method
+    ,                         !- Number of People
+    0.0303573250895,          !- People per Zone Floor Area
+    ,                         !- Zone Floor Area per Person
+    0.3,                      !- Fraction Radiant
+    AUTOCALCULATE,            !- Sensible Heat Fraction
+    Activity Schedule 25,     !- Activity Level Schedule Name
+    3.82e-08,                 !- Carbon Dioxide Generation Rate
+    No,                       !- Enable ASHRAE 55 Comfort Warnings
+    ZoneAveraged,             !- Mean Radiant Temperature Calculation Type
+    ,                         !- Surface NameAngle Factor List Name
+    Work efficiency,          !- Work Efficiency Schedule Name
+    ClothingInsulationSchedule,    !- Clothing Insulation Calculation Method
+    ,                         !- Clothing Insulation Calculation Method Schedule Name
+    Clothing Schedule 25,     !- Clothing Insulation Schedule Name
+    AirVelocitySchedule;      !- Air Velocity Schedule Name
+
+PEOPLE,                   
+    People Building__SAPZone1,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
+    ETI_Occ,                  !- Number of People Schedule Name
+    People/Area,              !- Number of People Calculation Method
+    ,                         !- Number of People
+    0.0303573250895,          !- People per Zone Floor Area
+    ,                         !- Zone Floor Area per Person
+    0.3,                      !- Fraction Radiant
+    AUTOCALCULATE,            !- Sensible Heat Fraction
+    Activity Schedule 32,     !- Activity Level Schedule Name
+    3.82e-08,                 !- Carbon Dioxide Generation Rate
+    No,                       !- Enable ASHRAE 55 Comfort Warnings
+    ZoneAveraged,             !- Mean Radiant Temperature Calculation Type
+    ,                         !- Surface NameAngle Factor List Name
+    Work efficiency,          !- Work Efficiency Schedule Name
+    ClothingInsulationSchedule,    !- Clothing Insulation Calculation Method
+    ,                         !- Clothing Insulation Calculation Method Schedule Name
+    Clothing Schedule 32,     !- Clothing Insulation Schedule Name
+    AirVelocitySchedule;      !- Air Velocity Schedule Name
+
+ElectricEquipment,        
+    Building__SAPZone2 Equipment 1,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
+    ETI_Equip,                !- Schedule Name
+    Watts/Area,               !- Design Level Calculation Method
+    ,                         !- Design Level
+    0.5,                      !- Watts per Zone Floor Area
+    ,                         !- Watts per Person
+    0.0,                      !- Fraction Latent
+    0.2,                      !- Fraction Radiant
+    0.0,                      !- Fraction Lost
+    ELECTRIC EQUIPMENT#Building:SAPZone2#05;    !- EndUse Subcategory
+
+ElectricEquipment,        
+    Building__SAPZone1 Equipment 1,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
+    ETI_Equip,                !- Schedule Name
+    Watts/Area,               !- Design Level Calculation Method
+    ,                         !- Design Level
+    0.5,                      !- Watts per Zone Floor Area
+    ,                         !- Watts per Person
+    0.0,                      !- Fraction Latent
+    0.2,                      !- Fraction Radiant
+    0.0,                      !- Fraction Lost
+    ELECTRIC EQUIPMENT#Building:SAPZone1#05;    !- EndUse Subcategory
+
+ZoneInfiltration:DesignFlowRate,
+    Building__SAPZone2 Infiltration,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
+    2,                        !- Schedule Name
+    AirChanges/Hour,          !- Design Flow Rate Calculation Method
+    ,                         !- Design Flow Rate
+    ,                         !- Flow per Zone Floor Area
+    ,                         !- Flow per Exterior Surface Area
+    0.1,                      !- Air Changes per Hour
+    1.0,                      !- Constant Term Coefficient
+    0.0,                      !- Temperature Term Coefficient
+    0.0,                      !- Velocity Term Coefficient
+    0.0;                      !- Velocity Squared Term Coefficient
+
+ZoneInfiltration:DesignFlowRate,
+    Building__SAPZone1 Infiltration,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
+    2,                        !- Schedule Name
+    AirChanges/Hour,          !- Design Flow Rate Calculation Method
+    ,                         !- Design Flow Rate
+    ,                         !- Flow per Zone Floor Area
+    ,                         !- Flow per Exterior Surface Area
+    0.1,                      !- Air Changes per Hour
+    1.0,                      !- Constant Term Coefficient
+    0.0,                      !- Temperature Term Coefficient
+    0.0,                      !- Velocity Term Coefficient
+    0.0;                      !- Velocity Squared Term Coefficient
+
+DesignSpecification:OutdoorAir,
+    Building__SAPZone1 Design Specification Outdoor Air Object,    !- Name
+    Sum,                      !- Outdoor Air Method
+    0.012,                    !- Outdoor Air Flow per Person
+    0.000000,                 !- Outdoor Air Flow per Zone Floor Area
+    0.0,                      !- Outdoor Air Flow per Zone
+    0.0,                      !- Outdoor Air Flow Air Changes per Hour
+    2;                        !- Outdoor Air Flow Rate Fraction Schedule Name
+
+DesignSpecification:OutdoorAir,
+    Building__SAPZone2 Design Specification Outdoor Air Object,    !- Name
+    Sum,                      !- Outdoor Air Method
+    0.012,                    !- Outdoor Air Flow per Person
+    0.000000,                 !- Outdoor Air Flow per Zone Floor Area
+    0.0,                      !- Outdoor Air Flow per Zone
+    0.0,                      !- Outdoor Air Flow Air Changes per Hour
+    2;                        !- Outdoor Air Flow Rate Fraction Schedule Name
+
+DesignSpecification:ZoneAirDistribution,
+    Building__SAPZone1 Design Specification Zone Air Distribution Object,    !- Name
+    1.0,                      !- Zone Air Distribution Effectiveness in Cooling Mode
+    1.0,                      !- Zone Air Distribution Effectiveness in Heating Mode
+    ,                         !- Zone Air Distribution Effectiveness Schedule Name
+    0.0;                      !- Zone Secondary Recirculation Fraction
+
+DesignSpecification:ZoneAirDistribution,
+    Building__SAPZone2 Design Specification Zone Air Distribution Object,    !- Name
+    1.0,                      !- Zone Air Distribution Effectiveness in Cooling Mode
+    1.0,                      !- Zone Air Distribution Effectiveness in Heating Mode
+    ,                         !- Zone Air Distribution Effectiveness Schedule Name
+    0.0;                      !- Zone Secondary Recirculation Fraction
+
+Sizing:Zone,              
+    Building__SAPZone1,       !- Zone or ZoneList Name
+    SupplyAirTemperature,     !- Zone Cooling Design Supply Air Temperature Input Method
+    14.0,                     !- Zone Cooling Design Supply Air Temperature
+    10.0,                     !- Zone Cooling Design Supply Air Temperature Difference
+    SupplyAirTemperature,     !- Zone Heating Design Supply Air Temperature Input Method
+    50.0,                     !- Zone Heating Design Supply Air Temperature
+    10.0,                     !- Zone Heating Design Supply Air Temperature Difference
+    0.009,                    !- Zone Cooling Design Supply Air Humidity Ratio
+    0.004,                    !- Zone Heating Design Supply Air Humidity Ratio
+    Building__SAPZone1 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
+    1.25,                     !- Zone Heating Sizing Factor
+    1.15,                     !- Zone Cooling Sizing Factor
+    DesignDay,                !- Cooling Design Air Flow Method
+    0.0,                      !- Cooling Design Air Flow Rate
+    0.00076,                  !- Cooling Minimum Air Flow per Zone Floor Area
+    0.0,                      !- Cooling Minimum Air Flow
+    0.0,                      !- Cooling Minimum Air Flow Fraction
+    DesignDay,                !- Heating Design Air Flow Method
+    0.0,                      !- Heating Design Air Flow Rate
+    0.00203,                  !- Heating Maximum Air Flow per Zone Floor Area
+    0.14158,                  !- Heating Maximum Air Flow
+    0.3,                      !- Heating Maximum Air Flow Fraction
+    Building__SAPZone1 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
+
+Sizing:Zone,              
+    Building__SAPZone2,       !- Zone or ZoneList Name
+    SupplyAirTemperature,     !- Zone Cooling Design Supply Air Temperature Input Method
+    14.0,                     !- Zone Cooling Design Supply Air Temperature
+    10.0,                     !- Zone Cooling Design Supply Air Temperature Difference
+    SupplyAirTemperature,     !- Zone Heating Design Supply Air Temperature Input Method
+    50.0,                     !- Zone Heating Design Supply Air Temperature
+    10.0,                     !- Zone Heating Design Supply Air Temperature Difference
+    0.009,                    !- Zone Cooling Design Supply Air Humidity Ratio
+    0.004,                    !- Zone Heating Design Supply Air Humidity Ratio
+    Building__SAPZone2 Design Specification Outdoor Air Object,    !- Design Specification Outdoor Air Object Name
+    1.25,                     !- Zone Heating Sizing Factor
+    1.15,                     !- Zone Cooling Sizing Factor
+    DesignDay,                !- Cooling Design Air Flow Method
+    0.0,                      !- Cooling Design Air Flow Rate
+    0.00076,                  !- Cooling Minimum Air Flow per Zone Floor Area
+    0.0,                      !- Cooling Minimum Air Flow
+    0.0,                      !- Cooling Minimum Air Flow Fraction
+    DesignDay,                !- Heating Design Air Flow Method
+    0.0,                      !- Heating Design Air Flow Rate
+    0.00203,                  !- Heating Maximum Air Flow per Zone Floor Area
+    0.14158,                  !- Heating Maximum Air Flow
+    0.3,                      !- Heating Maximum Air Flow Fraction
+    Building__SAPZone2 Design Specification Zone Air Distribution Object;    !- Design Specification Zone Air Distribution Object Name
+
+Sizing:Plant,             
+    LTHW Loop,                !- Plant or Condenser Loop Name
+    Heating,                  !- Loop Type
+    56.0,                     !- Design Loop Exit Temperature
+    5.0;                      !- Loop Design Temperature Difference
+
+Sizing:Plant,             
+    Primary HT HW Loop,       !- Plant or Condenser Loop Name
+    Heating,                  !- Loop Type
+    80.0,                     !- Design Loop Exit Temperature
+    10.0;                     !- Loop Design Temperature Difference
+
+ZoneControl:Thermostat,   
+    Building__SAPZone1 Thermostat,    !- Name
+    Building__SAPZone1,       !- Zone or ZoneList Name
+    48,                       !- Control Type Schedule Name
+    ThermostatSetpoint:DualSetpoint,    !- Control 1 Object Type
+    Building__SAPZone1 Dual SP;    !- Control 1 Name
+
+ZoneControl:Thermostat,   
+    Building__SAPZone2 Thermostat,    !- Name
+    Building__SAPZone2,       !- Zone or ZoneList Name
+    48,                       !- Control Type Schedule Name
+    ThermostatSetpoint:DualSetpoint,    !- Control 1 Object Type
+    Building__SAPZone2 Dual SP;    !- Control 1 Name
+
+ThermostatSetpoint:DualSetpoint,
+    Building__SAPZone1 Dual SP,    !- Name
+    ETI_Heat_Zone1,           !- Heating Setpoint Temperature Schedule Name
+    ETI_Cool;                 !- Cooling Setpoint Temperature Schedule Name
+
+ThermostatSetpoint:DualSetpoint,
+    Building__SAPZone2 Dual SP,    !- Name
+    ETI_Heat_Zone2,           !- Heating Setpoint Temperature Schedule Name
+    ETI_Cool;                 !- Cooling Setpoint Temperature Schedule Name
+
+ZoneHVAC:Baseboard:Convective:Water,
+    Building__SAPZone2 Water Convector,    !- Name
+    Off,                      !- Availability Schedule Name
+    Building:SAPZone2 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
+    Building:SAPZone2 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- UFactor Times Area Value
+    autosize,                 !- Maximum Water Flow Rate
+    0.01;                     !- Convergence Tolerance
+
+ZoneHVAC:Baseboard:Convective:Water,
+    Building__SAPZone1 Water Convector,    !- Name
+    Off,                      !- Availability Schedule Name
+    Building:SAPZone1 Water Convector Hot Water Inlet Node,    !- Inlet Node Name
+    Building:SAPZone1 Water Convector Hot Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- UFactor Times Area Value
+    autosize,                 !- Maximum Water Flow Rate
+    0.01;                     !- Convergence Tolerance
+
+ZoneHVAC:Baseboard:Convective:Water,
+    Building__SAPZone1 Water Convector/1/1,    !- Name
+    2,                        !- Availability Schedule Name
+    Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
+    Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- UFactor Times Area Value
+    autosize,                 !- Maximum Water Flow Rate
+    0.01;                     !- Convergence Tolerance
+
+ZoneHVAC:Baseboard:Convective:Water,
+    Building__SAPZone2 Water Convector/1/1,    !- Name
+    2,                        !- Availability Schedule Name
+    Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Inlet Node Name
+    Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- UFactor Times Area Value
+    autosize,                 !- Maximum Water Flow Rate
+    0.01;                     !- Convergence Tolerance
+
+ZoneHVAC:Baseboard:Convective:Electric,
+    Building__SAPZone1 Electric Convector,    !- Name
+    Off,                      !- Availability Schedule Name
+    0.01,                     !- Nominal Capacity
+    1.0;                      !- Efficiency
+
+ZoneHVAC:Baseboard:Convective:Electric,
+    Building__SAPZone2 Electric Convector,    !- Name
+    Off,                      !- Availability Schedule Name
+    0.01,                     !- Nominal Capacity
+    1.0;                      !- Efficiency
+
+ZoneHVAC:EquipmentList,   
+    Building__SAPZone1 Equipment,    !- Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 1 Object Type
+    Building:SAPZone1 Water Convector,    !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1,                        !- Zone Equipment 1 Heating or NoLoad Sequence
+    ZoneHVAC:Baseboard:Convective:Electric,    !- Zone Equipment 2 Object Type
+    Building:SAPZone1 Electric Convector,    !- Zone Equipment 2 Name
+    2,                        !- Zone Equipment 2 Cooling Sequence
+    2,                        !- Zone Equipment 2 Heating or NoLoad Sequence
+    ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 3 Object Type
+    Building:SAPZone1 Water Convector/1/1,    !- Zone Equipment 3 Name
+    3,                        !- Zone Equipment 3 Cooling Sequence
+    3;                        !- Zone Equipment 3 Heating or NoLoad Sequence
+
+ZoneHVAC:EquipmentList,   
+    Building__SAPZone2 Equipment,    !- Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 1 Object Type
+    Building:SAPZone2 Water Convector,    !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1,                        !- Zone Equipment 1 Heating or NoLoad Sequence
+    ZoneHVAC:Baseboard:Convective:Electric,    !- Zone Equipment 2 Object Type
+    Building:SAPZone2 Electric Convector,    !- Zone Equipment 2 Name
+    2,                        !- Zone Equipment 2 Cooling Sequence
+    2,                        !- Zone Equipment 2 Heating or NoLoad Sequence
+    ZoneHVAC:Baseboard:Convective:Water,    !- Zone Equipment 3 Object Type
+    Building:SAPZone2 Water Convector/1/1,    !- Zone Equipment 3 Name
+    3,                        !- Zone Equipment 3 Cooling Sequence
+    3;                        !- Zone Equipment 3 Heating or NoLoad Sequence
+
+ZoneHVAC:EquipmentConnections,
+    Building__SAPZone1,       !- Zone Name
+    Building__SAPZone1 Equipment,    !- Zone Conditioning Equipment List Name
+    ,                         !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    Building:SAPZone1 Air Node,    !- Zone Air Node Name
+    Building:SAPZone1 Return Air Node;    !- Zone Return Air Node Name
+
+ZoneHVAC:EquipmentConnections,
+    Building__SAPZone2,       !- Zone Name
+    Building__SAPZone2 Equipment,    !- Zone Conditioning Equipment List Name
+    ,                         !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    Building:SAPZone2 Zone Air Node,    !- Zone Air Node Name
+    Building:SAPZone2 Return Outlet;    !- Zone Return Air Node Name
+
+Branch,                   
+    LTHW Loop Demand Side Inlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    LTHW Loop Demand Side Inlet Branch Pipe,    !- Component 1 Name
+    LTHW Loop Demand Side Inlet,    !- Component 1 Inlet Node Name
+    LTHW Loop Demand Side Inlet Branch Pipe Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    LTHW Loop Demand Side Bypass Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    LTHW Loop Demand Side Bypass Pipe,    !- Component 1 Name
+    LTHW Loop Demand Side Bypass Pipe Inlet Node,    !- Component 1 Inlet Node Name
+    LTHW Loop Demand Side Bypass Pipe Outlet Node,    !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Water Outlet Group DHW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    WaterUse:Connections,     !- Component 1 Object Type
+    Water Outlet Group,       !- Component 1 Name
+    Water Outlet Group Water Inlet Node,    !- Component 1 Inlet Node Name
+    Water Outlet Group Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
+    Building:SAPZone2 Water Convector,    !- Component 1 Name
+    Building:SAPZone2 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building:SAPZone2 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
+    Building:SAPZone1 Water Convector,    !- Component 1 Name
+    Building:SAPZone1 Water Convector Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building:SAPZone1 Water Convector Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    LTHW Loop Demand Side Outlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    LTHW Loop Demand Side Outlet Branch Pipe,    !- Component 1 Name
+    LTHW Loop Demand Side Outlet Branch Pipe Inlet,    !- Component 1 Inlet Node Name
+    LTHW Loop Demand Side Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    LTHW Loop Supply Side Inlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    LTHW Loop Supply Pump,    !- Component 1 Name
+    LTHW Loop Supply Side Inlet,    !- Component 1 Inlet Node Name
+    LTHW Loop Supply Pump Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Auxiliary Water Heater DHW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    WaterHeater:Mixed,        !- Component 1 Object Type
+    Auxiliary Water Heater,    !- Component 1 Name
+    Auxiliary Water Heater DHW Inlet Node,    !- Component 1 Inlet Node Name
+    Auxiliary Water Heater DHW Outlet Node,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    LTHW Loop Supply Side Outlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    LTHW Loop Supply Side Outlet Branch Pipe,    !- Component 1 Name
+    LTHW Loop Supply Side Outlet Branch Pipe Inlet,    !- Component 1 Inlet Node Name
+    LTHW Loop Supply Side Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Demand Side Inlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Primary HT HW Loop Demand Side Inlet Branch Pipe,    !- Component 1 Name
+    Primary HT HW Loop Demand Side Inlet,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Demand Side Inlet Branch Pipe Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Demand Side Bypass Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Primary HT HW Loop Demand Side Bypass Pipe,    !- Component 1 Name
+    Primary HT HW Loop Demand Side Bypass Pipe Inlet Node,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Demand Side Bypass Pipe Outlet Node,    !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
+    Building:SAPZone1 Water Convector/1/1,    !- Component 1 Name
+    Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Auxiliary Water Heater HW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    WaterHeater:Mixed,        !- Component 1 Object Type
+    Auxiliary Water Heater,    !- Component 1 Name
+    Auxiliary Water Heater Heating Inlet Node,    !- Component 1 Inlet Node Name
+    Auxiliary Water Heater Heating Outlet Node,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:Baseboard:Convective:Water,    !- Component 1 Object Type
+    Building:SAPZone2 Water Convector/1/1,    !- Component 1 Name
+    Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,    !- Component 1 Inlet Node Name
+    Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Demand Side Outlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Primary HT HW Loop Demand Side Outlet Branch Pipe,    !- Component 1 Name
+    Primary HT HW Loop Demand Side Outlet Branch Pipe Inlet,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Demand Side Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Supply Side Inlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Primary HT HW Loop Supply Pump,    !- Component 1 Name
+    Primary HT HW Loop Supply Side Inlet,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Supply Pump Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Supply Side Bypass Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Primary HT HW Loop Supply Side Bypass Pipe,    !- Component 1 Name
+    Primary HT HW Loop Supply Side Bypass Pipe Inlet Node,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Supply Side Bypass Pipe Outlet Node,    !- Component 1 Outlet Node Name
+    Bypass;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    DHN DHW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    DistrictHeating,          !- Component 1 Object Type
+    Purchased Heating,        !- Component 1 Name
+    Purchased Heat Inlet Node,    !- Component 1 Inlet Node Name
+    Purchased Heat Outlet Node,    !- Component 1 Outlet Node Name
+    ACTIVE;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary Boiler HW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Boiler:HotWater,          !- Component 1 Object Type
+    Primary Boiler,           !- Component 1 Name
+    Primary Boiler Water Inlet Node,    !- Component 1 Inlet Node Name
+    Primary Boiler Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+Branch,                   
+    Primary HT HW Loop Supply Side Outlet Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Primary HT HW Loop Supply Side Outlet Branch Pipe,    !- Component 1 Name
+    Primary HT HW Loop Supply Side Outlet Branch Pipe Inlet,    !- Component 1 Inlet Node Name
+    Primary HT HW Loop Supply Side Outlet,    !- Component 1 Outlet Node Name
+    Passive;                  !- Component 1 Branch Control Type
+
+Branch,                   
+    Secondary Boiler HW Plant Loop Branch,    !- Name
+    autosize,                 !- Maximum Flow Rate
+    ,                         !- Pressure Drop Curve Name
+    Boiler:HotWater,          !- Component 1 Object Type
+    Secondary Boiler,         !- Component 1 Name
+    Secondary Boiler Water Inlet Node,    !- Component 1 Inlet Node Name
+    Secondary Boiler Water Outlet Node,    !- Component 1 Outlet Node Name
+    Active;                   !- Component 1 Branch Control Type
+
+BranchList,               
+    LTHW Loop Demand Side Branches,    !- Name
+    LTHW Loop Demand Side Inlet Branch,    !- Branch 1 Name
+    LTHW Loop Demand Side Bypass Branch,    !- Branch 2 Name
+    Water Outlet Group DHW Plant Loop Branch,    !- Branch 3 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Branch 4 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch,    !- Branch 5 Name
+    LTHW Loop Demand Side Outlet Branch;    !- Branch 6 Name
+
+BranchList,               
+    LTHW Loop Supply Side Branches,    !- Name
+    LTHW Loop Supply Side Inlet Branch,    !- Branch 1 Name
+    Auxiliary Water Heater DHW Plant Loop Branch,    !- Branch 2 Name
+    LTHW Loop Supply Side Outlet Branch;    !- Branch 3 Name
+
+BranchList,               
+    Primary HT HW Loop Demand Side Branches,    !- Name
+    Primary HT HW Loop Demand Side Inlet Branch,    !- Branch 1 Name
+    Primary HT HW Loop Demand Side Bypass Branch,    !- Branch 2 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 3 Name
+    Auxiliary Water Heater HW Plant Loop Branch,    !- Branch 4 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch,    !- Branch 5 Name
+    Primary HT HW Loop Demand Side Outlet Branch;    !- Branch 6 Name
+
+BranchList,               
+    Primary HT HW Loop Supply Side Branches,    !- Name
+    Primary HT HW Loop Supply Side Inlet Branch,    !- Branch 1 Name
+    Primary HT HW Loop Supply Side Bypass Branch,    !- Branch 2 Name
+    DHN DHW Plant Loop Branch,    !- Branch 3 Name
+    Primary Boiler HW Plant Loop Branch,    !- Branch 4 Name
+    Secondary Boiler HW Plant Loop Branch,    !- Branch 5 Name
+    Primary HT HW Loop Supply Side Outlet Branch;    !- Branch 6 Name
+
+Connector:Splitter,       
+    LTHW Loop Demand Splitter,    !- Name
+    LTHW Loop Demand Side Inlet Branch,    !- Inlet Branch Name
+    LTHW Loop Demand Side Bypass Branch,    !- Outlet Branch 1 Name
+    Water Outlet Group DHW Plant Loop Branch,    !- Outlet Branch 2 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Outlet Branch 3 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch;    !- Outlet Branch 4 Name
+
+Connector:Splitter,       
+    LTHW Loop Supply Splitter,    !- Name
+    LTHW Loop Supply Side Inlet Branch,    !- Inlet Branch Name
+    Auxiliary Water Heater DHW Plant Loop Branch;    !- Outlet Branch 1 Name
+
+Connector:Splitter,       
+    Primary HT HW Loop Demand Splitter,    !- Name
+    Primary HT HW Loop Demand Side Inlet Branch,    !- Inlet Branch Name
+    Primary HT HW Loop Demand Side Bypass Branch,    !- Outlet Branch 1 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Outlet Branch 2 Name
+    Auxiliary Water Heater HW Plant Loop Branch,    !- Outlet Branch 3 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Outlet Branch 4 Name
+
+Connector:Splitter,       
+    Primary HT HW Loop Supply Splitter,    !- Name
+    Primary HT HW Loop Supply Side Inlet Branch,    !- Inlet Branch Name
+    Primary HT HW Loop Supply Side Bypass Branch,    !- Outlet Branch 1 Name
+    DHN DHW Plant Loop Branch,    !- Outlet Branch 2 Name
+    Primary Boiler HW Plant Loop Branch,    !- Outlet Branch 3 Name
+    Secondary Boiler HW Plant Loop Branch;    !- Outlet Branch 4 Name
+
+Connector:Mixer,          
+    LTHW Loop Demand Mixer,    !- Name
+    LTHW Loop Demand Side Outlet Branch,    !- Outlet Branch Name
+    Water Outlet Group DHW Plant Loop Branch,    !- Inlet Branch 1 Name
+    LTHW Loop Demand Side Bypass Branch,    !- Inlet Branch 2 Name
+    Building__SAPZone2 Water Convector DHW Plant Loop Branch,    !- Inlet Branch 3 Name
+    Building__SAPZone1 Water Convector DHW Plant Loop Branch;    !- Inlet Branch 4 Name
+
+Connector:Mixer,          
+    LTHW Loop Supply Mixer,    !- Name
+    LTHW Loop Supply Side Outlet Branch,    !- Outlet Branch Name
+    Auxiliary Water Heater DHW Plant Loop Branch;    !- Inlet Branch 1 Name
+
+Connector:Mixer,          
+    Primary HT HW Loop Demand Mixer,    !- Name
+    Primary HT HW Loop Demand Side Outlet Branch,    !- Outlet Branch Name
+    Primary HT HW Loop Demand Side Bypass Branch,    !- Inlet Branch 1 Name
+    Building__SAPZone1 Water Convector/1/1 HW Plant Loop Branch,    !- Inlet Branch 2 Name
+    Auxiliary Water Heater HW Plant Loop Branch,    !- Inlet Branch 3 Name
+    Building__SAPZone2 Water Convector/1/1 HW Plant Loop Branch;    !- Inlet Branch 4 Name
+
+Connector:Mixer,          
+    Primary HT HW Loop Supply Mixer,    !- Name
+    Primary HT HW Loop Supply Side Outlet Branch,    !- Outlet Branch Name
+    DHN DHW Plant Loop Branch,    !- Inlet Branch 1 Name
+    Primary Boiler HW Plant Loop Branch,    !- Inlet Branch 2 Name
+    Secondary Boiler HW Plant Loop Branch,    !- Inlet Branch 3 Name
+    Primary HT HW Loop Supply Side Bypass Branch;    !- Inlet Branch 4 Name
+
+ConnectorList,            
+    LTHW Loop Demand Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    LTHW Loop Demand Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    LTHW Loop Demand Mixer;    !- Connector 2 Name
+
+ConnectorList,            
+    LTHW Loop Supply Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    LTHW Loop Supply Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    LTHW Loop Supply Mixer;    !- Connector 2 Name
+
+ConnectorList,            
+    Primary HT HW Loop Demand Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Primary HT HW Loop Demand Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Primary HT HW Loop Demand Mixer;    !- Connector 2 Name
+
+ConnectorList,            
+    Primary HT HW Loop Supply Side Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Primary HT HW Loop Supply Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Primary HT HW Loop Supply Mixer;    !- Connector 2 Name
+
+NodeList,                 
+    DHW Loop Setpoint Manager Node List,    !- Name
+    LTHW Loop Supply Side Outlet;    !- Node 1 Name
+
+NodeList,                 
+    Primary HT HW Loop Setpoint Manager Node List,    !- Name
+    Primary HT HW Loop Supply Side Outlet;    !- Node 1 Name
+
+OutdoorAir:NodeList,      
+    Auxiliary Water Heater Outdoor Air Node;    !- Node or NodeList Name 1
+
+Pipe:Adiabatic,           
+    LTHW Loop Demand Side Inlet Branch Pipe,    !- Name
+    LTHW Loop Demand Side Inlet,    !- Inlet Node Name
+    LTHW Loop Demand Side Inlet Branch Pipe Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    LTHW Loop Demand Side Bypass Pipe,    !- Name
+    LTHW Loop Demand Side Bypass Pipe Inlet Node,    !- Inlet Node Name
+    LTHW Loop Demand Side Bypass Pipe Outlet Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    LTHW Loop Demand Side Outlet Branch Pipe,    !- Name
+    LTHW Loop Demand Side Outlet Branch Pipe Inlet,    !- Inlet Node Name
+    LTHW Loop Demand Side Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    LTHW Loop Supply Side Outlet Branch Pipe,    !- Name
+    LTHW Loop Supply Side Outlet Branch Pipe Inlet,    !- Inlet Node Name
+    LTHW Loop Supply Side Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    Primary HT HW Loop Demand Side Inlet Branch Pipe,    !- Name
+    Primary HT HW Loop Demand Side Inlet,    !- Inlet Node Name
+    Primary HT HW Loop Demand Side Inlet Branch Pipe Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    Primary HT HW Loop Demand Side Bypass Pipe,    !- Name
+    Primary HT HW Loop Demand Side Bypass Pipe Inlet Node,    !- Inlet Node Name
+    Primary HT HW Loop Demand Side Bypass Pipe Outlet Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    Primary HT HW Loop Demand Side Outlet Branch Pipe,    !- Name
+    Primary HT HW Loop Demand Side Outlet Branch Pipe Inlet,    !- Inlet Node Name
+    Primary HT HW Loop Demand Side Outlet;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    Primary HT HW Loop Supply Side Bypass Pipe,    !- Name
+    Primary HT HW Loop Supply Side Bypass Pipe Inlet Node,    !- Inlet Node Name
+    Primary HT HW Loop Supply Side Bypass Pipe Outlet Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,           
+    Primary HT HW Loop Supply Side Outlet Branch Pipe,    !- Name
+    Primary HT HW Loop Supply Side Outlet Branch Pipe Inlet,    !- Inlet Node Name
+    Primary HT HW Loop Supply Side Outlet;    !- Outlet Node Name
+
+Pump:VariableSpeed,       
+    LTHW Loop Supply Pump,    !- Name
+    LTHW Loop Supply Side Inlet,    !- Inlet Node Name
+    LTHW Loop Supply Pump Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- Rated Flow Rate
+    20000.00,                 !- Rated Pump Head
+    autosize,                 !- Rated Power Consumption
+    0.9,                      !- Motor Efficiency
+    0.00,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0000,                   !- Coefficient 1 of the Part Load Performance Curve
+    1.0000,                   !- Coefficient 2 of the Part Load Performance Curve
+    0.0000,                   !- Coefficient 3 of the Part Load Performance Curve
+    0.0000,                   !- Coefficient 4 of the Part Load Performance Curve
+    0.000000,                 !- Minimum Flow Rate
+    Intermittent;             !- Pump Control Type
+
+Pump:VariableSpeed,       
+    Primary HT HW Loop Supply Pump,    !- Name
+    Primary HT HW Loop Supply Side Inlet,    !- Inlet Node Name
+    Primary HT HW Loop Supply Pump Water Outlet Node,    !- Outlet Node Name
+    autosize,                 !- Rated Flow Rate
+    20000.00,                 !- Rated Pump Head
+    autosize,                 !- Rated Power Consumption
+    0.9,                      !- Motor Efficiency
+    0.00,                     !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0000,                   !- Coefficient 1 of the Part Load Performance Curve
+    1.0000,                   !- Coefficient 2 of the Part Load Performance Curve
+    0.0000,                   !- Coefficient 3 of the Part Load Performance Curve
+    0.0000,                   !- Coefficient 4 of the Part Load Performance Curve
+    0.000000,                 !- Minimum Flow Rate
+    Intermittent;             !- Pump Control Type
+
+Boiler:HotWater,          
+    Primary Boiler,           !- Name
+    NaturalGas,               !- Fuel Type
+    100000.0,                 !- Nominal Capacity
+    1.0,                      !- Nominal Thermal Efficiency
+    LeavingBoiler,            !- Efficiency Curve Temperature Evaluation Variable
+    CondensingBoilerEff,      !- Normalized Boiler Efficiency Curve Name
+    75.0,                     !- Design Water Outlet Temperature
+    autosize,                 !- Design Water Flow Rate
+    0.0,                      !- Minimum Part Load Ratio
+    1.0,                      !- Maximum Part Load Ratio
+    1.0,                      !- Optimum Part Load Ratio
+    Primary Boiler Water Inlet Node,    !- Boiler Water Inlet Node Name
+    Primary Boiler Water Outlet Node,    !- Boiler Water Outlet Node Name
+    100.0,                    !- Water Outlet Upper Temperature Limit
+    NotModulated,             !- Boiler Flow Mode
+    25.0,                     !- Parasitic Electric Load
+    1.0;                      !- Sizing Factor
+
+Boiler:HotWater,          
+    Secondary Boiler,         !- Name
+    OtherFuel1,               !- Fuel Type
+    100000.0,                 !- Nominal Capacity
+    1.0,                      !- Nominal Thermal Efficiency
+    LeavingBoiler,            !- Efficiency Curve Temperature Evaluation Variable
+    CondensingBoilerEff,      !- Normalized Boiler Efficiency Curve Name
+    75.0,                     !- Design Water Outlet Temperature
+    autosize,                 !- Design Water Flow Rate
+    0.0,                      !- Minimum Part Load Ratio
+    1.0,                      !- Maximum Part Load Ratio
+    1.0,                      !- Optimum Part Load Ratio
+    Secondary Boiler Water Inlet Node,    !- Boiler Water Inlet Node Name
+    Secondary Boiler Water Outlet Node,    !- Boiler Water Outlet Node Name
+    100.0,                    !- Water Outlet Upper Temperature Limit
+    NotModulated,             !- Boiler Flow Mode
+    25.0,                     !- Parasitic Electric Load
+    1.0;                      !- Sizing Factor
+
+DistrictHeating,          
+    Purchased Heating,        !- Name
+    Purchased Heat Inlet Node,    !- Hot Water Inlet Node Name
+    Purchased Heat Outlet Node,    !- Hot Water Outlet Node Name
+    100000;                   !- Nominal Capacity
+
+WaterHeater:Mixed,        
+    Auxiliary Water Heater,    !- Name
+    0.00379,                  !- Tank Volume
+    60,                       !- Setpoint Temperature Schedule Name
+    5.0,                      !- Deadband Temperature Difference
+    80.0,                     !- Maximum Temperature Limit
+    Cycle,                    !- Heater Control Type
+    0.01,                     !- Heater Maximum Capacity
+    0.0,                      !- Heater Minimum Capacity
+    ,                         !- Heater Ignition Minimum Flow Rate
+    ,                         !- Heater Ignition Delay
+    OtherFuel1,               !- Heater Fuel Type
+    0.8,                      !- Heater Thermal Efficiency
+    ,                         !- Part Load Factor Curve Name
+    ,                         !- Off Cycle Parasitic Fuel Consumption Rate
+    ,                         !- Off Cycle Parasitic Fuel Type
+    ,                         !- Off Cycle Parasitic Heat Fraction to Tank
+    ,                         !- On Cycle Parasitic Fuel Consumption Rate
+    ,                         !- On Cycle Parasitic Fuel Type
+    ,                         !- On Cycle Parasitic Heat Fraction to Tank
+    Schedule,                 !- Ambient Temperature Indicator
+    61,                       !- Ambient Temperature Schedule Name
+    ,                         !- Ambient Temperature Zone Name
+    Auxiliary Water Heater Outdoor Air Node,    !- Ambient Temperature Outdoor Air Node Name
+    0.0,                      !- Off Cycle Loss Coefficient to Ambient Temperature
+    1.0,                      !- Off Cycle Loss Fraction to Zone
+    0.0,                      !- On Cycle Loss Coefficient to Ambient Temperature
+    1.0,                      !- On Cycle Loss Fraction to Zone
+    0.0,                      !- Peak Use Flow Rate
+    ,                         !- Use Flow Rate Fraction Schedule Name
+    ,                         !- Cold Water Supply Temperature Schedule Name
+    Auxiliary Water Heater DHW Inlet Node,    !- Use Side Inlet Node Name
+    Auxiliary Water Heater DHW Outlet Node,    !- Use Side Outlet Node Name
+    1.0,                      !- Use Side Effectiveness
+    Auxiliary Water Heater Heating Inlet Node,    !- Source Side Inlet Node Name
+    Auxiliary Water Heater Heating Outlet Node,    !- Source Side Outlet Node Name
+    1.0,                      !- Source Side Effectiveness
+    autosize,                 !- Use Side Design Flow Rate
+    autosize,                 !- Source Side Design Flow Rate
+    1.5;                      !- Indirect Water Heating Recovery Time
+
+PlantLoop,                
+    LTHW Loop,                !- Name
+    Water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    LTHW Loop Operation,      !- Plant Equipment Operation Scheme Name
+    LTHW Loop Supply Side Outlet,    !- Loop Temperature Setpoint Node Name
+    80.00,                    !- Maximum Loop Temperature
+    0.00,                     !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0.0,                      !- Minimum Loop Flow Rate
+    autocalculate,            !- Plant Loop Volume
+    LTHW Loop Supply Side Inlet,    !- Plant Side Inlet Node Name
+    LTHW Loop Supply Side Outlet,    !- Plant Side Outlet Node Name
+    LTHW Loop Supply Side Branches,    !- Plant Side Branch List Name
+    LTHW Loop Supply Side Connectors,    !- Plant Side Connector List Name
+    LTHW Loop Demand Side Inlet,    !- Demand Side Inlet Node Name
+    LTHW Loop Demand Side Outlet,    !- Demand Side Outlet Node Name
+    LTHW Loop Demand Side Branches,    !- Demand Side Branch List Name
+    LTHW Loop Demand Side Connectors,    !- Demand Side Connector List Name
+    Sequential,               !- Load Distribution Scheme
+    LTHW Loop AvailabilityManager List,    !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None,                     !- Common Pipe Simulation
+    None;                     !- Pressure Simulation Type
+
+PlantLoop,                
+    Primary HT HW Loop,       !- Name
+    Water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Primary HT HW Loop Operation,    !- Plant Equipment Operation Scheme Name
+    Primary HT HW Loop Supply Side Outlet,    !- Loop Temperature Setpoint Node Name
+    100.00,                   !- Maximum Loop Temperature
+    10.00,                    !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0.0,                      !- Minimum Loop Flow Rate
+    autocalculate,            !- Plant Loop Volume
+    Primary HT HW Loop Supply Side Inlet,    !- Plant Side Inlet Node Name
+    Primary HT HW Loop Supply Side Outlet,    !- Plant Side Outlet Node Name
+    Primary HT HW Loop Supply Side Branches,    !- Plant Side Branch List Name
+    Primary HT HW Loop Supply Side Connectors,    !- Plant Side Connector List Name
+    Primary HT HW Loop Demand Side Inlet,    !- Demand Side Inlet Node Name
+    Primary HT HW Loop Demand Side Outlet,    !- Demand Side Outlet Node Name
+    Primary HT HW Loop Demand Side Branches,    !- Demand Side Branch List Name
+    Primary HT HW Loop Demand Side Connectors,    !- Demand Side Connector List Name
+    Sequential,               !- Load Distribution Scheme
+    Primary HT HW Loop AvailabilityManager List,    !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None,                     !- Common Pipe Simulation
+    None;                     !- Pressure Simulation Type
+
+PlantEquipmentList,       
+    HT HW Loop PrimaryBoiler Equipment List,    !- Name
+    Boiler:HotWater,          !- Equipment 1 Object Type
+    Primary Boiler;           !- Equipment 1 Name
+
+PlantEquipmentList,       
+    HT HW Loop SecondaryBoiler Equipment List,    !- Name
+    Boiler:HotWater,          !- Equipment 1 Object Type
+    Secondary Boiler;         !- Equipment 1 Name
+
+PlantEquipmentList,       
+    HT HW Loop DHN Equipment List,    !- Name
+    DistrictHeating,          !- Equipment 1 Object Type
+    Purchased Heating;        !- Equipment 1 Name
+
+PlantEquipmentList,       
+    LTHW Loop Scheme ElecStorageOn Equipment List,    !- Name
+    WaterHeater:Mixed,        !- Equipment 1 Object Type
+    Auxiliary Water Heater;    !- Equipment 1 Name
+
+PlantEquipmentList,       
+    LTHW Loop Scheme ElecStorageOff Equipment List,    !- Name
+    WaterHeater:Mixed,        !- Equipment 1 Object Type
+    Auxiliary Water Heater;    !- Equipment 1 Name
+
+PlantEquipmentOperation:HeatingLoad,
+    Primary HT HW Loop Scheme ElecStorageOn,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    8543.94042969,            !- Load Range 1 Upper Limit
+    HT HW Loop PrimaryBoiler Equipment List,    !- Range 1 Equipment List Name
+    8543.94042969,            !- Load Range 2 Lower Limit
+    8543.95019531,            !- Load Range 2 Upper Limit
+    HT HW Loop DHN Equipment List,    !- Range 2 Equipment List Name
+    8543.95019531,            !- Load Range 3 Lower Limit
+    8543.95996094,            !- Load Range 3 Upper Limit
+    HT HW Loop SecondaryBoiler Equipment List;    !- Range 3 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    Primary HT HW Loop Scheme ElecStorageOff,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    8543.94042969,            !- Load Range 1 Upper Limit
+    HT HW Loop PrimaryBoiler Equipment List,    !- Range 1 Equipment List Name
+    8543.94042969,            !- Load Range 2 Lower Limit
+    8543.95019531,            !- Load Range 2 Upper Limit
+    HT HW Loop DHN Equipment List,    !- Range 2 Equipment List Name
+    8543.95019531,            !- Load Range 3 Lower Limit
+    8543.95996094,            !- Load Range 3 Upper Limit
+    HT HW Loop SecondaryBoiler Equipment List;    !- Range 3 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    LTHW Loop Scheme ElecStorageOn,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    1e+15,                    !- Load Range 1 Upper Limit
+    LTHW Loop Scheme ElecStorageOn Equipment List;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    LTHW Loop Scheme ElecStorageOff,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    1e+15,                    !- Load Range 1 Upper Limit
+    LTHW Loop Scheme ElecStorageOff Equipment List;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperationSchemes,
+    Primary HT HW Loop Operation,    !- Name
+    PlantEquipmentOperation:HeatingLoad,    !- Control Scheme 1 Object Type
+    Primary HT HW Loop Scheme ElecStorageOn,    !- Control Scheme 1 Name
+    ETI_StorageOn,            !- Control Scheme 1 Schedule Name
+    Primary HT HW Loop Scheme ElecStorageOff,    !- Control Scheme 2 Object Type
+    ETI_StorageOff;           !- Control Scheme 2 Name
+
+PlantEquipmentOperationSchemes,
+    LTHW Loop Operation,      !- Name
+    PlantEquipmentOperation:HeatingLoad,    !- Control Scheme 1 Object Type
+    LTHW Loop Scheme ElecStorageOn,    !- Control Scheme 1 Name
+    ETI_StorageOn,            !- Control Scheme 1 Schedule Name
+    LTHW Loop Scheme ElecStorageOff,    !- Control Scheme 2 Object Type
+    ETI_StorageOff;           !- Control Scheme 2 Name
+
+AvailabilityManager:Scheduled,
+    LTHW Loop Availability,    !- Name
+    2;                        !- Schedule Name
+
+AvailabilityManager:Scheduled,
+    Primary HT HW Loop Availability,    !- Name
+    On;                       !- Schedule Name
+
+AvailabilityManagerAssignmentList,
+    LTHW Loop AvailabilityManager List,    !- Name
+    AvailabilityManager:Scheduled,    !- Availability Manager 1 Object Type
+    LTHW Loop Availability;    !- Availability Manager 1 Name
+
+AvailabilityManagerAssignmentList,
+    Primary HT HW Loop AvailabilityManager List,    !- Name
+    AvailabilityManager:Scheduled,    !- Availability Manager 1 Object Type
+    Primary HT HW Loop Availability;    !- Availability Manager 1 Name
+
+SetpointManager:Scheduled,
+    DHW Loop Setpoint Manager,    !- Name
+    Temperature,              !- Control Variable
+    60,                       !- Schedule Name
+    DHW Loop Setpoint Manager Node List;    !- Setpoint Node or NodeList Name
+
+SetpointManager:Scheduled,
+    Primary HT HW Loop Setpoint Manager,    !- Name
+    Temperature,              !- Control Variable
+    41,                       !- Schedule Name
+    Primary HT HW Loop Setpoint Manager Node List;    !- Setpoint Node or NodeList Name
+
+WaterUse:Equipment,       
+    Building__SAPZone1 Water Outlet,    !- Name
+    ,                         !- EndUse Subcategory
+    1.11111111111e-05,        !- Peak Flow Rate
+    ETI_DHW,                  !- Flow Rate Fraction Schedule Name
+    60,                       !- Target Temperature Schedule Name
+    ,                         !- Hot Water Supply Temperature Schedule Name
+    ,                         !- Cold Water Supply Temperature Schedule Name
+    ,                         !- Zone Name
+    7,                        !- Sensible Fraction Schedule Name
+    7;                        !- Latent Fraction Schedule Name
+
+WaterUse:Connections,     
+    Water Outlet Group,       !- Name
+    Water Outlet Group Water Inlet Node,    !- Inlet Node Name
+    Water Outlet Group Water Outlet Node,    !- Outlet Node Name
+    ,                         !- Supply Water Storage Tank Name
+    ,                         !- Reclamation Water Storage Tank Name
+    ,                         !- Hot Water Supply Temperature Schedule Name
+    ,                         !- Cold Water Supply Temperature Schedule Name
+    None,                     !- Drain Water Heat Exchanger Type
+    Plant,                    !- Drain Water Heat Exchanger Destination
+    1500.0,                   !- Drain Water Heat Exchanger UFactor Times Area
+    Building__SAPZone1 Water Outlet;    !- Water Use Equipment 1 Name
+
+Curve:Linear,             
+    100% efficient,           !- Name
+    1.0,                      !- Coefficient1 Constant
+    0.0,                      !- Coefficient2 x
+    0.0,                      !- Minimum Value of x
+    1.0,                      !- Maximum Value of x
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    ,                         !- Input Unit Type for X
+    ;                         !- Output Unit Type
+
+Curve:Quadratic,          
+    HPWHPLFFPLR,              !- Name
+    0.75,                     !- Coefficient1 Constant
+    0.25,                     !- Coefficient2 x
+    0.0,                      !- Coefficient3 x2
+    0.0,                      !- Minimum Value of x
+    1.0;                      !- Maximum Value of x
+
+Curve:Cubic,              
+    New style low temperature boiler,    !- Name
+    0.83888652,               !- Coefficient1 Constant
+    0.132579019,              !- Coefficient2 x
+    -0.17028503,              !- Coefficient3 x2
+    0.047468326,              !- Coefficient4 x3
+    0.1,                      !- Minimum Value of x
+    1.0,                      !- Maximum Value of x
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    ,                         !- Input Unit Type for X
+    ;                         !- Output Unit Type
+
+Curve:Biquadratic,        
+    CondensingBoilerEff,      !- Name
+    1.124970374,              !- Coefficient1 Constant
+    0.014963852,              !- Coefficient2 x
+    -0.02599835,              !- Coefficient3 x2
+    0.0,                      !- Coefficient4 y
+    -1.40464e-06,             !- Coefficient5 y2
+    -0.00153624,              !- Coefficient6 xy
+    0.1,                      !- Minimum Value of x
+    1.0,                      !- Maximum Value of x
+    30.0,                     !- Minimum Value of y
+    85.0,                     !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    ,                         !- Input Unit Type for X
+    ,                         !- Input Unit Type for Y
+    ;                         !- Output Unit Type
+
+Curve:Biquadratic,        
+    HPWHHeatingCapFTemp,      !- Name
+    0.369827,                 !- Coefficient1 Constant
+    0.043341,                 !- Coefficient2 x
+    -0.00023,                 !- Coefficient3 x2
+    0.000466,                 !- Coefficient4 y
+    2.6e-05,                  !- Coefficient5 y2
+    -0.00027,                 !- Coefficient6 xy
+    0.0,                      !- Minimum Value of x
+    40.0,                     !- Maximum Value of x
+    20.0,                     !- Minimum Value of y
+    90.0,                     !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Temperature,              !- Input Unit Type for X
+    Temperature,              !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+Curve:Biquadratic,        
+    HPWHHeatingCOPFTemp,      !- Name
+    1.19713,                  !- Coefficient1 Constant
+    0.077849,                 !- Coefficient2 x
+    -1.6e-06,                 !- Coefficient3 x2
+    -0.02675,                 !- Coefficient4 y
+    0.000296,                 !- Coefficient5 y2
+    -0.00112,                 !- Coefficient6 xy
+    0.0,                      !- Minimum Value of x
+    40.0,                     !- Maximum Value of x
+    20.0,                     !- Minimum Value of y
+    90.0,                     !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Temperature,              !- Input Unit Type for X
+    Temperature,              !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+Output:VariableDictionary,
+    IDF,                      !- Key Field
+    Name;                     !- Sort Option
+
+Output:Table:SummaryReports,
+    AllSummary;               !- Report 1 Name
+
+OutputControl:Table:Style,
+    CommaAndHTML,             !- Column Separator
+    JtoKWH;                   !- Unit Conversion
+
+Output:Variable,          
+    *,                        !- Key Value
+    Baseboard Total Heating Rate,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water Heater Electric Power,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Zone Mean Air Temperature,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Facility Heating Setpoint Not Met Time,    !- Variable Name
+    annual;                   !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Boiler Heating Rate,      !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water Heater Source Side Heat Transfer Rate,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water Heater Source Side Heat Transfer Energy,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water to Water Heat Pump Source Side Heat Transfer Rate,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water to Water Heat Pump Source Side Heat Transfer Energy,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Electric Equipment Electric Energy,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Water Heater Electricity Rate,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Generator Produced Electric Energy,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Variable,          
+    *,                        !- Key Value
+    Generator Produced Thermal Energy,    !- Variable Name
+    timestep;                 !- Reporting Frequency
+
+Output:Meter,             
+    Electricity__Facility,    !- Name
+    timestep;                 !- Reporting Frequency
+
+Output:Meter,             
+    Gas__Facility,            !- Name
+    timestep;                 !- Reporting Frequency
+
+Output:Meter,             
+    DistrictHeating__Facility,    !- Name
+    timestep;                 !- Reporting Frequency
+
+Output:Meter,             
+    SolarWater__Facility,     !- Name
+    timestep;                 !- Reporting Frequency
+
+Output:Diagnostics,       
+    DisplayExtraWarnings;     !- Key 1

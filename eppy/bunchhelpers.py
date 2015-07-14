@@ -1,21 +1,16 @@
 # Copyright (c) 2012 Santosh Philip
-
-# This file is part of eppy.
-
-# Eppy is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# Eppy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with eppy.  If not, see <http://www.gnu.org/licenses/>.
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 """some helper files"""
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 from string import ascii_letters, digits
 
@@ -29,25 +24,25 @@ def makefieldname(namefromidd):
     newname = onlylegalchar(namefromidd)
     bunchname = newname.replace(' ', '_')
     return bunchname
-    
+
 def intinlist(lst):
     """test if int in list"""
     for item in lst:
         try:
             item = int(item)
             return True
-        except ValueError, e:
+        except ValueError:
             pass
     return False
-    
+
 def replaceint(fname, replacewith='%s'):
     """replace int in lst"""
     words = fname.split()
     for i, word in enumerate(words):
         try:
             word = int(word)
-            words[i] = '%s'
-        except ValueError, e:
+            words[i] = replacewith
+        except ValueError:
             pass
     return ' '.join(words)
 
@@ -61,8 +56,8 @@ def cleaniddfield(acomm):
         if key != key.lower():
             acomm.pop(key)
     return acomm
-    
+
 def cleancommdct(commdct):
     """make all keys in commdct lower case"""
-    return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]    
+    return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
     
