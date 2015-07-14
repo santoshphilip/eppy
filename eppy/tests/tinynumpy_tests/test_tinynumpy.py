@@ -426,3 +426,14 @@ def test_divide():
     a = tnp.divide(x,y)
 
     assert a == tnp.array([5, -4, 1], dtype='int64')
+
+
+def test_multiply():
+    """test the addition function for tinynumpy"""
+
+    x = [5, -2, 1]
+    y = [0, 3, -1]
+
+    a = tnp.multiply(x,y)
+
+    assert a == tnp.array([0, -6, -1], dtype='int64')
