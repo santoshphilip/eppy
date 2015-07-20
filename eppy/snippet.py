@@ -1,19 +1,11 @@
 # Copyright (c) 2012 Santosh Philip
 
-# This file is part of eppy.
+"""just a snippet that may not be used"""
 
-# Eppy is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# Eppy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with eppy.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 idfsnippet = """
 Building,
@@ -140,5 +132,12 @@ BuildingSurface:Detailed,
     30.5,0.0,2.4,  !- X,Y,Z ==> Vertex 3 {m}
     30.5,0.0,3.0;  !- X,Y,Z ==> Vertex 4 {m}
 
+ZoneHVAC:EquipmentConnections,
+    SPACE1-1,                   !- Zone Name
+    AnEquipmentList,            !- Zone Conditioning Equipment List Name
+    AnAirInletNode,             !- Zone Air Inlet Node or NodeList Name
+    AnExhaustNode,              !- Zone Air Exhaust Node or NodeList Name
+    AZoneAirNode,               !- Zone Air Node Name
+    AZoneReturnAirNode;         !- Zone Return Air Node Name
 """
 

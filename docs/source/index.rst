@@ -20,6 +20,7 @@ Contents:
     eppy_api
     changes
     dev_docs/index
+    LICENSE
 
 Indices and tables
 ------------------

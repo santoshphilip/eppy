@@ -207,12 +207,74 @@ the new branch would look like "chiller-> pipe1->pipe2"
     # get the branch we are trying to modify
     branch = idf.getobject('BRANCH', 'sb0') # args are (key, name)
     listofcomponents = [chiller, pipe1, pipe2] # the new components are connected in this order
+
+Now we are going to try to replace **branch** with the a branch made up
+of **listofcomponents**
+
+-  We will do this by calling the function replacebranch
+-  Calling replacebranch can throw an exception ``WhichLoopError``
+-  In a moment, you will see why this exception is important
+
+
+.. code:: python
+
+    try:
+        newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
+    except hvacbuilder.WhichLoopError as e:
+        print e
+
+
+.. parsed-literal::
+
+    Where should this loop connect ?
+    CHILLER:ELECTRIC - Central_Chiller
+    [u'Chilled_Water_', u'Condenser_', u'Heat_Recovery_']
     
-    newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
-    # in "loop"
-    # this replaces the components in "branch" with the components in "listofcomponents"
+
+
+The above code throws the exception. It says that the idfobject
+``CHILLER:ELECTRIC - Central_Chiller`` has three possible connections.
+The chiller has inlet outlet nodes for the following
+
+-  Chilled water
+-  Condenser
+-  Heat Recovery
+
+eppy does not know which one to connect to, and it needs your help. We
+know that the chiller needs to be connected to the chilled water inlet
+and outlet. Simply copy ``Chilled_Water_`` from the text in the
+exception and paste as shown in the code below. (make sure you copy it
+exactly. eppy is a little nerdy about that)
+
+.. code:: python
+
+    # instead of passing chiller to the function, we pass a tuple (chiller, 'Chilled_Water_').
+    # This lets eppy know where the connection should be made.
+    # The idfobject pipe does not have this ambiguity. So pipes do not need this extra information
+    listofcomponents = [(chiller, 'Chilled_Water_'), pipe1, pipe2]
+    
+    try:
+        newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
+    except Exception as e:
+        print e
+    else: # else will run only if the try suceeds
+        print "no exception was thrown"
     
     idf.saveas("hhh_new.idf")
+
+
+.. parsed-literal::
+
+    no exception was thrown
+
+
+*Tagential note*: The ``"try .. except .. else"`` statement is useful
+here. If you have not run across it before, take a look at these two
+links
+
+-  http://shahriar.svbtle.com/the-possibly-forgotten-optional-else-in-python-try-statement
+-  https://docs.python.org/2/tutorial/errors.html
+
 
 | We have saved this as file "hhh\_new.idf".
 | Let us draw the diagram of this file. (run this from eppy/eppy folder)
@@ -228,17 +290,36 @@ python ex_loopdiagram.py hhh_new.idf
 
 
 
-.. image:: HVAC_Tutorial_files/HVAC_Tutorial_29_0.png
+.. image:: HVAC_Tutorial_files/HVAC_Tutorial_34_0.png
 
 
 This diagram shows the new components in the branch
+
+Work flow with ``WhichLoopError``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+When you are writing scripts don't bother to use ``try .. except`` for
+``WhichLoopError``.
+
+-  Simply allow the exception to be raised.
+-  Use the information in the exception to update your code
+-  You may have to do this a couple of times in your script.
+-  In a sense you are letting eppy tell you how to update the script.
+
+*Question:* I am writing an application using eppy, not just a script.
+The above workflow does not work for me
+
+*Response:* Aha ! If that is the case, open an issue in
+`github/eppy <https://github.com/santoshphilip/eppy>`__. We are lazy
+people. We don't write code unless it is needed :-)
 
 Traversing the loop
 ~~~~~~~~~~~~~~~~~~~
 
 
-It would be nice to move through the loop using functions "next()" and
-"prev()"
+It would be nice to move through the loop using functions "nextnode()"
+and "prevnode()"
 
 Eppy indeed has such functions
 
@@ -263,46 +344,46 @@ edges, we can traverse through the diagram. Let us start with the
 
     from eppy import walk_hvac
     firstnode = "Central_Chiller"
-    nextnodes = walk_hvac.next(edges, firstnode)
+    nextnodes = walk_hvac.nextnode(edges, firstnode)
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['np1']
+    [u'np1']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['np2']
+    [u'np2']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_splitter']
+    [u'p_loop_supply_splitter']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['sb1_pipe', 'sb2_pipe', 'sb3_pipe']
+    [u'sb1_pipe', u'sb2_pipe', u'sb3_pipe']
 
 
 This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
@@ -310,29 +391,29 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_mixer']
+    [u'p_loop_supply_mixer']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
 .. parsed-literal::
 
-    ['sb4_pipe']
+    [u'sb4_pipe']
 
 
 .. code:: python
 
-    nextnodes = walk_hvac.next(edges, nextnodes[0])
+    nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
 
 
@@ -343,78 +424,78 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 
 We have reached the end of this branch. There are no more components.
 
-We can follow this in reverse using the function prev()
+We can follow this in reverse using the function prevnode()
 
 .. code:: python
 
     lastnode = 'sb4_pipe'
-    prevnodes = walk_hvac.prev(edges, lastnode)
+    prevnodes = walk_hvac.prevnode(edges, lastnode)
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_mixer']
+    [u'p_loop_supply_mixer']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['sb1_pipe', 'sb2_pipe', 'sb3_pipe']
+    [u'sb1_pipe', u'sb2_pipe', u'sb3_pipe']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['p_loop_supply_splitter']
+    [u'p_loop_supply_splitter']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['np2']
+    [u'np2']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['np1']
+    [u'np1']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
 .. parsed-literal::
 
-    ['Central_Chiller']
+    [u'Central_Chiller']
 
 
 .. code:: python
 
-    prevnodes = walk_hvac.prev(edges, prevnodes[0])
+    prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
 
 
@@ -444,7 +525,7 @@ with just a condensor loop in it.
 
 Again, just as we did in the plant loop, we can change the components of
 the loop, by replacing the branchs and traverse the loop using the
-functions next() and prev()
+functions nextnode() and prevnode()
 
 Building an Air Loop
 --------------------
@@ -466,14 +547,8 @@ side.
 
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop
-using the functions next() and prev()
+using the functions nextnode() and prevnode()
 
-.. code:: python
-
-    
-.. code:: python
-
-    
 .. code:: python
 
     

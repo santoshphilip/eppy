@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reading outputs from E+ &mdash; eppy 0.4.6.4a documentation</title>
+    <title>Reading outputs from E+ &mdash; eppy 0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.4a',
+        VERSION:     '0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.4a documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
     <link rel="next" title="New functions" href="newfunctions.html" />
     <link rel="prev" title="HVAC Loops" href="HVAC_Tutorial.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -103,7 +103,7 @@ this list. Let us look at the first item in the list.</p>
 <span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -116,7 +116,7 @@ this list. Let us look at the first item in the list.</p>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
- <span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+ <span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span>
    <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
    <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
    <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
@@ -138,7 +138,7 @@ this list. Let us look at the first item in the list.</p>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem_table</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span>
   <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
   <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
   <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
@@ -249,7 +249,7 @@ see what we have.</p>
   u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
   u'For: PERIMETER_MID_ZN_4',
   u'Timestamp: 2014-02-07n    12:29:08'],
- [['',
+ [[u'',
    u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
    u'FANGERPPD {FOR HOURS SHOWN} []',
    u'FANGERPPD []'],
@@ -313,7 +313,7 @@ that has the following two lines before it.</p>
    u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
    u'For: PERIMETER_MID_ZN_4',
    u'Timestamp: 2014-02-07n    12:29:08'],
-  [['',
+  [[u'',
     u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
     u'FANGERPPD {FOR HOURS SHOWN} []',
     u'FANGERPPD []'],
@@ -369,7 +369,7 @@ Timestamp: 2014-02-07
    u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
    u'For: PERIMETER_MID_ZN_4',
    u'Timestamp: 2014-02-07n    12:29:08'],
-  [['',
+  [[u'',
     u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
     u'FANGERPPD {FOR HOURS SHOWN} []',
     u'FANGERPPD []'],
@@ -615,7 +615,7 @@ really need a list of numbers</p>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

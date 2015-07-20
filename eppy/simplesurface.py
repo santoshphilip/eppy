@@ -1,4 +1,11 @@
-"""from BUILDINGSURFACE:DETAILED and FENESTRATIONSURFACE:DETAILED make a wall floor, celiling etc or a window"""
+# Copyright (c) 2012 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
+"""from BUILDINGSURFACE:DETAILED and FENESTRATIONSURFACE:DETAILED make a wall
+floor, celiling etc or a window"""
 
 # key fields:
 # Name
@@ -56,7 +63,14 @@
 # ('WINDOW',  Window, None)
 # ('DOOR', Door, None)
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+
 class NotImplementedError(Exception):
+    """Exception Object"""
     pass
 
 def bsdorigin(bsdobject, setto000=False):

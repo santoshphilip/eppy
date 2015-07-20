@@ -76,7 +76,7 @@ this list. Let us look at the first item in the list.
 
 .. parsed-literal::
 
-    (u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
+    (u'Site and Source Energy', [[u'', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
 
 
 | Ughh !!! that is ugly. Hard to see what it is.
@@ -92,7 +92,7 @@ this list. Let us look at the first item in the list.
 .. parsed-literal::
 
     (u'Site and Source Energy',
-     [['',
+     [[u'',
        u'Total Energy [kWh]',
        u'Energy Per Total Building Area [kWh/m2]',
        u'Energy Per Conditioned Building Area [kWh/m2]'],
@@ -123,7 +123,7 @@ Nice. that is a little clearer
 
 .. parsed-literal::
 
-    [['',
+    [[u'',
       u'Total Energy [kWh]',
       u'Energy Per Total Building Area [kWh/m2]',
       u'Energy Per Conditioned Building Area [kWh/m2]'],
@@ -278,7 +278,7 @@ see what we have.
       u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
       u'For: PERIMETER_MID_ZN_4',
       u'Timestamp: 2014-02-07\n    12:29:08'],
-     [['',
+     [[u'',
        u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
        u'FANGERPPD {FOR HOURS SHOWN} []',
        u'FANGERPPD []'],
@@ -361,7 +361,7 @@ that has the following two lines before it.
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
        u'Timestamp: 2014-02-07\n    12:29:08'],
-      [['',
+      [[u'',
         u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
         u'FANGERPPD {FOR HOURS SHOWN} []',
         u'FANGERPPD []'],
@@ -437,7 +437,7 @@ before the table. The following code will do it.
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
        u'Timestamp: 2014-02-07\n    12:29:08'],
-      [['',
+      [[u'',
         u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
         u'FANGERPPD {FOR HOURS SHOWN} []',
         u'FANGERPPD []'],
@@ -708,3 +708,7 @@ To get the first row we use the variable h\_table
     [1, 2, 3]
     6
 
+
+.. code:: python
+
+    

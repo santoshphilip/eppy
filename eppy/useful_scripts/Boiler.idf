@@ -1,0 +1,2106 @@
+! MASTER
+! Template file which uses ##include statements to pull in all the elements
+! which are common across all archetypes. This will also have unique elements
+! added by a Python script depending on the archetype characteristics.
+! Debugging
+! RUN CONTROL
+! This section contains elements which are to do with the control of the
+! simulation run. There are likely to be few elements here which change.
+Version, 8.1.0.009;                               !- Version Identifier
+RunPeriod,                                        !- Annual simulation
+   ETI Dwellings,                                 !- Location
+   5,7,                                          !- Start Month , Day
+   5,11,                                          !- End Month , Day
+   UseWeatherFile,                                !- will use day as shown in weather file
+   No,                                            !- Use weather file holidays/special day periods
+   No,                                            !- Use WeatherFile DaylightSavingPeriod - will use daylight saving time shown below
+   Yes,                                           !- Apply Weekend Holiday Rule - will reassign weekend holidays to Monday
+   Yes,                                           !- use weather file rain indicators
+   Yes,                                           !- use weather file snow indicators
+   1;                                             !- Number of years in simulation
+RunPeriodControl:DaylightSavingTime, Last Sunday in March,Last Sunday in October;  !- Daylight saving dates - one hour is added to local mean time to obtain the locally observed time during this period
+ProgramControl,
+   1;                                             !- Number of threads allowed
+SimulationControl,
+   Yes,                                           !- Do the zone sizing calculation
+   Yes,                                           !- Do the system sizing calculation
+   Yes,                                           !- Do the plant sizing calculation
+   No,                                            !- Do the design day calculation
+   Yes;                                           !- Do the weather file calculation
+SizingPeriod:DesignDay, Summer Design Day in ETI Dwellings Jul,  !- Design Day Name
+   7,                                             !- Month
+   15,                                            !- Day of Month
+   SummerDesignDay,                               !- Day Type -- used for schedules
+   27.2,                                          !- Maximum Dry-Bulb Temperature {C}
+   9.4,                                           !- Daily Dry-Bulb Temperature Range {C}
+   ,                                              !- Dry-Bulb Temperature Range Modifier Type
+   ,                                              !- Dry-Bulb Temperature Range Modifier Schedule
+   WetBulb,                                       !- Humidity Condition Type
+   18.7,                                          !- Wetbulb at Maximum Dry-Bulb{C}
+   ,                                              !- Humidity Condition Day Schedule Name
+   ,                                              !- Humidity Ratio at Maximum Dry-Bulb
+   ,                                              !- Enthalpy Ratio at Maximum Dry-Bulb
+   ,                                              !- Daily Wet-Bulb Temperature Range
+   100582.4,                                      !- Barometric Pressure {N/M**2}
+   0,                                             !- Wind Speed {m/s}
+   0,                                             !- Wind Direction {Degrees N=0, S=180}
+   0,                                             !- Rain Indicator {0-no,1-yes}
+   0,                                             !- Snow on ground indicator {0-no,1-yes}
+   1,                                             !- Daylight Savings Time Indicator
+   ,                                              !- Solar Model Indicator
+   ,                                              !- Beam Solar Day Schedule Name
+   ,                                              !- Diffuse Solar Day Schedule Name
+   ,                                              !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub)
+   ,                                              !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud)
+   0.98;                                          !- Clearness {0.0 to 1.1}
+SizingPeriod:DesignDay, Winter Design Day in ETI Dwellings,  !- Design Day Name
+   1,                                             !- Month
+   15,                                            !- Day of Month
+   WinterDesignDay,                               !- Day Type -- used for schedules
+   -4.4,                                          !- Max Dry-Bulb {C}
+   0,                                             !- Daily Temp Range {C}
+   ,                                              !- Dry-Bulb Temperature Range Modifier Type
+   ,                                              !- Dry-Bulb Temperature Range Modifier Schedule
+   WetBulb,                                       !- Humidity Condition Type
+   -4.4,                                          !- Wet-Bulb at Max {C}
+   ,                                              !- Humidity Condition Day Schedule Name
+   ,                                              !- Humidity Ratio at Maximum Dry-Bulb
+   ,                                              !- Enthalpy Ratio at Maximum Dry-Bulb
+   ,                                              !- Daily Wet-Bulb Temperature Range
+   100582.4,                                      !- Barometric Pressure {N/M**2}
+   12.3,                                          !- Wind Speed {M/Sec}
+   0,                                             !- Wind Direction {Degrees N=0, S=180}
+   0,                                             !- Rain Indicator {0-no,1-yes}
+   0,                                             !- Snow on ground indicator {0-no,1-yes}
+   0,                                             !- Daylight Savings Time Indicator
+   ,                                              !- Solar Model Indicator
+   ,                                              !- Beam Solar Day Schedule Name
+   ,                                              !- Diffuse Solar Day Schedule Name
+   ,                                              !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub)
+   ,                                              !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud)
+   0;                                             !- Clearness {0.0 to 1.1} - gives no sun (but does include long wave radiant heat exchange with sky)
+Timestep, 6;                                      !- Timesteps/hour
+ConvergenceLimits,
+   1,                                             !- Minimum System Time Step (0=same as zone time step)
+   20;                                            !- Maximum HVAC Iterations (1=min, 20=default)
+HeatBalanceAlgorithm,
+   ConductionTransferFunction,                    !- Heat Balance Algorithm: CTF or CondFD
+   2000;                                          !- Max Surface Temperature Limit
+ShadowCalculation, AverageOverDaysInFrequency, 20,  15000, SutherlandHodgman, SimpleSkyDiffuseModeling;  !- Interval between shading calcs
+SurfaceConvectionAlgorithm:Inside,TARP;           !- Inside Convection Algorithm
+SurfaceConvectionAlgorithm:Outside,DOE-2;         !- Outside Convection Algorithm
+ZoneCapacitanceMultiplier:ResearchSpecial, 1, 1.0, 1.0, 1.0 ;
+! BUILDING
+! Contains elements to do with the location and site of the building
+! Included elements are:
+!- Site:Location
+!- Site:GroundTemperatures
+!- Site:GroundReflectances
+!- Building
+Site:Location,Unseen University,                      !- Location Name
+   51.5248,                                         !- Latitude
+   0.1336,                                         !- Longitude
+   0,                                             !- Time Zone
+   34.678;                                            !- Elevation {m}
+Site:GroundTemperature:BuildingSurface,           !- Annual ground temperatures - 1 value for each month
+   18,                                            !- Jan ground temperature
+   18,                                            !- Feb ground temperature
+   18,                                            !- Mar ground temperature
+   18,                                            !- Apr ground temperature
+   18,                                            !- May ground temperature
+   18,                                            !- Jun ground temperature
+   18,                                            !- Jul ground temperature
+   18,                                            !- Aug ground temperature
+   18,                                            !- Sep ground temperature
+   18,                                            !- Oct ground temperature
+   18,                                            !- Nov ground temperature
+   18;                                            !- Dec ground temperature
+Site:GroundTemperature:Deep,                      !- Annual ground temperatures - 1 value for each month
+   14,                                            !- Jan deep ground temperature
+   14,                                            !- Feb deep ground temperature
+   14,                                            !- Mar deep ground temperature
+   14,                                            !- Apr deep ground temperature
+   14,                                            !- May deep ground temperature
+   14,                                            !- Jun deep ground temperature
+   14,                                            !- Jul deep ground temperature
+   14,                                            !- Aug deep ground temperature
+   14,                                            !- Sep deep ground temperature
+   14,                                            !- Oct deep ground temperature
+   14,                                            !- Nov deep ground temperature
+   14;                                            !- Dec deep ground temperature
+Site:GroundTemperature:Shallow,                   !- Annual ground temperatures - 1 value for each month
+   14,                                            !- Jan shallow ground temperature
+   14,                                            !- Feb shallow ground temperature
+   14,                                            !- Mar shallow ground temperature
+   14,                                            !- Apr shallow ground temperature
+   14,                                            !- May shallow ground temperature
+   14,                                            !- Jun shallow ground temperature
+   14,                                            !- Jul shallow ground temperature
+   14,                                            !- Aug shallow ground temperature
+   14,                                            !- Sep shallow ground temperature
+   14,                                            !- Oct shallow ground temperature
+   14,                                            !- Nov shallow ground temperature
+   14;                                            !- Dec shallow ground temperature
+Site:GroundTemperature:FCfactorMethod,            !- Annual ground temperatures - 1 value for each month
+   4.16,                                          !- January FCfactorMethod ground temperature {C}
+   5.30,                                          !- Februry FCfactorMethod ground temperature {C}
+   7.51,                                          !- March FCfactorMethod ground temperature {C}
+   9.61,                                          !- April FCfactorMethod ground temperature {C}
+   13.58,                                         !- May FCfactorMethod ground temperature {C}
+   15.67,                                         !- June FCfactorMethod ground temperature {C}
+   16.24,                                         !- July FCfactorMethod ground temperature {C}
+   15.18,                                         !- August FCfactorMethod ground temperature {C}
+   12.74,                                         !- September FCfactorMethod ground temperature {C}
+   9.69,                                          !- October FCfactorMethod ground temperature {C}
+   6.69,                                          !- November FCfactorMethod ground temperature {C}
+   4.70;                                          !- December FCfactorMethod ground temperature {C}
+Site:GroundReflectance,                           !- Annual ground reflectances - 1 value for each month
+   0.2,                                           !- Jan ground reflectance
+   0.2,                                           !- Feb ground reflectance
+   0.2,                                           !- Mar ground reflectance
+   0.2,                                           !- Apr ground reflectance
+   0.2,                                           !- May ground reflectance
+   0.2,                                           !- Jun ground reflectance
+   0.2,                                           !- Jul ground reflectance
+   0.2,                                           !- Aug ground reflectance
+   0.2,                                           !- Sep ground reflectance
+   0.2,                                           !- Oct ground reflectance
+   0.2,                                           !- Nov ground reflectance
+   0.2;                                           !- Dec ground reflectance
+Site:GroundReflectance:SnowModifier,
+   2.0,                                           !- Ground Reflected Solar Modifier
+   2.0;                                           !- Daylighting Ground Reflected Solar Modifier
+Building, Building,                               !- Building Name
+    0,                                            !- North Axis
+   Urban,                                       !- Terrain
+    .04,                                          !- Loads Convergence Tolerance
+    .4,                                           !- Temperature Convergence Tolerance
+   FullExterior,                                  !- Solar Distribution
+   25,                                            !- Maximum number of warmup days
+   6;                                             !- Minimum number of warmup days
+Site:WaterMainsTemperature,                       !- Defines site mains water temperature
+   Correlation,                                   !- Calculation Method
+   ,                                              !- Schedule Name
+   10,                                            !- Annual Average Outdoor Air Temperature
+   20;                                            !- Maximum Difference In Monthly Average Outdoor Air Temperatures
+!- Elements to do with HVAC as created by DesignBuilder
+! This input file is intended to replace the other way of doing things which
+! has a larger number of input files, one for each configuration of primary and
+! secondary heating, and availability or otherwise of storage.
+!
+! For heaters and emitters, presence or absence is set by modifying the size of
+! components. If they are not available for heating then they are sized to 0 W.
+! If storage is not available (e.g. for a combi boiler) then the water heater
+! volume is set to approx. 3 litres as recommended by EnergyPlus documentation.
+! =============================================================================
+! =============================================================================
+! We set all macro values here.
+! This is set up so that primary and secondary heating system sizes are automatically set
+! Primary heating system
+!- Primary heating system
+!- PrimaryHeater - Boiler
+!- Primary Heating Fuel - NaturalGas
+!- Primary System Efficiency - 0.85
+! Secondary heating system
+!- Secondary heating system
+!- SecondaryHeater - None
+!- Secondary Heating Fuel - OtherFuel1
+!- Secondary System Efficiency - 1.0
+! ASHPAvailability Off
+! DHNAvailability Off
+! FCCHPHeatAvailability Off
+! GSHPAvailability Off
+! PrimaryBoilerAvailability On
+! PrimaryElectricAvailability Off
+! SecondaryBoilerAvailability Off
+! SHWAvailability Off
+! ElectricRadiatorAvailability Off
+! Finally, include the main heating system definition IMF
+! Start detailed HVAC data definition
+PlantEquipmentOperationSchemes,
+   Primary HT HW Loop Operation,                                         ! - Name of plant/condenser equipment operation scheme
+   PlantEquipmentOperation:HeatingLoad,                                  ! - Control scheme object type 1
+   Primary HT HW Loop Scheme ElecStorageOn,                                          ! - Name of control scheme 1
+   ETI_StorageOn,                                                                    ! - Control scheme schedule 1
+   Primary HT HW Loop Scheme ElecStorageOff,                                          ! - Name of control scheme 1
+   ETI_StorageOff;                                                                   ! - Control scheme schedule 1
+PlantEquipmentOperation:HeatingLoad,
+   Primary HT HW Loop Scheme ElecStorageOn,                                          ! - Name of control scheme
+   0.00,                                                                 ! - Range lower limit 1
+   8543.940429688,                                                  ! - Range upper limit 1
+   HT HW Loop PrimaryBoiler Equipment List,                  ! - Range equipment list name 1
+   8543.940429688,                                                                 ! - Range lower limit 2
+    8543.950195312,                                                  ! - Range upper limit 2
+   HT HW Loop DHN Equipment List,                  ! - Range equipment list name 2
+    8543.950195312,                              ! - Range lower limit 3
+     8543.959960938,              ! - Range upper limit 3
+   HT HW Loop SecondaryBoiler Equipment List;                  ! - Range equipment list name 3
+PlantEquipmentOperation:HeatingLoad,
+   Primary HT HW Loop Scheme ElecStorageOff,                                          ! - Name of control scheme
+   0.00,                                                                 ! - Range lower limit 1
+   8543.940429688,                                                  ! - Range upper limit 1
+   HT HW Loop PrimaryBoiler Equipment List,                  ! - Range equipment list name 1
+   8543.940429688,                                                                 ! - Range lower limit 2
+    8543.950195312,                                                  ! - Range upper limit 2
+   HT HW Loop DHN Equipment List,                  ! - Range equipment list name 2
+    8543.950195312,                              ! - Range lower limit 3
+     8543.959960938,              ! - Range upper limit 3
+   HT HW Loop SecondaryBoiler Equipment List;                  ! - Range equipment list name 3
+PlantEquipmentList,
+   HT HW Loop PrimaryBoiler Equipment List,                  ! - Range equipment list name 0
+   Boiler:HotWater,                                                      ! - Equipment 1 object type
+   Primary Boiler;                                                       ! - Equipment 1 name
+PlantEquipmentList,
+   HT HW Loop SecondaryBoiler Equipment List,                  ! - Range equipment list name 0
+   Boiler:HotWater,                                                      ! - Equipment 1 object type
+   Secondary Boiler;                                                       ! - Equipment 1 name
+PlantEquipmentList,
+   HT HW Loop DHN Equipment List,                  ! - Range equipment list name 0
+   DistrictHeating,                                                    ! - Equipment 1 object type
+   Purchased Heating;                                                        ! - Equipment 1 name
+PlantEquipmentOperationSchemes,
+   LTHW Loop Operation,                                                 ! - Name of plant/condenser equipment operation scheme
+   PlantEquipmentOperation:HeatingLoad,                                  ! - Control scheme object type 1
+   LTHW Loop Scheme ElecStorageOn,                                                  ! - Name of control scheme 1
+   ETI_StorageOn,                                                                    ! - Control scheme schedule 1
+   LTHW Loop Scheme ElecStorageOff,                                                  ! - Name of control scheme 2
+   ETI_StorageOff;                                                                    ! - Control scheme schedule 2
+PlantEquipmentOperation:HeatingLoad,
+   LTHW Loop Scheme ElecStorageOn,                                                  ! - Name of control scheme
+   0.00,                                                                 ! - Range lower limit 1
+   1000000000000000.00,                                                  ! - Range upper limit 1
+   LTHW Loop Scheme ElecStorageOn Equipment List;                           ! - Range equipment list name 1
+PlantEquipmentOperation:HeatingLoad,
+   LTHW Loop Scheme ElecStorageOff,                                                  ! - Name of control scheme
+   0.00,                                                                 ! - Range lower limit 1
+   1000000000000000.00,                                                  ! - Range upper limit 1
+   LTHW Loop Scheme ElecStorageOff Equipment List;                           ! - Range equipment list name 1
+PlantEquipmentList,
+	LTHW Loop Scheme ElecStorageOn Equipment List,                           ! - Range equipment list name 0
+		   WaterHeater:Mixed,                                                    ! - Equipment 1 object type
+		   Auxiliary Water Heater;                                                        ! - Equipment 1 name
+PlantEquipmentList,
+	LTHW Loop Scheme ElecStorageOff Equipment List,                           ! - Range equipment list name 0
+		   WaterHeater:Mixed,                                                    ! - Equipment 1 object type
+		   Auxiliary Water Heater;                                                        ! - Equipment 1 name
+Sizing:Plant,
+   LTHW Loop,                                                           ! - Name of loop
+   Heating,                                                              ! - Type of loop
+   56.00,                                                                ! - Design loop exit temperature (C)
+   5.00;                                                                 ! - Loop design temperature difference (C)
+PlantLoop,
+   LTHW Loop,                                                           ! - Name of loop
+   Water,                                                                ! - Fluid type
+   ,                                                                     ! - User-defined fluid type
+   LTHW Loop Operation,                                                 ! - Plant equipment operation scheme
+   LTHW Loop Supply Side Outlet,                                        ! - Loop temperature setpoint node
+   80.00,                                                                ! - Maximum loop temperature (C)
+   0.00,                                                                 ! - Minimum loop temperature (C)
+   autosize,                                                             ! - Maximum loop flow rate (m3/s)
+   0.000000,                                                             ! - Minimum loop flow rate (m3/s)
+   autocalculate,                                                        ! - Volume of the plant loop (m3)
+   LTHW Loop Supply Side Inlet,                                         ! - Plant side inlet node
+   LTHW Loop Supply Side Outlet,                                        ! - Plant side outlet node
+   LTHW Loop Supply Side Branches,                                      ! - Plant side branch list name
+   LTHW Loop Supply Side Connectors,                                    ! - Plant side connector list name
+   LTHW Loop Demand Side Inlet,                                         ! - Demand side inlet node
+   LTHW Loop Demand Side Outlet,                                        ! - Demand side outlet node
+   LTHW Loop Demand Side Branches,                                      ! - Demand side branch list name
+   LTHW Loop Demand Side Connectors,                                    ! - Demand side connector list name
+   Sequential,                                                           ! - Load distribution scheme
+   LTHW Loop AvailabilityManager List,                                  ! - Availability manager list name
+   SingleSetpoint,                                                       ! - Plant loop demand calculation scheme
+   None,                                                                 ! - Common pipe simulation
+   None;                                                                 ! - Pressure simulation type
+BranchList,
+   LTHW Loop Demand Side Branches,                                      ! - Name of branch list
+   LTHW Loop Demand Side Inlet Branch,                                  ! - Name of branch 1
+   LTHW Loop Demand Side Bypass Branch,                                 ! - Name of branch 2
+   Water Outlet Group DHW Plant Loop Branch,                             ! - Name of branch 3
+   Building:SAPZone2 Water Convector DHW Plant Loop Branch,              ! - Name of branch 4
+   Building:SAPZone1 Water Convector DHW Plant Loop Branch,              ! - Name of branch 5
+   LTHW Loop Demand Side Outlet Branch;                                 ! - Name of branch 6
+Branch,
+   LTHW Loop Demand Side Inlet Branch,                                  ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   LTHW Loop Demand Side Inlet Branch Pipe,                             ! - Component 1 name
+   LTHW Loop Demand Side Inlet,                                         ! - Component 1 inlet node name
+   LTHW Loop Demand Side Inlet Branch Pipe Outlet,                      ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   LTHW Loop Demand Side Inlet Branch Pipe,                             ! - Name of pipe
+   LTHW Loop Demand Side Inlet,                                         ! - Inlet node name
+   LTHW Loop Demand Side Inlet Branch Pipe Outlet;                      ! - Outlet node name
+Branch,
+   LTHW Loop Demand Side Bypass Branch,                                 ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   LTHW Loop Demand Side Bypass Pipe,                                   ! - Component 1 name
+   LTHW Loop Demand Side Bypass Pipe Inlet Node,                        ! - Component 1 inlet node name
+   LTHW Loop Demand Side Bypass Pipe Outlet Node,                       ! - Component 1 outlet node name
+   Bypass;                                                               ! - Component 1 branch control type
+Pipe:Adiabatic,
+   LTHW Loop Demand Side Bypass Pipe,                                   ! - Name of pipe
+   LTHW Loop Demand Side Bypass Pipe Inlet Node,                        ! - Inlet node name
+   LTHW Loop Demand Side Bypass Pipe Outlet Node;                       ! - Outlet node name
+Branch,
+   Water Outlet Group DHW Plant Loop Branch,                             ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   WaterUse:Connections,                                                 ! - Component 1 object type
+   Water Outlet Group,                                                   ! - Component 1 name
+   Water Outlet Group Water Inlet Node,                                  ! - Component 1 inlet node name
+   Water Outlet Group Water Outlet Node,                                 ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+WaterUse:Connections,
+   Water Outlet Group,                                                   ! - Component name
+   Water Outlet Group Water Inlet Node,                                  ! - Water inlet node name
+   Water Outlet Group Water Outlet Node,                                 ! - Water outlet node name
+   ,                                                                     ! - Supply water storage tank name
+   ,                                                                     ! - Reclamation water storage tank name
+   ,                                                                     ! - Hot water supply temperature schedule
+   ,                                                                     ! - Cold water supply temperature schedule
+   None,                                                                 ! - Drain water heat exchanger type
+   Plant,                                                                ! - Drain water heat exchanger destination
+   1500.000,                                                             ! - Drain water heat exchanger U-factor*area (W/K)
+   Building:SAPZone1 Water Outlet;                                       ! - Water use equipment 1 name
+WaterUse:Equipment,
+   Building:SAPZone1 Water Outlet,                                       ! - Component name
+   ,                                                                     ! - End use sub-category
+   1.11111111111e-05,                                                         ! - Peak flow rate (m3/s)
+   ETI_DHW,                                                                 ! - Flow rate fraction schedule
+   60,                                                                   ! - Target temperature schedule
+   ,                                                                     ! - Hot water supply temperature schedule
+   ,                                                                     ! - Cold water supply temperature schedule
+   ,                                                                     ! - Zone name
+   7,                                                                    ! - Sensible fraction schedule
+   7;                                                                    ! - Latent fraction schedule
+Branch,
+   Building:SAPZone2 Water Convector DHW Plant Loop Branch,              ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Component 1 object type
+   Building:SAPZone2 Water Convector,                                    ! - Component 1 name
+   Building:SAPZone2 Water Convector Hot Water Inlet Node,               ! - Component 1 inlet node name
+   Building:SAPZone2 Water Convector Hot Water Outlet Node,              ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+ZoneHVAC:Baseboard:Convective:Water,
+   Building:SAPZone2 Water Convector,                                    ! - Component name
+   Off,                                                                    ! - Availability schedule
+   Building:SAPZone2 Water Convector Hot Water Inlet Node,               ! - Water inlet node name
+   Building:SAPZone2 Water Convector Hot Water Outlet Node,              ! - Water outlet node name
+   autosize,                                                             ! - U-factor times area value of convector (W/K)
+   autosize,                                                             ! - Maximum water flow rate (m3/s)
+   0.0100;                                                               ! - Convergence tolerance
+Branch,
+   Building:SAPZone1 Water Convector DHW Plant Loop Branch,              ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Component 1 object type
+   Building:SAPZone1 Water Convector,                                    ! - Component 1 name
+   Building:SAPZone1 Water Convector Hot Water Inlet Node,               ! - Component 1 inlet node name
+   Building:SAPZone1 Water Convector Hot Water Outlet Node,              ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+ZoneHVAC:Baseboard:Convective:Water,
+   Building:SAPZone1 Water Convector,                                    ! - Component name
+   Off,                                                                    ! - Availability schedule
+   Building:SAPZone1 Water Convector Hot Water Inlet Node,               ! - Water inlet node name
+   Building:SAPZone1 Water Convector Hot Water Outlet Node,              ! - Water outlet node name
+   autosize,                                                             ! - U-factor times area value of convector (W/K)
+   autosize,                                                             ! - Maximum water flow rate (m3/s)
+   0.0100;                                                               ! - Convergence tolerance
+Branch,
+   LTHW Loop Demand Side Outlet Branch,                                 ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   LTHW Loop Demand Side Outlet Branch Pipe,                            ! - Component 1 name
+   LTHW Loop Demand Side Outlet Branch Pipe Inlet,                      ! - Component 1 inlet node name
+   LTHW Loop Demand Side Outlet,                                        ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   LTHW Loop Demand Side Outlet Branch Pipe,                            ! - Name of pipe
+   LTHW Loop Demand Side Outlet Branch Pipe Inlet,                      ! - Inlet node name
+   LTHW Loop Demand Side Outlet;                                        ! - Outlet node name
+ConnectorList,
+   LTHW Loop Demand Side Connectors,                                    ! - Connector list name
+   Connector:Splitter,                                                   ! - Connector 1 object type
+   LTHW Loop Demand Splitter,                                           ! - Connector 1 object name
+   Connector:Mixer,                                                      ! - Connector 2 object type
+   LTHW Loop Demand Mixer;                                              ! - Connector 2 object name
+Connector:Splitter,
+   LTHW Loop Demand Splitter,                                           ! - Splitter name
+   LTHW Loop Demand Side Inlet Branch,                                  ! - Inlet branch name
+   LTHW Loop Demand Side Bypass Branch,                                 ! - Branch 1
+   Water Outlet Group DHW Plant Loop Branch,                             ! - Branch 2
+   Building:SAPZone2 Water Convector DHW Plant Loop Branch,              ! - Branch 3
+   Building:SAPZone1 Water Convector DHW Plant Loop Branch;              ! - Branch 4
+Connector:Mixer,
+   LTHW Loop Demand Mixer,                                              ! - Mixer name
+   LTHW Loop Demand Side Outlet Branch,                                 ! - Outlet branch name
+   Water Outlet Group DHW Plant Loop Branch,                             ! - Branch 1
+   LTHW Loop Demand Side Bypass Branch,                                 ! - Branch 2
+   Building:SAPZone2 Water Convector DHW Plant Loop Branch,              ! - Branch 3
+   Building:SAPZone1 Water Convector DHW Plant Loop Branch;              ! - Branch 4
+BranchList,
+   LTHW Loop Supply Side Branches,                                      ! - Name of branch list
+   LTHW Loop Supply Side Inlet Branch,                                  ! - Name of branch 1
+   Auxiliary Water Heater DHW Plant Loop Branch,                                   ! - Name of branch 3
+   LTHW Loop Supply Side Outlet Branch;                                 ! - Name of branch 5
+Branch,
+   LTHW Loop Supply Side Inlet Branch,                                  ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pump:VariableSpeed,                                                   ! - Component 1 object type
+   LTHW Loop Supply Pump,                                               ! - Component 1 name
+   LTHW Loop Supply Side Inlet,                                         ! - Component 1 inlet node name
+   LTHW Loop Supply Pump Water Outlet Node,                             ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+Pump:VariableSpeed,
+   LTHW Loop Supply Pump,                                               ! - Component name
+   LTHW Loop Supply Side Inlet,                                         ! - Water inlet node name
+   LTHW Loop Supply Pump Water Outlet Node,                             ! - Water outlet node name
+   autosize,                                                             ! - Rated flow rate (m3/s)
+   20000.00,                                                             ! - Rated pump head (Pa)
+   autosize,                                                             ! - Rated power consumption (W)
+   0.90,                                                                 ! - Motor efficiency
+   0.00,                                                                 ! - Fraction Of Motor Inefficiencies To Fluid Stream
+   0.0000,                                                               ! - Coefficient 1 of the part load performance curve
+   1.0000,                                                               ! - Coefficient 2 of the part load performance curve
+   0.0000,                                                               ! - Coefficient 3 of the part load performance curve
+   0.0000,                                                               ! - Coefficient 4 of the part load performance curve
+   0.000000,                                                             ! - Minimum flow rate (m3/s)
+   Intermittent;                                                         ! - Pump control type
+Branch,
+   Auxiliary Water Heater DHW Plant Loop Branch,                                   ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   WaterHeater:Mixed,                                                    ! - Component 1 object type
+   Auxiliary Water Heater,                                                         ! - Component 1 name
+   Auxiliary Water Heater DHW Inlet Node,                                          ! - Component 1 inlet node name
+   Auxiliary Water Heater DHW Outlet Node,                                         ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+WaterHeater:Mixed,
+   Auxiliary Water Heater,                                                         ! - Component name
+	0.00379,                                                             ! - Tank volume (m3)
+   60,                                                                   ! - Setpoint temperature schedule
+   5.00,                                                                 ! - Deadband temperature difference (C)
+   80.00,                                                                ! - Maximum temperature limit (C)
+   Cycle,                                                                ! - Heater control type
+   0.01,                                                                  ! - Heater maximum capacity (W)
+   0.0,                                                                  ! - Heater minimum capacity (W)
+   ,                                                                     ! - Heater ignition minimum flow rate (m3/s)
+   ,                                                                     ! - Heater ignition delay (s)
+   OtherFuel1,                                                          ! - Heater fuel type
+   0.8,                                                                  ! - Heater thermal efficiency
+   ,                                                                     ! - Part load factor curve
+   ,                                                                     ! - Off cycle parasitic fuel consumption rate (W)
+   ,                                                                     ! - Off cycle parasitic fuel type
+   ,                                                                     ! - Off cycle parasitic heat fraction to tank
+   ,                                                                     ! - On cycle parasitic fuel consumption rate (W)
+   ,                                                                     ! - On cycle parasitic fuel type
+   ,                                                                     ! - On cycle parasitic heat fraction to tank
+   Schedule,                                                             ! - Ambient temperature indicator
+   61,                                                                   ! - Ambient temperature schedule
+   ,                                                                     ! - Ambient temperature zone name
+   Auxiliary Water Heater Outdoor Air Node,                                        ! - Ambient temperature outdoor air node name
+   0.0000,                                                               ! - Off cycle loss coefficient to ambient temperature (W/K)
+   1.00,                                                                 ! - Off cycle loss fraction to zone
+   0.0000,                                                               ! - On cycle loss coefficient to ambient temperature (W/K)
+   1.00,                                                                 ! - On cycle loss fraction to zone
+   0.000000,                                                             ! - Peak use flow rate (m3/s)
+   ,                                                                     ! - Use flow rate fraction schedule
+   ,                                                                     ! - Cold water supply temperature schedule
+   Auxiliary Water Heater DHW Inlet Node,                                          ! - Use side inlet node name
+   Auxiliary Water Heater DHW Outlet Node,                                         ! - Use side outlet node name
+   1.00,                                                                 ! - Use side effectiveness
+   Auxiliary Water Heater Heating Inlet Node,                                      ! - Source side inlet node name
+   Auxiliary Water Heater Heating Outlet Node,                                     ! - Source side outlet node name
+   1.00,                                                                 ! - Source side effectiveness
+   autosize,                                                             ! - Use side design flow rate (m3/s)
+   autosize,                                                             ! - Source side design flow rate (m3/s)
+   1.50;                                                                 ! - Indirect water heating recovery time (hr)
+OutdoorAir:NodeList,
+   Auxiliary Water Heater Outdoor Air Node;                                        ! - Water heater outdoor air node
+Branch,
+   LTHW Loop Supply Side Outlet Branch,                                 ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   LTHW Loop Supply Side Outlet Branch Pipe,                            ! - Component 1 name
+   LTHW Loop Supply Side Outlet Branch Pipe Inlet,                      ! - Component 1 inlet node name
+   LTHW Loop Supply Side Outlet,                                        ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   LTHW Loop Supply Side Outlet Branch Pipe,                            ! - Name of pipe
+   LTHW Loop Supply Side Outlet Branch Pipe Inlet,                      ! - Inlet node name
+   LTHW Loop Supply Side Outlet;                                        ! - Outlet node name
+ConnectorList,
+   LTHW Loop Supply Side Connectors,                                    ! - Connector list name
+   Connector:Splitter,                                                   ! - Connector 1 object type
+   LTHW Loop Supply Splitter,                                           ! - Connector 1 object name
+   Connector:Mixer,                                                      ! - Connector 2 object type
+   LTHW Loop Supply Mixer;                                              ! - Connector 2 object name
+Connector:Splitter,
+   LTHW Loop Supply Splitter,                                           ! - Splitter name
+   LTHW Loop Supply Side Inlet Branch,                                  ! - Inlet branch name
+   Auxiliary Water Heater DHW Plant Loop Branch;                                   ! - Branch 2
+Connector:Mixer,
+   LTHW Loop Supply Mixer,                                              ! - Mixer name
+   LTHW Loop Supply Side Outlet Branch,                                 ! - Outlet branch name
+   Auxiliary Water Heater DHW Plant Loop Branch;                                  ! - Branch 1
+Sizing:Plant,
+   Primary HT HW Loop,                                                   ! - Name of loop
+   Heating,                                                              ! - Type of loop
+   80.00,                                                                ! - Design loop exit temperature (C)
+   10.00;                                                                ! - Loop design temperature difference (C)
+PlantLoop,
+   Primary HT HW Loop,                                                   ! - Name of loop
+   Water,                                                                ! - Fluid type
+   ,                                                                     ! - User-defined fluid type
+   Primary HT HW Loop Operation,                                         ! - Plant equipment operation scheme
+   Primary HT HW Loop Supply Side Outlet,                                ! - Loop temperature setpoint node
+   100.00,                                                               ! - Maximum loop temperature (C)
+   10.00,                                                                ! - Minimum loop temperature (C)
+   autosize,                                                             ! - Maximum loop flow rate (m3/s)
+   0.000000,                                                             ! - Minimum loop flow rate (m3/s)
+   autocalculate,                                                        ! - Volume of the plant loop (m3)
+   Primary HT HW Loop Supply Side Inlet,                                 ! - Plant side inlet node
+   Primary HT HW Loop Supply Side Outlet,                                ! - Plant side outlet node
+   Primary HT HW Loop Supply Side Branches,                              ! - Plant side branch list name
+   Primary HT HW Loop Supply Side Connectors,                            ! - Plant side connector list name
+   Primary HT HW Loop Demand Side Inlet,                                 ! - Demand side inlet node
+   Primary HT HW Loop Demand Side Outlet,                                ! - Demand side outlet node
+   Primary HT HW Loop Demand Side Branches,                              ! - Demand side branch list name
+   Primary HT HW Loop Demand Side Connectors,                            ! - Demand side connector list name
+   Sequential,                                                           ! - Load distribution scheme
+   Primary HT HW Loop AvailabilityManager List,                          ! - Availability manager list name
+   SingleSetpoint,                                                       ! - Plant loop demand calculation scheme
+   None,                                                                 ! - Common pipe simulation
+   None;                                                                 ! - Pressure simulation type
+BranchList,
+   Primary HT HW Loop Demand Side Branches,                              ! - Name of branch list
+   Primary HT HW Loop Demand Side Inlet Branch,                          ! - Name of branch 1
+   Primary HT HW Loop Demand Side Bypass Branch,                         ! - Name of branch 2
+   Building:SAPZone1 Water Convector/1/1 HW Plant Loop Branch,           ! - Name of branch 3
+   Auxiliary Water Heater HW Plant Loop Branch,                                    ! - Name of branch 4
+   Building:SAPZone2 Water Convector/1/1 HW Plant Loop Branch,           ! - Name of branch 5
+   Primary HT HW Loop Demand Side Outlet Branch;                         ! - Name of branch 6
+Branch,
+   Primary HT HW Loop Demand Side Inlet Branch,                          ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   Primary HT HW Loop Demand Side Inlet Branch Pipe,                     ! - Component 1 name
+   Primary HT HW Loop Demand Side Inlet,                                 ! - Component 1 inlet node name
+   Primary HT HW Loop Demand Side Inlet Branch Pipe Outlet,              ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   Primary HT HW Loop Demand Side Inlet Branch Pipe,                     ! - Name of pipe
+   Primary HT HW Loop Demand Side Inlet,                                 ! - Inlet node name
+   Primary HT HW Loop Demand Side Inlet Branch Pipe Outlet;              ! - Outlet node name
+Branch,
+   Primary HT HW Loop Demand Side Bypass Branch,                         ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   Primary HT HW Loop Demand Side Bypass Pipe,                           ! - Component 1 name
+   Primary HT HW Loop Demand Side Bypass Pipe Inlet Node,                ! - Component 1 inlet node name
+   Primary HT HW Loop Demand Side Bypass Pipe Outlet Node,               ! - Component 1 outlet node name
+   Bypass;                                                               ! - Component 1 branch control type
+Pipe:Adiabatic,
+   Primary HT HW Loop Demand Side Bypass Pipe,                           ! - Name of pipe
+   Primary HT HW Loop Demand Side Bypass Pipe Inlet Node,                ! - Inlet node name
+   Primary HT HW Loop Demand Side Bypass Pipe Outlet Node;               ! - Outlet node name
+Branch,
+   Building:SAPZone1 Water Convector/1/1 HW Plant Loop Branch,           ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Component 1 object type
+   Building:SAPZone1 Water Convector/1/1,                                ! - Component 1 name
+   Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,           ! - Component 1 inlet node name
+   Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,          ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+ZoneHVAC:Baseboard:Convective:Water,
+   Building:SAPZone1 Water Convector/1/1,                                ! - Component name
+   2,                                                                    ! - Availability schedule
+   Building:SAPZone1 Water Convector/1/1 Hot Water Inlet Node,           ! - Water inlet node name
+   Building:SAPZone1 Water Convector/1/1 Hot Water Outlet Node,          ! - Water outlet node name
+   autosize,                                                             ! - U-factor times area value of convector (W/K)
+   autosize,                                                             ! - Maximum water flow rate (m3/s)
+   0.0100;                                                               ! - Convergence tolerance
+Branch,
+   Auxiliary Water Heater HW Plant Loop Branch,                                    ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   WaterHeater:Mixed,                                                    ! - Component 1 object type
+   Auxiliary Water Heater,                                                         ! - Component 1 name
+   Auxiliary Water Heater Heating Inlet Node,                                      ! - Component 1 inlet node name
+   Auxiliary Water Heater Heating Outlet Node,                                     ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Branch,
+   Building:SAPZone2 Water Convector/1/1 HW Plant Loop Branch,           ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Component 1 object type
+   Building:SAPZone2 Water Convector/1/1,                                ! - Component 1 name
+   Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,           ! - Component 1 inlet node name
+   Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,          ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+ZoneHVAC:Baseboard:Convective:Water,
+   Building:SAPZone2 Water Convector/1/1,                                ! - Component name
+   2,                                                                    ! - Availability schedule
+   Building:SAPZone2 Water Convector/1/1 Hot Water Inlet Node,           ! - Water inlet node name
+   Building:SAPZone2 Water Convector/1/1 Hot Water Outlet Node,          ! - Water outlet node name
+   autosize,                                                             ! - U-factor times area value of convector (W/K)
+   autosize,                                                             ! - Maximum water flow rate (m3/s)
+   0.0100;                                                               ! - Convergence tolerance
+Branch,
+   Primary HT HW Loop Demand Side Outlet Branch,                         ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   Primary HT HW Loop Demand Side Outlet Branch Pipe,                    ! - Component 1 name
+   Primary HT HW Loop Demand Side Outlet Branch Pipe Inlet,              ! - Component 1 inlet node name
+   Primary HT HW Loop Demand Side Outlet,                                ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   Primary HT HW Loop Demand Side Outlet Branch Pipe,                    ! - Name of pipe
+   Primary HT HW Loop Demand Side Outlet Branch Pipe Inlet,              ! - Inlet node name
+   Primary HT HW Loop Demand Side Outlet;                                ! - Outlet node name
+ConnectorList,
+   Primary HT HW Loop Demand Side Connectors,                            ! - Connector list name
+   Connector:Splitter,                                                   ! - Connector 1 object type
+   Primary HT HW Loop Demand Splitter,                                   ! - Connector 1 object name
+   Connector:Mixer,                                                      ! - Connector 2 object type
+   Primary HT HW Loop Demand Mixer;                                      ! - Connector 2 object name
+Connector:Splitter,
+   Primary HT HW Loop Demand Splitter,                                   ! - Splitter name
+   Primary HT HW Loop Demand Side Inlet Branch,                          ! - Inlet branch name
+   Primary HT HW Loop Demand Side Bypass Branch,                         ! - Branch 1
+   Building:SAPZone1 Water Convector/1/1 HW Plant Loop Branch,           ! - Branch 2
+   Auxiliary Water Heater HW Plant Loop Branch,                                    ! - Branch 3
+   Building:SAPZone2 Water Convector/1/1 HW Plant Loop Branch;           ! - Branch 4
+Connector:Mixer,
+   Primary HT HW Loop Demand Mixer,                                      ! - Mixer name
+   Primary HT HW Loop Demand Side Outlet Branch,                         ! - Outlet branch name
+   Primary HT HW Loop Demand Side Bypass Branch,                         ! - Branch 1
+   Building:SAPZone1 Water Convector/1/1 HW Plant Loop Branch,           ! - Branch 2
+   Auxiliary Water Heater HW Plant Loop Branch,                                    ! - Branch 3
+   Building:SAPZone2 Water Convector/1/1 HW Plant Loop Branch;           ! - Branch 4
+BranchList,
+   Primary HT HW Loop Supply Side Branches,                              ! - Name of branch list
+   Primary HT HW Loop Supply Side Inlet Branch,                          ! - Name of branch 1
+   Primary HT HW Loop Supply Side Bypass Branch,                         ! - Name of branch 2
+   DHN DHW Plant Loop Branch,
+   Primary Boiler HW Plant Loop Branch,                                  ! - Name of branch 3
+   Secondary Boiler HW Plant Loop Branch,                                  ! - Name of branch 3
+   Primary HT HW Loop Supply Side Outlet Branch;                         ! - Name of branch 4
+Branch,
+   Primary HT HW Loop Supply Side Inlet Branch,                          ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pump:VariableSpeed,                                                   ! - Component 1 object type
+   Primary HT HW Loop Supply Pump,                                       ! - Component 1 name
+   Primary HT HW Loop Supply Side Inlet,                                 ! - Component 1 inlet node name
+   Primary HT HW Loop Supply Pump Water Outlet Node,                     ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+Pump:VariableSpeed,
+   Primary HT HW Loop Supply Pump,                                       ! - Component name
+   Primary HT HW Loop Supply Side Inlet,                                 ! - Water inlet node name
+   Primary HT HW Loop Supply Pump Water Outlet Node,                     ! - Water outlet node name
+   autosize,                                                             ! - Rated flow rate (m3/s)
+   20000.00,                                                             ! - Rated pump head (Pa)
+   autosize,                                                             ! - Rated power consumption (W)
+   0.90,                                                                 ! - Motor efficiency
+   0.00,                                                                 ! - Fraction Of Motor Inefficiencies To Fluid Stream
+   0.0000,                                                               ! - Coefficient 1 of the part load performance curve
+   1.0000,                                                               ! - Coefficient 2 of the part load performance curve
+   0.0000,                                                               ! - Coefficient 3 of the part load performance curve
+   0.0000,                                                               ! - Coefficient 4 of the part load performance curve
+   0.000000,                                                             ! - Minimum flow rate (m3/s)
+   Intermittent;                                                         ! - Pump control type
+Branch,
+   Primary HT HW Loop Supply Side Bypass Branch,                         ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   Primary HT HW Loop Supply Side Bypass Pipe,                           ! - Component 1 name
+   Primary HT HW Loop Supply Side Bypass Pipe Inlet Node,                ! - Component 1 inlet node name
+   Primary HT HW Loop Supply Side Bypass Pipe Outlet Node,               ! - Component 1 outlet node name
+   Bypass;                                                               ! - Component 1 branch control type
+Pipe:Adiabatic,
+   Primary HT HW Loop Supply Side Bypass Pipe,                           ! - Name of pipe
+   Primary HT HW Loop Supply Side Bypass Pipe Inlet Node,                ! - Inlet node name
+   Primary HT HW Loop Supply Side Bypass Pipe Outlet Node;               ! - Outlet node name
+! ***************** DHN Objects ******************
+  Branch,
+    DHN DHW Plant Loop Branch,  !- Name
+    autosize,                       !- Maximum Flow Rate {m3/s}
+    ,                        !- Pressure Drop Curve Name
+    DistrictHeating,         !- Component 1 Object Type
+    Purchased Heating,       !- Component 1 Name
+    Purchased Heat Inlet Node,  !- Component 1 Inlet Node Name
+    Purchased Heat Outlet Node,  !- Component 1 Outlet Node Name
+    ACTIVE;                  !- Component 1 Branch Control Type
+  DistrictHeating,
+    Purchased Heating,       !- Name
+    Purchased Heat Inlet Node,  !- Hot Water Inlet Node Name
+    Purchased Heat Outlet Node,  !- Hot Water Outlet Node Name
+    100000;                 !- Nominal Capacity {W}
+! ***************** End of DHN Objects ******************
+! ***************** Primary Boiler Objects ******************
+Branch,
+   Primary Boiler HW Plant Loop Branch,                                  ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Boiler:HotWater,                                                      ! - Component 1 object type
+   Primary Boiler,                                                       ! - Component 1 name
+   Primary Boiler Water Inlet Node,                                      ! - Component 1 inlet node name
+   Primary Boiler Water Outlet Node,                                     ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+Boiler:HotWater,
+   Primary Boiler,                                                       ! - Component name
+   NaturalGas,                                                           ! - Fuel type
+   100000,                                                             ! - Nominal capacity (W)
+   1.0,                                                                 ! - Nominal thermal efficiency
+   LeavingBoiler,                                                        ! - Efficiency curve temperature evaluation variable
+   CondensingBoilerEff,                                                  ! - Normalised boiler efficiency curve name
+   75.00,                                                                ! - Design water outlet temperature (C)
+   autosize,                                                             ! - Maximum design boiler water flow rate (m3/s)
+   0.00,                                                                 ! - Minimum part load ratio
+   1.00,                                                                 ! - Maximum part load ratio
+   1.00,                                                                 ! - Optimum part load ratio
+   Primary Boiler Water Inlet Node,                                      ! - Boiler water inlet node
+   Primary Boiler Water Outlet Node,                                     ! - Boiler water outlet node
+   100.0,                                                                ! - Water outlet upper temperature limit (C)
+   NotModulated,                                                         ! - Boiler evaporator flow mode
+   25.00,                                                                ! - Parasitic electric load (W)
+   1.00;                                                                 ! - Sizing factor
+! ***************** End of Primary Boiler Objects ******************
+Branch,
+   Primary HT HW Loop Supply Side Outlet Branch,                         ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Pipe:Adiabatic,                                                       ! - Component 1 object type
+   Primary HT HW Loop Supply Side Outlet Branch Pipe,                    ! - Component 1 name
+   Primary HT HW Loop Supply Side Outlet Branch Pipe Inlet,              ! - Component 1 inlet node name
+   Primary HT HW Loop Supply Side Outlet,                                ! - Component 1 outlet node name
+   Passive;                                                              ! - Component 1 branch control type
+Pipe:Adiabatic,
+   Primary HT HW Loop Supply Side Outlet Branch Pipe,                    ! - Name of pipe
+   Primary HT HW Loop Supply Side Outlet Branch Pipe Inlet,              ! - Inlet node name
+   Primary HT HW Loop Supply Side Outlet;                                ! - Outlet node name
+ConnectorList,
+   Primary HT HW Loop Supply Side Connectors,                            ! - Connector list name
+   Connector:Splitter,                                                   ! - Connector 1 object type
+   Primary HT HW Loop Supply Splitter,                                   ! - Connector 1 object name
+   Connector:Mixer,                                                      ! - Connector 2 object type
+   Primary HT HW Loop Supply Mixer;                                      ! - Connector 2 object name
+Connector:Splitter,
+   Primary HT HW Loop Supply Splitter,                                   ! - Splitter name
+   Primary HT HW Loop Supply Side Inlet Branch,                          ! - Inlet branch name
+   Primary HT HW Loop Supply Side Bypass Branch,                         ! - Branch 1
+   DHN DHW Plant Loop Branch,
+   Primary Boiler HW Plant Loop Branch,                                  ! - Branch 2
+   Secondary Boiler HW Plant Loop Branch;                                  ! - Branch 2
+Connector:Mixer,
+   Primary HT HW Loop Supply Mixer,                                      ! - Mixer name
+   Primary HT HW Loop Supply Side Outlet Branch,                         ! - Outlet branch name
+   DHN DHW Plant Loop Branch,
+   Primary Boiler HW Plant Loop Branch,                                  ! - Branch 1
+   Secondary Boiler HW Plant Loop Branch,                                  ! - Branch 1
+   Primary HT HW Loop Supply Side Bypass Branch;                         ! - Branch 2
+Branch,
+   Secondary Boiler HW Plant Loop Branch,                                ! - Branch name
+   autosize,                                                             ! - Maximum flow rate (m3/s)
+   ,                                                                     ! - Pressure drop curve name
+   Boiler:HotWater,                                                      ! - Component 1 object type
+   Secondary Boiler,                                                     ! - Component 1 name
+   Secondary Boiler Water Inlet Node,                                    ! - Component 1 inlet node name
+   Secondary Boiler Water Outlet Node,                                   ! - Component 1 outlet node name
+   Active;                                                               ! - Component 1 branch control type
+Boiler:HotWater,
+   Secondary Boiler,                                                     ! - Component name
+   OtherFuel1,                                                           ! - Fuel type
+   100000,                                                             ! - Nominal capacity (W)
+   1.0,                                                                 ! - Nominal thermal efficiency
+   LeavingBoiler,                                                        ! - Efficiency curve temperature evaluation variable
+   CondensingBoilerEff,                                                  ! - Normalised boiler efficiency curve name
+   75.00,                                                                ! - Design water outlet temperature (C)
+   autosize,                                                             ! - Maximum design boiler water flow rate (m3/s)
+   0.00,                                                                 ! - Minimum part load ratio
+   1.00,                                                                 ! - Maximum part load ratio
+   1.00,                                                                 ! - Optimum part load ratio
+   Secondary Boiler Water Inlet Node,                                    ! - Boiler water inlet node
+   Secondary Boiler Water Outlet Node,                                   ! - Boiler water outlet node
+   100.0,                                                                ! - Water outlet upper temperature limit (C)
+   NotModulated,                                                         ! - Boiler evaporator flow mode
+   25.00,                                                                ! - Parasitic electric load (W)
+   1.00;                                                                 ! - Sizing factor
+ZoneControl:Thermostat,
+   Building:SAPZone1 Thermostat,                                         ! - Name
+   Building:SAPZone1,                                                    ! - Zone name
+   48,                                                                   ! - Control type schedule name
+   ThermostatSetpoint:DualSetpoint,                                      ! - Dual SP control object type
+   Building:SAPZone1 Dual SP;                                            ! - Dual SP control object name
+ThermostatSetpoint:DualSetpoint,
+   Building:SAPZone1 Dual SP,                                            ! - Name
+   ETI_Heat_Zone1,                          ! - Heating setpoint temperature schedule name
+   ETI_Cool;                          ! - Cooling setpoint temperature schedule name
+Sizing:Zone,
+   Building:SAPZone1,                                                    ! - Zone group name
+   SupplyAirTemperature,                                                 ! - Zone cooling design supply air temperature input method
+   14.00,                                                                ! - Zone cooling design supply air temperature (C)
+   10.00,                                                                ! - Zone cooling design supply air temperature difference (deltaC)
+   SupplyAirTemperature,                                                 ! - Zone heating design supply air temperature input method
+   50.00,                                                                ! - Zone heating design supply air temperature (C)
+   10.00,                                                                ! - Zone heatooling design supply air temperature difference (deltaC)
+   0.0090,                                                               ! - Zone cooling design supply air humidity ratio (kg-H2O/kg-air)
+   0.0040,                                                               ! - Zone heating design supply air humidity ratio (kg-H2O/kg-air)
+   Building:SAPZone1 Design Specification Outdoor Air Object,            ! - Design specification outdoor air object name
+   1.25,                                                                 ! - Zone heating sizing factor
+   1.15,                                                                 ! - Zone cooling sizing factor
+   DesignDay,                                                            ! - Cooling design air flow method
+   0.000000,                                                             ! - Cooling design air flow rate (m3/s)
+   0.000760,                                                             ! - Cooling min air flow per zone floor area (m3/s-m2)
+   0.000000,                                                             ! - Cooling min air flow (m3/s)
+   0.00,                                                                 ! - Cooling min air flow fraction
+   DesignDay,                                                            ! - Heating design air flow method
+   0.000000,                                                             ! - Heating design air flow rate (m3/s)
+   0.002030,                                                             ! - Heating max air flow per zone area (m3/s-m2)
+   0.141580,                                                             ! - Heating max air flow (m3/s)
+   0.30,                                                                 ! - Heating max air flow fraction
+   Building:SAPZone1 Design Specification Zone Air Distribution Object;  ! - Design specification zone air distribution object name
+DesignSpecification:OutdoorAir,
+   Building:SAPZone1 Design Specification Outdoor Air Object,            ! - Name
+   Sum,                                                                  ! - Outside air method
+   0.012000,                                                             ! - Outside air flow per person (m3/s)
+   0.000000,                                                             ! - Outside air flow per zone floor area (m3/s-m2)
+   0.0,                                                                  ! - Outside air flow per zone (m3/s)
+   0.000000,                                                             ! - Outdoor air flow air changes per hour
+   2;                                                                    ! - Outdoor air flow rate fraction schedule
+DesignSpecification:ZoneAirDistribution,
+   Building:SAPZone1 Design Specification Zone Air Distribution Object,  ! - Name
+   1.0000,                                                               ! - Zone air aistribution effectiveness in cooling mode
+   1.0000,                                                               ! - Zone air aistribution effectiveness in heating mode
+   ,                                                                     ! - Zone air distribution effectiveness schedule
+   0.0000;                                                               ! - Zone secondary recirculation fraction
+ZoneHVAC:EquipmentConnections,
+    Building:SAPZone1,        !- Zone Name
+    Building:SAPZone1 Equipment,  !- Zone Conditioning Equipment List Name
+		,  !- Zone Air Inlet Node or NodeList Name
+		,  !- Zone Air Exhaust Node or NodeList Name
+    Building:SAPZone1 Air Node,  !- Zone Air Node Name
+    Building:SAPZone1 Return Air Node;  !- Zone Return Air Node Name
+ZoneHVAC:EquipmentList,
+   Building:SAPZone1 Equipment,                                          ! - Name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Zone equipment 1 object type
+   Building:SAPZone1 Water Convector,                                    ! - Zone equipment 1 name
+   1,                                                                    ! - Zone equipment 1 cooling sequence
+   1,                                                                    ! - Zone equipment 1 heating sequence
+   ZoneHVAC:Baseboard:Convective:Electric,                               ! - Zone equipment 3 object type
+   Building:SAPZone1 Electric Convector,                                 ! - Zone equipment 3 name
+   2,                                                                    ! - Zone equipment 3 cooling sequence
+   2,                                                                    ! - Zone equipment 3 heating sequence
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Zone equipment 4 object type
+   Building:SAPZone1 Water Convector/1/1,                                ! - Zone equipment 4 name
+   3,                                                                    ! - Zone equipment 4 cooling sequence
+   3;                                                                    ! - Zone equipment 4 heating sequence
+ZoneHVAC:Baseboard:Convective:Electric,
+   Building:SAPZone1 Electric Convector,                                 ! - Component name
+   Off,                                                                    ! - Availability schedule
+   0.01,                                                             ! - Nominal capacity (W)
+   1.0;                                                                  ! - Efficiency
+ZoneControl:Thermostat,
+   Building:SAPZone2 Thermostat,                                         ! - Name
+   Building:SAPZone2,                                                    ! - Zone name
+   48,                                                                   ! - Control type schedule name
+   ThermostatSetpoint:DualSetpoint,                                      ! - Dual SP control object type
+   Building:SAPZone2 Dual SP;                                            ! - Dual SP control object name
+ThermostatSetpoint:DualSetpoint,
+   Building:SAPZone2 Dual SP,                                            ! - Name
+   ETI_Heat_Zone2,                          ! - Heating setpoint temperature schedule name
+   ETI_Cool;                          ! - Cooling setpoint temperature schedule name
+Sizing:Zone,
+   Building:SAPZone2,                                                    ! - Zone group name
+   SupplyAirTemperature,                                                 ! - Zone cooling design supply air temperature input method
+   14.00,                                                                ! - Zone cooling design supply air temperature (C)
+   10.00,                                                                ! - Zone cooling design supply air temperature difference (deltaC)
+   SupplyAirTemperature,                                                 ! - Zone heating design supply air temperature input method
+   50.00,                                                                ! - Zone heating design supply air temperature (C)
+   10.00,                                                                ! - Zone heatooling design supply air temperature difference (deltaC)
+   0.0090,                                                               ! - Zone cooling design supply air humidity ratio (kg-H2O/kg-air)
+   0.0040,                                                               ! - Zone heating design supply air humidity ratio (kg-H2O/kg-air)
+   Building:SAPZone2 Design Specification Outdoor Air Object,            ! - Design specification outdoor air object name
+   1.25,                                                                 ! - Zone heating sizing factor
+   1.15,                                                                 ! - Zone cooling sizing factor
+   DesignDay,                                                            ! - Cooling design air flow method
+   0.000000,                                                             ! - Cooling design air flow rate (m3/s)
+   0.000760,                                                             ! - Cooling min air flow per zone floor area (m3/s-m2)
+   0.000000,                                                             ! - Cooling min air flow (m3/s)
+   0.00,                                                                 ! - Cooling min air flow fraction
+   DesignDay,                                                            ! - Heating design air flow method
+   0.000000,                                                             ! - Heating design air flow rate (m3/s)
+   0.002030,                                                             ! - Heating max air flow per zone area (m3/s-m2)
+   0.141580,                                                             ! - Heating max air flow (m3/s)
+   0.30,                                                                 ! - Heating max air flow fraction
+   Building:SAPZone2 Design Specification Zone Air Distribution Object;  ! - Design specification zone air distribution object name
+DesignSpecification:OutdoorAir,
+   Building:SAPZone2 Design Specification Outdoor Air Object,            ! - Name
+   Sum,                                                                  ! - Outside air method
+   0.012000,                                                             ! - Outside air flow per person (m3/s)
+   0.000000,                                                             ! - Outside air flow per zone floor area (m3/s-m2)
+   0.0,                                                                  ! - Outside air flow per zone (m3/s)
+   0.000000,                                                             ! - Outdoor air flow air changes per hour
+   2;                                                                    ! - Outdoor air flow rate fraction schedule
+DesignSpecification:ZoneAirDistribution,
+   Building:SAPZone2 Design Specification Zone Air Distribution Object,  ! - Name
+   1.0000,                                                               ! - Zone air aistribution effectiveness in cooling mode
+   1.0000,                                                               ! - Zone air aistribution effectiveness in heating mode
+   ,                                                                     ! - Zone air distribution effectiveness schedule
+   0.0000;                                                               ! - Zone secondary recirculation fraction
+ZoneHVAC:EquipmentConnections,
+   Building:SAPZone2,                                                    ! - Zone Name
+   Building:SAPZone2 Equipment,                                          ! - Zone Conditioning Equipment List Name
+		,  !- Zone Air Inlet Node or NodeList Name
+		,  !- Zone Air Exhaust Node or NodeList Name
+   Building:SAPZone2 Zone Air Node,                                      ! - Zone Air Node Name
+   Building:SAPZone2 Return Outlet;                                      ! - Zone Return Air Node Name
+ZoneHVAC:EquipmentList,
+   Building:SAPZone2 Equipment,                                          ! - Name
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Zone equipment 1 object type
+   Building:SAPZone2 Water Convector,                                    ! - Zone equipment 1 name
+   1,                                                                    ! - Zone equipment 1 cooling sequence
+   1,                                                                    ! - Zone equipment 1 heating sequence
+   ZoneHVAC:Baseboard:Convective:Electric,                               ! - Zone equipment 3 object type
+   Building:SAPZone2 Electric Convector,                                 ! - Zone equipment 3 name
+   2,                                                                    ! - Zone equipment 3 cooling sequence
+   2,                                                                    ! - Zone equipment 3 heating sequence
+   ZoneHVAC:Baseboard:Convective:Water,                                  ! - Zone equipment 4 object type
+   Building:SAPZone2 Water Convector/1/1,                                ! - Zone equipment 4 name
+   3,                                                                    ! - Zone equipment 4 cooling sequence
+   3;                                                                    ! - Zone equipment 4 heating sequence
+ZoneHVAC:Baseboard:Convective:Electric,
+   Building:SAPZone2 Electric Convector,                                 ! - Component name
+   Off,                                                                    ! - Availability schedule
+   0.01,                                                             ! - Nominal capacity (W)
+   1.0;                                                                  ! - Efficiency
+AvailabilityManagerAssignmentList,
+   LTHW Loop AvailabilityManager List,                                  ! - Availability manager list name
+   AvailabilityManager:Scheduled,                                        ! - Plant/condenser loop availability manager type
+   LTHW Loop Availability;                                              ! - Plant/condenser loop availability manager name
+AvailabilityManager:Scheduled,
+   LTHW Loop Availability,                                              ! - Plant/condenser loop availability manager name
+   2;                                                                    ! - Plant/condenser loop availability manager schedule
+AvailabilityManagerAssignmentList,
+   Primary HT HW Loop AvailabilityManager List,                          ! - Availability manager list name
+   AvailabilityManager:Scheduled,                                        ! - Plant/condenser loop availability manager type
+   Primary HT HW Loop Availability;                                      ! - Plant/condenser loop availability manager name
+AvailabilityManager:Scheduled,
+   Primary HT HW Loop Availability,                                      ! - Plant/condenser loop availability manager name
+   On;                                                                    ! - Plant/condenser loop availability manager schedule
+SetpointManager:Scheduled,
+   DHW Loop Setpoint Manager,                                            ! - Component name
+   Temperature,                                                          ! - Control variable
+   60,                                                                   ! - Setpoint schedule
+   DHW Loop Setpoint Manager Node List;                                  ! - Setpoint node list
+NodeList,
+   DHW Loop Setpoint Manager Node List,                                  ! - Setpoint node list
+   LTHW Loop Supply Side Outlet;                                        ! - Setpoint node  1
+SetpointManager:Scheduled,
+   Primary HT HW Loop Setpoint Manager,                                  ! - Component name
+   Temperature,                                                          ! - Control variable
+   41,                                                                   ! - Setpoint schedule
+   Primary HT HW Loop Setpoint Manager Node List;                        ! - Setpoint node list
+NodeList,
+   Primary HT HW Loop Setpoint Manager Node List,                        ! - Setpoint node list
+   Primary HT HW Loop Supply Side Outlet;                                ! - Setpoint node  1
+! End detailed HVAC data definition
+! ## INCLUDE DetailedHVAC2.imf
+!- Required outputs - currently lots but will streamline later
+Output:VariableDictionary,
+    IDF,                     !- Key Field
+    Name;                    !- Sort Option
+Output:Table:SummaryReports,
+AllSummary ;
+Output:Diagnostics,DisplayExtraWarnings ;
+OutputControl:Table:Style, CommaAndHTML, JtoKWH ;
+Output:Variable,*,Baseboard Total Heating Rate,timestep; !- HVAC Average (W)
+!Output:Variable,*,Cooling Coil Water Heating Electric Power,timestep; !- HVAC Average (W)
+Output:Variable,*,Water Heater Electric Power,timestep; !- HVAC Average (W)
+Output:Variable,*,Zone Mean Air Temperature,timestep; !- Zone Average (C)
+!Output:Variable,*,Facility Heating Setpoint Not Met Time,timestep; !- Zone Sum (hr)
+Output:Variable,*,Facility Heating Setpoint Not Met Time,annual; !- Zone Sum (hr)
+Output:Variable,*,Boiler Heating Rate,timestep; !- HVAC Average (W)
+Output:Variable,*,Water Heater Source Side Heat Transfer Rate,timestep; !- HVAC Average (W)
+Output:Variable,*,Water Heater Source Side Heat Transfer Energy,timestep; !- HVAC Average (J)
+Output:Variable,*,Water to Water Heat Pump Source Side Heat Transfer Rate,timestep; !- HVAC Average (W)
+Output:Variable,*,Water to Water Heat Pump Source Side Heat Transfer Energy,timestep; !- HVAC Average (J)
+Output:Variable,*,Electric Equipment Electric Energy,timestep; !- Zone Sum (J)
+Output:Variable,*,Water Heater Electricity Rate,timestep; !- Zone Sum (J)
+Output:Variable,*,Generator Produced Electric Energy,timestep; !- HVAC Sum (J)
+Output:Variable,*,Generator Produced Thermal Energy,timestep; !- HVAC Sum (J)
+Output:Meter,Electricity:Facility,timestep; !- (J)
+Output:Meter,Gas:Facility,timestep; !- (J)
+Output:Meter,DistrictHeating:Facility,timestep; !- (J)
+Output:Meter,SolarWater:Facility,timestep; !- (J)
+!Output:Diagnostics,DisplayUnusedSchedules ;
+!Output:Diagnostics,DisplayExtraWarnings ;
+!- Constructions and materials. These are different to those created by
+!- DesignBuilder since we want to be able to edit them with @@variables@@
+!-   ===========  ALL OBJECTS IN CLASS: CONSTRUCTION ===========
+! ========== Opaque constructions ==============
+  Construction,
+    Project Wall,                       !- Name
+    ExternalWallMaterialInner;                   !- Inside Layer
+  Construction,
+    Project Flat Roof,                       !- Name
+    ExternalRoofMaterialInner;                   !- Inside Layer
+  Construction,
+    Project Ground Floor,                       !- Name
+    ExternalFloorMaterialInner;                   !- Inside Layer
+  Construction,
+    Project Partition,                       !- Name
+    InternalPartitionMaterial;                !-
+  Construction,
+    Project Partition_Rev,                       !- Name
+    InternalPartitionMaterial;                !-
+! =================== Openings ========================
+!  Construction,
+!    HoleBetweenZones,                      !- Name
+!    InternalDoorMaterial;                !- Outside Layer
+! Window
+  Construction,
+    1001,                    !- Name
+    ExternalWindowMaterial;          !- Outside Layer
+!-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
+   Material,
+	ExternalWallMaterialInner,
+    Rough,                   !- Roughness
+    0.10,                     !- Thickness {m}
+    0.0999774395614,	!- Conductivity {W/m-K}
+    1000.0,                 !- Density {kg/m3}
+    1228.86399819,	!- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+   Material,
+	ExternalRoofMaterialInner,
+    Rough,                   !- Roughness
+    0.10,                     !- Thickness {m}
+    0.0999774395614,	!- Conductivity {W/m-K}
+    1000.0,                 !- Density {kg/m3}
+    1228.86399819,	!- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+   Material,
+	ExternalFloorMaterialInner,
+    Rough,                   !- Roughness
+    0.10,                     !- Thickness {m}
+    0.0999774395614,	!- Conductivity {W/m-K}
+    1000.0,                 !- Density {kg/m3}
+    1228.86399819,	!- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+   Material,
+	InternalPartitionMaterial,
+    Rough,                   !- Roughness
+    0.10,                     !- Thickness {m}
+    1.6,	!- Conductivity {W/m-K}
+    1000.0,                 !- Density {kg/m3}
+    1228.86399819,	!- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+  WindowMaterial:SimpleGlazingSystem,
+    ExternalWindowMaterial,         !- Name
+    0.999774395614,	!- U-Factor {W/m2-K}
+    0.80;	!- Solar Heat Gain Coefficient
+WindowProperty:FrameAndDivider, 1,                !- Frame/divider name
+   0.040,                                         !- Frame width
+   0.0,                                           !- Frame outside projection
+   0.0,                                           !- Frame inside projection
+   9.5,                                           !- Frame Conductance
+   1.0,                                           !- Ratio of frame-edge glass conductance to centre of glass conductance
+   0.5,                                           !- Frame Solar Absorptance
+   0.5,                                           !- Frame Visible Absorptance
+   0.9,                                           !- Frame Thermal Emissivity
+   DividedLite,                                   !- Divider Type
+   0.020,                                         !- Divider Width
+   1,                                             !- Number of Horzontal Dividers
+   1,                                             !- Number of Vertical Dividers
+   0.0,                                           !- Divider Outside Projection
+   0.0,                                           !- Divider Inside Projection
+   9.5,                                           !- Divider Conductance
+   1.0,                                           !- Ratio of divider-edge glass conductance to centre of glass conductance
+   0.5,                                           !- Divider Solar Absorptance
+   0.5,                                           !- Divider Visible Absorptance
+   0.9,                                           !- Divider Thermal Emissivity
+   0.5,                                           !- Outside Reveal Solar Absorptance
+   0.0,                                           !- Inside Sill Depth
+   0.5,                                           !- Inside Sill Solar Absorptance
+   0.0,                                           !- Inside Reveal Depth
+   0.5;                                           !- Inside Reveal Solar Absorptance
+! SCHEDULES
+! Currently contains all schedules of any kind. These may be separated at a
+! later date, or alternatively controlled using EP Macro language.
+! Schedule: Underfloor heating setpoint temperature: Always 40.00
+Schedule:Compact,
+75,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   40  ;
+  Schedule:Compact,
+    Ambient Temp Schedule,   !- Name
+    Any Number,              !- Schedule Type Limits Name
+    THROUGH: 12/31,          !- Field 1
+    FOR: AllDays,            !- Field 2
+    UNTIL: 24:00,22.0;       !- Field 3
+  Schedule:Compact,
+    ASHP Tank Temp Schedule,  !- Name
+    Any Number,              !- Schedule Type Limits Name
+    THROUGH: 12/31,          !- Field 1
+    FOR: AllDays,            !- Field 2
+    UNTIL: 24:00,50;      !- Field 3
+  Schedule:Compact,
+    Hot Water Set Point Temp Schedule,  !- Name
+    Any Number,              !- Schedule Type Limits Name
+    THROUGH: 12/31,          !- Field 1
+    FOR: AllDays,            !- Field 2
+    UNTIL: 24:00,48;      !- Field 3
+  Schedule:Compact,
+    PlantHPWHSch,            !- Name
+    Any Number,              !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,1.0;        !- Field 3
+  Schedule:Compact,
+    PlantHPWHTempSch,        !- Name
+    Any Number,              !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,70;       !- Field 3
+! Schedule:Compact,
+!	Economy7,
+!	Fraction,
+!	Through: 31 Dec,
+!	For: AllDays,
+!	Until: 06:30, 1,
+!	Until: 23:30, 0,
+!	Until: 24:00, 1 ;
+! Schedule:Compact,
+!	24HrStore,
+!	Fraction,
+!	Through: 31 Dec,
+!	For: AllDays,
+!	Until: 24:00, 1 ;
+! Schedule:Compact,
+!	LoadFollow,
+!	Fraction,
+!	Through: 31 Dec,
+!	For: AllDays,
+!	Until: 24:00, 1 ;
+ScheduleTypeLimits, Any Number;                         ! Not limited
+ScheduleTypeLimits, Fraction,     0.0, 1.0, CONTINUOUS ;
+ScheduleTypeLimits, Temperature,  -60, 200, CONTINUOUS ;
+ScheduleTypeLimits, Control Type,   0,   4, DISCRETE ;
+ScheduleTypeLimits, On/Off,         0,   1, DISCRETE ;
+Schedule:Compact,
+      On,                                         ! Name
+      Any Number,                                 ! Type
+      Through: 12/31,                             ! Type
+      For: AllDays,                               ! All days in year
+      Until: 24:00,                               ! All hours in day
+       1 ;
+Schedule:Compact,
+      Off,                                        ! Name
+      Any Number,                                 ! Type
+      Through: 12/31,                             ! Type
+      For: AllDays,                               ! All days in year
+      Until: 24:00,                               ! All hours in day
+       0 ;
+Schedule:Compact,
+      Work efficiency,                            ! Name
+      Any Number,                                 ! Type
+      Through: 12/31,                             ! Type
+      For: AllDays,                               ! All days in year
+      Until: 24:00,                               ! All hours in day
+       0 ;
+Schedule:Compact,
+      OpaqueShade,                                ! Name
+      Any Number,                                 ! Type
+      Through: 12/31,                             ! Type
+      For: AllDays,                               ! All days in year
+      Until: 24:00,                               ! All hours in day
+       0 ;
+Schedule:Compact,
+    Zone Comfort Control Type Sched,              !- Name
+    Control Type,                                 !- Schedule Type Limits Name
+    Through: 12/31,                               !- Field 1
+    For: AllDays,                                 !- Field 2
+    Until: 24:00,                                 !- Field 3
+    4;                                            !- Field 4
+Schedule:Compact,
+    Design Days Only,                             !- Name
+    Any Number,                                   !- Schedule Type Limits Name
+    Through: 12/31,                               !- Field 1
+    For: SummerDesignDay WinterDesignDay,         !- Field 2
+    Until: 24:00,                                 !- Field 3
+    1,                                            !- Field 4
+    For: AllOtherDays,                            !- Field 2
+    Until: 24:00,                                 !- Field 3
+    0 ;
+! off heating day
+Schedule:Day:Hourly,  0, Any Number,
+   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ;
+! off cooling day
+Schedule:Day:Hourly,  50, Any Number,
+   50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50 ;
+! used in seasonal schedules
+Schedule:Day:Hourly,  Off, Fraction,
+   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 ;
+Schedule:Week:Daily, Off,
+   Off,Off,Off,Off,
+   Off,Off,Off,Off,
+   Off,Off,Off,Off ;
+! -------------------- Control type schedules (for heating & cooling) ----------------------
+Schedule:Day:Hourly, Summer Control Type Day Sch, Control Type,
+   4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 ;
+Schedule:Day:Hourly, Winter Control Type Day Sch, Control Type,
+   4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 ;
+Schedule:Day:Hourly, Summer Control Type Day Sch - cool, Control Type,
+   2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2 ;
+Schedule:Day:Hourly, Winter Control Type Day Sch - heat, Control Type,
+   1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 ;
+Schedule:Week:Daily, Summer Control Type Week Sch,
+   Summer Control Type Day Sch,Summer Control Type Day Sch,Summer Control Type Day Sch,
+   Summer Control Type Day Sch,Summer Control Type Day Sch,Summer Control Type Day Sch,
+   Summer Control Type Day Sch,Summer Control Type Day Sch,Summer Control Type Day Sch,
+   Summer Control Type Day Sch,Summer Control Type Day Sch,Summer Control Type Day Sch ;
+Schedule:Week:Daily, Winter Control Type Week Sch,
+   Winter Control Type Day Sch,Winter Control Type Day Sch,Winter Control Type Day Sch,
+   Winter Control Type Day Sch,Winter Control Type Day Sch,Winter Control Type Day Sch,
+   Winter Control Type Day Sch,Winter Control Type Day Sch,Winter Control Type Day Sch,
+   Winter Control Type Day Sch,Winter Control Type Day Sch,Winter Control Type Day Sch ;
+Schedule:Week:Daily, Summer Control Type Week Sch - cool,
+   Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,
+   Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,
+   Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,
+   Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool,Summer Control Type Day Sch - cool ;
+Schedule:Week:Daily, Winter Control Type Week Sch - heat,
+   Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,
+   Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,
+   Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,
+   Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat,Winter Control Type Day Sch - heat ;
+! Schedule: On
+Schedule:Compact,
+2,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   1  ;
+! Schedule: Off
+Schedule:Compact,
+7,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,  0   ;
+! Schedule: Hot Water flow set point temperature: Always 80.0 C
+Schedule:Compact,
+41,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   80  ;
+! Schedule: Heating set point schedule
+Schedule:Compact,
+46,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   20  ;
+! Schedule: Cooling set point schedule
+Schedule:Compact,
+47,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   100  ;
+! Schedule: Control type schedule: Always 4
+Schedule:Compact,
+48,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,    4  ;
+! Schedule: Domestic hot water setpoint temperature: Set from Python
+Schedule:Compact,
+60,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   48  ;
+! Schedule: Water heater ambient temperature schedule: Always 20.00
+Schedule:Compact,
+61,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   20  ;
+! Schedule: Relative humidity setpoint schedule: Always 50.00
+Schedule:Compact,
+63,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   50  ;
+! Schedule: Heating Fanger comfort setpoint: Always -0.5
+Schedule:Compact,
+71,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,  -0.5 ;
+! Schedule: Cooling Fanger comfort setpoint: Always  0.1
+Schedule:Compact,
+72,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,   0.1 ;
+! Schedule: Zone CO2 setpoint: Always 900ppm
+Schedule:Compact,
+89,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,  900   ;
+! Schedule: Min CO2 concentration: Always 600ppm
+Schedule:Compact,
+90,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,  600   ;
+! Schedule: Generic contaminant setpoint: Always 0.5ppm
+Schedule:Compact,
+91,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00,  0.5   ;
+! Schedule: Air distribution effectiveness (always 1)
+Schedule:Compact,
+99,
+Any Number,
+Through: 12/31,
+For: AllDays,
+Until: 24:00, 1 ;
+Schedule:Compact,
+TypOperativeTempControlSch,
+Temperature,
+Through: 31 Dec,
+For: SummerDesignDay WinterDesignDay,
+Until: 24:00, 0.0,
+For: AllOtherDays,
+Until: 24:00, 0.5 ;
+Schedule:Compact, AirVelocitySchedule,
+   Any Number,                                    !- Type
+   Through: 12/31,
+   For: AllDays,                                  !- All days in year
+   Until: 24:00,                                  !- All hours in day
+   .137;                                          !- Velocity
+! Modified schedule: ETI_Cool
+Schedule:Compact,
+ETI_Cool,
+Temperature,
+Through: 31 Dec,
+For: Weekdays SummerDesignDay,
+Until: 05:00, 100,
+Until: 10:00, 100,
+Until: 17:00, 100,
+Until: 24:00, 100,
+For: Weekends,
+Until: 05:00, 100,
+Until: 10:00, 100,
+Until: 17:00, 100,
+Until: 24:00, 100,
+For: Holidays,
+Until: 05:00, 100,
+Until: 10:00, 100,
+Until: 17:00, 100,
+Until: 24:00, 100,
+For: WinterDesignDay AllOtherDays,
+Until: 24:00, 100 ;
+!- Schedules which have been constructed based on data fetched from user
+! inputs to the HOM secondary database.
+Schedule:Compact,
+	ETI_DHW,
+	Fraction,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	0.0,
+		Until: 08:00,	1.0,
+		Until: 10:00,	0.0,
+		Until: 16:30,	0.5,
+		Until: 22:00,	0.0,
+		Until: 24:00,	0.0,
+	For: WinterDesignDay,
+		Until: 00:30,	0.0,
+		Until: 08:00,	1.0,
+		Until: 10:00,	0.0,
+		Until: 16:30,	0.5,
+		Until: 22:00,	0.0,
+		Until: 24:00,	0.0,
+	For: SummerDesignDay,
+		Until: 00:30,	0.0,
+		Until: 08:00,	1.0,
+		Until: 10:00,	0.0,
+		Until: 16:30,	0.5,
+		Until: 22:00,	0.0,
+		Until: 24:00,	0.0,
+	For: Weekdays,
+		Until: 00:30,	0.0,
+		Until: 08:00,	1.0,
+		Until: 10:00,	0.0,
+		Until: 16:30,	0.5,
+		Until: 22:00,	0.0,
+		Until: 24:00,	0.0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_Heat_Zone1,
+	Temperature,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	12.0,
+		Until: 06:30,	21.0,
+		Until: 09:30,	12.0,
+		Until: 16:30,	21.0,
+		Until: 23:30,	12.0,
+		Until: 24:00,	12.0,
+	For: WinterDesignDay,
+		Until: 00:30,	12.0,
+		Until: 06:30,	21.0,
+		Until: 09:30,	12.0,
+		Until: 16:30,	21.0,
+		Until: 23:30,	12.0,
+		Until: 24:00,	12.0,
+	For: SummerDesignDay,
+		Until: 00:30,	12.0,
+		Until: 06:30,	21.0,
+		Until: 09:30,	12.0,
+		Until: 16:30,	21.0,
+		Until: 23:30,	12.0,
+		Until: 24:00,	12.0,
+	For: Weekdays,
+		Until: 00:30,	12.0,
+		Until: 06:30,	21.0,
+		Until: 09:30,	12.0,
+		Until: 16:30,	21.0,
+		Until: 23:30,	12.0,
+		Until: 24:00,	12.0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_Heat_Zone2,
+	Temperature,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	9.0,
+		Until: 06:30,	18.0,
+		Until: 09:30,	9.0,
+		Until: 16:30,	18.0,
+		Until: 23:30,	9.0,
+		Until: 24:00,	9.0,
+	For: WinterDesignDay,
+		Until: 00:30,	9.0,
+		Until: 06:30,	18.0,
+		Until: 09:30,	9.0,
+		Until: 16:30,	18.0,
+		Until: 23:30,	9.0,
+		Until: 24:00,	9.0,
+	For: SummerDesignDay,
+		Until: 00:30,	9.0,
+		Until: 06:30,	18.0,
+		Until: 09:30,	9.0,
+		Until: 16:30,	18.0,
+		Until: 23:30,	9.0,
+		Until: 24:00,	9.0,
+	For: Weekdays,
+		Until: 00:30,	9.0,
+		Until: 06:30,	18.0,
+		Until: 09:30,	9.0,
+		Until: 16:30,	18.0,
+		Until: 23:30,	9.0,
+		Until: 24:00,	9.0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_Equip,
+	Any Number,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	5.0,
+		Until: 06:30,	10.0,
+		Until: 09:30,	5.0,
+		Until: 16:30,	10.0,
+		Until: 23:30,	5.0,
+		Until: 24:00,	5.0,
+	For: WinterDesignDay,
+		Until: 00:30,	5.0,
+		Until: 06:30,	10.0,
+		Until: 09:30,	5.0,
+		Until: 16:30,	10.0,
+		Until: 23:30,	5.0,
+		Until: 24:00,	5.0,
+	For: SummerDesignDay,
+		Until: 00:30,	5.0,
+		Until: 06:30,	10.0,
+		Until: 09:30,	5.0,
+		Until: 16:30,	10.0,
+		Until: 23:30,	5.0,
+		Until: 24:00,	5.0,
+	For: Weekdays,
+		Until: 00:30,	5.0,
+		Until: 06:30,	10.0,
+		Until: 09:30,	5.0,
+		Until: 16:30,	10.0,
+		Until: 23:30,	5.0,
+		Until: 24:00,	5.0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_Occ,
+	Fraction,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	0,
+		Until: 06:30,	1,
+		Until: 09:30,	0,
+		Until: 16:30,	1,
+		Until: 23:30,	0,
+		Until: 24:00,	0,
+	For: WinterDesignDay,
+		Until: 00:30,	0,
+		Until: 06:30,	1,
+		Until: 09:30,	0,
+		Until: 16:30,	1,
+		Until: 23:30,	0,
+		Until: 24:00,	0,
+	For: SummerDesignDay,
+		Until: 00:30,	0,
+		Until: 06:30,	1,
+		Until: 09:30,	0,
+		Until: 16:30,	1,
+		Until: 23:30,	0,
+		Until: 24:00,	0,
+	For: Weekdays,
+		Until: 00:30,	0,
+		Until: 06:30,	1,
+		Until: 09:30,	0,
+		Until: 16:30,	1,
+		Until: 23:30,	0,
+		Until: 24:00,	0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_StorageOn,
+	On/Off,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	1,
+		Until: 24:00,	1,
+	For: WinterDesignDay,
+		Until: 00:30,	1,
+		Until: 24:00,	1,
+	For: SummerDesignDay,
+		Until: 00:30,	1,
+		Until: 24:00,	1,
+	For: Weekdays,
+		Until: 00:30,	1,
+		Until: 24:00,	1,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+Schedule:Compact,
+	ETI_StorageOff,
+	On/Off,
+	Through: 12/31,
+	For: Weekends,
+		Until: 00:30,	0,
+		Until: 24:00,	0,
+	For: WinterDesignDay,
+		Until: 00:30,	0,
+		Until: 24:00,	0,
+	For: SummerDesignDay,
+		Until: 00:30,	0,
+		Until: 24:00,	0,
+	For: Weekdays,
+		Until: 00:30,	0,
+		Until: 24:00,	0,
+	For: AllOtherDays,
+		Until: 24:00, 0 ;
+GlobalGeometryRules, LowerLeftCorner, CounterClockWise, Relative;  !- Surface order is specified as viewed from outside the zone
+! Building - SAP Zone 2
+Zone, Building:SAPZone2,                          !- Zone Name
+   0,                                             !- Relative North (to building)
+   0,                                             !- X Origin (M)
+   0,                                             !- Y Origin (M)
+   0,                                             !- Z Origin (M)
+   1 ,                                            !- Zone Type
+   1,                                             !- Zone multiplier
+   ,                                              !- Zone ceiling height - Let EnergyPlus work it out
+    ,                                     !- Zone volume
+    ,                                      !- Floor Area
+   TARP;                                          !- Zone inside convection algorithm
+   PEOPLE, People Building:SAPZone2,              !- Name
+      Building:SAPZone2,                          !- Zone Name
+      ETI_Occ,                                      !- Number of People SCHEDULE Name
+      People/Area,                                     !- Number of People
+      ,                                !- Number of People
+      0.0303573250895,                                           !- People per Zone Area
+      ,                                           !- Zone Area per Person
+       .3,                                        !- radiant fraction
+      AUTOCALCULATE,                              !- User Specified Sensible Fraction
+      Activity Schedule 25,                       !- Activity level SCHEDULE Name (units W/person, real)
+      .0000000382,                                !- CO2 generation rate per unit of activity level (units m3/s-W
+      No,                                         !- Enable ASHRAE 55 comfort warnings
+      ZoneAveraged,                               !- MRT Calculation Type
+      ,                                           !- no particular surface is weighted
+      Work efficiency,                            !- Work Efficiency SCHEDULE Name (0.0-1.0,real)
+      ClothingInsulationSchedule,                 !- Clothing Insulation Calculation Method
+      ,                                           !- Clothing Insulation Calculation Method Schedule Name
+      Clothing Schedule 25,                       !- Clothing Insulation SCHEDULE Name (real)
+      AirVelocitySchedule;                        !- Air Velocity SCHEDULE Name (units m/s, real)
+   Schedule:Compact, Activity Schedule 25,        !- activity schedule W/person
+      Any Number,                                 !- Type
+      Through: 12/31,                             !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  144;                         !- Constant value
+   Schedule:Compact, Clothing Schedule 25,        !- Clothing schedule clo
+      Any Number,                                 !- Type
+      Through: 4/1,                               !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  1,                           !- Constant value
+      Through: 9/30,                              !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  .5,                          !- Constant value
+      Through: 12/31,                             !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  1;                           !- Constant value
+   ! Equipment 1
+   ElectricEquipment, Building:SAPZone2 Equipment 1,  !- Name
+      Building:SAPZone2,                          !- Zone Name
+      ETI_Equip,                                      !- Equipment SCHEDULE Name
+      Watts/Area,                             !- Design Level calculation method
+      ,                                  !- Design Equipment Level (W)
+      0.5,                                           !- Watts per Zone Area {watts/m2}
+      ,                                           !- Watts per Person {watts/person}
+      0,                                          !- Latent fraction
+      .2,                                         !- Radiant fraction
+      0,                                          !- Fraction Lost
+      ELECTRIC EQUIPMENT#Building:SAPZone2#05;    !- End-use category
+   ZoneInfiltration:DesignFlowRate, Building:SAPZone2 Infiltration,  !- Name
+      Building:SAPZone2,                          !- Zone Name
+      2,                                          !- Infiltration SCHEDULE Name
+      AirChanges/Hour,                                  !- Design Volume Flow Rate calculation method
+      ,                                    !- Design Volume Flow Rate (m3/s)
+      ,                                           !- Flow per Zone Floor Area {m3/s/m2}
+      ,                                           !- Flow per Exterior Surface Area {m3/s/m2}
+      0.1,                                           !- Air Changes Per Hour
+      1,                                          !- Constant Term Coefficient
+      0,                                          !- Temperature Term Coefficient
+      0,                                          !- Velocity Term Coefficient
+      0;                                          !- Velocity Squared Term Coefficient
+   ! Building, SAP Zone 2, Ground floor - 50.000 m2 (Ground), Surface Area: 50.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_GroundFloor_0_0_0,        !- Surface name
+      Floor, Project ground floor,                !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Ground, ,                                   !- Outside Face Environment
+      NoSun,                                      !- Sun Exposure
+      NoWind,                                     !- Wind Exposure
+      1,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,-4.80027471698, 0,             !- Vertex 1
+       0,-4.80027471698, 0,               !- Vertex 2
+       0,0, 0,                !- Vertex 3
+       9.60054943396,0, 0;              !- Vertex 4
+   ! Building, SAP Zone 2, Roof - 50.000 m2, Surface Area: 50.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_Roof_1_0_0,               !- Surface name
+      Roof, Project flat roof,                    !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      0,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,-4.80027471698, 3.5,             !- Vertex 1
+       9.60054943396,-4.80027471698, 3.5,           !- Vertex 2
+       9.60054943396,0, 3.5,            !- Vertex 3
+       0,0, 3.5;              !- Vertex 4
+   ! Building, SAP Zone 2, Wall - 17.500 m2 - 90.0°, Surface Area: 17.500m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_Wall_2_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,-4.80027471698, 0,             !- Vertex 1
+       9.60054943396,0, 0,              !- Vertex 2
+       9.60054943396,0, 3.5,            !- Vertex 3
+       9.60054943396,-4.80027471698, 3.5;           !- Vertex 4
+      ! Window, 3.703m2
+      FenestrationSurface:Detailed, Building:SAPZone2_Wall_2_0_0_0_0_0_Win,  !- Window name
+         Window,                                  !- Class
+         1001,                                    !- Construction Name
+         Building:SAPZone2_Wall_2_0_0,            !- Base surface
+         ,                                        !- corresponding other window subsurface
+         .5,                                      !- View Factor to Ground
+         ,                                        !- Window shading control
+         1,                                       !- Frame divider name
+         1,                                       !- Multiplier
+         4,                                       !- Number vertices
+          9.60054943396,-4.80027471698, 0.8,        !- Vertex 1
+          9.60054943396,0, 0.8,        !- Vertex 2
+          9.60054943396,0, 1.3,      !- Vertex 3
+          9.60054943396,-4.80027471698, 1.3;      !- Vertex 4
+   ! Building, SAP Zone 2, Wall - 35.000 m2 - 0.0°, Surface Area: 35.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_Wall_3_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,0, 0,              !- Vertex 1
+       0,0, 0,                !- Vertex 2
+       0,0, 3.5,              !- Vertex 3
+       9.60054943396,0, 3.5;            !- Vertex 4
+   ! Building, SAP Zone 2, Wall - 17.500 m2 - 270.0°, Surface Area: 17.500m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_Wall_4_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,0, 0,                !- Vertex 1
+       0,-4.80027471698, 0,               !- Vertex 2
+       0,-4.80027471698, 3.5,             !- Vertex 3
+       0,0, 3.5;              !- Vertex 4
+      ! Window, 3.703m2
+      FenestrationSurface:Detailed, Building:SAPZone2_Wall_4_0_0_0_0_0_Win,  !- Window name
+         Window,                                  !- Class
+         1001,                                    !- Construction Name
+         Building:SAPZone2_Wall_4_0_0,            !- Base surface
+         ,                                        !- corresponding other window subsurface
+         .5,                                      !- View Factor to Ground
+         ,                                        !- Window shading control
+         1,                                       !- Frame divider name
+         1,                                       !- Multiplier
+         4,                                       !- Number vertices
+          0,0, 1,         !- Vertex 1
+          0,-4.80027471698, 1,         !- Vertex 2
+          0,-4.80027471698, 1.3,        !- Vertex 3
+          0,0, 1.3;        !- Vertex 4
+   ! Building, SAP Zone 2, Partition - 35.000 m2 (Building, SAP Zone 1), Surface Area: 35.0000
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone2_Partition_5_0_0,          !- Surface name
+      Wall, Project partition_Rev,                !- Class and Construction Name
+      Building:SAPZone2,                          !- Zone Name
+      Adiabatic, Building:SAPZone1_Partition_3_0_10000,   !- Outside Face Environment
+      NoSun,                                      !- Sun Exposure
+      NoWind,                                     !- Wind Exposure
+      0,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,-4.80027471698, 0,                 !- Vertex 1
+       9.60054943396,-4.80027471698, 0,               !- Vertex 2
+       9.60054943396,-4.80027471698, 3.5,             !- Vertex 3
+       0,-4.80027471698, 3.5;               !- Vertex 4
+   ! Building, SAP Zone 2, Partition - 35.000 m2 (Building, SAP Zone 1), Surface Area: 35.0000 <Other side>
+   BuildingSurface:Detailed,                      !- Surface reverse definition
+      Building:SAPZone1_Partition_3_0_10000,      !- Surface name
+      Wall, Project partition,                    !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Adiabatic, Building:SAPZone2_Partition_5_0_0, !- Outside Face Environment
+      NoSun,                                      !- Sun Exposure
+      NoWind,                                     !- Wind Exposure
+      0,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,-4.80027471698, 0,               !- Vertex 1
+       0,-4.80027471698, 0,                 !- Vertex 2
+       0,-4.80027471698, 3.5,               !- Vertex 3
+       9.60054943396,-4.80027471698, 3.5;             !- Vertex 4
+! Building - SAP Zone 1
+Zone, Building:SAPZone1,                          !- Zone Name
+   0,                                             !- Relative North (to building)
+   0,                                             !- X Origin (M)
+   0,                                             !- Y Origin (M)
+   0,                                             !- Z Origin (M)
+   1 ,                                            !- Zone Type
+   1,                                             !- Zone multiplier
+   ,                                              !- Zone ceiling height - Let EnergyPlus work it out
+    ,                                     !- Zone volume
+    ,                                      !- Floor Area
+   TARP;                                          !- Zone inside convection algorithm
+   PEOPLE, People Building:SAPZone1,              !- Name
+      Building:SAPZone1,                          !- Zone Name
+      ETI_Occ,                                      !- Number of People SCHEDULE Name
+      People/Area,                                     !- Number of People
+      ,                                !- Number of People
+      0.0303573250895,                                           !- People per Zone Area
+      ,                                           !- Zone Area per Person
+       .3,                                        !- radiant fraction
+      AUTOCALCULATE,                              !- User Specified Sensible Fraction
+      Activity Schedule 32,                       !- Activity level SCHEDULE Name (units W/person, real)
+      .0000000382,                                !- CO2 generation rate per unit of activity level (units m3/s-W
+      No,                                         !- Enable ASHRAE 55 comfort warnings
+      ZoneAveraged,                               !- MRT Calculation Type
+      ,                                           !- no particular surface is weighted
+      Work efficiency,                            !- Work Efficiency SCHEDULE Name (0.0-1.0,real)
+      ClothingInsulationSchedule,                 !- Clothing Insulation Calculation Method
+      ,                                           !- Clothing Insulation Calculation Method Schedule Name
+      Clothing Schedule 32,                       !- Clothing Insulation SCHEDULE Name (real)
+      AirVelocitySchedule;                        !- Air Velocity SCHEDULE Name (units m/s, real)
+   Schedule:Compact, Activity Schedule 32,        !- activity schedule W/person
+      Any Number,                                 !- Type
+      Through: 12/31,                             !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  144;                         !- Constant value
+   Schedule:Compact, Clothing Schedule 32,        !- Clothing schedule clo
+      Any Number,                                 !- Type
+      Through: 4/1,                               !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  1,                           !- Constant value
+      Through: 9/30,                              !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  .5,                          !- Constant value
+      Through: 12/31,                             !- Type
+      For: AllDays,                               !- All days in year
+      Until: 24:00,  1;                           !- Constant value
+   ! Equipment 1
+   ElectricEquipment, Building:SAPZone1 Equipment 1,  !- Name
+      Building:SAPZone1,                          !- Zone Name
+      ETI_Equip,                                      !- Equipment SCHEDULE Name
+      Watts/Area,                             !- Design Level calculation method
+      ,                                  !- Design Equipment Level (W)
+      0.5,                                           !- Watts per Zone Area {watts/m2}
+      ,                                           !- Watts per Person {watts/person}
+      0,                                          !- Latent fraction
+      .2,                                         !- Radiant fraction
+      0,                                          !- Fraction Lost
+      ELECTRIC EQUIPMENT#Building:SAPZone1#05;    !- End-use category
+   ZoneInfiltration:DesignFlowRate, Building:SAPZone1 Infiltration,  !- Name
+      Building:SAPZone1,                          !- Zone Name
+      2,                                          !- Infiltration SCHEDULE Name
+      AirChanges/Hour,                                  !- Design Volume Flow Rate calculation method
+      ,                                    !- Design Volume Flow Rate (m3/s)
+      ,                                           !- Flow per Zone Floor Area {m3/s/m2}
+      ,                                           !- Flow per Exterior Surface Area {m3/s/m2}
+      0.1,                                           !- Air Changes Per Hour
+      1,                                          !- Constant Term Coefficient
+      0,                                          !- Temperature Term Coefficient
+      0,                                          !- Velocity Term Coefficient
+      0;                                          !- Velocity Squared Term Coefficient
+   ! Building, SAP Zone 1, Ground floor - 50.000 m2 (Ground), Surface Area: 50.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone1_GroundFloor_0_0_0,        !- Surface name
+      Floor, Project ground floor,                !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Ground, ,                                   !- Outside Face Environment
+      NoSun,                                      !- Sun Exposure
+      NoWind,                                     !- Wind Exposure
+      1,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,-9.60054943396, 0,            !- Vertex 1
+       0,-9.60054943396, 0,              !- Vertex 2
+       0,-4.80027471698, 0,               !- Vertex 3
+       9.60054943396,-4.80027471698, 0;             !- Vertex 4
+   ! Building, SAP Zone 1, Roof - 50.000 m2, Surface Area: 50.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone1_Roof_1_0_0,               !- Surface name
+      Roof, Project flat roof,                    !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      0,                                          !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,-9.60054943396, 3.5,            !- Vertex 1
+       9.60054943396,-9.60054943396, 3.5,          !- Vertex 2
+       9.60054943396,-4.80027471698, 3.5,           !- Vertex 3
+       0,-4.80027471698, 3.5;             !- Vertex 4
+   ! Building, SAP Zone 1, Wall - 17.500 m2 - 90.0°, Surface Area: 17.500m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone1_Wall_2_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       9.60054943396,-9.60054943396, 0,            !- Vertex 1
+       9.60054943396,-4.80027471698, 0,             !- Vertex 2
+       9.60054943396,-4.80027471698, 3.5,           !- Vertex 3
+       9.60054943396,-9.60054943396, 3.5;          !- Vertex 4
+      ! Window, 3.703m2
+      FenestrationSurface:Detailed, Building:SAPZone1_Wall_2_0_0_0_0_0_Win,  !- Window name
+         Window,                                  !- Class
+         1001,                                    !- Construction Name
+         Building:SAPZone1_Wall_2_0_0,            !- Base surface
+         ,                                        !- corresponding other window subsurface
+         .5,                                      !- View Factor to Ground
+         ,                                        !- Window shading control
+         1,                                       !- Frame divider name
+         1,                                       !- Multiplier
+         4,                                       !- Number vertices
+          9.60054943396,-9.60054943396, 0.8,        !- Vertex 1
+          9.60054943396,-4.80027471698, 0.8,        !- Vertex 2
+          9.60054943396,-4.80027471698, 1.3,      !- Vertex 3
+          9.60054943396,-9.60054943396, 1.3;      !- Vertex 4
+   ! Building, SAP Zone 1, Wall - 17.500 m2 - 270.0°, Surface Area: 17.500m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone1_Wall_4_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,-4.80027471698, 0,               !- Vertex 1
+       0,-9.60054943396, 0,              !- Vertex 2
+       0,-9.60054943396, 3.5,            !- Vertex 3
+       0,-4.80027471698, 3.5;             !- Vertex 4
+      ! Window, 3.703m2
+      FenestrationSurface:Detailed, Building:SAPZone1_Wall_4_0_0_0_0_0_Win,  !- Window name
+         Window,                                  !- Class
+         1001,                                    !- Construction Name
+         Building:SAPZone1_Wall_4_0_0,            !- Base surface
+         ,                                        !- corresponding other window subsurface
+         .5,                                      !- View Factor to Ground
+         ,                                        !- Window shading control
+         1,                                       !- Frame divider name
+         1,                                       !- Multiplier
+         4,                                       !- Number vertices
+          0,-4.80027471698, 1,         !- Vertex 1
+          0,-9.60054943396, 1,         !- Vertex 2
+          0,-9.60054943396, 1.3,        !- Vertex 3
+          0,-4.80027471698, 1.3;        !- Vertex 4
+   ! Building, SAP Zone 1, Wall - 35.000 m2 - 180.0°, Surface Area: 35.000m2
+   BuildingSurface:Detailed,                      !- Surface
+      Building:SAPZone1_Wall_5_0_0,               !- Surface name
+      Wall, Project wall,                         !- Class and Construction Name
+      Building:SAPZone1,                          !- Zone Name
+      Outdoors, ,                                 !- Outside Face Environment
+      SunExposed,                                 !- Sun Exposure
+      WindExposed,                                !- Wind Exposure
+      .5,                                         !- View Factor to Ground
+      4,                                          !- Number vertices
+       0,-9.60054943396, 0,              !- Vertex 1
+       9.60054943396,-9.60054943396, 0,            !- Vertex 2
+       9.60054943396,-9.60054943396, 3.5,          !- Vertex 3
+       0,-9.60054943396, 3.5;            !- Vertex 4
+! CURVES
+! Includes any efficiency curves required for the simulation.
+! Curve: 100% efficient
+Curve:Linear,
+   100% efficient,                                !- name
+   1,                                             !- Coefficient 1
+   0,                                             !- Coefficient 2
+   0,                                             !- Minimum X
+   1,                                             !- Maximum X
+   ,                                              !- Minimum Curve Output
+   ,                                              !- Maximum Curve Output
+   ,                                              !- Input Units X
+   ;                                              !- Output Units
+! Curve: New style low temperature boiler
+Curve:Cubic,
+   New style low temperature boiler,              !- name
+   0.83888652,                                    !- Coefficient 1
+   0.132579019,                                   !- Coefficient 2
+   -0.17028503,                                   !- Coefficient 3
+   0.047468326,                                   !- Coefficient 4
+   0.1,                                           !- Minimum X
+   1,                                             !- Maximum X
+   ,                                              !- Minimum Curve Output
+   ,                                              !- Maximum Curve Output
+   ,                                              !- Input Units X
+   ;                                              !- Output Units
+! Curve: CondensingBoilerEff
+Curve:Biquadratic,
+   CondensingBoilerEff,                           !- name
+   1.124970374,                                   !- Coefficient 1
+   0.014963852,                                   !- Coefficient 2
+   -0.02599835,                                   !- Coefficient 3
+   0.0,                                           !- Coefficient 4
+   -1.40464E-6,                                   !- Coefficient 5
+   -0.00153624,                                   !- Coefficient 6
+   0.1,                                           !- Minimum X
+   1.0,                                           !- Maximum X
+   30.0,                                          !- Minimum Y
+   85.0,                                          !- Maximum Y
+   ,                                              !- Minimum Curve Output
+   ,                                              !- Maximum Curve Output
+   ,                                              !- Input UnitsX
+   ,                                              !- Input UnitsY
+   ;                                              !- Output Units
+     Curve:Biquadratic,
+    HPWHHeatingCapFTemp,     !- Name
+    0.369827,                !- Coefficient1 Constant
+    0.043341,                !- Coefficient2 x
+    -0.00023,                !- Coefficient3 x**2
+    0.000466,                !- Coefficient4 y
+    0.000026,                !- Coefficient5 y**2
+    -0.00027,                !- Coefficient6 x*y
+    0.0,                     !- Minimum Value of x
+    40.0,                    !- Maximum Value of x
+    20.0,                    !- Minimum Value of y
+    90.0,                    !- Maximum Value of y
+    ,                        !- Minimum Curve Output
+    ,                        !- Maximum Curve Output
+    Temperature,             !- Input Unit Type for X
+    Temperature,             !- Input Unit Type for Y
+    Dimensionless;           !- Output Unit Type
+  Curve:Biquadratic,
+    HPWHHeatingCOPFTemp,     !- Name
+    1.19713,                 !- Coefficient1 Constant
+    0.077849,                !- Coefficient2 x
+    -0.0000016,              !- Coefficient3 x**2
+    -0.02675,                !- Coefficient4 y
+    0.000296,                !- Coefficient5 y**2
+    -0.00112,                !- Coefficient6 x*y
+    0.0,                     !- Minimum Value of x
+    40.0,                    !- Maximum Value of x
+    20.0,                    !- Minimum Value of y
+    90.0,                    !- Maximum Value of y
+    ,                        !- Minimum Curve Output
+    ,                        !- Maximum Curve Output
+    Temperature,             !- Input Unit Type for X
+    Temperature,             !- Input Unit Type for Y
+    Dimensionless;           !- Output Unit Type
+  Curve:Quadratic,
+    HPWHPLFFPLR,             !- Name
+    0.75,                    !- Coefficient1 Constant
+    0.25,                    !- Coefficient2 x
+    0.0,                     !- Coefficient3 x**2
+    0.0,                     !- Minimum Value of x
+    1.0;                     !- Maximum Value of x

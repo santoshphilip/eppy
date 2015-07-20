@@ -96,6 +96,12 @@ So let us set the **idd** file and then open the idf file
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
 
+
+.. parsed-literal::
+
+    ['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'dt', 'dtls', 'getrefs', 'initdict', 'makedict', 'replacenode']
+
+
 That worked without raising an exception
 
 Now let us try to change the **idd** file. Eppy should not let you do
@@ -154,6 +160,12 @@ demonstrate two new functions:
     # IDF.setiddname(iddfile)# idd ws set further up in this page
     idf1 = IDF(fname1)
 
+
+.. parsed-literal::
+
+    ['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'dt', 'dtls', 'getrefs', 'initdict', 'makedict', 'replacenode']
+
+
 .. code:: python
 
     building = idf1.idfobjects['building'.upper()][0]
@@ -182,7 +194,7 @@ demonstrate two new functions:
 
 .. parsed-literal::
 
-    {'maximum<': None, 'minimum': None, 'type': 'real', 'maximum': 0.5, 'minimum>': 0.0}
+    {u'maximum<': None, u'minimum': None, u'type': u'real', u'maximum': 0.5, u'minimum>': 0.0}
 
 
 .. code:: python
@@ -241,7 +253,7 @@ do this easily by the following line
 
 .. parsed-literal::
 
-    ['key', 'Name', 'North_Axis', 'Terrain', 'Loads_Convergence_Tolerance_Value', 'Temperature_Convergence_Tolerance_Value', 'Solar_Distribution', 'Maximum_Number_of_Warmup_Days', 'Minimum_Number_of_Warmup_Days']
+    [u'key', u'Name', u'North_Axis', u'Terrain', u'Loads_Convergence_Tolerance_Value', u'Temperature_Convergence_Tolerance_Value', u'Solar_Distribution', u'Maximum_Number_of_Warmup_Days', u'Minimum_Number_of_Warmup_Days']
 
 
 So let us use this
@@ -323,6 +335,7 @@ Here are the steps to do that
 
 .. parsed-literal::
 
+    ['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'dt', 'dtls', 'getrefs', 'initdict', 'makedict', 'replacenode']
     
     VERSION,                  
         7.3;                      !- Version Identifier
@@ -363,36 +376,82 @@ Here are the steps to do that
     idf_fromfilehandle.printidf()
 
 
+::
+
+
+    ---------------------------------------------------------------------------
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-16-ab76e2c095ca> in <module>()
+          2 fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+          3 fhandle = open(fname1, 'r') # open the file for reading and assign it a file handle
+    ----> 4 idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
+          5 
+          6 idf_fromfilehandle.printidf()
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+        630     """
+        631     def __init__(self, idfname=None):
+    --> 632         super(IDF3, self).__init__(idfname)
+        633     def initread(self, idfname):
+        634         """use the latest iddfile and read file fname
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+        575     """
+        576     def __init__(self, idfname=None):
+    --> 577         super(IDF2, self).__init__(idfname)
+        578         self.outputtype = "standard" # standard,
+        579                                     # nocomment,
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+        499     """
+        500     def __init__(self, idfname=None):
+    --> 501         super(IDF1, self).__init__(idfname)
+        502     def newidfobject(self, key, aname='', **kwargs):
+        503     # def newidfobject(self, key, *args, **kwargs):
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+        452         if idfname != None:
+        453             self.idfname = idfname
+    --> 454             self.read()
+        455     @classmethod
+        456     def setiddname(cls, arg, testing=False):
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in read(self)
+        484         readout = idfreader1(
+        485             self.idfname, self.iddname,
+    --> 486             commdct=self.idd_info, block=self.block)
+        487         self.idfobjects, block, self.model, idd_info = readout
+        488         self.__class__.setidd(idd_info, block)
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in idfreader1(fname, iddfile, conv, commdct, block)
+        164         block=block)
+        165     if conv:
+    --> 166         convertallfields(data, commdct)
+        167     # fill gaps in idd
+        168     ddtt, dtls = data.dt, data.dtls
+
+
+    /Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in convertallfields(data, commdct)
+         94     """docstring for convertallfields"""
+         95     print(dir(data))
+    ---> 96     for key in data.dt.keys():
+         97         objs = data.dt[key]
+         98         for i, obj in enumerate(objs):
+
+
+    AttributeError: 'eplusdata' object has no attribute 'dt'
+
+
 .. parsed-literal::
 
-    
-    VERSION,                  
-        7.3;                      !- Version Identifier
-    
-    SIMULATIONCONTROL,        
-        Yes,                      !- Do Zone Sizing Calculation
-        Yes,                      !- Do System Sizing Calculation
-        Yes,                      !- Do Plant Sizing Calculation
-        No,                       !- Run Simulation for Sizing Periods
-        Yes;                      !- Run Simulation for Weather File Run Periods
-    
-    BUILDING,                 
-        Empire State Building,    !- Name
-        30.0,                     !- North Axis
-        City,                     !- Terrain
-        0.04,                     !- Loads Convergence Tolerance Value
-        0.4,                      !- Temperature Convergence Tolerance Value
-        FullExterior,             !- Solar Distribution
-        25,                       !- Maximum Number of Warmup Days
-        6;                        !- Minimum Number of Warmup Days
-    
-    SITE:LOCATION,            
-        CHICAGO_IL_USA TMY2-94846,    !- Name
-        41.78,                    !- Latitude
-        -87.75,                   !- Longitude
-        -6.0,                     !- Time Zone
-        190.0;                    !- Elevation
-    
+    ['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'getrefs', 'initdict', 'makedict', 'replacenode']
 
 
 .. code:: python

@@ -1,1 +1,4 @@
-['sb4_pipe']
+Where should this loop connect ?
+CHILLER:ELECTRIC - Central_Chiller
+[u'Chilled_Water_', u'Condenser_', u'Heat_Recovery_']
+

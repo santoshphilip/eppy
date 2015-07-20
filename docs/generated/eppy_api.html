@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Eppy API &mdash; eppy 0.4.6.4a documentation</title>
+    <title>Eppy API &mdash; eppy 0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.4a',
+        VERSION:     '0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.4a documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
     <link rel="next" title="Changes" href="changes.html" />
     <link rel="prev" title="Useful Scripts" href="useful_scripts.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -72,11 +72,11 @@
 <tt class="descname">read</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF0.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF0.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>read the idf file and the idd file.
 If the idd file had been already read, it will not be read again.
-Read sets the following values:</p>
+Read populates the following data structures:</p>
 <ul class="simple">
 <li>idfobjects</li>
 <li>model</li>
-<li>idd_info</li>
+<li>idd_info # done only once</li>
 </ul>
 </dd></dl>
 
@@ -109,13 +109,13 @@ or it can be used to copy within this idf file</p>
 
 <dl class="method">
 <dt id="eppy.modeleditor.IDF1.newidfobject">
-<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.newidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=u''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF1.newidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF1.newidfobject" title="Permalink to this definition">¶</a></dt>
 <dd><p>add a new idfobject to the model</p>
 <p>for example</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">)</span>
-<span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">,</span> 
-    <span class="n">Name</span><span class="o">=</span><span class="s">&#39;Interior Ceiling_class&#39;</span><span class="p">,</span> 
-    <span class="n">Outside_Layer</span><span class="o">=</span><span class="s">&#39;LW Concrete&#39;</span><span class="p">,</span> 
+<span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">,</span>
+    <span class="n">Name</span><span class="o">=</span><span class="s">&#39;Interior Ceiling_class&#39;</span><span class="p">,</span>
+    <span class="n">Outside_Layer</span><span class="o">=</span><span class="s">&#39;LW Concrete&#39;</span><span class="p">,</span>
     <span class="n">Layer_2</span><span class="o">=</span><span class="s">&#39;soundmat&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -165,7 +165,7 @@ or it can be used to copy within this idf file</p>
 <dl class="attribute">
 <dt id="eppy.modeleditor.IDF">
 <tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF</tt><a class="headerlink" href="#eppy.modeleditor.IDF" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">IDF3</span></tt></p>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">IDF4</span></tt></p>
 </dd></dl>
 
 <span class="target" id="module-eppy.bunch_subclass"></span><p>sub class bunch in steps going from data, aliases, functions</p>
@@ -226,7 +226,7 @@ or it can be used to copy within this idf file</p>
         <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
