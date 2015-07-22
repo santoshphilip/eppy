@@ -1,4 +1,12 @@
-rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0
+rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
+
+
+2015-07-22
+----------
+Notes for Eric.
+git checkout develop
+git branch dtemp
+git checkout dtemp
 
 2015-05-26
 ----------
