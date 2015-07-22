@@ -1,3 +1,14 @@
+*~
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+__pycache__
+# Eclipse/PyDev
+.project
+.pydevproject
+.settings/
+/remove_licence.py
+
 .commitLog
 out.*
 eppy/useful_scripts/InputSim/

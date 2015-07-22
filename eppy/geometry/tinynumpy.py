@@ -44,7 +44,7 @@ import sys
 import ctypes
 
 from math import sqrt
-from builtins import map
+from future_builtins import map
 import operator
 import tinylinalg as linalg
 from tinylinalg import LinAlgError as LinAlgError
