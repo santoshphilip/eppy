@@ -1,3 +1,9 @@
+2015-07-22
+----------
+2to3 does not work with tinynumpy
+it works with python2 and python3
+use it as it is.
+
 2015-07-05
 ----------
 - pydot3k works for pydot in python3
