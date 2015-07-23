@@ -21,19 +21,22 @@ try:
     import numpy as np
     from numpy import dot as dot
     from numpy import cross as cross
-except ImportError as e:
+except ImportError as err:
     from eppy.geometry.tinynumpy import dot as dot
     from eppy.geometry.tinynumpy import cross as cross
     import eppy.geometry.tinynumpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
-    a = np.array(poly[0])
-    b = np.array(poly[1])
-    c = np.array(poly[2])
-    d = np.array(poly[3])
-    return abs(dot(np.subtract(a,d), cross(np.subtract(b,d),
-                np.subtract(c,d))) / 6)
+    p_a = np.array(poly[0])
+    p_b = np.array(poly[1])
+    p_c = np.array(poly[2])
+    p_d = np.array(poly[3])
+    return abs(dot(
+        np.subtract(p_a, p_d),
+        cross(
+            np.subtract(p_b, p_d),
+            np.subtract(p_c, p_d))) / 6)
 
 def central_p(poly1, poly2):
     central_point = np.array([0.0, 0.0, 0.0])
@@ -46,10 +49,10 @@ def vol(poly1, poly2):
     c_point = central_p(poly1, poly2)
     c_point = (c_point[0], c_point[1], c_point[2])
     vol_therah = 0
-    N = len(poly1)
+    num = len(poly1)
     poly1.append(poly1[0])
     poly2.append(poly2[0])
-    for i in range(N-2):
+    for i in range(num - 2):
         # the upper part
         tehrahedron = [c_point, poly1[0], poly1[i+1], poly1[i+2]]
         vol_therah += vol_tehrahedron(tehrahedron)
@@ -57,7 +60,7 @@ def vol(poly1, poly2):
         tehrahedron = [c_point, poly2[0], poly2[i+1], poly2[i+2]]
         vol_therah += vol_tehrahedron(tehrahedron)
     # the middle part
-    for i in range(N):
+    for i in range(num):
         tehrahedron = [c_point, poly1[i], poly2[i], poly2[i+1]]
         vol_therah += vol_tehrahedron(tehrahedron)
         tehrahedron = [c_point, poly1[i], poly1[i+1], poly2[i]]
