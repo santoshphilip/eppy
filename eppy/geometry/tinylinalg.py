@@ -5,6 +5,10 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 """This module is used to implement native Python functions to replace those
     called from numpy, when not available"""
