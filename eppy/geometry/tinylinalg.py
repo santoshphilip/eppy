@@ -5,29 +5,38 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
+"""This module is used to implement native Python functions to replace those
+    called from numpy, when not available"""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-"""This module is used to implement native Python functions to replace those
-    called from numpy, when not available"""
 # Written by Eric Youngson eric@scneco.com / eayoungs@gmail.com
 # Succession Ecological Services: Portland, Oregon
 
 class LinAlgError(Exception):
+    """Exception"""
     pass
 
-def det(A):
-    if len(A) == 3 and [len(vec)==3 for vec in A]:
+def det(anarray):
+    """det"""
+    if len(anarray) == 3 and [len(vec) == 3 for vec in anarray]:
         try:
             # http://mathworld.wolfram.com/Determinant.html
-            det_A = (A[0][0] * A[1][1] * A[2][2] + A[0][1] * A[1][2] *
-                     A[2][0] + A[0][2] * A[1][0] * A[2][1] - (A[0][2] *
-                     A[1][1] * A[2][0] + A[0][1] * A[1][0] * A[2][2] +
-                     A[0][0] * A[1][2] * A[2][1]))
-        except LinAlgError as e:
-            det_A = e
+            det_a = (
+                anarray[0][0] * anarray[1][1] * anarray[2][2] +
+                anarray[0][1] * anarray[1][2] * anarray[2][0] +
+                anarray[0][2] * anarray[1][0] * anarray[2][1] -
+                (
+                    anarray[0][2] * anarray[1][1] * anarray[2][0] +
+                    anarray[0][1] * anarray[1][0] * anarray[2][2] +
+                    anarray[0][0] * anarray[1][2] * anarray[2][1]
+                )
+                )
+        except LinAlgError as err:
+            det_a = err
     else:
         raise IndexError('Vector has invalid dimensions')
-    return det_A
+    return det_a

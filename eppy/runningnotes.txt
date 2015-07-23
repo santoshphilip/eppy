@@ -8,7 +8,14 @@ git checkout develop
 git branch dtemp
 git checkout dtemp
 -
-put MIT license in new files
+- put MIT license in new files
+- added some imports from __future__
+- ran 2t03 conversions
+- added test_height_surface.py
+- ran pylint on new files (except tinynumpy)
+    - Eric, run pylint on test_tinydnarray
+
+
 
 2015-05-26
 ----------
