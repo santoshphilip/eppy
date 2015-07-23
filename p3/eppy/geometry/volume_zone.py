@@ -17,21 +17,29 @@
 
 
 
-import numpy as np
+try:
+    import numpy as np
+    from numpy import dot as dot
+    from numpy import cross as cross
+except ImportError as e:
+    from eppy.geometry.tinynumpy import dot as dot
+    from eppy.geometry.tinynumpy import cross as cross
+    import eppy.geometry.tinynumpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
-    a_pnt = np.array(poly[0])
-    b_pnt = np.array(poly[1])
-    c_pnt = np.array(poly[2])
-    d_pnt = np.array(poly[3])
-    return abs(np.dot((a_pnt - d_pnt), np.cross((b_pnt - d_pnt), (c_pnt - d_pnt))) / 6)
+    a = np.array(poly[0])
+    b = np.array(poly[1])
+    c = np.array(poly[2])
+    d = np.array(poly[3])
+    return abs(dot(np.subtract(a,d), cross(np.subtract(b,d),
+                np.subtract(c,d))) / 6)
 
 def central_p(poly1, poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
-        central_point += np.array(poly1[i]) + np.array(poly2[i])
-    return central_point/ (len(poly1)) / 2
+        central_point = np.add(central_point, np.add(np.array(poly1[i]), np.array(poly2[i])))
+    return np.divide(np.divide(central_point, (len(poly1))), 2)
 
 def vol(poly1, poly2):
     """"volume of a zone defined by two polygon bases """
