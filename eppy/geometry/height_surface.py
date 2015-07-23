@@ -16,8 +16,8 @@ from __future__ import unicode_literals
 
 try:
     import numpy as np
-except ImportError as e:
-    import py_numeric as np
+except ImportError as err:
+    from . import tinynumpy as np
 
 
 # area of a polygon
