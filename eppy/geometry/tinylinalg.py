@@ -1,4 +1,10 @@
 # Copyright (c) 2014 Eric Allen Youngson
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
+
 
 """This module is used to implement native Python functions to replace those
     called from numpy, when not available"""

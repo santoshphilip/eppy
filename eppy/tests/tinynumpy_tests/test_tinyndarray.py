@@ -1,3 +1,10 @@
+# Copyright (c) 2014 Eric Allen Youngson
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
+
 import eppy.geometry.tinynumpy as tinynumpy
 import unittest
 import pytest

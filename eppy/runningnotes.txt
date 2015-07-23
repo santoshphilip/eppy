@@ -7,6 +7,8 @@ Notes for Eric.
 git checkout develop
 git branch dtemp
 git checkout dtemp
+-
+put MIT license in new files
 
 2015-05-26
 ----------

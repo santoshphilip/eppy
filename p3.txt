@@ -83,6 +83,12 @@ notes from mecho_postprocessing2
 
 install python3 -> then make the virtual env as shown
 
+pyvenv ~/venvs/eppy3
+source ~/venvs/eppy3/bin/activate
+
+pyvenv ~/venvs/eppy3_nonumpy
+source ~/venvs/eppy3_nonumpy/bin/activate
+
 pyvenv ~/venvs/mpss2
 source ~/venvs/mpss2/bin/activate
 
