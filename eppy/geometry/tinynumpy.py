@@ -39,20 +39,23 @@ certain features may not be supported.
 # todo: Fortran order?
 
 from __future__ import division
+from __future__ import absolute_import
 
 import sys
 import ctypes
 
 from math import sqrt
-from future_builtins import map
 import operator
-import tinylinalg as linalg
-from tinylinalg import LinAlgError as LinAlgError
+from . import tinylinalg as linalg
+from .tinylinalg import LinAlgError as LinAlgError
 
 # Python 2/3 compat
 if sys.version_info >= (3, ):
     xrange = range
-
+    from builtins import map
+else:
+    from future_builtins import map
+    
 # Define version numer
 __version__ = '0.0.1dev'
 
