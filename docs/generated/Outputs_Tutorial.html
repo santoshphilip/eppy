@@ -35,9 +35,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -82,7 +79,7 @@ get the data from any of it&#8217;s cells.</p>
 <p>The number you want is in the third row, second column and it&#8217;s value is
 &#8220;47694.47&#8221;</p>
 <p>Let us use eppy to extract this number</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c"># the html file you want to read</span>
 <span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c"># get a file handle to the html file</span>
 
@@ -94,9 +91,11 @@ get the data from any of it&#8217;s cells.</p>
 titletable, you can see the function documentation.</p>
 <p>It says the following</p>
 <blockquote>
-<div>&#8220;&#8221;&#8220;return a list of [(title, table), .....]
-title = previous item with a &lt;b&gt; tag
-table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</div></blockquote>
+<div><blockquote>
+<div>&#8220;&#8221;&#8220;return a list of [(title, table), .....]</div></blockquote>
+<p>title = previous item with a &lt;b&gt; tag
+table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</p>
+</div></blockquote>
 <p>The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -227,7 +226,7 @@ The first two lines have information that describe the table. We need to
 look at both those lines to understand what the table contains. So we
 need a different function that will capture all those lines before the
 table. The funtion lines_table() described below will do this.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html&quot;</span> <span class="c"># the html file you want to read</span>
 <span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c"># get a file handle to the html file</span>
 
@@ -451,7 +450,7 @@ The only limitation is that the labels have to be letters or digits.
 Named tuples does not allow spaces in the labels. We could replace the
 space with an underscore &#8216; _ &#8216;. So &#8220;a b&#8221; will become &#8220;a_b&#8221;. So we can
 look for row &#8220;x_y&#8221; and column &#8220;c_d&#8221;. Let us try this out.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">readhtml</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span>
 <span class="n">h_table</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">named_grid_h</span><span class="p">(</span><span class="n">atable</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -607,9 +606,6 @@ really need a list of numbers</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >next</a> |</li>
         <li class="right" >
@@ -620,7 +616,7 @@ really need a list of numbers</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>

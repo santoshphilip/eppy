@@ -35,9 +35,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -119,7 +116,8 @@ python eppy_version.py</pre>
 send the output to a file, so that we can save it for posterity. We can
 do that py using &#8220;&gt;&#8221; with the filename after that. For eppy_version.py,
 it will look like this:</p>
-<p>python eppy_version.py &gt; save_output.txt</p>
+<blockquote>
+<div>python eppy_version.py &gt; save_output.txt</div></blockquote>
 <p>Some of the following scripts will generate csv or html outputs. We can
 direct the output to a file with .html extension and open it in a
 browser</p>
@@ -166,9 +164,11 @@ diff in html format.</p>
 # python idfdiff.py idd file1 file2
 python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf</pre>
 </div>
-<div class="highlight-python"><pre>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</pre>
+<div class="highlight-python"><pre>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border="1"&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;
+
+
+            reprinting the output again for clarity:</pre>
 </div>
-<p>reprinting the output again for clarity:</p>
 <p>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border=&#8221;1&#8221;&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</p>
 <p>It does look like html :-). We need to redirect this output to a file
 and then open the file in a browser to see what it looks like. Displayed
@@ -340,9 +340,6 @@ but you can make out what is going on</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              >next</a> |</li>
         <li class="right" >
@@ -353,7 +350,7 @@ but you can make out what is going on</li>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>
