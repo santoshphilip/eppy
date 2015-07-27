@@ -7,10 +7,10 @@
 
 """read the html outputs"""
 
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import string
 import collections
@@ -77,7 +77,7 @@ def titletable(html_doc, tofloat=True):
 
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
-    soup = BeautifulSoup(html_doc)
+    soup = BeautifulSoup(html_doc, "html.parser")
     btables = soup.find_all(['b', 'table']) # find all the <b> and <table>
     titletables = []
     for i, item in enumerate(btables):
@@ -114,7 +114,7 @@ def lines_table(html_doc, tofloat=True):
 
     The lines act as a description for what is in the table
     """
-    soup = BeautifulSoup(html_doc)
+    soup = BeautifulSoup(html_doc, "html.parser")
     linestables = []
     elements = soup.p.next_elements # start after the first para
     for element in elements:
@@ -158,7 +158,7 @@ def _nospace(s):
 
 
 def _transpose(arr):
-    return list(map(list, list(zip(*arr))))
+    return map(list, zip(*arr))
 
 
 def _make_ntgrid(grid):
@@ -178,9 +178,9 @@ def _make_ntgrid(grid):
     hnames_s = " ".join(hnames)
     ntcol = collections.namedtuple('ntcol', vnames_s)
     ntrow = collections.namedtuple('ntrow', hnames_s)
-    rdict = [dict(list(zip(hnames, row[1:]))) for row in grid[1:]]
+    rdict = [dict(zip(hnames, row[1:])) for row in grid[1:]]
     ntrows = [ntrow(**rdict[i]) for i, name in enumerate(vnames)]
-    ntcols = ntcol(**dict(list(zip(vnames, ntrows))))
+    ntcols = ntcol(**dict(zip(vnames, ntrows)))
     return ntcols
 
 def named_grid_h(grid):

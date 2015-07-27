@@ -14,7 +14,7 @@
 
 import collections
 from bs4 import BeautifulSoup
-import eppy.readhtml as readhtml
+import eppy.results.readhtml as readhtml
 from eppy.tests.sample_html import sample_html as SAMPLE_HTML
 
 

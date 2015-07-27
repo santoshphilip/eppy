@@ -2,7 +2,6 @@
 Reading outputs from E+
 =======================
 
-
 .. code:: python
 
     # some initial set up
@@ -15,7 +14,6 @@ Reading outputs from E+
 
 Using titletable() to get at the tables
 ---------------------------------------
-
 
 So far we have been making changes to the IDF input file. How about
 looking at the outputs.
@@ -48,7 +46,7 @@ Let us use eppy to extract this number
 
 .. code:: python
 
-    from eppy import readhtml # the eppy module with functions to read the html
+    from eppy.results import readhtml # the eppy module with functions to read the html
     fname = "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html" # the html file you want to read
     filehandle = open(fname, 'r').read() # get a file handle to the html file
     
@@ -60,11 +58,11 @@ titletable, you can see the function documentation.
 
 It says the following
 
-    """return a list of [(title, table), .....]
+                    """return a list of [(title, table), .....]
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
     
-
+                
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.
 
@@ -225,7 +223,6 @@ html output file.
 Using lines\_table() to get at the tables
 -----------------------------------------
 
-
 We have been using titletable() to get at the tables. There is a
 constraint using function titletable(). Titletable() assumes that there
 is a unique title (in HTML bold) just above the table. It is assumed
@@ -253,7 +250,7 @@ table. The funtion lines\_table() described below will do this.
 
 .. code:: python
 
-    from eppy import readhtml # the eppy module with functions to read the html
+    from eppy.results import readhtml # the eppy module with functions to read the html
     fname = "../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html" # the html file you want to read
     filehandle = open(fname, 'r').read() # get a file handle to the html file
     
@@ -327,7 +324,6 @@ that has the following two lines before it.
 
 -  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 -  For: PERIMETER\_MID\_ZN\_4
-
 
 .. code:: python
 
@@ -463,7 +459,6 @@ before the table. The following code will do it.
 Extracting data from the tables
 -------------------------------
 
-
 The tables in the HTML page in general have text in the top header row.
 The first vertical row has text. The remaining cells have numbers. We
 can identify the numbers we need by looking at the labelin the top row
@@ -543,7 +538,7 @@ look for row "x\_y" and column "c\_d". Let us try this out.
 
 .. code:: python
 
-    from eppy import readhtml
+    from eppy.results import readhtml
     h_table = readhtml.named_grid_h(atable)
 
 .. code:: python
@@ -708,7 +703,3 @@ To get the first row we use the variable h\_table
     [1, 2, 3]
     6
 
-
-.. code:: python
-
-    
