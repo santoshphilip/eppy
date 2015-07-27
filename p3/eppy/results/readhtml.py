@@ -77,7 +77,7 @@ def titletable(html_doc, tofloat=True):
 
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
-    soup = BeautifulSoup(html_doc)
+    soup = BeautifulSoup(html_doc, "html.parser")
     btables = soup.find_all(['b', 'table']) # find all the <b> and <table>
     titletables = []
     for i, item in enumerate(btables):
@@ -114,7 +114,7 @@ def lines_table(html_doc, tofloat=True):
 
     The lines act as a description for what is in the table
     """
-    soup = BeautifulSoup(html_doc)
+    soup = BeautifulSoup(html_doc, "html.parser")
     linestables = []
     elements = soup.p.next_elements # start after the first para
     for element in elements:
