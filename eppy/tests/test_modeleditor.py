@@ -14,16 +14,16 @@ from __future__ import unicode_literals
 
 from StringIO import StringIO
 
+import bunch
+import pytest
+
 from eppy.iddcurrent import iddcurrent
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
-
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
-import bunch 
-import pytest
 
 
 iddsnippet = iddcurrent.iddtxt
