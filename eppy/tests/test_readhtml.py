@@ -167,13 +167,6 @@ def test_lines_table():
             [[u'd', u'26'], [u'27', u'28']]
         ]]
 
-def test_report_tables():
-    """py.test for test_named_tables"""
-    result = readhtml._report_tables(SAMPLE_HTML)
-    assert result == {u'Report: Annual Building Utility Performance Summary': [[u'a', 2.0], [3.0, 4.0]],
-    u'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND': [[u'c', 16.0], [17.0, 18.0]],
-    u'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND': [[u'd', 26.0], [27.0, 28.0]]}
-
 def test_make_ntgrid():
     """py.test make_ntgrid"""
     grid = [
