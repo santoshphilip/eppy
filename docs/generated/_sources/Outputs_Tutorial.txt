@@ -2,7 +2,6 @@
 Reading outputs from E+
 =======================
 
-
 .. code:: python
 
     # some initial set up
@@ -15,7 +14,6 @@ Reading outputs from E+
 
 Using titletable() to get at the tables
 ---------------------------------------
-
 
 So far we have been making changes to the IDF input file. How about
 looking at the outputs.
@@ -48,7 +46,7 @@ Let us use eppy to extract this number
 
 .. code:: python
 
-    from eppy import readhtml # the eppy module with functions to read the html
+    from eppy.results import readhtml # the eppy module with functions to read the html
     fname = "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html" # the html file you want to read
     filehandle = open(fname, 'r').read() # get a file handle to the html file
     
@@ -60,11 +58,11 @@ titletable, you can see the function documentation.
 
 It says the following
 
-    """return a list of [(title, table), .....]
+                    """return a list of [(title, table), .....]
     title = previous item with a <b> tag
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
     
-
+                
 The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.
 
@@ -76,7 +74,7 @@ this list. Let us look at the first item in the list.
 
 .. parsed-literal::
 
-    (u'Site and Source Energy', [['', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
+    (u'Site and Source Energy', [[u'', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
 
 
 | Ughh !!! that is ugly. Hard to see what it is.
@@ -92,7 +90,7 @@ this list. Let us look at the first item in the list.
 .. parsed-literal::
 
     (u'Site and Source Energy',
-     [['',
+     [[u'',
        u'Total Energy [kWh]',
        u'Energy Per Total Building Area [kWh/m2]',
        u'Energy Per Conditioned Building Area [kWh/m2]'],
@@ -123,7 +121,7 @@ Nice. that is a little clearer
 
 .. parsed-literal::
 
-    [['',
+    [[u'',
       u'Total Energy [kWh]',
       u'Energy Per Total Building Area [kWh/m2]',
       u'Energy Per Conditioned Building Area [kWh/m2]'],
@@ -225,7 +223,6 @@ html output file.
 Using lines\_table() to get at the tables
 -----------------------------------------
 
-
 We have been using titletable() to get at the tables. There is a
 constraint using function titletable(). Titletable() assumes that there
 is a unique title (in HTML bold) just above the table. It is assumed
@@ -253,7 +250,7 @@ table. The funtion lines\_table() described below will do this.
 
 .. code:: python
 
-    from eppy import readhtml # the eppy module with functions to read the html
+    from eppy.results import readhtml # the eppy module with functions to read the html
     fname = "../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html" # the html file you want to read
     filehandle = open(fname, 'r').read() # get a file handle to the html file
     
@@ -278,7 +275,7 @@ see what we have.
       u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
       u'For: PERIMETER_MID_ZN_4',
       u'Timestamp: 2014-02-07\n    12:29:08'],
-     [['',
+     [[u'',
        u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
        u'FANGERPPD {FOR HOURS SHOWN} []',
        u'FANGERPPD []'],
@@ -328,7 +325,6 @@ that has the following two lines before it.
 -  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 -  For: PERIMETER\_MID\_ZN\_4
 
-
 .. code:: python
 
     line1 = 'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT'
@@ -361,7 +357,7 @@ that has the following two lines before it.
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
        u'Timestamp: 2014-02-07\n    12:29:08'],
-      [['',
+      [[u'',
         u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
         u'FANGERPPD {FOR HOURS SHOWN} []',
         u'FANGERPPD []'],
@@ -437,7 +433,7 @@ before the table. The following code will do it.
        u'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT',
        u'For: PERIMETER_MID_ZN_4',
        u'Timestamp: 2014-02-07\n    12:29:08'],
-      [['',
+      [[u'',
         u'ZONE/SYS SENSIBLE COOLING RATE {HOURS POSITIVE} [HOURS]',
         u'FANGERPPD {FOR HOURS SHOWN} []',
         u'FANGERPPD []'],
@@ -462,7 +458,6 @@ before the table. The following code will do it.
 
 Extracting data from the tables
 -------------------------------
-
 
 The tables in the HTML page in general have text in the top header row.
 The first vertical row has text. The remaining cells have numbers. We
@@ -543,7 +538,7 @@ look for row "x\_y" and column "c\_d". Let us try this out.
 
 .. code:: python
 
-    from eppy import readhtml
+    from eppy.results import readhtml
     h_table = readhtml.named_grid_h(atable)
 
 .. code:: python

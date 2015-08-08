@@ -1,9 +1,26 @@
 .idea
 .commitLog
 .ipynb_checkpoints/
+
 *.sublime*
 venv/
 InputSim/
+__pycache__
+
+# Eclipse/PyDev
+.project
+.pydevproject
+.settings/
+/remove_licence.py
+
+.commitLog
+out.*
+eppy/useful_scripts/InputSim/
+.*/
+.ipynb_checkpoints/
+*.sublime*
+*test*
+venv/
 
 #===============================https://github.com/github/gitignore.git============================
 

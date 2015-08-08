@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+"""clean up .pyc from folders"""
 import sys, os, stat
 from bsdopendirtype import opendir
 

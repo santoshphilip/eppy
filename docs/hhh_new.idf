@@ -234,8 +234,8 @@ CHILLER:ELECTRIC,
     ,                         !- Nominal COP
     p_loop Supply Inlet,      !- Chilled Water Inlet Node Name
     Central_Chiller_np1_node,    !- Chilled Water Outlet Node Name
-    Central_Chiller_Condenser_Inlet_Node_Name,    !- Condenser Inlet Node Name
-    Central_Chiller_Condenser_Outlet_Node_Name,    !- Condenser Outlet Node Name
+    ,                         !- Condenser Inlet Node Name
+    ,                         !- Condenser Outlet Node Name
     ,                         !- Minimum Part Load Ratio
     ,                         !- Maximum Part Load Ratio
     ,                         !- Optimum Part Load Ratio
@@ -256,8 +256,8 @@ CHILLER:ELECTRIC,
     ,                         !- Chilled Water Outlet Temperature Lower Limit
     VariableFlow,             !- Chiller Flow Mode
     0.0,                      !- Design Heat Recovery Water Flow Rate
-    Central_Chiller_Heat_Recovery_Inlet_Node_Name,    !- Heat Recovery Inlet Node Name
-    Central_Chiller_Heat_Recovery_Outlet_Node_Name,    !- Heat Recovery Outlet Node Name
+    ,                         !- Heat Recovery Inlet Node Name
+    ,                         !- Heat Recovery Outlet Node Name
     1.0,                      !- Sizing Factor
     0.0,                      !- Basin Heater Capacity
     2.0;                      !- Basin Heater Setpoint Temperature

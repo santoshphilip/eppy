@@ -2,7 +2,6 @@
 Eppy Tutorial
 =============
 
-
 Authors: Santosh Philip, Leora Tanjuatco
 
 Eppy is a scripting language for E+ idf files, and E+ output files. Eppy
@@ -33,15 +32,13 @@ eppy:
 -  If a model is using more energy than expected, keep increasing the
    R-value of the roof until you get to the expected energy use.
 
-
 Quick Start
 -----------
-
 
 Here is a short IDF file that I’ll be using as an example to start us
 off ::
 
-    VERSION,
+                    VERSION,
         7.2;                     !- Version Identifier
     
     SIMULATIONCONTROL,
@@ -68,7 +65,7 @@ off ::
         -6.00,                   !- Time Zone {hr}
         190.00;                  !- Elevation {m}
 
-
+                
 To use eppy to look at this model, we have to run a little code first:
 
 .. code:: python
@@ -145,12 +142,11 @@ As you can see, this file has four objects:
 -  BUILDING
 -  SITE:LOCATION
 
-
 So, let us look take a closer look at the BUILDING object. We can do
 this using this command::
 
-    print filename.idfobjects['OBJECTNAME']
-
+                    print filename.idfobjects['OBJECTNAME']
+                
 .. code:: python
 
     print idf1.idfobjects['BUILDING']  # put the name of the object you'd like to look at in brackets
@@ -255,16 +251,15 @@ started!
 Modifying IDF Fields
 --------------------
 
-
 That was just a quick example -- we were showing off. Let's look a
 little closer.
 
 As you might have guessed, changing an IDF field follows this
 structure::
 
-    object.fieldname = "New Field Name"
+                    object.fieldname = "New Field Name"
 
-
+                
 Plugging the object name (building), the field name (Name) and our new
 field name ("Empire State Building") into this command gave us this:
 
@@ -383,7 +378,7 @@ Eppy also does this.
 Let us take a look at the "BUILDING" object in the text file that the
 IDF Editor saves ::
 
-    BUILDING,
+                    BUILDING,
         White House,             !- Name
         30.,                     !- North Axis {deg}
         City,                    !- Terrain
@@ -393,7 +388,7 @@ IDF Editor saves ::
         25,                      !- Maximum Number of Warmup Days
         6;                       !- Minimum Number of Warmup Days
 
-
+                
 This a good place to find the field names too.
 
 It is easy to copy and paste from here. You can't do that from the IDF
@@ -413,7 +408,6 @@ lists work in python.
 
 Python lesson 1: lists
 ----------------------
-
 
 Eppy holds these objects in a python structure called list. Let us take
 a look at how lists work in python.
@@ -493,7 +487,6 @@ As you see, we can call that item in the list whatever we want.
 How many items in the list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 To know how many items are in a list, we ask for the length of the list.
 
 The function 'len' will do this for us.
@@ -513,7 +506,6 @@ There are 3 fruits in the list.
 Saving an idf file
 ------------------
 
-
 This is easy:
 
 .. code:: python
@@ -528,7 +520,6 @@ If you'd like to do a "Save as..." use this:
 
 Working with E+ objects
 -----------------------
-
 
 Let us open a small idf file that has only "CONSTRUCTION" and "MATERIAL"
 objects in it. You can go into "../idffiles/V\_7\_2/constructions.idf"
@@ -702,10 +693,8 @@ you'll have to learn a little more about lists.
 Python lesson 2: more about lists
 ---------------------------------
 
-
 More ways to access items in a list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 You should remember that you can access any item in a list by passing in
 its index.
@@ -747,12 +736,11 @@ etc.
 Slicing a list
 ^^^^^^^^^^^^^^
 
-
 You can also get more than one item in a list:
 
-bad_architects[first_slice:second_slice]
+                bad_architects[first_slice:second_slice]
 
-
+                
 .. code:: python
 
     print bad_architects[1:3] # slices at 1 and 3
@@ -767,12 +755,12 @@ How do I make sense of this?
 
 To understand this you need to see the list in the following manner::
 
-    [ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
+                    [ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
      ^               ^              ^             ^            ^              ^
      0               1              2             3            4              5
     -5              -4             -3            -2           -1
 
-
+                
 The slice operation bad\_architects[1:3] slices right where the numbers
 are.
 
@@ -815,15 +803,14 @@ I'll let you figure that out on your own.
 Adding to a list
 ^^^^^^^^^^^^^^^^
 
-
 This is simple: the append function adds an item to the end of the list.
 
 The following command will add 'something' to the end of the list called
 listname::
 
-    listname.append(something)
+                    listname.append(something)
 
-
+                
 .. code:: python
 
     bad_architects.append("First-year students")
@@ -838,14 +825,13 @@ listname::
 Deleting from a list
 ^^^^^^^^^^^^^^^^^^^^
 
-
 There are two ways to do this, based on the information you have. If you
 have the value of the object, you'll want to use the remove function. It
 looks like this:
 
-listname.remove(value) 
+                listname.remove(value) 
 
-
+                
 An example:
 
 .. code:: python
@@ -866,9 +852,9 @@ item in the list?
 
 You should use the pop function. It looks like this:
 
-listname.pop(index)
+                listname.pop(index)
 
-
+                
 .. code:: python
 
     what_i_ate_today = ["coffee", "bacon", "eggs"]
@@ -947,7 +933,6 @@ Let us get back to eppy.
 Continuing to work with E+ objects
 ----------------------------------
 
-
 Let us get those "MATERIAL" objects again
 
 .. code:: python
@@ -1009,7 +994,6 @@ Pretty good.
 Counting all the materials ( or counting all objects )
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 How many materials are in this model ?
 
 .. code:: python
@@ -1024,7 +1008,6 @@ How many materials are in this model ?
 
 Removing a material
 ^^^^^^^^^^^^^^^^^^^
-
 
 Let us remove the last material in the list
 
@@ -1072,7 +1055,6 @@ Now the last material in the list is:
 
 Adding a material to the list
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 We still have the old last material
 
@@ -1132,7 +1114,6 @@ Once again we have 10 materials and the last material is:
 
 Add a new material to the model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 So far we have been working only with materials that were already in the
 list.
@@ -1247,7 +1228,6 @@ Let's do it now.
 Copy an existing material
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-
 .. code:: python
 
     Peanutbuttermaterial = materials[-1]
@@ -1279,7 +1259,6 @@ Copy an existing material
 Python lesson 3: indentation and looping through lists
 ------------------------------------------------------
 
-
 I'm tired of doing all this work, it's time to make python do some heavy
 lifting for us!
 
@@ -1293,14 +1272,14 @@ do something to every single item.
 
 We'll use a 'for' loop to do this. ::
 
-    for <variable> in <listname>:
+                    for <variable> in <listname>:
         <do something>
             
-
+                
 A quick note about the second line. Notice that it's indented? There are
 4 blank spaces before the code starts::
 
-    in python, indentations are used    
+                    in python, indentations are used    
     to determine the grouping of statements  
            some languages use symbols to mark 
            where the function code starts and stops   
@@ -1312,7 +1291,7 @@ A quick note about the second line. Notice that it's indented? There are
      if you'd like to know more, there is plenty of information
      about indentation in python on the web
     
-
+                
 It's elegant, but it means that the indentation of the code holds
 meaning.
 
@@ -1388,7 +1367,7 @@ Did you follow all that??
 
 Just in case you didn't, let's review that last one::
 
-    ["rotten " + fruit for fruit in fruits]
+                    ["rotten " + fruit for fruit in fruits]
                        -------------------
                        This is the "for loop"
                        it steps through each fruit in fruits
@@ -1402,7 +1381,7 @@ Just in case you didn't, let's review that last one::
     ---------------------------------------
     give a new list that is a result of the "do something"
 
-
+                
 .. code:: python
 
     print rottenfruits
@@ -1416,18 +1395,17 @@ Just in case you didn't, let's review that last one::
 Filtering in a loop
 ^^^^^^^^^^^^^^^^^^^
 
-
 But what if you don't want to change *every* item in a list?
 
 We can use an 'if' statement to operate on only some items in the list.
 
 Indentation is also important in 'if' statements, as you'll see::
 
-    if <someconstraint>:
+                    if <someconstraint>:
         <if the first line is true, do this>
     <but if it's false, do this>
                
-
+                
 .. code:: python
 
     fruits = ["apple", "orange", "pear", "berry", "mango", "plum", "peach", "melon", "bannana"]
@@ -1476,7 +1454,7 @@ Let's say we want to pick only the fruits that start with the letter
 
 ::
 
-    [fruit for fruit in fruits if fruit.startswith("p")]
+                    [fruit for fruit in fruits if fruit.startswith("p")]
            -------------------
            for loop
     
@@ -1492,7 +1470,7 @@ Let's say we want to pick only the fruits that start with the letter
     ----------------------------------------------------
     a fresh new list with those fruits
     
-
+                
 .. code:: python
 
     print p_fruits
@@ -1505,7 +1483,6 @@ Let's say we want to pick only the fruits that start with the letter
 
 Counting through loops
 ^^^^^^^^^^^^^^^^^^^^^^
-
 
 This is not really needed, but it is nice to know. You can safely skip
 this.
@@ -1623,7 +1600,6 @@ This is useful because you can use these lists inside of loops.
 Looping through E+ objects
 --------------------------
 
-
 If you have read the python explanation of loops, you are now masters of
 using loops.
 
@@ -1662,16 +1638,16 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['F08 Metal surface',
-     'I01 25mm insulation board',
-     'I02 50mm insulation board',
-     'G01a 19mm gypsum board',
-     'M11 100mm lightweight concrete',
-     'F16 Acoustic tile',
-     'M01 100mm brick',
-     'M15 200mm heavyweight concrete',
-     'M05 200mm concrete block',
-     'G05 25mm wood',
+    [u'F08 Metal surface',
+     u'I01 25mm insulation board',
+     u'I02 50mm insulation board',
+     u'G01a 19mm gypsum board',
+     u'M11 100mm lightweight concrete',
+     u'F16 Acoustic tile',
+     u'M01 100mm brick',
+     u'M15 200mm heavyweight concrete',
+     u'M05 200mm concrete block',
+     u'G05 25mm wood',
      'Peanut Butter',
      'Peanut Butter']
 
@@ -1686,16 +1662,16 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['Smooth',
-     'MediumRough',
-     'MediumRough',
-     'MediumSmooth',
-     'MediumRough',
-     'MediumSmooth',
-     'MediumRough',
-     'MediumRough',
-     'MediumRough',
-     'MediumSmooth',
+    [u'Smooth',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumSmooth',
+     u'MediumRough',
+     u'MediumSmooth',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumRough',
+     u'MediumSmooth',
      'MediumSmooth',
      'MediumSmooth']
 
@@ -1747,10 +1723,10 @@ We'll continue to work with the materials list.
 
 .. parsed-literal::
 
-    ['M11 100mm lightweight concrete',
-     'M01 100mm brick',
-     'M15 200mm heavyweight concrete',
-     'M05 200mm concrete block']
+    [u'M11 100mm lightweight concrete',
+     u'M01 100mm brick',
+     u'M15 200mm heavyweight concrete',
+     u'M05 200mm concrete block']
 
 
 
@@ -1888,16 +1864,16 @@ Here's a helpful illustration:
 
 .. parsed-literal::
 
-    ['F08 Metal surface',
-     'I01 25mm insulation board',
-     'I02 50mm insulation board',
-     'G01a 19mm gypsum board',
-     'THICK M11 100mm lightweight concrete',
-     'F16 Acoustic tile',
-     'THICK M01 100mm brick',
-     'THICK M15 200mm heavyweight concrete',
-     'THICK M05 200mm concrete block',
-     'G05 25mm wood',
+    [u'F08 Metal surface',
+     u'I01 25mm insulation board',
+     u'I02 50mm insulation board',
+     u'G01a 19mm gypsum board',
+     u'THICK M11 100mm lightweight concrete',
+     u'F16 Acoustic tile',
+     u'THICK M01 100mm brick',
+     u'THICK M15 200mm heavyweight concrete',
+     u'THICK M05 200mm concrete block',
+     u'G05 25mm wood',
      'Peanut Butter',
      'Peanut Butter']
 
@@ -1905,7 +1881,6 @@ Here's a helpful illustration:
 
 Geometry functions in eppy
 --------------------------
-
 
 Sometimes, we want information about the E+ object that is not in the
 fields. For example, it would be useful to know the areas and
@@ -1954,10 +1929,10 @@ Let us explore these functions
 .. code:: python
 
     # Let us look at the first surface
-    surface = surfaces[0]
-    print "surface azimuth =",  surface.azimuth, "degrees"
-    print "surface tilt =", surface.tilt, "degrees"
-    print "surface area =", surface.area, "m2"
+    asurface = surfaces[0]
+    print "surface azimuth =",  asurface.azimuth, "degrees"
+    print "surface tilt =", asurface.tilt, "degrees"
+    print "surface area =", asurface.area, "m2"
 
 
 .. parsed-literal::
@@ -1976,7 +1951,7 @@ Let us explore these functions
 
 .. parsed-literal::
 
-    ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'TOP-1']
+    [u'WALL-1PF', u'WALL-1PR', u'WALL-1PB', u'WALL-1PL', u'TOP-1']
 
 
 .. code:: python
@@ -1988,7 +1963,7 @@ Let us explore these functions
 
 .. parsed-literal::
 
-    [('WALL-1PF', 180.0), ('WALL-1PR', 90.0), ('WALL-1PB', 0.0), ('WALL-1PL', 270.0), ('TOP-1', 0.0)]
+    [(u'WALL-1PF', 180.0), (u'WALL-1PR', 90.0), (u'WALL-1PB', 0.0), (u'WALL-1PL', 270.0), (u'TOP-1', 0.0)]
 
 
 .. code:: python
@@ -2053,7 +2028,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PF', 'WALL-1PR', 'WALL-1PB', 'WALL-1PL', 'FRONT-1', 'SB12', 'SB14', 'SB15', 'RIGHT-1', 'SB21', 'SB23', 'BACK-1', 'SB32', 'SB35', 'LEFT-1', 'SB41', 'SB43', 'SB45', 'SB51', 'SB54', 'WALL-1SF', 'WALL-1SR', 'WALL-1SB', 'WALL-1SL']
+    [u'WALL-1PF', u'WALL-1PR', u'WALL-1PB', u'WALL-1PL', u'FRONT-1', u'SB12', u'SB14', u'SB15', u'RIGHT-1', u'SB21', u'SB23', u'BACK-1', u'SB32', u'SB35', u'LEFT-1', u'SB41', u'SB43', u'SB45', u'SB51', u'SB54', u'WALL-1SF', u'WALL-1SR', u'WALL-1SB', u'WALL-1SL']
 
 
 .. code:: python
@@ -2065,7 +2040,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PB', 'SB15', 'BACK-1', 'WALL-1SB']
+    [u'WALL-1PB', u'SB15', u'BACK-1', u'WALL-1SB']
 
 
 .. code:: python
@@ -2077,7 +2052,7 @@ construnctions
 
 .. parsed-literal::
 
-    ['WALL-1PB', 'BACK-1', 'WALL-1SB']
+    [u'WALL-1PB', u'BACK-1', u'WALL-1SB']
 
 
 .. code:: python

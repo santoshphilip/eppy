@@ -5,3 +5,6 @@ get remote branch
 compare file in two branches
 - git diff mybranch/myfile.cs master/myfile.cs
 - git diff mybranch master -- myfile.cs
+
+branch description
+- git branch --edit-description #add or update a branch description

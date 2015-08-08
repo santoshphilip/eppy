@@ -1,27 +1,23 @@
 # Copyright (c) 2012 Santosh Philip
-
-# This file is part of eppy.
-
-# Eppy is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# Eppy is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with eppy.  If not, see <http://www.gnu.org/licenses/>.
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 
 """pytest for bunchhelpers"""
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import eppy.bunchhelpers as bunchhelpers
 
 def test_onlylegalchar():
     """py.test for onlylegalchar"""
-    data = (('abc', 'abc'), # name, newname
+    data = (
+        ('abc', 'abc'), # name, newname
         ('abc {mem}', 'abc mem'), # name, newname
         ('abc {mem} #1', 'abc mem 1'), # name, newname
     )
@@ -31,7 +27,8 @@ def test_onlylegalchar():
 
 def test_makefieldname():
     """py.test for makefieldname"""
-    data = (('aname', 'aname'), # namefromidd, bunchname
+    data = (
+        ('aname', 'aname'), # namefromidd, bunchname
         ('a name', 'a_name'), # namefromidd, bunchname
         ('a name #1', 'a_name_1'), # namefromidd, bunchname
     )
@@ -41,7 +38,8 @@ def test_makefieldname():
 
 def testintinlist():
     """pytest for intinlist"""
-    data = (('this is', False), # lst, hasint
+    data = (
+        ('this is', False), # lst, hasint
         ('this is 1', True), # lst, hasint
         ('this 54 is ', True), # lst, hasint
     )
@@ -51,11 +49,12 @@ def testintinlist():
 
 def test_replaceint():
     """pytest for replaceint"""
-    data = (('this is', 'this is'), # fname, newname
+    data = (
+        ('this is', 'this is'), # fname, newname
         ('this is 54', 'this is %s'), # fname, newname
         # ('this is #54', 'this is %s'), # fname, newname
     )
     for fname, newname in data:
         result = bunchhelpers.replaceint(fname)
         assert result == newname
-        
+

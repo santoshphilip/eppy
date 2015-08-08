@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &mdash; eppy 0.4.6.4a documentation</title>
+    <title>New functions &mdash; eppy 0.5 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.4.6.4a',
+        VERSION:     '0.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.4.6.4a documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -35,15 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -125,6 +122,9 @@ IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddnam
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">,</span> <span class="s">&#39;dtls&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <p>That worked without raising an exception</p>
 <p>Now let us try to change the <strong>idd</strong> file. Eppy should not let you do
 this and should raise an exception.</p>
@@ -169,6 +169,9 @@ is outside the range</li>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">,</span> <span class="s">&#39;dtls&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">building</span>
 </pre></div>
@@ -186,7 +189,7 @@ is outside the range</li>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">getrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;maximum&lt;&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;minimum&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="s">&#39;real&#39;</span><span class="p">,</span> <span class="s">&#39;maximum&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">u&#39;maximum&lt;&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">u&#39;minimum&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">u&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;real&#39;</span><span class="p">,</span> <span class="s">u&#39;maximum&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">u&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
@@ -227,7 +230,7 @@ do this easily by the following line</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s">&#39;Terrain&#39;</span><span class="p">,</span> <span class="s">&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s">&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s">&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;key&#39;</span><span class="p">,</span> <span class="s">u&#39;Name&#39;</span><span class="p">,</span> <span class="s">u&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s">u&#39;Terrain&#39;</span><span class="p">,</span> <span class="s">u&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">u&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">u&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s">u&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s">u&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>So let us use this</p>
@@ -291,7 +294,9 @@ disk:</p>
 <span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>VERSION,
+<div class="highlight-python"><pre>['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'dt', 'dtls', 'getrefs', 'initdict', 'makedict', 'replacenode']
+
+VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -326,32 +331,77 @@ SITE:LOCATION,
 <span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>VERSION,
-    7.3;                      !- Version Identifier
+<div class="highlight-python"><pre>---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
 
-SIMULATIONCONTROL,
-    Yes,                      !- Do Zone Sizing Calculation
-    Yes,                      !- Do System Sizing Calculation
-    Yes,                      !- Do Plant Sizing Calculation
-    No,                       !- Run Simulation for Sizing Periods
-    Yes;                      !- Run Simulation for Weather File Run Periods
+&lt;ipython-input-16-ab76e2c095ca&gt; in &lt;module&gt;()
+      2 fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+      3 fhandle = open(fname1, 'r') # open the file for reading and assign it a file handle
+----&gt; 4 idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
+      5
+      6 idf_fromfilehandle.printidf()
 
-BUILDING,
-    Empire State Building,    !- Name
-    30.0,                     !- North Axis
-    City,                     !- Terrain
-    0.04,                     !- Loads Convergence Tolerance Value
-    0.4,                      !- Temperature Convergence Tolerance Value
-    FullExterior,             !- Solar Distribution
-    25,                       !- Maximum Number of Warmup Days
-    6;                        !- Minimum Number of Warmup Days
 
-SITE:LOCATION,
-    CHICAGO_IL_USA TMY2-94846,    !- Name
-    41.78,                    !- Latitude
-    -87.75,                   !- Longitude
-    -6.0,                     !- Time Zone
-    190.0;                    !- Elevation</pre>
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+    630     """
+    631     def __init__(self, idfname=None):
+--&gt; 632         super(IDF3, self).__init__(idfname)
+    633     def initread(self, idfname):
+    634         """use the latest iddfile and read file fname
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+    575     """
+    576     def __init__(self, idfname=None):
+--&gt; 577         super(IDF2, self).__init__(idfname)
+    578         self.outputtype = "standard" # standard,
+    579                                     # nocomment,
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+    499     """
+    500     def __init__(self, idfname=None):
+--&gt; 501         super(IDF1, self).__init__(idfname)
+    502     def newidfobject(self, key, aname='', **kwargs):
+    503     # def newidfobject(self, key, *args, **kwargs):
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
+    452         if idfname != None:
+    453             self.idfname = idfname
+--&gt; 454             self.read()
+    455     @classmethod
+    456     def setiddname(cls, arg, testing=False):
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in read(self)
+    484         readout = idfreader1(
+    485             self.idfname, self.iddname,
+--&gt; 486             commdct=self.idd_info, block=self.block)
+    487         self.idfobjects, block, self.model, idd_info = readout
+    488         self.__class__.setidd(idd_info, block)
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in idfreader1(fname, iddfile, conv, commdct, block)
+    164         block=block)
+    165     if conv:
+--&gt; 166         convertallfields(data, commdct)
+    167     # fill gaps in idd
+    168     ddtt, dtls = data.dt, data.dtls
+
+
+/Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in convertallfields(data, commdct)
+     94     """docstring for convertallfields"""
+     95     print(dir(data))
+---&gt; 96     for key in data.dt.keys():
+     97         objs = data.dt[key]
+     98         for i, obj in enumerate(objs):
+
+
+AttributeError: 'eplusdata' object has no attribute 'dt'</pre>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
+</pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
 
@@ -902,20 +952,17 @@ function returns 0</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.4.6.4a documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
     </div>
   </body>
 </html>

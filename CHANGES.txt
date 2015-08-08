@@ -1,3 +1,7 @@
+2015-07-12
+----------
+All changes are now documented in ./docs/source/changes.rst
+
 2014-08-19
 ----------
 
