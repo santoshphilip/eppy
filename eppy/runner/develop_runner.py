@@ -9,10 +9,15 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+import os
+import shutil
+import tempfile
 import unittest
 
-from eppy.modeleditor import IDF
+from eppy.modeleditor import IDF4
+
+from eppy.runner import config
+from eppy.runner.functions import run
 
 
 class ActiveRuns(object):
@@ -30,30 +35,53 @@ class ActiveRuns(object):
         pass
 
 
-def run(idf, epw):
+class IDF5(IDF4):
+    """Class to handle a run.
     """
-    Run and IDF file with a given EnergyPlus weather file. If this is added
-    as a method by an IDF instance from the main part of Eppy then it should be
-    possible to run this using idf.run('my_weather.epw') since the IDF will be
-    passed as the first parameter (e.g. self).
     
-    Parameters
-    ----------
-    idf : eppy.IDF
-        The IDF file to be run.
-    epw : str
-        Path to an EPW file.
+    def __init__(self, idf, epw):
+        """
+        Parameters
+        ----------
+        idf : eppy.IDF0 object
+            The IDF object to run.
+        epw : str
+            File path to the EPW file to use.
+            
+        """
+        super(IDF4, self).__init__(idf)
+        self.idf = idf
+        self.epw = os.path.join(config.ELUS_WEATHER, epw)
+        
+    def run(self, **kwargs):
+        """
+        Run an IDF file with a given EnergyPlus weather file. This is a
+        wrapper for the EnergyPlus cli.
+        
+        Parameters
+        ----------
+        **kwargs
+            See eppy.runner.functions.run()
+            
+        Returns
+        -------
+        Results in some form? Exit code? Path to results?
     
-    Returns
-    -------
-    Results in some form? Exit code? Path to results?
-
-    """
-    # create a temp directory for the run
-    # write the IDF to the temp directory
-    # run EnergyPlus
-    # what to do with the results?
-
+        """
+        # get the current working directory
+        cwd = os.getcwd()
+        # create a temp directory for the run and set it as cwd
+        self.tmpdir = tempfile.mkdtemp()
+        os.chdir(self.tmpdir)
+        # write the IDF to the temp directory
+        idf_path = os.path.join(self.tmpdir, 'in.idf')
+        self.saveas(idf_path)
+        # run EnergyPlus
+        run(idf_path, self.epw, **kwargs)
+        # what to do with the results?
+        # destroy tempdir?
+        # reset cwd
+        os.chdir(cwd)
 
 def find_eplus_dir():
     """Locate the directory which contains the EnergyPlus install directory.
@@ -70,28 +98,33 @@ class TestRunner(unittest.TestCase):
 
 
     def setUp(self):
-        """get an IDF object to run
+        """Get an IDF object to run
         """
-        idftxt = """
-            Version,8.1;
-            Timestep,4;
-            Building,None,0.0000000E+00,Suburbs,0.04,0.40,FullInteriorAndExterior,25,6;
-            GlobalGeometryRules,UpperLeftCorner,CounterClockWise,World;
-            Site:Location,DENVER_STAPLETON_CO_USA_WMO_724690,39.77,-104.87,-7.00,1611.00;
-            SizingPeriod:DesignDay,DENVER_STAPLETON Ann Htg 99.6% Condns DB, 12, 21, WinterDesignDay, -20, 0.0, , , Wetbulb, -20, , , , , 83411., 2.3, 180, No, No, No, ASHRAEClearSky, , , , , 0.00;
-            SizingPeriod:DesignDay,DENVER_STAPLETON Ann Clg .4% Condns DB=>MWB, 7, 21, SummerDesignDay, 34.1, 15.2, , , Wetbulb, 15.8, , , , , 83411., 4, 120, No, No, No, ASHRAEClearSky, , , , , 1.00;
-            RunPeriod,, 1, 1, 12, 31, Tuesday, Yes, Yes, No, Yes, Yes;
-            SimulationControl,No, No, No, Yes, No;
-            Output:Variable,*,Site Diffuse Solar Radiation Rate per Area,Timestep;
-            """
-        IDF.setiddname('./eppy/resources/iddfiles/Energy+V8_1_0.idd')
-        self.idf = IDF(StringIO(idftxt))
-    
+        self.cwd = os.getcwd()
+        outdir = os.path.join(self.cwd, 'eplusout')
+        if os.path.isdir(outdir):
+            shutil.rmtree(outdir)
+        iddfile = "../eppy/resources/iddfiles/Energy+V8_3_0.idd"
+        fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
+        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        IDF5.setiddname(open(iddfile, 'r'), testing=True)
+        self.idf = IDF5(open(fname1, 'r'), epw)
+        
     def tearDown(self):
-        """destroy temp dir
+        """Destroy temp dir, copy outputs to check on, reset working directory.
         """
+        shutil.copytree(self.idf.tmpdir, os.path.join(self.cwd, 'eplusout'))
+        os.chdir(self.cwd)
+        shutil.rmtree(self.idf.tmpdir)
+                
 
     def testRun(self):
-        """end to end test of idf.run function
+        """End to end test of idf.run function.
         """
-        self.idf.run('')
+        self.idf.run(expandobjects=False, readvars=False)
+
+    def testRunReadVars(self):
+        """End to end test of idf.run function with readvars set to True.
+        """
+        self.idf.run(expandobjects=False, readvars=True)
+        
