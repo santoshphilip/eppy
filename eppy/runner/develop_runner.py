@@ -43,7 +43,7 @@ class IDF5(IDF4):
         """
         Parameters
         ----------
-        idf : eppy.IDF0 object
+        idf : file object
             The IDF object to run.
         epw : str
             File path to the EPW file to use.
@@ -51,7 +51,7 @@ class IDF5(IDF4):
         """
         super(IDF4, self).__init__(idf)
         self.idf = idf
-        self.epw = os.path.join(config.ELUS_WEATHER, epw)
+        self.epw = os.path.join(config.EPLUS_WEATHER, epw)
         
     def run(self, **kwargs):
         """
@@ -70,19 +70,21 @@ class IDF5(IDF4):
         """
         # get the current working directory
         cwd = os.getcwd()
-        # create a temp directory for the run and set it as cwd
+        # create a temp directory for the run
         self.tmpdir = tempfile.mkdtemp()
-        os.chdir(self.tmpdir)
+
         # write the IDF to the temp directory
         idf_path = os.path.join(self.tmpdir, 'in.idf')
         self.saveas(idf_path)
         # run EnergyPlus
-        run(idf_path, self.epw, **kwargs)
+        run(idf_path, self.epw, run_directory=self.tmpdir, **kwargs)
         # what to do with the results?
-        # destroy tempdir?
         # reset cwd
         os.chdir(cwd)
+        shutil.rmtree('results', ignore_errors=True)
+        shutil.move(self.tmpdir, 'results')
 
+        
 def find_eplus_dir():
     """Locate the directory which contains the EnergyPlus install directory.
     
@@ -101,11 +103,11 @@ class TestRunner(unittest.TestCase):
         """Get an IDF object to run
         """
         self.cwd = os.getcwd()
-        outdir = os.path.join(self.cwd, 'eplusout')
+        outdir = os.path.join(self.cwd, 'results')
         if os.path.isdir(outdir):
             shutil.rmtree(outdir)
-        iddfile = "../eppy/resources/iddfiles/Energy+V8_3_0.idd"
-        fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
+        iddfile = "../resources/iddfiles/Energy+V8_3_0.idd"
+        fname1 = "../resources/idffiles/V8_3/smallfile.idf"
         epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
         IDF5.setiddname(open(iddfile, 'r'), testing=True)
         self.idf = IDF5(open(fname1, 'r'), epw)
@@ -113,9 +115,8 @@ class TestRunner(unittest.TestCase):
     def tearDown(self):
         """Destroy temp dir, copy outputs to check on, reset working directory.
         """
-        shutil.copytree(self.idf.tmpdir, os.path.join(self.cwd, 'eplusout'))
+        shutil.rmtree(self.idf.tmpdir, ignore_errors=True)
         os.chdir(self.cwd)
-        shutil.rmtree(self.idf.tmpdir)
                 
 
     def testRun(self):

@@ -14,5 +14,5 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 EPLUS_HOME = 'C:\EnergyPlusV8-3-0'
-ELUS_WEATHER = 'C:\EnergyPlusV8-3-0\WeatherData'
+EPLUS_WEATHER = 'C:\EnergyPlusV8-3-0\WeatherData'
 EPLUS_EXE = 'energyplus.exe'

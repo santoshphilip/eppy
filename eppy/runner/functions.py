@@ -6,7 +6,6 @@
 # =======================================================================
 """Run functions for EnergyPlus.
 """
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -16,15 +15,20 @@ import os
 import subprocess
 import unittest
 
-from eppy.runner import config
+
+EPLUS_HOME = 'C:\EnergyPlusV8-3-0'
+EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
+EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
+THIS_DIR = os.path.dirname(__file__)
 
 
 def run(idf='in.idf',
         weather='in.epw',
         annual=False,
+        run_directory='.',
         output_directory=None,
         design_day=False,
-        expandobjects=True,
+        expandobjects=False,
         epmacro=False,
         readvars=False,
         idd=None,
@@ -32,7 +36,7 @@ def run(idf='in.idf',
         output_suffix=None,
         help=False,
         version=False,
-        ):
+        verbose='v'):
     """
     Wrapper around the EnergyPlus command line interface.
     
@@ -44,6 +48,9 @@ def run(idf='in.idf',
         Full or relative path to the weather file.
     annual : bool, optional
         If True then force annual simulation (default: False)
+    run_directory : str
+        A directory in which to run EnergyPlus. This is needed when using
+        multiprocessing (default: current directory)
     output_directory : str, optional
         Output directory path (default: current directory)
     design_day : bool, optional
@@ -51,9 +58,9 @@ def run(idf='in.idf',
     help : bool, optional
         Display help information (default: False)
     idd : str, optional
-        Input data dictionary path (default: Energy+.idd in EnergyPlus directory)
+        Input data dictionary (default: Energy+.idd in EnergyPlus directory)
     epmacro : str, optional
-        Run EPMacro prior to simulation.
+        Run EPMacro prior to simulation (default: False).
     expandobjects : bool, optional
         Run ExpandObjects prior to simulation (default: False)
     readvars : bool, optional
@@ -69,36 +76,37 @@ def run(idf='in.idf',
         Display version information (default: False)
     help : bool, optional
         Display help information (default: False)
-        
-    Returns
-    -------
-        EnergyPlus return code.
-
-    """
-    args = locals().copy() 
-
-    # get the IDF name
-    idf = args.pop('idf')
+    verbose: str
+        Set verbosity of runtime messages (default: v)
+            v: verbose
+            q: quiet
+            
+    Raises
+    ------
+        CalledProcessError
     
+    """
+    args = locals().copy()
+    # get unneeded params out of args ready to pass the rest to energyplus.exe
+    idf = args.pop('idf')
+    verbosity = args.pop('verbose')
+    os.chdir(os.path.join(os.path.pardir, args.pop('run_directory')))
     # build a list of command line arguments
-    cmd_args = []
+    cmd = [EPLUS_EXE]
     for arg in args:
         if args[arg]:
-            if isinstance(args[arg], basestring):
-                args[arg] = ' "{}"'.format(args[arg])
-            elif isinstance(args[arg], bool):
-                args[arg] = ''
-            cmd_args.append('--{}{}'.format(arg.replace('_', '-'), args[arg]))
+            if isinstance(args[arg], bool):
+                # remove the True or False to just leave the flag
+                cmd.extend(['--{}'.format(arg.replace('_', '-'))])
+            else:
+                cmd.extend(['--{}'.format(arg.replace('_', '-')), args[arg]])
 
-    # Get the path to the EnergyPlus executable
-    energyplus = os.path.join(config.EPLUS_HOME, config.EPLUS_EXE)
+    cmd.extend([idf])   
 
-    # build the command line interface string
-    cmd = '"{}" {} "{}"'.format(energyplus, ' '.join(cmd_args), idf)
-
-    if subprocess.check_call(cmd):
-        # Should try and generate a more useful error message
-        raise Exception("EnergyPlus did not complete")
+    if verbosity == 'v':
+        subprocess.check_call(cmd)
+    elif verbosity == 'q':
+        subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
 
 
 class TestWrapper(unittest.TestCase):
