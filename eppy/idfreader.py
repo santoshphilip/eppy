@@ -18,6 +18,8 @@ from eppy.bunch_subclass import EpBunch
 # from eppy.bunch_subclass import fieldnames, fieldvalues
 import eppy.iddgaps as iddgaps
 import eppy.function_helpers as fh
+from idf_msequence import Idf_MSequence_old
+from idf_msequence import Idf_MSequence
 
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
@@ -63,6 +65,23 @@ def makebunches(data, commdct):
             #     print obj
             bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
+    return bunchdt
+
+def makebunches_alter(data, commdct):
+    """make bunches with data"""
+    bunchdt = {}
+    dt, dtls = data.dt, data.dtls
+    for obj_i, key in enumerate(dtls):
+        key = key.upper()
+        objs = dt[key]
+        list1 = []
+        for obj in objs:
+            bobj = makeabunch(commdct, obj, obj_i)
+            list1.append(bobj)
+        bunchdt[key] = Idf_MSequence(list1, objs)
+        # print "id(objs)", id(objs)
+        # print "id(dt[key])", id(dt[key])
+        # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
     return bunchdt
 
 def convertfields(key_comm, obj):
@@ -169,7 +188,8 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
         commdct, dtls,
         skiplist=skiplist)
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
-    bunchdt = makebunches(data, commdct)
+    # bunchdt = makebunches(data, commdct)
+    bunchdt = makebunches_alter(data, commdct)
     # TODO : add functions here.
     # -
     addfunctions(dtls, bunchdt)
