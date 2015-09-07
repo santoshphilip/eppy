@@ -18,8 +18,8 @@ from eppy.bunch_subclass import EpBunch
 # from eppy.bunch_subclass import fieldnames, fieldvalues
 import eppy.iddgaps as iddgaps
 import eppy.function_helpers as fh
-from idf_msequence import Idf_MSequence_old
-from idf_msequence import Idf_MSequence
+from eppy.idf_msequence import Idf_MSequence_old
+from eppy.idf_msequence import Idf_MSequence
 
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
