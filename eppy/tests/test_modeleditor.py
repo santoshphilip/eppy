@@ -15,14 +15,13 @@ from __future__ import unicode_literals
 from StringIO import StringIO
 
 from eppy.iddcurrent import iddcurrent
-from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 
 import eppy.idfreader as idfreader
 import eppy.modeleditor as modeleditor
 import eppy.snippet as snippet
-import bunch 
+import bunch
 import pytest
 
 
@@ -321,12 +320,12 @@ def test_removeextensibles():
 
 def test_addthisbunch_old():
     """py.test for addthisbunch_old"""
-    obj1 = ['ZONE', 'weird zone', '0', '0', '0', '0', '1', '1', 'autocalculate', 
-        'autocalculate', 'autocalculate', '', '', 'Yes']
+    obj1 = ['ZONE', 'weird zone', '0', '0', '0', '0', '1', '1', 'autocalculate',
+            'autocalculate', 'autocalculate', '', '', 'Yes']
     thisbunch = modeleditor.obj2bunch(data, commdct, obj1)
     modeleditor.addthisbunch_old(bunchdt, data, commdct, thisbunch)
     assert data.dt["ZONE"][-1] == obj1
-    
+
 def test_getrefnames():
     """py.test for getrefnames"""
     tdata = (
@@ -506,7 +505,7 @@ def test_zonearea_zonevolume():
     assert almostequal(result, 1.49)
     result = modeleditor.zonevolume(idf, '473222')
     assert almostequal(result, 10.718762)
-        
+
 def test_new():
     """py.test for IDF.new()"""
     idf = IDF()
@@ -525,24 +524,23 @@ def test_newidfobject():
     obj = idf.newidfobject(objtype, Name='Argon')
     obj = idf.newidfobject(objtype, Name='Krypton')
     obj = idf.newidfobject(objtype, Name='Xenon')
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
-                                    ['MATERIAL:AIRGAP', 'Krypton'],
-                                    ['MATERIAL:AIRGAP', 'Xenon'],
-                                ]
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
+                                     ['MATERIAL:AIRGAP', 'Krypton'],
+                                     ['MATERIAL:AIRGAP', 'Xenon'],
+                                    ]
     # remove an object
-    idf.popidfobject(objtype, 1)    
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
-                                    ['MATERIAL:AIRGAP', 'Xenon'],
-                                ]
+    idf.popidfobject(objtype, 1)
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
+                                     ['MATERIAL:AIRGAP', 'Xenon'],
+                                    ]
     lastobject = idf.idfobjects[objtype][-1]
     idf.removeidfobject(lastobject)
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
-                                ]
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],]
     # copyidfobject
     onlyobject = idf.idfobjects[objtype][0]
     idf.copyidfobject(onlyobject)
-    # print idf.model.dt[objtype]
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], 
-                                    ['MATERIAL:AIRGAP', 'Argon'], 
-                                ]
+
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
+                                     ['MATERIAL:AIRGAP', 'Argon'],
+                                    ]
         

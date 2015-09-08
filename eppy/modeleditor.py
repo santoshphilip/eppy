@@ -97,10 +97,10 @@ def addthisbunch_old(bunchdt, data, commdct, thisbunch):
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
     data.dt[key].append(obj)
-    abunch =  obj2bunch(data, commdct, obj)
+    abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
-    
+
 def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
     abunch usually comes from another idf file
@@ -110,12 +110,12 @@ def addthisbunch(bunchdt, data, commdct, thisbunch):
     abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
-    
+
     data.dt[key].append(obj)
-    abunch =  obj2bunch(data, commdct, obj)
+    abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
-    
+
 def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
     dtls = data.dtls
@@ -170,7 +170,8 @@ def getobject(bunchdt, key, name):
     """get the object if you have the key and the name
     returns a list of objects, in case you have more than one
     You should not have more than one"""
-    # TODO : throw exception if more than one object, or return more objects    idfobjects = bunchdt[key]
+    # TODO : throw exception if more than one object, or return more objects
+    idfobjects = bunchdt[key]
     if idfobjects:
         unique_id = idfobjects[0].objls[1] # second item in list is a unique ID
     theobjs = [idfobj for idfobj in idfobjects if
@@ -509,17 +510,17 @@ class IDF1(IDF0):
         super(IDF1, self).__init__(idfname)
     def newidfobject(self, key, aname='', **kwargs):
         """add a new idfobject to the model
-        
-        for example :: 
-        
+
+        for example ::
+
             newidfobject("CONSTRUCTION")
-            newidfobject("CONSTRUCTION", 
-                Name='Interior Ceiling_class', 
-                Outside_Layer='LW Concrete', 
+            newidfobject("CONSTRUCTION",
+                Name='Interior Ceiling_class',
+                Outside_Layer='LW Concrete',
                 Layer_2='soundmat')
-        
+
         If you don't specify a value for a field, the default value will be set
-        
+
         aname is not used. It is left there for backward compatibility"""
         obj = newrawobject(self.model, self.idd_info, key)
         abunch = obj2bunch(self.model, self.idd_info, obj)
@@ -538,23 +539,23 @@ class IDF1(IDF0):
         self.idfobjects[key].remove(idfobject)
     def copyidfobject(self, idfobject):
         """add idfobject to this model
-        
+
         idfobject usually comes from another idf file
         or it can be used to copy within this idf file"""
-        addthisbunch(self.idfobjects, 
-                            self.model,
-                            self.idd_info,
-                            idfobject)
+        addthisbunch(self.idfobjects,
+                     self.model,
+                     self.idd_info,
+                     idfobject)
     def copyidfobject_old(self, idfobject):
         """add idfobject to this model
-        
+
         idfobject usually comes from another idf file
         or it can be used to copy within this idf file"""
         # TODO unit test
-        addthisbunch(self.idfobjects, 
-                            self.model,
-                            self.idd_info,
-                            idfobject)
+        addthisbunch(self.idfobjects,
+                     self.model,
+                     self.idd_info,
+                     idfobject)
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)

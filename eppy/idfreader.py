@@ -34,7 +34,7 @@ def iddversiontuple(afile):
     try:
         line1 = line1.decode('ISO-8859-2')
     except AttributeError:
-        pass    
+        pass
     line = line1.strip()
     if line1 == '':
         return (0, )
