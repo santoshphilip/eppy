@@ -4,15 +4,19 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
-"""config parameters for eppy.runner
 """
+Config parameters for eppy.runner. Ideally we would have these set
+automatically by looking for them on the filesystem.
 
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import os
+
+
 EPLUS_HOME = 'C:\EnergyPlusV8-3-0'
-EPLUS_WEATHER = 'C:\EnergyPlusV8-3-0\WeatherData'
-EPLUS_EXE = 'energyplus.exe'
+EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
+EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')

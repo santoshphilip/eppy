@@ -6,6 +6,7 @@
 # =======================================================================
 """Run functions for EnergyPlus.
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -13,7 +14,8 @@ from __future__ import unicode_literals
 
 import os
 import subprocess
-import unittest
+
+from runner import config
 
 
 EPLUS_HOME = 'C:\EnergyPlusV8-3-0'
@@ -34,7 +36,6 @@ def run(idf='in.idf',
         idd=None,
         output_prefix=None,
         output_suffix=None,
-        help=False,
         version=False,
         verbose='v'):
     """
@@ -55,8 +56,6 @@ def run(idf='in.idf',
         Output directory path (default: current directory)
     design_day : bool, optional
         Force design-day-only simulation (default: False)
-    help : bool, optional
-        Display help information (default: False)
     idd : str, optional
         Input data dictionary (default: Energy+.idd in EnergyPlus directory)
     epmacro : str, optional
@@ -90,9 +89,10 @@ def run(idf='in.idf',
     # get unneeded params out of args ready to pass the rest to energyplus.exe
     idf = args.pop('idf')
     verbosity = args.pop('verbose')
+    args['output_directory'] = os.path.abspath(args.pop('output_directory'))
     os.chdir(os.path.join(os.path.pardir, args.pop('run_directory')))
     # build a list of command line arguments
-    cmd = [EPLUS_EXE]
+    cmd = [config.EPLUS_EXE]
     for arg in args:
         if args[arg]:
             if isinstance(args[arg], bool):
@@ -108,22 +108,3 @@ def run(idf='in.idf',
     elif verbosity == 'q':
         subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
 
-
-class TestWrapper(unittest.TestCase):
-
-
-    def setUp(self):
-        """
-        """
-        pass
-        
-    def tearDown(self):
-        """
-        """
-        pass
-    
-    def testCommandStrings(self):
-        """end to end test of idf.run function
-        """
-        assert run('in.idf')
-    
