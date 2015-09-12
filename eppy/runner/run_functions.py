@@ -14,16 +14,62 @@ from __future__ import unicode_literals
 
 from subprocess import CalledProcessError
 import os
+import shutil
 import subprocess
 import tempfile
 
 from runner.config import EPLUS_HOME
+import multiprocessing as mp
 
 
 EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
 EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
 THIS_DIR = os.path.dirname(__file__)
 
+
+def runIDFs(runs_list, processors=1):
+    """Wrapper for run() to be used when running IDF5 runs in parallel.
+    
+    Parameters
+    ----------
+    runs_list : list
+        A list made up of an IDF5 object and a kwargs dict.
+    processors : int, optional
+        Number of processors to run on (default: 1). If zero is passed then
+        the process will run on all CPUs.
+        
+    """
+    if processors == 0:
+        processors = mp.cpu_count()
+    shutil.rmtree("multi_runs", ignore_errors=True)
+    os.mkdir("multi_runs")
+    processed_runs = []
+    for i, item in enumerate(runs_list):
+        idf = item[0]
+        epw = idf.epw
+        kwargs = item[1]
+        idf_dir = os.path.join('multi_runs', 'idf_%i' % i)
+        os.mkdir(idf_dir)
+        idf_path = os.path.join(idf_dir, 'in.idf')
+        idf.saveas(idf_path)
+        processed_runs.append([[idf_path, epw], kwargs])
+    pool = mp.Pool(processors)
+    pool.map(multirunner, processed_runs)
+    pool.close()
+    shutil.rmtree("multi_runs", ignore_errors=True)
+
+
+def multirunner(args):
+    """Wrapper for run() to be used when running IDF and EPW runs in parallel.
+    
+    Parameters
+    ----------
+    args : list
+        A list made up of a two-item list (IDF and EPW) and a kwargs dict.
+        
+    """
+    run(*args[0], **args[1])
+    
 
 def run(idf,
         weather,
