@@ -15,7 +15,7 @@ eppy/useful_scripts/InputSim/
 .*/
 .ipynb_checkpoints/
 *.sublime*
-*test*
+#*test*
 venv/
 
 #===============================https://github.com/github/gitignore.git============================
