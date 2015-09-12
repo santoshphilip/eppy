@@ -15,11 +15,11 @@ import os
 import re
 import shutil
 
-from runner.run_functions import EPLUS_WEATHER
-from runner.run_functions import multirunner
-from runner.run_functions import run
-from runner.run_functions import runIDFs
-from runner.runner import IDF5
+from eppy.runner.run_functions import EPLUS_WEATHER
+from eppy.runner.run_functions import multirunner
+from eppy.runner.run_functions import run
+from eppy.runner.run_functions import runIDFs
+from eppy.runner.runner import IDF5
 import multiprocessing as mp
 
 
