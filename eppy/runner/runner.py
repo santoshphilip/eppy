@@ -10,10 +10,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
-import tempfile
 
 from eppy.modeleditor import IDF4
-from eppy.runner import config
 from eppy.runner.functions import run
 
 
@@ -33,10 +31,7 @@ class IDF5(IDF4):
         """
         super(IDF4, self).__init__(idf)
         self.idf = idf
-        if os.path.isfile(epw):
-            self.epw = os.path.abspath(epw)
-        else:
-            self.epw = os.path.join(config.EPLUS_WEATHER, epw)
+        self.epw = epw
         
     def run(self, **kwargs):
         """
@@ -49,25 +44,9 @@ class IDF5(IDF4):
             See eppy.runner.functions.run()
             
         """
-        if 'version' in kwargs:
-            # just get EnergyPlus version number and return
-            run(version=kwargs['version'])
-            return
-        # get the current working directory
-        cwd = os.getcwd()
-        if 'run_directory' in kwargs:
-            self.rundir = kwargs.pop('run_directory')
-            os.mkdir(self.rundir)
-        else:
-            # create a temp directory for the run
-            self.tmpdir = tempfile.mkdtemp()
-            self.rundir = self.tmpdir
-        # write the IDF to the temp directory
-        idf_path = os.path.join(self.rundir, 'in.idf')
-        self.saveas(idf_path)
+        # write the IDF to the current directory
+        self.saveas('in.idf')
         # run EnergyPlus
-        if 'output_directory' not in kwargs:
-            kwargs['output_directory'] = 'run_outputs'
-        run(idf_path, self.epw, run_directory=self.rundir, **kwargs)
-        # reset cwd
-        os.chdir(cwd)
+        run('in.idf', self.epw, **kwargs)
+        # remove in.idf
+        os.remove('in.idf')
