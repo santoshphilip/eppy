@@ -16,3 +16,4 @@ from __future__ import unicode_literals
 
 
 EPLUS_HOME = 'C:\EnergyPlusV8-3-0'
+#EPLUS_HOME = os.path.dirname(spawn.find_executable('energyplus'))

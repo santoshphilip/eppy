@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import os
 
 from eppy.modeleditor import IDF4
+
 from eppy.runner.run_functions import run
 
 

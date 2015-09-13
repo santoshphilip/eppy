@@ -11,19 +11,18 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from distutils import spawn
 from subprocess import CalledProcessError
 import os
 import shutil
 import subprocess
 import tempfile
 
+from eppy.runner.config import EPLUS_HOME
 import multiprocessing as mp
 
 
-EPLUS_HOME = os.path.dirname(spawn.find_executable('energyplus'))
 EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
-EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
+EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 THIS_DIR = os.path.dirname(__file__)
 
 
