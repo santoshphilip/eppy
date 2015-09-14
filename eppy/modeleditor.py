@@ -451,6 +451,8 @@ class IDF0(object):
             cls.iddname = arg
             cls.idd_info = None
             cls.block = None
+        elif cls.iddname == arg:
+            pass
         else:
             if testing == False:
                 errortxt = "IDD file is set to: %s"  % (cls.iddname, )
