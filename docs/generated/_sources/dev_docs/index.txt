@@ -18,6 +18,7 @@ Topics
     future_eppy
     data_eppy
     epbunch
+    lists
     modeleditor
     pytest_eppy
     doc_eppy

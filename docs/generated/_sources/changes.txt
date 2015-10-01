@@ -1,6 +1,11 @@
 Changes
 =======
 
+2015-07-23
+----------
+- eppy will without numpy installed.
+- if numpy is installed, it will use numpy
+
 release r0.5
 ~~~~~~~~~~~~
 
