@@ -106,18 +106,18 @@ class Idf_MSequence(collections.MutableSequence):
     def __setitem__(self, i, v):
         self.list1[i] = v
         self.list2[i] = v.obj
-        print "in __setitem__"
+        # print "in __setitem__"
     def __delitem__(self, i):
         del self.list1[i]
         del self.list2[i]
     def __len__(self):
         return len(self.list1)
     def insert(self, i, v):
-        print len(self.list1), len(self.list2)
+        # print len(self.list1), len(self.list2)
         self.list1.insert(i, v)
         self.list2.insert(i, v.obj)
-        print len(self.list1), len(self.list2)
-        print "in insert"
+        # print len(self.list1), len(self.list2)
+        # print "in insert"
     def __str__(self):
         # st = "list1 = %s, list2 = %s" % (self.list1, self.list2)
         return str(self.list1)
