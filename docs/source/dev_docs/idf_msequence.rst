@@ -1,6 +1,6 @@
 
-Making Syntactic Sugar work
-===========================
+Idf\_MSequence - Syntactic Sugar work
+=====================================
 
 
 Underlying Data structure of again

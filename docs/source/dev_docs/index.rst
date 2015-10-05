@@ -18,7 +18,6 @@ Topics
     future_eppy
     data_eppy
     epbunch
-    lists
     idf_msequence
     modeleditor
     pytest_eppy
