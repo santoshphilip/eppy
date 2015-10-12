@@ -14,14 +14,17 @@ usage:
     python ex_loopdiagram.py fname.idf"""
 # copy of s_airplantloop1.py
 
-import pydot
-import sys
-import os
 import getopt
-# sys.path.append('../EPlusInputcode')
+import os
+import sys
+
+import pydot
+
 from EPlusInterfaceFunctions import readidf
 import loops
 
+
+# sys.path.append('../EPlusInputcode')
 help_message = '''
 The help message goes here.
 '''
@@ -125,14 +128,24 @@ def test_dropnodes():
     assert result == theresult
     
 def makeanode(name):
+    name = escape_char(name, ':')
     return pydot.Node(name, shape="plaintext", label=name)
-    
+
 def makeabranch(name):
+    name = escape_char(name, ':')
     return pydot.Node(name, shape="box3d", label=name)
 
 def makeendnode(name):
+    name = escape_char(name, ':')
     return pydot.Node(name, shape="doubleoctagon", label=name, 
         style="filled", fillcolor="#e4e4e4")
+
+def escape_char(name, char):
+    """escape strings which contain a specific character, char"""
+    if char in name:
+        return u"\"" + name + u"\""
+    else:
+        return name
     
 def istuple(x):
     return type(x) == tuple
