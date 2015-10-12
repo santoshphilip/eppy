@@ -3,7 +3,3 @@
 .DS_Store
 .ipynb_checkpoints/
 __pycache__
-# Eclipse/PyDev
-.project
-.pydevproject
-.settings/
