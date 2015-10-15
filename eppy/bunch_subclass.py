@@ -205,6 +205,8 @@ class GetRange(EpBunchFunctionClass):
                 if therange[key]:
                     therange[key] = int(therange[key][0])
         return therange
+    def __repr__(self):
+        return 'GetRange'
 
 class CheckRange(EpBunchFunctionClass):
     def __init__(self, arg):
@@ -240,6 +242,8 @@ class CheckRange(EpBunchFunctionClass):
                 astr = astr % (fieldvalue, therange['minimum>'])
                 raise RangeError(astr)
         return fieldvalue
+    def __repr__(self):
+        return 'CheckRange'
 
 class EpBunch_5(EpBunch_4):
     """implements getrange, checkrange, fieldnames"""
