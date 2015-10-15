@@ -16,6 +16,7 @@ from __future__ import unicode_literals
 import copy
 from eppy.EPlusInterfaceFunctions import readidf
 from bunch import Bunch
+# Bunch.__str__ = Bunch.__repr__
 # import eppy.bunchhelpers
 
 class BadEPFieldError(Exception):
@@ -86,6 +87,10 @@ class EpBunch_1(Bunch):
         nlines.insert(0, lines[0])# first line without comment
         astr = '\n'.join(nlines)
         return '\n%s\n' % (astr, )
+    def __str__(self):
+        """same as __repr__"""
+        # needed if YAML is installed. See issue 67
+        return self.__repr__()
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
