@@ -1,6 +1,17 @@
 Changes
 =======
 
+2015-10-05
+----------
+
+- ``Idf_MSequence`` has been documented. This is important to developers of eppy. Users of eppy should not care :-)
+
+2015-07-23
+----------
+
+- eppy will without numpy installed.
+- if numpy is installed, it will use numpy
+
 release r0.5
 ~~~~~~~~~~~~
 
