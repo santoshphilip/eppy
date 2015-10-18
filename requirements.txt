@@ -4,3 +4,4 @@ numpy>=1.7.1
 pydot>1.0
 pyparsing==1.5.7
 pytest>=2.3.5
+tinynumpy>=1.2.0
