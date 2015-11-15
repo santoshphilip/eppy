@@ -22,9 +22,9 @@ try:
     from numpy import dot as dot
     from numpy import cross as cross
 except ImportError as err:
-    from eppy.geometry.tinynumpy import dot as dot
-    from eppy.geometry.tinynumpy import cross as cross
-    import eppy.geometry.tinynumpy as np
+    from tinynumpy import dot as dot
+    from tinynumpy import cross as cross
+    import tinynumpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
