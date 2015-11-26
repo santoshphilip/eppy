@@ -19,12 +19,8 @@ from __future__ import unicode_literals
 
 try:
     import numpy as np
-    from numpy import dot as dot
-    from numpy import cross as cross
 except ImportError as err:
-    from tinynumpy import dot as dot
-    from tinynumpy import cross as cross
-    import tinynumpy as np
+    from tinynumpy import tinynumpy as np
 
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
@@ -32,9 +28,9 @@ def vol_tehrahedron(poly):
     p_b = np.array(poly[1])
     p_c = np.array(poly[2])
     p_d = np.array(poly[3])
-    return abs(dot(
+    return abs(np.dot(
         np.subtract(p_a, p_d),
-        cross(
+        np.cross(
             np.subtract(p_b, p_d),
             np.subtract(p_c, p_d))) / 6)
 
