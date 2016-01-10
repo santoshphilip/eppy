@@ -1,4 +1,4 @@
-# Copyright (c) 2015 Jamie Bull
+# Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -19,11 +19,12 @@ from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
+from eppy.runner.run_functions import version
 from eppy.runner.runner import IDF5
 import multiprocessing as mp
 
 
-THIS_DIR = os.path.dirname(__file__)
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 IDD_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/iddfiles')
 IDF_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/idffiles')
 
@@ -59,6 +60,8 @@ class TestMultiprocessing:
         """
         for results_dir in glob('results_*'):
             shutil.rmtree(results_dir)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
 
     def testSequentialRun(self):
         """
@@ -178,7 +181,7 @@ class TestRunFunction:
 
     def testRunMissingFileRaisesError(self, capfd):
         """
-        Test that a missing file doesn't produce the expected warning to std
+        Test that a missing file produces the expected warning to std
         out.
         Fails if error message is not as expected.
         
@@ -230,7 +233,8 @@ class TestIDFRunner:
         """
         os.chdir(THIS_DIR)
         shutil.rmtree('run_outputs', ignore_errors=True)
-              
+        shutil.rmtree("test_results", ignore_errors=True)
+             
     
     def num_rows_in_csv(self, results='./run_outputs'):
         """Check readvars outputs the expected number of rows.
@@ -405,7 +409,23 @@ class TestIDFRunner:
         """
         self.idf.run(version=True)
         out, _err = capfd.readouterr()
-        assert out.strip() == "EnergyPlus, Version 8.3.0-6d97d074ea"
+
+        expected_version = version.replace('-', '.')
+        version_string = "EnergyPlus, Version {}".format(expected_version)
+        
+        assert out.strip().startswith(version_string)
+        
+    def testHelp(self, capfd):
+        """
+        Test of calling the `help` built-in function on an IDF5 object.
+        Fails if the expected help output is not returned.
+
+        """
+        help(self.idf.run)
+        out, _err = capfd.readouterr()
+        expected = "Help on method run in module eppy.runner.runner:"
+
+        assert out.strip().startswith(expected)
         
     def testVerbose(self, capfd):
         """
