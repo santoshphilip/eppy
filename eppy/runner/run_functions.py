@@ -22,16 +22,16 @@ import tempfile
 import multiprocessing as mp
 
 
-VERSION = '8-3-0'  # TODO: Get this from IDD, IDF/IMF, config file?
+VERSION = '8-4-0'  # TODO: Get this from IDD, IDF/IMF, config file?
 
 if platform.system() == 'Windows':
-    EPLUS_HOME = "C:/EnergyPlusV{}".format(VERSION)
+    EPLUS_HOME = "C:/EnergyPlusV{VERSION}".format(**locals())
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
 elif platform.system() == "Linux":
-    EPLUS_HOME = "/usr/local/EnergyPlus-{}".format(VERSION)
+    EPLUS_HOME = "/usr/local/EnergyPlus-{VERSION}".format(**locals())
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 else:
-    EPLUS_HOME = "/Applications/EnergyPlus-{}".format(VERSION)
+    EPLUS_HOME = "/Applications/EnergyPlus-{VERSION}".format(**locals())
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 
 EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
@@ -52,7 +52,7 @@ def runIDFs(jobs_list, processors=1):
 
     """
     if processors <= 0:
-        processors = mp.cpu_count() - processors
+        processors = max(1, mp.cpu_count() - processors)
 
     shutil.rmtree("multi_runs", ignore_errors=True)
     os.mkdir("multi_runs")

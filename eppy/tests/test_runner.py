@@ -31,6 +31,11 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 IDD_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/iddfiles')
 IDF_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/idffiles')
 
+TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
+TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
+TEST_OLD_IDD = 'Energy+V8_1_0.idd'
+
 
 def has_severe_errors(results='run_outputs'):
     """Check for severe errors in the eplusout.end file.
@@ -56,8 +61,7 @@ class TestMultiprocessing(object):
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
             u'eplusout.end', u'eplusout.err', u'eplusout.eso',
             u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err',
-            u'eplusout.iperr']
+            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
 
     def teardown(self):
         """Remove the multiprocessing results folders.
@@ -75,12 +79,11 @@ class TestMultiprocessing(object):
         directories.
 
         """
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
         for i in range(2):
             kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, epw], kwargs])
+            runs.append([[fname1, TEST_EPW], kwargs])
         for r in runs:
             run(*r[0], **r[1])
         for results_dir in glob('results_*'):
@@ -96,12 +99,11 @@ class TestMultiprocessing(object):
         directories.
 
         """
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
         for i in range(2):
             kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, epw], kwargs])
+            runs.append([[fname1, TEST_EPW], kwargs])
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
         pool.close()
@@ -114,15 +116,17 @@ class TestMultiprocessing(object):
         directories.
 
         """
-        iddfile = os.path.join(IDD_FILES, "Energy+V8_3_0.idd")
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        iddfile = os.path.join(IDD_FILES, TEST_IDD)
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
         IDF5.setiddname(open(iddfile, 'r'), testing=True)
         runs = []
         for i in xrange(4):
-            runs.append([IDF5(open(fname1, 'r'), epw),
+            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
+        runIDFs(runs, num_CPUs)
+
+        num_CPUs = -1
         runIDFs(runs, num_CPUs)
 
 
@@ -151,9 +155,8 @@ class TestRunFunction(object):
         Fails if no results are produced.
 
         """
-        run("../resources/idffiles/V8_3/smallfile.idf",
-            "USA_CO_Golden-NREL.724666_TMY3.epw",
-            output_directory="test_results")
+        relative_path = os.path.join("../resources/idffiles", TEST_IDF)
+        run(relative_path, TEST_EPW, output_directory="test_results")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -164,9 +167,9 @@ class TestRunFunction(object):
         Fails if no results are produced.
 
         """
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
         epw = os.path.join(
-            EPLUS_WEATHER, 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw')
+            EPLUS_WEATHER, TEST_EPW)
         run(fname1, epw, output_directory="test_results")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
@@ -179,9 +182,8 @@ class TestRunFunction(object):
         Fails if no results are produced.
 
         """
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-        run(fname1, epw, output_directory="test_results")
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        run(fname1, TEST_EPW, output_directory="test_results")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -193,10 +195,9 @@ class TestRunFunction(object):
         Fails if error message is not as expected.
 
         """
-        fname1 = os.path.join(IDF_FILES, "V8_3/fake_file.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        fname1 = os.path.join(IDF_FILES, "XXXXXXX_fake_file.idf")
         try:
-            run(fname1, epw, output_directory="test_results")
+            run(fname1, TEST_EPW, output_directory="test_results")
             assert False  # missed the error
         except CalledProcessError:
             out, _err = capfd.readouterr()
@@ -214,25 +215,24 @@ class TestIDFRunner(object):
         outdir = os.path.join(THIS_DIR, 'run_outputs')
         if os.path.isdir(outdir):
             shutil.rmtree(outdir)
-        iddfile = os.path.join(IDD_FILES, "Energy+V8_3_0.idd")
-        fname1 = os.path.join(IDF_FILES, "V8_3/smallfile.idf")
-        epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+        iddfile = os.path.join(IDD_FILES, TEST_IDD)
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
         IDF5.setiddname(open(iddfile, 'r'), testing=True)
-        self.idf = IDF5(open(fname1, 'r'), epw)
+        self.idf = IDF5(open(fname1, 'r'), TEST_EPW)
 
         self.expected_files = [
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
             u'eplusout.end', u'eplusout.err', u'eplusout.eso',
             u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err',
-            u'eplusout.iperr']
+            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err', ]
+#            u'eplusout.iperr']
         self.expected_files_suffix_C = [
-            u'eplus.iperr', u'eplus.audit', u'eplus.mdd', u'eplus.err',
-            u'Sqlite.err', u'eplus.eio', u'eplusTable.htm', u'eplus.shd',
+            u'eplus.audit', u'eplus.mdd', u'eplus.err',
+            u'eplusSqlite.err', u'eplus.eio', u'eplusTable.htm', u'eplus.shd',
             u'eplus.mtd', u'eplus.bnd', u'eplus.eso', u'eplus.rdd',
             u'eplus.end']
         self.expected_files_suffix_D = [
-            u'eplus.iperr', u'eplus.audit', u'eplus.mdd', u'-sqlite.err',
+            u'eplus.audit', u'eplus.mdd', u'eplus-sqlite.err',
             u'eplus-table.htm', u'eplus.err', u'eplus.eio', u'eplus.bnd',
             u'eplus.shd', u'eplus.mtd', u'eplus.end', u'eplus.eso',
             u'eplus.rdd']
@@ -242,6 +242,7 @@ class TestIDFRunner(object):
         """
         os.chdir(THIS_DIR)
         shutil.rmtree('run_outputs', ignore_errors=True)
+        shutil.rmtree('other_run_outputs', ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
 
     def num_rows_in_csv(self, results='./run_outputs'):
@@ -299,7 +300,6 @@ class TestIDFRunner(object):
         files = os.listdir('other_run_outputs')
         self.expected_files.extend([])
         assert set(files) == set(self.expected_files)
-        shutil.rmtree('other_run_outputs')
 
     def test_run_design_day(self):
         """
@@ -403,7 +403,7 @@ class TestIDFRunner(object):
         Fails if the expected IDD version is not listed in the error file.
 
         """
-        other_idd = os.path.join(IDD_FILES, 'Energy+V8_1_0.idd')
+        other_idd = os.path.join(IDD_FILES, TEST_OLD_IDD)
         self.idf.run(idd=other_idd)
         with open('run_outputs/eplusout.err', 'r') as errors:
             assert "IDD_Version 8.1.0.009" in errors.readline()
