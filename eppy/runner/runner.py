@@ -17,18 +17,19 @@ from eppy.modeleditor import IDF4
 from eppy.runner.run_functions import run
 
 
-def wrappedHelpText (wrappedFunc):
-    def decorator (f):
-        f.__doc__ = ('This method wraps the following method:\n\n' + 
-            pydoc.text.document(wrappedFunc))
+def wrappedHelpText(wrappedFunc):
+    def decorator(f):
+        f.__doc__ = ('This method wraps the following method:\n\n' +
+                     pydoc.text.document(wrappedFunc))
         return f
     return decorator
 
 
 class IDF5(IDF4):
+
     """Subclass of IDF used to carry out simulation runs.
     """
-    
+
     def __init__(self, idf, epw):
         """
         Parameters
@@ -37,23 +38,23 @@ class IDF5(IDF4):
             The IDF object to run.
         epw : str
             File path to the EPW file to use.
-            
+
         """
         super(IDF4, self).__init__(idf)
         self.idf = idf
         self.epw = epw
-    
+
     @wrappedHelpText(run)
     def run(self, **kwargs):
         """
         Run an IDF file with a given EnergyPlus weather file. This is a
         wrapper for the EnergyPlus command line interface.
-        
+
         Parameters
         ----------
         **kwargs
             See eppy.runner.functions.run()
-            
+
         """
         # write the IDF to the current directory
         self.saveas('in.idf')
