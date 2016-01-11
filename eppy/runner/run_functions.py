@@ -6,31 +6,32 @@
 # =======================================================================
 """Run functions for EnergyPlus.
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
 from subprocess import CalledProcessError
+from subprocess import check_call
 import os
 import platform
 import shutil
-import subprocess
 import tempfile
 
 import multiprocessing as mp
 
 
-version = '8-3-0'  # TODO: Get this from IDD, IDF/IMF, config file?
+VERSION = '8-3-0'  # TODO: Get this from IDD, IDF/IMF, config file?
 
 if platform.system() == 'Windows':
-    EPLUS_HOME = "C:\EnergyPlusV{}".format(version)
+    EPLUS_HOME = "C:/EnergyPlusV{}".format(VERSION)
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
 elif platform.system() == "Linux":
-    EPLUS_HOME = "/usr/local/EnergyPlus-{}".format(version)
+    EPLUS_HOME = "/usr/local/EnergyPlus-{}".format(VERSION)
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 else:
-    EPLUS_HOME = "/Applications/EnergyPlus-{}".format(version)
+    EPLUS_HOME = "/Applications/EnergyPlus-{}".format(VERSION)
     EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 
 EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
@@ -148,7 +149,7 @@ def run(idf=None, weather=None, output_directory='run_outputs', annual=False,
     if version:
         # just get EnergyPlus version number and return
         cmd = [EPLUS_EXE, '--version']
-        subprocess.check_call(cmd)
+        check_call(cmd)
         return
 
     # get unneeded params out of args ready to pass the rest to energyplus.exe
@@ -180,9 +181,9 @@ def run(idf=None, weather=None, output_directory='run_outputs', annual=False,
 
     try:
         if verbose == 'v':
-            subprocess.check_call(cmd)
+            check_call(cmd)
         elif verbose == 'q':
-            subprocess.check_call(cmd, stdout=open(os.devnull, 'w'))
+            check_call(cmd, stdout=open(os.devnull, 'w'))
         os.chdir(cwd)
     except CalledProcessError:
         # potentially catch contents of std out and put it in the error

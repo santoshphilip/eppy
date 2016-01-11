@@ -4,6 +4,9 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
+"""
+Tests for features in eppy.runner related to running EnergyPlus from Eppy.
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -11,30 +14,22 @@ from __future__ import unicode_literals
 
 from glob import glob
 from subprocess import CalledProcessError
+import multiprocessing
 import os
 import re
 import shutil
 
 from eppy.runner.run_functions import EPLUS_WEATHER
+from eppy.runner.run_functions import VERSION
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
-from eppy.runner.run_functions import version
 from eppy.runner.runner import IDF5
-import multiprocessing as mp
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 IDD_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/iddfiles')
 IDF_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/idffiles')
-
-
-expected_files = [
-    u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
-    u'eplusout.end', u'eplusout.err', u'eplusout.eso',
-    u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-    u'eplusout.shd', u'eplustbl.htm', u'sqlite.err',
-    u'eplusout.iperr']
 
 
 def has_severe_errors(results='run_outputs'):
@@ -43,17 +38,26 @@ def has_severe_errors(results='run_outputs'):
     end_filename = glob('{}/*.end'.format(results))[0]
     with open(os.path.join(end_filename), 'r') as end_file:
         end_txt = end_file.read()
-    num_severe = int(re.findall(" (\d*) Severe Error", end_txt)[0])
+    num_severe = int(re.findall(r' (\d*) Severe Error', end_txt)[0])
     return num_severe > 0
 
 
-class TestMultiprocessing:
+class TestMultiprocessing(object):
+
+    """Tests for running multiple EnergyPlus jobs simultaneously.
+    """
 
     def setup(self):
         """Clear out any results from previous tests.
         """
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
+        self.expected_files = [
+            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
+            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
+            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
+            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err',
+            u'eplusout.iperr']
 
     def teardown(self):
         """Remove the multiprocessing results folders.
@@ -63,7 +67,7 @@ class TestMultiprocessing:
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
 
-    def testSequentialRun(self):
+    def test_sequential_run(self):
         """
         Test that we can run a sequence of runs using the signature:
             run([idf_path, epw], kwargs)
@@ -82,9 +86,9 @@ class TestMultiprocessing:
         for results_dir in glob('results_*'):
             assert not has_severe_errors(results_dir)
             files = os.listdir(results_dir)
-            assert set(files) == set(expected_files)
+            assert set(files) == set(self.expected_files)
 
-    def testMultiprocessRun(self):
+    def test_multiprocess_run(self):
         """
         Test that we can run a list of runs in parallel using the signature:
             run([idf_path, epw], kwargs)
@@ -98,11 +102,11 @@ class TestMultiprocessing:
         for i in range(2):
             kwargs = {'output_directory': 'results_%s' % i}
             runs.append([[fname1, epw], kwargs])
-        pool = mp.Pool(2)
+        pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
         pool.close()
 
-    def testMultiprocessRunIDF5(self):
+    def test_multiprocess_run_IDF5(self):
         """
         Test that we can run a sequence of runs using the signature:
             runIDFs([[IDF5, kwargs],...], num_CPUs)
@@ -122,7 +126,10 @@ class TestMultiprocessing:
         runIDFs(runs, num_CPUs)
 
 
-class TestRunFunction:
+class TestRunFunction(object):
+
+    """Tests for simple running of EnergyPlus from Eppy.
+    """
 
     def setup(self):
         """Tidy up just in case anything is left from previous test runs.
@@ -138,7 +145,7 @@ class TestRunFunction:
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
 
-    def testRunRelativePaths(self):
+    def test_run_relative_paths(self):
         """
         Test that running works with a relative path.
         Fails if no results are produced.
@@ -151,7 +158,7 @@ class TestRunFunction:
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
 
-    def testRunAbsPaths(self):
+    def test_run_abs_paths(self):
         """
         Test that running works with absolute paths.
         Fails if no results are produced.
@@ -165,7 +172,7 @@ class TestRunFunction:
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
 
-    def testRunWeatherNameOnly(self):
+    def test_run_weather_name_only(self):
         """
         Test that running works with the name of a weather file that is
         in the Weather subdirectory of the EnergyPlus install directory.
@@ -179,7 +186,7 @@ class TestRunFunction:
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
 
-    def testRunMissingFileRaisesError(self, capfd):
+    def test_run_missing_file_raises_error(self, capfd):
         """
         Test that a missing file produces the expected warning to std
         out.
@@ -196,7 +203,10 @@ class TestRunFunction:
             assert "ERROR: Could not find input data file:" in out
 
 
-class TestIDFRunner:
+class TestIDFRunner(object):
+
+    """Tests for running EnergyPlus from an IDF5 object.
+    """
 
     def setup(self):
         """Tidy up anything left from previous runs. Get an IDF object to run.
@@ -240,7 +250,7 @@ class TestIDFRunner:
         with open(os.path.join(results, 'eplusout.csv'), 'r') as csv_file:
             return len(csv_file.readlines())
 
-    def testRun(self):
+    def test_run(self):
         """
         End to end test of idf.run function.
         Fails on severe errors or unexpected/missing output files.
@@ -251,7 +261,7 @@ class TestIDFRunner:
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
 
-    def testRunReadVars(self):
+    def test_run_readvars(self):
         """
         End to end test of idf.run function with readvars set True.
         Fails on severe errors or unexpected/missing output files.
@@ -263,10 +273,10 @@ class TestIDFRunner:
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
         assert set(files) == set(self.expected_files)
 
-    def testRunAnnual(self):
+    def test_run_annual(self):
         """
         End to end test of idf.run function with annual set True.
-        Fails on incorrect size of CSV output, severe errors or 
+        Fails on incorrect size of CSV output, severe errors or
         unexpected/missing output files.
 
         """
@@ -278,7 +288,7 @@ class TestIDFRunner:
         assert set(files) == set(self.expected_files)
         assert self.num_rows_in_csv() == 35041  # 24 * 365 * 4 + 1 header row
 
-    def testRunOutputDirectory(self):
+    def test_run_output_directory(self):
         """
         End to end test of idf.run function with a specific output dir set.
         Fails on severe errors or unexpected/missing output files.
@@ -291,10 +301,10 @@ class TestIDFRunner:
         assert set(files) == set(self.expected_files)
         shutil.rmtree('other_run_outputs')
 
-    def testRunDesignDay(self):
+    def test_run_design_day(self):
         """
         End to end test of idf.run function with design_day flag set True.
-        Fails on incorrect size of CSV output, severe errors or 
+        Fails on incorrect size of CSV output, severe errors or
         unexpected/missing output files.
 
         """
@@ -305,7 +315,7 @@ class TestIDFRunner:
         assert set(files) == set(self.expected_files)
         assert self.num_rows_in_csv() == 193  # 24 * 8 + 1 header row
 
-    def testRunEPMacro(self):
+    def test_run_epmacro(self):
         """
         End to end test of idf.run function with epmacro flag set True.
         Fails on severe errors or unexpected/missing output files.
@@ -317,9 +327,9 @@ class TestIDFRunner:
         self.expected_files.extend([u'eplusout.epmdet', u'eplusout.epmidf'])
         assert set(files) == set(self.expected_files)
 
-    def testRunExpandObjects(self):
+    def test_run_expandobjects(self):
         """
-        End to end test of idf.run function with expandobjects flag set to 
+        End to end test of idf.run function with expandobjects flag set to
         True.
         Fails on severe errors or unexpected/missing output files.
 
@@ -338,7 +348,7 @@ class TestIDFRunner:
         self.expected_files.extend([u'eplusout.expidf'])
         assert set(files) == set(self.expected_files)
 
-    def testRunOutputPrefix(self):
+    def test_run_output_prefix(self):
         """
         End to end test of idf.run function with output prefix set.
         Fails on severe errors or unexpected/missing output files.
@@ -351,7 +361,7 @@ class TestIDFRunner:
                           for f in self.expected_files]
         assert set(files) == set(prefixed_files)
 
-    def testRunOutputSuffix_L(self):
+    def test_run_output_suffix_L(self):
         """
         End to end test of idf.run function with output suffix set.
         Fails on severe errors or unexpected/missing output files.
@@ -362,7 +372,7 @@ class TestIDFRunner:
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
 
-    def testRunOutputSuffix_C(self):
+    def test_run_output_suffix_C(self):
         """
         End to end test of idf.run function with output suffix set.
         Fails on severe errors or unexpected/missing output files.
@@ -373,7 +383,7 @@ class TestIDFRunner:
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_C)
 
-    def testRunOutputSuffix_D(self):
+    def test_run_output_suffix_D(self):
         """
         End to end test of idf.run function with output suffix set.
         Fails on severe errors or unexpected/missing output files.
@@ -384,11 +394,11 @@ class TestIDFRunner:
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_D)
 
-    def testRunIDD(self):
+    def test_run_IDD(self):
         """
         End to end test of idf.run function with a different IDD set.
-        We use an old IDD here since it throws an error we can see. Real uses 
-        of this option would include using an IDD with extra fields added 
+        We use an old IDD here since it throws an error we can see. Real uses
+        of this option would include using an IDD with extra fields added
         extensible fields to allow larger objects.
         Fails if the expected IDD version is not listed in the error file.
 
@@ -398,7 +408,7 @@ class TestIDFRunner:
         with open('run_outputs/eplusout.err', 'r') as errors:
             assert "IDD_Version 8.1.0.009" in errors.readline()
 
-    def testVersion(self, capfd):
+    def test_version(self, capfd):
         """
         End to end test of idf.run function with the version flag set True.
         Fails if the expected EnergyPlus version number is not returned.
@@ -407,12 +417,12 @@ class TestIDFRunner:
         self.idf.run(version=True)
         out, _err = capfd.readouterr()
 
-        expected_version = version.replace('-', '.')
+        expected_version = VERSION.replace('-', '.')
         version_string = "EnergyPlus, Version {}".format(expected_version)
 
         assert out.strip().startswith(version_string)
 
-    def testHelp(self, capfd):
+    def test_help(self, capfd):
         """
         Test of calling the `help` built-in function on an IDF5 object.
         Fails if the expected help output is not returned.
@@ -424,7 +434,7 @@ class TestIDFRunner:
 
         assert out.strip().startswith(expected)
 
-    def testVerbose(self, capfd):
+    def test_verbose(self, capfd):
         """
         End to end test of idf.run function with the version flag set True.
         Fails on severe errors or unexpected/missing output files.
@@ -439,7 +449,7 @@ class TestIDFRunner:
         out, _err = capfd.readouterr()
         assert len(out) > 0
 
-    def testQuiet(self, capfd):
+    def test_quiet(self, capfd):
         """
         End to end test of idf.run function with the version flag set True.
         Fails on severe errors or unexpected/missing output files.

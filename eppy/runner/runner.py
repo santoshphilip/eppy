@@ -4,6 +4,10 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
+"""
+Class to add the ability to run IDF objects in EnergyPlus directly from Eppy.
+
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -17,11 +21,21 @@ from eppy.modeleditor import IDF4
 from eppy.runner.run_functions import run
 
 
-def wrappedHelpText(wrappedFunc):
-    def decorator(f):
-        f.__doc__ = ('This method wraps the following method:\n\n' +
-                     pydoc.text.document(wrappedFunc))
-        return f
+def wrapped_help_text(wrapped_func):
+    """Decorator to pass through the documentation from a wrapped function.
+    """
+    def decorator(wrapper_func):
+        """The decorator.
+
+        Parameters
+        ----------
+        f : callable
+            The wrapped function.
+
+        """
+        wrapper_func.__doc__ = ('This method wraps the following method:\n\n' +
+                                pydoc.text.document(wrapped_func))
+        return wrapper_func
     return decorator
 
 
@@ -40,11 +54,11 @@ class IDF5(IDF4):
             File path to the EPW file to use.
 
         """
-        super(IDF4, self).__init__(idf)
+        super(IDF5, self).__init__(idf)
         self.idf = idf
         self.epw = epw
 
-    @wrappedHelpText(run)
+    @wrapped_help_text(run)
     def run(self, **kwargs):
         """
         Run an IDF file with a given EnergyPlus weather file. This is a
