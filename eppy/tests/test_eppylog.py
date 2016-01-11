@@ -31,11 +31,15 @@ THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 
 @eppylog.LogLevel('info')
 def decorated_info_function(a, b, c=0):
+    """Test function to be logged at INFO level.
+    """
     return a * b + c
 
 
 @eppylog.LogLevel('debug')
 def decorated_debug_function(a, b, c=0):
+    """Test function to be logged at DEBUG level.
+    """
     return a * b + c
 
 
@@ -46,7 +50,13 @@ def test_getlogger():
     assert isinstance(logger1, Logger)
 
 
-class TestLogDecorator:
+class TestLogDecorator(object):
+
+    """
+    Test that functions are logged as expected when wrapped with the logging
+    decorator.
+
+    """
 
     def setup_method(self, test_method):
         """set log levels to DEBUG
@@ -66,9 +76,9 @@ class TestLogDecorator:
     def test_logdecorator(self):
         """test that logging using a decorator works
         """
-        with LogCapture() as l:
+        with LogCapture() as log_cap:
             decorated_info_function(2, 4, c=6)
-        l.check(
+        log_cap.check(
             ('console',
              'INFO',
              u"function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"),
@@ -79,9 +89,9 @@ class TestLogDecorator:
              'INFO',
              u"function: eppy.tests.test_eppylog.decorated_info_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"))
 
-        with LogCapture() as l:
+        with LogCapture() as log_cap:
             decorated_debug_function(2, 4, c=6)
-        l.check(
+        log_cap.check(
             ('console',
              'DEBUG',
              u"function: eppy.tests.test_eppylog.decorated_debug_function, args: (2, 4), kwargs: {'c': 6}, returns: [14]"),
@@ -99,6 +109,9 @@ class TestLogDecorator:
         """
         class DummyObject(object):
 
+            """Test object to be logged.
+            """
+
             def __repr__(self):
                 return 'dummy object'
 
@@ -106,11 +119,13 @@ class TestLogDecorator:
             def __getattr__(self, *args, **kwargs):
                 return "I'm an attribute"
 
-        with LogCapture() as l:
+        with LogCapture() as log_cap:
+            # create an object
             obj = DummyObject()
+            # access an attribute
             obj.x
 
-        l.check(
+        log_cap.check(
             ('console',
              'DEBUG',
              u"function: eppy.tests.test_eppylog.__getattr__, args: (dummy object, 'x'), kwargs: {}, returns: [I'm an attribute]"),
@@ -137,4 +152,5 @@ def test_jsonlog():
     """check that each JSON log entry is valid JSON
     """
     with open('eppy.json', 'r') as json_log:
-        logs = [json.loads(record) for record in json_log.readlines()]
+        # if all load then they are valid JSON
+        _logs = [json.loads(record) for record in json_log.readlines()]
