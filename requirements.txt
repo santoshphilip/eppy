@@ -1,7 +1,6 @@
 bunch>=1.0
 beautifulsoup4>=4.2.1
-numpy>=1.7.1
 pydot>1.0
 pyparsing==1.5.7
 pytest>=2.3.5
-tinynumpy>=1.2.0
+tinynumpy>=1.2.1
