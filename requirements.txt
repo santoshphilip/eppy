@@ -1,6 +1,9 @@
-bunch>=1.0
-beautifulsoup4>=4.2.1
-numpy>=1.7.1
-pydot>1.0
-pyparsing==1.5.7
-pytest>=2.3.5
+beautifulsoup4==4.4.1
+bunch==1.0.1
+eppy==0.5
+numpy==1.10.4
+py==1.4.31
+pydot==1.0.2
+pyparsing==2.0.7
+pytest==2.8.5
+wheel==0.26.0

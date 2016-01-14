@@ -8,3 +8,8 @@ __pycache__
 .pydevproject
 .settings/
 /remove_licence.py
+# Travis CI
+build/
+dist/
+*.egg-info
+.cache/
