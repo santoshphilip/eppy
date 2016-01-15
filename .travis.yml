@@ -8,8 +8,12 @@ python:
 # platforms
 os:
   - linux
-  - osx
-  - windows
+#  - osx
+#  - windows
+# install EnergyPlus
+before_install:
+  - wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Linux-x86_64.sh
+  - sudo EnergyPlus-8.4.0-09f5359d8a-Linux-x86_64.sh
 # command to install dependencies
 install:
   - pip install .
