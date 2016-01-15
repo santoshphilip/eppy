@@ -10,10 +10,10 @@ matrix:
     env: TRAVIS_OS_NAME=linux
 
 # install EnergyPlus
-before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Linux-x86_64.sh -O EPlus-inst.sh
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x EPlus-inst.sh
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ./EPlus-inst.sh
+#before_install:
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Linux-x86_64.sh -O EPlus-inst.sh
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x EPlus-inst.sh
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ./EPlus-inst.sh
 
 # command to install dependencies
 install:
