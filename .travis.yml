@@ -1,31 +1,29 @@
 language: python
 
 matrix:
-    include:
-        - os: linux
-          sudo: required
-          python: 2.7
-          env: TRAVIS_OS_NAME=linux
-        - os: linux
-          sudo: required
-          python: 3.3
-          env: TRAVIS_OS_NAME=linux
-        - os: osx
-          python: 2.7
-          env: TRAVIS_OS_NAME=osx
-        - os: osx
-          python: 3.3
-          env: TRAVIS_OS_NAME=osx
+  include:
+  - os: linux
+    python: 2.7
+    env: TRAVIS_OS_NAME=linux
+  - os: linux
+    python: 3.3
+    env: TRAVIS_OS_NAME=linux
+  - os: osx
+    python: 2.7
+    env: TRAVIS_OS_NAME=osx
+  - os: osx
+    python: 3.3
+    env: TRAVIS_OS_NAME=osx
 # install EnergyPlus
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Linux-x86_64.sh etEPlusV830-lin.sh
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x etEPlusV830-lin.sh
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ./- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo chmod +x etEPlusV830-lin.sh
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then chmod +x etEPlusV830-lin.sh
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ./- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo chmod +x etEPlusV830-lin.sh
 
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.dmg
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo sudo hdiutil attach EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.dmg
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo installer -package /Volumes/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.pkg -target /
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; sudo hdiutil detach /Volumes/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then wget https://github.com/NREL/EnergyPlus/releases/download/v8.4.0-Update1/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.dmg
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo sudo hdiutil attach EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.dmg
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo installer -package /Volumes/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64.pkg -target /
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; sudo hdiutil detach /Volumes/EnergyPlus-8.4.0-09f5359d8a-Darwin-x86_64
 
 # command to install dependencies
 install:
