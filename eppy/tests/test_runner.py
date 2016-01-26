@@ -47,89 +47,6 @@ def has_severe_errors(results='run_outputs'):
     return num_severe > 0
 
 
-class TestMultiprocessing(object):
-
-    """Tests for running multiple EnergyPlus jobs simultaneously.
-    """
-
-    def setup(self):
-        """Clear out any results from previous tests.
-        """
-        os.chdir(THIS_DIR)
-        shutil.rmtree("multirun_outputs", ignore_errors=True)
-        self.expected_files = [
-            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
-            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
-            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
-
-    def teardown(self):
-        """Remove the multiprocessing results folders.
-        """
-        for results_dir in glob('results_*'):
-            shutil.rmtree(results_dir)
-        shutil.rmtree("test_results", ignore_errors=True)
-        shutil.rmtree("run_outputs", ignore_errors=True)
-
-    def test_sequential_run(self):
-        """
-        Test that we can run a sequence of runs using the signature:
-            run([idf_path, epw], kwargs)
-        Fails if expected output files are not in the expected output
-        directories.
-
-        """
-        fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        runs = []
-        for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, TEST_EPW], kwargs])
-        for r in runs:
-            run(*r[0], **r[1])
-        for results_dir in glob('results_*'):
-            assert not has_severe_errors(results_dir)
-            files = os.listdir(results_dir)
-            assert set(files) == set(self.expected_files)
-
-    def test_multiprocess_run(self):
-        """
-        Test that we can run a list of runs in parallel using the signature:
-            run([idf_path, epw], kwargs)
-        Fails if expected output files are not in the expected output
-        directories.
-
-        """
-        fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        runs = []
-        for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, TEST_EPW], kwargs])
-        pool = multiprocessing.Pool(2)
-        pool.map(multirunner, runs)
-        pool.close()
-
-    def test_multiprocess_run_IDF5(self):
-        """
-        Test that we can run a sequence of runs using the signature:
-            runIDFs([[IDF5, kwargs],...], num_CPUs)
-        Fails if expected output files are not in the expected output
-        directories.
-
-        """
-        iddfile = os.path.join(IDD_FILES, TEST_IDD)
-        fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF5.setiddname(open(iddfile, 'r'), testing=True)
-        runs = []
-        for i in xrange(4):
-            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
-                         {'output_directory': 'results_%i' % i}])
-        num_CPUs = 2
-        runIDFs(runs, num_CPUs)
-
-        num_CPUs = -1
-        runIDFs(runs, num_CPUs)
-
-
 class TestRunFunction(object):
 
     """Tests for simple running of EnergyPlus from Eppy.
@@ -463,3 +380,86 @@ class TestIDFRunner(object):
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) == 0
+
+
+class TestMultiprocessing(object):
+
+    """Tests for running multiple EnergyPlus jobs simultaneously.
+    """
+
+    def setup(self):
+        """Clear out any results from previous tests.
+        """
+        os.chdir(THIS_DIR)
+        shutil.rmtree("multirun_outputs", ignore_errors=True)
+        self.expected_files = [
+            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
+            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
+            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
+            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
+
+    def teardown(self):
+        """Remove the multiprocessing results folders.
+        """
+        for results_dir in glob('results_*'):
+            shutil.rmtree(results_dir)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+
+    def test_sequential_run(self):
+        """
+        Test that we can run a sequence of runs using the signature:
+            run([idf_path, epw], kwargs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        runs = []
+        for i in range(2):
+            kwargs = {'output_directory': 'results_%s' % i}
+            runs.append([[fname1, TEST_EPW], kwargs])
+        for r in runs:
+            run(*r[0], **r[1])
+        for results_dir in glob('results_*'):
+            assert not has_severe_errors(results_dir)
+            files = os.listdir(results_dir)
+            assert set(files) == set(self.expected_files)
+
+    def test_multiprocess_run(self):
+        """
+        Test that we can run a list of runs in parallel using the signature:
+            run([idf_path, epw], kwargs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        runs = []
+        for i in range(2):
+            kwargs = {'output_directory': 'results_%s' % i}
+            runs.append([[fname1, TEST_EPW], kwargs])
+        pool = multiprocessing.Pool(2)
+        pool.map(multirunner, runs)
+        pool.close()
+
+    def test_multiprocess_run_IDF5(self):
+        """
+        Test that we can run a sequence of runs using the signature:
+            runIDFs([[IDF5, kwargs],...], num_CPUs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        iddfile = os.path.join(IDD_FILES, TEST_IDD)
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        IDF5.setiddname(open(iddfile, 'r'), testing=True)
+        runs = []
+        for i in xrange(4):
+            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
+                         {'output_directory': 'results_%i' % i}])
+        num_CPUs = 2
+        runIDFs(runs, num_CPUs)
+
+        num_CPUs = -1
+        runIDFs(runs, num_CPUs)
