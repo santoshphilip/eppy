@@ -87,7 +87,7 @@ def multirunner(args):
     run(*args[0], **args[1])
 
 
-def run(idf=None, weather=None, output_directory='run_outputs', annual=False,
+def run(idf=None, weather=None, output_directory='', annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
         verbose='v'):
@@ -103,7 +103,8 @@ def run(idf=None, weather=None, output_directory='run_outputs', annual=False,
         Full or relative path to the weather file.
 
     output_directory : str, optional
-        Full or relative path to an output directory (default: 'run_outputs)
+        Full or relative path to an output directory (default: current 
+        directory)
 
     annual : bool, optional
         If True then force annual simulation (default: False)
