@@ -226,7 +226,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run()
+        self.idf.run(output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
@@ -237,7 +237,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(readvars=True)
+        self.idf.run(readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -251,7 +251,8 @@ class TestIDFRunner(object):
 
         """
         self.idf.idfobjects['RUNPERIOD'][0].End_Month = 1
-        self.idf.run(annual=True, readvars=True)
+        self.idf.run(
+            annual=True, readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -277,7 +278,8 @@ class TestIDFRunner(object):
         unexpected/missing output files.
 
         """
-        self.idf.run(design_day=True, readvars=True)
+        self.idf.run(
+            design_day=True, readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -290,7 +292,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(epmacro=True)
+        self.idf.run(epmacro=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.epmdet', u'eplusout.epmidf'])
@@ -311,7 +313,7 @@ class TestIDFRunner(object):
             Constant_Cooling_Setpoint=25,
             Constant_Heating_Setpoint=21,
         )
-        self.idf.run(expandobjects=True)
+        self.idf.run(expandobjects=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.expidf'])
@@ -323,7 +325,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_prefix='test')
+        self.idf.run(output_prefix='test', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         prefixed_files = [f.replace('eplus', 'test')
@@ -336,7 +338,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='L')
+        self.idf.run(output_suffix='L', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
@@ -347,7 +349,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='C')
+        self.idf.run(output_suffix='C', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_C)
@@ -358,7 +360,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='D')
+        self.idf.run(output_suffix='D', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_D)
@@ -373,7 +375,7 @@ class TestIDFRunner(object):
 
         """
         other_idd = os.path.join(IDD_FILES, TEST_OLD_IDD)
-        self.idf.run(idd=other_idd)
+        self.idf.run(idd=other_idd, output_directory='run_outputs')
         with open('run_outputs/eplusout.err', 'r') as errors:
             assert "IDD_Version 8.1.0.009" in errors.readline()
 
@@ -410,7 +412,7 @@ class TestIDFRunner(object):
         Fails if no output received from EnergyPlus.
 
         """
-        self.idf.run(verbose='v')
+        self.idf.run(verbose='v', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([])
@@ -425,7 +427,7 @@ class TestIDFRunner(object):
         Fails if output received from EnergyPlus.
 
         """
-        self.idf.run(verbose='q')
+        self.idf.run(verbose='q', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([])
