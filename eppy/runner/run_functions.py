@@ -12,11 +12,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from subprocess import CalledProcessError
-from subprocess import check_call
 import os
 import platform
 import shutil
+from subprocess import CalledProcessError
+from subprocess import check_call
 import tempfile
 
 import multiprocessing as mp
@@ -103,8 +103,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
         Full or relative path to the weather file.
 
     output_directory : str, optional
-        Full or relative path to an output directory (default: current 
-        directory)
+        Full or relative path to an output directory (default: 'run_outputs)
 
     annual : bool, optional
         If True then force annual simulation (default: False)
@@ -140,6 +139,10 @@ def run(idf=None, weather=None, output_directory='', annual=False,
         Set verbosity of runtime messages (default: v)
             v: verbose
             q: quiet
+
+    Returns
+    -------
+    str : status
 
     Raises
     ------
@@ -189,3 +192,4 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     except CalledProcessError:
         # potentially catch contents of std out and put it in the error
         raise
+    return 'OK'

@@ -13,11 +13,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from glob import glob
-from subprocess import CalledProcessError
 import multiprocessing
 import os
 import re
 import shutil
+from subprocess import CalledProcessError
+
+from concurrent import futures
 
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
@@ -45,6 +47,56 @@ def has_severe_errors(results='run_outputs'):
         end_txt = end_file.read()
     num_severe = int(re.findall(r' (\d*) Severe Error', end_txt)[0])
     return num_severe > 0
+
+
+class TestAsyncRun(object):
+
+    """Tests for running of EnergyPlus and waiting for a response in a loop.
+    """
+
+    def setup(self):
+        """Tidy up just in case anything is left from previous test runs.
+        """
+        os.chdir(THIS_DIR)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+
+    def teardown(self):
+        """Tidy up after tests.
+        """
+        os.chdir(THIS_DIR)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+
+    def test_async_runner(self):
+        """
+        Test that we can run EnergyPlus as a `future`, and that it is non-
+        blocking. This is coded using `concurrent.futures` for compatibility
+        with Python 2, though this test means that the code will also work
+        using `asyncio` in Python 3.
+
+        Fails if the two fast calls to `len` which are scheduled one before
+        and one after the call to `runner.run` do not both return before the
+        call to `runner.run` which is expected to be slower.
+
+        """
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        epw = os.path.join(
+            EPLUS_WEATHER, TEST_EPW)
+        to_do = []
+        with futures.ProcessPoolExecutor(3) as executor:
+            future = executor.submit(len, 'eppy')
+            to_do.append(future)
+            future = executor.submit(
+                run, fname1, epw, output_directory="test_results")
+            to_do.append(future)
+            future = executor.submit(len, 'spam')
+            to_do.append(future)
+        expected_results = iter([4, 4, 'OK'])
+        for future in futures.as_completed(to_do):
+            next_expected = next(expected_results)
+            res = future.result()
+            assert res == next_expected
 
 
 class TestRunFunction(object):
