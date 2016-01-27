@@ -13,11 +13,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from glob import glob
-from subprocess import CalledProcessError
 import multiprocessing
 import os
 import re
 import shutil
+from subprocess import CalledProcessError
+
+from concurrent import futures
 
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
@@ -47,87 +49,54 @@ def has_severe_errors(results='run_outputs'):
     return num_severe > 0
 
 
-class TestMultiprocessing(object):
+class TestAsyncRun(object):
 
-    """Tests for running multiple EnergyPlus jobs simultaneously.
+    """Tests for running of EnergyPlus and waiting for a response in a loop.
     """
 
     def setup(self):
-        """Clear out any results from previous tests.
+        """Tidy up just in case anything is left from previous test runs.
         """
         os.chdir(THIS_DIR)
-        shutil.rmtree("multirun_outputs", ignore_errors=True)
-        self.expected_files = [
-            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
-            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
-            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
-
-    def teardown(self):
-        """Remove the multiprocessing results folders.
-        """
-        for results_dir in glob('results_*'):
-            shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
 
-    def test_sequential_run(self):
+    def teardown(self):
+        """Tidy up after tests.
         """
-        Test that we can run a sequence of runs using the signature:
-            run([idf_path, epw], kwargs)
-        Fails if expected output files are not in the expected output
-        directories.
+        os.chdir(THIS_DIR)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+
+    def test_async_runner(self):
+        """
+        Test that we can run EnergyPlus as a `future`, and that it is non-
+        blocking. This is coded using `concurrent.futures` for compatibility
+        with Python 2, though this test means that the code will also work
+        using `asyncio` in Python 3.
+
+        Fails if the two fast calls to `len` which are scheduled one before
+        and one after the call to `runner.run` do not both return before the
+        call to `runner.run` which is expected to be slower.
 
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        runs = []
-        for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, TEST_EPW], kwargs])
-        for r in runs:
-            run(*r[0], **r[1])
-        for results_dir in glob('results_*'):
-            assert not has_severe_errors(results_dir)
-            files = os.listdir(results_dir)
-            assert set(files) == set(self.expected_files)
-
-    def test_multiprocess_run(self):
-        """
-        Test that we can run a list of runs in parallel using the signature:
-            run([idf_path, epw], kwargs)
-        Fails if expected output files are not in the expected output
-        directories.
-
-        """
-        fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        runs = []
-        for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
-            runs.append([[fname1, TEST_EPW], kwargs])
-        pool = multiprocessing.Pool(2)
-        pool.map(multirunner, runs)
-        pool.close()
-
-    def test_multiprocess_run_IDF5(self):
-        """
-        Test that we can run a sequence of runs using the signature:
-            runIDFs([[IDF5, kwargs],...], num_CPUs)
-        Fails if expected output files are not in the expected output
-        directories.
-
-        """
-        iddfile = os.path.join(IDD_FILES, TEST_IDD)
-        fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF5.setiddname(open(iddfile, 'r'), testing=True)
-        runs = []
-        for i in xrange(4):
-            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
-                         {'output_directory': 'results_%i' % i}])
-        num_CPUs = 2
-        runIDFs(runs, num_CPUs)
-
-        num_CPUs = -1
-        runIDFs(runs, num_CPUs)
+        epw = os.path.join(
+            EPLUS_WEATHER, TEST_EPW)
+        to_do = []
+        with futures.ProcessPoolExecutor(3) as executor:
+            future = executor.submit(len, 'eppy')
+            to_do.append(future)
+            future = executor.submit(
+                run, fname1, epw, output_directory="test_results")
+            to_do.append(future)
+            future = executor.submit(len, 'spam')
+            to_do.append(future)
+        expected_results = iter([4, 4, 'OK'])
+        for future in futures.as_completed(to_do):
+            next_expected = next(expected_results)
+            res = future.result()
+            assert res == next_expected
 
 
 class TestRunFunction(object):
@@ -257,7 +226,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run()
+        self.idf.run(output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
@@ -268,7 +237,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(readvars=True)
+        self.idf.run(readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -282,7 +251,8 @@ class TestIDFRunner(object):
 
         """
         self.idf.idfobjects['RUNPERIOD'][0].End_Month = 1
-        self.idf.run(annual=True, readvars=True)
+        self.idf.run(
+            annual=True, readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -308,7 +278,8 @@ class TestIDFRunner(object):
         unexpected/missing output files.
 
         """
-        self.idf.run(design_day=True, readvars=True)
+        self.idf.run(
+            design_day=True, readvars=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
@@ -321,7 +292,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(epmacro=True)
+        self.idf.run(epmacro=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.epmdet', u'eplusout.epmidf'])
@@ -342,7 +313,7 @@ class TestIDFRunner(object):
             Constant_Cooling_Setpoint=25,
             Constant_Heating_Setpoint=21,
         )
-        self.idf.run(expandobjects=True)
+        self.idf.run(expandobjects=True, output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([u'eplusout.expidf'])
@@ -354,7 +325,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_prefix='test')
+        self.idf.run(output_prefix='test', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         prefixed_files = [f.replace('eplus', 'test')
@@ -367,7 +338,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='L')
+        self.idf.run(output_suffix='L', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files)
@@ -378,7 +349,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='C')
+        self.idf.run(output_suffix='C', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_C)
@@ -389,7 +360,7 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        self.idf.run(output_suffix='D')
+        self.idf.run(output_suffix='D', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_D)
@@ -404,7 +375,7 @@ class TestIDFRunner(object):
 
         """
         other_idd = os.path.join(IDD_FILES, TEST_OLD_IDD)
-        self.idf.run(idd=other_idd)
+        self.idf.run(idd=other_idd, output_directory='run_outputs')
         with open('run_outputs/eplusout.err', 'r') as errors:
             assert "IDD_Version 8.1.0.009" in errors.readline()
 
@@ -441,7 +412,7 @@ class TestIDFRunner(object):
         Fails if no output received from EnergyPlus.
 
         """
-        self.idf.run(verbose='v')
+        self.idf.run(verbose='v', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([])
@@ -456,10 +427,93 @@ class TestIDFRunner(object):
         Fails if output received from EnergyPlus.
 
         """
-        self.idf.run(verbose='q')
+        self.idf.run(verbose='q', output_directory='run_outputs')
         assert not has_severe_errors()
         files = os.listdir('run_outputs')
         self.expected_files.extend([])
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) == 0
+
+
+class TestMultiprocessing(object):
+
+    """Tests for running multiple EnergyPlus jobs simultaneously.
+    """
+
+    def setup(self):
+        """Clear out any results from previous tests.
+        """
+        os.chdir(THIS_DIR)
+        shutil.rmtree("multirun_outputs", ignore_errors=True)
+        self.expected_files = [
+            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
+            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
+            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
+            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
+
+    def teardown(self):
+        """Remove the multiprocessing results folders.
+        """
+        for results_dir in glob('results_*'):
+            shutil.rmtree(results_dir)
+        shutil.rmtree("test_results", ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+
+    def test_sequential_run(self):
+        """
+        Test that we can run a sequence of runs using the signature:
+            run([idf_path, epw], kwargs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        runs = []
+        for i in range(2):
+            kwargs = {'output_directory': 'results_%s' % i}
+            runs.append([[fname1, TEST_EPW], kwargs])
+        for r in runs:
+            run(*r[0], **r[1])
+        for results_dir in glob('results_*'):
+            assert not has_severe_errors(results_dir)
+            files = os.listdir(results_dir)
+            assert set(files) == set(self.expected_files)
+
+    def test_multiprocess_run(self):
+        """
+        Test that we can run a list of runs in parallel using the signature:
+            run([idf_path, epw], kwargs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        runs = []
+        for i in range(2):
+            kwargs = {'output_directory': 'results_%s' % i}
+            runs.append([[fname1, TEST_EPW], kwargs])
+        pool = multiprocessing.Pool(2)
+        pool.map(multirunner, runs)
+        pool.close()
+
+    def test_multiprocess_run_IDF5(self):
+        """
+        Test that we can run a sequence of runs using the signature:
+            runIDFs([[IDF5, kwargs],...], num_CPUs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        iddfile = os.path.join(IDD_FILES, TEST_IDD)
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        IDF5.setiddname(open(iddfile, 'r'), testing=True)
+        runs = []
+        for i in xrange(4):
+            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
+                         {'output_directory': 'results_%i' % i}])
+        num_CPUs = 2
+        runIDFs(runs, num_CPUs)
+
+        num_CPUs = -1
+        runIDFs(runs, num_CPUs)
