@@ -16,7 +16,7 @@ from __future__ import unicode_literals
 import os
 import pydoc
 
-from eppy.modeleditor import IDF4
+from eppy.modeleditor import IDF5
 
 from eppy.runner.run_functions import run
 
@@ -39,7 +39,7 @@ def wrapped_help_text(wrapped_func):
     return decorator
 
 
-class IDF5(IDF4):
+class IDF6(IDF5):
 
     """Subclass of IDF used to carry out simulation runs.
     """
@@ -54,7 +54,7 @@ class IDF5(IDF4):
             File path to the EPW file to use.
 
         """
-        super(IDF5, self).__init__(idf)
+        super(IDF6, self).__init__(idf)
         self.idf = idf
         self.epw = epw
 

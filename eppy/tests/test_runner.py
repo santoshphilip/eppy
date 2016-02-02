@@ -29,7 +29,7 @@ from eppy.runner.run_functions import VERSION
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
-from eppy.runner.runner import IDF5
+from eppy.runner.runner import IDF6
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -128,7 +128,7 @@ class TestRunFunction(object):
 
 class TestIDFRunner(object):
 
-    """Tests for running EnergyPlus from an IDF5 object.
+    """Tests for running EnergyPlus from an IDF6 object.
     """
 
     def setup(self):
@@ -139,8 +139,8 @@ class TestIDFRunner(object):
             shutil.rmtree(outdir)
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF5.setiddname(open(iddfile, 'r'), testing=True)
-        self.idf = IDF5(open(fname1, 'r'), TEST_EPW)
+        IDF6.setiddname(open(iddfile, 'r'), testing=True)
+        self.idf = IDF6(open(fname1, 'r'), TEST_EPW)
 
         self.expected_files = [
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
@@ -348,7 +348,7 @@ class TestIDFRunner(object):
 
     def test_help(self, capfd):
         """
-        Test of calling the `help` built-in function on an IDF5 object.
+        Test of calling the `help` built-in function on an IDF6 object.
         Fails if the expected help output is not returned.
 
         """
@@ -450,20 +450,20 @@ class TestMultiprocessing(object):
         pool.map(multirunner, runs)
         pool.close()
 
-    def test_multiprocess_run_IDF5(self):
+    def test_multiprocess_run_IDF6(self):
         """
         Test that we can run a sequence of runs using the signature:
-            runIDFs([[IDF5, kwargs],...], num_CPUs)
+            runIDFs([[IDF6, kwargs],...], num_CPUs)
         Fails if expected output files are not in the expected output
         directories.
 
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF5.setiddname(open(iddfile, 'r'), testing=True)
+        IDF6.setiddname(open(iddfile, 'r'), testing=True)
         runs = []
         for i in xrange(4):
-            runs.append([IDF5(open(fname1, 'r'), TEST_EPW),
+            runs.append([IDF6(open(fname1, 'r'), TEST_EPW),
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
