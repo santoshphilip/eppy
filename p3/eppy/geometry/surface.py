@@ -24,7 +24,8 @@ try:
     import numpy as np
     from numpy import arccos as acos
 except ImportError as err:
-    from . import tinynumpy as np
+    from tinynumpy import tinynumpy as np
+    from tinynumpy import tinylinalg as linalg
     from math import acos as acos
 import math
 

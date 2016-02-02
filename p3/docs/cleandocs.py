@@ -1,12 +1,6 @@
 # Copyright (c) 2012 Santosh Philip
-# =======================================================================
-#  Distributed under the MIT License.
-#  (See accompanying file LICENSE or copy at
-#  http://opensource.org/licenses/MIT)
-# =======================================================================
 
-
-"""clean up the docs diles in this folder"""
+"""clean up the docs files in this folder"""
 
 import shutil
 import os

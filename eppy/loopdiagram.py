@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2015 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -18,15 +19,17 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import pydot
-import sys
-import os
 import getopt
-# sys.path.append('../EPlusInputcode')
+import os
+import sys
+
 from eppy.EPlusInterfaceFunctions import readidf
+import pydot
+
 import eppy.loops as loops
 
 
+# sys.path.append('../EPlusInputcode')
 class Usage(Exception):
     """Usage"""
     def __init__(self, msg):
@@ -128,15 +131,24 @@ def test_dropnodes():
     assert result == theresult
 
 def makeanode(name):
+    name = escape_char(name, ':')
     return pydot.Node(name, shape="plaintext", label=name)
 
 def makeabranch(name):
+    name = escape_char(name, ':')
     return pydot.Node(name, shape="box3d", label=name)
 
 def makeendnode(name):
-    return pydot.Node(
-        name, shape="doubleoctagon", label=name,
+    name = escape_char(name, ':')
+    return pydot.Node(name, shape="doubleoctagon", label=name, 
         style="filled", fillcolor="#e4e4e4")
+
+def escape_char(name, char):
+    """escape strings which contain a specific character, char"""
+    if char in name:
+        return u"\"" + name + u"\""
+    else:
+        return name
 
 def istuple(x):
     return type(x) == tuple

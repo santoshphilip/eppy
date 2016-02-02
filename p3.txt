@@ -1,8 +1,8 @@
 2015-07-22
 ----------
 2to3 does not work with tinynumpy
-it works with python2 and python3
-use it as it is.
+tinynumpy it works with python2 and python3
+use tinynumpy it as it is, without conversion
 
 2015-07-05
 ----------
