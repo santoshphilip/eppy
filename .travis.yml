@@ -1,0 +1,20 @@
+language: python
+python:
+  - "2.7"
+  - "3.5"
+
+# command to install dependencies
+install:
+  - pip install .
+  - pip install -r requirements.txt
+
+# whitelist
+# for now, just test the continuous integration test branch and the runner
+# branch to save time.
+branches:
+  only:
+    - i62_eplusrunner
+    - i70_continuous_integration
+
+# command to run tests
+script: py.test --ignore=eppy/tests/test_runner.py
