@@ -683,11 +683,30 @@ class IDF5(IDF4):
     """subclass of IDF4. Uses functions of IDF1, IDF2, IDF3, IDF4"""
     def __init__(self, idfname=None):
         super(IDF5, self).__init__(idfname)
-    def save(self, filename=None, lineendings='default'):
-        """lineendings = ['default', 'windows', 'unix' ]"""
+
+    def save(self, filename=None, lineendings='default', encoding='latin-1'):
+        """ Save the IDF as a text file.
+        
+        Parameters
+        ----------
+        filename : str, optional
+            Filepath to save the file. If None then use the IDF.idfname
+            parameter.
+            
+        lineendings : str, optional
+            Line endings to use in the saved file. Options are 'default',
+            'windows' and 'unix' the default is 'default' which leaves the
+            existing line endings untouched.
+            
+        encoding : str, optional
+            Encoding to use for the saved file. The default is 'latin-1' which
+            is compatible with the EnergyPlus IDFEditor.
+        
+        """
         if filename is None:
             filename = self.idfname
         s = self.idfstr()
+        
         if lineendings == 'default':
             pass
         elif lineendings == 'windows':
@@ -698,13 +717,9 @@ class IDF5(IDF4):
             s = '!- Unix Line endings \n' + s
             slines = s.splitlines()
             s = '\n'.join(slines)
+            
+        s = s.encode(encoding)
         open(filename, 'w').write(s)
-    def saveas(self, filename, lineendings='default'):
-        self.idfname = filename
-        self.save(lineendings=lineendings)
-    def savecopy(self, filename, lineendings='default'):
-        """save a copy as filename"""
-        self.save(filename, lineendings=lineendings)
 
 
 IDF = IDF5

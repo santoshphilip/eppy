@@ -13,6 +13,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from StringIO import StringIO
+from itertools import product
+import os
 
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
@@ -543,4 +545,31 @@ def test_newidfobject():
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
                                      ['MATERIAL:AIRGAP', 'Argon'],
                                     ]
-        
+
+def test_save():
+    """Test the IDF.save() function, including line endings and encodings.
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
+    idf.idfname = 'test.idf'
+    
+    # test save with no parameters
+    idf.save()
+    with open('test.idf', 'r') as test_file:
+        assert 'TestMaterial' in test_file.read()
+    os.remove('test.idf')
+
+    # test save with combinations of encodings and line endings
+    lineendings = ('windows', 'linux', 'default')
+    encodings = ('ascii', 'latin-1')    
+    for le, enc in product(lineendings, encodings):
+        #le, enc = params
+        idf.save(encoding=enc, lineendings=le)
+        with open('test.idf', 'r') as test_file:
+            if le == 'windows':
+                assert '\r\n' in test_file.read()
+            elif le == 'linux':
+                assert '\r\n' not in test_file.read()
+            elif le == 'default':
+                assert os.linesep in test_file.read()
+        os.remove('test.idf')
