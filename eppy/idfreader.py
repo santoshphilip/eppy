@@ -149,7 +149,7 @@ def addfunctions(dtls, bunchdt):
 
 
 def idfreader(fname, iddfile, conv=True):
-    """read idf file and reutrn bunches"""
+    """read idf file and return bunches"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     if conv:
         convertallfields(data, commdct)
@@ -168,7 +168,7 @@ def idfreader(fname, iddfile, conv=True):
     return bunchdt, data, commdct
 
 def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
-    """read idf file and reutrn bunches"""
+    """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
   # import pdbdb; pdb.set_trace()
     block, data, commdct = readidf.readdatacommdct1(
