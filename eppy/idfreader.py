@@ -26,9 +26,9 @@ def iddversiontuple(afile):
     def versiontuple(vers):
         """version tuple"""
         return tuple([int(num) for num in vers.split(".")])
-    if type(afile) == str:
+    try:
         fhandle = open(afile, 'rb')
-    else:
+    except TypeError:
         fhandle = afile
     line1 = fhandle.readline()
     try:
