@@ -1,20 +1,15 @@
 language: python
 python:
   - "2.7"
-  - "3.5"
 
-# command to install dependencies
 install:
-  - pip install .
+  - pip install -e .
   - pip install -r requirements.txt
+  - pip install pytest-cov
+  - pip install codecov
 
-# whitelist
-# for now, just test the continuous integration test branch and the runner
-# branch to save time.
-branches:
-  only:
-    - i62_eplusrunner
-    - i70_continuous_integration
+script: coverage run --source=eppy  
+                     --omit=eppy/tests/test_runner.py -m py.test -v
 
-# command to run tests
-script: py.test --ignore=eppy/tests/test_runner.py
+after_success:
+    - codecov
