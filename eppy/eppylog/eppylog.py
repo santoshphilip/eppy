@@ -27,20 +27,15 @@ from __future__ import unicode_literals
 
 import ConfigParser
 import functools
-import json
-import logging
 import logging.config
-import logging.handlers
 import os
-import time
 
-from pythonjsonlogger import jsonlogger
 
 THIS_DIR = os.path.dirname(os.path.realpath(__file__))
 CONFIG_FILE = os.path.join(THIS_DIR, 'eppylog.ini')
 
 logging.config.fileConfig(CONFIG_FILE, disable_existing_loggers=1)
-config = ConfigParser.ConfigParser()
+CONFIG = ConfigParser.ConfigParser()
 
 
 def getlogger(name):
@@ -49,27 +44,31 @@ def getlogger(name):
     """
     return logging.getLogger(name)
 
+
 def setloggerlevel(logger, level):
     """set the logger level for a given logger
     """
-    getlogger(logger).setLevel(logging._levelNames[level])
-    config.read(CONFIG_FILE)
-    config.set('logger_{0}'.format(logger), 'level', level)
+    logger_level = logging.getLevelName(level.upper())
+    getlogger(logger).setLevel(logger_level)
+    CONFIG.read(CONFIG_FILE)
+    CONFIG.set('logger_{0}'.format(logger), 'level', level)
     with open(CONFIG_FILE, 'w') as configfile:
-        config.write(configfile)
+        CONFIG.write(configfile)
+
 
 def getloggerlevel(logger):
     """get the logger level of a given logger
     """
-    config.read(CONFIG_FILE)
-    level = config.get('logger_{0}'.format(logger), 'level')
+    CONFIG.read(CONFIG_FILE)
+    level = CONFIG.get('logger_{0}'.format(logger), 'level')
     return level
-    
 
-class loglevel(object):
+
+class LogLevel(object):
+
     """logging decorator that allows you to log at a specified log level.
     usage:
-    >>> @eppylog.loglevel('DEBUG')
+    >>> @eppylog.LogLevel('DEBUG')
     >>> def my_debug_function(*args, **kwargs):
     >>>    '''a function to be logged at the DEBUG level
     >>>    '''
@@ -77,26 +76,28 @@ class loglevel(object):
     """
 
     def __init__(self, level='INFO'):
-        self.level = logging._levelNames[level.upper()]
+        self.level = logging.getLevelName(level.upper())
         self.levelname = level.upper()
-        
-    def __call__(self, func):
-        """returns a wrapper that wraps func and logs its name, parameters,
-        and return values
-        """
         # set loggers if not set earlier
         self.console_logger = getlogger('console')
         self.json_logger = getlogger('json')
         self.file_logger = getlogger('file')
 
+    def __call__(self, func):
+        """returns a wrapper that wraps func and logs its name, parameters,
+        and return values
+        """
+
         @functools.wraps(func)
-        def wrapper(*args, **kwds):
+        def wrapped(*args, **kwds):
+            """Wrap the function and log its details.
+            """
             f_result = func(*args, **kwds)
             self._log_console(func, args, kwds, f_result)
             self._log_json(func, args, kwds, f_result)
             self._log_file(func, args, kwds, f_result)
             return f_result
-        return wrapper  
+        return wrapped
 
     def _log_json(self, func, args, kwds, f_result):
         """log a function call to the JSON log
@@ -104,22 +105,23 @@ class loglevel(object):
         return self.json_logger.log(
             self.level,
             {"log_level": self.levelname,
-             'function':'%s.%s' % (func.__module__, func.func_name),
-             'args':args, 'kwargs':kwds, 'returns':[f_result]})
+             'function': '%s.%s' % (func.__module__, func.func_name),
+             'args': args, 'kwargs': kwds, 'returns': [f_result]})
 
     def _log_console(self, func, args, kwds, f_result):
         """log a function call to the console
         """
-        return self.console_logger.log(self.level, 
-            'function: {0}, args: {1}, kwargs: {2}, returns: [{3}]'.format(
-                '.'.join([func.__module__, func.func_name]), 
-                args, kwds, f_result))
+        return self.console_logger.log(
+            self.level,
+            'function: %s, args: %s, kwargs: %s, returns: [%s]',
+            '.'.join([func.__module__, func.func_name]),
+            args, kwds, f_result)
 
     def _log_file(self, func, args, kwds, f_result):
         """log a function call to the log file
         """
         return self.file_logger.log(
-            self.level, 
-            'function: {0}, args: {1}, kwargs: {2}, returns: [{3}]'.format(
-                '.'.join([func.__module__, func.func_name]), 
-                args, kwds, f_result))
+            self.level,
+            'function: %s, args: %s, kwargs: %s, returns: [%s]',
+            '.'.join([func.__module__, func.func_name]),
+            args, kwds, f_result)
