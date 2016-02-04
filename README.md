@@ -3,7 +3,7 @@ Eppy
 [![Build Status](https://travis-ci.org/jamiebull1/eppy.svg?branch=i70_continuous_integration)](https://travis-ci.org/jamiebull1/eppy)
 [![codecov.io](https://codecov.io/github/jamiebull1/eppy/coverage.svg?branch=i70_continuous_integration)](https://codecov.io/github/jamiebull1/eppy?branch=i70_continuous_integration)
 
-Eppy is a scripting language for EnergyPlus idf files, and EnergyPlus output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are avaliable in python. You can programmatically navigate, search, and modify EnergyPlus idf files using eppy. The power of using a scripting language allows you to do the following:
+Eppy is a scripting language for EnergyPlus idf files, and EnergyPlus output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are available in Python. You can programmatically navigate, search, and modify EnergyPlus idf files using eppy. The power of using a scripting language allows you to do the following:
 
 - Make a large number of changes in an idf file with a few lines of eppy code.
 - Use conditions and filters when making changes to an idf file
