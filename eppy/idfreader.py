@@ -21,14 +21,15 @@ import eppy.function_helpers as fh
 from eppy.idf_msequence import Idf_MSequence_old
 from eppy.idf_msequence import Idf_MSequence
 
+
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
     def versiontuple(vers):
         """version tuple"""
         return tuple([int(num) for num in vers.split(".")])
-    if type(afile) == str:
+    try:
         fhandle = open(afile, 'rb')
-    else:
+    except TypeError:
         fhandle = afile
     line1 = fhandle.readline()
     try:
@@ -37,7 +38,7 @@ def iddversiontuple(afile):
         pass
     line = line1.strip()
     if line1 == '':
-        return (0, )
+        return (0,)
     vers = line.split()[-1]
     return versiontuple(vers)
 
@@ -51,6 +52,7 @@ def makeabunch(commdct, obj, obj_i):
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
     bobj = EpBunch(obj, obj_fields, objidd)
     return bobj
+
 
 def makebunches(data, commdct):
     """make bunches with data"""
@@ -66,6 +68,7 @@ def makebunches(data, commdct):
             bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
+
 
 def makebunches_alter(data, commdct):
     """make bunches with data"""
@@ -83,6 +86,7 @@ def makebunches_alter(data, commdct):
         # print "id(dt[key])", id(dt[key])
         # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
     return bunchdt
+
 
 def convertfields(key_comm, obj):
     """convert the float and interger fields"""
@@ -103,6 +107,7 @@ def convertfields(key_comm, obj):
             pass
     return obj
 
+
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
     # import pdbdb; pdb.set_trace()
@@ -114,6 +119,7 @@ def convertallfields(data, commdct):
             obj = convertfields(key_comm, obj)
             objs[i] = obj
 
+
 def addfunctions(dtls, bunchdt):
     """add functions to the objects"""
     snames = [
@@ -124,32 +130,31 @@ def addfunctions(dtls, bunchdt):
         "FenestrationSurface:Detailed",
         "Shading:Site:Detailed",
         "Shading:Building:Detailed",
-        "Shading:Zone:Detailed",]
+        "Shading:Zone:Detailed", ]
     for sname in snames:
         if bunchdt.has_key(sname.upper()):
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 surface.__functions = {
-                    'area':fh.area,
-                    'height':fh.height, # not working correctly
-                    'width':fh.width, # not working correctly
-                    'azimuth':fh.azimuth,
-                    'tilt':fh.tilt,
-                    'coords':fh.getcoords, # needed for debugging
-                    }
+                    'area': fh.area,
+                    'height': fh.height,  # not working correctly
+                    'width': fh.width,  # not working correctly
+                    'azimuth': fh.azimuth,
+                    'tilt': fh.tilt,
+                    'coords': fh.getcoords,  # needed for debugging
+                }
     # add common functions
     # for name in dtls:
     #     for idfobject in bunchdt[name]:
-    #         # idfobject.__functions
+    # idfobject.__functions
     #         idfobject['__functions']['fieldnames'] = fieldnames
     #         idfobject['__functions']['fieldvalues'] = fieldvalues
     #         idfobject['__functions']['getrange'] = GetRange(idfobject)
     #         idfobject['__functions']['checkrange'] = CheckRange(idfobject)
 
 
-
 def idfreader(fname, iddfile, conv=True):
-    """read idf file and reutrn bunches"""
+    """read idf file and return bunches"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     if conv:
         convertallfields(data, commdct)
@@ -167,8 +172,9 @@ def idfreader(fname, iddfile, conv=True):
     # -
     return bunchdt, data, commdct
 
+
 def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
-    """read idf file and reutrn bunches"""
+    """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
   # import pdbdb; pdb.set_trace()
     block, data, commdct = readidf.readdatacommdct1(
@@ -180,7 +186,7 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
         convertallfields(data, commdct)
     # fill gaps in idd
     ddtt, dtls = data.dt, data.dtls
-    if versiontuple < (8, ):
+    if versiontuple < (8,):
         skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
     else:
         skiplist = None
