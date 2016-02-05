@@ -12,6 +12,11 @@ Changes
 - eppy will without numpy installed.
 - if numpy is installed, it will use numpy
 
+This would be useful in environments where numpy would not run, such as:
+
+- jython
+- rhino
+
 release r0.5
 ~~~~~~~~~~~~
 
