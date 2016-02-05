@@ -13,6 +13,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+import os
+import platform
 
 from eppy.idfreader import idfreader1
 from eppy.idfreader import makeabunch
@@ -769,9 +771,11 @@ class IDF5(IDF4):
         if filename is None:
             filename = self.idfname
         s = self.idfstr()
-
         if lineendings == 'default':
-            pass
+            system = platform.system()
+            s = '!- {} Line endings \n'.format(system) + s
+            slines = s.splitlines()
+            s = os.linesep.join(slines)
         elif lineendings == 'windows':
             s = '!- Windows Line endings \n' + s
             slines = s.splitlines()
