@@ -760,8 +760,8 @@ class IDF5(IDF4):
 
         lineendings : str, optional
             Line endings to use in the saved file. Options are 'default',
-            'windows' and 'unix' the default is 'default' which leaves the
-            existing line endings untouched.
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
 
         encoding : str, optional
             Encoding to use for the saved file. The default is 'latin-1' which
@@ -798,8 +798,8 @@ class IDF5(IDF4):
 
         lineendings : str, optional
             Line endings to use in the saved file. Options are 'default',
-            'windows' and 'unix' the default is 'default' which leaves the
-            existing line endings untouched.
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
 
         encoding : str, optional
             Encoding to use for the saved file. The default is 'latin-1' which
@@ -819,8 +819,8 @@ class IDF5(IDF4):
 
         lineendings : str, optional
             Line endings to use in the saved file. Options are 'default',
-            'windows' and 'unix' the default is 'default' which leaves the
-            existing line endings untouched.
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
 
         encoding : str, optional
             Encoding to use for the saved file. The default is 'latin-1' which
