@@ -1,8 +1,16 @@
 Eppy
 ====
-[![Build Status](https://travis-ci.org/jamiebull1/eppy.svg?branch=i70_continuous_integration)](https://travis-ci.org/jamiebull1/eppy)
-[![Appveyor](https://ci.appveyor.com/api/projects/status/github/jamiebull1/eppy)](https://ci.appveyor.com/api/projects/status/github/jamiebull1/eppy)
-[![codecov.io](https://codecov.io/github/jamiebull1/eppy/coverage.svg?branch=i70_continuous_integration)](https://codecov.io/github/jamiebull1/eppy)
+[![PyPI](https://img.shields.io/pypi/dm/eppy.svg)](https://pypi.python.org/pypi/eppy)
+ from PyPI
+
+[![Travis](https://img.shields.io/travis/jamiebull1/eppy/i70_continuous_integration.svg)](https://travis-ci.org/jamiebull1/eppy)
+ for Linux via Travis
+
+[![Appveyor](https://img.shields.io/appveyor/ci/jamiebull1/eppy/i70_continuous_integration.svg)](https://ci.appveyor.com/api/projects/status/github/jamiebull1/eppy)
+ for Windows via Appveyor
+
+[![CodeCov](https://img.shields.io/codecov/c/github/jamiebull1/eppy/i70_continuous_integration.svg)](https://codecov.io/github/jamiebull1/eppy)
+ via CodeCov
 
 Eppy is a scripting language for EnergyPlus idf files, and EnergyPlus output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are available in Python. You can programmatically navigate, search, and modify EnergyPlus idf files using eppy. The power of using a scripting language allows you to do the following:
 
