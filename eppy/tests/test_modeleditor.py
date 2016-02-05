@@ -579,23 +579,22 @@ def test_save():
 
     # test save with no parameters
     idf.save()
-    with open('test_save.idf', 'r') as test_file:
-        assert 'TestMaterial' in test_file.read()
+    with open('test_save.idf', 'rb',) as test_file:
+        assert b'TestMaterial' in test_file.read()
     os.remove('test_save.idf')
 
     # test save with combinations of encodings and line endings
     lineendings = ('windows', 'linux', 'default')
     encodings = ('ascii', 'latin-1', 'UTF-8')
     for le, enc in product(lineendings, encodings):
-        #le, enc = params
         idf.save(encoding=enc, lineendings=le)
-        with open('test_save.idf', 'r') as test_file:
+        with open('test_save.idf', 'rb') as test_file:
             if le == 'windows':
-                assert '\r\n' in test_file.read()
+                assert b'\r\n' in test_file.read()
             elif le == 'linux':
-                assert '\r\n' not in test_file.read()
+                assert b'\r\n' not in test_file.read()
             elif le == 'default':
-                assert os.linesep in test_file.read()
+                assert os.linesep.encode(enc) in test_file.read()
         os.remove('test_save.idf')
 
 
@@ -613,8 +612,8 @@ def test_saveas():
         pass
 
     idf.saveas('test_saveas.idf')  # save with a different filename
-    with open('test_saveas.idf', 'r') as test_file:
-        assert 'TestMaterial' in test_file.read()
+    with open('test_saveas.idf', 'rb') as test_file:
+        assert b'TestMaterial' in test_file.read()
     os.remove('test_saveas.idf')
 
     # test the idfname attribute has been changed
@@ -635,8 +634,8 @@ def test_savecopy():
         pass
 
     idf.savecopy('test_savecopy.idf')  # save a copy with a different filename
-    with open('test_savecopy.idf', 'r') as test_file:
-        assert 'TestMaterial' in test_file.read()
+    with open('test_savecopy.idf', 'rb') as test_file:
+        assert b'TestMaterial' in test_file.read()
     os.remove('test_savecopy.idf')
 
     # test the idfname attribute has not been changed

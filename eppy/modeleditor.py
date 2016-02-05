@@ -786,7 +786,8 @@ class IDF5(IDF4):
             s = '\n'.join(slines)
 
         s = s.encode(encoding)
-        open(filename, 'w').write(s)
+        with open(filename, 'wb') as idf_out:
+            idf_out.write(s)
 
     def saveas(self, filename, lineendings='default', encoding='latin-1'):
         """ Save the IDF as a text file with the filename passed.
