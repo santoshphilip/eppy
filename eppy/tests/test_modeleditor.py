@@ -13,6 +13,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from StringIO import StringIO
+from itertools import product
+import os
 
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
@@ -34,7 +36,8 @@ iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
 
 # idd is read only once in this test
-# if it has already been read from some other test, it will continue with the old reading
+# if it has already been read from some other test, it will continue with
+# the old reading
 iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
@@ -46,28 +49,30 @@ def test_poptrailing():
         (
             [1, 2, 3, '', 56, '', '', '', ''],
             [1, 2, 3, '', 56]
-        ), # lst, poped
+        ),  # lst, poped
         (
             [1, 2, 3, '', 56],
             [1, 2, 3, '', 56]
-        ), # lst, poped
+        ),  # lst, poped
         (
             [1, 2, 3, 56],
             [1, 2, 3, 56]
-        ), # lst, poped
+        ),  # lst, poped
     )
+
 
 def test_extendlist():
     """py.test for extendlist"""
     tdata = (
-        ([1, 2, 3], 2, 0, [1, 2, 3]), # lst, i, value, nlst
-        ([1, 2, 3], 3, 0, [1, 2, 3, 0]), # lst, i, value, nlst
-        ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]), # lst, i, value, nlst
-        ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]), # lst, i, value, nlst
+        ([1, 2, 3], 2, 0, [1, 2, 3]),  # lst, i, value, nlst
+        ([1, 2, 3], 3, 0, [1, 2, 3, 0]),  # lst, i, value, nlst
+        ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]),  # lst, i, value, nlst
+        ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]),  # lst, i, value, nlst
     )
     for lst, i, value, nlst in tdata:
         modeleditor.extendlist(lst, i, value=value)
         assert lst == nlst
+
 
 def test_newrawobject():
     """py.test for newrawobject"""
@@ -78,11 +83,12 @@ def test_newrawobject():
                 'ZONE', '', 0., 0., 0., 0., 1, 1, 'autocalculate',
                 'autocalculate', 'autocalculate', '', '', 'Yes'
             ]
-        ), # key, obj
+        ),  # key, obj
     )
     for key, obj in thedata:
         result = modeleditor.newrawobject(data, commdct, key)
         assert result == obj
+
 
 def test_obj2bunch():
     """py.test for obj2bunch"""
@@ -92,7 +98,7 @@ def test_obj2bunch():
                 'ZONE', '', '0', '0', '0', '0', '1', '1', 'autocalculate',
                 'autocalculate', 'autocalculate', '', '', 'Yes'
             ]
-        ), # obj
+        ),  # obj
     )
     for obj in thedata:
         key_i = data.dtls.index(obj[0].upper())
@@ -100,41 +106,46 @@ def test_obj2bunch():
         result = modeleditor.obj2bunch(data, commdct, obj)
         assert result.__repr__() == abunch.__repr__()
 
+
 def test_namebunch():
     """py.test for namebunch"""
     thedata = (
         (
             bunch.Bunch(dict(Name="", a=5)),
             "yay", "yay"
-        ), # abunch, aname, thename
+        ),  # abunch, aname, thename
         (
             bunch.Bunch(dict(Name=None, a=5)),
             "yay", None
-        ), # abunch, aname, thename
+        ),  # abunch, aname, thename
     )
     for abunch, aname, thename in thedata:
         result = modeleditor.namebunch(abunch, aname)
         assert result.Name == thename
 
+
 def test_addobject():
     """py.test for addobject"""
     thedata = (
-        ('ZONE', None, dict(Name="Gumby", X_Origin=50)), # key, aname, fielddict
-        ('ZONE', 'karamba', {}), # key, aname, fielddict
-        ('ZONE', None, {}), # key, aname, fielddict
-        ('ZONE', None, dict(Name="Gumby", X_Origin=50)), # key, aname, fielddict
+        # key, aname, fielddict
+        ('ZONE', None, dict(Name="Gumby", X_Origin=50)),
+        ('ZONE', 'karamba', {}),  # key, aname, fielddict
+        ('ZONE', None, {}),  # key, aname, fielddict
+        # key, aname, fielddict
+        ('ZONE', None, dict(Name="Gumby", X_Origin=50)),
     )
     for key, aname, fielddict in thedata:
         result = modeleditor.addobject(
             bunchdt, data, commdct,
             key, aname, **fielddict)
-        assert bunchdt[key][-1].key == key # wierd, but correct :-)
+        assert bunchdt[key][-1].key == key  # wierd, but correct :-)
         if aname:
             assert data.dt[key][-1][1] == aname
             assert bunchdt[key][-1].Name == aname
         if fielddict:
             for kkey, value in fielddict.items():
                 assert bunchdt[key][-1][kkey] == value
+
 
 def test_getnamedargs():
     """py.test for getnamedargs"""
@@ -144,10 +155,11 @@ def test_getnamedargs():
     assert result == modeleditor.getnamedargs(dict(a=1, b=2), c=3)
     assert result == modeleditor.getnamedargs(dict(a=1), c=3, b=2)
 
+
 def test_addobject1():
     """py.test for addobject"""
     thedata = (
-        ('ZONE', {'Name':'karamba'}), # key, kwargs
+        ('ZONE', {'Name': 'karamba'}),  # key, kwargs
     )
     for key, kwargs in thedata:
         result = modeleditor.addobject1(bunchdt, data, commdct, key, **kwargs)
@@ -155,18 +167,21 @@ def test_addobject1():
         assert data.dt[key][-1][1] == aname
         assert bunchdt[key][-1].Name == aname
 
+
 def test_getobject():
     """py.test for getobject"""
     thedata = (
-        ('ZONE', 'PLENUM-1', bunchdt['ZONE'][0]), # key, name, theobject
-        ('ZONE', 'PLENUM-1'.lower(), bunchdt['ZONE'][0]), # key, name, theobject
-        ('ZONE', 'PLENUM-A', None), # key, name, theobject
+        ('ZONE', 'PLENUM-1', bunchdt['ZONE'][0]),  # key, name, theobject
+        # key, name, theobject
+        ('ZONE', 'PLENUM-1'.lower(), bunchdt['ZONE'][0]),
+        ('ZONE', 'PLENUM-A', None),  # key, name, theobject
         ('ZONEHVAC:EQUIPMENTCONNECTIONS', 'SPACE1-1',
-         bunchdt['ZONEHVAC:EQUIPMENTCONNECTIONS'][0]), # key, name, theobject
+         bunchdt['ZONEHVAC:EQUIPMENTCONNECTIONS'][0]),  # key, name, theobject
     )
     for key, name, theobject in thedata:
         result = modeleditor.getobject(bunchdt, key, name)
         assert result == theobject
+
 
 def test___objecthasfields():
     """py.test for __objecthasfields"""
@@ -180,7 +195,7 @@ def test___objecthasfields():
         idfobject = modeleditor.addobject(
             bunchdt, data, commdct,
             key, **fielddict)
-        idfobject.Name = aname # modify the name, to check for a False return
+        idfobject.Name = aname  # modify the name, to check for a False return
         result = modeleditor.__objecthasfields(
             bunchdt, data, commdct,
             idfobject, **fielddict)
@@ -190,12 +205,12 @@ def test___objecthasfields():
 def test_getobjects():
     """py.test for getobjects"""
     thedata = (
-        ('ZONE', {'Name':'PLENUM-1'}, 7, bunchdt['ZONE'][0:1]),
+        ('ZONE', {'Name': 'PLENUM-1'}, 7, bunchdt['ZONE'][0:1]),
         # key, fielddict, places, theobjects
         # ('ZONE', {'Name':'PLENUM-1', 'Volume':283.2},7,bunchdt['ZONE'][0:1]),
-        # # key, fielddict, places, theobjects
+        # key, fielddict, places, theobjects
         # ('ZONE', {'Y_Origin':0.}, 7, bunchdt['ZONE']),
-        # # key, fielddict, places, theobjects
+        # key, fielddict, places, theobjects
     )
     for key, fielddict, places, theobjects in thedata:
         result = modeleditor.getobjects(
@@ -203,11 +218,12 @@ def test_getobjects():
             key, **fielddict)
         assert result == theobjects
 
+
 def test_is_retaincase():
     """py.test for is_retaincase"""
     thedata = (
-        ("BUILDING", 'Name', True), # key, fieldname, case
-        ("BUILDING", 'Terrain', False), # key, fieldname, case
+        ("BUILDING", 'Name', True),  # key, fieldname, case
+        ("BUILDING", 'Terrain', False),  # key, fieldname, case
     )
     for key, fieldname, case in thedata:
         idfobject = bunchdt[key][0]
@@ -215,6 +231,7 @@ def test_is_retaincase():
             bunchdt, data, commdct,
             idfobject, fieldname)
         assert result == case
+
 
 def test_isfieldvalue():
     """py.test for isfieldvalue"""
@@ -240,6 +257,7 @@ def test_isfieldvalue():
             bunchdt, data, commdct,
             idfobject, fieldname, value, places)
         assert result == isequal
+
 
 def test_equalfield():
     """py.test for equalfield"""
@@ -276,6 +294,7 @@ def test_equalfield():
             bunchdt, data, commdct,
             idfobject1, idfobject2, fieldname, places)
 
+
 def test_iddofobject():
     """py.test of iddofobject"""
     thedata = (
@@ -288,12 +307,12 @@ def test_iddofobject():
                     'required-field': ['']
                 }
             ]
-        ), # key, itsidd
-        )
+        ),  # key, itsidd
+    )
     for key, itsidd in thedata:
         result = modeleditor.iddofobject(data, commdct, key)
         try:
-            result[0].pop('memo') # memo is new in version 8.0.0
+            result[0].pop('memo')  # memo is new in version 8.0.0
         except KeyError:
             pass
         assert result == itsidd
@@ -309,7 +328,7 @@ def test_removeextensibles():
                 "WALL-1", "PLENUM-1",
                 "Outdoors", "", "SunExposed", "WindExposed", 0.50000, '4',
             ]
-        ), # key, objname, rawobject
+        ),  # key, objname, rawobject
     )
     for key, objname, rawobject in thedata:
         result = modeleditor.removeextensibles(
@@ -326,6 +345,7 @@ def test_addthisbunch_old():
     modeleditor.addthisbunch_old(bunchdt, data, commdct, thisbunch)
     assert data.dt["ZONE"][-1] == obj1
 
+
 def test_getrefnames():
     """py.test for getrefnames"""
     tdata = (
@@ -335,18 +355,19 @@ def test_getrefnames():
                 'ZoneNames', 'OutFaceEnvNames', 'ZoneAndZoneListNames',
                 'AirflowNetworkNodeAndZoneNames'
             ]
-        ), # objkey, therefs
+        ),  # objkey, therefs
         (
             'FluidProperties:Name'.upper(),
             ['FluidNames', 'FluidAndGlycolNames']
-        ), # objkey, therefs
-        ('Building'.upper(), []), # objkey, therefs
+        ),  # objkey, therefs
+        ('Building'.upper(), []),  # objkey, therefs
     )
     for objkey, therefs in tdata:
         fhandle = StringIO("")
         idf = IDF(fhandle)
         result = modeleditor.getrefnames(idf, objkey)
         assert result == therefs
+
 
 def test_getallobjlists():
     """py.test for getallobjlists"""
@@ -360,13 +381,14 @@ def test_getallobjlists():
                     [10, ]
                 ),
             ],
-        ), # refname, objlists
+        ),  # refname, objlists
     )
     for refname, objlists in tdata:
         fhandle = StringIO("")
         idf = IDF(fhandle)
         result = modeleditor.getallobjlists(idf, refname)
         assert result == objlists
+
 
 def test_rename():
     """py.test for rename"""
@@ -409,6 +431,7 @@ def test_rename():
     assert result.Name == 'peanut butter'
     assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'
     assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'
+
 
 def test_zonearea_zonevolume():
     """py.test for zonearea and zonevolume"""
@@ -506,6 +529,7 @@ def test_zonearea_zonevolume():
     result = modeleditor.zonevolume(idf, '473222')
     assert almostequal(result, 10.718762)
 
+
 def test_new():
     """py.test for IDF.new()"""
     idf = IDF()
@@ -513,6 +537,7 @@ def test_new():
     # assert idf.idfobjects['building'.upper()] == Idf_MSequence()
     assert idf.idfobjects['building'.upper()].list1 == []
     assert idf.idfobjects['building'.upper()].list2 == []
+
 
 def test_newidfobject():
     """py.test for newidfobject"""
@@ -527,20 +552,91 @@ def test_newidfobject():
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
                                      ['MATERIAL:AIRGAP', 'Krypton'],
                                      ['MATERIAL:AIRGAP', 'Xenon'],
-                                    ]
+                                     ]
     # remove an object
     idf.popidfobject(objtype, 1)
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
                                      ['MATERIAL:AIRGAP', 'Xenon'],
-                                    ]
+                                     ]
     lastobject = idf.idfobjects[objtype][-1]
     idf.removeidfobject(lastobject)
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],]
+    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], ]
     # copyidfobject
     onlyobject = idf.idfobjects[objtype][0]
     idf.copyidfobject(onlyobject)
 
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
                                      ['MATERIAL:AIRGAP', 'Argon'],
-                                    ]
-        
+                                     ]
+
+
+def test_save():
+    """Test the IDF.save() function, including line endings and encodings.
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
+    idf.idfname = 'test_save.idf'
+
+    # test save with no parameters
+    idf.save()
+    with open('test_save.idf', 'rb',) as test_file:
+        assert b'TestMaterial' in test_file.read()
+    os.remove('test_save.idf')
+
+    # test save with combinations of encodings and line endings
+    lineendings = ('windows', 'linux', 'default')
+    encodings = ('ascii', 'latin-1', 'UTF-8')
+    for le, enc in product(lineendings, encodings):
+        idf.save(encoding=enc, lineendings=le)
+        with open('test_save.idf', 'rb') as test_file:
+            if le == 'windows':
+                assert b'\r\n' in test_file.read()
+            elif le == 'linux':
+                assert b'\r\n' not in test_file.read()
+            elif le == 'default':
+                assert os.linesep.encode(enc) in test_file.read()
+        os.remove('test_save.idf')
+
+
+def test_saveas():
+    """Test the IDF.saveas() function.
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
+    idf.idfname = 'test.idf'
+
+    try:
+        idf.saveas()  # this should raise an error as no filename is passed
+        assert False
+    except TypeError:
+        pass
+
+    idf.saveas('test_saveas.idf')  # save with a different filename
+    with open('test_saveas.idf', 'rb') as test_file:
+        assert b'TestMaterial' in test_file.read()
+    os.remove('test_saveas.idf')
+
+    # test the idfname attribute has been changed
+    assert idf.idfname == 'test_saveas.idf'
+
+
+def test_savecopy():
+    """Test the IDF.savecopy() function.
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
+    idf.idfname = 'test.idf'
+
+    try:
+        idf.savecopy()  # this should raise an error as no filename is passed
+        assert False
+    except TypeError:
+        pass
+
+    idf.savecopy('test_savecopy.idf')  # save a copy with a different filename
+    with open('test_savecopy.idf', 'rb') as test_file:
+        assert b'TestMaterial' in test_file.read()
+    os.remove('test_savecopy.idf')
+
+    # test the idfname attribute has not been changed
+    assert idf.idfname == 'test.idf'

@@ -13,6 +13,8 @@
 
 
 import copy
+import os
+import platform
 
 from eppy.idfreader import idfreader1
 from eppy.idfreader import makeabunch
@@ -20,34 +22,42 @@ from eppy.idfreader import makeabunch
 import eppy.function_helpers as function_helpers
 
 
-
 class NoObjectError(Exception):
+
     """Exception Object"""
     pass
+
 
 class NotSameObjectError(Exception):
+
     """Exception Object"""
     pass
+
 
 class IDDNotSetError(Exception):
+
     """Exception Object"""
     pass
 
+
 class IDDAlreadySetError(Exception):
+
     """Exception Object"""
     pass
+
 
 def almostequal(first, second, places=7, printit=True):
     # taken from python's unit test
     # may be covered by Python's license
     """docstring for almostequal"""
-    if round(abs(second-first), places) != 0:
+    if round(abs(second - first), places) != 0:
         if printit:
-            print(round(abs(second-first), places))
+            print(round(abs(second - first), places))
             print("notalmost: %s != %s" % (first, second))
         return False
     else:
         return True
+
 
 def poptrailing(lst):
     """pop the trailing items in lst that are blank"""
@@ -56,6 +66,7 @@ def poptrailing(lst):
             break
         lst.pop(-1)
     return lst
+
 
 def extendlist(lst, i, value=''):
     """extend the list so that you have i-th value"""
@@ -74,7 +85,7 @@ def newrawobject(data, commdct, key):
 
     key_i = dtls.index(key)
     key_comm = commdct[key_i]
-    #set default values
+    # set default values
     obj = [comm.get('default', [''])[0] for comm in key_comm]
     for i, comm in enumerate(key_comm):
         typ = comm.get('type', [''])[0]
@@ -84,11 +95,12 @@ def newrawobject(data, commdct, key):
                 obj[i] = func_select[typ](obj[i])
             except IndexError:
                 break
-            except ValueError: # if value = autocalculate
+            except ValueError:  # if value = autocalculate
                 continue
     obj[0] = key
-    obj = poptrailing(obj) # remove the blank items in a repeating field.
+    obj = poptrailing(obj)  # remove the blank items in a repeating field.
     return obj
+
 
 def addthisbunch_old(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
@@ -100,6 +112,7 @@ def addthisbunch_old(bunchdt, data, commdct, thisbunch):
     abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
+
 
 def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
@@ -116,6 +129,7 @@ def addthisbunch(bunchdt, data, commdct, thisbunch):
     bunchdt[key].append(abunch)
     return abunch
 
+
 def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
     dtls = data.dtls
@@ -124,6 +138,7 @@ def obj2bunch(data, commdct, obj):
     abunch = makeabunch(commdct, obj, key_i)
     return abunch
 
+
 def namebunch(abunch, aname):
     """give the bunch object a name, if it has a Name field"""
     if abunch.Name == None:
@@ -131,6 +146,7 @@ def namebunch(abunch, aname):
     else:
         abunch.Name = aname
     return abunch
+
 
 def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
     """add an object to the eplus model"""
@@ -144,6 +160,7 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         abunch[key] = value
     return abunch
 
+
 def getnamedargs(*args, **kwargs):
     """allows you to pass a dict and named args
     so you can pass ({'a':5, 'b':3}, c=8) and get
@@ -154,6 +171,7 @@ def getnamedargs(*args, **kwargs):
             adict.update(arg)
     adict.update(kwargs)
     return adict
+
 
 def addobject1(bunchdt, data, commdct, key, **kwargs):
     """add an object to the eplus model"""
@@ -166,6 +184,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
         abunch[kkey] = value
     return abunch
 
+
 def getobject(bunchdt, key, name):
     """get the object if you have the key and the name
     returns a list of objects, in case you have more than one
@@ -173,13 +192,15 @@ def getobject(bunchdt, key, name):
     # TODO : throw exception if more than one object, or return more objects
     idfobjects = bunchdt[key]
     if idfobjects:
-        unique_id = idfobjects[0].objls[1] # second item in list is a unique ID
+        # second item in list is a unique ID
+        unique_id = idfobjects[0].objls[1]
     theobjs = [idfobj for idfobj in idfobjects if
                idfobj[unique_id].upper() == name.upper()]
     try:
         return theobjs[0]
     except IndexError:
         return None
+
 
 def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
@@ -189,6 +210,7 @@ def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
                 idfobject, key, value, places=places):
             return False
     return True
+
 
 def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
     """get all the objects of key that matches the fields in **kwargs"""
@@ -201,11 +223,13 @@ def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
             allobjs.append(obj)
     return allobjs
 
+
 def iddofobject(data, commdct, key):
     """from commdct, return the idd of the object key"""
     dtls = data.dtls
     i = dtls.index(key)
     return commdct[i]
+
 
 def getextensibleindex(bunchdt, data, commdct, key, objname):
     """get the index of the first extensible item"""
@@ -213,11 +237,13 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
     if theobject == None:
         return None
     theidd = iddofobject(data, commdct, key)
-    extensible_i = [i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
+    extensible_i = [
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
         return theobject
+
 
 def removeextensibles(bunchdt, data, commdct, key, objname):
     """remove the extensible items in the object"""
@@ -225,7 +251,8 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
     if theobject == None:
         return theobject
     theidd = iddofobject(data, commdct, key)
-    extensible_i = [i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
+    extensible_i = [
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -237,6 +264,7 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
             break
     return theobject
 
+
 def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
     """get the idd comment for the field"""
     key = idfobject.obj[0].upper()
@@ -245,16 +273,18 @@ def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
     thiscommdct = commdct[keyi][fieldi]
     return thiscommdct
 
+
 def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
     """test if case has to be retained for that field"""
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
     return 'retaincase' in thiscommdct
 
+
 def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
     """test if idfobj.field == value"""
     # do a quick type check
     # if type(idfobj[fieldname]) != type(value):
-    #     return False # takes care of autocalculate and real
+    # return False # takes care of autocalculate and real
     # check float
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
     if 'type' in thiscommdct:
@@ -273,6 +303,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
     else:
         return idfobj[fieldname].upper() == value.upper()
 
+
 def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     """returns true if the two fields are equal
     will test for retaincase
@@ -287,6 +318,7 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
         bunchdt, data, commdct,
         idfobj1, fieldname, vee2, places=places)
 
+
 def getrefnames(idf, objname):
     """get the reference names for this object"""
     iddinfo = idf.idd_info
@@ -300,6 +332,7 @@ def getrefnames(idf, objname):
                     return fieldidd['reference']
                 else:
                     return []
+
 
 def getallobjlists(idf, refname):
     """get all object-list fields for refname
@@ -320,6 +353,7 @@ def getallobjlists(idf, refname):
             objlists.append((objkey, refname, indexlist))
     return objlists
 
+
 def rename(idf, objkey, objname, newname):
     """rename all the refrences to this objname"""
     refnames = getrefnames(idf, objkey)
@@ -330,13 +364,14 @@ def rename(idf, objkey, objname, newname):
             for robjkey, refname, fieldindexlist in objlists:
                 idfobjects = idf.idfobjects[robjkey]
                 for idfobject in idfobjects:
-                    for findex in fieldindexlist: # for each field
+                    for findex in fieldindexlist:  # for each field
                         if idfobject[idfobject.objls[findex]] == objname:
                             idfobject[idfobject.objls[findex]] = newname
     theobject = idf.getobject(objkey, objname)
     fieldname = [item for item in theobject.objls if item.endswith('Name')][0]
     theobject[fieldname] = newname
     return theobject
+
 
 def zonearea(idf, zonename, debug=False):
     """zone area"""
@@ -354,6 +389,7 @@ def zonearea(idf, zonename, debug=False):
         area = zonearea_roofceiling(idf, zonename)
     return area
 
+
 def zonearea_floor(idf, zonename, debug=False):
     """zone area - floor"""
     zone = idf.getobject('ZONE', zonename)
@@ -365,6 +401,7 @@ def zonearea_floor(idf, zonename, debug=False):
         print([floor.area for floor in floors])
     area = sum([floor.area for floor in floors])
     return area
+
 
 def zonearea_roofceiling(idf, zonename, debug=False):
     """zone area - roof, ceiling"""
@@ -379,19 +416,21 @@ def zonearea_roofceiling(idf, zonename, debug=False):
     area = sum([floor.area for floor in floors])
     return area
 
+
 def zone_height_min2max(idf, zonename, debug=False):
     """zone height = max-min"""
     zone = idf.getobject('ZONE', zonename)
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     surf_xyzs = [function_helpers.getcoords(s) for s in zone_surfs]
-    import itertools # to flatten the list
+    import itertools  # to flatten the list
     surf_xyzs = list(itertools.chain(*surf_xyzs))
     surf_zs = [z for x, y, z in surf_xyzs]
     topz = max(surf_zs)
     botz = min(surf_zs)
     height = topz - botz
     return height
+
 
 def zoneheight(idf, zonename, debug=False):
     """zone height"""
@@ -405,6 +444,7 @@ def zoneheight(idf, zonename, debug=False):
     else:
         height = zone_floor2roofheight(idf, zonename)
     return height
+
 
 def zone_floor2roofheight(idf, zonename, debug=False):
     """zone floor to roof height"""
@@ -431,6 +471,7 @@ def zone_floor2roofheight(idf, zonename, debug=False):
 
     return height
 
+
 def zonevolume(idf, zonename):
     """zone volume"""
     area = zonearea(idf, zonename)
@@ -441,6 +482,7 @@ def zonevolume(idf, zonename):
 
 
 class IDF0(object):
+
     """
     document the following variables:
 
@@ -456,11 +498,13 @@ class IDF0(object):
     iddname = None
     idd_info = None
     block = None
+
     def __init__(self, idfname=None):
         # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
+
     @classmethod
     def setiddname(cls, arg, testing=False):
         if cls.iddname == None:
@@ -471,15 +515,18 @@ class IDF0(object):
             pass
         else:
             if testing == False:
-                errortxt = "IDD file is set to: %s"  % (cls.iddname, )
+                errortxt = "IDD file is set to: %s" % (cls.iddname, )
                 raise IDDAlreadySetError(errortxt)
+
     @classmethod
     def getiddname(cls):
         return cls.iddname
+
     @classmethod
     def setidd(cls, iddinfo, block):
         cls.idd_info = iddinfo
         cls.block = block
+
     def read(self):
         """read the idf file and the idd file.
         If the idd file had been already read, it will not be read again.
@@ -497,19 +544,16 @@ class IDF0(object):
             commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
-    def save(self):
-        # TODO unit test
-        astr = str(self.model)
-        open(self.idfname, 'w').write(astr)
-    def saveas(self, filename):
-        astr = str(self.model)
-        open(filename, 'w').write(astr)
+
 
 class IDF1(IDF0):
+
     """subclass of IDF0. Uses functions of IDF0
     """
+
     def __init__(self, idfname=None):
         super(IDF1, self).__init__(idfname)
+
     def newidfobject(self, key, aname='', **kwargs):
         """add a new idfobject to the model
 
@@ -532,13 +576,16 @@ class IDF1(IDF0):
         for k, v in list(kwargs.items()):
             abunch[k] = v
         return abunch
+
     def popidfobject(self, key, index):
         """pop this object"""
         return self.idfobjects[key].pop(index)
+
     def removeidfobject(self, idfobject):
         """remove this idfobject"""
         key = idfobject.key.upper()
         self.idfobjects[key].remove(idfobject)
+
     def copyidfobject(self, idfobject):
         """add idfobject to this model
 
@@ -548,6 +595,7 @@ class IDF1(IDF0):
                      self.model,
                      self.idd_info,
                      idfobject)
+
     def copyidfobject_old(self, idfobject):
         """add idfobject to this model
 
@@ -558,9 +606,11 @@ class IDF1(IDF0):
                      self.model,
                      self.idd_info,
                      idfobject)
+
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
+
     def getextensibleindex(self, key, name):
         """get the index of the first extensible item
 
@@ -568,6 +618,7 @@ class IDF1(IDF0):
         return getextensibleindex(
             self.idfobjects, self.model, self.idd_info,
             key, name)
+
     def removeextensibles(self, key, name):
         """remove extensible items in the object of key and name
 
@@ -576,17 +627,21 @@ class IDF1(IDF0):
             self.idfobjects, self.model, self.idd_info,
             key, name)
 
+
 class IDF2(IDF1):
+
     """subclass of IDF1. Uses functions of IDF1
 
     """
+
     def __init__(self, idfname=None):
         super(IDF2, self).__init__(idfname)
-        self.outputtype = "standard" # standard,
-                                    # nocomment,
-                                    # nocomment1,
-                                    # nocomment2,
-                                    # compressed
+        self.outputtype = "standard"  # standard,
+        # nocomment,
+        # nocomment1,
+        # nocomment2,
+        # compressed
+
     def idfstr(self):
         if self.outputtype != 'standard':
             astr = self.model.__repr__()
@@ -612,16 +667,11 @@ class IDF2(IDF1):
             for obj in self.idfobjects[objname]:
                 astr = astr + obj.__repr__()
         return astr
+
     def printidf(self):
         """print the idf"""
         print(self.idfstr())
-    def save(self):
-        """save with comments"""
-        astr = self.idfstr()
-        open(self.idfname, 'w').write(astr)
-    def saveas(self, filename):
-        astr = self.idfstr()
-        open(filename, 'w').write(astr)
+
     # def initread(self, idfname):
     #     """use the latest iddfile and read file fname"""
     #     from StringIO import StringIO
@@ -632,11 +682,15 @@ class IDF2(IDF1):
     #     self.idfname = idfname
     #     self.read()
 
+
 class IDF3(IDF2):
+
     """subclass of IDF2. Uses functions of IDF1 and IDF2
     """
+
     def __init__(self, idfname=None):
         super(IDF3, self).__init__(idfname)
+
     def initread(self, idfname):
         """use the latest iddfile and read file fname
         idd is initialized only if it has not been done earlier"""
@@ -647,6 +701,7 @@ class IDF3(IDF2):
             self.setiddname(iddfhandle)
         self.idfname = idfname
         self.read()
+
     def initnew(self):
         """use the latest iddfile and opens a new file
         idd is initialized only if it has not been done earlier"""
@@ -658,6 +713,7 @@ class IDF3(IDF2):
         idfhandle = StringIO('')
         self.idfname = idfhandle
         self.read()
+
     def initreadtxt(self, idftxt):
         """use the latest iddfile and read txt
         idd is initialized only if it has not been done earlier"""
@@ -670,26 +726,56 @@ class IDF3(IDF2):
         self.idfname = idfhandle
         self.read()
 
+
 class IDF4(IDF3):
+
     """subclass of IDF3. Uses all the functions of IDF1, IDF2, IDF3"""
+
     def __init__(self, idfname=None):
         super(IDF4, self).__init__(idfname)
+
     def new(self, fname=None):
         """create a blank new idf file. Filename is optional"""
         # modify this so that setidd has to be called before
         self.initnew()
 
+
 class IDF5(IDF4):
+
     """subclass of IDF4. Uses functions of IDF1, IDF2, IDF3, IDF4"""
+
     def __init__(self, idfname=None):
         super(IDF5, self).__init__(idfname)
-    def save(self, filename=None, lineendings='default'):
-        """lineendings = ['default', 'windows', 'unix' ]"""
+
+    def save(self, filename=None, lineendings='default', encoding='latin-1'):
+        """ 
+        Save the IDF as a text file with the optional filename passed, or with
+        the current idfname of the IDF.
+
+        Parameters
+        ----------
+        filename : str, optional
+            Filepath to save the file. If None then use the IDF.idfname
+            parameter.
+
+        lineendings : str, optional
+            Line endings to use in the saved file. Options are 'default',
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
+
+        encoding : str, optional
+            Encoding to use for the saved file. The default is 'latin-1' which
+            is compatible with the EnergyPlus IDFEditor.
+
+        """
         if filename is None:
             filename = self.idfname
         s = self.idfstr()
         if lineendings == 'default':
-            pass
+            system = platform.system()
+            s = '!- {} Line endings \n'.format(system) + s
+            slines = s.splitlines()
+            s = os.linesep.join(slines)
         elif lineendings == 'windows':
             s = '!- Windows Line endings \n' + s
             slines = s.splitlines()
@@ -698,21 +784,60 @@ class IDF5(IDF4):
             s = '!- Unix Line endings \n' + s
             slines = s.splitlines()
             s = '\n'.join(slines)
-        open(filename, 'w').write(s)
-    def saveas(self, filename, lineendings='default'):
+
+        s = s.encode(encoding)
+        with open(filename, 'wb') as idf_out:
+            idf_out.write(s)
+
+    def saveas(self, filename, lineendings='default', encoding='latin-1'):
+        """ Save the IDF as a text file with the filename passed.
+
+        Parameters
+        ----------
+        filename : str, optional
+            Filepath to to set the idfname attribute to and save the file as.
+
+        lineendings : str, optional
+            Line endings to use in the saved file. Options are 'default',
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
+
+        encoding : str, optional
+            Encoding to use for the saved file. The default is 'latin-1' which
+            is compatible with the EnergyPlus IDFEditor.
+
+        """
         self.idfname = filename
-        self.save(lineendings=lineendings)
-    def savecopy(self, filename, lineendings='default'):
-        """save a copy as filename"""
-        self.save(filename, lineendings=lineendings)
+        self.save(filename, lineendings, encoding)
+
+    def savecopy(self, filename, lineendings='default', encoding='latin-1'):
+        """Save a copy of the file with the filename passed.
+
+        Parameters
+        ----------
+        filename : str
+            Filepath to save the file.
+
+        lineendings : str, optional
+            Line endings to use in the saved file. Options are 'default',
+            'windows' and 'unix' the default is 'default' which uses the line
+            endings for the current system.
+
+        encoding : str, optional
+            Encoding to use for the saved file. The default is 'latin-1' which
+            is compatible with the EnergyPlus IDFEditor.
+
+        """
+        self.save(filename, lineendings, encoding)
 
 
 IDF = IDF5
 
 
 class something(IDF0):
+
     """docstring for something"""
+
     def __init__(self, arg):
         super(something, self).__init__()
         self.arg = arg
-
