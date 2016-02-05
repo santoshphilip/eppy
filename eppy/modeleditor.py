@@ -542,17 +542,6 @@ class IDF0(object):
             commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
-    #==========================================================================
-    # def save(self):
-    # TODO unit test
-    #     astr = str(self.model)
-    #     open(self.idfname, 'w').write(astr)
-    #==========================================================================
-    #==========================================================================
-    # def saveas(self, filename):
-    #     astr = str(self.model)
-    #     open(filename, 'w').write(astr)
-    #==========================================================================
 
 
 class IDF1(IDF0):
@@ -681,14 +670,6 @@ class IDF2(IDF1):
         """print the idf"""
         print(self.idfstr())
 
-    def save(self):
-        """save with comments"""
-        astr = self.idfstr()
-        open(self.idfname, 'w').write(astr)
-
-    def saveas(self, filename):
-        astr = self.idfstr()
-        open(filename, 'w').write(astr)
     # def initread(self, idfname):
     #     """use the latest iddfile and read file fname"""
     #     from StringIO import StringIO
