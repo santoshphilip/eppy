@@ -4,10 +4,10 @@ Eppy
  from PyPI
 
 [![Travis](https://img.shields.io/travis/jamiebull1/eppy/i70_continuous_integration.svg)](https://travis-ci.org/jamiebull1/eppy)
- for Linux via Travis
+ for Python 2.7 and 3.5 on Linux via Travis
 
 [![Appveyor](https://img.shields.io/appveyor/ci/jamiebull1/eppy/i70_continuous_integration.svg)](https://ci.appveyor.com/api/projects/status/github/jamiebull1/eppy)
- for Windows via Appveyor
+ for Python 2.7 and 3.5 on Windows via Appveyor
 
 [![CodeCov](https://img.shields.io/codecov/c/github/jamiebull1/eppy/i70_continuous_integration.svg)](https://codecov.io/github/jamiebull1/eppy)
  via CodeCov
