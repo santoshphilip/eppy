@@ -54,9 +54,9 @@
 <div class="section" id="id1">
 <h2>2016-02-05<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul>
-<li><p class="first">idf.save(), idf.saveas(fname), idf.savecopy(fname) save with latin-1 encoding</p>
+<li><p class="first">idf.save(), idf.saveas(fname), idf.savecopy(fname) save with latin-1 encoding by default. Other endcondings are possible with named argument <em>encodings</em></p>
 </li>
-<li><p class="first">all the above saves have a default named argument called lineendings:</p>
+<li><p class="first">all the above saves have a default named argument called <em>lineendings</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">save</span><span class="p">()</span> <span class="c1"># -&gt; Save in the native format of the host machine</span>
     <span class="c1"># if you are on a unix machine, the line endings would be unix</span>
     <span class="c1"># if you are on a windows machine, the line endings would be DOS</span>

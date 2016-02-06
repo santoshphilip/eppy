@@ -4,8 +4,8 @@ Changes
 2016-02-05
 ----------
 
-- idf.save(), idf.saveas(fname), idf.savecopy(fname) save with latin-1 encoding
-- all the above saves have a default named argument called lineendings::
+- idf.save(), idf.saveas(fname), idf.savecopy(fname) save with latin-1 encoding by default. Other endcondings are possible with named argument *encodings*
+- all the above saves have a default named argument called *lineendings*::
 
     idf.save() # -> Save in the native format of the host machine
         # if you are on a unix machine, the line endings would be unix
