@@ -18,7 +18,6 @@ from __future__ import unicode_literals
 import copy
 
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
-import eppy.EPlusInterfaceFunctions.mylib3 as mylib3
 
 
 def removecomment(astr, cphrase):
@@ -28,14 +27,14 @@ def removecomment(astr, cphrase):
     until the end of the line
     astr is the string to be de-commented
     cphrase is the comment phrase"""
-    linesep = mylib3.getlinesep(astr)
-    alist = astr.split(linesep)
+    # linesep = mylib3.getlinesep(astr)
+    alist = astr.splitlines()
     for i in range(len(alist)):
         alist1 = alist[i].split(cphrase)
         alist[i] = alist1[0]
 
     # return string.join(alist, linesep)
-    return linesep.join(alist)
+    return '\n'.join(alist)
 
 
 class Idd(object):
@@ -123,7 +122,8 @@ class Eplusdata(object):
         #print dictionary
         dt = self.dt
         dtls = self.dtls
-        DOSSEP = mylib3.UNIXSEP # using a unix EOL
+        UNIXSEP = "\n"
+        DOSSEP = UNIXSEP # using a unix EOL
         astr = ''
         for node in dtls:
             nodedata = dt[node.upper()]
