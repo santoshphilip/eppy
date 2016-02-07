@@ -17,7 +17,6 @@
 
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
-import eppy.EPlusInterfaceFunctions.mylib3 as mylib3
 
 
 def nocomment(astr, com):
@@ -67,21 +66,28 @@ def get_nocom_vars(astr):
     #lss is the .idd file as a nested list
     return (st1, st2, lss)
 
+# delete these commented lines
+# def removeblanklines(astr):
+#     """
+#     removeblanklines(astr)
+#     returns the string after
+#     remove blank lines in 'astr'
+#     """
+#     linesep = mylib3.getlinesep(astr)
+#     alist = astr.split(linesep)
+#     lss = []
+#     for element in alist:
+#         ell = element.strip()
+#         if ell != '':
+#             lss.append(element)
+#     st1 = linesep.join(lss)
+#     return st1
+
 def removeblanklines(astr):
-    """
-    removeblanklines(astr)
-    returns the string after
-    remove blank lines in 'astr'
-    """
-    linesep = mylib3.getlinesep(astr)
-    alist = astr.split(linesep)
-    lss = []
-    for element in alist:
-        ell = element.strip()
-        if ell != '':
-            lss.append(element)
-    st1 = linesep.join(lss)
-    return st1
+    """remove the blank lines in astr"""
+    lines = astr.splitlines()
+    lines = [line for line in lines if line.strip() != ""]
+    return "\n".join(lines)
 
 
 def extractidddata(fname, debug=False):
