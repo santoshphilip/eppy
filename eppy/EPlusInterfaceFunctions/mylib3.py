@@ -24,6 +24,10 @@ def getlinesep(astr):
     mac is '\r'
     dos is '\r\n'
     unix is '\n'"""
+    # print('linesep')
+    # import inspect
+    # print('caller name:', inspect.stack()[1][3])
+    # assert 1 == 0
     lsep = None
     if len(astr) == 0:
         lsep = None

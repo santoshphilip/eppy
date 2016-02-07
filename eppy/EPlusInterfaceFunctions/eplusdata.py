@@ -28,17 +28,14 @@ def removecomment(astr, cphrase):
     until the end of the line
     astr is the string to be de-commented
     cphrase is the comment phrase"""
-    # hotfix for issue #79
-    # https://github.com/santoshphilip/eppy/issues/79
-    # linesep = mylib3.getlinesep(astr)
-    # alist = astr.split(linesep)
-    alist = astr.splitlines()
+    linesep = mylib3.getlinesep(astr)
+    alist = astr.split(linesep)
     for i in range(len(alist)):
         alist1 = alist[i].split(cphrase)
         alist[i] = alist1[0]
 
     # return string.join(alist, linesep)
-    return '\n'.join(alist)
+    return linesep.join(alist)
 
 
 class Idd(object):
