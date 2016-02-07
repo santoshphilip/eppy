@@ -66,22 +66,6 @@ def get_nocom_vars(astr):
     #lss is the .idd file as a nested list
     return (st1, st2, lss)
 
-# delete these commented lines
-# def removeblanklines(astr):
-#     """
-#     removeblanklines(astr)
-#     returns the string after
-#     remove blank lines in 'astr'
-#     """
-#     linesep = mylib3.getlinesep(astr)
-#     alist = astr.split(linesep)
-#     lss = []
-#     for element in alist:
-#         ell = element.strip()
-#         if ell != '':
-#             lss.append(element)
-#     st1 = linesep.join(lss)
-#     return st1
 
 def removeblanklines(astr):
     """remove the blank lines in astr"""
