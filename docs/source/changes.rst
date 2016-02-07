@@ -1,6 +1,14 @@
 Changes
 =======
 
+release r0.5.1
+~~~~~~~~~~~~~~
+
+2016-02-07
+----------
+
+- bug fix -> read files that have mixed line endings. Both DOS and Unix line endings
+
 release r0.5
 ~~~~~~~~~~~~
 
