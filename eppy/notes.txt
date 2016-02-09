@@ -1,3 +1,6 @@
+2016-02-05
+----------
+merge from jamiebull1-i68_latin-1-encoding after this
 2014-10-19
 ----------
 made a new branch i31_loopdiagram for issue 31

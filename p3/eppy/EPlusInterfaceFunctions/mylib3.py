@@ -31,6 +31,7 @@ def getlinesep(astr):
     rcount = astr.count('\r')
     # ncount = string.count(astr,'\n')
     ncount = astr.count('\n')
+    # print("ncount, rcount", ncount, rcount)
     if ncount == rcount == 0:
         lsep = None
     if ncount == 0:
