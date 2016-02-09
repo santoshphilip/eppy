@@ -19,8 +19,6 @@ import copy
 
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 
-from io import IOBase
-
 
 def removecomment(astr, cphrase):
     """
@@ -116,6 +114,7 @@ class Eplusdata(object):
                     isinstance(dictfile, Idd)):
                 self.makedict(dictfile, fname)
         except NameError:
+            from io import IOBase
             if (isinstance(fname, (IOBase, StringIO)) and
                     isinstance(dictfile, basestring)):
                 self.makedict(dictfile, fname)
@@ -128,7 +127,7 @@ class Eplusdata(object):
         dt = self.dt
         dtls = self.dtls
         UNIXSEP = "\n"
-        DOSSEP = UNIXSEP  # using a unix EOL
+        DOSSEP = UNIXSEP # using a unix EOL
         astr = ''
         for node in dtls:
             nodedata = dt[node.upper()]
