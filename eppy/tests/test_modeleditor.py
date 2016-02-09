@@ -26,8 +26,6 @@ import eppy.idfreader as idfreader
 import eppy.snippet as snippet
 
 
-THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
 
@@ -59,7 +57,7 @@ def test_poptrailing():
             [1, 2, 3, 56]
         ),  # lst, popped
     )
-    for before, after in iter(tdata):    
+    for before, after in iter(tdata):
         assert modeleditor.poptrailing(before) == after
 
 
@@ -637,12 +635,12 @@ def test_savecopy():
 
 def test_initread():
     """Test for IDF.initread() with filename in unicode and as python str.
-    """        
+    """
     # setup
     idf = IDF()
     idf.initreadtxt(idfsnippet)
     idf.saveas('tmp.idf')
-    
+
     # test fname as unicode
     fname = unicode('tmp.idf')
     assert type(fname) == unicode
@@ -656,18 +654,18 @@ def test_initread():
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
-    
+
     # test that a nonexistent file raises an IOError
     fname = "notarealfilename.notreal"
     idf = IDF()
     try:
         idf.initread(fname)
-        assert False # shouldn't reach here
+        assert False  # shouldn't reach here
     except IOError:
         pass
-    
+
     # teardown
-    os.remove('tmp.idf') 
+    os.remove('tmp.idf')
 
 
 def test_initreadtxt():
@@ -696,23 +694,8 @@ def test_initreadtxt():
 def test_idfstr():
     """Test all outputtype options in IDF.idfstr().
     """
-    idftxt = """
-        Material,
-          G01a 19mm gypsum board,  !- Name
-          MediumSmooth,            !- Roughness
-          0.019,                   !- Thickness {m}
-          0.16,                    !- Conductivity {W/m-K}
-          800,                     !- Density {kg/m3}
-          1090;                    !- Specific Heat {J/kg-K}
-        
-        Construction,
-          Interior Wall,           !- Name
-          G01a 19mm gypsum board,  !- Outside Layer
-          F04 Wall air space resistance,  !- Layer 2
-          G01a 19mm gypsum board;  !- Layer 3
-        """
     idf = IDF()
-    idf.initreadtxt(idftxt)
+    idf.initreadtxt(idfsnippet)
     assert idf.outputtype == 'standard'  # start with the default
     original = idf.idfstr()
     assert "!-" in original  # has comment
