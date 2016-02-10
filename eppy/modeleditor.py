@@ -13,9 +13,12 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+import itertools
 import os
 import platform
+from StringIO import StringIO
 
+from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
 from eppy.idfreader import makeabunch
 
@@ -47,24 +50,29 @@ class IDDAlreadySetError(Exception):
 
 
 def almostequal(first, second, places=7, printit=True):
-    # taken from python's unit test
-    # may be covered by Python's license
-    """docstring for almostequal"""
+    """
+    Test if two values are equal to a given number of places.
+    This is based on python's unittest so may be covered by Python's 
+    license.
+
+    """
+    if first == second:
+        return True
+
     if round(abs(second - first), places) != 0:
         if printit:
             print(round(abs(second - first), places))
-            print("notalmost: %s != %s" % (first, second))
+            print("notalmost: %s != %s to %i places" % (first, second, places))
         return False
     else:
         return True
 
 
 def poptrailing(lst):
-    """pop the trailing items in lst that are blank"""
-    for i in range(len(lst)):
-        if lst[-1] != '':
-            break
-        lst.pop(-1)
+    """Remove trailing blank items from lst.
+    """
+    while lst and lst[-1] == '':
+        lst.pop()
     return lst
 
 
@@ -79,7 +87,23 @@ def extendlist(lst, i, value=''):
 
 
 def newrawobject(data, commdct, key):
-    """make a new object for key"""
+    """Make a new object for key.
+
+    Parameters
+    ----------
+    data : Eplusdata object
+        Data dictionary and list of objects for the entire model.
+    commdct : list of dicts
+        Comments from the IDD file describing each item type in `data`.
+    key : str
+        Object type of the object to add (in ALL_CAPS).
+
+    Returns
+    -------
+    list
+        A list of field values for the new object.
+
+    """
     dtls = data.dtls
     key = key.upper()
 
@@ -102,29 +126,12 @@ def newrawobject(data, commdct, key):
     return obj
 
 
-def addthisbunch_old(bunchdt, data, commdct, thisbunch):
-    """add a bunch to model.
-    abunch usually comes from another idf file
-    or it can be used to copy within the idf file"""
-    key = thisbunch.key.upper()
-    obj = copy.copy(thisbunch.obj)
-    data.dt[key].append(obj)
-    abunch = obj2bunch(data, commdct, obj)
-    bunchdt[key].append(abunch)
-    return abunch
-
-
 def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
-    abunch = obj2bunch(data, commdct, obj)
-    bunchdt[key].append(abunch)
-    return abunch
-
-    data.dt[key].append(obj)
     abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
@@ -423,7 +430,6 @@ def zone_height_min2max(idf, zonename, debug=False):
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     surf_xyzs = [function_helpers.getcoords(s) for s in zone_surfs]
-    import itertools  # to flatten the list
     surf_xyzs = list(itertools.chain(*surf_xyzs))
     surf_zs = [z for x, y, z in surf_xyzs]
     topz = max(surf_zs)
@@ -481,7 +487,7 @@ def zonevolume(idf, zonename):
     return volume
 
 
-class IDF0(object):
+class IDF(object):
 
     """
     document the following variables:
@@ -493,18 +499,18 @@ class IDF0(object):
     - idd_info
     - model
 
-
 """
-    iddname = None
+    iddname = None  # Name of the IDD associated with this IDF
     idd_info = None
     block = None
 
     def __init__(self, idfname=None):
-        # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
+        self.outputtype = "standard"
 
+    """ Methods to set up the IDD."""
     @classmethod
     def setiddname(cls, arg, testing=False):
         if cls.iddname == None:
@@ -527,6 +533,30 @@ class IDF0(object):
         cls.idd_info = iddinfo
         cls.block = block
 
+    """Methods to do with reading an IDF."""
+
+    def initread(self, idfname):
+        """use the latest iddfile and read file idfname
+        idd is initialized only if it has not been done earlier"""
+        with open(idfname, 'r') as _:
+            # raise nonexistent file error early if idfname doesn't exist
+            pass
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        self.idfname = idfname
+        self.read()
+
+    def initreadtxt(self, idftxt):
+        """use the latest iddfile and read txt
+        idd is initialized only if it has not been done earlier"""
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        idfhandle = StringIO(idftxt)
+        self.idfname = idfhandle
+        self.read()
+
     def read(self):
         """read the idf file and the idd file.
         If the idd file had been already read, it will not be read again.
@@ -545,14 +575,26 @@ class IDF0(object):
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
 
+    """Methods to do with creating a new blank IDF object."""
 
-class IDF1(IDF0):
+    def new(self, fname=None):
+        """create a blank new idf file. Filename is optional"""
+        # modify this so that setidd has to be called before
+        self.initnew(fname)
 
-    """subclass of IDF0. Uses functions of IDF0
-    """
+    def initnew(self, fname):
+        """use the latest iddfile and opens a new file
+        idd is initialized only if it has not been done earlier"""
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        idfhandle = StringIO('')
+        self.idfname = idfhandle
+        self.read()
+        if fname:
+            self.idfname = fname
 
-    def __init__(self, idfname=None):
-        super(IDF1, self).__init__(idfname)
+    """Methods to do with manipulating the objects in an IDF object."""
 
     def newidfobject(self, key, aname='', **kwargs):
         """add a new idfobject to the model
@@ -596,17 +638,6 @@ class IDF1(IDF0):
                      self.idd_info,
                      idfobject)
 
-    def copyidfobject_old(self, idfobject):
-        """add idfobject to this model
-
-        idfobject usually comes from another idf file
-        or it can be used to copy within this idf file"""
-        # TODO unit test
-        addthisbunch(self.idfobjects,
-                     self.model,
-                     self.idd_info,
-                     idfobject)
-
     def getobject(self, key, name):
         """return the object given key and name"""
         return getobject(self.idfobjects, key, name)
@@ -627,22 +658,15 @@ class IDF1(IDF0):
             self.idfobjects, self.model, self.idd_info,
             key, name)
 
+    """Methods to do with outputting an IDF."""
 
-class IDF2(IDF1):
-
-    """subclass of IDF1. Uses functions of IDF1
-
-    """
-
-    def __init__(self, idfname=None):
-        super(IDF2, self).__init__(idfname)
-        self.outputtype = "standard"  # standard,
-        # nocomment,
-        # nocomment1,
-        # nocomment2,
-        # compressed
+    def printidf(self):
+        """print the idf"""
+        print(self.idfstr())
 
     def idfstr(self):
+        """String representation of the IDF.
+        """
         if self.outputtype != 'standard':
             astr = self.model.__repr__()
             if self.outputtype == 'nocomment':
@@ -660,92 +684,12 @@ class IDF2(IDF1):
                 slist = astr.split('\n')
                 slist = [item.strip() for item in slist]
                 return ' '.join(slist)
-        # else:
         astr = ''
         dtls = self.model.dtls
         for objname in dtls:
             for obj in self.idfobjects[objname]:
                 astr = astr + obj.__repr__()
         return astr
-
-    def printidf(self):
-        """print the idf"""
-        print(self.idfstr())
-
-    # def initread(self, idfname):
-    #     """use the latest iddfile and read file fname"""
-    #     from StringIO import StringIO
-    #     from eppy.iddcurrent import iddcurrent
-    #     iddfhandle = StringIO(iddcurrent.iddtxt)
-    #     if self.getiddname() == None:
-    #         self.setiddname(iddfhandle)
-    #     self.idfname = idfname
-    #     self.read()
-
-
-class IDF3(IDF2):
-
-    """subclass of IDF2. Uses functions of IDF1 and IDF2
-    """
-
-    def __init__(self, idfname=None):
-        super(IDF3, self).__init__(idfname)
-
-    def initread(self, idfname):
-        """use the latest iddfile and read file fname
-        idd is initialized only if it has not been done earlier"""
-        from StringIO import StringIO
-        from eppy.iddcurrent import iddcurrent
-        iddfhandle = StringIO(iddcurrent.iddtxt)
-        if self.getiddname() == None:
-            self.setiddname(iddfhandle)
-        self.idfname = idfname
-        self.read()
-
-    def initnew(self):
-        """use the latest iddfile and opens a new file
-        idd is initialized only if it has not been done earlier"""
-        from StringIO import StringIO
-        from eppy.iddcurrent import iddcurrent
-        iddfhandle = StringIO(iddcurrent.iddtxt)
-        if self.getiddname() == None:
-            self.setiddname(iddfhandle)
-        idfhandle = StringIO('')
-        self.idfname = idfhandle
-        self.read()
-
-    def initreadtxt(self, idftxt):
-        """use the latest iddfile and read txt
-        idd is initialized only if it has not been done earlier"""
-        from StringIO import StringIO
-        from eppy.iddcurrent import iddcurrent
-        iddfhandle = StringIO(iddcurrent.iddtxt)
-        if self.getiddname() == None:
-            self.setiddname(iddfhandle)
-        idfhandle = StringIO(idftxt)
-        self.idfname = idfhandle
-        self.read()
-
-
-class IDF4(IDF3):
-
-    """subclass of IDF3. Uses all the functions of IDF1, IDF2, IDF3"""
-
-    def __init__(self, idfname=None):
-        super(IDF4, self).__init__(idfname)
-
-    def new(self, fname=None):
-        """create a blank new idf file. Filename is optional"""
-        # modify this so that setidd has to be called before
-        self.initnew()
-
-
-class IDF5(IDF4):
-
-    """subclass of IDF4. Uses functions of IDF1, IDF2, IDF3, IDF4"""
-
-    def __init__(self, idfname=None):
-        super(IDF5, self).__init__(idfname)
 
     def save(self, filename=None, lineendings='default', encoding='latin-1'):
         """ 
@@ -829,15 +773,3 @@ class IDF5(IDF4):
 
         """
         self.save(filename, lineendings, encoding)
-
-
-IDF = IDF5
-
-
-class something(IDF0):
-
-    """docstring for something"""
-
-    def __init__(self, arg):
-        super(something, self).__init__()
-        self.arg = arg
