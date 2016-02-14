@@ -87,7 +87,7 @@ def extendlist(lst, i, value=''):
 
 
 def newrawobject(data, commdct, key):
-    """Make a new object for key.
+    """Make a new object for the given key.
 
     Parameters
     ----------
@@ -490,17 +490,34 @@ def zonevolume(idf, zonename):
 class IDF(object):
 
     """
-    document the following variables:
+    The IDF class holds all the information about an EnergyPlus IDF. 
 
-    - idfobjects
-    - outputtype
-    - iddname
-    - idfname
-    - idd_info
-    - model
+    Class attributes
+    ---------------
+    iddname : str
+        Name of the IDD currently being used by eppy. As a class attribute, this
+        is set for all IDFs which are currently being processed and cannot be 
+        changed for an individual IDF.
+    iddinfo : list
+        Comments and metadata about fields in the IDD.
+    block : list
+        Field names in the IDD.
 
-"""
-    iddname = None  # Name of the IDD associated with this IDF
+    Instance attributes
+    -------------------
+    idfname : str
+        Path to the IDF file.
+    idfobjects : list
+        List of EpBunch objects in the IDF.
+    model : Eplusdata object
+        Data dictionary and list of objects for the entire model.
+    outputtype : str
+        How to format the output of IDF.print or IDF.save, IDF.saveas or
+        IDF.savecopy. The options are: 'standard', 'nocomment', 'nocomment1',
+        'nocomment2', and 'compressed'.
+
+    """
+    iddname = None
     idd_info = None
     block = None
 
@@ -519,14 +536,14 @@ class IDF(object):
 
     """ Methods to set up the IDD."""
     @classmethod
-    def setiddname(cls, arg, testing=False):
+    def setiddname(cls, iddname, testing=False):
         """
         Set the path to the EnergyPlus IDD for the version of EnergyPlus which
         is to be used by eppy.
 
         Parameters
         ----------
-        arg : str
+        iddname : str
             Path to the IDD file.
         testing : bool
             Flag to use if running tests since we may want to ignore the
@@ -538,10 +555,10 @@ class IDF(object):
 
         """
         if cls.iddname == None:
-            cls.iddname = arg
+            cls.iddname = iddname
             cls.idd_info = None
             cls.block = None
-        elif cls.iddname == arg:
+        elif cls.iddname == iddname:
             pass
         else:
             if testing == False:
@@ -830,28 +847,34 @@ class IDF(object):
         str
 
         """
-        if self.outputtype != 'standard':
+        if self.outputtype == 'standard':
+            astr = ''
+        else:
             astr = self.model.__repr__()
-            if self.outputtype == 'nocomment':
-                return astr
-            elif self.outputtype == 'nocomment1':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                return '\n'.join(slist)
-            elif self.outputtype == 'nocomment2':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                slist = [item for item in slist if item != '']
-                return '\n'.join(slist)
-            elif self.outputtype == 'compressed':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                return ' '.join(slist)
-        astr = ''
-        dtls = self.model.dtls
-        for objname in dtls:
-            for obj in self.idfobjects[objname]:
-                astr = astr + obj.__repr__()
+
+        if self.outputtype == 'standard':
+            astr = ''
+            dtls = self.model.dtls
+            for objname in dtls:
+                for obj in self.idfobjects[objname]:
+                    astr = astr + obj.__repr__()
+        elif self.outputtype == 'nocomment':
+            return astr
+        elif self.outputtype == 'nocomment1':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            astr = '\n'.join(slist)
+        elif self.outputtype == 'nocomment2':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            slist = [item for item in slist if item != '']
+            astr = '\n'.join(slist)
+        elif self.outputtype == 'compressed':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            astr = ' '.join(slist)
+        else:
+            raise ValueError("%s is not a valid outputtype" % self.outputtype)
         return astr
 
     def save(self, filename=None, lineendings='default', encoding='latin-1'):
