@@ -505,6 +505,13 @@ class IDF(object):
     block = None
 
     def __init__(self, idfname=None):
+        """
+        Parameters
+        ----------
+        idf_name : str, optional
+            Path to an IDF file (which does not have to exist yet).
+
+        """
         if idfname != None:
             self.idfname = idfname
             self.read()
@@ -513,6 +520,23 @@ class IDF(object):
     """ Methods to set up the IDD."""
     @classmethod
     def setiddname(cls, arg, testing=False):
+        """
+        Set the path to the EnergyPlus IDD for the version of EnergyPlus which
+        is to be used by eppy.
+
+        Parameters
+        ----------
+        arg : str
+            Path to the IDD file.
+        testing : bool
+            Flag to use if running tests since we may want to ignore the
+            `IDDAlreadySetError`.
+
+        Raises
+        ------
+        IDDAlreadySetError
+
+        """
         if cls.iddname == None:
             cls.iddname = arg
             cls.idd_info = None
@@ -526,18 +550,43 @@ class IDF(object):
 
     @classmethod
     def getiddname(cls):
+        """Get the name of the current IDD used by eppy.
+
+        Returns
+        -------
+        str
+
+        """
         return cls.iddname
 
     @classmethod
     def setidd(cls, iddinfo, block):
+        """Set the IDD to be used by eppy.
+
+        Parameters
+        ----------
+        iddinfo : list
+            Comments and metadata about fields in the IDD.
+        block : list
+            Field names in the IDD.
+
+        """
         cls.idd_info = iddinfo
         cls.block = block
 
     """Methods to do with reading an IDF."""
 
     def initread(self, idfname):
-        """use the latest iddfile and read file idfname
-        idd is initialized only if it has not been done earlier"""
+        """
+        Use the current IDD and read an IDF from file. If the IDD has not yet
+        been initialised then this is done first.
+
+        Parameters
+        ----------
+        idf_name : str
+            Path to an IDF file.
+
+        """
         with open(idfname, 'r') as _:
             # raise nonexistent file error early if idfname doesn't exist
             pass
@@ -548,8 +597,16 @@ class IDF(object):
         self.read()
 
     def initreadtxt(self, idftxt):
-        """use the latest iddfile and read txt
-        idd is initialized only if it has not been done earlier"""
+        """
+        Use the current IDD and read an IDF from text data. If the IDD has not
+        yet been initialised then this is done first.
+
+        Parameters
+        ----------
+        idftxt : str
+            Text representing an IDF file.
+
+        """
         iddfhandle = StringIO(iddcurrent.iddtxt)
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
@@ -558,16 +615,20 @@ class IDF(object):
         self.read()
 
     def read(self):
-        """read the idf file and the idd file.
-        If the idd file had been already read, it will not be read again.
+        """
+        Read the IDF file and the IDD file. If the IDD file had already been
+        read, it will not be read again.
+
         Read populates the following data structures:
 
-        - idfobjects
-        - model
-        - idd_info # done only once"""
-        # TODO unit test
+        - idfobjects : list
+        - model : list
+        - idd_info : list
+
+        """
         if self.getiddname() == None:
-            errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"
+            errortxt = ("IDD file needed to read the idf file. "
+                        "Set it using IDF.setiddname(iddfile)")
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
             self.idfname, self.iddname,
@@ -578,13 +639,27 @@ class IDF(object):
     """Methods to do with creating a new blank IDF object."""
 
     def new(self, fname=None):
-        """create a blank new idf file. Filename is optional"""
-        # modify this so that setidd has to be called before
+        """Create a blank new idf file. Filename is optional.
+
+        Parameters
+        ----------
+        fname : str, optional
+            Path to an IDF. This does not need to be set at this point.
+
+        """
         self.initnew(fname)
 
     def initnew(self, fname):
-        """use the latest iddfile and opens a new file
-        idd is initialized only if it has not been done earlier"""
+        """
+        Use the current IDD and create a new empty IDF. If the IDD has not yet
+        been initialised then this is done first.
+
+        Parameters
+        ----------
+        fname : str, optional
+            Path to an IDF. This does not need to be set at this point.
+
+        """
         iddfhandle = StringIO(iddcurrent.iddtxt)
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
@@ -597,9 +672,11 @@ class IDF(object):
     """Methods to do with manipulating the objects in an IDF object."""
 
     def newidfobject(self, key, aname='', **kwargs):
-        """add a new idfobject to the model
+        """
+        Add a new idfobject to the model. If you don't specify a value for a
+        field, the default value will be set.
 
-        for example ::
+        For example ::
 
             newidfobject("CONSTRUCTION")
             newidfobject("CONSTRUCTION",
@@ -607,12 +684,26 @@ class IDF(object):
                 Outside_Layer='LW Concrete',
                 Layer_2='soundmat')
 
-        If you don't specify a value for a field, the default value will be set
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        aname : str, deprecated
+            This parameter is not used. It is left there for backward 
+            compatibility.
+        **kwargs
+            Keyword arguments in the format `field=value` used to set the value
+            of fields in the IDF object when it is created. 
 
-        aname is not used. It is left there for backward compatibility"""
+        Returns
+        -------
+        EpBunch object
+
+        """
         obj = newrawobject(self.model, self.idd_info, key)
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
+            warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
         for k, v in kwargs.items():
@@ -620,40 +711,106 @@ class IDF(object):
         return abunch
 
     def popidfobject(self, key, index):
-        """pop this object"""
+        """Pop an IDF object from the IDF.
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        index : int
+            The index of the object to pop.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
         return self.idfobjects[key].pop(index)
 
     def removeidfobject(self, idfobject):
-        """remove this idfobject"""
+        """Remove an IDF object from the IDF.
+
+        Parameters
+        ----------
+        idfobject : EpBunch object
+            The IDF object to remove.
+
+        """
         key = idfobject.key.upper()
         self.idfobjects[key].remove(idfobject)
 
     def copyidfobject(self, idfobject):
-        """add idfobject to this model
+        """Add an IDF object to the IDF.
 
-        idfobject usually comes from another idf file
-        or it can be used to copy within this idf file"""
+        Parameters
+        ----------
+        idfobject : EpBunch object
+            The IDF object to remove. This usually comes from another idf file,
+            or it can be used to copy within this idf file.
+
+        """
         addthisbunch(self.idfobjects,
                      self.model,
                      self.idd_info,
                      idfobject)
 
     def getobject(self, key, name):
-        """return the object given key and name"""
+        """Fetch an IDF object given key and name.
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
         return getobject(self.idfobjects, key, name)
 
     def getextensibleindex(self, key, name):
-        """get the index of the first extensible item
+        """
+        Get the index of the first extensible item.
 
-        only for internal use. # TODO : hide this"""
+        Only for internal use. # TODO : hide this
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        int
+
+        """
         return getextensibleindex(
             self.idfobjects, self.model, self.idd_info,
             key, name)
 
     def removeextensibles(self, key, name):
-        """remove extensible items in the object of key and name
+        """
+        Remove extensible items in the object of key and name.
 
-        only for internal use. # TODO : hide this"""
+        Only for internal use. # TODO : hide this
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        EpBunch object
+
+        """
         return removeextensibles(
             self.idfobjects, self.model, self.idd_info,
             key, name)
@@ -661,11 +818,17 @@ class IDF(object):
     """Methods to do with outputting an IDF."""
 
     def printidf(self):
-        """print the idf"""
+        """Print the IDF.
+        """
         print(self.idfstr())
 
     def idfstr(self):
         """String representation of the IDF.
+
+        Returns
+        -------
+        str
+
         """
         if self.outputtype != 'standard':
             astr = self.model.__repr__()
