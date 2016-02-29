@@ -4,7 +4,6 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """functions to edit the E+ model"""
 
 from __future__ import absolute_import
@@ -12,15 +11,16 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import copy
-import itertools
-import os
-import platform
 from StringIO import StringIO
-
+import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
 from eppy.idfreader import makeabunch
+import itertools
+import os
+import platform
+
+from py._log import warning
 
 import eppy.function_helpers as function_helpers
 
