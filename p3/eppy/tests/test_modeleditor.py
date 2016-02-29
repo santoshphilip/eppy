@@ -4,7 +4,6 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """py.test for modeleditor"""
 
 
@@ -13,22 +12,21 @@
 
 
 from io import StringIO
-from itertools import product
-import os
-
+from eppy import modeleditor
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
+from itertools import product
+import os
 
-import eppy.idfreader as idfreader
-import eppy.modeleditor as modeleditor
-import eppy.snippet as snippet
 import bunch
 import pytest
 
+import eppy.idfreader as idfreader
+import eppy.snippet as snippet
+
 
 iddsnippet = iddcurrent.iddtxt
-
 idfsnippet = snippet.idfsnippet
 
 idffhandle = StringIO(idfsnippet)
@@ -49,16 +47,18 @@ def test_poptrailing():
         (
             [1, 2, 3, '', 56, '', '', '', ''],
             [1, 2, 3, '', 56]
-        ),  # lst, poped
+        ),  # lst, popped
         (
             [1, 2, 3, '', 56],
             [1, 2, 3, '', 56]
-        ),  # lst, poped
+        ),  # lst, popped
         (
             [1, 2, 3, 56],
             [1, 2, 3, 56]
-        ),  # lst, poped
+        ),  # lst, popped
     )
+    for before, after in iter(tdata):
+        assert modeleditor.poptrailing(before) == after
 
 
 def test_extendlist():
@@ -337,15 +337,6 @@ def test_removeextensibles():
         assert result.obj == rawobject
 
 
-def test_addthisbunch_old():
-    """py.test for addthisbunch_old"""
-    obj1 = ['ZONE', 'weird zone', '0', '0', '0', '0', '1', '1', 'autocalculate',
-            'autocalculate', 'autocalculate', '', '', 'Yes']
-    thisbunch = modeleditor.obj2bunch(data, commdct, obj1)
-    modeleditor.addthisbunch_old(bunchdt, data, commdct, thisbunch)
-    assert data.dt["ZONE"][-1] == obj1
-
-
 def test_getrefnames():
     """py.test for getrefnames"""
     tdata = (
@@ -571,31 +562,43 @@ def test_newidfobject():
 
 
 def test_save():
-    """Test the IDF.save() function, including line endings and encodings.
+    """
+    Test the IDF.save() function using a filehandle to avoid external effects.
     """
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
-    idf.idfname = 'test_save.idf'
+    # test save with just a filehandle
+    file_handle = StringIO()
+    idf.save(file_handle)
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    # minimal test that TestMaterial is being written to the file handle
+    assert expected in result
 
-    # test save with no parameters
-    idf.save()
-    with open('test_save.idf', 'rb',) as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_save.idf')
 
-    # test save with combinations of encodings and line endings
-    lineendings = ('windows', 'linux', 'default')
+def test_save_with_lineendings_and_encodings():
+    """
+    Test the IDF.save() function with combinations of encodings and line 
+    endings.
+
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
+    lineendings = ('windows', 'unix', 'default')
     encodings = ('ascii', 'latin-1', 'UTF-8')
+
     for le, enc in product(lineendings, encodings):
-        idf.save(encoding=enc, lineendings=le)
-        with open('test_save.idf', 'rb') as test_file:
-            if le == 'windows':
-                assert b'\r\n' in test_file.read()
-            elif le == 'linux':
-                assert b'\r\n' not in test_file.read()
-            elif le == 'default':
-                assert os.linesep.encode(enc) in test_file.read()
-        os.remove('test_save.idf')
+        file_handle = StringIO()
+        idf.save(file_handle, encoding=enc, lineendings=le)
+        file_handle.seek(0)
+        result = file_handle.read()
+        if le == 'windows':
+            assert b'\r\n' in result
+        elif le == 'unix':
+            assert b'\r\n' not in result
+        elif le == 'default':
+            assert os.linesep.encode(enc) in result
 
 
 def test_saveas():
@@ -611,13 +614,15 @@ def test_saveas():
     except TypeError:
         pass
 
-    idf.saveas('test_saveas.idf')  # save with a different filename
-    with open('test_saveas.idf', 'rb') as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_saveas.idf')
+    file_handle = StringIO()
+    idf.saveas(file_handle)  # save with a filehandle
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    assert expected in result
 
     # test the idfname attribute has been changed
-    assert idf.idfname == 'test_saveas.idf'
+    assert idf.idfname != 'test.idf'
 
 
 def test_savecopy():
@@ -633,10 +638,117 @@ def test_savecopy():
     except TypeError:
         pass
 
-    idf.savecopy('test_savecopy.idf')  # save a copy with a different filename
-    with open('test_savecopy.idf', 'rb') as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_savecopy.idf')
+    file_handle = StringIO()
+    idf.savecopy(file_handle)  # save a copy with a different filename
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    assert expected in result
 
     # test the idfname attribute has not been changed
     assert idf.idfname == 'test.idf'
+
+
+def test_initread():
+    """Test for IDF.initread() with filename in unicode and as python str.
+    """
+    # setup
+    idf = IDF()
+    idf.initreadtxt(idfsnippet)
+    idf.saveas('tmp.idf')
+
+    # test fname as unicode
+    fname = str('tmp.idf')
+    assert type(fname) == str
+    idf = IDF()
+    idf.initread(fname)
+    assert idf.getobject('BUILDING', 'Building')
+
+    # test fname as str
+    fname = str('tmp.idf')
+    assert type(fname) == str
+    idf = IDF()
+    idf.initread(fname)
+    assert idf.getobject('BUILDING', 'Building')
+
+    # test that a nonexistent file raises an IOError
+    fname = "notarealfilename.notreal"
+    idf = IDF()
+    try:
+        idf.initread(fname)
+        assert False  # shouldn't reach here
+    except IOError:
+        pass
+
+    # teardown
+    os.remove('tmp.idf')
+
+
+def test_initreadtxt():
+    """Test for IDF.initreadtxt().
+    """
+    idftxt = """
+        Material,
+          G01a 19mm gypsum board,  !- Name
+          MediumSmooth,            !- Roughness
+          0.019,                   !- Thickness {m}
+          0.16,                    !- Conductivity {W/m-K}
+          800,                     !- Density {kg/m3}
+          1090;                    !- Specific Heat {J/kg-K}
+        
+        Construction,
+          Interior Wall,           !- Name
+          G01a 19mm gypsum board,  !- Outside Layer
+          F04 Wall air space resistance,  !- Layer 2
+          G01a 19mm gypsum board;  !- Layer 3
+        """
+    idf = IDF()
+    idf.initreadtxt(idftxt)
+    assert idf.getobject('MATERIAL', 'G01a 19mm gypsum board')
+
+
+def test_idfstr():
+    """Test all outputtype options in IDF.idfstr().
+    """
+    idf = IDF()
+    idf.initreadtxt(idfsnippet)
+    assert idf.outputtype == 'standard'  # start with the default
+    original = idf.idfstr()
+    assert "!-" in original  # has comment
+    assert "\n" in original  # has line break
+    assert "\n\n" in original  # has empty line
+
+    idf.outputtype = 'standard'
+    s = idf.idfstr()
+    assert "!-" in s  # has comment
+    assert "\n" in s  # has line break
+    assert "\n\n" in s  # has empty line
+    assert s == original  # is unchanged
+
+    idf.outputtype = 'nocomment'
+    s = idf.idfstr()
+    assert "!-" not in s  # has no comments
+    assert "\n" in s  # has line break
+    assert "\n\n" in s  # has empty line
+    assert s != original  # is changed
+
+    idf.outputtype = 'nocomment1'
+    s = idf.idfstr()
+    assert "!-" not in s  # has no comments
+    assert "\n" in s  # has line break
+    assert "\n\n" in s  # has empty lines
+    assert s != original  # is changed
+
+    idf.outputtype = 'nocomment2'
+    s = idf.idfstr()
+    assert "!-" not in s  # has no comments
+    assert "\n" in s  # has line break
+    assert "\n\n" not in s  # has no empty lines
+    assert s != original  # is changed
+
+    idf.outputtype = 'compressed'
+    s = idf.idfstr()
+    assert "!-" not in s  # has no comments
+    assert "\n" not in s  # has no line breaks
+    assert "\n\n" not in s  # has no empty lines
+    assert s != original  # is changed

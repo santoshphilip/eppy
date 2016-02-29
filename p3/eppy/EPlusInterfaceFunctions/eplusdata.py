@@ -7,8 +7,8 @@
 # =======================================================================
 
 
-#this is a test version ... not for real use
-#dammit i am using it
+# this is a test version ... not for real use
+# dammit i am using it
 
 
 
@@ -38,7 +38,9 @@ def removecomment(astr, cphrase):
 
 
 class Idd(object):
+
     """Idd object"""
+
     def __init__(self, dictfile, version=2):
         if version == 2:
             # version == 2. This is a just a flag I am using
@@ -47,13 +49,14 @@ class Idd(object):
             self.dt, self.dtls = self.initdict2(dictfile)
             return
         self.dt, self.dtls = self.initdict(dictfile)
+
     def initdict2(self, dictfile):
         """initdict2"""
         dt = {}
         dtls = []
         adict = dictfile
         for element in adict:
-            dt[element[0].upper()] = [] #dict keys for objects always in caps
+            dt[element[0].upper()] = []  # dict keys for objects always in caps
             dtls.append(element[0].upper())
         return dt, dtls
 
@@ -83,9 +86,10 @@ class Idd(object):
         return dt, dtls
 
 
-
 class Eplusdata(object):
+
     """Eplusdata"""
+
     def __init__(self, dictfile=None, fname=None):
         # import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
@@ -102,24 +106,24 @@ class Eplusdata(object):
             self.makedict(dictfile, fnamefobject)
         from io import StringIO
         try:
-            # will fial in python3 because of file
-            if isinstance(
-                    fname, (file, StringIO)) and isinstance(dictfile, str):
+            # will fail in python3 because of file
+            if (isinstance(fname, (file, StringIO)) and
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
-            if isinstance(
-                    fname, (file, StringIO)) and isinstance(dictfile, Idd):
+            if (isinstance(fname, (file, StringIO)) and
+                    isinstance(dictfile, Idd)):
                 self.makedict(dictfile, fname)
         except NameError:
             from io import IOBase
-            if isinstance(
-                    fname, (IOBase, StringIO)) and isinstance(dictfile, str):
+            if (isinstance(fname, (IOBase, StringIO)) and
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
-            if isinstance(
-                    fname, (IOBase, StringIO)) and isinstance(dictfile, Idd):
+            if (isinstance(fname, (IOBase, StringIO)) and
+                    isinstance(dictfile, Idd)):
                 self.makedict(dictfile, fname)
 
     def __repr__(self):
-        #print dictionary
+        # print dictionary
         dt = self.dt
         dtls = self.dtls
         UNIXSEP = "\n"
@@ -129,12 +133,12 @@ class Eplusdata(object):
             nodedata = dt[node.upper()]
             for block in nodedata:
                 for i in range(len(block)):
-                    fformat = '     %s,'+ DOSSEP
+                    fformat = '     %s,' + DOSSEP
                     if i == 0:
-                        fformat = '%s,'+ DOSSEP
-                    if i == len(block)-1:
-                        fformat = '     %s;'+ DOSSEP*2
-                    astr = astr+ fformat %block[i]
+                        fformat = '%s,' + DOSSEP
+                    if i == len(block) - 1:
+                        fformat = '     %s;' + DOSSEP * 2
+                    astr = astr + fformat % block[i]
 
         return astr
 
@@ -203,13 +207,14 @@ class Eplusdata(object):
         for element in lss:
             node = element[0].upper()
             if node in dt:
-                #stuff data in this key
+                # stuff data in this key
                 dt[node.upper()].append(element)
             else:
-                #scream
+                # scream
                 if node == '':
                     continue
-                print('this node -%s-is not present in base dictionary'%(node))
+                print('this node -%s-is not present in base dictionary' %
+                      (node))
 
         self.dt, self.dtls = dt, dtls
         return dt, dtls
@@ -223,7 +228,8 @@ class Eplusdata(object):
         """add the node here with the node from othereplus
         this will potentially have duplicates"""
         node = node.upper()
-        self.dt[node.upper()] = self.dt[node.upper()] + othereplus.dt[node.upper()]
+        self.dt[node.upper()] = self.dt[node.upper()] + \
+            othereplus.dt[node.upper()]
 
     def addinnode(self, otherplus, node, objectname):
         """add an item to the node.
@@ -247,4 +253,3 @@ class Eplusdata(object):
 
 
 #------------------------------------------
-
