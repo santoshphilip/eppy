@@ -562,31 +562,43 @@ def test_newidfobject():
 
 
 def test_save():
-    """Test the IDF.save() function, including line endings and encodings.
+    """
+    Test the IDF.save() function using a filehandle to avoid external effects.
     """
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
-    idf.idfname = 'test_save.idf'
+    # test save with just a filehandle
+    file_handle = StringIO()
+    idf.save(file_handle)
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    # minimal test that TestMaterial is being written to the file handle
+    assert expected in result
 
-    # test save with no parameters
-    idf.save()
-    with open('test_save.idf', 'rb',) as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_save.idf')
 
-    # test save with combinations of encodings and line endings
+def test_save_with_lineendings_and_encodings():
+    """
+    Test the IDF.save() function with combinations of encodings and line 
+    endings.
+
+    """
+    file_text = "Material,TestMaterial,  !- Name"
+    idf = IDF(StringIO(file_text))
     lineendings = ('windows', 'unix', 'default')
     encodings = ('ascii', 'latin-1', 'UTF-8')
+
     for le, enc in product(lineendings, encodings):
-        idf.save(encoding=enc, lineendings=le)
-        with open('test_save.idf', 'rb') as test_file:
-            if le == 'windows':
-                assert b'\r\n' in test_file.read()
-            elif le == 'unix':
-                assert b'\r\n' not in test_file.read()
-            elif le == 'default':
-                assert os.linesep.encode(enc) in test_file.read()
-        os.remove('test_save.idf')
+        file_handle = StringIO()
+        idf.save(file_handle, encoding=enc, lineendings=le)
+        file_handle.seek(0)
+        result = file_handle.read()
+        if le == 'windows':
+            assert b'\r\n' in result
+        elif le == 'unix':
+            assert b'\r\n' not in result
+        elif le == 'default':
+            assert os.linesep.encode(enc) in result
 
 
 def test_saveas():
@@ -602,13 +614,15 @@ def test_saveas():
     except TypeError:
         pass
 
-    idf.saveas('test_saveas.idf')  # save with a different filename
-    with open('test_saveas.idf', 'rb') as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_saveas.idf')
+    file_handle = StringIO()
+    idf.saveas(file_handle)  # save with a filehandle
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    assert expected in result
 
     # test the idfname attribute has been changed
-    assert idf.idfname == 'test_saveas.idf'
+    assert idf.idfname != 'test.idf'
 
 
 def test_savecopy():
@@ -624,10 +638,12 @@ def test_savecopy():
     except TypeError:
         pass
 
-    idf.savecopy('test_savecopy.idf')  # save a copy with a different filename
-    with open('test_savecopy.idf', 'rb') as test_file:
-        assert b'TestMaterial' in test_file.read()
-    os.remove('test_savecopy.idf')
+    file_handle = StringIO()
+    idf.savecopy(file_handle)  # save a copy with a different filename
+    expected = "TestMaterial"
+    file_handle.seek(0)
+    result = file_handle.read()
+    assert expected in result
 
     # test the idfname attribute has not been changed
     assert idf.idfname == 'test.idf'
