@@ -797,7 +797,7 @@ class IDF5(IDF4):
 
         Parameters
         ----------
-        filename : str, optional
+        filename : str
             Filepath to to set the idfname attribute to and save the file as.
 
         lineendings : str, optional
