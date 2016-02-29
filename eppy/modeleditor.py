@@ -886,7 +886,7 @@ class IDF(object):
         ----------
         filename : str, optional
             Filepath to save the file. If None then use the IDF.idfname
-            parameter.
+            parameter. Also accepts a file handle.
 
         lineendings : str, optional
             Line endings to use in the saved file. Options are 'default',
@@ -916,15 +916,18 @@ class IDF(object):
             s = '\n'.join(slines)
 
         s = s.encode(encoding)
-        with open(filename, 'wb') as idf_out:
-            idf_out.write(s)
+        try:
+            with open(filename, 'wb') as idf_out:
+                idf_out.write(s)
+        except TypeError:  # in the case that filename is a file handle
+            filename.write(s)
 
     def saveas(self, filename, lineendings='default', encoding='latin-1'):
         """ Save the IDF as a text file with the filename passed.
 
         Parameters
         ----------
-        filename : str, optional
+        filename : str
             Filepath to to set the idfname attribute to and save the file as.
 
         lineendings : str, optional
