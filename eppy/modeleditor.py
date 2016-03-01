@@ -667,14 +667,14 @@ class IDF4(IDF3):
         if lineendings == 'default':
             pass
         elif lineendings == 'windows':
-            s = '!- Windows Line endings \n' + s
+            s = u'!- Windows Line endings \n' + s
             slines = s.splitlines()
-            s = '\r\n'.join(slines)
+            s = u'\r\n'.join(slines)
         elif lineendings == 'unix':
-            s = '!- Unix Line endings \n' + s
+            s = u'!- Unix Line endings \n' + s
             slines = s.splitlines()
-            s = '\n'.join(slines)
-        open(filename, 'w').write(s)
+            s = u'\n'.join(slines)
+        open(filename, 'w').write(s.encode('utf-8')
     def saveas(self, filename, lineendings='default'):
         self.idfname = filename
         self.save(lineendings=lineendings)

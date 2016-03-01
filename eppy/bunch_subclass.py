@@ -73,19 +73,19 @@ class EpBunch_1(Bunch):
             raise BadEPFieldError(astr)
     def __repr__(self):
         """print this as an idf snippet"""
-        lines = [str(val) for val in self.obj]
-        comments = [comm.replace('_', ' ') for comm in self.objls]
-        lines[0] = "%s," % (lines[0], ) # comma after first line
+        lines = [unicode(val) for val in self.obj]
+        comments = [comm.replace(u'_', u' ') for comm in self.objls]
+        lines[0] = u"%s," % (lines[0], ) # comma after first line
         for i, line in enumerate(lines[1:-1]):
-            lines[i + 1] = '    %s,' % (line, ) # indent and comma
-        lines[-1] = '    %s;' % (lines[-1], )# ';' after last line
+            lines[i + 1] = u'    %s,' % (line, ) # indent and comma
+        lines[-1] = u'    %s;' % (lines[-1], )# ';' after last line
         lines = [line.ljust(26) for line in lines] # ljsut the lines
-        filler = '%s    !- %s'
+        filler = u'%s    !- %s'
         nlines = [filler % (line, comm) for line,
                   comm in zip(lines[1:], comments[1:])]# adds comments to line
         nlines.insert(0, lines[0])# first line without comment
-        astr = '\n'.join(nlines)
-        return '\n%s\n' % (astr, )
+        astr = u'\n'.join(nlines)
+        return u'\n%s\n' % (astr, )
 
 class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
