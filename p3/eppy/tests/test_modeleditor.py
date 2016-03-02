@@ -592,7 +592,7 @@ def test_save_with_lineendings_and_encodings():
         file_handle = StringIO()
         idf.save(file_handle, encoding=enc, lineendings=le)
         file_handle.seek(0)
-        result = file_handle.read()
+        result = file_handle.read().encode(enc)
         if le == 'windows':
             assert b'\r\n' in result
         elif le == 'unix':
