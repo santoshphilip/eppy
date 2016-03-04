@@ -57,7 +57,22 @@ class EpBunch_1(Bunch):
         return self.obj    
 
     def __setattr__(self, name, value):
-        if name in ('obj', 'objls', 'objidd'):
+        try:
+            origname = self['__functions'][name]
+            # unit test
+            self[origname] = value
+        except KeyError:
+            pass
+
+        try:
+            name = self['__aliases'][name]
+        except KeyError:
+            pass
+
+        if name in ('__functions', '__aliases'):
+            self[name] = value
+            return None
+        elif name in ('obj', 'objls', 'objidd'):
             super(EpBunch_1, self).__setattr__(name, value)
             return None
         elif name in self['objls']:
@@ -72,7 +87,24 @@ class EpBunch_1(Bunch):
             raise BadEPFieldError(astr)
         
     def __getattr__(self, name):
-        if name in ('obj', 'objls', 'objidd'):
+        try:
+            func = self['__functions'][name]
+            if isinstance(func, EpBunchFunctionClass):
+                return func.func
+            else:
+                return func(self)
+        except KeyError:
+            pass
+
+        try:
+            name = self['__aliases'][name]
+        except KeyError:
+            pass
+
+        if name == '__functions':
+            return self['__functions']
+        elif name in ('__aliases', 'obj', 'objls', 'objidd'):
+            # unit test
             return super(EpBunch_1, self).__getattr__(name)
         elif name in self['objls']:
             i = self['objls'].index(name)
@@ -133,52 +165,6 @@ class EpBunch_1(Bunch):
         # needed if YAML is installed. See issue 67
         # unit test
         return self.__repr__()
-
-class EpBunch_2(EpBunch_1):
-    """Has data, aliases in bunch"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_2, self).__init__(obj, objls, objidd, *args, **kwargs)
-        
-    def __setattr__(self, name, value):
-        if name == '__functions':
-            self[name] = value
-            return None
-        if name == '__aliases':
-            self[name] = value
-            return None
-        try:
-            origname = self['__functions'][name]
-            # unit test
-            self[origname] = value
-        except KeyError:
-            pass
-
-        try:
-            origname = self['__aliases'][name]
-            super(EpBunch_2, self).__setattr__(origname, value)
-        except KeyError:
-            super(EpBunch_2, self).__setattr__(name, value)
-            
-    def __getattr__(self, name):
-        if name == '__aliases':
-            # unit test
-            return super(EpBunch_2, self).__getattr__(name)
-        if name == '__functions':
-            return self['__functions']
-        try:
-            origname = self['__aliases'][name]
-            return super(EpBunch_2, self).__getattr__(origname)
-        except KeyError:
-            pass
-
-        try:
-            func = self['__functions'][name]
-            if isinstance(func, EpBunchFunctionClass):
-                return func.func
-            else:
-                return func(self)
-        except KeyError:
-            return super(EpBunch_2, self).__getattr__(name)
 
 
 class EpBunchFunctionClass(object):
@@ -247,4 +233,4 @@ class CheckRange(EpBunchFunctionClass):
         return fieldvalue
     
 
-EpBunch = EpBunch_2
+EpBunch = EpBunch_1
