@@ -184,9 +184,12 @@ class EpBunchFunctionClass(object):
     """Exception Object"""
     pass
 
+
 class GetRange(EpBunchFunctionClass):
+    
     def __init__(self, arg):
         self.bch = arg
+        
     def func(self, fieldname):
         """get the ranges for this field"""
         bch = self.bch
@@ -209,19 +212,17 @@ class GetRange(EpBunchFunctionClass):
                     therange[key] = int(therange[key][0])
         return therange
 
+
 class CheckRange(EpBunchFunctionClass):
+    
     def __init__(self, arg):
         self.bch = arg
-    # def init(self, arg):
-    #     self.bch = arg
+
     def func(self, fieldname):
         """throw exception if the out of range"""
         bch = self.bch
         fieldvalue = bch[fieldname]
         therange = bch.getrange(fieldname)
-        # keys = ['maximum', 'minimum', 'maximum<', 'minimum>']
-        # index = bch.objls.index(fieldname)
-        # fielddct = bch.objidd[index]
         if therange['maximum'] != None:
             if fieldvalue > therange['maximum']:
                 astr = "Value %s is not less or equal to the 'maximum' of %s"
@@ -243,6 +244,7 @@ class CheckRange(EpBunchFunctionClass):
                 astr = astr % (fieldvalue, therange['minimum>'])
                 raise RangeError(astr)
         return fieldvalue
+
 
 class EpBunch_5(EpBunch_4):
     """implements getrange, checkrange, fieldnames"""
