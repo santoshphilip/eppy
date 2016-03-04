@@ -89,13 +89,13 @@ class EpBunch(Bunch):
         elif name in ('obj', 'objls', 'objidd'):
             super(EpBunch, self).__setattr__(name, value)
             return None
-        elif name in self['objls']:
-            i = self['objls'].index(name)
+        elif name in self.fieldnames:
+            i = self.fieldnames.index(name)
             try:
-                self['obj'][i] = value
+                self.fieldvalues[i] = value
             except IndexError:
-                extendlist(self['obj'], i)
-                self['obj'][i] = value
+                extendlist(self.fieldvalues, i)
+                self.fieldvalues[i] = value
         else:
             astr = "unable to find field %s" % (name, )
             raise BadEPFieldError(astr)
@@ -120,10 +120,10 @@ class EpBunch(Bunch):
         elif name in ('__aliases', 'obj', 'objls', 'objidd'):
             # unit test
             return super(EpBunch, self).__getattr__(name)
-        elif name in self['objls']:
-            i = self['objls'].index(name)
+        elif name in self.fieldnames:
+            i = self.fieldnames.index(name)
             try:
-                return self['obj'][i]
+                return self.fieldvalues[i]
             except IndexError:
                 return ''
         else:
@@ -133,10 +133,10 @@ class EpBunch(Bunch):
     def __getitem__(self, key):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             return super(EpBunch, self).__getitem__(key)
-        elif key in self['objls']:
-            i = self['objls'].index(key)
+        elif key in self.fieldnames:
+            i = self.fieldnames.index(key)
             try:
-                return self['obj'][i]
+                return self.fieldvalues[i]
             except IndexError:
                 return ''
         else:
@@ -147,13 +147,13 @@ class EpBunch(Bunch):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             super(EpBunch, self).__setitem__(key, value)
             return None
-        elif key in self['objls']:
-            i = self['objls'].index(key)
+        elif key in self.fieldnames:
+            i = self.fieldnames.index(key)
             try:
-                self['obj'][i] = value
+                self.fieldvalues[i] = value
             except IndexError:
-                extendlist(self['obj'], i)
-                self['obj'][i] = value
+                extendlist(self.fieldvalues, i)
+                self.fieldvalues[i] = value
         else:
             astr = "unknown field %s" % (key, )
             raise BadEPFieldError(astr)
