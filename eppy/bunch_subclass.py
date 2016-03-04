@@ -97,6 +97,7 @@ class EpBunch_1(Bunch):
     def __str__(self):
         """same as __repr__"""
         # needed if YAML is installed. See issue 67
+        # unit test
         return self.__repr__()
 
 class EpBunch_2(EpBunch_1):
@@ -114,6 +115,7 @@ class EpBunch_2(EpBunch_1):
             super(EpBunch_2, self).__setattr__(name, value)
     def __getattr__(self, name):
         if name == '__aliases':
+            # unit test
             return super(EpBunch_2, self).__getattr__(name)
         try:
             origname = self['__aliases'][name]
@@ -132,11 +134,13 @@ class EpBunch_3(EpBunch_2):
             return None
         try:
             origname = self['__functions'][name]
+            # unit test
             self[origname] = value
         except KeyError:
             super(EpBunch_3, self).__setattr__(name, value)
     def __getattr__(self, name):
         if name == '__functions':
+            # unit test
             return self['__functions']
         try:
             func = self['__functions'][name]
@@ -151,6 +155,9 @@ class EpBunch_4(EpBunch_3):
     """implements __getitem__ and __setitem__"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
+        self['__functions']['getrange'] = GetRange(self)
+        self['__functions']['checkrange'] = CheckRange(self)
+
     def __getitem__(self, key):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             return super(EpBunch_4, self).__getitem__(key)
@@ -163,6 +170,7 @@ class EpBunch_4(EpBunch_3):
         else:
             astr = "unknown field %s" % (key, )
             raise BadEPFieldError(astr)
+    
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
             super(EpBunch_4, self).__setitem__(key, value)
@@ -174,7 +182,6 @@ class EpBunch_4(EpBunch_3):
             except IndexError:
                 extendlist(self['obj'], i)
                 self['obj'][i] = value
-
         else:
             astr = "unknown field %s" % (key, )
             raise BadEPFieldError(astr)
@@ -244,14 +251,6 @@ class CheckRange(EpBunchFunctionClass):
                 astr = astr % (fieldvalue, therange['minimum>'])
                 raise RangeError(astr)
         return fieldvalue
-
-
-class EpBunch_5(EpBunch_4):
-    """implements getrange, checkrange, fieldnames"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions']['getrange'] = GetRange(self)
-        self['__functions']['checkrange'] = CheckRange(self)
     
 
-EpBunch = EpBunch_5
+EpBunch = EpBunch_4
