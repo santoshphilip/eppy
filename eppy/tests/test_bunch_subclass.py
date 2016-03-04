@@ -570,6 +570,28 @@ class TestEpBunch(object):
                     'type': ['real']},
                 ])
         return obj, objls, objidd
+    
+    def test_fieldnames(self):
+        """
+        Test that the contents of idfobject.fieldnames are the same as those
+        of objls.
+        
+        """
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fn_item, objls_item in zip(idfobject.fieldnames, idfobject.objls):
+            assert fn_item == objls_item
+        
+    def test_fieldvalues(self):
+        """
+        Test that the contents of idfobject.fieldvalues are the same as those
+        of obj.
+        
+        """
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
+            assert fv_item == objls_item
 
     def test_getrange(self):
         data = (
