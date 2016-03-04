@@ -140,7 +140,7 @@ class EpBunch_3(EpBunch_2):
             return super(EpBunch_3, self).__getattr__(name)
 
 class EpBunch_4(EpBunch_3):
-    """h implements __getitem__ and __setitem__"""
+    """implements __getitem__ and __setitem__"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
     def __getitem__(self, key):
@@ -256,59 +256,3 @@ class EpBunch_5(EpBunch_4):
 
 
 EpBunch = EpBunch_5
-
-def main():
-    """main function"""
-    # read code
-    # iddfile = "../iddfiles/Energy+V6_0.idd"
-    iddfile = "./walls.idd"
-    fname = "./walls.idf" # small file with only surfaces
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-
-    # setup code walls - can be generic for any object
-    ddtt = data.dt
-    dtls = data.dtls
-    wall_i = dtls.index('BuildingSurface:Detailed'.upper())
-    wallkey = 'BuildingSurface:Detailed'.upper()
-
-    dwalls = ddtt[wallkey]
-    dwall = dwalls[0]
-
-    wallfields = [comm.get('field') for comm in commdct[wall_i]]
-    wallfields[0] = ['key']
-    wallfields = [field[0] for field in wallfields]
-    wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-    print(wall_fields[:20])
-
-    bwall = EpBunch(dwall, wall_fields)
-
-    print(bwall.Name)
-    print(data.dt[wallkey][0][1])
-    bwall.Name = 'Gumby'
-    print(bwall.Name)
-    print(data.dt[wallkey][0][1])
-    print()
-
-    # set aliases
-    bwall.__aliases = {'Constr':'Construction_Name'}
-
-    print("wall.Construction_Name = %s" % (bwall.Construction_Name, ))
-    print("wall.Constr = %s" % (bwall.Constr, ))
-    print()
-    print ("change wall.Constr")
-    bwall.Constr = 'AnewConstr'
-    print("wall.Constr = %s" % (bwall.Constr, ))
-    print("wall.Constr = %s" % (data.dt[wallkey][0][3], ))
-    print()
-
-    # add functions
-    bwall.__functions = {'svalues':somevalues}
-
-    print(bwall.svalues)
-    print(bwall.__functions)
-
-
-
-if __name__ == '__main__':
-    main()
-
