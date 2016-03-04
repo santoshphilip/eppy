@@ -37,10 +37,11 @@ def extendlist(lst, i, value=''):
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
 
-class EpBunch_1(Bunch):
+
+class EpBunch(Bunch):
     """Has data in bunch"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_1, self).__init__(*args, **kwargs)
+        super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj
         self.objls = objls
         self.objidd = objidd
@@ -73,7 +74,7 @@ class EpBunch_1(Bunch):
             self[name] = value
             return None
         elif name in ('obj', 'objls', 'objidd'):
-            super(EpBunch_1, self).__setattr__(name, value)
+            super(EpBunch, self).__setattr__(name, value)
             return None
         elif name in self['objls']:
             i = self['objls'].index(name)
@@ -105,7 +106,7 @@ class EpBunch_1(Bunch):
             return self['__functions']
         elif name in ('__aliases', 'obj', 'objls', 'objidd'):
             # unit test
-            return super(EpBunch_1, self).__getattr__(name)
+            return super(EpBunch, self).__getattr__(name)
         elif name in self['objls']:
             i = self['objls'].index(name)
             try:
@@ -118,7 +119,7 @@ class EpBunch_1(Bunch):
         
     def __getitem__(self, key):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            return super(EpBunch_1, self).__getitem__(key)
+            return super(EpBunch, self).__getitem__(key)
         elif key in self['objls']:
             i = self['objls'].index(key)
             try:
@@ -131,7 +132,7 @@ class EpBunch_1(Bunch):
     
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            super(EpBunch_1, self).__setitem__(key, value)
+            super(EpBunch, self).__setitem__(key, value)
             return None
         elif key in self['objls']:
             i = self['objls'].index(key)
@@ -231,6 +232,3 @@ class CheckRange(EpBunchFunctionClass):
                 astr = astr % (fieldvalue, therange['minimum>'])
                 raise RangeError(astr)
         return fieldvalue
-    
-
-EpBunch = EpBunch_1
