@@ -67,6 +67,7 @@ class EpBunch_1(Bunch):
         else:
             astr = "unable to find field %s" % (name, )
             raise BadEPFieldError(astr)
+        
     def __getattr__(self, name):
         if name in ('obj', 'objls', 'objidd'):
             return super(EpBunch_1, self).__getattr__(name)
@@ -79,6 +80,35 @@ class EpBunch_1(Bunch):
         else:
             astr = "unable to find field %s" % (name, )
             raise BadEPFieldError(astr)
+        
+    def __getitem__(self, key):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+            return super(EpBunch_1, self).__getitem__(key)
+        elif key in self['objls']:
+            i = self['objls'].index(key)
+            try:
+                return self['obj'][i]
+            except IndexError:
+                return ''
+        else:
+            astr = "unknown field %s" % (key, )
+            raise BadEPFieldError(astr)
+    
+    def __setitem__(self, key, value):
+        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+            super(EpBunch_1, self).__setitem__(key, value)
+            return None
+        elif key in self['objls']:
+            i = self['objls'].index(key)
+            try:
+                self['obj'][i] = value
+            except IndexError:
+                extendlist(self['obj'], i)
+                self['obj'][i] = value
+        else:
+            astr = "unknown field %s" % (key, )
+            raise BadEPFieldError(astr)
+
     def __repr__(self):
         """print this as an idf snippet"""
         lines = [str(val) for val in self.obj]
@@ -94,6 +124,7 @@ class EpBunch_1(Bunch):
         nlines.insert(0, lines[0])# first line without comment
         astr = '\n'.join(nlines)
         return '\n%s\n' % (astr, )
+    
     def __str__(self):
         """same as __repr__"""
         # needed if YAML is installed. See issue 67
@@ -154,33 +185,6 @@ class EpBunch_3(EpBunch_2):
         except KeyError:
             return super(EpBunch_3, self).__getattr__(name)
 
-    def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            return super(EpBunch_3, self).__getitem__(key)
-        elif key in self['objls']:
-            i = self['objls'].index(key)
-            try:
-                return self['obj'][i]
-            except IndexError:
-                return ''
-        else:
-            astr = "unknown field %s" % (key, )
-            raise BadEPFieldError(astr)
-    
-    def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            super(EpBunch_3, self).__setitem__(key, value)
-            return None
-        elif key in self['objls']:
-            i = self['objls'].index(key)
-            try:
-                self['obj'][i] = value
-            except IndexError:
-                extendlist(self['obj'], i)
-                self['obj'][i] = value
-        else:
-            astr = "unknown field %s" % (key, )
-            raise BadEPFieldError(astr)
 
 
 class EpBunchFunctionClass(object):
