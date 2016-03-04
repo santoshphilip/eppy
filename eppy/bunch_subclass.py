@@ -144,7 +144,6 @@ class EpBunch_3(EpBunch_2):
     
     def __getattr__(self, name):
         if name == '__functions':
-            # unit test
             return self['__functions']
         try:
             func = self['__functions'][name]
