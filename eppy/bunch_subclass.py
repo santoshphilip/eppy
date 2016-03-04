@@ -138,32 +138,12 @@ class EpBunch_2(EpBunch_1):
     """Has data, aliases in bunch"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_2, self).__init__(obj, objls, objidd, *args, **kwargs)
-    def __setattr__(self, name, value):
-        if name == '__aliases':
-            self[name] = value
-            return None
-        try:
-            origname = self['__aliases'][name]
-            super(EpBunch_2, self).__setattr__(origname, value)
-        except KeyError:
-            super(EpBunch_2, self).__setattr__(name, value)
-    def __getattr__(self, name):
-        if name == '__aliases':
-            # unit test
-            return super(EpBunch_2, self).__getattr__(name)
-        try:
-            origname = self['__aliases'][name]
-            return super(EpBunch_2, self).__getattr__(origname)
-        except KeyError:
-            return super(EpBunch_2, self).__getattr__(name)
-
-class EpBunch_3(EpBunch_2):
-    """Has data, aliases, functions in bunch"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_3, self).__init__(obj, objls, objidd, *args, **kwargs)
         
     def __setattr__(self, name, value):
         if name == '__functions':
+            self[name] = value
+            return None
+        if name == '__aliases':
             self[name] = value
             return None
         try:
@@ -171,11 +151,26 @@ class EpBunch_3(EpBunch_2):
             # unit test
             self[origname] = value
         except KeyError:
-            super(EpBunch_3, self).__setattr__(name, value)
-    
+            pass
+
+        try:
+            origname = self['__aliases'][name]
+            super(EpBunch_2, self).__setattr__(origname, value)
+        except KeyError:
+            super(EpBunch_2, self).__setattr__(name, value)
+            
     def __getattr__(self, name):
+        if name == '__aliases':
+            # unit test
+            return super(EpBunch_2, self).__getattr__(name)
         if name == '__functions':
             return self['__functions']
+        try:
+            origname = self['__aliases'][name]
+            return super(EpBunch_2, self).__getattr__(origname)
+        except KeyError:
+            pass
+
         try:
             func = self['__functions'][name]
             if isinstance(func, EpBunchFunctionClass):
@@ -183,8 +178,7 @@ class EpBunch_3(EpBunch_2):
             else:
                 return func(self)
         except KeyError:
-            return super(EpBunch_3, self).__getattr__(name)
-
+            return super(EpBunch_2, self).__getattr__(name)
 
 
 class EpBunchFunctionClass(object):
@@ -253,4 +247,4 @@ class CheckRange(EpBunchFunctionClass):
         return fieldvalue
     
 
-EpBunch = EpBunch_3
+EpBunch = EpBunch_2
