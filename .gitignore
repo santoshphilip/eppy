@@ -3,7 +3,11 @@
 .DS_Store
 .ipynb_checkpoints/
 __pycache__
-/.project
-/.pydevproject
 eppy.log
 eppy.json
+# Eclipse/PyDev
+.project
+.pydevproject
+.settings/
+/remove_licence.py
+/.coverage

@@ -1,12 +1,12 @@
 # EEP!: 1
 * Title: Standard for the use of logging in Eppy 
-* Version: 0.0.6
-* Last-Modified: 29 Jun 2015
+* Version: 0.0.7
+* Last-Modified: 4 Feb 2016
 * Author: Jamie Bull <jamie.bull@oco-carbon.com>
 * Status: Draft
 * Type: Standards Track
 * Created: 17-Jun-2015
-* Eppy-Version: >=0.4.6.4a
+* Eppy-Version: >=0.5.0
 
 ## Abstract
 This inaugural Eppy Enhancement Proposal (EEP!) puts forward use cases
