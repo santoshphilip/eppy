@@ -45,9 +45,6 @@ class EpBunch(Bunch):
         self.obj = obj
         self.objls = objls
         self.objidd = objidd
-        self['__functions'] = {}
-        self['__functions']['getrange'] = GetRange(self)
-        self['__functions']['checkrange'] = CheckRange(self)
 
     @property
     def fieldnames(self):
@@ -56,7 +53,15 @@ class EpBunch(Bunch):
     @property
     def fieldvalues(self):
         return self.obj    
-
+    
+    def checkrange(self, fieldname):
+        cr = CheckRange(self)
+        return cr.func(fieldname)
+    
+    def getrange(self, fieldname):
+        gr = GetRange(self)
+        return gr.func(fieldname)
+    
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
