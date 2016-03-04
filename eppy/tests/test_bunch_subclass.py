@@ -433,6 +433,7 @@ def test_EpBunch():
 
     # add functions
     bwall.__functions = {'svalues':bunch_subclass.somevalues}
+    assert 'svalues' in bwall.__functions
 
     # print bwall.svalues
     assert bwall.svalues == (
@@ -515,7 +516,11 @@ def test_extendlist():
         assert lst == nlst
 
 class TestEpBunch(object):
-    """py.test for EpBunch.getrange, EpBunch.checkrange"""
+    """
+    py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames and
+    EpBunch.fieldvalues.
+    
+    """
     def initdata(self):
         obj, objls, objidd = (
             [
@@ -592,6 +597,14 @@ class TestEpBunch(object):
         idfobject = EpBunch(obj, objls, objidd)
         for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
             assert fv_item == objls_item
+    
+    def test_functions_registration(self):
+        """Test that registered functions are available via __functions.
+        """
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)        
+        assert 'getrange' in idfobject['__functions']
+        assert 'checkrange' in idfobject['__functions']
 
     def test_getrange(self):
         data = (
