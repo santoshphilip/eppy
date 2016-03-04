@@ -61,14 +61,12 @@ class EpBunch(Bunch):
     def checkrange(self, fieldname):
         """Check if the value for a field is within the allowed range.
         """
-        cr = CheckRange(self)
-        return cr.func(fieldname)
+        return checkrange(self, fieldname)
     
     def getrange(self, fieldname):
         """Get the allowed range of values for a field.
         """
-        gr = GetRange(self)
-        return gr.func(fieldname)
+        return getrange(self, fieldname)
     
     def __setattr__(self, name, value):
         try:
@@ -103,10 +101,7 @@ class EpBunch(Bunch):
     def __getattr__(self, name):
         try:
             func = self['__functions'][name]
-            if isinstance(func, EpBunchFunctionClass):
-                return func.func
-            else:
-                return func(self)
+            return func(self)
         except KeyError:
             pass
 
@@ -181,67 +176,50 @@ class EpBunch(Bunch):
         return self.__repr__()
 
 
-class EpBunchFunctionClass(object):
-    """Exception Object"""
-    pass
+def getrange(bch, fieldname):
+    """get the ranges for this field"""
+    keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
+    index = bch.objls.index(fieldname)
+    fielddct_orig = bch.objidd[index]
+    fielddct = copy.deepcopy(fielddct_orig)
+    therange = {}
+    for key in keys:
+        therange[key] = fielddct.setdefault(key, None)
+    if therange['type']:
+        therange['type'] = therange['type'][0]
+    if therange['type'] == 'real':
+        for key in keys[:-1]:
+            if therange[key]:
+                therange[key] = float(therange[key][0])
+    if therange['type'] == 'integer':
+        for key in keys[:-1]:
+            if therange[key]:
+                therange[key] = int(therange[key][0])
+    return therange
 
 
-class GetRange(EpBunchFunctionClass):
-    
-    def __init__(self, arg):
-        self.bch = arg
-        
-    def func(self, fieldname):
-        """get the ranges for this field"""
-        bch = self.bch
-        keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
-        index = bch.objls.index(fieldname)
-        fielddct_orig = bch.objidd[index]
-        fielddct = copy.deepcopy(fielddct_orig)
-        therange = {}
-        for key in keys:
-            therange[key] = fielddct.setdefault(key, None)
-        if therange['type']:
-            therange['type'] = therange['type'][0]
-        if therange['type'] == 'real':
-            for key in keys[:-1]:
-                if therange[key]:
-                    therange[key] = float(therange[key][0])
-        if therange['type'] == 'integer':
-            for key in keys[:-1]:
-                if therange[key]:
-                    therange[key] = int(therange[key][0])
-        return therange
-
-
-class CheckRange(EpBunchFunctionClass):
-    
-    def __init__(self, arg):
-        self.bch = arg
-
-    def func(self, fieldname):
-        """throw exception if the out of range"""
-        bch = self.bch
-        fieldvalue = bch[fieldname]
-        therange = bch.getrange(fieldname)
-        if therange['maximum'] != None:
-            if fieldvalue > therange['maximum']:
-                astr = "Value %s is not less or equal to the 'maximum' of %s"
-                astr = astr % (fieldvalue, therange['maximum'])
-                raise RangeError(astr)
-        if therange['minimum'] != None:
-            if fieldvalue < therange['minimum']:
-                astr = "Value %s is not greater or equal to the 'minimum' of %s"
-                astr = astr % (fieldvalue, therange['minimum'])
-                raise RangeError(astr)
-        if therange['maximum<'] != None:
-            if fieldvalue >= therange['maximum<']:
-                astr = "Value %s is not less than the 'maximum<' of %s"
-                astr = astr % (fieldvalue, therange['maximum<'])
-                raise RangeError(astr)
-        if  therange['minimum>'] != None:
-            if fieldvalue <= therange['minimum>']:
-                astr = "Value %s is not greater than the 'minimum>' of %s"
-                astr = astr % (fieldvalue, therange['minimum>'])
-                raise RangeError(astr)
-        return fieldvalue
+def checkrange(bch, fieldname):
+    """throw exception if the out of range"""
+    fieldvalue = bch[fieldname]
+    therange = bch.getrange(fieldname)
+    if therange['maximum'] != None:
+        if fieldvalue > therange['maximum']:
+            astr = "Value %s is not less or equal to the 'maximum' of %s"
+            astr = astr % (fieldvalue, therange['maximum'])
+            raise RangeError(astr)
+    if therange['minimum'] != None:
+        if fieldvalue < therange['minimum']:
+            astr = "Value %s is not greater or equal to the 'minimum' of %s"
+            astr = astr % (fieldvalue, therange['minimum'])
+            raise RangeError(astr)
+    if therange['maximum<'] != None:
+        if fieldvalue >= therange['maximum<']:
+            astr = "Value %s is not less than the 'maximum<' of %s"
+            astr = astr % (fieldvalue, therange['maximum<'])
+            raise RangeError(astr)
+    if  therange['minimum>'] != None:
+        if fieldvalue <= therange['minimum>']:
+            astr = "Value %s is not greater than the 'minimum>' of %s"
+            astr = astr % (fieldvalue, therange['minimum>'])
+            raise RangeError(astr)
+    return fieldvalue
