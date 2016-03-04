@@ -152,7 +152,7 @@ class EpBunch_3(EpBunch_2):
             return super(EpBunch_3, self).__getattr__(name)
 
 class EpBunch_4(EpBunch_3):
-    """implements __getitem__ and __setitem__"""
+    """implements getrange, checkrange, __getitem__ and __setitem__"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
         self['__functions']['getrange'] = GetRange(self)
