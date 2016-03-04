@@ -14,9 +14,8 @@ from __future__ import unicode_literals
 
 
 import copy
-from eppy.EPlusInterfaceFunctions import readidf
 from bunch import Bunch
-# import eppy.bunchhelpers
+
 
 class BadEPFieldError(Exception):
     """an exception"""
