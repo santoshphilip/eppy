@@ -44,6 +44,15 @@ class EpBunch_1(Bunch):
         self.obj = obj
         self.objls = objls
         self.objidd = objidd
+
+    @property
+    def fieldnames(self):
+        return self.objls
+
+    @property
+    def fieldvalues(self):
+        return self.obj    
+
     def __setattr__(self, name, value):
         if name in ('obj', 'objls', 'objidd'):
             super(EpBunch_1, self).__setattr__(name, value)
@@ -171,15 +180,6 @@ class EpBunch_4(EpBunch_3):
             raise BadEPFieldError(astr)
 
 
-# TODO unit test
-def fieldnames(bch):
-    """field names"""
-    return bch.objls
-
-def fieldvalues(bch):
-    """field values"""
-    return bch.obj
-
 class EpBunchFunctionClass(object):
     """Exception Object"""
     pass
@@ -248,10 +248,8 @@ class EpBunch_5(EpBunch_4):
     """implements getrange, checkrange, fieldnames"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions']['fieldnames'] = fieldnames
-        self['__functions']['fieldvalues'] = fieldvalues
         self['__functions']['getrange'] = GetRange(self)
         self['__functions']['checkrange'] = CheckRange(self)
-
+    
 
 EpBunch = EpBunch_5
