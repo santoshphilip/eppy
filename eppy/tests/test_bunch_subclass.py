@@ -598,13 +598,6 @@ class TestEpBunch(object):
         for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
             assert fv_item == objls_item
     
-    def test_functions_registration(self):
-        """Test that registered functions are available via __functions.
-        """
-        obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd)        
-        assert 'getrange' in idfobject['__functions']
-        assert 'checkrange' in idfobject['__functions']
 
     def test_getrange(self):
         data = (
