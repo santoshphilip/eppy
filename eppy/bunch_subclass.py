@@ -44,6 +44,9 @@ class EpBunch_1(Bunch):
         self.obj = obj
         self.objls = objls
         self.objidd = objidd
+        self['__functions'] = {}
+        self['__functions']['getrange'] = GetRange(self)
+        self['__functions']['checkrange'] = CheckRange(self)
 
     @property
     def fieldnames(self):
@@ -158,9 +161,6 @@ class EpBunch_3(EpBunch_2):
     """Has data, aliases, functions in bunch"""
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_3, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions'] = {}
-        self['__functions']['getrange'] = GetRange(self)
-        self['__functions']['checkrange'] = CheckRange(self)
         
     def __setattr__(self, name, value):
         if name == '__functions':
