@@ -128,6 +128,9 @@ class EpBunch_3(EpBunch_2):
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch_3, self).__init__(obj, objls, objidd, *args, **kwargs)
         self['__functions'] = {}
+        self['__functions']['getrange'] = GetRange(self)
+        self['__functions']['checkrange'] = CheckRange(self)
+        
     def __setattr__(self, name, value):
         if name == '__functions':
             self[name] = value
@@ -138,6 +141,7 @@ class EpBunch_3(EpBunch_2):
             self[origname] = value
         except KeyError:
             super(EpBunch_3, self).__setattr__(name, value)
+    
     def __getattr__(self, name):
         if name == '__functions':
             # unit test
@@ -151,16 +155,9 @@ class EpBunch_3(EpBunch_2):
         except KeyError:
             return super(EpBunch_3, self).__getattr__(name)
 
-class EpBunch_4(EpBunch_3):
-    """implements getrange, checkrange, __getitem__ and __setitem__"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions']['getrange'] = GetRange(self)
-        self['__functions']['checkrange'] = CheckRange(self)
-
     def __getitem__(self, key):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            return super(EpBunch_4, self).__getitem__(key)
+            return super(EpBunch_3, self).__getitem__(key)
         elif key in self['objls']:
             i = self['objls'].index(key)
             try:
@@ -173,7 +170,7 @@ class EpBunch_4(EpBunch_3):
     
     def __setitem__(self, key, value):
         if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            super(EpBunch_4, self).__setitem__(key, value)
+            super(EpBunch_3, self).__setitem__(key, value)
             return None
         elif key in self['objls']:
             i = self['objls'].index(key)
@@ -253,4 +250,4 @@ class CheckRange(EpBunchFunctionClass):
         return fieldvalue
     
 
-EpBunch = EpBunch_4
+EpBunch = EpBunch_3
