@@ -920,7 +920,10 @@ class IDF(object):
             with open(filename, 'wb') as idf_out:
                 idf_out.write(s)
         except TypeError:  # in the case that filename is a file handle
-            filename.write(s)
+            try:
+                filename.write(s)
+            except TypeError:
+                filename.write(s.decode(encoding))
 
     def saveas(self, filename, lineendings='default', encoding='latin-1'):
         """ Save the IDF as a text file with the filename passed.
