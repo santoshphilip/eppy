@@ -1,11 +1,13 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
-"""sub class bunch in steps going from data, aliases, functions"""
+"""Sub class Bunch to represent an IDF object.
+"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -17,12 +19,13 @@ import copy
 from bunch import Bunch
 
 
-class BadEPFieldError(Exception):
-    """an exception"""
+class BadEPFieldError(AttributeError):
+    """An Exception"""
     pass
 
-class RangeError(Exception):
-    """an Exception"""
+
+class RangeError(ValueError):
+    """An Exception"""
     pass
 
 
@@ -39,12 +42,17 @@ def extendlist(lst, i, value=''):
 
 
 class EpBunch(Bunch):
-    """Has data in bunch"""
+    """
+    Fields, values, and descriptions of fields in an EnergyPlus IDF object 
+    stored in a `bunch` which is a `dict` extended to allow access to dict 
+    fields as attributes as well as by keys.
+    
+    """
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
-        self.obj = obj
-        self.objls = objls
-        self.objidd = objidd
+        self.obj = obj        # field names
+        self.objls = objls    # field values
+        self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
 
     @property
     def fieldnames(self):
@@ -71,23 +79,23 @@ class EpBunch(Bunch):
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
-            # unit test
+            # TODO: unit test never hits here so what is it for?
             self[origname] = value
         except KeyError:
             pass
 
         try:
-            name = self['__aliases'][name]
+            name = self['__aliases'][name]  # get original name of the alias
         except KeyError:
             pass
 
-        if name in ('__functions', '__aliases'):
+        if name in ('__functions', '__aliases'):  # just set the new value
             self[name] = value
             return None
-        elif name in ('obj', 'objls', 'objidd'):
+        elif name in ('obj', 'objls', 'objidd'):  # let Bunch handle it
             super(EpBunch, self).__setattr__(name, value)
             return None
-        elif name in self.fieldnames:
+        elif name in self.fieldnames:  # set the value, extending if needed
             i = self.fieldnames.index(name)
             try:
                 self.fieldvalues[i] = value
@@ -96,7 +104,7 @@ class EpBunch(Bunch):
                 self.fieldvalues[i] = value
         else:
             astr = "unable to find field %s" % (name, )
-            raise BadEPFieldError(astr)
+            raise BadEPFieldError(astr)  # TODO: could raise AttributeError
         
     def __getattr__(self, name):
         try:
