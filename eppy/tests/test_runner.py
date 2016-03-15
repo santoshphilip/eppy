@@ -22,8 +22,6 @@ import re
 import shutil
 from subprocess import CalledProcessError
 
-from concurrent import futures
-
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
 from eppy.runner.run_functions import multirunner
