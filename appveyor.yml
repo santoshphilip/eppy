@@ -38,5 +38,5 @@ install:
 build: off
 
 test_script:
-  # Put your test command here.
+  # Test command.
   - "%PYTHON%\\python.exe -m pytest eppy -v"
