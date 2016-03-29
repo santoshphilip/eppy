@@ -1,4 +1,4 @@
-bunch>=1.0
+munch>=2.0.2
 beautifulsoup4>=4.2.1
 numpy>=1.7.1
 # pydot>1.0

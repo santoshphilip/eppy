@@ -39,7 +39,7 @@ setup(
     license='MIT License',
     author='Santosh Philip',
     tests_require=['pytest'],
-    install_requires=["bunch>=1.0",
+    install_requires=["munch>=2.0.2",
                 "beautifulsoup4>=4.2.1",
                 # "numpy>=1.7.1",
                 "pyparsing>=pyparsing",
