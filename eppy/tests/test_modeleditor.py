@@ -19,12 +19,11 @@ from eppy.pytest_helpers import almostequal
 from itertools import product
 import os
 
-import bunch
 import pytest
 
 import eppy.idfreader as idfreader
 import eppy.snippet as snippet
-
+from eppy.bunch_subclass import Bunch
 
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
@@ -111,11 +110,11 @@ def test_namebunch():
     """py.test for namebunch"""
     thedata = (
         (
-            bunch.Bunch(dict(Name="", a=5)),
+            Bunch(dict(Name="", a=5)),
             "yay", "yay"
         ),  # abunch, aname, thename
         (
-            bunch.Bunch(dict(Name=None, a=5)),
+            Bunch(dict(Name=None, a=5)),
             "yay", None
         ),  # abunch, aname, thename
     )
