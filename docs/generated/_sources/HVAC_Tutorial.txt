@@ -2,8 +2,10 @@
 HVAC Loops
 ==========
 
+
 Conceptual Introduction to HVAC Loops
 -------------------------------------
+
 
 Eppy builds threee kinds of loops for the energyplus idf file:
 
@@ -54,7 +56,7 @@ side.
 
 Diagramtically the the two sides of the loop will look like this::
 
-                    Supply Side:
+    Supply Side:
     ------------
                     -> branch1 -> 
     start_branch   --> branch2 --> end_branch
@@ -66,7 +68,7 @@ Diagramtically the the two sides of the loop will look like this::
     d_start_branch   --> d_branch2 --> d_end_branch
                       -> d_branch3 ->
     
-                
+
 In eppy you could embody this is a list
 
 .. code:: python
@@ -78,19 +80,19 @@ Eppy will build the build the shape/topology of the loop using the two
 lists above. Each branch will have a placeholder component, like a pipe
 or a duct::
 
-                    
+    
     branch1 = --duct--
 
-                
+
 Now we will have to replace the placeholder with the real components
 that make up the loop. For instance, branch1 should really have a
 pre-heat coil leading to a supply fan leading to a cooling coil leading
 to a heating coil::
 
-                    
+    
     new_branch = pre-heatcoil -> supplyfan -> coolingcoil -> heatingcoil
 
-                
+
 Eppy lets you build a new branch and you can replace branch1 with
 new\_branch
 
@@ -100,6 +102,7 @@ components, once the initial toplogy is right
 Building a Plant loops
 ----------------------
 
+
 Eppy can build up the topology of a plant loop using single pipes in a
 branch. Once we do that the simple branch in the loop we have built can
 be replaced with a more complex branch.
@@ -108,6 +111,7 @@ Let us try this out ans see how it works.
 
 Building the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 .. code:: python
 
@@ -149,6 +153,7 @@ Building the topology of the loop
 Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
 
+
 Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
 this diagram
 
@@ -173,6 +178,7 @@ shown seperately for clarity*
 
 Modifying the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 Let us make a new branch and replace the exisiting branch
 
@@ -208,6 +214,7 @@ of **listofcomponents**
 -  We will do this by calling the function replacebranch
 -  Calling replacebranch can throw an exception ``WhichLoopError``
 -  In a moment, you will see why this exception is important
+
 
 .. code:: python
 
@@ -268,12 +275,13 @@ links
 -  http://shahriar.svbtle.com/the-possibly-forgotten-optional-else-in-python-try-statement
 -  https://docs.python.org/2/tutorial/errors.html
 
+
 | We have saved this as file "hhh\_new.idf".
 | Let us draw the diagram of this file. (run this from eppy/eppy folder)
 
-                python ex_loopdiagram.py hhh_new.idf
+python ex_loopdiagram.py hhh_new.idf
 
-                
+
 .. code:: python
 
     from eppy import ex_inits #no need to know this code, it just shows the image below
@@ -289,6 +297,7 @@ This diagram shows the new components in the branch
 
 Work flow with ``WhichLoopError``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 When you are writing scripts don't bother to use ``try .. except`` for
 ``WhichLoopError``.
@@ -307,6 +316,7 @@ people. We don't write code unless it is needed :-)
 
 Traversing the loop
 ~~~~~~~~~~~~~~~~~~~
+
 
 It would be nice to move through the loop using functions "nextnode()"
 and "prevnode()"
@@ -499,6 +509,7 @@ All the way to where the loop ends
 Building a Condensor loop
 -------------------------
 
+
 We build the condensor loop the same way we built the plant loop. Pipes
 are put as place holders for the components. Let us build a new idf file
 with just a condensor loop in it.
@@ -518,6 +529,7 @@ functions nextnode() and prevnode()
 
 Building an Air Loop
 --------------------
+
 
 Building an air loop is similar to the plant and condensor loop. The
 difference is that instead of pipes , we have ducts as placeholder

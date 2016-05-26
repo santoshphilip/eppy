@@ -1,6 +1,11 @@
 Changes
 =======
 
+2016-02-07
+----------
+
+- bug fix -> read files that have mixed line endings. Both DOS and Unix line endings
+
 2016-02-05
 ----------
 
