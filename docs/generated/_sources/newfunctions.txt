@@ -1158,6 +1158,43 @@ The syntax of the json string is described below::
     
     "idf.VERSION..Version_Identifier":8.5
 
+You can also create a new object using JSON, using the same syntax. Take
+a look at this:
+
+.. code:: python
+
+    json_str = {"idf.BUILDING.Taj.Terrain": "Rural",}
+    json_functions.updateidf(idf1, json_str)
+    idf1.idfobjects['building'.upper()]
+
+
+
+.. parsed-literal::
+
+    [
+    BUILDING,                 
+        Empire State Building,    !- Name
+        52,                       !- North Axis
+        Rural,                    !- Terrain
+        0.6,                      !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    , 
+    BUILDING,                 
+        Taj,                      !- Name
+        0.0,                      !- North Axis
+        Rural,                    !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    ]
+
+
+
 Use Case for JSON update
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

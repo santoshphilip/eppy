@@ -1,4 +1,15 @@
+# Copyright (c) 2016 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 """py.test for json_functions"""
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF
@@ -6,7 +17,7 @@ import StringIO
 
 from eppy.iddcurrent import iddcurrent
 
-import json_functions
+from eppy import json_functions
 
 
 # idd is read only once in this test
@@ -61,6 +72,13 @@ def test_updateidf():
     ;                        !- Minimum Number of Warmup Days
     """,
     {"idf.BUilding.Untitled.Terrain":"Rural"},
+    "Building",
+    "Terrain",
+    "Rural"), # idftxt, dct, key, field, fieldval
+    (
+    """
+    """,
+    {"idf.BUilding.Taj.Terrain":"Rural"},
     "Building",
     "Terrain",
     "Rural"), # idftxt, dct, key, field, fieldval

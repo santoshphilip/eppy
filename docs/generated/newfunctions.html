@@ -938,6 +938,35 @@ This is done for the version number change.
 
 "idf.VERSION..Version_Identifier":8.5</pre>
 </div>
+<p>You can also create a new object using JSON, using the same syntax. Take
+a look at this:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
+<span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+BUILDING,
+    Empire State Building,    !- Name
+    52,                       !- North Axis
+    Rural,                    !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+,
+BUILDING,
+    Taj,                      !- Name
+    0.0,                      !- North Axis
+    Rural,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+]</pre>
+</div>
 <div class="section" id="use-case-for-json-update">
 <h3>Use Case for JSON update<a class="headerlink" href="#use-case-for-json-update" title="Permalink to this headline">¶</a></h3>
 <p>If you have an eppy running on a remote server somewhere on the
