@@ -25,7 +25,6 @@ import eppy.idfreader as idfreader
 import eppy.snippet as snippet
 from eppy.bunch_subclass import Bunch
 
-
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
 
