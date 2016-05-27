@@ -22,7 +22,10 @@ def updateidf(idf, dct):
         if key.startswith('idf.'):
             idftag, objkey, objname, field = key2elements(key)
             if objname == '':
-                idfobj = idf.idfobjects[objkey.upper()][0]
+                try:
+                    idfobj = idf.idfobjects[objkey.upper()][0]
+                except IndexError as e:
+                    idfobj = idf.newidfobject(objkey.upper())
             else:
                 idfobj = idf.getobject(objkey.upper(), objname)
                 if idfobj == None:

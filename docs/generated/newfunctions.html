@@ -967,6 +967,17 @@ BUILDING,
     6;                        !- Minimum Number of Warmup Days
 ]</pre>
 </div>
+<p><strong>Note</strong> When you us the json update function:</p>
+<ul class="simple">
+<li>The json function expects the <tt class="docutils literal"><span class="pre">Name</span></tt> field to have a value.</li>
+<li>If you try to update an object with a blank <tt class="docutils literal"><span class="pre">Name</span></tt> field, the
+results may be unexpected (undefined ? :-). So don&#8217;t do this.</li>
+<li>If the object has no <tt class="docutils literal"><span class="pre">Name</span></tt> field (some don&#8217;t), changes are made to
+the first object in the list. Which should be fine, since usually
+there is only one item in the list</li>
+<li>In any case, if the object does not exist, it is created with the
+default values</li>
+</ul>
 <div class="section" id="use-case-for-json-update">
 <h3>Use Case for JSON update<a class="headerlink" href="#use-case-for-json-update" title="Permalink to this headline">¶</a></h3>
 <p>If you have an eppy running on a remote server somewhere on the

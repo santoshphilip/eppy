@@ -1195,6 +1195,18 @@ a look at this:
 
 
 
+**Note** When you us the json update function:
+
+-  The json function expects the ``Name`` field to have a value.
+-  If you try to update an object with a blank ``Name`` field, the
+   results may be unexpected (undefined ? :-). So don't do this.
+-  If the object has no ``Name`` field (some don't), changes are made to
+   the first object in the list. Which should be fine, since usually
+   there is only one item in the list
+-  In any case, if the object does not exist, it is created with the
+   default values
+
+
 Use Case for JSON update
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

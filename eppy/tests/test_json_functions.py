@@ -75,6 +75,7 @@ def test_updateidf():
     "Building",
     "Terrain",
     "Rural"), # idftxt, dct, key, field, fieldval
+    # make a new object
     (
     """
     """,
@@ -82,6 +83,14 @@ def test_updateidf():
     "Building",
     "Terrain",
     "Rural"), # idftxt, dct, key, field, fieldval
+    # make a new object with no Name field
+    (
+    """
+    """,
+    {"idf.GlobalGeometryRules..Starting_Vertex_Position":"UpperLeftCorner"},
+    "GlobalGeometryRules",
+    "Starting_Vertex_Position",
+    "UpperLeftCorner"), # idftxt, dct, key, field, fieldval
     )
     for idftxt, dct, key, field, fieldval in data:
         idfhandle = StringIO.StringIO(idftxt)
