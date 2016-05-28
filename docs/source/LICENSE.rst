@@ -4,8 +4,9 @@ LICENSE
 The MIT License (MIT)
 
 Copyright (c) 2004, 2012-2015 Santosh Philip
-
 Copyright (c) 2012  Tuan Tran
+Copyright (c) 2014  Eric Allen Youngson
+Copyright (c) 2015  Jamie Bull
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
