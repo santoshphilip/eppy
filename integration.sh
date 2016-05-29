@@ -1,0 +1,1 @@
+py.test ./eppy/tests/integration/integration.py
