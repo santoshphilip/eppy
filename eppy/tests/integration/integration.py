@@ -31,6 +31,7 @@ def setversion(idf, newversion):
 def test_modeleditor():
     """test reading a idf file"""
     # TODO : organize this differently .. as multiple tests
+    # TODO : add cleanup code
     iddfile = "./eppy/resources/iddfiles/Energy+V7_2_0.idd"
     startfolder = "./eppy/tests/integration/data2test"
     origfile = "%s/%s" % (startfolder, "origfile.idf")
@@ -96,4 +97,6 @@ def test_modeleditor():
     lines = txt.splitlines()
     numlines = len(lines)
     assert numlines == txt.count('\n') + 1 # no CR on last line
+    
+    
     
