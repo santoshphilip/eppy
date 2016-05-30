@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Eppy Tutorial &mdash; eppy 0.5 documentation</title>
+    <title>Eppy Tutorial &mdash; eppy 0.5.2 documentation</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5',
+        VERSION:     '0.5.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,31 +23,34 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.2 documentation" href="index.html" />
     <link rel="next" title="HVAC Loops" href="HVAC_Tutorial.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="eppy-tutorial">
 <h1>Eppy Tutorial<a class="headerlink" href="#eppy-tutorial" title="Permalink to this headline">¶</a></h1>
@@ -84,7 +87,7 @@ R-value of the roof until you get to the expected energy use.</li>
 <h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <p>Here is a short IDF file that I’ll be using as an example to start us
 off</p>
-<div class="highlight-python"><div class="highlight"><pre>                VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.2;                     !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -109,27 +112,26 @@ SITE:LOCATION,
     41.78,                   !- Latitude {deg}
     -87.75,                  !- Longitude {deg}
     -6.00,                   !- Time Zone {hr}
-    190.00;                  !- Elevation {m}
-</pre></div>
+    190.00;                  !- Elevation {m}</pre>
 </div>
 <p>To use eppy to look at this model, we have to run a little code first:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># you would normaly install eppy by doing</span>
-<span class="c1"># python setup.py install</span>
-<span class="c1"># or</span>
-<span class="c1"># pip install eppy</span>
-<span class="c1"># or</span>
-<span class="c1"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
 
-<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="c"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
@@ -141,7 +143,7 @@ SITE:LOCATION,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -166,8 +168,7 @@ SITE:LOCATION,
     41.78,                    !- Latitude
     -87.75,                   !- Longitude
     -6.0,                     !- Time Zone
-    190.0;                    !- Elevation
-</pre></div>
+    190.0;                    !- Elevation</pre>
 </div>
 <p>Looks like the same file as before, except that all the comments are
 slightly different.</p>
@@ -180,13 +181,13 @@ slightly different.</p>
 </ul>
 <p>So, let us look take a closer look at the BUILDING object. We can do
 this using this command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">filename</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;OBJECTNAME&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">filename</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;OBJECTNAME&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;BUILDING&#39;</span><span class="p">]</span>  <span class="c1"># put the name of the object you&#39;d like to look at in brackets</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BUILDING&#39;</span><span class="p">]</span>  <span class="c"># put the name of the object you&#39;d like to look at in brackets</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>[
+<div class="highlight-python"><pre>[
 BUILDING,
     Empire State Building,    !- Name
     30.0,                     !- North Axis
@@ -196,39 +197,36 @@ BUILDING,
     FullExterior,             !- Solar Distribution
     25,                       !- Maximum Number of Warmup Days
     6;                        !- Minimum Number of Warmup Days
-]
-</pre></div>
+]</pre>
 </div>
 <p>We can also zoom in on the object and look just at its individual parts.</p>
 <p>For example, let us look at the name of the building.</p>
 <p>To do this, we have to do some more behind-the-scenes work, which we&#8217;ll
 explain later.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;BUILDING&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BUILDING&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Now we can do this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Empire State Building
-</pre></div>
+<div class="highlight-python"><pre>Empire State Building</pre>
 </div>
 <p>Now that we&#8217;ve isolated the building name, we can change it.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Empire State Building&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Empire State Building&quot;</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Empire State Building
-</pre></div>
+<div class="highlight-python"><pre>Empire State Building</pre>
 </div>
 <p>Did this actually change the name in the model ? Let us print the entire
 model and see.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -253,8 +251,7 @@ SITE:LOCATION,
     41.78,                    !- Latitude
     -87.75,                   !- Longitude
     -6.0,                     !- Time Zone
-    190.0;                    !- Elevation
-</pre></div>
+    190.0;                    !- Elevation</pre>
 </div>
 <p>Yes! It did. So now you have a taste of what eppy can do. Let&#8217;s get
 started!</p>
@@ -265,17 +262,17 @@ started!</p>
 little closer.</p>
 <p>As you might have guessed, changing an IDF field follows this
 structure:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nb">object</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">=</span> <span class="s2">&quot;New Field Name&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">object</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">=</span> <span class="s">&quot;New Field Name&quot;</span>
 </pre></div>
 </div>
 <p>Plugging the object name (building), the field name (Name) and our new
 field name (&#8220;Empire State Building&#8221;) into this command gave us this:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Empire State Building&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Empire State Building&quot;</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">eppy</span>
-<span class="c1"># import eppy.ex_inits</span>
-<span class="c1"># reload(eppy.ex_inits)</span>
+<span class="c"># import eppy.ex_inits</span>
+<span class="c"># reload(eppy.ex_inits)</span>
 <span class="kn">import</span> <span class="nn">eppy.ex_inits</span>
 </pre></div>
 </div>
@@ -284,7 +281,7 @@ field name (&#8220;Empire State Building&#8221;) into this command gave us this:
 <p>Are there other fields?</p>
 <p>What are they called?</p>
 <p>Let&#8217;s take a look at the IDF editor:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">idfeditor</span><span class="p">)</span>
 </pre></div>
@@ -333,15 +330,14 @@ any spaces.</p>
 <span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">Minimum_Number_of_Warmup_Days</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Empire State Building
+<div class="highlight-python"><pre>Empire State Building
 30.0
 City
 0.04
 0.4
 FullExterior
 25
-6
-</pre></div>
+6</pre>
 </div>
 <p>Where else can we find the field names?</p>
 <p>The IDF Editor saves the idf file with the field name commented next to
@@ -349,16 +345,15 @@ field.</p>
 <p>Eppy also does this.</p>
 <p>Let us take a look at the &#8220;BUILDING&#8221; object in the text file that the
 IDF Editor saves</p>
-<div class="highlight-python"><div class="highlight"><pre>            BUILDING,
-White House,             !- Name
-30.,                     !- North Axis {deg}
-City,                    !- Terrain
-0.04,                    !- Loads Convergence Tolerance Value
-0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
-FullExterior,            !- Solar Distribution
-25,                      !- Maximum Number of Warmup Days
-6;                       !- Minimum Number of Warmup Days
-</pre></div>
+<div class="highlight-python"><pre>BUILDING,
+    White House,             !- Name
+    30.,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullExterior,            !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    6;                       !- Minimum Number of Warmup Days</pre>
 </div>
 <p>This a good place to find the field names too.</p>
 <p>It is easy to copy and paste from here. You can&#8217;t do that from the IDF
@@ -377,15 +372,15 @@ lists work in python.</p>
 <h2>Python lesson 1: lists<a class="headerlink" href="#python-lesson-1-lists" title="Permalink to this headline">¶</a></h2>
 <p>Eppy holds these objects in a python structure called list. Let us take
 a look at how lists work in python.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;bannana&quot;</span><span class="p">]</span>
-<span class="c1"># fruits is a list with three items in it.</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
+<span class="c"># fruits is a list with three items in it.</span>
 </pre></div>
 </div>
 <p>To get the first item in fruits we say:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="s1">&#39;apple&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;apple&#39;</span>
 </pre></div>
 </div>
 <p>Why &#8220;0&#8221; ?</p>
@@ -443,7 +438,7 @@ we call it firstfruit?</p>
 </pre></div>
 </div>
 <p>If you&#8217;d like to do a &#8220;Save as...&#8221; use this:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s1">&#39;something.idf&#39;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&#39;something.idf&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -457,22 +452,22 @@ too big.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
 
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">IDDAlreadySetError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">pass</span>
 
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/constructions.idf&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/constructions.idf&quot;</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Let us print all the &#8220;MATERIAL&#8221; objects in this model.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">materials</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>[
+<div class="highlight-python"><pre>[
 Material,
     F08 Metal surface,        !- Name
     Smooth,                   !- Roughness
@@ -552,8 +547,7 @@ Material,
     0.15,                     !- Conductivity
     608.0,                    !- Density
     1630.0;                   !- Specific Heat
-]
-</pre></div>
+]</pre>
 </div>
 <p>As you can see, there are many material objects in this idf file.</p>
 <p>The variable &#8220;materials&#8221; now contains a list of &#8220;MATERIAL&#8221; objects.</p>
@@ -566,27 +560,25 @@ items in this list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">firstmaterial</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     F08 Metal surface,        !- Name
     Smooth,                   !- Roughness
     0.0008,                   !- Thickness
     45.28,                    !- Conductivity
     7824.0,                   !- Density
-    500.0;                    !- Specific Heat
-</pre></div>
+    500.0;                    !- Specific Heat</pre>
 </div>
 <p>Let us print secondmaterial</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">secondmaterial</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     I01 25mm insulation board,    !- Name
     MediumRough,              !- Roughness
     0.0254,                   !- Thickness
     0.03,                     !- Conductivity
     43.0,                     !- Density
-    1210.0;                   !- Specific Heat
-</pre></div>
+    1210.0;                   !- Specific Heat</pre>
 </div>
 <p>This is awesome!! Why?</p>
 <p>To understand what you can do with your objects organized as lists,
@@ -602,13 +594,12 @@ its index.</p>
 input 0 in order to get the first item in a list.</p>
 <p>Following the same logic, you need to input 3 in order to get the fourth
 item on the list. Like so:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Donald Trump&quot;</span><span class="p">,</span> <span class="s2">&quot;Mick Jagger&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Steve Jobs&quot;</span><span class="p">,</span> <span class="s2">&quot;Lady Gaga&quot;</span><span class="p">,</span> <span class="s2">&quot;Santa Clause&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Donald Trump&quot;</span><span class="p">,</span> <span class="s">&quot;Mick Jagger&quot;</span><span class="p">,</span>
+        <span class="s">&quot;Steve Jobs&quot;</span><span class="p">,</span> <span class="s">&quot;Lady Gaga&quot;</span><span class="p">,</span> <span class="s">&quot;Santa Clause&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Lady Gaga
-</pre></div>
+<div class="highlight-python"><pre>Lady Gaga</pre>
 </div>
 <p>But there&#8217;s another way to access items in a list. If you input -1, it
 will return the last item. -2 will give you the second-to-last item,
@@ -617,40 +608,37 @@ etc.</p>
 <span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Santa Clause
-Lady Gaga
-</pre></div>
+<div class="highlight-python"><pre>Santa Clause
+Lady Gaga</pre>
 </div>
 </div>
 <div class="section" id="slicing-a-list">
 <h3>Slicing a list<a class="headerlink" href="#slicing-a-list" title="Permalink to this headline">¶</a></h3>
 <p>You can also get more than one item in a list:</p>
-<blockquote>
-<div>bad_architects[first_slice:second_slice]</div></blockquote>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># slices at 1 and 3</span>
+<p>bad_architects[first_slice:second_slice]</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="c"># slices at 1 and 3</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve Jobs&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>How do I make sense of this?</p>
 <p>To understand this you need to see the list in the following manner:</p>
-<div class="highlight-python"><div class="highlight"><pre>                [ &quot;Donald Trump&quot;, &quot;Mick Jagger&quot;, &quot;Steve Jobs&quot;, &quot;Lady Gaga&quot;, &quot;Santa Clause&quot; ]
+<div class="highlight-python"><pre>[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
  ^               ^              ^             ^            ^              ^
  0               1              2             3            4              5
--5              -4             -3            -2           -1
-</pre></div>
+-5              -4             -3            -2           -1</pre>
 </div>
 <p>The slice operation bad_architects[1:3] slices right where the numbers
 are.</p>
 <p>Does that make sense?</p>
 <p>Let us try a few other slices:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># slices at 2 and -1</span>
-<span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># slices at -3 and -1</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># slices at 2 and -1</span>
+<span class="k">print</span> <span class="n">bad_architects</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># slices at -3 and -1</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;Lady Gaga&#39;</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;Lady Gaga&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>You can also slice in the following way:</p>
@@ -660,10 +648,10 @@ are.</p>
 <span class="k">print</span> <span class="n">bad_architects</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s1">&#39;Santa Clause&#39;</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s1">&#39;Mick Jagger&#39;</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s1">&#39;Santa Clause&#39;</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s1">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve Jobs&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s">&#39;Santa Clause&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s">&#39;Mick Jagger&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s">&#39;Santa Clause&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>I&#8217;ll let you figure that out on your own.</p>
@@ -676,11 +664,11 @@ listname:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">listname</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;First-year students&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;First-year students&quot;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bad_architects</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s1">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s1">&#39;Santa Clause&#39;</span><span class="p">,</span> <span class="s1">&#39;First-year students&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s">&#39;Santa Clause&#39;</span><span class="p">,</span> <span class="s">&#39;First-year students&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -689,50 +677,48 @@ listname:</p>
 <p>There are two ways to do this, based on the information you have. If you
 have the value of the object, you&#8217;ll want to use the remove function. It
 looks like this:</p>
-<blockquote>
-<div>listname.remove(value)</div></blockquote>
+<p>listname.remove(value)</p>
 <p>An example:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;First-year students&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bad_architects</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;First-year students&quot;</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bad_architects</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s1">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s1">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s1">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s1">&#39;Santa Clause&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;Donald Trump&#39;</span><span class="p">,</span> <span class="s">&#39;Mick Jagger&#39;</span><span class="p">,</span> <span class="s">&#39;Steve Jobs&#39;</span><span class="p">,</span> <span class="s">&#39;Lady Gaga&#39;</span><span class="p">,</span> <span class="s">&#39;Santa Clause&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>What if you know the index of the item you want to remove?</p>
 <p>What if you appended an item by mistake and just want to remove the last
 item in the list?</p>
 <p>You should use the pop function. It looks like this:</p>
-<blockquote>
-<div>listname.pop(index)</div></blockquote>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;coffee&quot;</span><span class="p">,</span> <span class="s2">&quot;bacon&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">]</span>
+<p>listname.pop(index)</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;coffee&quot;</span><span class="p">,</span> <span class="s">&quot;bacon&quot;</span><span class="p">,</span> <span class="s">&quot;eggs&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">what_i_ate_today</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;coffee&#39;</span><span class="p">,</span> <span class="s1">&#39;bacon&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;coffee&#39;</span><span class="p">,</span> <span class="s">&#39;bacon&#39;</span><span class="p">,</span> <span class="s">&#39;eggs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;vegetables&quot;</span><span class="p">)</span> <span class="c1"># adds vegetables to the end of the list</span>
-<span class="c1"># but I don&#39;t like vegetables</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;vegetables&quot;</span><span class="p">)</span> <span class="c"># adds vegetables to the end of the list</span>
+<span class="c"># but I don&#39;t like vegetables</span>
 <span class="k">print</span> <span class="n">what_i_ate_today</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;coffee&#39;</span><span class="p">,</span> <span class="s1">&#39;bacon&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs&#39;</span><span class="p">,</span> <span class="s1">&#39;vegetables&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;coffee&#39;</span><span class="p">,</span> <span class="s">&#39;bacon&#39;</span><span class="p">,</span> <span class="s">&#39;eggs&#39;</span><span class="p">,</span> <span class="s">&#39;vegetables&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># since I don&#39;t like vegetables</span>
-<span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># use index of -1, since vegetables is the last item in the list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># since I don&#39;t like vegetables</span>
+<span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c"># use index of -1, since vegetables is the last item in the list</span>
 <span class="k">print</span> <span class="n">what_i_ate_today</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;coffee&#39;</span><span class="p">,</span> <span class="s1">&#39;bacon&#39;</span><span class="p">,</span> <span class="s1">&#39;eggs&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;coffee&#39;</span><span class="p">,</span> <span class="s">&#39;bacon&#39;</span><span class="p">,</span> <span class="s">&#39;eggs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>You can also remove the second item.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="s1">&#39;bacon&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;bacon&#39;</span>
 </pre></div>
 </div>
 <p>Notice the &#8216;bacon&#8217; in the line above.</p>
@@ -740,12 +726,12 @@ item in the list?</p>
 back to you.</p>
 <p>Let us pop the first item.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">was_first_item</span> <span class="o">=</span> <span class="n">what_i_ate_today</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;was_first_item =&#39;</span><span class="p">,</span> <span class="n">was_first_item</span>
-<span class="k">print</span> <span class="s1">&#39;what_i_ate_today = &#39;</span><span class="p">,</span> <span class="n">what_i_ate_today</span>
+<span class="k">print</span> <span class="s">&#39;was_first_item =&#39;</span><span class="p">,</span> <span class="n">was_first_item</span>
+<span class="k">print</span> <span class="s">&#39;what_i_ate_today = &#39;</span><span class="p">,</span> <span class="n">what_i_ate_today</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">was_first_item</span> <span class="o">=</span> <span class="n">coffee</span>
-<span class="n">what_i_ate_today</span> <span class="o">=</span>  <span class="p">[</span><span class="s1">&#39;eggs&#39;</span><span class="p">]</span>
+<span class="n">what_i_ate_today</span> <span class="o">=</span>  <span class="p">[</span><span class="s">&#39;eggs&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>what_i_ate_today is just &#8216;eggs&#8217;?</p>
@@ -756,7 +742,7 @@ back to you.</p>
 <div class="section" id="continuing-to-work-with-e-objects">
 <h2>Continuing to work with E+ objects<a class="headerlink" href="#continuing-to-work-with-e-objects" title="Permalink to this headline">¶</a></h2>
 <p>Let us get those &#8220;MATERIAL&#8221; objects again</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>With our newfound knowledge of lists, we can do a lot of things.</p>
@@ -764,20 +750,19 @@ back to you.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     G05 25mm wood,            !- Name
     MediumSmooth,             !- Roughness
     0.0254,                   !- Thickness
     0.15,                     !- Conductivity
     608.0,                    !- Density
-    1630.0;                   !- Specific Heat
-</pre></div>
+    1630.0;                   !- Specific Heat</pre>
 </div>
 <p>How about the last two?</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>[
+<div class="highlight-python"><pre>[
 Material,
     M05 200mm concrete block,    !- Name
     MediumRough,              !- Roughness
@@ -793,8 +778,7 @@ Material,
     0.15,                     !- Conductivity
     608.0,                    !- Density
     1630.0;                   !- Specific Heat
-]
-</pre></div>
+]</pre>
 </div>
 <p>Pretty good.</p>
 <div class="section" id="counting-all-the-materials-or-counting-all-objects">
@@ -825,14 +809,13 @@ Material,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     M05 200mm concrete block,    !- Name
     MediumRough,              !- Roughness
     0.2032,                   !- Thickness
     1.11,                     !- Conductivity
     800.0,                    !- Density
-    920.0;                    !- Specific Heat
-</pre></div>
+    920.0;                    !- Specific Heat</pre>
 </div>
 <p>Now the last material in the list is:</p>
 <p>&#8216;M15 200mm heavyweight concrete&#8217;</p>
@@ -843,14 +826,13 @@ Material,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">was_last_material</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     G05 25mm wood,            !- Name
     MediumSmooth,             !- Roughness
     0.0254,                   !- Thickness
     0.15,                     !- Conductivity
     608.0,                    !- Density
-    1630.0;                   !- Specific Heat
-</pre></div>
+    1630.0;                   !- Specific Heat</pre>
 </div>
 <p>Let us add it back to the list</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">was_last_material</span><span class="p">)</span>
@@ -866,14 +848,13 @@ Material,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Material,
+<div class="highlight-python"><pre>Material,
     G05 25mm wood,            !- Name
     MediumSmooth,             !- Roughness
     0.0254,                   !- Thickness
     0.15,                     !- Conductivity
     608.0,                    !- Density
-    1630.0;                   !- Specific Heat
-</pre></div>
+    1630.0;                   !- Specific Heat</pre>
 </div>
 </div>
 <div class="section" id="add-a-new-material-to-the-model">
@@ -882,10 +863,10 @@ Material,
 list.</p>
 <p>What if we want to make new material?</p>
 <p>Obviously we would use the function &#8216;newidfobject&#8217;.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
+<div class="highlight-python"><pre>MATERIAL,
     ,                         !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -894,8 +875,7 @@ list.</p>
     ,                         !- Specific Heat
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-</pre></div>
+    0.7;                      !- Visible Absorptance</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">materials</span><span class="p">)</span>
 </pre></div>
@@ -909,7 +889,7 @@ new material was added</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
+<div class="highlight-python"><pre>MATERIAL,
     ,                         !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -918,8 +898,7 @@ new material was added</p>
     ,                         !- Specific Heat
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-</pre></div>
+    0.7;                      !- Visible Absorptance</pre>
 </div>
 <p>Looks a little different from the other materials. It does have the name
 we gave it.</p>
@@ -927,8 +906,8 @@ we gave it.</p>
 <p>&#8220;addobject&#8221; puts in all the default values, and leaves the others blank.
 It is up to us to put values in the the new fields.</p>
 <p>Let&#8217;s do it now.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s1">&#39;Peanut Butter&#39;</span>
-<span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Roughness</span> <span class="o">=</span> <span class="s1">&#39;MediumSmooth&#39;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#39;Peanut Butter&#39;</span>
+<span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Roughness</span> <span class="o">=</span> <span class="s">&#39;MediumSmooth&#39;</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">=</span> <span class="mf">0.03</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Conductivity</span> <span class="o">=</span> <span class="mf">0.16</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">Density</span> <span class="o">=</span> <span class="mi">600</span>
@@ -938,7 +917,7 @@ It is up to us to put values in the the new fields.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
+<div class="highlight-python"><pre>MATERIAL,
     Peanut Butter,            !- Name
     MediumSmooth,             !- Roughness
     0.03,                     !- Thickness
@@ -947,20 +926,19 @@ It is up to us to put values in the the new fields.</p>
     1500,                     !- Specific Heat
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-</pre></div>
+    0.7;                      !- Visible Absorptance</pre>
 </div>
 </div>
 <div class="section" id="copy-an-existing-material">
 <h3>Copy an existing material<a class="headerlink" href="#copy-an-existing-material" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">Peanutbuttermaterial</span> <span class="o">=</span> <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">idf1</span><span class="o">.</span><span class="n">copyidfobject</span><span class="p">(</span><span class="n">Peanutbuttermaterial</span><span class="p">)</span>
-<span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<span class="n">materials</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 <span class="nb">len</span><span class="p">(</span><span class="n">materials</span><span class="p">)</span>
 <span class="n">materials</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
+<div class="highlight-python"><pre>MATERIAL,
     Peanut Butter,            !- Name
     MediumSmooth,             !- Roughness
     0.03,                     !- Thickness
@@ -969,8 +947,7 @@ It is up to us to put values in the the new fields.</p>
     1500,                     !- Specific Heat
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-</pre></div>
+    0.7;                      !- Visible Absorptance</pre>
 </div>
 </div>
 </div>
@@ -984,31 +961,29 @@ any (or every) item in the list.</p>
 <p>Here&#8217;s how to tell python to step through each item in a list, and then
 do something to every single item.</p>
 <p>We&#8217;ll use a &#8216;for&#8217; loop to do this.</p>
-<div class="highlight-python"><div class="highlight"><pre>            for &lt;variable&gt; in &lt;listname&gt;:
-&lt;do something&gt;
-</pre></div>
+<div class="highlight-python"><pre>for &lt;variable&gt; in &lt;listname&gt;:
+    &lt;do something&gt;</pre>
 </div>
 <p>A quick note about the second line. Notice that it&#8217;s indented? There are
 4 blank spaces before the code starts:</p>
-<div class="highlight-python"><div class="highlight"><pre>                in python, indentations are used
+<div class="highlight-python"><pre>in python, indentations are used
 to determine the grouping of statements
        some languages use symbols to mark
        where the function code starts and stops
        but python uses indentation to tell you this
-                i&#39;m using indentation to
+                i'm using indentation to
                 show the beginning and end of a sentence
        this is a very simple explanation
        of indentation in python
- if you&#39;d like to know more, there is plenty of information
- about indentation in python on the web
-</pre></div>
+ if you'd like to know more, there is plenty of information
+ about indentation in python on the web</pre>
 </div>
 <p>It&#8217;s elegant, but it means that the indentation of the code holds
 meaning.</p>
 <p>So make sure to indent the second (and third and forth) lines of your
 loops!</p>
 <p>Now let&#8217;s make some fruit loops.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;bannana&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Given the syntax I gave you before I started rambling about indentation,
@@ -1026,52 +1001,50 @@ we can easily print every item in the fruits list by using a &#8216;for&#8217; l
 <p>Let&#8217;s make it do something more complicated than just print the fruits.</p>
 <p>Let&#8217;s have python add some words to each fruit.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>
-    <span class="k">print</span> <span class="s2">&quot;I am a fruit said the&quot;</span><span class="p">,</span> <span class="n">fruit</span>
+    <span class="k">print</span> <span class="s">&quot;I am a fruit said the&quot;</span><span class="p">,</span> <span class="n">fruit</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>I am a fruit said the apple
+<div class="highlight-python"><pre>I am a fruit said the apple
 I am a fruit said the orange
-I am a fruit said the bannana
-</pre></div>
+I am a fruit said the bannana</pre>
 </div>
 <p>Now we&#8217;ll try to confuse you:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">rottenfruits</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># makes a blank list called rottenfruits</span>
-<span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span> <span class="c1"># steps through every item in fruits</span>
-    <span class="n">rottenfruit</span> <span class="o">=</span> <span class="s2">&quot;rotten &quot;</span> <span class="o">+</span> <span class="n">fruit</span> <span class="c1"># changes each item to &quot;rotten _____&quot;</span>
-    <span class="n">rottenfruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rottenfruit</span><span class="p">)</span> <span class="c1"># adds each changed item to the formerly empty list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">rottenfruits</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># makes a blank list called rottenfruits</span>
+<span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span> <span class="c"># steps through every item in fruits</span>
+    <span class="n">rottenfruit</span> <span class="o">=</span> <span class="s">&quot;rotten &quot;</span> <span class="o">+</span> <span class="n">fruit</span> <span class="c"># changes each item to &quot;rotten _____&quot;</span>
+    <span class="n">rottenfruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rottenfruit</span><span class="p">)</span> <span class="c"># adds each changed item to the formerly empty list</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rottenfruits</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;rotten apple&#39;</span><span class="p">,</span> <span class="s1">&#39;rotten orange&#39;</span><span class="p">,</span> <span class="s1">&#39;rotten bannana&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;rotten apple&#39;</span><span class="p">,</span> <span class="s">&#39;rotten orange&#39;</span><span class="p">,</span> <span class="s">&#39;rotten bannana&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># here&#39;s a shorter way of writing it</span>
-<span class="n">rottenfruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rotten &quot;</span> <span class="o">+</span> <span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s a shorter way of writing it</span>
+<span class="n">rottenfruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;rotten &quot;</span> <span class="o">+</span> <span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Did you follow all that??</p>
 <p>Just in case you didn&#8217;t, let&#8217;s review that last one:</p>
-<div class="highlight-python"><div class="highlight"><pre>                [&quot;rotten &quot; + fruit for fruit in fruits]
+<div class="highlight-python"><pre>["rotten " + fruit for fruit in fruits]
                    -------------------
-                   This is the &quot;for loop&quot;
+                   This is the "for loop"
                    it steps through each fruit in fruits
 
-[&quot;rotten &quot; + fruit for fruit in fruits]
+["rotten " + fruit for fruit in fruits]
  -----------------
- add &quot;rotten &quot; to the fruit at each step
- this is your &quot;do something&quot;
+ add "rotten " to the fruit at each step
+ this is your "do something"
 
-[&quot;rotten &quot; + fruit for fruit in fruits]
+["rotten " + fruit for fruit in fruits]
 ---------------------------------------
-give a new list that is a result of the &quot;do something&quot;
-</pre></div>
+give a new list that is a result of the "do something"</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rottenfruits</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;rotten apple&#39;</span><span class="p">,</span> <span class="s1">&#39;rotten orange&#39;</span><span class="p">,</span> <span class="s1">&#39;rotten bannana&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;rotten apple&#39;</span><span class="p">,</span> <span class="s">&#39;rotten orange&#39;</span><span class="p">,</span> <span class="s">&#39;rotten bannana&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="section" id="filtering-in-a-loop">
@@ -1079,19 +1052,18 @@ give a new list that is a result of the &quot;do something&quot;
 <p>But what if you don&#8217;t want to change <em>every</em> item in a list?</p>
 <p>We can use an &#8216;if&#8217; statement to operate on only some items in the list.</p>
 <p>Indentation is also important in &#8216;if&#8217; statements, as you&#8217;ll see:</p>
-<div class="highlight-python"><div class="highlight"><pre>                if &lt;someconstraint&gt;:
+<div class="highlight-python"><pre>if &lt;someconstraint&gt;:
     &lt;if the first line is true, do this&gt;
-&lt;but if it&#39;s false, do this&gt;
+&lt;but if it's false, do this&gt;</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;berry&quot;</span><span class="p">,</span> <span class="s">&quot;mango&quot;</span><span class="p">,</span> <span class="s">&quot;plum&quot;</span><span class="p">,</span> <span class="s">&quot;peach&quot;</span><span class="p">,</span> <span class="s">&quot;melon&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;pear&quot;</span><span class="p">,</span> <span class="s2">&quot;berry&quot;</span><span class="p">,</span> <span class="s2">&quot;mango&quot;</span><span class="p">,</span> <span class="s2">&quot;plum&quot;</span><span class="p">,</span> <span class="s2">&quot;peach&quot;</span><span class="p">,</span> <span class="s2">&quot;melon&quot;</span><span class="p">,</span> <span class="s2">&quot;bannana&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>               <span class="c1"># steps through every fruit in fruits</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>             <span class="c1"># checks to see if the length of the word is more than 5</span>
-        <span class="k">print</span> <span class="n">fruit</span>                <span class="c1"># if true, print the fruit</span>
-                                   <span class="c1"># if false, python goes back to the &#39;for&#39; loop</span>
-                                      <span class="c1"># and checks the next item in the list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>               <span class="c"># steps through every fruit in fruits</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>             <span class="c"># checks to see if the length of the word is more than 5</span>
+        <span class="k">print</span> <span class="n">fruit</span>                <span class="c"># if true, print the fruit</span>
+                                   <span class="c"># if false, python goes back to the &#39;for&#39; loop</span>
+                                      <span class="c"># and checks the next item in the list</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">orange</span>
@@ -1100,45 +1072,44 @@ give a new list that is a result of the &quot;do something&quot;
 </div>
 <p>Let&#8217;s say we want to pick only the fruits that start with the letter
 &#8216;p&#8217;.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[]</span>                      <span class="c1"># creates an empty list called p_fruits</span>
-<span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>               <span class="c1"># steps through every fruit in fruits</span>
-    <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">):</span>      <span class="c1"># checks to see if the first letter is &#39;p&#39;, using a built-in function</span>
-        <span class="n">p_fruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>     <span class="c1"># if the first letter is &#39;p&#39;, the item is added to p_fruits</span>
-                                   <span class="c1"># if the first letter is not &#39;p&#39;, python goes back to the &#39;for&#39; loop</span>
-                                      <span class="c1"># and checks the next item in the list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[]</span>                      <span class="c"># creates an empty list called p_fruits</span>
+<span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span><span class="p">:</span>               <span class="c"># steps through every fruit in fruits</span>
+    <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">):</span>      <span class="c"># checks to see if the first letter is &#39;p&#39;, using a built-in function</span>
+        <span class="n">p_fruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fruit</span><span class="p">)</span>     <span class="c"># if the first letter is &#39;p&#39;, the item is added to p_fruits</span>
+                                   <span class="c"># if the first letter is not &#39;p&#39;, python goes back to the &#39;for&#39; loop</span>
+                                      <span class="c"># and checks the next item in the list</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">p_fruits</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;pear&#39;</span><span class="p">,</span> <span class="s1">&#39;plum&#39;</span><span class="p">,</span> <span class="s1">&#39;peach&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;plum&#39;</span><span class="p">,</span> <span class="s">&#39;peach&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># here&#39;s a shorter way to write it</span>
-<span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[</span><span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span> <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s a shorter way to write it</span>
+<span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[</span><span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span> <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>                [fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+<div class="highlight-python"><pre>[fruit for fruit in fruits if fruit.startswith("p")]
        -------------------
        for loop
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
                            ------------------------
                            pick only some of the fruits
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
  -----
- give me the variable fruit as it appears in the list, don&#39;t change it
+ give me the variable fruit as it appears in the list, don't change it
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
 ----------------------------------------------------
-a fresh new list with those fruits
-</pre></div>
+a fresh new list with those fruits</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">p_fruits</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;pear&#39;</span><span class="p">,</span> <span class="s1">&#39;plum&#39;</span><span class="p">,</span> <span class="s1">&#39;peach&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;pear&#39;</span><span class="p">,</span> <span class="s">&#39;plum&#39;</span><span class="p">,</span> <span class="s">&#39;peach&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1149,7 +1120,7 @@ this.</p>
 <p>Python&#8217;s built-in function range() makes a list of numbers within a
 range that you specify.</p>
 <p>This is useful because you can use these lists inside of loops.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># makes a list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c"># makes a list</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
@@ -1193,28 +1164,26 @@ range that you specify.</p>
     <span class="k">print</span> <span class="n">i</span><span class="p">,</span>  <span class="n">p_fruits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>0 pear
+<div class="highlight-python"><pre>0 pear
 1 plum
-2 peach
-</pre></div>
+2 peach</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">item_from_enumerate</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p_fruits</span><span class="p">):</span>
     <span class="k">print</span> <span class="n">item_from_enumerate</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;pear&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;plum&#39;</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;peach&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;pear&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;plum&#39;</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;peach&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p_fruits</span><span class="p">):</span>
     <span class="k">print</span> <span class="n">i</span><span class="p">,</span> <span class="n">fruit</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>0 pear
+<div class="highlight-python"><pre>0 pear
 1 plum
-2 peach
-</pre></div>
+2 peach</pre>
 </div>
 </div>
 </div>
@@ -1228,7 +1197,7 @@ using loops.</p>
     <span class="k">print</span> <span class="n">material</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>F08 Metal surface
+<div class="highlight-python"><pre>F08 Metal surface
 I01 25mm insulation board
 I02 50mm insulation board
 G01a 19mm gypsum board
@@ -1239,41 +1208,40 @@ M15 200mm heavyweight concrete
 M05 200mm concrete block
 G05 25mm wood
 Peanut Butter
-Peanut Butter
-</pre></div>
+Peanut Butter</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M05 200mm concrete block&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Peanut Butter&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Peanut Butter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M05 200mm concrete block&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
+ <span class="s">&#39;Peanut Butter&#39;</span><span class="p">,</span>
+ <span class="s">&#39;Peanut Butter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Roughness</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Smooth&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumRough&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s1">&#39;MediumSmooth&#39;</span><span class="p">,</span>
- <span class="s1">&#39;MediumSmooth&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Smooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumRough&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">&#39;MediumSmooth&#39;</span><span class="p">,</span>
+ <span class="s">&#39;MediumSmooth&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Thickness</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
@@ -1302,10 +1270,10 @@ Peanut Butter
 <div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span> <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;M05 200mm concrete block&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;M05 200mm concrete block&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thick_materials</span> <span class="o">=</span> <span class="p">[</span><span class="n">material</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span> <span class="k">if</span> <span class="n">material</span><span class="o">.</span><span class="n">Thickness</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">]</span>
@@ -1314,7 +1282,7 @@ Peanut Butter
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thick_materials</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>[
+<div class="highlight-python"><pre>[
 Material,
     M11 100mm lightweight concrete,    !- Name
     MediumRough,              !- Roughness
@@ -1349,18 +1317,17 @@ Material,
     1.11,                     !- Conductivity
     800.0,                    !- Density
     920.0;                    !- Specific Heat
-]
-</pre></div>
+]</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># change the names of the thick materials</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># change the names of the thick materials</span>
 <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">thick_materials</span><span class="p">:</span>
-    <span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;THICK &quot;</span> <span class="o">+</span> <span class="n">material</span><span class="o">.</span><span class="n">Name</span>
+    <span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;THICK &quot;</span> <span class="o">+</span> <span class="n">material</span><span class="o">.</span><span class="n">Name</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thick_materials</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>[
+<div class="highlight-python"><pre>[
 Material,
     THICK M11 100mm lightweight concrete,    !- Name
     MediumRough,              !- Roughness
@@ -1395,36 +1362,35 @@ Material,
     1.11,                     !- Conductivity
     800.0,                    !- Density
     920.0;                    !- Specific Heat
-]
-</pre></div>
+]</pre>
 </div>
 <p>So now we&#8217;re working with two different lists: materials and
 thick_materials.</p>
 <p>But even though the items can be separated into two lists, we&#8217;re still
 working with the same items.</p>
 <p>Here&#8217;s a helpful illustration:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">material_lists</span><span class="p">)</span> <span class="c1"># display the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">material_lists</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/Main_Tutorial_207_0.png" src="_images/Main_Tutorial_207_0.png" />
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># here&#39;s the same concept, demonstrated with code</span>
-<span class="c1"># remember, we changed the names of the items in the list thick_materials</span>
-<span class="c1"># these changes are visible when we print the materials list; the thick materials are also in the materials list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># here&#39;s the same concept, demonstrated with code</span>
+<span class="c"># remember, we changed the names of the items in the list thick_materials</span>
+<span class="c"># these changes are visible when we print the materials list; the thick materials are also in the materials list</span>
 <span class="p">[</span><span class="n">material</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">material</span> <span class="ow">in</span> <span class="n">materials</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;THICK M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;THICK M01 100mm brick&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;THICK M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;THICK M05 200mm concrete block&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Peanut Butter&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Peanut Butter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;F08 Metal surface&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I01 25mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;I02 50mm insulation board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G01a 19mm gypsum board&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M11 100mm lightweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;F16 Acoustic tile&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M01 100mm brick&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M15 200mm heavyweight concrete&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;THICK M05 200mm concrete block&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;G05 25mm wood&#39;</span><span class="p">,</span>
+ <span class="s">&#39;Peanut Butter&#39;</span><span class="p">,</span>
+ <span class="s">&#39;Peanut Butter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1444,156 +1410,150 @@ calculated from these coordinates.</p>
 <li>surface area</li>
 </ul>
 <p>Let us explore these functions</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># OLD CODE, SHOULD BE DELETED</span>
-<span class="c1"># from idfreader import idfreader</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># OLD CODE, SHOULD BE DELETED</span>
+<span class="c"># from idfreader import idfreader</span>
 
-<span class="c1"># iddfile = &quot;../iddfiles/Energy+V7_0_0_036.idd&quot;</span>
-<span class="c1"># fname = &quot;../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf&quot;</span>
+<span class="c"># iddfile = &quot;../iddfiles/Energy+V7_0_0_036.idd&quot;</span>
+<span class="c"># fname = &quot;../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf&quot;</span>
 
-<span class="c1"># model, to_print, idd_info = idfreader(fname, iddfile)</span>
-<span class="c1"># surfaces = model[&#39;BUILDINGSURFACE:DETAILED&#39;] # all the surfaces</span>
+<span class="c"># model, to_print, idd_info = idfreader(fname, iddfile)</span>
+<span class="c"># surfaces = model[&#39;BUILDINGSURFACE:DETAILED&#39;] # all the surfaces</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
 
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">IDDAlreadySetError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">pass</span>
 
 
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf&quot;</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
-<span class="n">surfaces</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;BUILDINGSURFACE:DETAILED&#39;</span><span class="p">]</span>
+<span class="n">surfaces</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BUILDINGSURFACE:DETAILED&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Let us look at the first surface</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Let us look at the first surface</span>
 <span class="n">asurface</span> <span class="o">=</span> <span class="n">surfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="k">print</span> <span class="s2">&quot;surface azimuth =&quot;</span><span class="p">,</span>  <span class="n">asurface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="s2">&quot;degrees&quot;</span>
-<span class="k">print</span> <span class="s2">&quot;surface tilt =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="s2">&quot;degrees&quot;</span>
-<span class="k">print</span> <span class="s2">&quot;surface area =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s2">&quot;m2&quot;</span>
+<span class="k">print</span> <span class="s">&quot;surface azimuth =&quot;</span><span class="p">,</span>  <span class="n">asurface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
+<span class="k">print</span> <span class="s">&quot;surface tilt =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="s">&quot;degrees&quot;</span>
+<span class="k">print</span> <span class="s">&quot;surface area =&quot;</span><span class="p">,</span> <span class="n">asurface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="s">&quot;m2&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>surface azimuth = 180.0 degrees
+<div class="highlight-python"><pre>surface azimuth = 180.0 degrees
 surface tilt = 90.0 degrees
-surface area = 18.3 m2
-</pre></div>
+surface area = 18.3 m2</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># all the surface names</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># all the surface names</span>
 <span class="n">s_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">surface</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">surface</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">s_names</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># print five of them</span>
+<span class="k">print</span> <span class="n">s_names</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c"># print five of them</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s1">u&#39;TOP-1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">u&#39;TOP-1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># surface names and azimuths</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># surface names and azimuths</span>
 <span class="n">s_names_azm</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">azimuth</span><span class="p">)</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">s_names_azm</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c1"># print five of them</span>
+<span class="k">print</span> <span class="n">s_names_azm</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span> <span class="c"># print five of them</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[(</span><span class="s1">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">),</span> <span class="p">(</span><span class="s1">u&#39;TOP-1&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[(</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="mf">180.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="mf">270.0</span><span class="p">),</span> <span class="p">(</span><span class="s">u&#39;TOP-1&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># or to do that in pretty printing</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span> <span class="ow">in</span> <span class="n">s_names_azm</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c1"># just five of them</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># or to do that in pretty printing</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span> <span class="ow">in</span> <span class="n">s_names_azm</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c"># just five of them</span>
     <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PF 180.0
+<div class="highlight-python"><pre>WALL-1PF 180.0
 WALL-1PR 90.0
 WALL-1PB 0.0
 WALL-1PL 270.0
-TOP-1 0.0
-</pre></div>
+TOP-1 0.0</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># surface names and tilt</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># surface names and tilt</span>
 <span class="n">s_names_tilt</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">tilt</span><span class="p">)</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tilt</span> <span class="ow">in</span> <span class="n">s_names_tilt</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c1"># just five of them</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">tilt</span> <span class="ow">in</span> <span class="n">s_names_tilt</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c"># just five of them</span>
     <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">tilt</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PF 90.0
+<div class="highlight-python"><pre>WALL-1PF 90.0
 WALL-1PR 90.0
 WALL-1PB 90.0
 WALL-1PL 90.0
-TOP-1 0.0
-</pre></div>
+TOP-1 0.0</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># surface names and areas</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># surface names and areas</span>
 <span class="n">s_names_area</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">area</span><span class="p">)</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">s_names_area</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c1"># just five of them</span>
-    <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="s2">&quot;m2&quot;</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">area</span> <span class="ow">in</span> <span class="n">s_names_area</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span> <span class="c"># just five of them</span>
+    <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">area</span><span class="p">,</span> <span class="s">&quot;m2&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PF 18.3 m2
+<div class="highlight-python"><pre>WALL-1PF 18.3 m2
 WALL-1PR 9.12 m2
 WALL-1PB 18.3 m2
 WALL-1PL 9.12 m2
-TOP-1 463.6 m2
-</pre></div>
+TOP-1 463.6 m2</pre>
 </div>
 <p>Let us try to isolate the exterior north facing walls and change their
 construnctions</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># just vertical walls</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># just vertical walls</span>
 <span class="n">vertical_walls</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">surfaces</span> <span class="k">if</span> <span class="n">sf</span><span class="o">.</span><span class="n">tilt</span> <span class="o">==</span> <span class="mf">90.0</span><span class="p">]</span>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">vertical_walls</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s1">u&#39;FRONT-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB12&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB14&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s1">u&#39;RIGHT-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB21&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB23&#39;</span><span class="p">,</span> <span class="s1">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB32&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB35&#39;</span><span class="p">,</span> <span class="s1">u&#39;LEFT-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB41&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB43&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB45&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB51&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB54&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SF&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SR&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SB&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SL&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1PL&#39;</span><span class="p">,</span> <span class="s">u&#39;FRONT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB12&#39;</span><span class="p">,</span> <span class="s">u&#39;SB14&#39;</span><span class="p">,</span> <span class="s">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s">u&#39;RIGHT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB21&#39;</span><span class="p">,</span> <span class="s">u&#39;SB23&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB32&#39;</span><span class="p">,</span> <span class="s">u&#39;SB35&#39;</span><span class="p">,</span> <span class="s">u&#39;LEFT-1&#39;</span><span class="p">,</span> <span class="s">u&#39;SB41&#39;</span><span class="p">,</span> <span class="s">u&#39;SB43&#39;</span><span class="p">,</span> <span class="s">u&#39;SB45&#39;</span><span class="p">,</span> <span class="s">u&#39;SB51&#39;</span><span class="p">,</span> <span class="s">u&#39;SB54&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SF&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SR&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SL&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># north facing walls</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># north facing walls</span>
 <span class="n">north_walls</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">vertical_walls</span> <span class="k">if</span> <span class="n">sf</span><span class="o">.</span><span class="n">azimuth</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">]</span>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">north_walls</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s1">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s1">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;SB15&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># north facing exterior walls</span>
-<span class="n">exterior_nwall</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">north_walls</span> <span class="k">if</span> <span class="n">sf</span><span class="o">.</span><span class="n">Outside_Boundary_Condition</span> <span class="o">==</span> <span class="s2">&quot;Outdoors&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># north facing exterior walls</span>
+<span class="n">exterior_nwall</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">north_walls</span> <span class="k">if</span> <span class="n">sf</span><span class="o">.</span><span class="n">Outside_Boundary_Condition</span> <span class="o">==</span> <span class="s">&quot;Outdoors&quot;</span><span class="p">]</span>
 <span class="k">print</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">exterior_nwall</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s1">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s1">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;WALL-1PB&#39;</span><span class="p">,</span> <span class="s">u&#39;BACK-1&#39;</span><span class="p">,</span> <span class="s">u&#39;WALL-1SB&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># print out some more details of the north wall</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># print out some more details of the north wall</span>
 <span class="n">north_wall_info</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Construction_Name</span><span class="p">)</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">exterior_nwall</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="n">construction</span> <span class="ow">in</span> <span class="n">north_wall_info</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="n">construction</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PB 0.0 WALL-1
+<div class="highlight-python"><pre>WALL-1PB 0.0 WALL-1
 BACK-1 0.0 WALL-1
-WALL-1SB 0.0 WALL-1
-</pre></div>
+WALL-1SB 0.0 WALL-1</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># change the construction in the exterior north walls</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># change the construction in the exterior north walls</span>
 <span class="k">for</span> <span class="n">wall</span> <span class="ow">in</span> <span class="n">exterior_nwall</span><span class="p">:</span>
-    <span class="n">wall</span><span class="o">.</span><span class="n">Construction_Name</span> <span class="o">=</span> <span class="s2">&quot;NORTHERN-WALL&quot;</span> <span class="c1"># make sure such a construction exists in the model</span>
+    <span class="n">wall</span><span class="o">.</span><span class="n">Construction_Name</span> <span class="o">=</span> <span class="s">&quot;NORTHERN-WALL&quot;</span> <span class="c"># make sure such a construction exists in the model</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># see the change</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># see the change</span>
 <span class="n">north_wall_info</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Construction_Name</span><span class="p">)</span> <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">exterior_nwall</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="n">construction</span> <span class="ow">in</span> <span class="n">north_wall_info</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">name</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="n">construction</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PB 0.0 NORTHERN-WALL
+<div class="highlight-python"><pre>WALL-1PB 0.0 NORTHERN-WALL
 BACK-1 0.0 NORTHERN-WALL
-WALL-1SB 0.0 NORTHERN-WALL
-</pre></div>
+WALL-1SB 0.0 NORTHERN-WALL</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># see this in all surfaces</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># see this in all surfaces</span>
 <span class="k">for</span> <span class="n">sf</span> <span class="ow">in</span> <span class="n">surfaces</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">sf</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Construction_Name</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>WALL-1PF 180.0 WALL-1
+<div class="highlight-python"><pre>WALL-1PF 180.0 WALL-1
 WALL-1PR 90.0 WALL-1
 WALL-1PB 0.0 NORTHERN-WALL
 WALL-1PL 270.0 WALL-1
@@ -1642,8 +1602,7 @@ F1-1S 0.0 CLNG-1
 F2-1S 0.0 CLNG-1
 F3-1S 0.0 CLNG-1
 F4-1S 0.0 CLNG-1
-F5-1S 0.0 CLNG-1
-</pre></div>
+F5-1S 0.0 CLNG-1</pre>
 </div>
 <p>You can see the &#8220;NORTHERN-WALL&#8221; in the print out above.</p>
 <p>This shows that very sophisticated modification can be made to the model
@@ -1655,7 +1614,7 @@ rather quickly.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -1700,14 +1659,12 @@ rather quickly.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="HVAC_Tutorial.html"
                         title="next chapter">HVAC Loops</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/Main_Tutorial.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Main_Tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -1724,24 +1681,27 @@ rather quickly.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >next</a> |</li>
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

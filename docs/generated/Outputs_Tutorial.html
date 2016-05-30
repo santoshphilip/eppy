@@ -6,15 +6,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reading outputs from E+ &mdash; eppy 0.5 documentation</title>
+    <title>Reading outputs from E+ &mdash; eppy 0.5.2 documentation</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5',
+        VERSION:     '0.5.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,40 +23,43 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.2 documentation" href="index.html" />
     <link rel="next" title="New functions" href="newfunctions.html" />
     <link rel="prev" title="HVAC Loops" href="HVAC_Tutorial.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="reading-outputs-from-e">
 <h1>Reading outputs from E+<a class="headerlink" href="#reading-outputs-from-e" title="Permalink to this headline">¶</a></h1>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># some initial set up</span>
-<span class="c1"># if you have not installed epp, and only downloaded it</span>
-<span class="c1"># you will need the following lines</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># some initial set up</span>
+<span class="c"># if you have not installed epp, and only downloaded it</span>
+<span class="c"># you will need the following lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -65,9 +68,9 @@
 <p>So far we have been making changes to the IDF input file. How about
 looking at the outputs.</p>
 <p>Energyplus makes nice htmlout files that look like this.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
-<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet1</span><span class="p">)</span> <span class="c1">#display the image below</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet1</span><span class="p">)</span> <span class="c">#display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/Outputs_Tutorial_4_0.png" src="_images/Outputs_Tutorial_4_0.png" />
@@ -79,30 +82,28 @@ get the data from any of it&#8217;s cells.</p>
 <p>The number you want is in the third row, second column and it&#8217;s value is
 &#8220;47694.47&#8221;</p>
 <p>Let us use eppy to extract this number</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c1"># the html file you want to read</span>
-<span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># get a file handle to the html file</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c"># the html file you want to read</span>
+<span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c"># get a file handle to the html file</span>
 
 
-<span class="n">htables</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">titletable</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span> <span class="c1"># reads the tables with their titles</span>
+<span class="n">htables</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">titletable</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span> <span class="c"># reads the tables with their titles</span>
 </pre></div>
 </div>
 <p>If you open the python file readhtml.py and look at the function
 titletable, you can see the function documentation.</p>
 <p>It says the following</p>
 <blockquote>
-<div><blockquote>
-<div>&#8220;&#8221;&#8220;return a list of [(title, table), .....]</div></blockquote>
-<p>title = previous item with a &lt;b&gt; tag
-table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</p>
-</div></blockquote>
+<div>&#8220;&#8221;&#8220;return a list of [(title, table), .....]
+title = previous item with a &lt;b&gt; tag
+table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</div></blockquote>
 <p>The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span> <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span> <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -114,15 +115,15 @@ this list. Let us look at the first item in the list.</p>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
- <span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span>
-   <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
-   <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
-   <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
-  <span class="p">[</span><span class="s1">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
-  <span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
-  <span class="p">[</span><span class="s1">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
-  <span class="p">[</span><span class="s1">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
+ <span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span>
+   <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
+   <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
+   <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
+  <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>Nice. that is a little clearer</p>
@@ -130,21 +131,21 @@ this list. Let us look at the first item in the list.</p>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem_title</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="s1">u&#39;Site and Source Energy&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">u&#39;Site and Source Energy&#39;</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem_table</span> <span class="o">=</span> <span class="n">firstitem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem_table</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span>
-  <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
-  <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
-  <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
- <span class="p">[</span><span class="s1">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
- <span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
- <span class="p">[</span><span class="s1">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
- <span class="p">[</span><span class="s1">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">u&#39;&#39;</span><span class="p">,</span>
+  <span class="s">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
+  <span class="s">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
+  <span class="s">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]]</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -152,11 +153,11 @@ this list. Let us look at the first item in the list.</p>
 <div class="line">We know it is in the third row, second column of the table.</div>
 </div>
 <p>Easy.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow</span> <span class="o">=</span> <span class="n">firstitem_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># we start counting with 0. So 0, 1, 2 is third row</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow</span> <span class="o">=</span> <span class="n">firstitem_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c"># we start counting with 0. So 0, 1, 2 is third row</span>
 <span class="k">print</span> <span class="n">thirdrow</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow_secondcolumn</span> <span class="o">=</span> <span class="n">thirdrow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -184,18 +185,18 @@ this list. Let us look at the first item in the list.</p>
 <span class="n">alltitles</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Site to Source Energy Conversion Factors&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Building Area&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;End Uses&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;End Uses By Subcategory&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Utility Use Per Conditioned Floor Area&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Utility Use Per Total Floor Area&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Electric Loads Satisfied&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;On-Site Thermal Sources&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Water Source Summary&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Comfort and Setpoint Not Met Summary&#39;</span><span class="p">,</span>
- <span class="s1">u&#39;Comfort and Setpoint Not Met Summary&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Site to Source Energy Conversion Factors&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Building Area&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;End Uses&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;End Uses By Subcategory&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Utility Use Per Conditioned Floor Area&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Utility Use Per Total Floor Area&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Electric Loads Satisfied&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;On-Site Thermal Sources&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Water Source Summary&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Comfort and Setpoint Not Met Summary&#39;</span><span class="p">,</span>
+ <span class="s">u&#39;Comfort and Setpoint Not Met Summary&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Now let us grab the tables with the titles &#8220;Building Area&#8221; and &#8220;Site to
@@ -215,9 +216,9 @@ that this title will adequetly describe the table. This is true in most
 cases and titletable() is perfectly good to use. Unfortuntely there are
 some tables that do not follow this rule. The snippet below shows one of
 them.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
-<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet2</span><span class="p">)</span> <span class="c1"># display the image below</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet2</span><span class="p">)</span> <span class="c"># display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/Outputs_Tutorial_28_0.png" src="_images/Outputs_Tutorial_28_0.png" />
@@ -226,12 +227,12 @@ The first two lines have information that describe the table. We need to
 look at both those lines to understand what the table contains. So we
 need a different function that will capture all those lines before the
 table. The funtion lines_table() described below will do this.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html&quot;</span> <span class="c1"># the html file you want to read</span>
-<span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># get a file handle to the html file</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c"># the eppy module with functions to read the html</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html&quot;</span> <span class="c"># the html file you want to read</span>
+<span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c"># get a file handle to the html file</span>
 
 
-<span class="n">ltables</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">lines_table</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span> <span class="c1"># reads the tables with their titles</span>
+<span class="n">ltables</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">lines_table</span><span class="p">(</span><span class="n">filehandle</span><span class="p">)</span> <span class="c"># reads the tables with their titles</span>
 </pre></div>
 </div>
 <p>The html snippet shown above is the last table in HTML file we just
@@ -292,17 +293,17 @@ that has the following two lines before it.</p>
 <li>Report: FANGER DURING COOLING AND ADAPTIVE COMFORT</li>
 <li>For: PERIMETER_MID_ZN_4</li>
 </ul>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">line1</span> <span class="o">=</span> <span class="s1">&#39;Report: FANGER DURING COOLING AND ADAPTIVE COMFORT&#39;</span>
-<span class="n">line2</span> <span class="o">=</span> <span class="s1">&#39;For: PERIMETER_MID_ZN_4&#39;</span>
-<span class="c1">#</span>
-<span class="c1"># check if those two lines are before the table</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">line1</span> <span class="o">=</span> <span class="s">&#39;Report: FANGER DURING COOLING AND ADAPTIVE COMFORT&#39;</span>
+<span class="n">line2</span> <span class="o">=</span> <span class="s">&#39;For: PERIMETER_MID_ZN_4&#39;</span>
+<span class="c">#</span>
+<span class="c"># check if those two lines are before the table</span>
 <span class="n">line1</span> <span class="ow">in</span> <span class="n">lines_before_table</span> <span class="ow">and</span> <span class="n">line2</span> <span class="ow">in</span> <span class="n">lines_before_table</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># find all the tables where those two lines are before the table</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># find all the tables where those two lines are before the table</span>
 <span class="p">[</span><span class="n">ltable</span> <span class="k">for</span> <span class="n">ltable</span> <span class="ow">in</span> <span class="n">ltables</span>
     <span class="k">if</span> <span class="n">line1</span> <span class="ow">in</span> <span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">line2</span> <span class="ow">in</span> <span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 </pre></div>
@@ -336,32 +337,31 @@ that has the following two lines before it.</p>
 <p>That worked !</p>
 <p>What if you want to find the words &#8220;FANGER&#8221; and &#8220;PERIMETER_MID_ZN_4&#8221;
 before the table. The following code will do it.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># sample code to illustrate what we are going to do</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># sample code to illustrate what we are going to do</span>
 <span class="n">last_ltable</span> <span class="o">=</span> <span class="n">ltables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">lines_before_table</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">table_itself</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="c1"># join lines_before_table into a paragraph of text</span>
-<span class="n">justtext</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines_before_table</span><span class="p">)</span>
+<span class="c"># join lines_before_table into a paragraph of text</span>
+<span class="n">justtext</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines_before_table</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">justtext</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Table of Contents
+<div class="highlight-python"><pre>Table of Contents
 Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 For: PERIMETER_MID_ZN_4
 Timestamp: 2014-02-07
-    12:29:08
-</pre></div>
+    12:29:08</pre>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="s2">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="n">justtext</span> <span class="ow">and</span> <span class="s2">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="n">justtext</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="s">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="n">justtext</span> <span class="ow">and</span> <span class="s">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="n">justtext</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Let us combine the this trick to find the table</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># Let us combine the this trick to find the table</span>
 <span class="p">[</span><span class="n">ltable</span> <span class="k">for</span> <span class="n">ltable</span> <span class="ow">in</span> <span class="n">ltables</span>
-    <span class="k">if</span> <span class="s2">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="s2">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+    <span class="k">if</span> <span class="s">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="s">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 </pre></div>
 </div>
 <pre class="literal-block">
@@ -398,9 +398,9 @@ The first vertical row has text. The remaining cells have numbers. We
 can identify the numbers we need by looking at the labelin the top row
 and the label in the first column. Let us construct a simple example and
 explore this.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># ignore the following three lines. I am using them to construct the table below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># ignore the following three lines. I am using them to construct the table below</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
-<span class="n">atablestring</span> <span class="o">=</span> <span class="s1">&#39;&lt;TABLE cellpadding=&quot;4&quot; style=&quot;border: 1px solid #000000; border-collapse: collapse;&quot; border=&quot;1&quot;&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;&amp;nbsp;&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;a b&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;b c&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;c d&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;x y&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;1&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;2&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;3&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;y z&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;4&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;5&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;6&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;z z&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;7&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;8&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;9&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1">&lt;/TABLE&gt;&#39;</span>
+<span class="n">atablestring</span> <span class="o">=</span> <span class="s">&#39;&lt;TABLE cellpadding=&quot;4&quot; style=&quot;border: 1px solid #000000; border-collapse: collapse;&quot; border=&quot;1&quot;&gt;</span><span class="se">\n</span><span class="s"> &lt;TR&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;&amp;nbsp;&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;a b&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;b c&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;c d&lt;/TD&gt;</span><span class="se">\n</span><span class="s"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s"> &lt;TR&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;x y&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;1&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;2&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;3&lt;/TD&gt;</span><span class="se">\n</span><span class="s"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s"> &lt;TR&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;y z&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;4&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;5&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;6&lt;/TD&gt;</span><span class="se">\n</span><span class="s"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s"> &lt;TR&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;z z&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;7&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;8&lt;/TD&gt;</span><span class="se">\n</span><span class="s">  &lt;TD&gt;9&lt;/TD&gt;</span><span class="se">\n</span><span class="s"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s">&lt;/TABLE&gt;&#39;</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">atablestring</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -430,10 +430,10 @@ explore this.</p>
   <TD>9</TD>
  </TR>
 </TABLE><p>This table is actually in the follwoing form:</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">atable</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="s2">&quot;a b&quot;</span><span class="p">,</span> <span class="s2">&quot;b c&quot;</span><span class="p">,</span> <span class="s2">&quot;c d&quot;</span><span class="p">],</span>
-     <span class="p">[</span><span class="s2">&quot;x y&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">,</span>     <span class="mi">3</span> <span class="p">],</span>
-     <span class="p">[</span><span class="s2">&quot;y z&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>     <span class="mi">5</span><span class="p">,</span>     <span class="mi">6</span> <span class="p">],</span>
-     <span class="p">[</span><span class="s2">&quot;z z&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>     <span class="mi">8</span><span class="p">,</span>     <span class="mi">9</span> <span class="p">],]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">atable</span> <span class="o">=</span> <span class="p">[[</span><span class="s">&quot;&quot;</span><span class="p">,</span>  <span class="s">&quot;a b&quot;</span><span class="p">,</span> <span class="s">&quot;b c&quot;</span><span class="p">,</span> <span class="s">&quot;c d&quot;</span><span class="p">],</span>
+     <span class="p">[</span><span class="s">&quot;x y&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">,</span>     <span class="mi">3</span> <span class="p">],</span>
+     <span class="p">[</span><span class="s">&quot;y z&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>     <span class="mi">5</span><span class="p">,</span>     <span class="mi">6</span> <span class="p">],</span>
+     <span class="p">[</span><span class="s">&quot;z z&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>     <span class="mi">8</span><span class="p">,</span>     <span class="mi">9</span> <span class="p">],]</span>
 </pre></div>
 </div>
 <p>We can see the labels in the table. So we an look at row &#8220;x y&#8221; and
@@ -473,7 +473,7 @@ because h_table does not count the rows and columns where the labels
 are.</p>
 <p>We can also do the following:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="c1"># or</span>
+<span class="c"># or</span>
 <span class="k">print</span> <span class="n">h_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">c_d</span>
 </pre></div>
 </div>
@@ -486,14 +486,14 @@ are ?</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">_fields</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">&#39;x_y&#39;</span><span class="p">,</span> <span class="s1">&#39;y_z&#39;</span><span class="p">,</span> <span class="s1">&#39;z_z&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&#39;x_y&#39;</span><span class="p">,</span> <span class="s">&#39;y_z&#39;</span><span class="p">,</span> <span class="s">&#39;z_z&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>That gives us the horizontal lables. How about the vertical labels ?</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="o">.</span><span class="n">_fields</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">&#39;a_b&#39;</span><span class="p">,</span> <span class="s1">&#39;b_c&#39;</span><span class="p">,</span> <span class="s1">&#39;c_d&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s">&#39;a_b&#39;</span><span class="p">,</span> <span class="s">&#39;b_c&#39;</span><span class="p">,</span> <span class="s">&#39;c_d&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>There you go !!!</p>
@@ -536,7 +536,7 @@ really need a list of numbers</p>
 <p>That looks like waht we wanted. Now let us get the sum</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">values_in_first_column</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span><span class="p">]</span>
 <span class="k">print</span> <span class="n">values_in_first_column</span>
-<span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_column</span><span class="p">)</span> <span class="c1"># sum is a builtin function that will sum a list</span>
+<span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_column</span><span class="p">)</span> <span class="c"># sum is a builtin function that will sum a list</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
@@ -560,7 +560,7 @@ really need a list of numbers</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -578,14 +578,12 @@ really need a list of numbers</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="newfunctions.html"
                         title="next chapter">New functions</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/Outputs_Tutorial.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/Outputs_Tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -602,24 +600,27 @@ really need a list of numbers</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >next</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>eppy.modeleditor &mdash; eppy 0.5 documentation</title>
+    <title>eppy.modeleditor &mdash; eppy 0.5.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.5',
+        VERSION:     '0.5.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5 documentation" href="../../index.html" />
+    <link rel="top" title="eppy 0.5.2 documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" /> 
   </head>
   <body>
@@ -33,7 +33,10 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li><a href="../../index.html">eppy 0.5 documentation</a> &raquo;</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">eppy 0.5.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -45,54 +48,66 @@
             
   <h1>Source code for eppy.modeleditor</h1><div class="highlight"><pre>
 <span class="c"># Copyright (c) 2012 Santosh Philip</span>
-
-<span class="c"># This file is part of eppy.</span>
-
-<span class="c"># Eppy is free software: you can redistribute it and/or modify</span>
-<span class="c"># it under the terms of the GNU General Public License as published by</span>
-<span class="c"># the Free Software Foundation, either version 3 of the License, or</span>
-<span class="c"># (at your option) any later version.</span>
-
-<span class="c"># Eppy is distributed in the hope that it will be useful,</span>
-<span class="c"># but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c"># MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="c"># GNU General Public License for more details.</span>
-
-<span class="c"># You should have received a copy of the GNU General Public License</span>
-<span class="c"># along with eppy.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span>
+<span class="c"># =======================================================================</span>
+<span class="c">#  Distributed under the MIT License.</span>
+<span class="c">#  (See accompanying file LICENSE or copy at</span>
+<span class="c">#  http://opensource.org/licenses/MIT)</span>
+<span class="c"># =======================================================================</span>
 
 <span class="sd">&quot;&quot;&quot;functions to edit the E+ model&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">makebunches</span>
-<span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">idfreader</span><span class="p">,</span> <span class="n">idfreader1</span>
-<span class="kn">from</span> <span class="nn">idfreader</span> <span class="kn">import</span> <span class="n">makeabunch</span>
-<span class="kn">import</span> <span class="nn">function_helpers</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
 <span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+
+<span class="kn">from</span> <span class="nn">eppy.idfreader</span> <span class="kn">import</span> <span class="n">idfreader1</span>
+<span class="kn">from</span> <span class="nn">eppy.idfreader</span> <span class="kn">import</span> <span class="n">makeabunch</span>
+
+<span class="kn">import</span> <span class="nn">eppy.function_helpers</span> <span class="kn">as</span> <span class="nn">function_helpers</span>
+
 
 <span class="k">class</span> <span class="nc">NoObjectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Exception Object&quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 
 <span class="k">class</span> <span class="nc">NotSameObjectError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Exception Object&quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 
 <span class="k">class</span> <span class="nc">IDDNotSetError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Exception Object&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
+
 <span class="k">class</span> <span class="nc">IDDAlreadySetError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;Exception Object&quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 
 <span class="k">def</span> <span class="nf">almostequal</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">printit</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="c"># taken from python&#39;s unit test</span>
-    <span class="c"># may be covered by Python&#39;s license </span>
+    <span class="c"># may be covered by Python&#39;s license</span>
     <span class="sd">&quot;&quot;&quot;docstring for almostequal&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">second</span><span class="o">-</span><span class="n">first</span><span class="p">),</span> <span class="n">places</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">second</span> <span class="o">-</span> <span class="n">first</span><span class="p">),</span> <span class="n">places</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">printit</span><span class="p">:</span>
-            <span class="k">print</span> <span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">second</span><span class="o">-</span><span class="n">first</span><span class="p">),</span> <span class="n">places</span><span class="p">)</span>
-            <span class="k">print</span> <span class="s">&quot;notalmost: </span><span class="si">%s</span><span class="s"> != </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">second</span> <span class="o">-</span> <span class="n">first</span><span class="p">),</span> <span class="n">places</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&quot;notalmost: </span><span class="si">%s</span><span class="s"> != </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">True</span>
-        
+
+
 <span class="k">def</span> <span class="nf">poptrailing</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;pop the trailing items in lst that are blank&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)):</span>
@@ -100,60 +115,79 @@
             <span class="k">break</span>
         <span class="n">lst</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">lst</span>
-    
+
+
 <span class="k">def</span> <span class="nf">extendlist</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;extend the list so that you have i-th value&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
         <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lst</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">value</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
-    
 
 <span class="k">def</span> <span class="nf">newrawobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;make a new object for key&quot;&quot;&quot;</span>
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dt</span>
     <span class="n">dtls</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtls</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
     <span class="n">key_i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="n">key_comm</span> <span class="o">=</span> <span class="n">commdct</span><span class="p">[</span><span class="n">key_i</span><span class="p">]</span>
-    <span class="c">#set default values</span>
-    <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">comm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">comm</span> <span class="ow">in</span> <span class="n">key_comm</span><span class="p">]</span> 
+    <span class="c"># set default values</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="p">[</span><span class="n">comm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">comm</span> <span class="ow">in</span> <span class="n">key_comm</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">comm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">key_comm</span><span class="p">):</span>
         <span class="n">typ</span> <span class="o">=</span> <span class="n">comm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">typ</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;real&#39;</span><span class="p">,</span> <span class="s">&#39;integer&#39;</span><span class="p">):</span>
             <span class="n">func_select</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">real</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">integer</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">func_select</span><span class="p">[</span><span class="n">typ</span><span class="p">](</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span> <span class="c"># if value = autocalculate</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c"># if value = autocalculate</span>
                 <span class="k">continue</span>
     <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
-    <span class="n">obj</span> <span class="o">=</span> <span class="n">poptrailing</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="c"># remove the blank items in a repeating field. </span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">poptrailing</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c"># remove the blank items in a repeating field.</span>
     <span class="k">return</span> <span class="n">obj</span>
-    
-<span class="k">def</span> <span class="nf">addthisbunch</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">thisbunch</span><span class="p">):</span>
+
+
+<span class="k">def</span> <span class="nf">addthisbunch_old</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">thisbunch</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;add a bunch to model.</span>
 <span class="sd">    abunch usually comes from another idf file</span>
 <span class="sd">    or it can be used to copy within the idf file&quot;&quot;&quot;</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">thisbunch</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">thisbunch</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
     <span class="n">data</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="n">abunch</span> <span class="o">=</span>  <span class="n">obj2bunch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">abunch</span> <span class="o">=</span> <span class="n">obj2bunch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
     <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abunch</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">abunch</span>
-    
+
+
+<span class="k">def</span> <span class="nf">addthisbunch</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">thisbunch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;add a bunch to model.</span>
+<span class="sd">    abunch usually comes from another idf file</span>
+<span class="sd">    or it can be used to copy within the idf file&quot;&quot;&quot;</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">thisbunch</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">obj</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">thisbunch</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">abunch</span> <span class="o">=</span> <span class="n">obj2bunch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abunch</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">abunch</span>
+
+    <span class="n">data</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">abunch</span> <span class="o">=</span> <span class="n">obj2bunch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abunch</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">abunch</span>
+
+
 <span class="k">def</span> <span class="nf">obj2bunch</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;make a new bunch object using the data object&quot;&quot;&quot;</span>
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dt</span>
     <span class="n">dtls</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtls</span>
     <span class="n">key</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="n">key_i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="n">abunch</span> <span class="o">=</span> <span class="n">makeabunch</span><span class="p">(</span><span class="n">commdct</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">key_i</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">abunch</span>
-    
+
+
 <span class="k">def</span> <span class="nf">namebunch</span><span class="p">(</span><span class="n">abunch</span><span class="p">,</span> <span class="n">aname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;give the bunch object a name, if it has a Name field&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">abunch</span><span class="o">.</span><span class="n">Name</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
@@ -161,11 +195,8 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">abunch</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">aname</span>
     <span class="k">return</span> <span class="n">abunch</span>
-    
-<span class="k">def</span> <span class="nf">renamebunch</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;rename this bunch and change name in all references&quot;&quot;&quot;</span>
-    <span class="k">pass</span>
-    
+
+
 <span class="k">def</span> <span class="nf">addobject</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aname</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;add an object to the eplus model&quot;&quot;&quot;</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="n">newrawobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -174,9 +205,10 @@
         <span class="n">namebunch</span><span class="p">(</span><span class="n">abunch</span><span class="p">,</span> <span class="n">aname</span><span class="p">)</span>
     <span class="n">data</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abunch</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">abunch</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">abunch</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="k">return</span> <span class="n">abunch</span>
+
 
 <span class="k">def</span> <span class="nf">getnamedargs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;allows you to pass a dict and named args</span>
@@ -188,7 +220,8 @@
             <span class="n">adict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
     <span class="n">adict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">adict</span>
-    
+
+
 <span class="k">def</span> <span class="nf">addobject1</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;add an object to the eplus model&quot;&quot;&quot;</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="n">newrawobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
@@ -199,56 +232,67 @@
     <span class="k">for</span> <span class="n">kkey</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
         <span class="n">abunch</span><span class="p">[</span><span class="n">kkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="k">return</span> <span class="n">abunch</span>
-    
+
+
 <span class="k">def</span> <span class="nf">getobject</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get the object if you have the key and the name</span>
-<span class="sd">    retunrs a list of objects, in case you have more than one</span>
+<span class="sd">    returns a list of objects, in case you have more than one</span>
 <span class="sd">    You should not have more than one&quot;&quot;&quot;</span>
     <span class="c"># TODO : throw exception if more than one object, or return more objects</span>
     <span class="n">idfobjects</span> <span class="o">=</span> <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-    <span class="n">theobjs</span> <span class="o">=</span> <span class="p">[</span><span class="n">idfobj</span> <span class="k">for</span> <span class="n">idfobj</span> <span class="ow">in</span> <span class="n">idfobjects</span> <span class="k">if</span> <span class="n">idfobj</span><span class="o">.</span><span class="n">Name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="n">idfobjects</span><span class="p">:</span>
+        <span class="c"># second item in list is a unique ID</span>
+        <span class="n">unique_id</span> <span class="o">=</span> <span class="n">idfobjects</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">objls</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">theobjs</span> <span class="o">=</span> <span class="p">[</span><span class="n">idfobj</span> <span class="k">for</span> <span class="n">idfobj</span> <span class="ow">in</span> <span class="n">idfobjects</span> <span class="k">if</span>
+               <span class="n">idfobj</span><span class="p">[</span><span class="n">unique_id</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">theobjs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
+
 
 <span class="k">def</span> <span class="nf">__objecthasfields</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;test if the idf object has the field values in kwargs&quot;&quot;&quot;</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="n">idfobject</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfieldvalue</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> 
-                <span class="n">idfobject</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isfieldvalue</span><span class="p">(</span>
+                <span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span>
+                <span class="n">idfobject</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
-        
+
+
 <span class="k">def</span> <span class="nf">getobjects</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get all the objects of key that matches the fields in **kwargs&quot;&quot;&quot;</span>
     <span class="n">idfobjects</span> <span class="o">=</span> <span class="n">bunchdt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
     <span class="n">allobjs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">idfobjects</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">__objecthasfields</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> 
+        <span class="k">if</span> <span class="n">__objecthasfields</span><span class="p">(</span>
+                <span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span>
                 <span class="n">obj</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="n">allobjs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">allobjs</span>
-    
+
+
 <span class="k">def</span> <span class="nf">iddofobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;from commdct, return the idd of the object key&quot;&quot;&quot;</span>
     <span class="n">dtls</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dtls</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">commdct</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    
+
+
 <span class="k">def</span> <span class="nf">getextensibleindex</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">objname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get the index of the first extensible item&quot;&quot;&quot;</span>
     <span class="n">theobject</span> <span class="o">=</span> <span class="n">getobject</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">objname</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">theobject</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
     <span class="n">theidd</span> <span class="o">=</span> <span class="n">iddofobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-    <span class="n">extensible_i</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theidd</span><span class="p">))</span> <span class="k">if</span> <span class="n">theidd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;begin-extensible&#39;</span><span class="p">)]</span>
+    <span class="n">extensible_i</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theidd</span><span class="p">))</span> <span class="k">if</span> <span class="n">theidd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;begin-extensible&#39;</span><span class="p">)]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">extensible_i</span> <span class="o">=</span> <span class="n">extensible_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">theobject</span>
-        
+
 
 <span class="k">def</span> <span class="nf">removeextensibles</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">objname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;remove the extensible items in the object&quot;&quot;&quot;</span>
@@ -256,17 +300,19 @@
     <span class="k">if</span> <span class="n">theobject</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">theobject</span>
     <span class="n">theidd</span> <span class="o">=</span> <span class="n">iddofobject</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-    <span class="n">extensible_i</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theidd</span><span class="p">))</span> <span class="k">if</span> <span class="n">theidd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;begin-extensible&#39;</span><span class="p">)]</span>
+    <span class="n">extensible_i</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theidd</span><span class="p">))</span> <span class="k">if</span> <span class="n">theidd</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;begin-extensible&#39;</span><span class="p">)]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">extensible_i</span> <span class="o">=</span> <span class="n">extensible_i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">theobject</span>
     <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">p</span> <span class="o">=</span> <span class="n">theobject</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">extensible_i</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">popped</span> <span class="o">=</span> <span class="n">theobject</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">extensible_i</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">theobject</span>
+
 
 <span class="k">def</span> <span class="nf">getfieldcomm</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get the idd comment for the field&quot;&quot;&quot;</span>
@@ -275,17 +321,19 @@
     <span class="n">fieldi</span> <span class="o">=</span> <span class="n">idfobject</span><span class="o">.</span><span class="n">objls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span>
     <span class="n">thiscommdct</span> <span class="o">=</span> <span class="n">commdct</span><span class="p">[</span><span class="n">keyi</span><span class="p">][</span><span class="n">fieldi</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">thiscommdct</span>
-    
+
+
 <span class="k">def</span> <span class="nf">is_retaincase</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;test if case has to be retained for that field&quot;&quot;&quot;</span>
     <span class="n">thiscommdct</span> <span class="o">=</span> <span class="n">getfieldcomm</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">thiscommdct</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;retaincase&#39;</span><span class="p">)</span>
-    
+
+
 <span class="k">def</span> <span class="nf">isfieldvalue</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobj</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;test if idfobj.field == value&quot;&quot;&quot;</span>
     <span class="c"># do a quick type check</span>
     <span class="c"># if type(idfobj[fieldname]) != type(value):</span>
-    <span class="c">#     return False # takes care of autocalculate and real</span>
+    <span class="c"># return False # takes care of autocalculate and real</span>
     <span class="c"># check float</span>
     <span class="n">thiscommdct</span> <span class="o">=</span> <span class="n">getfieldcomm</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobj</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">thiscommdct</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s">&#39;type&#39;</span><span class="p">):</span>
@@ -295,15 +343,15 @@
                 <span class="k">if</span> <span class="n">idfobj</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;AUTOCALCULATE&#39;</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;AUTOCALCULATE&#39;</span><span class="p">:</span>
                         <span class="k">return</span> <span class="bp">True</span>
-            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">pass</span>
-            <span class="k">return</span> <span class="n">almostequal</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">idfobj</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">places</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>    
+            <span class="k">return</span> <span class="n">almostequal</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">idfobj</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">places</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     <span class="c"># check retaincase</span>
     <span class="k">if</span> <span class="n">is_retaincase</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobj</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">idfobj</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">idfobj</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-    
+
 
 <span class="k">def</span> <span class="nf">equalfield</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> <span class="n">idfobj1</span><span class="p">,</span> <span class="n">idfobj2</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">7</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;returns true if the two fields are equal</span>
@@ -314,10 +362,12 @@
     <span class="n">key2</span> <span class="o">=</span> <span class="n">idfobj2</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">key1</span> <span class="o">!=</span> <span class="n">key2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">NotSameObjectError</span>
-    <span class="n">v2</span> <span class="o">=</span> <span class="n">idfobj2</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">isfieldvalue</span><span class="p">(</span><span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span> 
-        <span class="n">idfobj1</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">)</span>
-    
+    <span class="n">vee2</span> <span class="o">=</span> <span class="n">idfobj2</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">isfieldvalue</span><span class="p">(</span>
+        <span class="n">bunchdt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">,</span>
+        <span class="n">idfobj1</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">vee2</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="n">places</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">getrefnames</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get the reference names for this object&quot;&quot;&quot;</span>
     <span class="n">iddinfo</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idd_info</span>
@@ -331,6 +381,7 @@
                     <span class="k">return</span> <span class="n">fieldidd</span><span class="p">[</span><span class="s">&#39;reference&#39;</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span> <span class="p">[]</span>
+
 
 <span class="k">def</span> <span class="nf">getallobjlists</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">refname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;get all object-list fields for refname</span>
@@ -351,17 +402,18 @@
             <span class="n">objlists</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">objkey</span><span class="p">,</span> <span class="n">refname</span><span class="p">,</span> <span class="n">indexlist</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">objlists</span>
 
+
 <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objkey</span><span class="p">,</span> <span class="n">objname</span><span class="p">,</span> <span class="n">newname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;rename all the refrences to this objname&quot;&quot;&quot;</span>
     <span class="n">refnames</span> <span class="o">=</span> <span class="n">getrefnames</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">objkey</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">refname</span> <span class="ow">in</span> <span class="n">refnames</span><span class="p">:</span>
-        <span class="n">objlists</span> <span class="o">=</span> <span class="n">getallobjlists</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">refname</span><span class="p">)</span> 
+        <span class="n">objlists</span> <span class="o">=</span> <span class="n">getallobjlists</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">refname</span><span class="p">)</span>
         <span class="c"># [(&#39;OBJKEY&#39;, refname, fieldindexlist), ...]</span>
         <span class="k">for</span> <span class="n">refname</span> <span class="ow">in</span> <span class="n">refnames</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">robjkey</span><span class="p">,</span> <span class="n">refname</span><span class="p">,</span> <span class="n">fieldindexlist</span> <span class="ow">in</span> <span class="n">objlists</span><span class="p">:</span>
                 <span class="n">idfobjects</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">robjkey</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">idfobject</span> <span class="ow">in</span> <span class="n">idfobjects</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">findex</span> <span class="ow">in</span> <span class="n">fieldindexlist</span><span class="p">:</span> <span class="c"># for each field</span>
+                    <span class="k">for</span> <span class="n">findex</span> <span class="ow">in</span> <span class="n">fieldindexlist</span><span class="p">:</span>  <span class="c"># for each field</span>
                         <span class="k">if</span> <span class="n">idfobject</span><span class="p">[</span><span class="n">idfobject</span><span class="o">.</span><span class="n">objls</span><span class="p">[</span><span class="n">findex</span><span class="p">]]</span> <span class="o">==</span> <span class="n">objname</span><span class="p">:</span>
                             <span class="n">idfobject</span><span class="p">[</span><span class="n">idfobject</span><span class="o">.</span><span class="n">objls</span><span class="p">[</span><span class="n">findex</span><span class="p">]]</span> <span class="o">=</span> <span class="n">newname</span>
     <span class="n">theobject</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="n">objkey</span><span class="p">,</span> <span class="n">objname</span><span class="p">)</span>
@@ -369,70 +421,82 @@
     <span class="n">theobject</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span> <span class="o">=</span> <span class="n">newname</span>
     <span class="k">return</span> <span class="n">theobject</span>
 
+
 <span class="k">def</span> <span class="nf">zonearea</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone area&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
     <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
     <span class="c"># area = sum([floor.area for floor in floors])</span>
     <span class="k">if</span> <span class="n">floors</span> <span class="o">!=</span> <span class="p">[]:</span>
         <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea_floor</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea_roofceiling</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">area</span>
-    
+
+
 <span class="k">def</span> <span class="nf">zonearea_floor</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone area - floor&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
     <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
     <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">area</span>
 
+
 <span class="k">def</span> <span class="nf">zonearea_roofceiling</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone area - roof, ceiling&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
-    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;ROOF&#39;</span><span class="p">,</span> 
-                                                            <span class="s">&#39;CEILING&#39;</span><span class="p">]]</span>
+    <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span>
+              <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;ROOF&#39;</span><span class="p">,</span> <span class="s">&#39;CEILING&#39;</span><span class="p">]]</span>
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">)</span>
-        <span class="k">print</span> <span class="p">[</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">]</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">floors</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
     <span class="n">area</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">floor</span><span class="o">.</span><span class="n">area</span> <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">area</span>
-    
+
+
 <span class="k">def</span> <span class="nf">zone_height_min2max</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone height = max-min&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
     <span class="n">surf_xyzs</span> <span class="o">=</span> <span class="p">[</span><span class="n">function_helpers</span><span class="o">.</span><span class="n">getcoords</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span><span class="p">]</span>
-    <span class="kn">import</span> <span class="nn">itertools</span> <span class="c"># to flatten the list</span>
+    <span class="kn">import</span> <span class="nn">itertools</span>  <span class="c"># to flatten the list</span>
     <span class="n">surf_xyzs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="o">*</span><span class="n">surf_xyzs</span><span class="p">))</span>
     <span class="n">surf_zs</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">surf_xyzs</span><span class="p">]</span>
-    <span class="n">topz</span> <span class="o">=</span>  <span class="nb">max</span><span class="p">(</span><span class="n">surf_zs</span><span class="p">)</span>
+    <span class="n">topz</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">surf_zs</span><span class="p">)</span>
     <span class="n">botz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">surf_zs</span><span class="p">)</span>
-    <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>    
+    <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>
     <span class="k">return</span> <span class="n">height</span>
-    
+
+
 <span class="k">def</span> <span class="nf">zoneheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone height&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
     <span class="n">floors</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;FLOOR&#39;</span><span class="p">]</span>
     <span class="n">roofs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">zone_surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Surface_Type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;ROOF&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">floors</span> <span class="o">==</span> <span class="p">[]</span> <span class="ow">or</span> <span class="n">roofs</span> <span class="o">==</span> <span class="p">[]:</span>
-        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_height_min2max</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>    
+        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_height_min2max</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_floor2roofheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>    
+        <span class="n">height</span> <span class="o">=</span> <span class="n">zone_floor2roofheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">height</span>
-    
+
+
 <span class="k">def</span> <span class="nf">zone_floor2roofheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone floor to roof height&quot;&quot;&quot;</span>
     <span class="n">zone</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;ZONE&#39;</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">surfs</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;BuildingSurface:Detailed&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
     <span class="n">zone_surfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">surfs</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">Zone_Name</span> <span class="o">==</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">]</span>
@@ -446,19 +510,19 @@
         <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">topsurface</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
             <span class="n">topz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">topz</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">topz</span><span class="p">)</span>
-        
+
     <span class="n">botz</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">floor</span> <span class="ow">in</span> <span class="n">floors</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="n">floor</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
             <span class="n">botz</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">botz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">botz</span><span class="p">)</span>
     <span class="n">height</span> <span class="o">=</span> <span class="n">topz</span> <span class="o">-</span> <span class="n">botz</span>
-    
+
     <span class="k">return</span> <span class="n">height</span>
-    
-    
-    
+
+
 <span class="k">def</span> <span class="nf">zonevolume</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;zone volume&quot;&quot;&quot;</span>
     <span class="n">area</span> <span class="o">=</span> <span class="n">zonearea</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">height</span> <span class="o">=</span> <span class="n">zoneheight</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zonename</span><span class="p">)</span>
     <span class="n">volume</span> <span class="o">=</span> <span class="n">area</span> <span class="o">*</span> <span class="n">height</span>
@@ -467,183 +531,196 @@
 
 
 <div class="viewcode-block" id="IDF0"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF0">[docs]</a><span class="k">class</span> <span class="nc">IDF0</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    document the following variables:</span>
-<span class="sd">    </span>
+
 <span class="sd">    - idfobjects</span>
 <span class="sd">    - outputtype</span>
 <span class="sd">    - iddname</span>
 <span class="sd">    - idfname</span>
 <span class="sd">    - idd_info</span>
 <span class="sd">    - model</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
+
+
 <span class="sd">&quot;&quot;&quot;</span>
     <span class="n">iddname</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">idd_info</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">block</span> <span class="o">=</span> <span class="bp">None</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># import pdb; pdb.set_trace()</span>
         <span class="k">if</span> <span class="n">idfname</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">setiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">testing</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">=</span> <span class="n">arg</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">idd_info</span> <span class="o">=</span> <span class="bp">None</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span> <span class="o">==</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">testing</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-                <span class="n">errortxt</span> <span class="o">=</span> <span class="s">&quot;IDD file is set to: </span><span class="si">%s</span><span class="s">&quot;</span>  <span class="o">%</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span> <span class="p">)</span>
+                <span class="n">errortxt</span> <span class="o">=</span> <span class="s">&quot;IDD file is set to: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span> <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">IDDAlreadySetError</span><span class="p">(</span><span class="n">errortxt</span><span class="p">)</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">getiddname</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">iddname</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">setidd</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">iddinfo</span><span class="p">,</span> <span class="n">block</span><span class="p">):</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">idd_info</span> <span class="o">=</span> <span class="n">iddinfo</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
+
 <div class="viewcode-block" id="IDF0.read"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF0.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;read the idf file and the idd file.</span>
 <span class="sd">        If the idd file had been already read, it will not be read again.</span>
-<span class="sd">        Read sets the following values:</span>
-<span class="sd">        </span>
+<span class="sd">        Read populates the following data structures:</span>
+
 <span class="sd">        - idfobjects</span>
 <span class="sd">        - model</span>
-<span class="sd">        - idd_info&quot;&quot;&quot;</span>
+<span class="sd">        - idd_info # done only once&quot;&quot;&quot;</span>
         <span class="c"># TODO unit test</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getiddname</span><span class="p">()</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">errortxt</span> <span class="o">=</span> <span class="s">&quot;IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)&quot;</span>
             <span class="k">raise</span> <span class="n">IDDNotSetError</span><span class="p">(</span><span class="n">errortxt</span><span class="p">)</span>
-        <span class="n">readout</span> <span class="o">=</span> <span class="n">idfreader1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span>
-                                <span class="n">commdct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
+        <span class="n">readout</span> <span class="o">=</span> <span class="n">idfreader1</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">iddname</span><span class="p">,</span>
+            <span class="n">commdct</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">idd_info</span> <span class="o">=</span> <span class="n">readout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">setidd</span><span class="p">(</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span></div>
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c"># TODO unit test</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
-        <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfname</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">saveas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
-        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">setidd</span><span class="p">(</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+
+</div></div>
 <div class="viewcode-block" id="IDF1"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1">[docs]</a><span class="k">class</span> <span class="nc">IDF1</span><span class="p">(</span><span class="n">IDF0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;subclass of IDF0. Uses functions of IDF0 </span>
+
+    <span class="sd">&quot;&quot;&quot;subclass of IDF0. Uses functions of IDF0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IDF1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
+
 <div class="viewcode-block" id="IDF1.newidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.newidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">newidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">aname</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c"># def newidfobject(self, key, *args, **kwargs):</span>
         <span class="sd">&quot;&quot;&quot;add a new idfobject to the model</span>
-<span class="sd">        </span>
-<span class="sd">        for example :: </span>
-<span class="sd">        </span>
+
+<span class="sd">        for example ::</span>
+
 <span class="sd">            newidfobject(&quot;CONSTRUCTION&quot;)</span>
-<span class="sd">            newidfobject(&quot;CONSTRUCTION&quot;, </span>
-<span class="sd">                Name=&#39;Interior Ceiling_class&#39;, </span>
-<span class="sd">                Outside_Layer=&#39;LW Concrete&#39;, </span>
+<span class="sd">            newidfobject(&quot;CONSTRUCTION&quot;,</span>
+<span class="sd">                Name=&#39;Interior Ceiling_class&#39;,</span>
+<span class="sd">                Outside_Layer=&#39;LW Concrete&#39;,</span>
 <span class="sd">                Layer_2=&#39;soundmat&#39;)</span>
-<span class="sd">        </span>
+
 <span class="sd">        If you don&#39;t specify a value for a field, the default value will be set</span>
-<span class="sd">        </span>
+
 <span class="sd">        aname is not used. It is left there for backward compatibility&quot;&quot;&quot;</span>
-        <span class="c"># TODO unit test</span>
-        <span class="c"># return addobject1(self.idfobjects,</span>
-        <span class="c">#                     self.model,</span>
-        <span class="c">#                     self.idd_info,</span>
-        <span class="c">#                     key, **kwargs)  </span>
-        <span class="k">return</span> <span class="n">addobject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
-                            <span class="n">key</span><span class="p">,</span> <span class="n">aname</span><span class="o">=</span><span class="n">aname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">newrawobject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="n">abunch</span> <span class="o">=</span> <span class="n">obj2bunch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">aname</span><span class="p">:</span>
+            <span class="n">namebunch</span><span class="p">(</span><span class="n">abunch</span><span class="p">,</span> <span class="n">aname</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">abunch</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">abunch</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">abunch</span>
+</div>
 <div class="viewcode-block" id="IDF1.popidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.popidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">popidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;pop this object&quot;&quot;&quot;</span>
-        <span class="n">popobject</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">removeidfobject</span><span class="p">(</span><span class="n">popobject</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="IDF1.removeidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.removeidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">removeidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;remove this idfobject&quot;&quot;&quot;</span>
-        <span class="c"># the object has to be removed from idfobjects and</span>
-        <span class="c"># form self.model.dt</span>
-        <span class="c"># since idfobjects is just a wrapper for model.dt</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="n">idfobject</span><span class="o">.</span><span class="n">key</span>
-        <span class="n">theobjects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">theobject</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">theobjects</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">theobject</span> <span class="ow">is</span> <span class="n">idfobject</span><span class="p">:</span>
-                <span class="n">theobjects</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                <span class="c"># remove it from model too</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">idfobject</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">idfobject</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="IDF1.copyidfobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.copyidfobject">[docs]</a>    <span class="k">def</span> <span class="nf">copyidfobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;add idfobject to this model</span>
-<span class="sd">        </span>
+
+<span class="sd">        idfobject usually comes from another idf file</span>
+<span class="sd">        or it can be used to copy within this idf file&quot;&quot;&quot;</span>
+        <span class="n">addthisbunch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
+                     <span class="n">idfobject</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IDF1.copyidfobject_old"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.copyidfobject_old">[docs]</a>    <span class="k">def</span> <span class="nf">copyidfobject_old</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfobject</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;add idfobject to this model</span>
+
 <span class="sd">        idfobject usually comes from another idf file</span>
 <span class="sd">        or it can be used to copy within this idf file&quot;&quot;&quot;</span>
         <span class="c"># TODO unit test</span>
-        <span class="n">addthisbunch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> 
-                            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
-                            <span class="n">idfobject</span><span class="p">)</span></div>
+        <span class="n">addthisbunch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                     <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
+                     <span class="n">idfobject</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="IDF1.getobject"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.getobject">[docs]</a>    <span class="k">def</span> <span class="nf">getobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;return the object given key and name&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">getobject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">getobject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="IDF1.getextensibleindex"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.getextensibleindex">[docs]</a>    <span class="k">def</span> <span class="nf">getextensibleindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;get the index of the first extensible item</span>
-<span class="sd">        </span>
+
 <span class="sd">        only for internal use. # TODO : hide this&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">getextensibleindex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> 
-                                <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">getextensibleindex</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="IDF1.removeextensibles"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF1.removeextensibles">[docs]</a>    <span class="k">def</span> <span class="nf">removeextensibles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;remove extensible items in the object of key and name</span>
-<span class="sd">        </span>
+
 <span class="sd">        only for internal use. # TODO : hide this&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">removeextensibles</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span> 
-                                <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-      </div></div>
+        <span class="k">return</span> <span class="n">removeextensibles</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">idd_info</span><span class="p">,</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+</div></div>
 <div class="viewcode-block" id="IDF2"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF2">[docs]</a><span class="k">class</span> <span class="nc">IDF2</span><span class="p">(</span><span class="n">IDF1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;subclass of IDF1. Uses functions of IDF1 </span>
-<span class="sd">    </span>
+
+    <span class="sd">&quot;&quot;&quot;subclass of IDF1. Uses functions of IDF1</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IDF2</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s">&quot;standard&quot;</span> <span class="c"># standard, </span>
-                                    <span class="c"># nocomment, </span>
-                                    <span class="c"># nocomment1,</span>
-                                    <span class="c"># nocomment2,</span>
-                                    <span class="c"># compressed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">=</span> <span class="s">&quot;standard&quot;</span>  <span class="c"># standard,</span>
+        <span class="c"># nocomment,</span>
+        <span class="c"># nocomment1,</span>
+        <span class="c"># nocomment2,</span>
+        <span class="c"># compressed</span>
+
     <span class="k">def</span> <span class="nf">idfstr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">!=</span> <span class="s">&#39;standard&#39;</span><span class="p">:</span>
-            <span class="n">st</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+            <span class="n">astr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">st</span>
+                <span class="k">return</span> <span class="n">astr</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment1&#39;</span><span class="p">:</span>
-                <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">astr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
                 <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;nocomment2&#39;</span><span class="p">:</span>
-                <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">astr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
                 <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputtype</span> <span class="o">==</span> <span class="s">&#39;compressed&#39;</span><span class="p">:</span>
-                <span class="n">slist</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">astr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
                 <span class="n">slist</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">]</span>
                 <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slist</span><span class="p">)</span>
         <span class="c"># else:</span>
-        <span class="n">st</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">astr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="n">dtls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span>
         <span class="k">for</span> <span class="n">objname</span> <span class="ow">in</span> <span class="n">dtls</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="n">objname</span><span class="p">]:</span>
-                 <span class="n">st</span> <span class="o">=</span> <span class="n">st</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">st</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">astr</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">astr</span>
+
 <div class="viewcode-block" id="IDF2.printidf"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF2.printidf">[docs]</a>    <span class="k">def</span> <span class="nf">printidf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;print the idf&quot;&quot;&quot;</span>
-        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">()</span></div>
-<div class="viewcode-block" id="IDF2.save"><a class="viewcode-back" href="../../eppy_api.html#eppy.modeleditor.IDF2.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;save with comments&quot;&quot;&quot;</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">()</span>
-        <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfname</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
-    <span class="k">def</span> <span class="nf">saveas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">()</span>
-        <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">())</span>
+
     <span class="c"># def initread(self, idfname):</span>
     <span class="c">#     &quot;&quot;&quot;use the latest iddfile and read file fname&quot;&quot;&quot;</span>
     <span class="c">#     from StringIO import StringIO</span>
@@ -653,12 +730,16 @@
     <span class="c">#         self.setiddname(iddfhandle)</span>
     <span class="c">#     self.idfname = idfname</span>
     <span class="c">#     self.read()</span>
-</div>
+
+</div></div>
 <span class="k">class</span> <span class="nc">IDF3</span><span class="p">(</span><span class="n">IDF2</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;subclass of IDF2. Uses functions of IDF1 and IDF2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IDF3</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">initread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;use the latest iddfile and read file fname</span>
 <span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
@@ -669,6 +750,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfhandle</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">initnew</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;use the latest iddfile and opens a new file</span>
 <span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
@@ -680,6 +762,7 @@
         <span class="n">idfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfhandle</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">initreadtxt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idftxt</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;use the latest iddfile and read txt</span>
 <span class="sd">        idd is initialized only if it has not been done earlier&quot;&quot;&quot;</span>
@@ -691,17 +774,128 @@
         <span class="n">idfhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">idfhandle</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        
 
-<span class="n">IDF</span> <span class="o">=</span> <span class="n">IDF3</span>
-        
-                                    
+
+<span class="k">class</span> <span class="nc">IDF4</span><span class="p">(</span><span class="n">IDF3</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;subclass of IDF3. Uses all the functions of IDF1, IDF2, IDF3&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IDF4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;create a blank new idf file. Filename is optional&quot;&quot;&quot;</span>
+        <span class="c"># modify this so that setidd has to be called before</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initnew</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">IDF5</span><span class="p">(</span><span class="n">IDF4</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;subclass of IDF4. Uses functions of IDF1, IDF2, IDF3, IDF4&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idfname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IDF5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">idfname</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lineendings</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;latin-1&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Save the IDF as a text file with the optional filename passed, or with</span>
+<span class="sd">        the current idfname of the IDF.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str, optional</span>
+<span class="sd">            Filepath to save the file. If None then use the IDF.idfname</span>
+<span class="sd">            parameter. Also accepts a file handle.</span>
+
+<span class="sd">        lineendings : str, optional</span>
+<span class="sd">            Line endings to use in the saved file. Options are &#39;default&#39;,</span>
+<span class="sd">            &#39;windows&#39; and &#39;unix&#39; the default is &#39;default&#39; which uses the line</span>
+<span class="sd">            endings for the current system.</span>
+
+<span class="sd">        encoding : str, optional</span>
+<span class="sd">            Encoding to use for the saved file. The default is &#39;latin-1&#39; which</span>
+<span class="sd">            is compatible with the EnergyPlus IDFEditor.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">idfstr</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">lineendings</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>
+            <span class="n">system</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;!- {} Line endings </span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">system</span><span class="p">)</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="n">slines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slines</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">lineendings</span> <span class="o">==</span> <span class="s">&#39;windows&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;!- Windows Line endings </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="n">slines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slines</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">lineendings</span> <span class="o">==</span> <span class="s">&#39;unix&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;!- Unix Line endings </span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">s</span>
+            <span class="n">slines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">slines</span><span class="p">)</span>
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">idf_out</span><span class="p">:</span>
+                <span class="n">idf_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>  <span class="c"># in the case that filename is a file handle</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">filename</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="n">filename</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">saveas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lineendings</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;latin-1&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Save the IDF as a text file with the filename passed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filepath to to set the idfname attribute to and save the file as.</span>
+
+<span class="sd">        lineendings : str, optional</span>
+<span class="sd">            Line endings to use in the saved file. Options are &#39;default&#39;,</span>
+<span class="sd">            &#39;windows&#39; and &#39;unix&#39; the default is &#39;default&#39; which uses the line</span>
+<span class="sd">            endings for the current system.</span>
+
+<span class="sd">        encoding : str, optional</span>
+<span class="sd">            Encoding to use for the saved file. The default is &#39;latin-1&#39; which</span>
+<span class="sd">            is compatible with the EnergyPlus IDFEditor.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">lineendings</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">savecopy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lineendings</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;latin-1&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save a copy of the file with the filename passed.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : str</span>
+<span class="sd">            Filepath to save the file.</span>
+
+<span class="sd">        lineendings : str, optional</span>
+<span class="sd">            Line endings to use in the saved file. Options are &#39;default&#39;,</span>
+<span class="sd">            &#39;windows&#39; and &#39;unix&#39; the default is &#39;default&#39; which uses the line</span>
+<span class="sd">            endings for the current system.</span>
+
+<span class="sd">        encoding : str, optional</span>
+<span class="sd">            Encoding to use for the saved file. The default is &#39;latin-1&#39; which</span>
+<span class="sd">            is compatible with the EnergyPlus IDFEditor.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">lineendings</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span>
+
+
+<span class="n">IDF</span> <span class="o">=</span> <span class="n">IDF5</span>
+
+
 <span class="k">class</span> <span class="nc">something</span><span class="p">(</span><span class="n">IDF0</span><span class="p">):</span>
+
     <span class="sd">&quot;&quot;&quot;docstring for something&quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">something</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arg</span> <span class="o">=</span> <span class="n">arg</span>
-        
 </pre></div>
 
           </div>
@@ -732,7 +926,10 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
-        <li><a href="../../index.html">eppy 0.5 documentation</a> &raquo;</li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">eppy 0.5.2 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

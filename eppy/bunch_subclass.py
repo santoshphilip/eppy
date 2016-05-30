@@ -14,9 +14,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 import copy
-from bunch import Bunch
+
+from munch import Munch as Bunch
 
 
 class BadEPFieldError(AttributeError):
