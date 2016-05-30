@@ -1,3 +1,18 @@
+2016-02-13
+----------
+look into 
+- mock testing
+- integration testing
+- tox
+some links:
+- https://blog.fugue.co/2016-02-11-python-mocking-101.html
+- http://pytest.org/latest/monkeypatch.html
+- https://pypi.python.org/pypi/pytest-mock
+- http://enterprisecraftsmanship.com/2015/07/13/integration-testing-or-how-to-sleep-well-at-nights/
+- http://pythontesting.net/strategy/why-most-unit-testing-is-waste/
+2016-02-05
+----------
+merge from jamiebull1-i68_latin-1-encoding after this
 2014-10-19
 ----------
 made a new branch i31_loopdiagram for issue 31

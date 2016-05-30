@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &mdash; eppy 0.5 documentation</title>
+    <title>New functions &mdash; eppy 0.5.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5',
+        VERSION:     '0.5.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.2 documentation" href="index.html" />
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -35,12 +35,15 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -122,9 +125,6 @@ IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddnam
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">,</span> <span class="s">&#39;dtls&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
 <p>That worked without raising an exception</p>
 <p>Now let us try to change the <strong>idd</strong> file. Eppy should not let you do
 this and should raise an exception.</p>
@@ -167,9 +167,6 @@ is outside the range</li>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># IDF.setiddname(iddfile)# idd ws set further up in this page</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">,</span> <span class="s">&#39;dtls&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
@@ -294,9 +291,7 @@ disk:</p>
 <span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>['__class__', '__delattr__', '__dict__', '__doc__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'add2node', 'addinnode', 'dt', 'dtls', 'getrefs', 'initdict', 'makedict', 'replacenode']
-
-VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -331,77 +326,32 @@ SITE:LOCATION,
 <span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>---------------------------------------------------------------------------
-AttributeError                            Traceback (most recent call last)
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
 
-&lt;ipython-input-16-ab76e2c095ca&gt; in &lt;module&gt;()
-      2 fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
-      3 fhandle = open(fname1, 'r') # open the file for reading and assign it a file handle
-----&gt; 4 idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
-      5
-      6 idf_fromfilehandle.printidf()
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
 
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
 
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
-    630     """
-    631     def __init__(self, idfname=None):
---&gt; 632         super(IDF3, self).__init__(idfname)
-    633     def initread(self, idfname):
-    634         """use the latest iddfile and read file fname
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
-    575     """
-    576     def __init__(self, idfname=None):
---&gt; 577         super(IDF2, self).__init__(idfname)
-    578         self.outputtype = "standard" # standard,
-    579                                     # nocomment,
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
-    499     """
-    500     def __init__(self, idfname=None):
---&gt; 501         super(IDF1, self).__init__(idfname)
-    502     def newidfobject(self, key, aname='', **kwargs):
-    503     # def newidfobject(self, key, *args, **kwargs):
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in __init__(self, idfname)
-    452         if idfname != None:
-    453             self.idfname = idfname
---&gt; 454             self.read()
-    455     @classmethod
-    456     def setiddname(cls, arg, testing=False):
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/modeleditor.pyc in read(self)
-    484         readout = idfreader1(
-    485             self.idfname, self.iddname,
---&gt; 486             commdct=self.idd_info, block=self.block)
-    487         self.idfobjects, block, self.model, idd_info = readout
-    488         self.__class__.setidd(idd_info, block)
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in idfreader1(fname, iddfile, conv, commdct, block)
-    164         block=block)
-    165     if conv:
---&gt; 166         convertallfields(data, commdct)
-    167     # fill gaps in idd
-    168     ddtt, dtls = data.dt, data.dtls
-
-
-/Users/santoshphilip/Documents/coolshadow/eppy/eppy/idfreader.py in convertallfields(data, commdct)
-     94     """docstring for convertallfields"""
-     95     print(dir(data))
----&gt; 96     for key in data.dt.keys():
-     97         objs = data.dt[key]
-     98         for i, obj in enumerate(objs):
-
-
-AttributeError: 'eplusdata' object has no attribute 'dt'</pre>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;__class__&#39;</span><span class="p">,</span> <span class="s">&#39;__delattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__dict__&#39;</span><span class="p">,</span> <span class="s">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s">&#39;__format__&#39;</span><span class="p">,</span> <span class="s">&#39;__getattribute__&#39;</span><span class="p">,</span> <span class="s">&#39;__hash__&#39;</span><span class="p">,</span> <span class="s">&#39;__init__&#39;</span><span class="p">,</span> <span class="s">&#39;__module__&#39;</span><span class="p">,</span> <span class="s">&#39;__new__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce__&#39;</span><span class="p">,</span> <span class="s">&#39;__reduce_ex__&#39;</span><span class="p">,</span> <span class="s">&#39;__repr__&#39;</span><span class="p">,</span> <span class="s">&#39;__setattr__&#39;</span><span class="p">,</span> <span class="s">&#39;__sizeof__&#39;</span><span class="p">,</span> <span class="s">&#39;__str__&#39;</span><span class="p">,</span> <span class="s">&#39;__subclasshook__&#39;</span><span class="p">,</span> <span class="s">&#39;__weakref__&#39;</span><span class="p">,</span> <span class="s">&#39;add2node&#39;</span><span class="p">,</span> <span class="s">&#39;addinnode&#39;</span><span class="p">,</span> <span class="s">&#39;getrefs&#39;</span><span class="p">,</span> <span class="s">&#39;initdict&#39;</span><span class="p">,</span> <span class="s">&#39;makedict&#39;</span><span class="p">,</span> <span class="s">&#39;replacenode&#39;</span><span class="p">]</span>
-</pre></div>
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
 
@@ -440,7 +390,9 @@ AttributeError: 'eplusdata' object has no attribute 'dt'</pre>
 <span class="k">print</span> <span class="n">txt</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>VERSION,
+<div class="highlight-python"><pre>!- Darwin Line endings
+
+VERSION,
     7.3;                      !- Version Identifier</pre>
 </div>
 <p>Yup ! that file was saved. Let us delete it since we were just playing</p>
@@ -568,6 +520,17 @@ So let us remove the second material</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
 </pre></div>
 </div>
+<div class="highlight-python"><pre>MATERIAL,
+    Lousy material,           !- Name
+    ,                         !- Roughness
+    ,                         !- Thickness
+    ,                         !- Conductivity
+    ,                         !- Density
+    ,                         !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance</pre>
+</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -601,9 +564,6 @@ first material, but do it using a different function</p>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">removeidfobject</span><span class="p">(</span><span class="n">firstmaterial</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="s">&#39;third material&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
@@ -887,6 +847,148 @@ zone area</li>
 function returns 0</li>
 </ul>
 </div>
+<div class="section" id="using-json-to-update-idf">
+<h2>Using JSON to update idf<a class="headerlink" href="#using-json-to-update-idf" title="Permalink to this headline">¶</a></h2>
+<p>we are going to update <tt class="docutils literal"><span class="pre">idf1</span></tt> using json. First let us print the
+<tt class="docutils literal"><span class="pre">idf1</span></tt> before changing it, so we can see what has changed once we make
+an update</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">eppy.json_functions</span> <span class="kn">as</span> <span class="nn">json_functions</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.VERSION..Version_Identifier&quot;</span><span class="p">:</span><span class="mf">8.5</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_Zone_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_System_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_Plant_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.BUILDING.Empire State Building.North_Axis&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+            <span class="s">&quot;idf.BUILDING.Empire State Building.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+<span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>VERSION,
+    8.5;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    No,                       !- Do Zone Sizing Calculation
+    No,                       !- Do System Sizing Calculation
+    No,                       !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    52,                       !- North Axis
+    Rural,                    !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation</pre>
+</div>
+<p>Compare the first printidf() and the second printidf().</p>
+<p>The syntax of the json string is described below:</p>
+<div class="highlight-python"><pre>idf.BUILDING.Empire State Building.Terrain": "Rural"
+
+The key fields are seperated by dots. Let us walk through each field:
+
+idf -&gt; make a change to the idf. (in the future there may be changes that are not related to idf)
+BUILDING -&gt; the key for object to be changed
+Empire State Building -&gt; The name of the object. In other word - the value of the field `Name`
+Terrain -&gt; the field to be changed
+
+"Rural" -&gt; the new value of the field
+
+If the object does not have a `Name` field, you leave a blank between the two dots and the first object will be changed.
+This is done for the version number change.
+
+"idf.VERSION..Version_Identifier":8.5</pre>
+</div>
+<p>You can also create a new object using JSON, using the same syntax. Take
+a look at this:</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
+<span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+BUILDING,
+    Empire State Building,    !- Name
+    52,                       !- North Axis
+    Rural,                    !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+,
+BUILDING,
+    Taj,                      !- Name
+    0.0,                      !- North Axis
+    Rural,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+]</pre>
+</div>
+<p><strong>Note</strong> When you us the json update function:</p>
+<ul class="simple">
+<li>The json function expects the <tt class="docutils literal"><span class="pre">Name</span></tt> field to have a value.</li>
+<li>If you try to update an object with a blank <tt class="docutils literal"><span class="pre">Name</span></tt> field, the
+results may be unexpected (undefined ? :-). So don&#8217;t do this.</li>
+<li>If the object has no <tt class="docutils literal"><span class="pre">Name</span></tt> field (some don&#8217;t), changes are made to
+the first object in the list. Which should be fine, since usually
+there is only one item in the list</li>
+<li>In any case, if the object does not exist, it is created with the
+default values</li>
+</ul>
+<div class="section" id="use-case-for-json-update">
+<h3>Use Case for JSON update<a class="headerlink" href="#use-case-for-json-update" title="Permalink to this headline">¶</a></h3>
+<p>If you have an eppy running on a remote server somewhere on the
+internet, you can change an idf file by sending it a JSON over the
+internet. This is very useful if you ever need it. If you don&#8217;t need it,
+you shouldn&#8217;t care :-)</p>
+</div>
+</div>
 </div>
 
 
@@ -913,6 +1015,10 @@ function returns 0</li>
 <li><a class="reference internal" href="#renaming-an-idf-object">Renaming an idf object</a></li>
 <li><a class="reference internal" href="#id1">Renaming an idf object</a></li>
 <li><a class="reference internal" href="#zone-area-and-volume">Zone area and volume</a></li>
+<li><a class="reference internal" href="#using-json-to-update-idf">Using JSON to update idf</a><ul>
+<li><a class="reference internal" href="#use-case-for-json-update">Use Case for JSON update</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -952,12 +1058,15 @@ function returns 0</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.5 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

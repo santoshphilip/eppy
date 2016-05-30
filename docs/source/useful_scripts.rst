@@ -2,8 +2,10 @@
 Useful Scripts
 ==============
 
+
 Location of the scripts
 -----------------------
+
 
 Here are some scripts that you may find useful. They are in the folder
 "./eppy/useful\_scripts"
@@ -44,8 +46,10 @@ The scripts are:
     - eppyreadtest_file.py
         
 
+
 eppy\_version.py
 ----------------
+
 
 Many scripts will print out some help information, if you use the --help
 option. Let us try that
@@ -84,19 +88,21 @@ Now let us try running the program
 Redirecting output to a file
 ----------------------------
 
+
 Most scripts will print the output to a terminal. Sometimes we want to
 send the output to a file, so that we can save it for posterity. We can
 do that py using ">" with the filename after that. For eppy\_version.py,
 it will look like this:
 
-                python eppy_version.py > save_output.txt
-                
+python eppy_version.py > save_output.txt
+
 Some of the following scripts will generate csv or html outputs. We can
 direct the output to a file with .html extension and open it in a
 browser
 
 Compare two idf files - idfdiff.py
 ----------------------------------
+
 
 This script will compare two idf files. The results will be displayed
 printed in "csv" format or in "html" format.
@@ -158,11 +164,11 @@ diff in html format.
     <html><p>file1 = ../resources/idffiles/V_7_2/constructions.idf</p><p>file2 = ../resources/idffiles/V_7_2/constructions_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>MATERIAL</td><td>F08 Metal surface</td><td></td><td>is here</td><td>not here</td></tr><tr><td>MATERIAL</td><td>F08 Metal surface haha</td><td></td><td>not here</td><td>is here</td></tr><tr><td>MATERIAL</td><td>G05 25mm wood</td><td>Conductivity</td><td>0.15</td><td>0.155</td></tr><tr><td>CONSTRUCTION</td><td>Exterior Door</td><td>Outside Layer</td><td>F08 Metal surface</td><td>F08 Metal surface haha</td></tr></table></html>
 
 
-                reprinting the output again for clarity:
+reprinting the output again for clarity:
 
 <html><p>file1 = ../resources/idffiles/V_7_2/constructions.idf</p><p>file2 = ../resources/idffiles/V_7_2/constructions_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>MATERIAL</td><td>F08 Metal surface</td><td></td><td>not here</td><td>is here</td></tr><tr><td>MATERIAL</td><td>F08 Metal surface haha</td><td></td><td>is here</td><td>not here</td></tr><tr><td>MATERIAL</td><td>G05 25mm wood</td><td>Conductivity</td><td>0.15</td><td>0.155</td></tr><tr><td>CONSTRUCTION</td><td>Exterior Door</td><td>Outside Layer</td><td>F08 Metal surface</td><td>F08 Metal surface haha</td></tr></table></html>
 
-                
+
 It does look like html :-). We need to redirect this output to a file
 and then open the file in a browser to see what it looks like. Displayed
 below is the html file
@@ -213,8 +219,10 @@ We see the same output, but now in csv format. You can redirect it to a
 loopdiagram.py
 --------------
 
+
 Diagrams of HVAC loops
 ~~~~~~~~~~~~~~~~~~~~~~
+
 
 This script will draw all the loops in an idf file. It is a bit of a
 hack. So it will work on most files, but sometimes it will not :-(. But
@@ -296,6 +304,7 @@ Try it yourself. Draw the daigram for
 Names in loopdiagrams
 ~~~~~~~~~~~~~~~~~~~~~
 
+
 -  `Designbuilder <http://www.designbuilder.co.uk>`__ is an energyplus
    editor autogenerates object names like "MyHouse:SAPZone1"
 -  Note the ":" in the name.
@@ -305,12 +314,15 @@ Names in loopdiagrams
 -  So the names in the diagram will not match the names in your file,
    but you can make out what is going on
 
+
 eppyreadtest\_folder.py
 -----------------------
+
 
 Not yet documented
 
 eppyreadtest\_file.py
 ---------------------
+
 
 Not yet documented

@@ -1,16 +1,26 @@
 Changes
 =======
 
-2015-10-05
+release r0.5.2
+~~~~~~~~~~~~~~
+
+2016-05-27
 ----------
 
-- ``Idf_MSequence`` has been documented. This is important to developers of eppy. Users of eppy should not care :-)
+added ability to update idf files thru JSON messages.
 
-2015-07-23
+2016-04-02
 ----------
 
-- eppy will without numpy installed.
-- if numpy is installed, it will use numpy
+Replaced library bunch with munch
+
+release r0.5.1
+~~~~~~~~~~~~~~
+
+2016-02-07
+----------
+
+- bug fix -> read files that have mixed line endings. Both DOS and Unix line endings
 
 release r0.5
 ~~~~~~~~~~~~
