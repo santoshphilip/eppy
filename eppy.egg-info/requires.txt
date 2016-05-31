@@ -1,0 +1,8 @@
+bunch>=1.0
+beautifulsoup4>=4.2.1
+pyparsing>=pyparsing
+pydot>1.0
+pytest>=2.3.5
+
+[testing]
+pytest
