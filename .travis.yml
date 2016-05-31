@@ -4,30 +4,35 @@ python:
   - "2.7"
   - "3.5"
 
-env:
-  - ENERGYPLUS_VERSION: "8.5.0"
-  - ENERGYPLUS_TAG: "v8.5.0"
-  - ENERGYPLUS_SHA: "c87e61b44b"
-  - ENERGYPLUS_INSTALL_VERSION: "8-5-0"
-  - ENERGYPLUS_DOWNLOAD_BASE_URL: "https://github.com/NREL/EnergyPlus/releases/download/$ENERGYPLUS_TAG"
-  - ENERGYPLUS_DOWNLOAD_FILENAME: "EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-Linux-x86_64.sh"
-  - ENERGYPLUS_DOWNLOAD_URL: "$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME"
+sudo: required
 
-before install:
-  - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
-  - chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME
-  - echo "y\r" | ./$ENERGYPLUS_DOWNLOAD_FILENAME
-  - rm $ENERGYPLUS_DOWNLOAD_FILENAME
-  - cd /usr/local/EnergyPlus-$ENERGYPLUS_INSTALL_VERSION
+dist: trusty
+    
+env:
+  ENERGYPLUS_VERSION=8.4.0 
+  ENERGYPLUS_TAG=v8.4.0
+  ENERGYPLUS_SHA=832e4bb9cb
+  ENERGYPLUS_INSTALL_VERSION=8-4-0
+  ENERGYPLUS_DOWNLOAD_BASE_URL=https://github.com/NREL/EnergyPlus/releases/download/$ENERGYPLUS_TAG
+  ENERGYPLUS_DOWNLOAD_FILENAME=EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-Linux-x86_64.sh
+  ENERGYPLUS_DOWNLOAD_URL=$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME
 
 install:
+  # install EnergyPlus
+  - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
+  - sudo chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME
+  - echo "y\r" | sudo ./$ENERGYPLUS_DOWNLOAD_FILENAME
+  - sudo rm $ENERGYPLUS_DOWNLOAD_FILENAME
+
+  - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
   # Update the Python 3 code, and change to the p3 dir if required
   - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then cd eppy; sh 2to3sh.sh; cd ../p3; fi
   - pip install -r requirements.txt
   - pip install pytest-cov
   - pip install codecov
 
-script: coverage run --source=eppy -m py.test -v
+script: coverage run --source=eppy/tests/test_runner.py -m py.test -v
 
 after_success:
     - codecov

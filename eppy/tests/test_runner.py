@@ -21,6 +21,7 @@ import os
 import re
 import shutil
 from subprocess import CalledProcessError
+import sys
 
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
@@ -31,8 +32,15 @@ from eppy.runner.runner import IDF6
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-IDD_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/iddfiles')
-IDF_FILES = os.path.join(THIS_DIR, os.pardir, 'resources/idffiles')
+
+if (sys.version_info > (3, 0)):
+    RESOURCES_DIR = os.path.join(
+        THIS_DIR, os.pardir, os.pardir, os.pardir, 'eppy/resources')
+else:
+    RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
+
+IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
+IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
 
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
 TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
@@ -49,6 +57,33 @@ def has_severe_errors(results='run_outputs'):
     num_severe = int(re.findall(r' (\d*) Severe Error', end_txt)[0])
     return num_severe > 0
 
+class TestEnvironment(object):
+
+    def test_thisdir_exists(self):
+        assert os.path.isdir(THIS_DIR)
+
+    def test_iddfiles_exists(self):
+        assert os.path.isdir(IDD_FILES)
+
+    def test_idffiles_exists(self):
+        assert os.path.isdir(IDF_FILES)
+
+    def test_epw_exists(self):
+        f = os.path.join(EPLUS_WEATHER, TEST_EPW)
+        assert os.path.isfile(f)
+    
+    def test_idf_exists(self):
+        f = os.path.join(IDF_FILES, TEST_IDF)
+        assert os.path.isfile(f)
+    
+    def test_idd_exists(self):
+        f = os.path.join(IDD_FILES, TEST_IDD)
+        assert os.path.isfile(f)
+    
+    def test_old_idd_exists(self):
+        f = os.path.join(IDD_FILES, TEST_OLD_IDD)
+        assert os.path.isfile(f)
+    
 
 class TestRunFunction(object):
 
@@ -68,18 +103,6 @@ class TestRunFunction(object):
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
-
-    def test_run_relative_paths(self):
-        """
-        Test that running works with a relative path.
-        Fails if no results are produced.
-
-        """
-        relative_path = os.path.join("../resources/idffiles", TEST_IDF)
-        run(relative_path, TEST_EPW, output_directory="test_results")
-        assert len(os.listdir('test_results')) > 0
-        for f in os.listdir('test_results'):
-            assert os.path.isfile(os.path.join('test_results', f))
 
     def test_run_abs_paths(self):
         """
@@ -437,7 +460,7 @@ class TestMultiprocessing(object):
             run([idf_path, epw], kwargs)
         Fails if expected output files are not in the expected output
         directories.
-
+ 
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
@@ -447,14 +470,14 @@ class TestMultiprocessing(object):
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
         pool.close()
-
+ 
     def test_multiprocess_run_IDF6(self):
         """
         Test that we can run a sequence of runs using the signature:
             runIDFs([[IDF6, kwargs],...], num_CPUs)
         Fails if expected output files are not in the expected output
         directories.
-
+ 
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
@@ -465,6 +488,6 @@ class TestMultiprocessing(object):
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
-
+ 
         num_CPUs = -1
         runIDFs(runs, num_CPUs)
