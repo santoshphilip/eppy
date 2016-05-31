@@ -1,7 +1,24 @@
 language: python
+
 python:
   - "2.7"
   - "3.5"
+
+env:
+  - ENERGYPLUS_VERSION: "8.5.0"
+  - ENERGYPLUS_TAG: "v8.5.0"
+  - ENERGYPLUS_SHA: "c87e61b44b"
+  - ENERGYPLUS_INSTALL_VERSION: "8-5-0"
+  - ENERGYPLUS_DOWNLOAD_BASE_URL: "https://github.com/NREL/EnergyPlus/releases/download/$ENERGYPLUS_TAG"
+  - ENERGYPLUS_DOWNLOAD_FILENAME: "EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-Linux-x86_64.sh"
+  - ENERGYPLUS_DOWNLOAD_URL: "$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME"
+
+before install:
+  - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
+  - chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME
+  - echo "y\r" | ./$ENERGYPLUS_DOWNLOAD_FILENAME
+  - rm $ENERGYPLUS_DOWNLOAD_FILENAME
+  - cd /usr/local/EnergyPlus-$ENERGYPLUS_INSTALL_VERSION
 
 install:
   # Update the Python 3 code, and change to the p3 dir if required
@@ -10,8 +27,7 @@ install:
   - pip install pytest-cov
   - pip install codecov
 
-script: coverage run --source=eppy  
-                     --omit=eppy/tests/test_runner.py -m py.test -v
+script: coverage run --source=eppy -m py.test -v
 
 after_success:
     - codecov
