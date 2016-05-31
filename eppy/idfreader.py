@@ -146,8 +146,7 @@ def addfunctions(dtls, bunchdt):
                 try:
                     surface.__functions.update(func_dict)
                 except KeyError as e:
-                    surface['__functions'] = {}
-                    surface.__functions.update(func_dict)
+                    surface.__functions = func_dict
     # add common functions
     # for name in dtls:
     #     for idfobject in bunchdt[name]:
