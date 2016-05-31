@@ -561,6 +561,7 @@ def test_newidfobject():
     # test some functions
     objtype = 'FENESTRATIONSURFACE:DETAILED'
     obj = idf.newidfobject(objtype, Name='A Wall')
+    assert obj.coords == []
     assert obj.fieldvalues[1] == 'A Wall'
 
 

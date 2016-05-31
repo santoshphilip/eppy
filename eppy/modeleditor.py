@@ -15,6 +15,7 @@ from StringIO import StringIO
 import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
+from eppy.idfreader import addfunctions2new
 from eppy.idfreader import makeabunch
 import itertools
 import os
@@ -725,6 +726,7 @@ class IDF(object):
         self.idfobjects[key].append(abunch)
         for k, v in kwargs.items():
             abunch[k] = v
+        abunch = addfunctions2new(abunch, key)
         return abunch
 
     def popidfobject(self, key, index):
