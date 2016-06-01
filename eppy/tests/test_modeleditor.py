@@ -559,6 +559,11 @@ def test_newidfobject():
     assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
                                      ['MATERIAL:AIRGAP', 'Argon'],
                                      ]
+    # test some functions
+    objtype = 'FENESTRATIONSURFACE:DETAILED'
+    obj = idf.newidfobject(objtype, Name='A Wall')
+    assert obj.coords == []
+    assert obj.fieldvalues[1] == 'A Wall'
 
 
 def test_save():

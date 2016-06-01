@@ -1,6 +1,12 @@
 Changes
 =======
 
+2016-05-31
+----------
+
+refactored code for class IDF and class EpBunch
+fixed a bug in modeleditor.newidfobject
+
 release r0.5.2
 ~~~~~~~~~~~~~~
 
