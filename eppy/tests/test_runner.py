@@ -28,7 +28,7 @@ from eppy.runner.run_functions import VERSION
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
-from eppy.runner.runner import IDF6
+from eppy.modeleditor import IDF
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -160,8 +160,8 @@ class TestIDFRunner(object):
             shutil.rmtree(outdir)
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF6.setiddname(open(iddfile, 'r'), testing=True)
-        self.idf = IDF6(open(fname1, 'r'), TEST_EPW)
+        IDF.setiddname(open(iddfile, 'r'), testing=True)
+        self.idf = IDF(open(fname1, 'r'), TEST_EPW)
 
         self.expected_files = [
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
@@ -375,7 +375,7 @@ class TestIDFRunner(object):
         """
         help(self.idf.run)
         out, _err = capfd.readouterr()
-        expected = "Help on method run in module eppy.runner.runner:"
+        expected = "Help on method run in module eppy.modeleditor:"
 
         assert out.strip().startswith(expected)
 
@@ -481,10 +481,10 @@ class TestMultiprocessing(object):
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF6.setiddname(open(iddfile, 'r'), testing=True)
+        IDF.setiddname(open(iddfile, 'r'), testing=True)
         runs = []
         for i in xrange(4):
-            runs.append([IDF6(open(fname1, 'r'), TEST_EPW),
+            runs.append([IDF(open(fname1, 'r'), TEST_EPW),
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)

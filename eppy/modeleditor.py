@@ -17,6 +17,9 @@ from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
 from eppy.idfreader import addfunctions2new
 from eppy.idfreader import makeabunch
+from eppy.runner.run_functions import run
+from eppy.runner.run_functions import wrapped_help_text
+
 import itertools
 import os
 import platform
@@ -522,17 +525,21 @@ class IDF(object):
     idd_info = None
     block = None
 
-    def __init__(self, idfname=None):
+    def __init__(self, idfname=None, epw=None):
         """
         Parameters
         ----------
-        idf_name : str, optional
+        idfname : str, optional
             Path to an IDF file (which does not have to exist yet).
+        epw : str, optional
+            File path to the EPW file to use if running the IDF.
 
         """
         if idfname != None:
             self.idfname = idfname
             self.read()
+        if epw != None:
+            self.epw = epw
         self.outputtype = "standard"
 
     """ Methods to set up the IDD."""
@@ -967,3 +974,22 @@ class IDF(object):
 
         """
         self.save(filename, lineendings, encoding)
+
+    @wrapped_help_text(run)
+    def run(self, **kwargs):
+        """
+        Run an IDF file with a given EnergyPlus weather file. This is a
+        wrapper for the EnergyPlus command line interface.
+
+        Parameters
+        ----------
+        **kwargs
+            See eppy.runner.functions.run()
+
+        """
+        # write the IDF to the current directory
+        self.saveas('in.idf')
+        # run EnergyPlus
+        run('in.idf', self.epw, **kwargs)
+        # remove in.idf
+        os.remove('in.idf')
