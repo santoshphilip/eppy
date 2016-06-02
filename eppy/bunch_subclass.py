@@ -39,7 +39,12 @@ def extendlist(lst, i, value=''):
         pass
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
+        
 
+
+def return42(self, *args, **kwargs):
+    print(args)
+    return 42        
 
 class EpBunch(Bunch):
     """
@@ -53,6 +58,8 @@ class EpBunch(Bunch):
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
+        self['__functions'] = {'return42':return42}
+
 
     @property
     def fieldnames(self):
