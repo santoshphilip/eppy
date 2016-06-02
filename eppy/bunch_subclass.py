@@ -84,11 +84,12 @@ class EpBunch(Bunch):
     fields as attributes as well as by keys.
     
     """
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
+    def __init__(self, obj, objls, objidd, idf, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
+        self.idf = idf        # pointer to the idf this wpbunch belongs to
         addfunctions(self)
         
     @property
