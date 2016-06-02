@@ -17,6 +17,7 @@ from __future__ import unicode_literals
 import copy
 
 from munch import Munch as Bunch
+import eppy.function_helpers as fh
 
 
 class BadEPFieldError(AttributeError):
@@ -43,9 +44,43 @@ def extendlist(lst, i, value=''):
 
 
 def return42(self, *args, **kwargs):
-    print(args)
     return 42        
 
+def addfunctions(epb):
+    """add functions to epbunch"""
+    epb['__functions'] = {}
+    epb['__functions'].update({'return42':return42})
+    key = epb.obj[0]
+    addfunctions2new(epb, key)
+    return key
+
+def addfunctions2new(abunch, key):
+    """add functions to a new bunch/munch object"""
+    snames = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed", ]
+    snames = [sname.upper() for sname in snames]
+    if key in snames:
+        func_dict = {
+            'area': fh.area,
+            'height': fh.height,  # not working correctly
+            'width': fh.width,  # not working correctly
+            'azimuth': fh.azimuth,
+            'tilt': fh.tilt,
+            'coords': fh.getcoords,  # needed for debugging
+        }
+        try:
+            abunch.__functions.update(func_dict)
+        except KeyError as e:
+            abunch.__functions = func_dict
+    return abunch
+    
 class EpBunch(Bunch):
     """
     Fields, values, and descriptions of fields in an EnergyPlus IDF object 
@@ -58,9 +93,9 @@ class EpBunch(Bunch):
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-        self['__functions'] = {'return42':return42}
-
-
+        addfunctions(self)
+        # self['__functions'] = {'return42':return42}
+        
     @property
     def fieldnames(self):
         """Friendly name for objls.
