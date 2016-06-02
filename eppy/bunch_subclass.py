@@ -50,7 +50,7 @@ def addfunctions(epb):
     """add functions to epbunch"""
     epb['__functions'] = {}
     epb['__functions'].update({'return42':return42})
-    key = epb.obj[0]
+    key = epb.obj[0].upper()
     addfunctions2new(epb, key)
     return key
 

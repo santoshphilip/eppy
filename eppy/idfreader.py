@@ -119,36 +119,6 @@ def convertallfields(data, commdct):
             obj = convertfields(key_comm, obj)
             objs[i] = obj
 
-
-def addfunctions(dtls, bunchdt):
-    """add functions to the objects"""
-    snames = [
-        "BuildingSurface:Detailed",
-        "Wall:Detailed",
-        "RoofCeiling:Detailed",
-        "Floor:Detailed",
-        "FenestrationSurface:Detailed",
-        "Shading:Site:Detailed",
-        "Shading:Building:Detailed",
-        "Shading:Zone:Detailed", ]
-    for sname in snames:
-        if bunchdt.has_key(sname.upper()):
-            surfaces = bunchdt[sname.upper()]
-            for surface in surfaces:
-                func_dict = {
-                    'area': fh.area,
-                    'height': fh.height,  # not working correctly
-                    'width': fh.width,  # not working correctly
-                    'azimuth': fh.azimuth,
-                    'tilt': fh.tilt,
-                    'coords': fh.getcoords,  # needed for debugging
-                }
-                try:
-                    surface.__functions.update(func_dict)
-                except KeyError as e:
-                    surface.__functions = func_dict
-
-
 def idfreader(fname, iddfile, conv=True):
     """read idf file and return bunches"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
@@ -162,10 +132,6 @@ def idfreader(fname, iddfile, conv=True):
         skiplist=["TABLE:MULTIVARIABLELOOKUP"])
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
-    # TODO : add functions here.
-    # -
-    addfunctions(dtls, bunchdt)
-    # -
     return bunchdt, data, commdct
 
 
@@ -192,8 +158,4 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct)
-    # TODO : add functions here.
-    # -
-    addfunctions(dtls, bunchdt)
-    # -
     return bunchdt, block, data, commdct
