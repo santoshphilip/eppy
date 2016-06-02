@@ -44,18 +44,14 @@ def extendlist(lst, i, value=''):
 
 
 def return42(self, *args, **kwargs):
+    # to be removed
     return 42        
 
-def addfunctions(epb):
+def addfunctions(abunch):
     """add functions to epbunch"""
-    epb['__functions'] = {}
-    epb['__functions'].update({'return42':return42})
-    key = epb.obj[0].upper()
-    addfunctions2new(epb, key)
-    return key
-
-def addfunctions2new(abunch, key):
-    """add functions to a new bunch/munch object"""
+    abunch['__functions'] = {}
+    abunch['__functions'].update({'return42':return42}) # to be removed
+    key = abunch.obj[0].upper()
     snames = [
         "BuildingSurface:Detailed",
         "Wall:Detailed",
@@ -80,7 +76,7 @@ def addfunctions2new(abunch, key):
         except KeyError as e:
             abunch.__functions = func_dict
     return abunch
-    
+
 class EpBunch(Bunch):
     """
     Fields, values, and descriptions of fields in an EnergyPlus IDF object 
@@ -94,7 +90,6 @@ class EpBunch(Bunch):
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
         addfunctions(self)
-        # self['__functions'] = {'return42':return42}
         
     @property
     def fieldnames(self):
