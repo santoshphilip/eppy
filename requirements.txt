@@ -5,3 +5,4 @@ pydot3k; python_version >= '3.0'
 pyparsing==1.5.7; python_version <= '2.7'
 pytest>=2.3.5
 tinynumpy>=1.2.1
+six
