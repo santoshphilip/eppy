@@ -4,7 +4,10 @@ source = __YOUR_PROJECT_FOLDER__
 
 [report]
 ignore_errors = True
+include =
+	eppy
 omit =
     eppy/tests/*
     eppy/iddv*.py
     eppy/iddv*.py 
+    eppy/Main_Tutorial.py
