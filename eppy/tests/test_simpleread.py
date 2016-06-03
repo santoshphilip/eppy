@@ -145,9 +145,9 @@ SITE:LOCATION,
             ), # iddtxt, idftxt
            )
     for iddtxt, idftxt in data:
-        iddhandle = StringIO.StringIO(iddtxt)
-        idfhandle1 = StringIO.StringIO(idftxt)
-        idfhandle2 = StringIO.StringIO(idftxt)
+        iddhandle = StringIO(iddtxt)
+        idfhandle1 = StringIO(idftxt)
+        idfhandle2 = StringIO(idftxt)
         result = simpleread.idfreadtest(iddhandle, idfhandle1, idfhandle2)
         assert result == True
     

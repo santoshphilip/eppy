@@ -11,7 +11,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from six import iteritems
 from six import StringIO
+
 import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
@@ -188,7 +190,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
-    for kkey, value in kwargs.iteritems():
+    for kkey, value in iteritems(kwargs):
         abunch[kkey] = value
     return abunch
 
