@@ -30,7 +30,7 @@ idfsnippet = snippet.idfsnippet
 
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle)
+bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle, None)
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with
@@ -101,8 +101,8 @@ def test_obj2bunch():
     )
     for obj in thedata:
         key_i = data.dtls.index(obj[0].upper())
-        abunch = idfreader.makeabunch(commdct, obj, key_i)
-        result = modeleditor.obj2bunch(data, commdct, obj)
+        abunch = idfreader.makeabunch(commdct, obj, key_i, None)
+        result = modeleditor.obj2bunch(data, commdct, obj, None)
         assert result.__repr__() == abunch.__repr__()
 
 
@@ -136,7 +136,7 @@ def test_addobject():
     for key, aname, fielddict in thedata:
         result = modeleditor.addobject(
             bunchdt, data, commdct,
-            key, aname, **fielddict)
+            key, None, aname, **fielddict)
         assert bunchdt[key][-1].key == key  # wierd, but correct :-)
         if aname:
             assert data.dt[key][-1][1] == aname
@@ -193,7 +193,7 @@ def test___objecthasfields():
     for key, fielddict, aname, istrue in thedata:
         idfobject = modeleditor.addobject(
             bunchdt, data, commdct,
-            key, **fielddict)
+            key, None, **fielddict)
         idfobject.Name = aname  # modify the name, to check for a False return
         result = modeleditor.__objecthasfields(
             bunchdt, data, commdct,

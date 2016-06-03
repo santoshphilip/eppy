@@ -84,12 +84,13 @@ class EpBunch(Bunch):
     fields as attributes as well as by keys.
     
     """
-    def __init__(self, obj, objls, objidd, idf, *args, **kwargs):
+    def __init__(self, obj, objls, objidd, theidf, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-        self.idf = idf        # pointer to the idf this wpbunch belongs to
+        self.theidf = theidf  # pointer to the idf this wpbunch belongs to
+                              # This is None if there is no idf - a standalone epbunch      
         addfunctions(self)
         
     @property
@@ -130,7 +131,7 @@ class EpBunch(Bunch):
         if name in ('__functions', '__aliases'):  # just set the new value
             self[name] = value
             return None
-        elif name in ('obj', 'objls', 'objidd'):  # let Bunch handle it
+        elif name in ('obj', 'objls', 'objidd', 'theidf'):  # let Bunch handle it
             super(EpBunch, self).__setattr__(name, value)
             return None
         elif name in self.fieldnames:  # set the value, extending if needed
@@ -158,7 +159,7 @@ class EpBunch(Bunch):
 
         if name == '__functions':
             return self['__functions']
-        elif name in ('__aliases', 'obj', 'objls', 'objidd'):
+        elif name in ('__aliases', 'obj', 'objls', 'objidd', 'theidf'):
             # unit test
             return super(EpBunch, self).__getattr__(name)
         elif name in self.fieldnames:
@@ -172,7 +173,8 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
         
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
             return super(EpBunch, self).__getitem__(key)
         elif key in self.fieldnames:
             i = self.fieldnames.index(key)
@@ -185,7 +187,8 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
     
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
             super(EpBunch, self).__setitem__(key, value)
             return None
         elif key in self.fieldnames:

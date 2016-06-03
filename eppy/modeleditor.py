@@ -126,23 +126,23 @@ def newrawobject(data, commdct, key):
     return obj
 
 
-def addthisbunch(bunchdt, data, commdct, thisbunch):
+def addthisbunch(bunchdt, data, commdct, thisbunch, theidf):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
-    abunch = obj2bunch(data, commdct, obj)
+    abunch = obj2bunch(data, commdct, obj, theidf)
     bunchdt[key].append(abunch)
     return abunch
 
 
-def obj2bunch(data, commdct, obj):
+def obj2bunch(data, commdct, obj, theidf):
     """make a new bunch object using the data object"""
     dtls = data.dtls
     key = obj[0].upper()
     key_i = dtls.index(key)
-    abunch = makeabunch(commdct, obj, key_i)
+    abunch = makeabunch(commdct, obj, key_i, theidf)
     return abunch
 
 
@@ -155,10 +155,10 @@ def namebunch(abunch, aname):
     return abunch
 
 
-def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
+def addobject(bunchdt, data, commdct, key, theidf, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
-    abunch = obj2bunch(data, commdct, obj)
+    abunch = obj2bunch(data, commdct, obj, theidf)
     if aname:
         namebunch(abunch, aname)
     data.dt[key].append(obj)
@@ -183,7 +183,7 @@ def getnamedargs(*args, **kwargs):
 def addobject1(bunchdt, data, commdct, key, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
-    abunch = obj2bunch(data, commdct, obj)
+    abunch = obj2bunch(data, commdct, obj, None)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
@@ -648,7 +648,7 @@ class IDF(object):
                         "Set it using IDF.setiddname(iddfile)")
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
-            self.idfname, self.iddname,
+            self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
@@ -718,7 +718,7 @@ class IDF(object):
 
         """
         obj = newrawobject(self.model, self.idd_info, key)
-        abunch = obj2bunch(self.model, self.idd_info, obj)
+        abunch = obj2bunch(self.model, self.idd_info, obj, self)
         if aname:
             warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
@@ -769,7 +769,7 @@ class IDF(object):
         addthisbunch(self.idfobjects,
                      self.model,
                      self.idd_info,
-                     idfobject)
+                     idfobject, self)
 
     def getobject(self, key, name):
         """Fetch an IDF object given key and name.
