@@ -12,7 +12,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from six import StringIO
-from six import u as unicode
 from six import string_types
 from eppy import modeleditor
 from eppy.iddcurrent import iddcurrent
@@ -664,15 +663,15 @@ def test_initread():
     idf.saveas('tmp.idf')
 
     # test fname as unicode
-    fname = unicode('tmp.idf')
-    assert type(fname) in string_types
+    fname = u'tmp.idf'
+    assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
-
+    
     # test fname as str
     fname = str('tmp.idf')
-    assert type(fname) in string_types
+    assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
