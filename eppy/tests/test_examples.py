@@ -27,7 +27,8 @@ iddsnippet = iddcurrent.iddtxt
 
 idfsnippet = snippet.idfsnippet
 
-from StringIO import StringIO
+from six import StringIO
+
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
 bunchdt, data, commdct = idfreader(idffhandle, iddfhandle)

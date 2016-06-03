@@ -34,7 +34,7 @@ def autosize_fieldname(idfobject):
     # undocumented stuff in this code
     return [fname for (fname, dct) in zip(idfobject.objls,
                                           idfobject['objidd'])
-            if dct.has_key('autosizable')]
+            if 'autosizable' in dct]
 
 iddfile = "../resources/iddfiles/Energy+V8_0_0.idd"
 fname1 = "../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf"

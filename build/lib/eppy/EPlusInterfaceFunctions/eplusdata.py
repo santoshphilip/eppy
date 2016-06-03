@@ -206,7 +206,7 @@ class Eplusdata(object):
 
         for element in lss:
             node = element[0].upper()
-            if dt.has_key(node):
+            if node in dt:
                 # stuff data in this key
                 dt[node.upper()].append(element)
             else:
@@ -246,7 +246,7 @@ class Eplusdata(object):
         """
         alist = []
         for element in reflist:
-            if self.dt.has_key(element[0].upper()):
+            if element[0].upper() in self.dt:
                 for elm in self.dt[element[0].upper()]:
                     alist.append(elm[element[1]])
         return alist

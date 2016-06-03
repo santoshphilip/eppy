@@ -65,7 +65,7 @@ def getfields(comm):
     """get all the fields that have the key 'field' """
     fields = []
     for field in comm:
-        if field.has_key('field'):
+        if 'field' in field:
             fields.append(field)
     return fields
 

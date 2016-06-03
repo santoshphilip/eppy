@@ -14,7 +14,7 @@ from __future__ import unicode_literals
 
 import eppy.hvacbuilder as hvacbuilder
 from eppy.modeleditor import IDF
-from StringIO import StringIO
+from six import StringIO
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with the old reading

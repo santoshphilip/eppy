@@ -132,7 +132,7 @@ def addfunctions(dtls, bunchdt):
         "Shading:Building:Detailed",
         "Shading:Zone:Detailed", ]
     for sname in snames:
-        if bunchdt.has_key(sname.upper()):
+        if sname.upper() in bunchdt:
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 surface.__functions = {

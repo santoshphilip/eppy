@@ -12,8 +12,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+from six.moves import cPickle
 
-import os, pickle, cPickle
+import os
 # import string
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 

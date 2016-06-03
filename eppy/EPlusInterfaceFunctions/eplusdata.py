@@ -16,6 +16,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+from six import StringIO
+from six import string_types as basestring
 
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 
@@ -104,7 +106,6 @@ class Eplusdata(object):
         if isinstance(fname, basestring) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        from StringIO import StringIO
         try:
             # will fail in python3 because of file
             if (isinstance(fname, (file, StringIO)) and
@@ -206,7 +207,7 @@ class Eplusdata(object):
 
         for element in lss:
             node = element[0].upper()
-            if dt.has_key(node):
+            if node in dt:
                 # stuff data in this key
                 dt[node.upper()].append(element)
             else:
@@ -246,7 +247,7 @@ class Eplusdata(object):
         """
         alist = []
         for element in reflist:
-            if self.dt.has_key(element[0].upper()):
+            if element[0].upper() in self.dt:
                 for elm in self.dt[element[0].upper()]:
                     alist.append(elm[element[1]])
         return alist

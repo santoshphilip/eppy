@@ -148,14 +148,14 @@ def renamenodes(idf, fieldtype):
         for idfobject in idf.idfobjects[key]:
             for i, fieldvalue in enumerate(idfobject.obj):
                 itsidd = idfobject.objidd[i]
-                if itsidd.has_key('type'):
+                if 'type' in itsidd:
                     if itsidd['type'][0] == fieldtype:
                         tempdct = dict(renameds)
                         if type(fieldvalue) is list:
                             fieldvalue = fieldvalue[-1]
                             idfobject.obj[i] = fieldvalue
                         else:
-                            if tempdct.has_key(fieldvalue):
+                            if fieldvalue in tempdct:
                                 fieldvalue = tempdct[fieldvalue]
                                 idfobject.obj[i] = fieldvalue
 

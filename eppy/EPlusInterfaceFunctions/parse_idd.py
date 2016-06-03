@@ -81,7 +81,7 @@ def extractidddata(fname, debug=False):
     Each text file is incrementally different. You can do a diff
     see what the change is
     """
-    from StringIO import StringIO
+    from six import StringIO
     from io import FileIO
     try:
         if isinstance(fname, (file, StringIO)):
@@ -318,14 +318,14 @@ def getobjectref(blocklst, commdct):
     objlst_dct = {}
     for eli in commdct:
         for elj in eli:
-            if elj.has_key('object-list'):
+            if 'object-list' in elj:
                 objlist = elj['object-list'][0]
                 objlst_dct[objlist] = []
 
     for objlist in objlst_dct.keys():
         for i in range(len(commdct)):
             for j in range(len(commdct[i])):
-                if commdct[i][j].has_key('reference'):
+                if 'reference' in commdct[i][j]:
                     for ref in commdct[i][j]['reference']:
                         if ref == objlist:
                             objlst_dct[objlist].append((blocklst[i][0], j))

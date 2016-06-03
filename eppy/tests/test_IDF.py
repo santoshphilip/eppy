@@ -12,7 +12,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+from six import StringIO
+
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 
