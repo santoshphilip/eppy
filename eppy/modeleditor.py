@@ -368,6 +368,8 @@ def rename(idf, objkey, objname, newname):
         objlists = getallobjlists(idf, refname)
         # [('OBJKEY', refname, fieldindexlist), ...]
         for refname in refnames:
+        # TODO : there seems to be a duplication in this loop. Check.
+        # refname appears in both loops
             for robjkey, refname, fieldindexlist in objlists:
                 idfobjects = idf.idfobjects[robjkey]
                 for idfobject in idfobjects:
@@ -485,6 +487,10 @@ def zonevolume(idf, zonename):
     volume = area * height
 
     return volume
+
+def refname2key(idf, refname):
+    """return all keys that have the reference name"""
+    return [item[0] for item in getallobjlists(idf, refname)]
 
 
 class IDF(object):

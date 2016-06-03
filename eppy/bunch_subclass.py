@@ -44,13 +44,17 @@ def extendlist(lst, i, value=''):
 
 
 def return42(self, *args, **kwargs):
-    # to be removed
+    # proof of concept - to be removed
     return 42        
 
 def addfunctions(abunch):
     """add functions to epbunch"""
-    abunch['__functions'] = {}
-    abunch['__functions'].update({'return42':return42}) # to be removed
+
+    # proof of concept - remove
+    abunch['__functions'].update({'return42':return42}) 
+    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    # proof of concept
+    
     key = abunch.obj[0].upper()
     snames = [
         "BuildingSurface:Detailed",
@@ -71,10 +75,7 @@ def addfunctions(abunch):
             'tilt': fh.tilt,
             'coords': fh.getcoords,  # needed for debugging
         }
-        try:
-            abunch.__functions.update(func_dict)
-        except KeyError as e:
-            abunch.__functions = func_dict
+        abunch.__functions.update(func_dict)
     return abunch
 
 class EpBunch(Bunch):
@@ -91,6 +92,7 @@ class EpBunch(Bunch):
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
         self.theidf = theidf  # pointer to the idf this wpbunch belongs to
                               # This is None if there is no idf - a standalone epbunch      
+        self['__functions'] = {} # initialize the funcitons
         addfunctions(self)
         
     @property
@@ -114,6 +116,10 @@ class EpBunch(Bunch):
         """Get the allowed range of values for a field.
         """
         return getrange(self, fieldname)
+        
+    def getidd(self, fieldname):
+        """return the idd for the field"""
+        return getidd(self, fieldname)
     
     def __setattr__(self, name, value):
         try:
@@ -272,3 +278,10 @@ def checkrange(bch, fieldname):
             astr = astr % (fieldvalue, therange['minimum>'])
             raise RangeError(astr)
     return fieldvalue
+    
+def getidd(bch, fieldname):
+    """get the idd for this field"""
+    fieldindex = bch.objls.index(fieldname)
+    fieldidd = bch.objidd[fieldindex]
+    return fieldidd
+    

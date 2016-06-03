@@ -1,5 +1,29 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-03
+----------
+access the idf in epbunch - DONE
+trace surfaces of walls.
+    - reference give another name for key.
+        to find a reference, search all key.Name.reference
+would be nice to do 
+    - wall.Name.idd['reference']
+    - OR -> wall.getidd(fieldname)['reference']
+wall.Zone_Name.idd['object-list'] -> ZoneNames
+search
+    [value[0]. for key, value in idfobjects.items() if len(value) != 0]
+refname2key(idf, refname)
+
+- would be nice to have the group data in idd_info
+    - either put it into the idddata
+    or
+    - have a separate data structure
+- without the group data, the relavant lists have to be made by hand
+- make a new branch to test this ?
+    
+
+
+
 
 2015-07-22
 ----------

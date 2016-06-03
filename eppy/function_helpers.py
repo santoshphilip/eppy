@@ -54,3 +54,8 @@ def tilt(ddtt):
     coords = getcoords(ddtt)
     return g_surface.tilt(coords)
 
+def buildingname(ddtt):
+    """return building name"""
+    idf = ddtt.theidf
+    building = idf.idfobjects['building'.upper()][0]
+    return building.Name

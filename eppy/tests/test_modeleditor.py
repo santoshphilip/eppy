@@ -396,6 +396,12 @@ def test_rename():
         F04 Wall air space resistance,  !- Layer 2
         G01a 19mm gypsum board;  !- Layer 3
 
+      Construction,
+        Other Wall,           !- Name
+        G01a 19mm gypsum board,  !- Outside Layer
+        G01a 19mm gypsum board,  !- Layer 2
+        G01a 19mm gypsum board;  !- Layer 3
+
     """
     ridftxt = """Material,
       peanut butter,  !- Name
@@ -409,6 +415,12 @@ def test_rename():
         Interior Wall,           !- Name
         peanut butter,  !- Outside Layer
         F04 Wall air space resistance,  !- Layer 2
+        peanut butter;  !- Layer 3
+
+      Construction,
+        Other Wall,           !- Name
+        peanut butter,  !- Outside Layer
+        peanut butter,  !- Layer 2
         peanut butter;  !- Layer 3
 
     """
@@ -756,3 +768,25 @@ def test_idfstr():
     assert "\n" not in s  # has no line breaks
     assert "\n\n" not in s  # has no empty lines
     assert s != original  # is changed
+
+
+def test_refname2key():
+    """py.test for refname2key"""
+    tdata = (
+        (
+            'TransformerNames',
+            ['ElectricLoadCenter:Distribution'.upper(), ],
+        ),  # refname, key
+        (
+            'AllCurves',
+            [u'PUMP:VARIABLESPEED', 
+            u'PUMP:CONSTANTSPEED', u'BOILER:HOTWATER', 
+            u'ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE'],
+        ),  # refname, key
+    )
+    for refname, key in tdata:
+        fhandle = StringIO("")
+        idf = IDF(fhandle)
+        result = modeleditor.refname2key(idf, refname)
+        print(result)
+        assert result == key

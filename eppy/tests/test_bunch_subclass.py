@@ -517,8 +517,8 @@ def test_extendlist():
 
 class TestEpBunch(object):
     """
-    py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames and
-    EpBunch.fieldvalues.
+    py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames,
+    EpBunch.fieldvalues, EpBunch.getidd.
     
     """
     def initdata(self):
@@ -673,7 +673,12 @@ class TestEpBunch(object):
                 with pytest.raises(theexception):
                     result = idfobject.checkrange(fieldname)
 
-
+    def test_getidd(self):
+        """py.test for getidd"""
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd, None)
+        result = idfobject.getidd('North_Axis')
+        assert result == {'type': ['real']}
 
 bldfidf = """
 Version,
