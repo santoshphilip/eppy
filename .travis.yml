@@ -4,13 +4,11 @@ python:
   - "3.5"
 
 install:
-  # Update the Python 3 code, and change to the p3 dir if required
   - pip install -r requirements.txt
   - pip install pytest-cov
   - pip install codecov
 
-script: coverage run --source=eppy  
-                     --omit=eppy/tests/test_runner.py -m py.test -v
+script: py.test --cov=./
 
 after_success:
     - codecov
