@@ -51,10 +51,12 @@ def cleaniddfield(acomm):
     for key in acomm.keys():
         val = acomm[key]
         acomm[key.lower()] = val
+        
     for key in acomm.keys():
         val = acomm[key]
         if key != key.lower():
             acomm.pop(key)
+            
     return acomm
 
 def cleancommdct(commdct):

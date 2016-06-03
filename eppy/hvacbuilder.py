@@ -13,9 +13,13 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+
+from eppy.modeleditor import IDF
+
 import eppy.bunch_subclass as bunch_subclass
 import eppy.modeleditor as modeleditor
-from eppy.modeleditor import IDF
+from six.moves import xrange
+
 
 class WhichLoopError(Exception):
     pass

@@ -12,7 +12,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import itertools
+from six.moves import zip_longest
 # import geometry
 from eppy.geometry import surface as g_surface
 
@@ -20,7 +20,7 @@ def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
     args = [iter(iterable)] * num
-    return itertools.izip_longest(fillvalue=fillvalue, *args)
+    return zip_longest(fillvalue=fillvalue, *args)
 
 def getcoords(ddtt):
     """return the coordinates of the surface"""

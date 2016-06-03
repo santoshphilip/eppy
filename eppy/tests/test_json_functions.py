@@ -23,7 +23,7 @@ from eppy import json_functions
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with
 # the old reading
-iddfhandle = StringIO.StringIO(iddcurrent.iddtxt)
+iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
@@ -93,7 +93,7 @@ def test_updateidf():
     "UpperLeftCorner"), # idftxt, dct, key, field, fieldval
     )
     for idftxt, dct, key, field, fieldval in data:
-        idfhandle = StringIO.StringIO(idftxt)
+        idfhandle = StringIO(idftxt)
         idf = IDF(idfhandle)
         json_functions.updateidf(idf, dct)
         assert idf.idfobjects[key.upper()][0][field] ==fieldval
