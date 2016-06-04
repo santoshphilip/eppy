@@ -109,7 +109,7 @@ def extractidddata(fname, debug=False):
     astr = nocom
     st1 = removeblanklines(astr)
     if debug:
-        mylib1.write_str2file('nocom2.txt', st1)
+        mylib1.write_str2file('nocom2.txt', st1.encode('latin-1'))
 
 
     #find the groups and the start object of the group
@@ -134,7 +134,7 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom3.txt', st1)
+        mylib1.write_str2file('nocom3.txt', st1.encode('latin-1'))
 
     #strip each line
     for i in range(len(alist)):
@@ -142,7 +142,7 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom4.txt', st1)
+        mylib1.write_str2file('nocom4.txt', st1.encode('latin-1'))
 
     #ensure that each line is a comment or variable
     #find lines that don't start with a comment
@@ -167,7 +167,7 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom5.txt', st1)
+        mylib1.write_str2file('nocom5.txt', st1.encode('latin-1'))
 
     #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
     lss = []
@@ -190,7 +190,7 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom6.txt', st1)
+        mylib1.write_str2file('nocom6.txt', st1.encode('latin-1'))
 
     if debug:
         #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
@@ -215,7 +215,7 @@ def extractidddata(fname, debug=False):
 
         ls_debug = lss_debug[:]
         st1 = '\n'.join(ls_debug)
-        mylib1.write_str2file('nocom7.txt', st1)
+        mylib1.write_str2file('nocom7.txt', st1.encode('latin-1'))
 
 
     #replace each var with '=====var======'
@@ -239,7 +239,7 @@ def extractidddata(fname, debug=False):
                 atxt = blocklst[i][j]+'\n'
                 fhandle.write(atxt)
                 atxt = lss[k]
-                fhandle.write(atxt)
+                fhandle.write(atxt.encode('latin-1'))
                 k = k+1
 
         fhandle.close()
@@ -264,7 +264,7 @@ def extractidddata(fname, debug=False):
             for j in range(len(blocklst[i])):
                 atxt = blocklst[i][j]+'\n'
                 fhandle.write(atxt)
-                fhandle.write(lst[i][j])
+                fhandle.write(lst[i][j].encode('latin-1'))
                 k = k+1
 
         fhandle.close()
