@@ -58,29 +58,49 @@ def has_severe_errors(results='run_outputs'):
     return num_severe > 0
 
 class TestEnvironment(object):
+    
+    """
+    Test that the environment has been correctly set up with EnergyPlus
+    in the default location.
+    
+    """
 
     def test_thisdir_exists(self):
+        """Make sure we are starting from the correct path.
+        """
         assert os.path.isdir(THIS_DIR)
 
     def test_iddfiles_exists(self):
+        """Test the IDD files are where we expect them.
+        """
         assert os.path.isdir(IDD_FILES)
 
     def test_idffiles_exists(self):
+        """Test the test IDF files are where we expect them.
+        """
         assert os.path.isdir(IDF_FILES)
 
     def test_epw_exists(self):
+        """Test the test EPW file is where we expect it to be.
+        """
         f = os.path.join(EPLUS_WEATHER, TEST_EPW)
         assert os.path.isfile(f)
     
     def test_idf_exists(self):
+        """Test the test IDF file is where we expect it to be.
+        """
         f = os.path.join(IDF_FILES, TEST_IDF)
         assert os.path.isfile(f)
     
     def test_idd_exists(self):
+        """Test the test IDD file is where we expect it to be.
+        """
         f = os.path.join(IDD_FILES, TEST_IDD)
         assert os.path.isfile(f)
     
     def test_old_idd_exists(self):
+        """Test the test old IDD file is where we expect it to be.
+        """
         f = os.path.join(IDD_FILES, TEST_OLD_IDD)
         assert os.path.isfile(f)
     
@@ -168,7 +188,6 @@ class TestIDFRunner(object):
             u'eplusout.end', u'eplusout.err', u'eplusout.eso',
             u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
             u'eplusout.shd', u'eplustbl.htm', u'sqlite.err', ]
-#            u'eplusout.iperr']
         self.expected_files_suffix_C = [
             u'eplus.audit', u'eplus.mdd', u'eplus.err',
             u'eplusSqlite.err', u'eplus.eio', u'eplusTable.htm', u'eplus.shd',
