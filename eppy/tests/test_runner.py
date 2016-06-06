@@ -479,7 +479,7 @@ class TestMultiprocessing(object):
             run([idf_path, epw], kwargs)
         Fails if expected output files are not in the expected output
         directories.
- 
+  
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
@@ -489,14 +489,14 @@ class TestMultiprocessing(object):
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
         pool.close()
- 
+  
     def test_multiprocess_run_IDF6(self):
         """
         Test that we can run a sequence of runs using the signature:
             runIDFs([[IDF6, kwargs],...], num_CPUs)
         Fails if expected output files are not in the expected output
         directories.
- 
+  
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
@@ -507,6 +507,6 @@ class TestMultiprocessing(object):
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
- 
+  
         num_CPUs = -1
         runIDFs(runs, num_CPUs)

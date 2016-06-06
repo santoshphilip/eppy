@@ -22,8 +22,10 @@ import tempfile
 
 import multiprocessing as mp
 
-
-VERSION = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
+try:
+    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
+except KeyError:
+    VERSION = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
 
 if platform.system() == 'Windows':
     EPLUS_HOME = "C:/EnergyPlusV{VERSION}".format(**locals())
