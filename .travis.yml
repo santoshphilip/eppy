@@ -9,23 +9,23 @@ sudo: required
 dist: trusty
     
 env:
-  ENERGYPLUS_VERSION=8.5.0 
-  ENERGYPLUS_TAG=v8.5.0
+  - | 
+  ENERGYPLUS_VERSION=8.5.0
   ENERGYPLUS_SHA=c87e61b44b
   ENERGYPLUS_INSTALL_VERSION=8-5-0
-  ENERGYPLUS_DOWNLOAD_BASE_URL=https://github.com/NREL/EnergyPlus/releases/download/$ENERGYPLUS_TAG
-  ENERGYPLUS_DOWNLOAD_FILENAME=EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-Linux-x86_64.sh
-  ENERGYPLUS_DOWNLOAD_URL=$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME
 
-install:
+before_install:
   # install EnergyPlus
+  - ENERGYPLUS_TAG=v8.5.0
+  - ENERGYPLUS_DOWNLOAD_BASE_URL=https://github.com/NREL/EnergyPlus/releases/download/$ENERGYPLUS_TAG
+  - ENERGYPLUS_DOWNLOAD_FILENAME=EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-Linux-x86_64.sh
+  - ENERGYPLUS_DOWNLOAD_URL=$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME
   - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
   - sudo chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME
   - echo "y\r" | sudo ./$ENERGYPLUS_DOWNLOAD_FILENAME
   - sudo rm $ENERGYPLUS_DOWNLOAD_FILENAME
-
-  - strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
-
+  
+install:
   # Update the Python 3 code, and change to the p3 dir if required
   - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then cd eppy; sh 2to3sh.sh; cd ../p3; fi
   - pip install -r requirements.txt
