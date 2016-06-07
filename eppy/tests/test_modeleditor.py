@@ -13,7 +13,9 @@ from __future__ import unicode_literals
 
 from StringIO import StringIO
 from eppy import modeleditor
+from eppy.bunch_subclass import Bunch
 from eppy.iddcurrent import iddcurrent
+from eppy.idf_msequence import Idf_MSequence
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 from itertools import product
@@ -23,7 +25,7 @@ import pytest
 
 import eppy.idfreader as idfreader
 import eppy.snippet as snippet
-from eppy.bunch_subclass import Bunch
+
 
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
@@ -524,7 +526,7 @@ def test_new():
     """py.test for IDF.new()"""
     idf = IDF()
     idf.new()
-    # assert idf.idfobjects['building'.upper()] == Idf_MSequence()
+    assert idf.idfobjects['building'.upper()] == Idf_MSequence([],[])
     assert idf.idfobjects['building'.upper()].list1 == []
     assert idf.idfobjects['building'.upper()].list2 == []
 
