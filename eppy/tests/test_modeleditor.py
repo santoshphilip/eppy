@@ -30,7 +30,7 @@ idfsnippet = snippet.idfsnippet
 
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle, None)
+bunchdt, data, commdct, gdict = idfreader.idfreader(idffhandle, iddfhandle, None)
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with

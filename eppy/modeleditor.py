@@ -656,7 +656,7 @@ class IDF(object):
         readout = idfreader1(
             self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
+        self.idfobjects, block, self.model, idd_info, self.idd_groups = readout
         self.__class__.setidd(idd_info, block)
 
     """Methods to do with creating a new blank IDF object."""

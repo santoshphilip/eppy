@@ -20,7 +20,14 @@ refname2key(idf, refname)
     - have a separate data structure
 - without the group data, the relavant lists have to be made by hand
 - make a new branch to test this ?
-    
+- branch - brazil_iddgroups
+data structure
+{'group 1 name':[k1, k2, k3, k4], 'grout2':[k5, k6, k7], }
+{k1:g1, k2:g2, k3:g3}
+OR
+objidd = [{"group":"gname", ...}, {... }, ....]
+
+idd2groups is built - now where do I use it ?    
 
 
 

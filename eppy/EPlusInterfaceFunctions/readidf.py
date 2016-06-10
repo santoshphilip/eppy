@@ -16,6 +16,7 @@ from __future__ import unicode_literals
 
 import eppy.EPlusInterfaceFunctions.parse_idd as parse_idd
 import eppy.EPlusInterfaceFunctions.eplusdata as eplusdata
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 # from EPlusInterfaceFunctions import parse_idd
 # from EPlusInterfaceFunctions import eplusdata
@@ -79,7 +80,8 @@ def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
     else:
         theidd = iddfile
     data = eplusdata.Eplusdata(theidd, idfname)
-    return data, commdct
+    gdict = None
+    return data, commdct, gdict
 
 def readdatacommdct1(
         idfname, iddfile='Energy+.idd',
@@ -91,4 +93,5 @@ def readdatacommdct1(
     else:
         theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
-    return block, data, commdct
+    gdict = None
+    return block, data, commdct, gdict
