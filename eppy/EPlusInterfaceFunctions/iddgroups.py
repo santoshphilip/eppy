@@ -15,9 +15,11 @@ import eppy.EPlusInterfaceFunctions.parse_idd as parse_idd
 def idd2group(fhandle):
     """wrapper for iddtxt2groups"""
     try:
-        pass
-    except Exception as e:
-        raise e
+        txt = fhandle.read()
+        return iddtxt2groups(txt)
+    except AttributeError as e:
+        txt = open(fhandle, 'r').read()
+        return iddtxt2groups(txt)
 
 
 def iddtxt2groups(txt):

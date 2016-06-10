@@ -11,7 +11,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import eppy.iddgroups as iddgroups
+import StringIO
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 iddtxt = """!      W/m2, W or deg C
 !      W/s
@@ -84,4 +85,19 @@ def test_idd2groups():
   )
     for gdict, in data:
         result = iddgroups.iddtxt2groups(iddtxt)
+        assert result == gdict
+
+def test_idd2group():
+    """py.test for idd2group"""
+    data = ((
+        {
+            'G2': ['VersionG', 'VersionG1', 'VersionG2'],
+            'G1': ['Version', 'Version1', 'Version2'],
+            None: ['Lead Input', 'Simulation Data']
+        },
+    ), # gdict
+  )
+    for gdict, in data:
+        fhandle = StringIO.StringIO(iddtxt)
+        result = iddgroups.idd2group(fhandle)
         assert result == gdict
