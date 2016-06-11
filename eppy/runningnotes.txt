@@ -4,6 +4,8 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line
 ----------
 idd2groups is built and tested
 - now explore idd_parse to understand what it is doing. 
+- maybe use this as a way to rebuild parse_idd.extractidddata
+- call "block" -> "idd_fields"
 
 
 2016-06-03

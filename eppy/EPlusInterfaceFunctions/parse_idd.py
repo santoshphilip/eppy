@@ -305,8 +305,14 @@ def extractidddata(fname, debug=False):
 
         lss.append(alist)
     commdct = lss
-
+    
+    # add group information to commlst and commdct
+    # glist = getglist(fname)
+    # commlst = group2commlst(commlst, glist)
+    # commdct = group2commdct(commdct, glist)
+    
     return blocklst, commlst, commdct
+    # give blocklst a better name :-(
 
 
 def getobjectref(blocklst, commdct):
