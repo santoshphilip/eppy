@@ -101,3 +101,20 @@ def test_idd2group():
         fhandle = StringIO.StringIO(iddtxt)
         result = iddgroups.idd2group(fhandle)
         assert result == gdict
+
+def test_iddtxt2grouplist():
+    """py.test for iddtxt2grouplist"""
+    data = (([None, None, 'G1', 'G1', 'G1', 'G2', 'G2', 'G2'], ), # glist
+    ) 
+    for glist, in data:
+        result = iddgroups.iddtxt2grouplist(iddtxt)
+        assert result == glist
+        
+def test_idd2grouplist():
+    """py.test idd2grouplist"""
+    data = (([None, None, 'G1', 'G1', 'G1', 'G2', 'G2', 'G2'], ), # glist
+    ) 
+    for glist, in data:
+        fhandle = StringIO.StringIO(iddtxt)
+        result = iddgroups.idd2grouplist(fhandle)
+        assert result == glist

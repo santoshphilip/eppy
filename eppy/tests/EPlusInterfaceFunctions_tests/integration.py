@@ -26,6 +26,16 @@ def test_idd2group():
   )
     for fname, gdict in data:
         result = iddgroups.idd2group(fname)
-        print(result)
-        print(gdict)
         assert result == gdict
+        
+
+def test_idd2grouplist():
+    """py.test idd2grouplist"""
+    data = ((
+        "./eppy/tests/EPlusInterfaceFunctions_tests/integration/iddgroups.idd",
+        [None, None, 'G1', 'G1', 'G1', 'G2', 'G2', 'G2'], ), # glist
+    ) 
+    for fname, glist in data:
+        result = iddgroups.idd2grouplist(fname)
+        assert result == glist
+        
