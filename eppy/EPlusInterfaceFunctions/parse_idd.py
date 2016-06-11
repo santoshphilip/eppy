@@ -17,6 +17,7 @@ from __future__ import unicode_literals
 
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 
 def nocomment(astr, com):
@@ -74,12 +75,14 @@ def removeblanklines(astr):
     return "\n".join(lines)
 
 
-def extractidddata(fname, debug=False):
+def extractidddata_nogroup(fname, debug=False):
     """
     extracts all the needed information out of the idd file
     if debug is True,  it generates a series of text files.
     Each text file is incrementally different. You can do a diff
     see what the change is
+    - 
+    Does not integrate group data into the results
     """
     from StringIO import StringIO
     from io import FileIO
@@ -307,13 +310,21 @@ def extractidddata(fname, debug=False):
     commdct = lss
     
     # add group information to commlst and commdct
-    # glist = getglist(fname)
+    glist = iddgroups.idd2grouplist(fname)
     # commlst = group2commlst(commlst, glist)
     # commdct = group2commdct(commdct, glist)
     
-    return blocklst, commlst, commdct
+    return blocklst, commlst, commdct, glist
     # give blocklst a better name :-(
 
+def extractidddata(fname):
+    """insert group info into extracted idd"""
+    blocklst, commlst, commdct, glist = extractidddata_nogroup(fname)
+    # add group information to commlst and commdct
+    # glist = getglist(fname)
+    commlst = iddgroups.group2commlst(commlst, glist)
+    commdct = iddgroups.group2commdct(commdct, glist)
+    return blocklst, commlst, commdct
 
 def getobjectref(blocklst, commdct):
     """

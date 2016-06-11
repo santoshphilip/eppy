@@ -10,7 +10,19 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import eppy.EPlusInterfaceFunctions.parse_idd as parse_idd
+def nocomment(astr, com):
+    """
+    just like the comment in python.
+    removes any text after the phrase 'com'
+    """
+    alist = astr.splitlines()
+    for i in range(len(alist)):
+        element = alist[i]
+        pnt = element.find(com)
+        if pnt != -1:
+            alist[i] = element[:pnt]
+    return '\n'.join(alist)
+
 
 def idd2group(fhandle):
     """wrapper for iddtxt2groups"""
@@ -33,9 +45,9 @@ def idd2grouplist(fhandle):
 
 def iddtxt2groups(txt):
     """extract the groups from the idd file"""
-    txt = parse_idd.nocomment(txt, '!')
+    txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
-    txt = parse_idd.nocomment(txt, '\\') # remove all other idd info
+    txt = nocomment(txt, '\\') # remove all other idd info
     lines = txt.splitlines()
     lines = [line.strip() for line in lines] # cleanup
     lines = [line for line in lines if line != ''] # cleanup
@@ -75,9 +87,9 @@ def iddtxt2grouplist(txt):
         else:
             return astr
 
-    txt = parse_idd.nocomment(txt, '!')
+    txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
-    txt = parse_idd.nocomment(txt, '\\') # remove all other idd info
+    txt = nocomment(txt, '\\') # remove all other idd info
     lines = txt.splitlines()
     lines = [line.strip() for line in lines] # cleanup
     lines = [line for line in lines if line != ''] # cleanup
@@ -110,3 +122,16 @@ def iddtxt2grouplist(txt):
     glist = [gname[len("-group "):] for gname in fglist]
     glist = [makenone(gname) for gname in glist]
     return glist
+
+def group2commlst(commlst, glist):
+    """add group info to commlst"""
+    for gname, commitem in zip(glist, commlst):
+        newitem = "group %s" % (gname, )
+        commitem[0].insert(0, newitem)
+    return commlst
+    
+def group2commdct(commdct, glist):
+    """add group info tocomdct"""
+    for gname, commitem in zip(glist, commdct):
+        commitem[0]['group'] = gname
+    return commdct

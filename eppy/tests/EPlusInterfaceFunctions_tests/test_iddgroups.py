@@ -72,6 +72,47 @@ VersionG2,
 
 """
 
+idd_commlst = [[[]],
+ [[]],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']],
+ [[u'unique-object', u'format singleLine'],
+  [u'field Version Identifier', u'required-field', u'default 7.0']]]
+
+idf_commdct = [[{}],
+ [{}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}],
+ [{u'format': [u'singleLine'], u'unique-object': [u'']},
+  {u'default': [u'7.0'],
+   u'field': [u'Version Identifier'],
+   u'required-field': [u'']}]]
 
 def test_idd2groups():
     """py.test for idd2groups"""
@@ -118,3 +159,66 @@ def test_idd2grouplist():
         fhandle = StringIO.StringIO(iddtxt)
         result = iddgroups.idd2grouplist(fhandle)
         assert result == glist
+
+def test_group2commlst():
+    """py.test for group2commlst"""
+    data = ((
+    [
+     [['group None', ]],
+     [['group None', ]],
+     [['group G1', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']],
+     [['group G1', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']],
+     [['group G1', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']],
+     [['group G2', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']],
+     [['group G2', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']],
+     [['group G2', u'unique-object', u'format singleLine'],
+      [u'field Version Identifier', u'required-field', u'default 7.0']]
+  ],
+    ), # groupcommlst
+    )
+    for groupcommlst, in data:
+        glist = iddgroups.iddtxt2grouplist(iddtxt)
+        result = iddgroups.group2commlst(idd_commlst, glist)
+        assert result == groupcommlst
+        
+def test_group2commdct():
+    """py.test for group2commdct"""
+    data = ((
+    [
+     [{'group':None}],
+     [{'group':None}],
+     [{'group':'G1', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}],
+     [{'group':'G1', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}],
+     [{'group':'G1', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}],
+     [{'group':'G2', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}],
+     [{'group':'G2', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}],
+     [{'group':'G2', u'format': [u'singleLine'], u'unique-object': [u'']},
+      {u'default': [u'7.0'],
+       u'field': [u'Version Identifier'],
+       u'required-field': [u'']}]],
+       ), # groupcommdct
+    )
+    for groupcommdct, in data:
+        glist = iddgroups.iddtxt2grouplist(iddtxt)
+        result = iddgroups.group2commdct(idf_commdct, glist)
+        assert result == groupcommdct
