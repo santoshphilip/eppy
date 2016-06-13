@@ -118,20 +118,37 @@ def iddtxt2grouplist(txt):
         gname = gnamelist[0]
         thelist = gnamelist[-1]
         for item in thelist:
-            fglist.append(gname)
-    glist = [gname[len("-group "):] for gname in fglist]
-    glist = [makenone(gname) for gname in glist]
+            fglist.append((gname, item))
+    glist = [(gname[len("-group "):], obj) for gname, obj in fglist] # remove "-group "
+    glist = [(makenone(gname), obj) for gname, obj in glist] # make str None into None
+    glist = [(gname, obj.split(',')[0]) for gname, obj in glist] # remove comma
     return glist
 
 def group2commlst(commlst, glist):
     """add group info to commlst"""
-    for gname, commitem in zip(glist, commlst):
-        newitem = "group %s" % (gname, )
-        commitem[0].insert(0, newitem)
+    for (gname, objname), commitem in zip(glist, commlst):
+        newitem1 = "group %s" % (gname, )
+        newitem2 = "idfobj %s" % (objname, )
+        commitem[0].insert(0, newitem1)
+        commitem[0].insert(1, newitem2)
     return commlst
     
 def group2commdct(commdct, glist):
     """add group info tocomdct"""
-    for gname, commitem in zip(glist, commdct):
+    for (gname, objname), commitem in zip(glist, commdct):
         commitem[0]['group'] = gname
+        commitem[0]['idfobj'] = objname
     return commdct
+
+def idd2grouplist(gcommdct):
+    """extract embedded group data from commdct.
+    return gdict -> {g1:[obj1, obj2, obj3], g2:[obj4, ..]}"""
+    gdict = {}
+    for objidd in gcommdct:
+        group = objidd[0]['group']
+        objname = objidd[0]['idfobj']
+        if gdict.has_key(group):
+            gdict[group].append(objname)
+        else:
+            gdict[group] = [objname, ]
+    return gdict

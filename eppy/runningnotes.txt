@@ -2,10 +2,14 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line
 
 2016-06-11
 ----------
-idd2groups is built and tested
-- now explore idd_parse to understand what it is doing. 
-- maybe use this as a way to rebuild parse_idd.extractidddata
-- call "block" -> "field"
+- idd2groups is built and tested
+- groups are embedded into commdct
+- extract glist from commdct
+
+maybe do the following:
+    - now explore idd_parse to understand what it is doing. 
+    - maybe use this as a way to rebuild parse_idd.extractidddata
+    - call "block" -> "field"
 
 
 2016-06-03
