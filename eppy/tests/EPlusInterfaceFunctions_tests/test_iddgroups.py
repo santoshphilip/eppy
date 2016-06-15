@@ -227,8 +227,8 @@ def test_group2commdct():
         for r, g in zip(result, groupcommdct):
             assert r == g
 
-def test_idd2grouplist():
-    """py.test for idd2grouplist"""
+def test_commdct2grouplist():
+    """py.test for commdct2grouplist"""
     data = ((
     [
      [{'group':None, 'idfobj':'Lead Input'}],
@@ -265,5 +265,5 @@ def test_idd2grouplist():
     ), # gcommdct, gdict
     )
     for gcommdct, gdict in data:
-        result = iddgroups.idd2grouplist(gcommdct)
+        result = iddgroups.commdct2grouplist(gcommdct)
         assert result == gdict

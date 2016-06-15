@@ -45,6 +45,7 @@ def idd2grouplist(fhandle):
 
 def iddtxt2groups(txt):
     """extract the groups from the idd file"""
+    txt = txt.decode('ISO-8859-2')
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
@@ -87,6 +88,7 @@ def iddtxt2grouplist(txt):
         else:
             return astr
 
+    txt = txt.decode('ISO-8859-2')
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
@@ -140,11 +142,12 @@ def group2commdct(commdct, glist):
         commitem[0]['idfobj'] = objname
     return commdct
 
-def idd2grouplist(gcommdct):
+def commdct2grouplist(gcommdct):
     """extract embedded group data from commdct.
     return gdict -> {g1:[obj1, obj2, obj3], g2:[obj4, ..]}"""
     gdict = {}
     for objidd in gcommdct:
+        print('here', objidd)
         group = objidd[0]['group']
         objname = objidd[0]['idfobj']
         if gdict.has_key(group):
