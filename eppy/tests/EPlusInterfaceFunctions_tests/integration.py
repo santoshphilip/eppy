@@ -33,7 +33,7 @@ def test_idd2grouplist():
     """py.test idd2grouplist"""
     data = ((
         "./eppy/tests/EPlusInterfaceFunctions_tests/integration/iddgroups.idd",
-        [None, None, 'G1', 'G1', 'G1', 'G2', 'G2', 'G2'], ), # glist
+        [(None, u'Lead Input'), (None, u'Simulation Data'), (u'G1', u'Version'), (u'G1', u'Version1'), (u'G1', u'Version2'), (u'G2', u'VersionG'), (u'G2', u'VersionG1'), (u'G2', u'VersionG2')], ), # glist
     ) 
     for fname, glist in data:
         result = iddgroups.idd2grouplist(fname)

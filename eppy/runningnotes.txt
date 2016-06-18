@@ -3,6 +3,7 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line
 2016-06-13
 ----------
 write code to get the list of zone surfaces.
+TODO : remove self.idd_groups from IDF
 
 2016-06-11
 ----------

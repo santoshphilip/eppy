@@ -88,7 +88,7 @@ def iddtxt2grouplist(txt):
         else:
             return astr
 
-    txt = txt.decode('ISO-8859-2')
+    # txt = txt.decode('ISO-8859-2') # should be decoded by now.
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
@@ -147,7 +147,6 @@ def commdct2grouplist(gcommdct):
     return gdict -> {g1:[obj1, obj2, obj3], g2:[obj4, ..]}"""
     gdict = {}
     for objidd in gcommdct:
-        print('here', objidd)
         group = objidd[0]['group']
         objname = objidd[0]['idfobj']
         if gdict.has_key(group):

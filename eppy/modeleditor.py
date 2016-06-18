@@ -23,6 +23,7 @@ import platform
 from py._log import warning
 
 import eppy.function_helpers as function_helpers
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 
 class NoObjectError(Exception):
@@ -535,6 +536,7 @@ class IDF(object):
             Path to an IDF file (which does not have to exist yet).
 
         """
+        # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
@@ -971,3 +973,19 @@ class IDF(object):
 
         """
         self.save(filename, lineendings, encoding)
+        
+    def getiddgroupdict(self):
+        """Return a idd group dictionary
+        sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
+         'Compliance Objects': ['Compliance:Building'], 'Controllers':
+         ['Controller:WaterCoil',
+          'Controller:OutdoorAir',
+          'Controller:MechanicalVentilation',
+          'AirLoopHVAC:ControllerList'], 
+        ...}
+        
+        Returns
+        -------
+        dict 
+        """
+        return iddgroups.commdct2grouplist(self.idd_info)

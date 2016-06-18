@@ -1,7 +1,7 @@
-!- Unix Line endings 
+!- Darwin Line endings 
 
 VERSION,                  
-    7.5;                      !- Version Identifier
+    7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,        
     Yes,                      !- Do Zone Sizing Calculation

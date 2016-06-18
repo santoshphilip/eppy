@@ -86,6 +86,7 @@ def extractidddata_nogroup(fname, debug=False):
     """
     from StringIO import StringIO
     from io import FileIO
+    # import pdb; pdb.set_trace()
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -106,6 +107,7 @@ def extractidddata_nogroup(fname, debug=False):
         else:
             astr = mylib2.readfile(fname)
             # astr = astr.decode('ISO-8859-2') -> mylib2.readfile has decoded
+    glist = iddgroups.iddtxt2grouplist(astr)
     (nocom, nocom1, blocklst) = get_nocom_vars(astr)
 
 
@@ -310,7 +312,7 @@ def extractidddata_nogroup(fname, debug=False):
     commdct = lss
     
     # add group information to commlst and commdct
-    glist = iddgroups.idd2grouplist(fname)
+    # glist = iddgroups.idd2grouplist(fname)
     # commlst = group2commlst(commlst, glist)
     # commdct = group2commdct(commdct, glist)
     
