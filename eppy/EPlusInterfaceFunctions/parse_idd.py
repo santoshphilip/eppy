@@ -15,6 +15,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from StringIO import StringIO
+from io import FileIO
+
+from decorator import decorator
+
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
@@ -74,8 +79,40 @@ def removeblanklines(astr):
     lines = [line for line in lines if line.strip() != ""]
     return "\n".join(lines)
 
+@decorator
+def embeddgroupdata(extract_func, fname, debug=False):
+    """insert group info into extracted idd"""
+    
+    # copied the reading of fname from extractidddata - start
+    # removed decode (the decode will happen in extractidddata)
+    try:
+        if isinstance(fname, (file, StringIO)):
+            astr = fname.read()
+        else:
+            astr = open(fname, 'rb').read()
+    except NameError:
+        if isinstance(fname, (FileIO, StringIO)):
+            astr = fname.read()
+        else:
+            astr = mylib2.readfile(fname)
+    # copied the reading of fname from extractidddata- end
+    
+    # fname is exhausted by the above read
+    # reconstitute fname as a StringIO
+    fname = StringIO(astr)
 
-def extractidddata_nogroup(fname, debug=False):
+    glist = iddgroups.iddtxt2grouplist(astr.decode('ISO-8859-2'))
+    
+    
+    blocklst, commlst, commdct = extract_func(fname)
+    # add group information to commlst and commdct
+    # glist = getglist(fname)
+    commlst = iddgroups.group2commlst(commlst, glist)
+    commdct = iddgroups.group2commdct(commdct, glist)
+    return blocklst, commlst, commdct
+
+@embeddgroupdata
+def extractidddata(fname, debug=False):
     """
     extracts all the needed information out of the idd file
     if debug is True,  it generates a series of text files.
@@ -84,9 +121,6 @@ def extractidddata_nogroup(fname, debug=False):
     - 
     Does not integrate group data into the results
     """
-    from StringIO import StringIO
-    from io import FileIO
-    # import pdb; pdb.set_trace()
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -107,7 +141,6 @@ def extractidddata_nogroup(fname, debug=False):
         else:
             astr = mylib2.readfile(fname)
             # astr = astr.decode('ISO-8859-2') -> mylib2.readfile has decoded
-    glist = iddgroups.iddtxt2grouplist(astr)
     (nocom, nocom1, blocklst) = get_nocom_vars(astr)
 
 
@@ -316,17 +349,8 @@ def extractidddata_nogroup(fname, debug=False):
     # commlst = group2commlst(commlst, glist)
     # commdct = group2commdct(commdct, glist)
     
-    return blocklst, commlst, commdct, glist
-    # give blocklst a better name :-(
-
-def extractidddata(fname):
-    """insert group info into extracted idd"""
-    blocklst, commlst, commdct, glist = extractidddata_nogroup(fname)
-    # add group information to commlst and commdct
-    # glist = getglist(fname)
-    commlst = iddgroups.group2commlst(commlst, glist)
-    commdct = iddgroups.group2commdct(commdct, glist)
     return blocklst, commlst, commdct
+    # give blocklst a better name :-(
 
 def getobjectref(blocklst, commdct):
     """
