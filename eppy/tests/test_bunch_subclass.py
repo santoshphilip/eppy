@@ -549,9 +549,16 @@ class TestEpBunch(object):
             # the following objidd are made up
             [
                 {},
-                {},
+                {u'default': [u'NONE'],
+                 u'field': [u'Name'],
+                 u'required-field': [u''],
+                 u'retaincase': [u'']},
                 {'type': ['real']},
-                {'type': ['choice']},
+                {u'default': [u'Suburbs'],
+                 u'field': [u'Terrain'],
+                 u'key': [u'Country', u'Suburbs', u'City', u'Ocean', u'Urban'],
+                 u'note': [u'Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest'],
+                 u'type': [u'choice']},
 
                 {
                     'maximum': ['.5'],
@@ -680,6 +687,17 @@ class TestEpBunch(object):
         idfobject = EpBunch(obj, objls, objidd, None)
         result = idfobject.getidd('North_Axis')
         assert result == {'type': ['real']}
+        
+    def test_get_retaincase(self):
+        """py.test for get_retaincase"""
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd, None)
+        result = idfobject.get_retaincase('Name')
+        assert result == True
+        result = idfobject.get_retaincase('Terrain')
+        assert result == False
+        
+        
 
 bldfidf = """
 Version,

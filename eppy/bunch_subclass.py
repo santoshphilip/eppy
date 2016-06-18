@@ -90,7 +90,7 @@ class EpBunch(Bunch):
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-        self.theidf = theidf  # pointer to the idf this wpbunch belongs to
+        self.theidf = theidf  # pointer to the idf this epbunch belongs to
                               # This is None if there is no idf - a standalone epbunch      
         self['__functions'] = {} # initialize the funcitons
         addfunctions(self)
@@ -120,6 +120,10 @@ class EpBunch(Bunch):
     def getidd(self, fieldname):
         """return the idd for the field"""
         return getidd(self, fieldname)
+        
+    def get_retaincase(self, fieldname):
+        """check if the field should retain case"""
+        return get_retaincase(self, fieldname)
     
     def __setattr__(self, name, value):
         try:
@@ -284,4 +288,9 @@ def getidd(bch, fieldname):
     fieldindex = bch.objls.index(fieldname)
     fieldidd = bch.objidd[fieldindex]
     return fieldidd
+    
+def get_retaincase(bch, fieldname):
+    """Check if the field should retain case"""
+    fieldidd = bch.getidd(fieldname)
+    return fieldidd.has_key('retaincase')
     
