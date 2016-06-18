@@ -48,11 +48,47 @@ def test_getzonesurfaces():
     1,  !- Number of Vertices
     5.000000000000,  !- Vertex 1 X-coordinate {m}
     6.000000000000,  !- Vertex 1 Y-coordinate {m}
-    3.000000000000;  !- Vertex 1 Z-coordinate {m}""",
+    3.000000000000;  !- Vertex 1 Z-coordinate {m}
+    
+  WALL:EXTERIOR,            
+      WallExterior,                    !- Name
+      ,                         !- Construction Name
+      Box,                         !- Zone Name
+      ,                         !- Azimuth Angle
+      90;                       !- Tilt Angle
+
+    BUILDINGSURFACE:DETAILED, 
+        EWall,                    !- Name
+        ,                         !- Surface Type
+        ,                         !- Construction Name
+        BOX,                         !- Zone Name
+        OtherBox,                         !- Outside Boundary Condition
+        ,                         !- Outside Boundary Condition Object
+        SunExposed,               !- Sun Exposure
+        WindExposed,              !- Wind Exposure
+        autocalculate,            !- View Factor to Ground
+        autocalculate;            !- Number of Vertices
+
+    BUILDINGSURFACE:DETAILED, 
+        EWall1,                    !- Name
+        ,                         !- Surface Type
+        ,                         !- Construction Name
+        BOX_other,                         !- Zone Name
+        OtherBox,                         !- Outside Boundary Condition
+        ,                         !- Outside Boundary Condition Object
+        SunExposed,               !- Sun Exposure
+        WindExposed,              !- Wind Exposure
+        autocalculate,            !- View Factor to Ground
+        autocalculate;            !- Number of Vertices
+  """,
     'Box',
-    ['N_Wall']), # idftxt, zname, surfnamelst
+    ['N_Wall', 'EWall', 'WallExterior']), # idftxt, zname, surfnamelst
     )
     for idftxt, zname, surfnamelst in data:
         idf = IDF(StringIO(idftxt))
-        result = idffunctions.getzonesurfaces(idf, zname)
-        assert result == surfnamelst
+        zone = idf.getobject('zone'.upper(), zname)
+        result = idffunctions.getzonesurfaces(idf, zone)
+        rnames = [item.Name for item in result]
+        rnames.sort()
+        surfnamelst.sort()
+        assert rnames == surfnamelst

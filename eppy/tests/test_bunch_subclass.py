@@ -697,6 +697,40 @@ class TestEpBunch(object):
         result = idfobject.get_retaincase('Terrain')
         assert result == False
         
+    def test_isequal(self):
+        """py.test for isequal"""
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd, None)
+        # test Terrain -> Alphanumeric, no retaincase
+        result = idfobject.isequal('Terrain', 'City')
+        assert result == True
+        result = idfobject.isequal('Terrain', 'Rural')
+        assert result == False
+        result = idfobject.isequal('Terrain', 'CITY')
+        assert result == True
+        # test Name -> Alphanumeric, retaincase
+        result = idfobject.isequal('Name', 'Empire State Building')
+        assert result == True
+        result = idfobject.isequal('Name', 'Empire State Building'.upper())
+        assert result == False
+        # test North_Axis -> real
+        result = idfobject.isequal('North_Axis', 30)
+        assert result == True
+        result = idfobject.isequal('North_Axis', '30')
+        assert result == True
+        # test North_Axis -> real
+        result = idfobject.isequal('North_Axis', 30.02)
+        assert result == False
+        result = idfobject.isequal('North_Axis', 30.02, places=1)
+        assert result == True
+        # test Maximum_Number_of_Warmup_Days -> integer
+        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25)
+        assert result == True
+        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25.0000)
+        assert result == True
+        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25.00001)
+        assert result == False
+        
         
 
 bldfidf = """

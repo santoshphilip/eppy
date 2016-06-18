@@ -30,6 +30,24 @@ class RangeError(ValueError):
     pass
 
 
+def almostequal(first, second, places=7, printit=True):
+    """
+    Test if two values are equal to a given number of places.
+    This is based on python's unittest so may be covered by Python's 
+    license.
+
+    """
+    if first == second:
+        return True
+
+    if round(abs(second - first), places) != 0:
+        if printit:
+            print(round(abs(second - first), places))
+            print("notalmost: %s != %s to %i places" % (first, second, places))
+        return False
+    else:
+        return True
+
 def somevalues(ddtt):
     """returns some values"""
     return ddtt.Name, ddtt.Construction_Name, ddtt.obj
@@ -124,6 +142,13 @@ class EpBunch(Bunch):
     def get_retaincase(self, fieldname):
         """check if the field should retain case"""
         return get_retaincase(self, fieldname)
+        
+    def isequal(self, fieldname, value, places=7):
+        """return True if the field == value
+        Will retain case if get_retaincase == True
+        for real value will compare to decimal 'places'
+        """
+        return isequal(self, fieldname, value, places=places)
     
     def __setattr__(self, name, value):
         try:
@@ -293,4 +318,22 @@ def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getidd(fieldname)
     return fieldidd.has_key('retaincase')
+    
+def isequal(bch, fieldname, value, places=7):
+    """return True if the field is equal to value"""
+    def equalalphanumeric(bch, fieldname, value):
+        if bch.get_retaincase(fieldname):
+            return bch[fieldname] == value
+        else:
+            return bch[fieldname].upper() == value.upper()
+            
+    fieldidd = bch.getidd(fieldname)
+    try:
+        ftype = fieldidd['type'][0]
+        if ftype in ['real', 'integer']:
+            return almostequal(bch[fieldname], float(value), places=places)
+        else:
+            return equalalphanumeric(bch, fieldname, value)
+    except KeyError as e:
+        return equalalphanumeric(bch, fieldname, value)
     

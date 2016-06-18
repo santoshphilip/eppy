@@ -15,11 +15,21 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-def getzonesurfaces(idf, zname):
+import itertools
+
+def getzonesurfaces(idf, zone):
     """get a list of surfaces belonging to the zone"""
-    # TODO : code this for idf object, not the name.
-    # get BuildingSurface:Detailed
-    detailedbsurfaces = idf.idfobjects["BuildingSurface:Detailed".upper()]
-    surfs = [surf.Name for surf in detailedbsurfaces if surf.Zone_Name == zname]
+    def issurface(surf):
+        """Returns True if surf is a surface"""
+        theidd = surf.getidd('Name')
+        return u'SurfaceNames' in theidd[u'reference']
+    glist = idf.getiddgroupdict()
+    thermalgroup = u'Thermal Zones and Surfaces'
+    objkeys = glist[thermalgroup]
+    surfaces = [idf.idfobjects[objkey.upper()] for objkey in objkeys]
+    surfaces = list(itertools.chain.from_iterable(surfaces)) # flatten list
+    surfaces = [surface for surface in surfaces if issurface(surface)]
+    surfs = [surf for surf in surfaces 
+                if zone.isequal('Name', surf.Zone_Name)]
     return surfs
 
