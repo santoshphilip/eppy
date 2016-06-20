@@ -5,6 +5,9 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line
 write a script that will track all the references from the idd_info.
 look at this to see what function must be written to wrap over getreferingobjs
 
+- open an issue for all this code.
+
+
 2016-06-19
 ----------
 TODO : remove self.idd_groups from IDF - DONE
