@@ -7,6 +7,14 @@ look at this to see what function must be written to wrap over getreferingobjs
 
 - open an issue for all this code.
 
+write function to return all the surfaces of a zone
+This is a generic problem in eppy:
+- return all the subsurfaces of a surface
+- return all the objects that use a schedule
+- etc
+
+So write a more generic function that will work with 'object-list' and 'reference' (as described in the idd file)
+
 
 2016-06-19
 ----------
