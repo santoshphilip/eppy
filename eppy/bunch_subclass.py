@@ -310,6 +310,7 @@ def checkrange(bch, fieldname):
     
 def getidd(bch, fieldname):
     """get the idd for this field"""
+    # print(bch)
     fieldindex = bch.objls.index(fieldname)
     fieldidd = bch.objidd[fieldindex]
     return fieldidd

@@ -1,15 +1,81 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-19
+----------
+TODO : remove self.idd_groups from IDF
+abstraction of getzonesurfaces()
+
+referredobj 
+
+referringobjs = []
+referedobj has: -> Name
+                -> reference    
+for each obj in idf: 
+[optional filter -> objects in iddgroup]
+    each field of obj:
+    [optional filter -> field in fieldlist]
+        has object-list [refname]:
+            if refname in reference:
+                if Name = field value:
+                    referringobjs.append() 
+
+
+
+def getreferingobjs(referedobj, iddgroups=None, fields=None):
+    referringobjs = []
+    idf = referedidd.theidf
+    referedidd = referedobj.getidd(Name)
+    references = referedidd['references']
+    idfobjs = idf.idfobjects.values()
+    idfobjs = list(itertools.chain.from_iterable(values)) # flatten list
+    if iddgroups: # optional filter
+        idfobjs = [anobj for anobj in idfobjs 
+            if anobj.getidd('key')['group'] in iddgroups]
+    for anobj in idfobjs:
+        if not fields:
+            fields = anobj.objls
+        for field in fields:
+            itsidd = anobj.getidd(field)
+            if itsidd.has_key('object-list'):
+                refname = itsidd['object-list']
+                if refname in references:
+                    if referedobj.isequal('Name', anobj[field]):
+                        referringobjs.append(anobj)
+    return referringobjs
+        
+args = referedobj
+
+def getrefereingobjs(referedobj):
+    
+referedidd = referedobj.getidd(Name)
+references = referedidd['references']
+referringobjs = [idfobj for idfobj in idf]
+if iddgroup:
+    referringobjs = [idfobj for idfobj in referringobjs if idfobj in iddgroup]
+referringobjs = [idfobj for idfobj in referringobjs isrefering(idfobj)]
+
+def isrefering(anobj):
+    if not fields:
+        fields = anobj.iddls
+    for field in fields:
+        itsidd = anobj.getidd(field)
+        try:
+            refname = itsidd['object-list']
+            if refname in references:
+                return True
+        except KeyError as e:
+            return False
+
 2016-06-13
 ----------
-write code to get the list of zone surfaces.
-TODO : remove self.idd_groups from IDF
+write code to get the list of zone surfaces. - DONE
+abstract this into generic code. 
 
 2016-06-11
 ----------
 - idd2groups is built and tested
 - groups are embedded into commdct
-- extract glist from commdct
+- extract glist from commdct - DONE
 
 maybe do the following:
     - now explore idd_parse to understand what it is doing. 
