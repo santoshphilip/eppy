@@ -15,6 +15,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+import itertools
 
 from munch import Munch as Bunch
 import eppy.function_helpers as fh
@@ -94,6 +95,10 @@ def addfunctions(abunch):
             'coords': fh.getcoords,  # needed for debugging
         }
         abunch.__functions.update(func_dict)
+    # code for references
+    if key == 'ZONE':
+        func_dict = {'zonesurfaces':fh.zonesurfaces}
+        abunch.__functions.update(func_dict)
     return abunch
 
 class EpBunch(Bunch):
@@ -149,7 +154,11 @@ class EpBunch(Bunch):
         for real value will compare to decimal 'places'
         """
         return isequal(self, fieldname, value, places=places)
-    
+        
+    def getreferingobjs(self, iddgroups=None, fields=None):
+        """Get a list of objects that refer to this object"""
+        return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
+        
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -338,3 +347,43 @@ def isequal(bch, fieldname, value, places=7):
     except KeyError as e:
         return equalalphanumeric(bch, fieldname, value)
     
+
+def getreferingobjs(referedobj, iddgroups=None, fields=None):
+    """Get a list of objects that refer to this object"""
+    # pseudocode for code below
+    # referringobjs = []
+    # referedobj has: -> Name
+    #                 -> reference
+    # for each obj in idf:
+    # [optional filter -> objects in iddgroup]
+    #     each field of obj:
+    #     [optional filter -> field in fields]
+    #         has object-list [refname]:
+    #             if refname in reference:
+    #                 if Name = field value:
+    #                     referringobjs.append()
+    referringobjs = []
+    idf = referedobj.theidf
+    referedidd = referedobj.getidd("Name")
+    references = referedidd['reference']
+    idfobjs = idf.idfobjects.values()
+    idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
+    if iddgroups: # optional filter
+        idfobjs = [anobj for anobj in idfobjs 
+            if anobj.getidd('key')['group'] in iddgroups]
+    for anobj in idfobjs:
+        if not fields:
+            thefields = anobj.objls
+        else:
+            thefields = fields
+        for field in thefields:
+            try:
+                itsidd = anobj.getidd(field)
+            except ValueError as e:
+                continue
+            if itsidd.has_key('object-list'):
+                refname = itsidd['object-list'][0]
+                if refname in references:
+                    if referedobj.isequal('Name', anobj[field]):
+                        referringobjs.append(anobj)
+    return referringobjs

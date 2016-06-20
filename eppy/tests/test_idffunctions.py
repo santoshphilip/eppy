@@ -95,7 +95,7 @@ def test_getzonesurfaces():
         
 def test_getreferingobjs():
     """py.test for getreferingobjs"""
-    data = ((
+    thedata = ((
     """  Zone,
     Box,  !- Name
     0.0,  !- Direction of Relative North {deg}
@@ -172,7 +172,7 @@ FENESTRATIONSURFACE:DETAILED,
     'Box',
     ['N_Wall', 'EWall', 'WallExterior']), # idftxt, zname, surfnamelst
     )
-    for idftxt, zname, surfnamelst in data:
+    for idftxt, zname, surfnamelst in thedata:
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {}
@@ -181,7 +181,7 @@ FENESTRATIONSURFACE:DETAILED,
         rnames.sort()
         surfnamelst.sort()
         assert rnames == surfnamelst
-    for idftxt, zname, surfnamelst in data:
+    for idftxt, zname, surfnamelst in thedata:
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'iddgroups':[u'Thermal Zones and Surfaces', ]}
@@ -190,7 +190,7 @@ FENESTRATIONSURFACE:DETAILED,
         rnames.sort()
         surfnamelst.sort()
         assert rnames == surfnamelst
-    for idftxt, zname, surfnamelst in data:
+    for idftxt, zname, surfnamelst in thedata:
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'fields':[u'Zone_Name', ],}
@@ -199,7 +199,7 @@ FENESTRATIONSURFACE:DETAILED,
         rnames.sort()
         surfnamelst.sort()
         assert rnames == surfnamelst
-    for idftxt, zname, surfnamelst in data:
+    for idftxt, zname, surfnamelst in thedata:
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'fields':[u'Zone_Name', ],
@@ -210,7 +210,7 @@ FENESTRATIONSURFACE:DETAILED,
         surfnamelst.sort()
         assert rnames == surfnamelst
     # use the above idftxt and try other to get other references.
-    for idftxt, zname, surfnamelst in data:
+    for idftxt, zname, surfnamelst in thedata:
         idf = IDF(StringIO(idftxt))
         wname = 'EWall1'
         windownamelist = ['Window1', ]

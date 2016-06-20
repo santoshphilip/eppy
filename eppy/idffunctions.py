@@ -35,51 +35,6 @@ def getzonesurfaces(idf, zone):
                 if zone.isequal('Name', surf.Zone_Name)]
     return surfs
 
-def getreferingobjs_old(idf, zone,
-            refnames=None,
-            iddgroup="all groups",
-            referringfields=None):
-    """Get a list of objects that refer to this object"""
-    def isrefered(anobj, refnames):
-        """Returns True if anobj.Name is referred to"""
-        if not refnames:
-            return True
-        theidd = anobj.getidd('Name')
-        for refname in refnames:
-            if refname not in theidd[u'reference']:
-                return False
-        return True
-    glist = idf.getiddgroupdict()
-    try:
-        # select only objects in the group
-        objkeys = glist[iddgroup]
-        objs = [idf.idfobjects[objkey.upper()] for objkey in objkeys]
-    except KeyError as e:
-        # select all objects
-        objkeys = idf.idfobjects.keys()
-        objs = [idf.idfobjects[objkey.upper()] for objkey in objkeys]
-    objs = list(itertools.chain.from_iterable(objs)) # flatten list
-    objs = [anobj for anobj in objs if isrefered(anobj, refnames)]
-    # objs = [anobj for anobj in objs
-    #             if zone.isequal('Name', anobj[referringfields])]
-    fobjs = []
-    for anobj in objs:
-        try:
-            if not referringfields:
-                referringfields = anobj.objls[1:]
-                try:
-                    referringfields.remove('Name')
-                except ValueError as e:
-                    pass
-            for referringfield in referringfields:
-                fieldvalue = anobj[referringfield]
-                if zone.isequal('Name', fieldvalue):
-                    fobjs.append(anobj)
-        except BadEPFieldError as e:
-            continue
-    return fobjs
-    # return objs
-
 def getreferingobjs(referedobj, iddgroups=None, fields=None):
     """Get a list of objects that refer to this object"""
     # pseudocode for code below
@@ -89,7 +44,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     # for each obj in idf:
     # [optional filter -> objects in iddgroup]
     #     each field of obj:
-    #     [optional filter -> field in fieldlist]
+    #     [optional filter -> field in fields]
     #         has object-list [refname]:
     #             if refname in reference:
     #                 if Name = field value:

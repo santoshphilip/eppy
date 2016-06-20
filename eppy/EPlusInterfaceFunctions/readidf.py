@@ -80,8 +80,7 @@ def readdatacommdct(idfname, iddfile='Energy+.idd', commdct=None):
     else:
         theidd = iddfile
     data = eplusdata.Eplusdata(theidd, idfname)
-    gdict = None
-    return data, commdct, gdict
+    return data, commdct
 
 def readdatacommdct1(
         idfname, iddfile='Energy+.idd',
@@ -93,5 +92,4 @@ def readdatacommdct1(
     else:
         theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
-    gdict = None
-    return block, data, commdct, gdict
+    return block, data, commdct

@@ -1,9 +1,14 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-20
+----------
+write a script that will track all the references from the idd_info.
+look at this to see what function must be written to wrap over getreferingobjs
+
 2016-06-19
 ----------
-TODO : remove self.idd_groups from IDF
-abstraction of getzonesurfaces()
+TODO : remove self.idd_groups from IDF - DONE
+abstraction of getzonesurfaces() - DONE
 
 referredobj 
 

@@ -22,7 +22,7 @@ idfsnippet = snippet.idfsnippet
 iddsnippet = iddcurrent.iddtxt
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct, gdict = idfreader.idfreader(idffhandle, iddfhandle, None)
+bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle, None)
 
 def test_addobject():
     """py.test for addobject"""

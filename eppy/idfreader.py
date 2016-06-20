@@ -121,7 +121,7 @@ def convertallfields(data, commdct):
 
 def idfreader(fname, iddfile, theidf, conv=True):
     """read idf file and return bunches"""
-    data, commdct, gdict= readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     if conv:
         convertallfields(data, commdct)
     # fill gaps in idd
@@ -132,14 +132,14 @@ def idfreader(fname, iddfile, theidf, conv=True):
         skiplist=["TABLE:MULTIVARIABLELOOKUP"])
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct, theidf)
-    return bunchdt, data, commdct, gdict
+    return bunchdt, data, commdct
 
 
 def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
   # import pdbdb; pdb.set_trace()
-    block, data, commdct, gdict = readidf.readdatacommdct1(
+    block, data, commdct = readidf.readdatacommdct1(
         fname,
         iddfile=iddfile,
         commdct=commdct,
@@ -158,4 +158,4 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct, theidf)
-    return bunchdt, block, data, commdct, gdict
+    return bunchdt, block, data, commdct
