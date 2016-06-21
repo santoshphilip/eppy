@@ -23,7 +23,7 @@ class TypedList(collections.MutableSequence):
         self.extend(list(args))
     def check(self, val):
         if not isinstance(val, self.oktypes):
-            raise TypeError, val
+            raise TypeError(val)
     def __len__(self):
         return len(self.list)
     def __getitem__(self, i):

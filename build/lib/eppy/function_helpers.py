@@ -7,10 +7,10 @@
 
 """helper functions for the functions called by bunchdt"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import itertools
 # import geometry
@@ -20,7 +20,7 @@ def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
     args = [iter(iterable)] * num
-    return itertools.izip_longest(fillvalue=fillvalue, *args)
+    return itertools.zip_longest(fillvalue=fillvalue, *args)
 
 def getcoords(ddtt):
     """return the coordinates of the surface"""

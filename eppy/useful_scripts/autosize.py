@@ -47,7 +47,7 @@ idf.saveas("./a.idf")
 
 
 allidfobjects = idf.idfobjects
-for objname in allidfobjects.keys():
+for objname in list(allidfobjects.keys()):
     idfobjects = allidfobjects[objname]
     for idfobject in idfobjects:
         autofields = autosize_fieldname(idfobject)

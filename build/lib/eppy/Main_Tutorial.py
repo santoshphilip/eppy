@@ -129,7 +129,7 @@ idf1.printidf()
 
 # <codecell>
 
-print idf1.idfobjects['BUILDING']  # put the name of the object you'd like to look at in brackets
+print(idf1.idfobjects['BUILDING'])  # put the name of the object you'd like to look at in brackets
 
 # <markdowncell>
 
@@ -149,7 +149,7 @@ building = idf1.idfobjects['BUILDING'][0]
 
 # <codecell>
 
-print building.Name
+print(building.Name)
 
 # <markdowncell>
 
@@ -161,7 +161,7 @@ building.Name = "Empire State Building"
 
 # <codecell>
 
-print building.Name
+print(building.Name)
 
 # <markdowncell>
 
@@ -243,7 +243,7 @@ for_images.display_png(for_images.idfeditor)
 
 # <codecell>
 
-print building.Terrain
+print(building.Terrain)
 
 # <markdowncell>
 
@@ -259,7 +259,7 @@ print building.Terrain
 
 # <codecell>
 
-print building.North_Axis
+print(building.North_Axis)
 
 # <markdowncell>
 
@@ -267,14 +267,14 @@ print building.North_Axis
 
 # <codecell>
 
-print building.Name
-print building.North_Axis
-print building.Terrain
-print building.Loads_Convergence_Tolerance_Value
-print building.Temperature_Convergence_Tolerance_Value
-print building.Solar_Distribution
-print building.Maximum_Number_of_Warmup_Days
-print building.Minimum_Number_of_Warmup_Days
+print(building.Name)
+print(building.North_Axis)
+print(building.Terrain)
+print(building.Loads_Convergence_Tolerance_Value)
+print(building.Temperature_Convergence_Tolerance_Value)
+print(building.Solar_Distribution)
+print(building.Maximum_Number_of_Warmup_Days)
+print(building.Minimum_Number_of_Warmup_Days)
 
 # <markdowncell>
 
@@ -341,7 +341,7 @@ fruits[0]
 
 # <codecell>
 
-print fruits[2]
+print(fruits[2])
 
 # <markdowncell>
 
@@ -350,7 +350,7 @@ print fruits[2]
 # <codecell>
 
 firstfruit = fruits[0]
-print firstfruit
+print(firstfruit)
 
 # <markdowncell>
 
@@ -361,10 +361,10 @@ print firstfruit
 goodfruit = fruits[0]
 redfruit = fruits[0]
 
-print firstfruit
-print goodfruit
-print redfruit
-print fruits[0]
+print(firstfruit)
+print(goodfruit)
+print(redfruit)
+print(fruits[0])
 
 # <markdowncell>
 
@@ -382,7 +382,7 @@ print fruits[0]
 
 # <codecell>
 
-print len(fruits)
+print(len(fruits))
 
 # <markdowncell>
 
@@ -439,7 +439,7 @@ idf1 = IDF(fname1)
 # <codecell>
 
 materials = idf1.idfobjects["MATERIAL"]
-print materials
+print(materials)
 
 # <markdowncell>
 
@@ -456,7 +456,7 @@ secondmaterial = materials[1]
 
 # <codecell>
 
-print firstmaterial
+print(firstmaterial)
 
 # <markdowncell>
 
@@ -464,7 +464,7 @@ print firstmaterial
 
 # <codecell>
 
-print secondmaterial
+print(secondmaterial)
 
 # <markdowncell>
 
@@ -492,7 +492,7 @@ print secondmaterial
 
 bad_architects = ["Donald Trump", "Mick Jagger", 
         "Steve Jobs", "Lady Gaga", "Santa Clause"]
-print bad_architects[3]
+print(bad_architects[3])
 
 # <markdowncell>
 
@@ -500,8 +500,8 @@ print bad_architects[3]
 
 # <codecell>
 
-print bad_architects[-1]
-print bad_architects[-2]
+print(bad_architects[-1])
+print(bad_architects[-2])
 
 # <headingcell level=4>
 
@@ -517,7 +517,7 @@ print bad_architects[-2]
 
 # <codecell>
 
-print bad_architects[1:3] # slices at 1 and 3
+print(bad_architects[1:3]) # slices at 1 and 3
 
 # <markdowncell>
 
@@ -544,8 +544,8 @@ print bad_architects[1:3] # slices at 1 and 3
 
 # <codecell>
 
-print bad_architects[2:-1] # slices at 2 and -1
-print bad_architects[-3:-1] # slices at -3 and -1
+print(bad_architects[2:-1]) # slices at 2 and -1
+print(bad_architects[-3:-1]) # slices at -3 and -1
 
 # <markdowncell>
 
@@ -553,10 +553,10 @@ print bad_architects[-3:-1] # slices at -3 and -1
 
 # <codecell>
 
-print bad_architects[3:] 
-print bad_architects[:2] 
-print bad_architects[-3:] 
-print bad_architects[:-2] 
+print(bad_architects[3:]) 
+print(bad_architects[:2]) 
+print(bad_architects[-3:]) 
+print(bad_architects[:-2]) 
 
 # <markdowncell>
 
@@ -579,7 +579,7 @@ print bad_architects[:-2]
 # <codecell>
 
 bad_architects.append("First-year students")
-print bad_architects
+print(bad_architects)
 
 # <headingcell level=4>
 
@@ -600,7 +600,7 @@ print bad_architects
 # <codecell>
 
 bad_architects.remove("First-year students")
-print bad_architects
+print(bad_architects)
 
 # <markdowncell>
 
@@ -617,19 +617,19 @@ print bad_architects
 # <codecell>
 
 what_i_ate_today = ["coffee", "bacon", "eggs"]
-print what_i_ate_today
+print(what_i_ate_today)
 
 # <codecell>
 
 what_i_ate_today.append("vegetables") # adds vegetables to the end of the list
 # but I don't like vegetables
-print what_i_ate_today
+print(what_i_ate_today)
 
 # <codecell>
 
 # since I don't like vegetables
 what_i_ate_today.pop(-1) # use index of -1, since vegetables is the last item in the list
-print what_i_ate_today
+print(what_i_ate_today)
 
 # <markdowncell>
 
@@ -650,8 +650,8 @@ what_i_ate_today.pop(1)
 # <codecell>
 
 was_first_item = what_i_ate_today.pop(0)
-print 'was_first_item =', was_first_item
-print 'what_i_ate_today = ', what_i_ate_today
+print('was_first_item =', was_first_item)
+print('what_i_ate_today = ', what_i_ate_today)
 
 # <markdowncell>
 
@@ -681,7 +681,7 @@ materials = idf1.idfobjects["MATERIAL"]
 
 # <codecell>
 
-print materials[-1]
+print(materials[-1])
 
 # <markdowncell>
 
@@ -689,7 +689,7 @@ print materials[-1]
 
 # <codecell>
 
-print materials[-2:]
+print(materials[-2:])
 
 # <markdowncell>
 
@@ -705,7 +705,7 @@ print materials[-2:]
 
 # <codecell>
 
-print len(materials)
+print(len(materials))
 
 # <headingcell level=4>
 
@@ -721,7 +721,7 @@ was_last_material = materials.pop(-1)
 
 # <codecell>
 
-print len(materials)
+print(len(materials))
 
 # <markdowncell>
 
@@ -735,7 +735,7 @@ print len(materials)
 
 # <codecell>
 
-print materials[-1]
+print(materials[-1])
 
 # <markdowncell>
 
@@ -753,7 +753,7 @@ print materials[-1]
 
 # <codecell>
 
-print was_last_material
+print(was_last_material)
 
 # <markdowncell>
 
@@ -765,7 +765,7 @@ materials.append(was_last_material)
 
 # <codecell>
 
-print len(materials)
+print(len(materials))
 
 # <markdowncell>
 
@@ -773,7 +773,7 @@ print len(materials)
 
 # <codecell>
 
-print materials[-1]
+print(materials[-1])
 
 # <headingcell level=4>
 
@@ -803,7 +803,7 @@ len(materials)
 
 # <codecell>
 
-print materials[-1]
+print(materials[-1])
 
 # <markdowncell>
 
@@ -826,7 +826,7 @@ materials[-1].Specific_Heat = 1500
 
 # <codecell>
 
-print materials[-1]
+print(materials[-1])
 
 # <headingcell level=4>
 
@@ -902,7 +902,7 @@ fruits = ["apple", "orange", "bannana"]
 # <codecell>
 
 for fruit in fruits:
-   print fruit
+   print(fruit)
     
 
 # <markdowncell>
@@ -916,7 +916,7 @@ for fruit in fruits:
 # <codecell>
 
 for fruit in fruits:
-    print "I am a fruit said the", fruit
+    print("I am a fruit said the", fruit)
     
 
 # <markdowncell>
@@ -933,7 +933,7 @@ for fruit in fruits: # steps through every item in fruits
 
 # <codecell>
 
-print rottenfruits
+print(rottenfruits)
 
 # <codecell>
 
@@ -964,7 +964,7 @@ rottenfruits = ["rotten " + fruit for fruit in fruits]
 
 # <codecell>
 
-print rottenfruits
+print(rottenfruits)
 
 # <headingcell level=4>
 
@@ -993,7 +993,7 @@ fruits = ["apple", "orange", "pear", "berry", "mango", "plum", "peach", "melon",
 
 for fruit in fruits:               # steps through every fruit in fruits
     if len(fruit) > 5:             # checks to see if the length of the word is more than 5
-        print fruit                # if true, print the fruit
+        print(fruit)                # if true, print the fruit
                                    # if false, python goes back to the 'for' loop 
                                       # and checks the next item in the list
                 
@@ -1014,7 +1014,7 @@ for fruit in fruits:               # steps through every fruit in fruits
 
 # <codecell>
 
-print p_fruits
+print(p_fruits)
 
 # <codecell>
 
@@ -1046,7 +1046,7 @@ p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
 
 # <codecell>
 
-print p_fruits
+print(p_fruits)
 
 # <headingcell level=4>
 
@@ -1064,12 +1064,12 @@ print p_fruits
 
 # <codecell>
 
-range(4) # makes a list
+list(range(4)) # makes a list
 
 # <codecell>
 
 for i in range(4):
-    print i
+    print(i)
     
 
 # <codecell>
@@ -1079,31 +1079,31 @@ len(p_fruits)
 # <codecell>
 
 for i in range(len(p_fruits)):
-    print i
+    print(i)
     
 
 # <codecell>
 
 for i in range(len(p_fruits)):
-    print p_fruits[i]
+    print(p_fruits[i])
     
 
 # <codecell>
 
 for i in range(len(p_fruits)):
-    print i,  p_fruits[i]
+    print(i,  p_fruits[i])
     
 
 # <codecell>
 
 for item_from_enumerate in enumerate(p_fruits):
-    print item_from_enumerate
+    print(item_from_enumerate)
     
 
 # <codecell>
 
 for i, fruit in enumerate(p_fruits):
-    print i, fruit
+    print(i, fruit)
     
 
 # <headingcell level=2>
@@ -1121,7 +1121,7 @@ for i, fruit in enumerate(p_fruits):
 # <codecell>
 
 for material in materials:
-    print material.Name 
+    print(material.Name) 
     
 
 # <codecell>
@@ -1231,27 +1231,27 @@ surfaces = idf1.idfobjects['BUILDINGSURFACE:DETAILED']
 
 # Let us look at the first surface
 asurface = surfaces[0]
-print "surface azimuth =",  asurface.azimuth, "degrees"
-print "surface tilt =", asurface.tilt, "degrees"
-print "surface area =", asurface.area, "m2"
+print("surface azimuth =",  asurface.azimuth, "degrees")
+print("surface tilt =", asurface.tilt, "degrees")
+print("surface area =", asurface.area, "m2")
 
 # <codecell>
 
 # all the surface names
 s_names = [surface.Name for surface in surfaces]
-print s_names[:5] # print five of them
+print(s_names[:5]) # print five of them
 
 # <codecell>
 
 # surface names and azimuths
 s_names_azm = [(sf.Name, sf.azimuth) for sf in surfaces]
-print s_names_azm[:5] # print five of them
+print(s_names_azm[:5]) # print five of them
 
 # <codecell>
 
 # or to do that in pretty printing
 for name, azimuth in s_names_azm[:5]: # just five of them
-    print name, azimuth
+    print(name, azimuth)
     
 
 # <codecell>
@@ -1259,7 +1259,7 @@ for name, azimuth in s_names_azm[:5]: # just five of them
 # surface names and tilt
 s_names_tilt = [(sf.Name, sf.tilt) for sf in surfaces]
 for name, tilt in s_names_tilt[:5]: # just five of them
-    print name, tilt
+    print(name, tilt)
     
 
 # <codecell>
@@ -1267,7 +1267,7 @@ for name, tilt in s_names_tilt[:5]: # just five of them
 # surface names and areas
 s_names_area = [(sf.Name, sf.area) for sf in surfaces]
 for name, area in s_names_area[:5]: # just five of them
-    print name, area, "m2"
+    print(name, area, "m2")
     
 
 # <markdowncell>
@@ -1278,26 +1278,26 @@ for name, area in s_names_area[:5]: # just five of them
 
 # just vertical walls
 vertical_walls = [sf for sf in surfaces if sf.tilt == 90.0]
-print [sf.Name for sf in vertical_walls]
+print([sf.Name for sf in vertical_walls])
 
 # <codecell>
 
 # north facing walls
 north_walls = [sf for sf in vertical_walls if sf.azimuth == 0.0]
-print [sf.Name for sf in north_walls]
+print([sf.Name for sf in north_walls])
 
 # <codecell>
 
 # north facing exterior walls
 exterior_nwall = [sf for sf in north_walls if sf.Outside_Boundary_Condition == "Outdoors"]
-print [sf.Name for sf in exterior_nwall]
+print([sf.Name for sf in exterior_nwall])
 
 # <codecell>
 
 # print out some more details of the north wall
 north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
 for name, azimuth, construction in north_wall_info:
-    print name, azimuth, construction
+    print(name, azimuth, construction)
     
 
 # <codecell>
@@ -1312,14 +1312,14 @@ for wall in exterior_nwall:
 # see the change
 north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
 for name, azimuth, construction in north_wall_info:
-    print name, azimuth, construction
+    print(name, azimuth, construction)
     
 
 # <codecell>
 
 # see this in all surfaces
 for sf in surfaces:
-    print sf.Name, sf.azimuth, sf.Construction_Name
+    print(sf.Name, sf.azimuth, sf.Construction_Name)
     
 
 # <markdowncell>

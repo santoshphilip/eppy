@@ -10,10 +10,10 @@
 # this is a test version ... not for real use
 # dammit i am using it
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import copy
 
@@ -94,21 +94,21 @@ class Eplusdata(object):
         # import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
             self.dt, self.dtls = {}, []
-        if isinstance(dictfile, basestring) and fname == None:
+        if isinstance(dictfile, str) and fname == None:
             self.initdict(dictfile)
         if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
-        if isinstance(fname, basestring) and isinstance(dictfile, basestring):
+        if isinstance(fname, str) and isinstance(dictfile, str):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        if isinstance(fname, basestring) and isinstance(dictfile, Idd):
+        if isinstance(fname, str) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        from StringIO import StringIO
+        from io import StringIO
         try:
             # will fail in python3 because of file
             if (isinstance(fname, (file, StringIO)) and
-                    isinstance(dictfile, basestring)):
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
             if (isinstance(fname, (file, StringIO)) and
                     isinstance(dictfile, Idd)):
@@ -116,7 +116,7 @@ class Eplusdata(object):
         except NameError:
             from io import IOBase
             if (isinstance(fname, (IOBase, StringIO)) and
-                    isinstance(dictfile, basestring)):
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
             if (isinstance(fname, (IOBase, StringIO)) and
                     isinstance(dictfile, Idd)):

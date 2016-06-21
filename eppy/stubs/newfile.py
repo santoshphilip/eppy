@@ -12,10 +12,10 @@
 # or
 # easy_install eppy
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 # if you have not done so, uncomment the following three lines
 import sys
@@ -29,7 +29,7 @@ iddfile = "../resources/iddfiles/Energy+V7_2_0.idd"
 IDF.setiddname(iddfile)
 
 idftxt = "" # empty string
-from StringIO import StringIO
+from io import StringIO
 fhandle = StringIO(idftxt) # we can make a file handle of a string
 new_idf = IDF(fhandle) # initialize the IDF object with the file handle
 

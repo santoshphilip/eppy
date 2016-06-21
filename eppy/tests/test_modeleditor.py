@@ -6,10 +6,10 @@
 # =======================================================================
 """py.test for modeleditor"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from six import StringIO
 from six import string_types
@@ -143,7 +143,7 @@ def test_addobject():
             assert data.dt[key][-1][1] == aname
             assert bunchdt[key][-1].Name == aname
         if fielddict:
-            for kkey, value in fielddict.items():
+            for kkey, value in list(fielddict.items()):
                 assert bunchdt[key][-1][kkey] == value
 
 
@@ -663,7 +663,7 @@ def test_initread():
     idf.saveas('tmp.idf')
 
     # test fname as unicode
-    fname = u'tmp.idf'
+    fname = 'tmp.idf'
     assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)

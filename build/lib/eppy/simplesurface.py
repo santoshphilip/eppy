@@ -63,10 +63,10 @@ floor, celiling etc or a window"""
 # ('WINDOW',  Window, None)
 # ('DOOR', Door, None)
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 
 class NotImplementedError(Exception):

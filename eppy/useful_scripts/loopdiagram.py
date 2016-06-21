@@ -55,7 +55,7 @@ def dropnodes(edges):
                     newtup = (edge1[0], edge[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, e:
+                    except ValueError as e:
                         newedges.append(newtup)
                     added = True
         elif secondisnode(edge):
@@ -64,7 +64,7 @@ def dropnodes(edges):
                     newtup = (edge[0], edge1[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, e:
+                    except ValueError as e:
                         newedges.append(newtup)
                     added = True
         # gets the hanging nodes - nodes with no connection
@@ -129,7 +129,7 @@ def nodetype(anode):
     """return the type of node"""
     try:
         return anode[1]
-    except IndexError, e:
+    except IndexError as e:
         return None
 
 
@@ -140,7 +140,7 @@ def edges2nodes(edges):
         nodes.append(e1)
         nodes.append(e2)
     nodedict = dict([(n, None) for n in nodes])
-    justnodes = nodedict.keys()
+    justnodes = list(nodedict.keys())
     # justnodes.sort()
     justnodes = sorted(justnodes, key=lambda x: str(x[0]))
     return justnodes
@@ -165,7 +165,7 @@ def makediagram(edges):
         makeendnode(node[0])) for node in nodes if nodetype(node)=="EndNode"]
     epbr = [(node, makeabranch(node)) for node in nodes if not istuple(node)]
     nodedict = dict(epnodes + epbr + endnodes)
-    for value in nodedict.values():
+    for value in list(nodedict.values()):
         graph.add_node(value)
     for e1, e2 in edges:
         graph.add_edge(pydot.Edge(nodedict[e1], nodedict[e2]))
@@ -214,7 +214,7 @@ def makebranchcomponents(data, commdct, anode="epnode"):
     otlts = loops.extractfields(data, commdct, 
         objkey, [outletfields] * numobjects)
 
-    zipped = zip(inlts, cmps, otlts)
+    zipped = list(zip(inlts, cmps, otlts))
     tzipped = [transpose2d(item) for item in zipped]
     for i in range(len(data.dt[objkey])):
         tt = tzipped[i]
@@ -262,7 +262,7 @@ def makeairplantloop(data, commdct):
     for br in branches:
         br_name = br[1]
         in_out = loops.branch_inlet_outlet(data, commdct, br_name)
-        branch_i_o[br_name] = dict(zip(["inlet", "outlet"], in_out))
+        branch_i_o[br_name] = dict(list(zip(["inlet", "outlet"], in_out)))
     # for br_name, in_out in branch_i_o.items():
     #     edges.append(((in_out["inlet"], anode), br_name))
     #     edges.append((br_name, (in_out["outlet"], anode)))
@@ -389,7 +389,7 @@ def makeairplantloop(data, commdct):
     fieldlists = [fieldlist] * loops.objectcount(data, objkey)
     equiplists = loops.extractfields(data, commdct, objkey, fieldlists)
     equiplistdct = dict([(ep[0], ep[1:])  for ep in equiplists])
-    for key, equips in equiplistdct.items():
+    for key, equips in list(equiplistdct.items()):
         enames = [equips[i] for i in range(1, len(equips), 2)]
         equiplistdct[key] = enames
     # adistuunit -> room    
@@ -409,7 +409,7 @@ def makeairplantloop(data, commdct):
     #   get Name, airinletnode
     adistuinlets = loops.makeadistu_inlets(data, commdct)
     alladistu_comps = []
-    for key in adistuinlets.keys():
+    for key in list(adistuinlets.keys()):
         objkey = key.upper()
         singlefields = ["Name"] + adistuinlets[key]
         repeatfields = []
@@ -530,7 +530,7 @@ def replace_colon(s, replacewith='__'):
     return s.replace(":", replacewith)
     
 def clean_edges(arg):
-    if isinstance(arg, basestring): # Python 3: isinstance(arg, str)
+    if isinstance(arg, str): # Python 3: isinstance(arg, str)
         return replace_colon(arg)
     try:
         return tuple(clean_edges(x) for x in arg)
@@ -573,18 +573,18 @@ def main():
     fname = nspace.file
     iddfile = nspace.idd
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-    print "constructing the loops"
+    print("constructing the loops")
     edges = makeairplantloop(data, commdct)
-    print "cleaning edges"
+    print("cleaning edges")
     edges = clean_edges(edges)
-    print "making the diagram"
+    print("making the diagram")
     g = makediagram(edges)
     dotname = '%s.dot' % (os.path.splitext(fname)[0])
     pngname = '%s.png' % (os.path.splitext(fname)[0])
     g.write(dotname)
-    print "saved file: %s" % (dotname, )
+    print("saved file: %s" % (dotname, ))
     g.write_png(pngname)
-    print "saved file: %s" % (pngname, )
+    print("saved file: %s" % (pngname, ))
 
 if __name__ == "__main__":
     sys.exit(main())

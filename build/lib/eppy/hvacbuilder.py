@@ -7,10 +7,10 @@
 
 """make plant loop snippets"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import copy
 import eppy.bunch_subclass as bunch_subclass
@@ -118,7 +118,7 @@ def getbranchcomponents(idf, branch, utest=False):
     fobjtype = 'Component_%s_Object_Type'
     fobjname = 'Component_%s_Name'
     complist = []
-    for i in xrange(1, 100000):
+    for i in range(1, 100000):
         try:
             objtype = branch[fobjtype % (i, )]
             if objtype.strip() == '':
@@ -1068,7 +1068,7 @@ def replacebranch(idf, loop, branch,
     elif fluid.upper() == 'AIR':
         supplyconlistname = loop[flnames[1]] # Connector_List_Name'
     supplyconlist = idf.getobject('CONNECTORLIST', supplyconlistname)
-    for i in xrange(1, 100000): # large range to hit end
+    for i in range(1, 100000): # large range to hit end
         try:
             fieldname = 'Connector_%s_Object_Type' % (i, )
             ctype = supplyconlist[fieldname]
@@ -1115,7 +1115,7 @@ def replacebranch(idf, loop, branch,
     if fluid.upper() == 'WATER':
         demandconlistname = loop[flnames[7]] # .Demand_Side_Connector_List_Name
         demandconlist = idf.getobject('CONNECTORLIST', demandconlistname)
-        for i in xrange(1, 100000): # large range to hit end
+        for i in range(1, 100000): # large range to hit end
             try:
                 fieldname = 'Connector_%s_Object_Type' % (i, )
                 ctype = demandconlist[fieldname]
@@ -1177,7 +1177,7 @@ def replacebranch(idf, loop, branch,
 
 def main():
     """the main routine"""
-    from StringIO import StringIO
+    from io import StringIO
     import eppy.iddv7 as iddv7
     IDF.setiddname(StringIO(iddv7.iddtxt))
     idf1 = IDF(StringIO(''))

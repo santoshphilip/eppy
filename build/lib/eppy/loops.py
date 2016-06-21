@@ -13,10 +13,10 @@ uses the following objects
 ['plantloop', ]
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 def extractfields(data, commdct, objkey, fieldlists):
     """get all the objects of objkey.
@@ -34,7 +34,7 @@ def extractfields(data, commdct, objkey, fieldlists):
         try:
             thefieldcomms = dct['field']
             objfields.append(thefieldcomms[0])
-        except KeyError, err:
+        except KeyError as err:
             objfields.append(None)
     fieldindexes = []
     for fieldlist in fieldlists:
@@ -53,7 +53,7 @@ def extractfields(data, commdct, objkey, fieldlists):
         for item in fieldindex:
             try:
                 innerlst.append(theobject[item])
-            except IndexError, err:
+            except IndexError as err:
                 break
         fieldcontents.append(innerlst)
         # fieldcontents.append([theobject[item] for item in fieldindex])
@@ -85,7 +85,7 @@ def branchlist2branches(data, commdct, branchlist):
     fieldlists = []
     objnames = [obj[1] for obj in theobjects]
     for theobject in theobjects:
-        fieldlists.append(range(2, len(theobject)))
+        fieldlists.append(list(range(2, len(theobject))))
     blists = extractfields(data, commdct, objkey, fieldlists)
     thebranches = [branches for name, branches in zip(objnames, blists)
                    if name == branchlist]
@@ -109,7 +109,7 @@ def splittermixerfieldlists(data, commdct, objkey):
     theobjects = data.dt[objkey]
     fieldlists = []
     for theobject in theobjects:
-        fieldlist = range(1, len(theobject))
+        fieldlist = list(range(1, len(theobject)))
         fieldlists.append(fieldlist)
     return fieldlists
 
@@ -146,10 +146,10 @@ def repeatingfields(theidd, commdct, objkey, flds):
                 if objcomm[i]['field'][0] == thefield:
                     thefields.append(thefield)
                     indx = indx + 1
-            except KeyError, err:
+            except KeyError as err:
                 pass
         allfields.append(thefields)
-    allfields = zip(*allfields)
+    allfields = list(zip(*allfields))
     return [item for sublist in allfields for item in sublist]
 
 def objectcount(data, key):
@@ -165,7 +165,7 @@ def getfieldindex(data, commdct, objkey, fname):
         try:
             if item['field'] == [fname]:
                 break
-        except KeyError, err:
+        except KeyError as err:
             pass
     return i_index
 
@@ -194,7 +194,7 @@ def makeadistu_inlets(data, commdct):
             try:
                 if comm['field'][0].find(airinletnode) != -1:
                     airinlets.append(comm['field'][0])
-            except KeyError, err:
+            except KeyError as err:
                 pass
         adistu_inlets[adistu] = airinlets
     return adistu_inlets

@@ -10,10 +10,10 @@
 
 """legacy code from EPlusInterface"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
@@ -322,7 +322,7 @@ def getobjectref(blocklst, commdct):
                 objlist = elj['object-list'][0]
                 objlst_dct[objlist] = []
 
-    for objlist in objlst_dct.keys():
+    for objlist in list(objlst_dct.keys()):
         for i in range(len(commdct)):
             for j in range(len(commdct[i])):
                 if 'reference' in commdct[i][j]:

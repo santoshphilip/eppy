@@ -7,10 +7,10 @@
 
 """helper functions for the functions called by bunchdt"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from six.moves import zip_longest
 # import geometry

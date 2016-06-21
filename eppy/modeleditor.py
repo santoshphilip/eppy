@@ -6,10 +6,10 @@
 # =======================================================================
 """functions to edit the E+ model"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from six import iteritems
 from six import StringIO
@@ -166,7 +166,7 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         abunch[key] = value
     return abunch
 
@@ -214,7 +214,7 @@ def getobject(bunchdt, key, name):
 
 def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         if not isfieldvalue(
                 bunchdt, data, commdct,
                 idfobject, key, value, places=places):
@@ -726,7 +726,7 @@ class IDF(object):
             warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             abunch[k] = v
         abunch = addfunctions2new(abunch, key)
         return abunch

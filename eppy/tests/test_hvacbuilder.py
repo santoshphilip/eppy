@@ -7,10 +7,10 @@
 
 """py.test for hvacbuilder"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import eppy.hvacbuilder as hvacbuilder
 from eppy.modeleditor import IDF
@@ -344,8 +344,8 @@ def test_connectcomponents():
             ['pipe1_Water_Inlet_Node_Name', '',
              'pipe2_Water_Inlet_Node_Name',
              ['', 'pipe1_pipe2_node']],
-            [[u'pipe1_Water_Outlet_Node_Name', 'pipe1_pipe2_node'], '',
-             u'pipe2_Water_Outlet_Node_Name', ''],
+            [['pipe1_Water_Outlet_Node_Name', 'pipe1_pipe2_node'], '',
+             'pipe2_Water_Outlet_Node_Name', ''],
             'Air'
         ),
         # components_thisnodes, inlets, outlets, fluid

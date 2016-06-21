@@ -7,10 +7,10 @@
 
 """py.test for examples. (ex_*.py files)"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from eppy.idfreader import idfreader
 import eppy.snippet as snippet

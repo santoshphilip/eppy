@@ -7,10 +7,10 @@
 
 """images for documentation"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from IPython.display import Image
 from IPython.display import display_pretty, display_html, display_jpeg, display_png, display_json, display_latex, display_svg
