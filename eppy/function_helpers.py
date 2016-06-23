@@ -13,6 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import itertools
+from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
 
 def grouper(num, iterable, fillvalue=None):
@@ -65,5 +66,15 @@ def zonesurfaces(ddtt):
         'iddgroups':[u'Thermal Zones and Surfaces', ]}
     return ddtt.getreferingobjs(**kwargs)
     
-    
-    
+def rvalue(ddtt):
+    rvalue = thermal_properties.rvalue(ddtt)
+    return rvalue
+
+def uvalue(ddtt):
+    uvalue = thermal_properties.uvalue(ddtt)
+    return uvalue
+
+def heatcapacity(ddtt):
+    heatcapacity = thermal_properties.heatcapacity(ddtt)
+    return heatcapacity
+

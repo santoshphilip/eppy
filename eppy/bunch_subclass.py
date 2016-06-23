@@ -95,6 +95,19 @@ def addfunctions(abunch):
             'coords': fh.getcoords,  # needed for debugging
         }
         abunch.__functions.update(func_dict)
+
+    names = [
+        "Construction",
+        "Material",             
+              ]
+    names = [name.upper() for name in names]
+    if key in names:
+        func_dict = {
+            'rvalue': fh.rvalue,
+            'uvalue': fh.uvalue,
+            'heatcapacity': fh.heatcapacity,
+        }
+        abunch.__functions.update(func_dict)
     # code for references
     if key == 'ZONE':
         func_dict = {'zonesurfaces':fh.zonesurfaces}
