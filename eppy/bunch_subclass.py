@@ -115,7 +115,7 @@ class EpBunch(Bunch):
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
         self.theidf = theidf  # pointer to the idf this epbunch belongs to
                               # This is None if there is no idf - a standalone epbunch      
-        self['__functions'] = {} # initialize the funcitons
+        self['__functions'] = {} # initialize the functions
         addfunctions(self)
         
     @property
