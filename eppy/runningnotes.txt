@@ -1,5 +1,15 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-24
+----------
+epbunch.theidd - when does theidd have to be chnaged
+- when epbunch is copied to a new idf
+- when epbunch is removed form an idf file
+- when a new epbunch is created in an idf
+- when an epbunch is added to an idf
+possibly if this is done in Idf_MSequence, all of it will be automatically taken care of. 
+
+
 2016-06-20
 ----------
 write a script that will track all the references from the idd_info.
