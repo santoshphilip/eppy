@@ -121,13 +121,14 @@ class EpBunch(Bunch):
     fields as attributes as well as by keys.
     
     """
-    def __init__(self, obj, objls, objidd, theidf, *args, **kwargs):
+    def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-        self.theidf = theidf  # pointer to the idf this epbunch belongs to
+        self.theidf = None    # pointer to the idf this epbunch belongs to
                               # This is None if there is no idf - a standalone epbunch      
+                              # This will be set by Idf_MSequence
         self['__functions'] = {} # initialize the functions
         addfunctions(self)
         

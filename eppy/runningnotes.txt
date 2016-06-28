@@ -1,5 +1,17 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-26
+----------
+in branch i102_mseq_idf.
+remove the setting of epbunch.idf in all places.
+set it when it is __set__ into Idf_MSequence
+Idf_MSequence will need a varaible theidf
+steps:
+- remove all setting of idf in epbunch.idf 
+    - remove the arg from __init__ DONE
+    - it will be set to None in the __init__ DONE
+- it should be set in Idf_MSequence DONE
+
 2016-06-24
 ----------
 epbunch.theidd - when does theidd have to be chnaged

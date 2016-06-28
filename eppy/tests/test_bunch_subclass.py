@@ -417,7 +417,7 @@ def test_EpBunch():
         'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
 
 
-    bwall = EpBunch(dwall, wall_fields, wallidd, None)
+    bwall = EpBunch(dwall, wall_fields, wallidd)
 
     # print bwall.Name
     # print data.dt[wallkey][0][1]
@@ -495,7 +495,7 @@ def test_EpBunch():
     constrfields[0] = ['key']
     constrfields = [field[0] for field in constrfields]
     constr_fields = [bunchhelpers.makefieldname(field) for field in constrfields]
-    bconstr = EpBunch(dconstr, constr_fields, constridd, None)
+    bconstr = EpBunch(dconstr, constr_fields, constridd)
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"
     assert bconstr.obj == [
@@ -601,7 +601,7 @@ class TestEpBunch(object):
         
         """
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         for fn_item, objls_item in zip(idfobject.fieldnames, idfobject.objls):
             assert fn_item == objls_item
         
@@ -612,7 +612,7 @@ class TestEpBunch(object):
         
         """
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
             assert fv_item == objls_item
     
@@ -631,7 +631,7 @@ class TestEpBunch(object):
                     'minimum':None, 'type': 'integer'},), # fieldname, theranges
         )
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         for fieldname, theranges in data:
             result = idfobject.getrange(fieldname)
             assert result == theranges
@@ -681,7 +681,7 @@ class TestEpBunch(object):
             # fieldname, fieldvalue, isexception, theexception
         )
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         for fieldname, fieldvalue, isexception, theexception in data:
             idfobject[fieldname] = fieldvalue
             if not isexception:
@@ -694,14 +694,14 @@ class TestEpBunch(object):
     def test_getidd(self):
         """py.test for getidd"""
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         result = idfobject.getidd('North_Axis')
         assert result == {'type': ['real']}
         
     def test_get_retaincase(self):
         """py.test for get_retaincase"""
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         result = idfobject.get_retaincase('Name')
         assert result == True
         result = idfobject.get_retaincase('Terrain')
@@ -710,7 +710,7 @@ class TestEpBunch(object):
     def test_isequal(self):
         """py.test for isequal"""
         obj, objls, objidd = self.initdata()
-        idfobject = EpBunch(obj, objls, objidd, None)
+        idfobject = EpBunch(obj, objls, objidd)
         # test Terrain -> Alphanumeric, no retaincase
         result = idfobject.isequal('Terrain', 'City')
         assert result == True
@@ -821,6 +821,7 @@ class TestEpBunch(object):
         ['N_Wall', 'EWall', 'WallExterior']), # idftxt, zname, surfnamelst
         )
         for idftxt, zname, surfnamelst in thedata:
+            # import pdb; pdb.set_trace()
             idf = IDF(StringIO(idftxt))
             zone = idf.getobject('zone'.upper(), zname)
             kwargs = {}
@@ -916,7 +917,7 @@ def test_EpBunch1():
     objs = data.dt[key]
     obj = objs[0]
     obj_i = data.dtls.index(key)
-    bunchobj = idfreader.makeabunch(commdct, obj, obj_i, None)
+    bunchobj = idfreader.makeabunch(commdct, obj, obj_i)
 
     # assertions
     assert bunchobj.Name == "Empire State Building"

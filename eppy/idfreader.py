@@ -43,18 +43,18 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
-def makeabunch(commdct, obj, obj_i, theidf):
+def makeabunch(commdct, obj, obj_i):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get('field') for comm in commdct[obj_i]]
     objfields[0] = ['key']
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
-    bobj = EpBunch(obj, obj_fields, objidd, theidf)
+    bobj = EpBunch(obj, obj_fields, objidd)
     return bobj
 
 
-def makebunches(data, commdct, theidf):
+def makebunches(data, commdct):
     """make bunches with data"""
     bunchdt = {}
     ddtt, dtls = data.dt, data.dtls
@@ -65,7 +65,7 @@ def makebunches(data, commdct, theidf):
         for obj in objs:
             # if obj[0] == "Construction:WindowDataFile":
             #     print obj
-            bobj = makeabunch(commdct, obj, obj_i, theidf)
+            bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
 
@@ -79,9 +79,9 @@ def makebunches_alter(data, commdct, theidf):
         objs = dt[key]
         list1 = []
         for obj in objs:
-            bobj = makeabunch(commdct, obj, obj_i, theidf)
+            bobj = makeabunch(commdct, obj, obj_i)
             list1.append(bobj)
-        bunchdt[key] = Idf_MSequence(list1, objs)
+        bunchdt[key] = Idf_MSequence(list1, objs, theidf)
         # print "id(objs)", id(objs)
         # print "id(dt[key])", id(dt[key])
         # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
@@ -119,7 +119,7 @@ def convertallfields(data, commdct):
             obj = convertfields(key_comm, obj)
             objs[i] = obj
 
-def idfreader(fname, iddfile, theidf, conv=True):
+def idfreader(fname, iddfile, conv=True):
     """read idf file and return bunches"""
     data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
     if conv:
@@ -131,14 +131,14 @@ def idfreader(fname, iddfile, theidf, conv=True):
         commdct, dtls,
         skiplist=["TABLE:MULTIVARIABLELOOKUP"])
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
-    bunchdt = makebunches(data, commdct, theidf)
+    bunchdt = makebunches(data, commdct)
     return bunchdt, data, commdct
 
 
 def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
-  # import pdbdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     block, data, commdct = readidf.readdatacommdct1(
         fname,
         iddfile=iddfile,
