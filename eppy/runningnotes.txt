@@ -1,5 +1,9 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-06-28
+----------
+parse the idd to gather all the relationships between 'object-list' and 'reference'. write specific functions for all the refs - DONE in ./docs/temp3.py
+
 2016-06-26
 ----------
 in branch i102_mseq_idf.
@@ -19,7 +23,7 @@ epbunch.theidd - when does theidd have to be chnaged
 - when epbunch is removed form an idf file
 - when a new epbunch is created in an idf
 - when an epbunch is added to an idf
-possibly if this is done in Idf_MSequence, all of it will be automatically taken care of. 
+possibly if this is done in Idf_MSequence, all of it will be automatically taken care of. - DONE
 
 
 2016-06-20

@@ -691,11 +691,11 @@ class TestEpBunch(object):
                 with pytest.raises(theexception):
                     result = idfobject.checkrange(fieldname)
 
-    def test_getidd(self):
+    def test_getfieldidd(self):
         """py.test for getidd"""
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
-        result = idfobject.getidd('North_Axis')
+        result = idfobject.getfieldidd('North_Axis')
         assert result == {'type': ['real']}
         
     def test_get_retaincase(self):
