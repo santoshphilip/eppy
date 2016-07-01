@@ -154,9 +154,9 @@ class EpBunch(Bunch):
         """
         return getrange(self, fieldname)
         
-    def getidd(self, fieldname):
+    def getfieldidd(self, fieldname):
         """return the idd for the field"""
-        return getidd(self, fieldname)
+        return getfieldidd(self, fieldname)
         
     def get_retaincase(self, fieldname):
         """check if the field should retain case"""
@@ -331,7 +331,7 @@ def checkrange(bch, fieldname):
             raise RangeError(astr)
     return fieldvalue
     
-def getidd(bch, fieldname):
+def getfieldidd(bch, fieldname):
     """get the idd for this field"""
     # print(bch)
     fieldindex = bch.objls.index(fieldname)
@@ -340,7 +340,7 @@ def getidd(bch, fieldname):
     
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
-    fieldidd = bch.getidd(fieldname)
+    fieldidd = bch.getfieldidd(fieldname)
     return fieldidd.has_key('retaincase')
     
 def isequal(bch, fieldname, value, places=7):
@@ -351,7 +351,7 @@ def isequal(bch, fieldname, value, places=7):
         else:
             return bch[fieldname].upper() == value.upper()
             
-    fieldidd = bch.getidd(fieldname)
+    fieldidd = bch.getfieldidd(fieldname)
     try:
         ftype = fieldidd['type'][0]
         if ftype in ['real', 'integer']:
@@ -378,13 +378,13 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     #                     referringobjs.append()
     referringobjs = []
     idf = referedobj.theidf
-    referedidd = referedobj.getidd("Name")
+    referedidd = referedobj.getfieldidd("Name")
     references = referedidd['reference']
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
     if iddgroups: # optional filter
         idfobjs = [anobj for anobj in idfobjs 
-            if anobj.getidd('key')['group'] in iddgroups]
+            if anobj.getfieldidd('key')['group'] in iddgroups]
     for anobj in idfobjs:
         if not fields:
             thefields = anobj.objls
@@ -392,7 +392,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
             thefields = fields
         for field in thefields:
             try:
-                itsidd = anobj.getidd(field)
+                itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
             if itsidd.has_key('object-list'):

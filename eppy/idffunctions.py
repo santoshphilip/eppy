@@ -23,7 +23,7 @@ def getzonesurfaces(idf, zone):
     """get a list of surfaces belonging to the zone"""
     def issurface(surf):
         """Returns True if surf is a surface"""
-        theidd = surf.getidd('Name')
+        theidd = surf.getfieldidd('Name')
         return u'SurfaceNames' in theidd[u'reference']
     glist = idf.getiddgroupdict()
     thermalgroup = u'Thermal Zones and Surfaces'
@@ -51,13 +51,13 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     #                     referringobjs.append()
     referringobjs = []
     idf = referedobj.theidf
-    referedidd = referedobj.getidd("Name")
+    referedidd = referedobj.getfieldidd("Name")
     references = referedidd['reference']
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
     if iddgroups: # optional filter
         idfobjs = [anobj for anobj in idfobjs 
-            if anobj.getidd('key')['group'] in iddgroups]
+            if anobj.getfieldidd('key')['group'] in iddgroups]
     for anobj in idfobjs:
         if not fields:
             thefields = anobj.objls
@@ -65,7 +65,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
             thefields = fields
         for field in thefields:
             try:
-                itsidd = anobj.getidd(field)
+                itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
             if itsidd.has_key('object-list'):
