@@ -25,7 +25,7 @@ def rvalue(ddtt):
                       for l in layers)
     return rvalue
 
-def uvalue(ddtt):
+def ufactor(ddtt):
     """reciprocal of the r value (W/K)
     """
     return 1 / rvalue(ddtt)
