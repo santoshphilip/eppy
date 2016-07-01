@@ -15,8 +15,10 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+import itertools
 
 from munch import Munch as Bunch
+import eppy.function_helpers as fh
 
 
 class BadEPFieldError(AttributeError):
@@ -29,6 +31,24 @@ class RangeError(ValueError):
     pass
 
 
+def almostequal(first, second, places=7, printit=True):
+    """
+    Test if two values are equal to a given number of places.
+    This is based on python's unittest so may be covered by Python's 
+    license.
+
+    """
+    if first == second:
+        return True
+
+    if round(abs(second - first), places) != 0:
+        if printit:
+            print(round(abs(second - first), places))
+            print("notalmost: %s != %s to %i places" % (first, second, places))
+        return False
+    else:
+        return True
+
 def somevalues(ddtt):
     """returns some values"""
     return ddtt.Name, ddtt.Construction_Name, ddtt.obj
@@ -39,7 +59,60 @@ def extendlist(lst, i, value=''):
         pass
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
+        
 
+
+def return42(self, *args, **kwargs):
+    # proof of concept - to be removed
+    return 42        
+
+def addfunctions(abunch):
+    """add functions to epbunch"""
+
+    # proof of concept - remove
+    abunch['__functions'].update({'return42':return42}) 
+    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    # proof of concept
+    
+    key = abunch.obj[0].upper()
+    snames = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed", ]
+    snames = [sname.upper() for sname in snames]
+    if key in snames:
+        func_dict = {
+            'area': fh.area,
+            'height': fh.height,  # not working correctly
+            'width': fh.width,  # not working correctly
+            'azimuth': fh.azimuth,
+            'tilt': fh.tilt,
+            'coords': fh.getcoords,  # needed for debugging
+        }
+        abunch.__functions.update(func_dict)
+
+    names = [
+        "Construction",
+        "Material",             
+              ]
+    names = [name.upper() for name in names]
+    if key in names:
+        func_dict = {
+            'rvalue': fh.rvalue,
+            'ufactor': fh.ufactor,
+            'heatcapacity': fh.heatcapacity,
+        }
+        abunch.__functions.update(func_dict)
+    # code for references
+    if key == 'ZONE':
+        func_dict = {'zonesurfaces':fh.zonesurfaces}
+        abunch.__functions.update(func_dict)
+    return abunch
 
 class EpBunch(Bunch):
     """
@@ -48,12 +121,16 @@ class EpBunch(Bunch):
     fields as attributes as well as by keys.
     
     """
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
+    def __init__(self, obj, objls, objidd, theidf, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj        # field names
         self.objls = objls    # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-
+        self.theidf = theidf  # pointer to the idf this epbunch belongs to
+                              # This is None if there is no idf - a standalone epbunch      
+        self['__functions'] = {} # initialize the functions
+        addfunctions(self)
+        
     @property
     def fieldnames(self):
         """Friendly name for objls.
@@ -75,7 +152,26 @@ class EpBunch(Bunch):
         """Get the allowed range of values for a field.
         """
         return getrange(self, fieldname)
-    
+        
+    def getidd(self, fieldname):
+        """return the idd for the field"""
+        return getidd(self, fieldname)
+        
+    def get_retaincase(self, fieldname):
+        """check if the field should retain case"""
+        return get_retaincase(self, fieldname)
+        
+    def isequal(self, fieldname, value, places=7):
+        """return True if the field == value
+        Will retain case if get_retaincase == True
+        for real value will compare to decimal 'places'
+        """
+        return isequal(self, fieldname, value, places=places)
+        
+    def getreferingobjs(self, iddgroups=None, fields=None):
+        """Get a list of objects that refer to this object"""
+        return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
+        
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -92,7 +188,7 @@ class EpBunch(Bunch):
         if name in ('__functions', '__aliases'):  # just set the new value
             self[name] = value
             return None
-        elif name in ('obj', 'objls', 'objidd'):  # let Bunch handle it
+        elif name in ('obj', 'objls', 'objidd', 'theidf'):  # let Bunch handle it
             super(EpBunch, self).__setattr__(name, value)
             return None
         elif name in self.fieldnames:  # set the value, extending if needed
@@ -120,7 +216,7 @@ class EpBunch(Bunch):
 
         if name == '__functions':
             return self['__functions']
-        elif name in ('__aliases', 'obj', 'objls', 'objidd'):
+        elif name in ('__aliases', 'obj', 'objls', 'objidd', 'theidf'):
             # unit test
             return super(EpBunch, self).__getattr__(name)
         elif name in self.fieldnames:
@@ -134,7 +230,8 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
         
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
             return super(EpBunch, self).__getitem__(key)
         elif key in self.fieldnames:
             i = self.fieldnames.index(key)
@@ -147,7 +244,8 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
     
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
             super(EpBunch, self).__setitem__(key, value)
             return None
         elif key in self.fieldnames:
@@ -231,3 +329,74 @@ def checkrange(bch, fieldname):
             astr = astr % (fieldvalue, therange['minimum>'])
             raise RangeError(astr)
     return fieldvalue
+    
+def getidd(bch, fieldname):
+    """get the idd for this field"""
+    # print(bch)
+    fieldindex = bch.objls.index(fieldname)
+    fieldidd = bch.objidd[fieldindex]
+    return fieldidd
+    
+def get_retaincase(bch, fieldname):
+    """Check if the field should retain case"""
+    fieldidd = bch.getidd(fieldname)
+    return fieldidd.has_key('retaincase')
+    
+def isequal(bch, fieldname, value, places=7):
+    """return True if the field is equal to value"""
+    def equalalphanumeric(bch, fieldname, value):
+        if bch.get_retaincase(fieldname):
+            return bch[fieldname] == value
+        else:
+            return bch[fieldname].upper() == value.upper()
+            
+    fieldidd = bch.getidd(fieldname)
+    try:
+        ftype = fieldidd['type'][0]
+        if ftype in ['real', 'integer']:
+            return almostequal(bch[fieldname], float(value), places=places)
+        else:
+            return equalalphanumeric(bch, fieldname, value)
+    except KeyError as e:
+        return equalalphanumeric(bch, fieldname, value)
+    
+
+def getreferingobjs(referedobj, iddgroups=None, fields=None):
+    """Get a list of objects that refer to this object"""
+    # pseudocode for code below
+    # referringobjs = []
+    # referedobj has: -> Name
+    #                 -> reference
+    # for each obj in idf:
+    # [optional filter -> objects in iddgroup]
+    #     each field of obj:
+    #     [optional filter -> field in fields]
+    #         has object-list [refname]:
+    #             if refname in reference:
+    #                 if Name = field value:
+    #                     referringobjs.append()
+    referringobjs = []
+    idf = referedobj.theidf
+    referedidd = referedobj.getidd("Name")
+    references = referedidd['reference']
+    idfobjs = idf.idfobjects.values()
+    idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
+    if iddgroups: # optional filter
+        idfobjs = [anobj for anobj in idfobjs 
+            if anobj.getidd('key')['group'] in iddgroups]
+    for anobj in idfobjs:
+        if not fields:
+            thefields = anobj.objls
+        else:
+            thefields = fields
+        for field in thefields:
+            try:
+                itsidd = anobj.getidd(field)
+            except ValueError as e:
+                continue
+            if itsidd.has_key('object-list'):
+                refname = itsidd['object-list'][0]
+                if refname in references:
+                    if referedobj.isequal('Name', anobj[field]):
+                        referringobjs.append(anobj)
+    return referringobjs
