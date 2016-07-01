@@ -104,7 +104,7 @@ def addfunctions(abunch):
     if key in names:
         func_dict = {
             'rvalue': fh.rvalue,
-            'uvalue': fh.uvalue,
+            'ufactor': fh.ufactor,
             'heatcapacity': fh.heatcapacity,
         }
         abunch.__functions.update(func_dict)

@@ -54,20 +54,20 @@ class TestThermalProperties(object):
         assert rvalue == 0.2
         assert m.rvalue == 0.2
           
-    def test_uvalue_construction(self):
+    def test_ufactor_construction(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         c = idf.getobject('CONSTRUCTION', 'TestConstruction')
-        rvalue = c.uvalue
+        rvalue = c.ufactor
         assert rvalue == 1/0.35
       
-    def test_uvalue_material(self):
+    def test_ufactor_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         m = idf.getobject('MATERIAL', 'TestMaterial')
-        uvalue = 1 / (m.Thickness / m.Conductivity)
-        assert uvalue == 1/0.2
-        assert m.uvalue == 1/0.2
+        ufactor = 1 / (m.Thickness / m.Conductivity)
+        assert ufactor == 1/0.2
+        assert m.ufactor == 1/0.2
               
     def test_heatcapacity_construction(self):
         idf = IDF()

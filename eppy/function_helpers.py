@@ -70,9 +70,9 @@ def rvalue(ddtt):
     rvalue = thermal_properties.rvalue(ddtt)
     return rvalue
 
-def uvalue(ddtt):
-    uvalue = thermal_properties.uvalue(ddtt)
-    return uvalue
+def ufactor(ddtt):
+    ufactor = thermal_properties.ufactor(ddtt)
+    return ufactor
 
 def heatcapacity(ddtt):
     heatcapacity = thermal_properties.heatcapacity(ddtt)
