@@ -50,4 +50,3 @@ script: coverage run -m py.test eppy/tests -v
 
 after_success:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash <(curl -s https://codecov.io/bash); fi
