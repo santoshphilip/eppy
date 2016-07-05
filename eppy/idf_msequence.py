@@ -1,11 +1,14 @@
-"""subclass from collections.MutableSequence to get finer ontrol over a list like object.
-
-this is to work with issue 40 in github:
-
-idf1.idfobjects['BUILDING'] is a list and is not connected to idf1.model.dt['BUILDING']
-list has to be subclassed to solve this problem
 """
+Subclass from collections.MutableSequence to get finer control over a list-like
+object.
 
+This is to work with issue 40 in github:
+
+idf1.idfobjects['BUILDING'] is a list and is not connected to 
+idf1.model.dt['BUILDING']
+List has to be subclassed to solve this problem.
+
+"""
 # Alex Martelli describes how to use collections.MutableSequence in
 # <http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list>
 # Here I recreate and test his example
@@ -45,3 +48,4 @@ class Idf_MSequence(collections.MutableSequence):
     
     def __eq__(self, other):
         return self.list2 == other.list2
+    
