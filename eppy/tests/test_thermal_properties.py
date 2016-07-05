@@ -4,19 +4,22 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for thermal_properties.py"""
-  
+"""Tests for thermal_properties.py
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-  
+
 from StringIO import StringIO
-  
+
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
-  
-  
+
+from eppy.constructions.thermal_properties import INSIDE_FILM_R
+from eppy.constructions.thermal_properties import OUTSIDE_FILM_R
+
+
 iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
@@ -25,13 +28,32 @@ single_layer = """
   Construction,
     TestConstruction,                       !- Name
     TestMaterial;                           !- Inside Layer
+    
   Material,
     TestMaterial,
     Rough,                   !- Roughness
-    0.10,                     !- Thickness {m}
-    0.5,    !- Conductivity {W/m-K}
-    1000.0,                 !- Density {kg/m3}
-    1200,    !- Specific Heat {J/kg-K}
+    0.10,                    !- Thickness {m}
+    0.5,                     !- Conductivity {W/m-K}
+    1000.0,                  !- Density {kg/m3}
+    1200,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+    """
+  
+double_layer = """
+  Construction,
+    TestConstruction,        !- Name
+    TestMaterial,            !- Inside Layer
+    TestMaterial;            !- Outside Layer
+    
+  Material,
+    TestMaterial,
+    Rough,                   !- Roughness
+    0.10,                    !- Thickness {m}
+    0.5,                     !- Conductivity {W/m-K}
+    1000.0,                  !- Density {kg/m3}
+    1200,                    !- Specific Heat {J/kg-K}
     0.9,                     !- Thermal Absorptance
     0.6,                     !- Solar Absorptance
     0.6;                     !- Visible Absorptance
@@ -40,46 +62,90 @@ single_layer = """
 
 class TestThermalProperties(object):
       
-    def test_rvalue_construction(self):
+    def test_rvalue_1_layer_construction(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         c = idf.getobject('CONSTRUCTION', 'TestConstruction')
-        rvalue = c.rvalue
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = (INSIDE_FILM_R +
+                    m.Thickness / m.Conductivity +
+                    OUTSIDE_FILM_R)
+        assert c.rvalue == expected
+        assert c.rvalue == 0.35
+
+    def test_rvalue_2_layer_construction(self):
+        idf = IDF()
+        idf.initreadtxt(double_layer)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = (INSIDE_FILM_R +
+                    m.Thickness / m.Conductivity +
+                    m.Thickness / m.Conductivity +
+                    OUTSIDE_FILM_R)
+        assert c.rvalue == expected
+        assert c.rvalue == 0.55
 
     def test_rvalue_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         m = idf.getobject('MATERIAL', 'TestMaterial')
-        rvalue = m.Thickness / m.Conductivity
-        assert rvalue == 0.2
+        expected = m.Thickness / m.Conductivity
+        assert m.rvalue == expected
         assert m.rvalue == 0.2
           
-    def test_ufactor_construction(self):
+    def test_ufactor_1_layer_construction(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         c = idf.getobject('CONSTRUCTION', 'TestConstruction')
-        rvalue = c.ufactor
-        assert rvalue == 1/0.35
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = 1 / (INSIDE_FILM_R +
+                        m.Thickness / m.Conductivity + 
+                        OUTSIDE_FILM_R)
+        assert c.ufactor == expected
+        assert c.ufactor == 1 / 0.35
+      
+    def test_ufactor_2_layer_construction(self):
+        idf = IDF()
+        idf.initreadtxt(double_layer)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = 1 / (INSIDE_FILM_R +
+                        m.Thickness / m.Conductivity + 
+                        m.Thickness / m.Conductivity + 
+                        OUTSIDE_FILM_R)
+        assert c.ufactor == expected
+        assert c.ufactor == 1 / 0.55
       
     def test_ufactor_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         m = idf.getobject('MATERIAL', 'TestMaterial')
-        ufactor = 1 / (m.Thickness / m.Conductivity)
-        assert ufactor == 1/0.2
-        assert m.ufactor == 1/0.2
+        expected = 1 / (m.Thickness / m.Conductivity)
+        assert m.ufactor == expected
+        assert m.ufactor == 1 / 0.2
               
-    def test_heatcapacity_construction(self):
+    def test_heatcapacity_1_layer_construction(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         c = idf.getobject('CONSTRUCTION', 'TestConstruction')
-        rvalue = c.heatcapacity
-        assert rvalue == 120
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = m.Thickness * m.Specific_Heat * m.Density * 0.001
+        assert c.heatcapacity == expected
+        assert c.heatcapacity == 120
+      
+    def test_heatcapacity_2_layer_construction(self):
+        idf = IDF()
+        idf.initreadtxt(double_layer)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
+        assert c.heatcapacity == expected
+        assert c.heatcapacity == 240
       
     def test_heatcapacity_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
         m = idf.getobject('MATERIAL', 'TestMaterial')
-        heatcapacity = (m.Thickness * m.Specific_Heat  * m.Density * 0.001)
-        assert heatcapacity == 120
+        expected = (m.Thickness * m.Specific_Heat * m.Density * 0.001)
+        assert m.heatcapacity == expected
         assert m.heatcapacity == 120
