@@ -5,13 +5,14 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
+from StringIO import StringIO
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
 import copy
+from io import IOBase
 
 from eppy.EPlusInterfaceFunctions import mylib2
 
@@ -25,9 +26,9 @@ def removecomment(astr, cphrase):
     Parameters
     ----------
     astr : str
-        The string to be de-commented
+        The string to be de-commented.
     cphrase : str
-        The comment phrase
+        The comment phrase.
     
     Returns
     -------
@@ -41,45 +42,42 @@ def removecomment(astr, cphrase):
 
 
 class Idd(object):
-
-    """Idd object"""
+    """Idd data dictionary object"""
 
     def __init__(self, dictfile):
-        self.dt, self.dtls = self.initdict2(dictfile)
+        """
+        Parameters
+        ----------
+        dictfile : list
+            List of objects and their fields in the data dictionary.
+            
+        """
+        self.dt, self.dtls = self.initdict(dictfile)
 
-    def initdict2(self, dictfile):
-        """initdict2"""
+    def initdict(self, dictfile):
+        """
+        Initialise a dict containing details of the IDD file and a list of the
+        object names.
+        
+        Parameters
+        ----------
+        dictfile : list
+            List of objects and their fields in the data dictionary.
+        
+        Returns
+        -------
+        dict
+            A dict with object names as keys and empty lists as items.
+        list
+            A list of the object names.
+            
+        """
         dt = {}
         dtls = []
         adict = dictfile
         for element in adict:
             dt[element[0].upper()] = []  # dict keys for objects always in caps
             dtls.append(element[0].upper())
-        return dt, dtls
-
-    def initdict(self, fname):
-        """initdict"""
-        astr = mylib2.readfile(fname)
-        nocom = removecomment(astr, '!')
-        idfst = nocom
-        alist = idfst.split(';')
-        lss = []
-        for element in alist:
-            lst = element.split(',')
-            lss.append(lst)
-
-        for i in range(0, len(lss)):
-            for j in range(0, len(lss[i])):
-                lss[i][j] = lss[i][j].strip()
-
-        dt = {}
-        dtls = []
-        for element in lss:
-            if element[0] == '':
-                continue
-            dt[element[0].upper()] = []
-            dtls.append(element[0].upper())
-
         return dt, dtls
 
 
@@ -101,7 +99,6 @@ class Eplusdata(object):
         if isinstance(fname, basestring) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        from StringIO import StringIO
         try:
             # will fail in python3 because of file
             if (isinstance(fname, (file, StringIO)) and
@@ -111,7 +108,6 @@ class Eplusdata(object):
                     isinstance(dictfile, Idd)):
                 self.makedict(dictfile, fname)
         except NameError:
-            from io import IOBase
             if (isinstance(fname, (IOBase, StringIO)) and
                     isinstance(dictfile, basestring)):
                 self.makedict(dictfile, fname)
