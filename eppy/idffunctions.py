@@ -19,21 +19,11 @@ import itertools
 
 from eppy.bunch_subclass import BadEPFieldError
 
-def getzonesurfaces(idf, zone):
-    """get a list of surfaces belonging to the zone"""
-    def issurface(surf):
-        """Returns True if surf is a surface"""
-        theidd = surf.getfieldidd('Name')
-        return u'SurfaceNames' in theidd[u'reference']
-    glist = idf.getiddgroupdict()
-    thermalgroup = u'Thermal Zones and Surfaces'
-    objkeys = glist[thermalgroup]
-    surfaces = [idf.idfobjects[objkey.upper()] for objkey in objkeys]
-    surfaces = list(itertools.chain.from_iterable(surfaces)) # flatten list
-    surfaces = [surface for surface in surfaces if issurface(surface)]
-    surfs = [surf for surf in surfaces 
-                if zone.isequal('Name', surf.Zone_Name)]
-    return surfs
+# def getzonesurfaces(zone):
+#     """get a list of surfaces belonging to the zone"""
+#     kwargs = {'fields':[u'Zone_Name', ],
+#         'iddgroups':[u'Thermal Zones and Surfaces', ]}
+#     return getreferingobjs(zone, **kwargs)
 
 def getreferingobjs(referedobj, iddgroups=None, fields=None):
     """Get a list of objects that refer to this object"""

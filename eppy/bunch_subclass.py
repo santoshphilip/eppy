@@ -112,6 +112,22 @@ def addfunctions(abunch):
     if key == 'ZONE':
         func_dict = {'zonesurfaces':fh.zonesurfaces}
         abunch.__functions.update(func_dict)
+
+    # add function subsurface
+    # going to cheat here a bit
+    # check if epbunch has field "Zone_Name" 
+    # and is in group u'Thermal Zones and Surfaces'
+    # then it is likely to be a surface attached to a zone
+    fields = abunch.fieldnames
+    try:
+        group = abunch.getfieldidd('key')['group']
+    except KeyError as e: # some pytests don't have group
+        group = None
+    if group == u'Thermal Zones and Surfaces':
+        if "Zone_Name" in fields:
+            func_dict = {'subsurfaces':fh.subsurfaces}
+            abunch.__functions.update(func_dict)
+
     return abunch
 
 class EpBunch(Bunch):
@@ -383,7 +399,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
     if iddgroups: # optional filter
-        idfobjs = [anobj for anobj in idfobjs 
+        idfobjs = [anobj for anobj in idfobjs
             if anobj.getfieldidd('key')['group'] in iddgroups]
     for anobj in idfobjs:
         if not fields:

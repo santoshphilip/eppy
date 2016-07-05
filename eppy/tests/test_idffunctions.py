@@ -4,7 +4,7 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for idffunctions"""
+"""py.test for bunch_subclass"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -14,7 +14,8 @@ from __future__ import unicode_literals
 from StringIO import StringIO
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
-import eppy.idffunctions as idffunctions
+# import eppy.idffunctions as idffunctions
+import eppy.bunch_subclass as bunch_subclass
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with
@@ -23,10 +24,9 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-def test_getzonesurfaces():
-    """py.test for getzonesurfaces"""
-    data = ((
-    """  Zone,
+def test_specific_getreferingobjs():
+    """py.test for specific calls to getreferingobjs"""
+    idftxt =     """  Zone,
     Box,  !- Name
     0.0,  !- Direction of Relative North {deg}
     0.288184,  !- X Origin {m}
@@ -80,19 +80,48 @@ def test_getzonesurfaces():
         WindExposed,              !- Wind Exposure
         autocalculate,            !- View Factor to Ground
         autocalculate;            !- Number of Vertices
-  """,
-    'Box',
-    ['N_Wall', 'EWall', 'WallExterior']), # idftxt, zname, surfnamelst
-    )
-    for idftxt, zname, surfnamelst in data:
-        idf = IDF(StringIO(idftxt))
-        zone = idf.getobject('zone'.upper(), zname)
-        result = idffunctions.getzonesurfaces(idf, zone)
-        rnames = [item.Name for item in result]
-        rnames.sort()
-        surfnamelst.sort()
-        assert rnames == surfnamelst
+    FENESTRATIONSURFACE:DETAILED,
+        window1,                         !- Name
+        ,                         !- Surface Type
+        ,                         !- Construction Name
+        EWall1,                         !- Building Surface Name
+        ,                         !- Outside Boundary Condition Object
+        autocalculate,            !- View Factor to Ground
+        ,                         !- Shading Control Name
+        ,                         !- Frame and Divider Name
+        1.0,                      !- Multiplier
+        autocalculate;            !- Number of Vertices
+
+    WINDOW,                   
+        window2,                         !- Name
+        ,                         !- Construction Name
+        EWall1,                         !- Building Surface Name
+        ,                         !- Shading Control Name
+        ,                         !- Frame and Divider Name
+        1.0;                      !- Multiplier
+  """
+    idf = IDF(StringIO(idftxt))
+
+    # pytest for zonesurfaces
+    zname = 'Box'
+    surfnamelst = ['N_Wall', 'EWall', 'WallExterior']
+    zone = idf.getobject('zone'.upper(), zname)
+    result = zone.zonesurfaces
+    rnames = [item.Name for item in result]
+    rnames.sort()
+    surfnamelst.sort()
+    assert rnames == surfnamelst
         
+    # pytest for subsurfaces
+    wallname = 'EWall1'
+    subsurfnamelst = ['window1', 'window2']
+    wall = idf.getobject('BUILDINGSURFACE:DETAILED'.upper(), wallname)
+    result = wall.subsurfaces
+    rnames = [item.Name for item in result]
+    rnames.sort()
+    surfnamelst.sort()
+    assert rnames == subsurfnamelst
+
 def test_getreferingobjs():
     """py.test for getreferingobjs"""
     thedata = ((
@@ -176,7 +205,7 @@ FENESTRATIONSURFACE:DETAILED,
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {}
-        result = idffunctions.getreferingobjs(zone, **kwargs)
+        result = bunch_subclass.getreferingobjs(zone, **kwargs)
         rnames = [item.Name for item in result]
         rnames.sort()
         surfnamelst.sort()
@@ -185,7 +214,7 @@ FENESTRATIONSURFACE:DETAILED,
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'iddgroups':[u'Thermal Zones and Surfaces', ]}
-        result = idffunctions.getreferingobjs(zone, **kwargs)
+        result = bunch_subclass.getreferingobjs(zone, **kwargs)
         rnames = [item.Name for item in result]
         rnames.sort()
         surfnamelst.sort()
@@ -194,7 +223,7 @@ FENESTRATIONSURFACE:DETAILED,
         idf = IDF(StringIO(idftxt))
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'fields':[u'Zone_Name', ],}
-        result = idffunctions.getreferingobjs(zone, **kwargs)
+        result = bunch_subclass.getreferingobjs(zone, **kwargs)
         rnames = [item.Name for item in result]
         rnames.sort()
         surfnamelst.sort()
@@ -204,7 +233,7 @@ FENESTRATIONSURFACE:DETAILED,
         zone = idf.getobject('zone'.upper(), zname)
         kwargs = {'fields':[u'Zone_Name', ],
             'iddgroups':[u'Thermal Zones and Surfaces', ]}
-        result = idffunctions.getreferingobjs(zone, **kwargs)
+        result = bunch_subclass.getreferingobjs(zone, **kwargs)
         rnames = [item.Name for item in result]
         rnames.sort()
         surfnamelst.sort()
@@ -217,7 +246,7 @@ FENESTRATIONSURFACE:DETAILED,
         wall = idf.getobject('BUILDINGSURFACE:DETAILED'.upper(), wname)
         kwargs = {'fields':[u'Building_Surface_Name', ],
             'iddgroups':[u'Thermal Zones and Surfaces', ]}
-        result = idffunctions.getreferingobjs(wall, **kwargs)
+        result = bunch_subclass.getreferingobjs(wall, **kwargs)
         rnames = [item.Name for item in result]
         rnames.sort()
         surfnamelst.sort()
