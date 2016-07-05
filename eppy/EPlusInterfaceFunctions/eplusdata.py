@@ -1,14 +1,10 @@
 """Legacy code from EPlusInterface"""
-# Copyright (C) 2004 Santosh Philip
+# Copyright (C) 2004 Santosh Philip, 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
-
-# this is a test version ... not for real use
-# dammit i am using it
 
 from __future__ import absolute_import
 from __future__ import division
@@ -17,38 +13,39 @@ from __future__ import unicode_literals
 
 import copy
 
-import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+from eppy.EPlusInterfaceFunctions import mylib2
 
 
 def removecomment(astr, cphrase):
     """
-    the comment is similar to that in python.
-    any charachter after the # is treated as a comment
-    until the end of the line
-    astr is the string to be de-commented
-    cphrase is the comment phrase"""
-    # linesep = mylib3.getlinesep(astr)
-    alist = astr.splitlines()
-    for i in range(len(alist)):
-        alist1 = alist[i].split(cphrase)
-        alist[i] = alist1[0]
+    Strip all comments from lines in a string. The comment is similar to that 
+    in Python where any character after the # is treated as a comment until the
+    end of the line. In EnergyPlus the comment character is `!`.
+    
+    Parameters
+    ----------
+    astr : str
+        The string to be de-commented
+    cphrase : str
+        The comment phrase
+    
+    Returns
+    -------
+    str
+    
+    """
+    lines = astr.splitlines()
+    nocomments = (line.split(cphrase)[0] for line in lines)
 
-    # return string.join(alist, linesep)
-    return '\n'.join(alist)
+    return '\n'.join(nocomments)
 
 
 class Idd(object):
 
     """Idd object"""
 
-    def __init__(self, dictfile, version=2):
-        if version == 2:
-            # version == 2. This is a just a flag I am using
-            # it may wind up being the only type... then I can clean this up
-            # and not use the other option
-            self.dt, self.dtls = self.initdict2(dictfile)
-            return
-        self.dt, self.dtls = self.initdict(dictfile)
+    def __init__(self, dictfile):
+        self.dt, self.dtls = self.initdict2(dictfile)
 
     def initdict2(self, dictfile):
         """initdict2"""
@@ -253,3 +250,6 @@ class Eplusdata(object):
 
 
 #------------------------------------------
+
+def test_coverage():
+    pass
