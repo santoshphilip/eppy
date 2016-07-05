@@ -412,7 +412,27 @@ def get_referenced_object(referring_object, fieldname):
     """Get an object referred to by a field in another object.
     """
     referenced_object_name = referring_object.__getattr__(fieldname)
-    for key in referring_object.theidf.idfobjects.keys():
-        obj = referring_object.theidf.getobject(key, referenced_object_name)
-        if obj is not None:
-            return obj
+    object_list = [
+        field['object-list'][0] for field in referring_object.objidd[1:]
+        if field['field'][0].upper().replace(' ', '_') == fieldname.upper()]
+    
+    # get keys which have a reference to an object-list in object_list
+    valid_keys = []
+    for key in referring_object.theidf.idd_info:
+        try:
+            reference = key[1]['reference']
+        except (IndexError, KeyError):
+            continue
+        if reference[0] in object_list:
+            valid_keys.append(key[0]['idfobj'].upper())
+
+    # loop over the valid keys until we find a referring object
+    for key in valid_keys:
+        try:
+            obj = referring_object.theidf.getobject(key, referenced_object_name)
+            if obj is not None:
+                return obj
+        except KeyError:
+            continue
+
+
