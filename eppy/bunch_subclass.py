@@ -173,6 +173,11 @@ class EpBunch(Bunch):
         """Get a list of objects that refer to this object"""
         return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
         
+    def get_referenced_object(self, fieldname):
+        """Get an object referred to by a field in another object.
+        """
+        return get_referenced_object(self, fieldname)
+    
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -401,3 +406,13 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
                     if referedobj.isequal('Name', anobj[field]):
                         referringobjs.append(anobj)
     return referringobjs
+
+
+def get_referenced_object(referring_object, fieldname):
+    """Get an object referred to by a field in another object.
+    """
+    referenced_object_name = referring_object.__getattr__(fieldname)
+    for key in referring_object.theidf.idfobjects.keys():
+        obj = referring_object.theidf.getobject(key, referenced_object_name)
+        if obj is not None:
+            return obj
