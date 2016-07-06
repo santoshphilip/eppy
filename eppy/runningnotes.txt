@@ -1,5 +1,10 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-07-06
+----------
+review bunch_subclass.get_referenced_object
+some syntactic sugar is possible
+
 2016-06-28
 ----------
 parse the idd to gather all the relationships between 'object-list' and 'reference'. write specific functions for all the refs - DONE in ./docs/temp3.py
