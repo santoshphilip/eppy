@@ -872,7 +872,23 @@ class TestEpBunch(object):
             surfnamelst.sort()
             assert rnames == windownamelist
         
+    def test_get_referenced_object(self):
+        """py.test for get_referenced_object"""
+        idf = IDF()
+        idf.initnew('test.idf')
+        idf.newidfobject('CONSTRUCTION', 'c')
+        obj = idf.getobject('CONSTRUCTION', 'c')
+        obj.Outside_Layer = 'TestMaterial'
+        
+        expected = idf.newidfobject('MATERIAL', 'TestMaterial')
+        
+        fetched = idf.getobject('MATERIAL', 'TestMaterial')
+        assert fetched == expected
+    
+        material = obj.get_referenced_object('Outside_Layer')
+        assert material == expected
 
+    
 bldfidf = """
 Version,
     6.0;
