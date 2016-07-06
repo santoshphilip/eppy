@@ -5,7 +5,6 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """Sub class Bunch to represent an IDF object.
 """
 
@@ -18,6 +17,8 @@ import copy
 import itertools
 
 from munch import Munch as Bunch
+
+from eppy.bunchhelpers import matchfieldnames
 import eppy.function_helpers as fh
 
 
@@ -174,10 +175,25 @@ class EpBunch(Bunch):
         return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
         
     def get_referenced_object(self, fieldname):
-        """Get an object referred to by a field in another object.
+        """
+        Get an object referred to by a field in an EpBunch. For example an
+        EpBunch for a Construction object has fields for each layer, each of
+        which refers to a Material. This functions allows the object
+        representing a Material to be fetched using the name of the layer.
+    
+        Parameters
+        ----------
+        fieldname : str
+            The name of the field in the EpBunch which contains the reference 
+            to another object.
+            
+        Returns
+        -------
+        EpBunch
+
         """
         return get_referenced_object(self, fieldname)
-    
+
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -409,30 +425,44 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
 
 
 def get_referenced_object(referring_object, fieldname):
-    """Get an object referred to by a field in another object.
+    """
+    Get an object referred to by a field in another object. For example an
+    object of type Construction has fields for each layer, each of which refers
+    to a Material. This functions allows the object representing a Material to
+    be fetched using the name of the layer.
+    
+    Parameters
+    ----------
+    referring_object : EpBunch
+        The object which contains a reference to another object,
+    fieldname : str
+        The name of the field in the referring object which contains the 
+        reference to another object.
+        
+    Returns
+    -------
+    EpBunch
+    
     """
     referenced_object_name = referring_object.__getattr__(fieldname)
+    # get a list of object-lists
     object_list = [
         field['object-list'][0] for field in referring_object.objidd[1:]
-        if field['field'][0].upper().replace(' ', '_') == fieldname.upper()]
+        if matchfieldnames(field['field'][0], fieldname)]
     
     # get keys which have a reference to an object-list in object_list
     valid_keys = []
     for key in referring_object.theidf.idd_info:
         try:
-            reference = key[1]['reference']
+            reference = key[1]['reference'][0]
         except (IndexError, KeyError):
             continue
-        if reference[0] in object_list:
-            valid_keys.append(key[0]['idfobj'].upper())
+        if reference in object_list:
+            idf_obj = key[0]['idfobj'].upper()
+            valid_keys.append(idf_obj)
 
     # loop over the valid keys until we find a referring object
     for key in valid_keys:
-        try:
-            obj = referring_object.theidf.getobject(key, referenced_object_name)
-            if obj is not None:
-                return obj
-        except KeyError:
-            continue
-
-
+        obj = referring_object.theidf.getobject(key, referenced_object_name)
+        if obj is not None:
+            return obj
