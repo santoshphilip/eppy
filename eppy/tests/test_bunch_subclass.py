@@ -697,6 +697,8 @@ class TestEpBunch(object):
         idfobject = EpBunch(obj, objls, objidd)
         result = idfobject.getfieldidd('North_Axis')
         assert result == {'type': ['real']}
+        result = idfobject.getfieldidd('No_such_field')
+        assert result == {}
         
     def test_getfieldidd_item(self):
         """py.test for test_getfieldidd_item"""
@@ -704,6 +706,10 @@ class TestEpBunch(object):
         idfobject = EpBunch(obj, objls, objidd)
         result = idfobject.getfieldidd_item('North_Axis', 'type')
         assert result == ['real']
+        result = idfobject.getfieldidd_item('North_Axis', 'no_such_key')
+        assert result == []
+        result = idfobject.getfieldidd_item('no_such_field', 'type')
+        assert result == []
         
     def test_get_retaincase(self):
         """py.test for get_retaincase"""
@@ -899,6 +905,7 @@ class TestEpBunch(object):
         """py.test for get_referenced_object_alter"""
         idf = IDF()
         idf.initnew('test.idf')
+        idf.newidfobject('VERSION') # does not have a field "Name"
         idf.newidfobject('CONSTRUCTION', 'c')
         obj = idf.getobject('CONSTRUCTION', 'c')
         obj.Outside_Layer = 'TestMaterial'

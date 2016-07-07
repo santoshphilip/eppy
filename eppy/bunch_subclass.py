@@ -172,12 +172,14 @@ class EpBunch(Bunch):
         return getrange(self, fieldname)
         
     def getfieldidd(self, fieldname):
-        """return the idd for the field"""
+        """get the idd dict for this field
+        Will return {} if the fieldname does not exist"""
         return getfieldidd(self, fieldname)
         
     def getfieldidd_item(self, fieldname, iddkey):
         """return an item from the fieldidd, given the iddkey
-        will return and empty list if it does not have the key"""
+        will return and empty list if it does not have the iddkey
+        or if the fieldname does not exist"""
         return getfieldidd_item(self, fieldname, iddkey)
         
     def get_retaincase(self, fieldname):
@@ -375,17 +377,25 @@ def checkrange(bch, fieldname):
             astr = astr % (fieldvalue, therange['minimum>'])
             raise RangeError(astr)
     return fieldvalue
+    """get the idd dict for this field
+    Will return {} if the fieldname does not exist"""
     
 def getfieldidd(bch, fieldname):
-    """get the idd for this field"""
+    """get the idd dict for this field
+    Will return {} if the fieldname does not exist"""
     # print(bch)
-    fieldindex = bch.objls.index(fieldname)
+    try:
+        fieldindex = bch.objls.index(fieldname)
+    except ValueError as e:
+        return {}   # the fieldname does not exist
+                    # so there is no idd
     fieldidd = bch.objidd[fieldindex]
     return fieldidd
     
 def getfieldidd_item(bch, fieldname, iddkey):
     """return an item from the fieldidd, given the iddkey
-    will return and empty list if it does not have the key"""
+    will return and empty list if it does not have the iddkey
+    or if the fieldname does not exist"""
     fieldidd = getfieldidd(bch, fieldname)
     try:
         return fieldidd[iddkey]
@@ -508,11 +518,16 @@ def get_referenced_object_alter(referring_object, fieldname):
     for objkey in theidf.idfobjects.keys():
         for referedobj in theidf.idfobjects[objkey]:
             refnames = referedobj.getfieldidd_item("Name", u'reference')
+            if not refnames:
+                break # no point continuing. t
+                      # here are no refrences in this objkey
             if set(object_list).intersection(set(refnames)):
                 # intersection is not empty
                 fieldvalue = referring_object[fieldname]
                 if referedobj.isequal("Name", fieldvalue):
                     return referedobj
+                    # return the first item
+                    # if there are more items, it is a malformed idf
             
 
     
