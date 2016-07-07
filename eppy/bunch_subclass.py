@@ -199,27 +199,30 @@ class EpBunch(Bunch):
         
     def get_referenced_object(self, fieldname):
         """
-        Get an object referred to by a field in an EpBunch. For example an
-        EpBunch for a Construction object has fields for each layer, each of
-        which refers to a Material. This functions allows the object
+        Get an object referred to by a field in another object.
+        
+        For example an object of type Construction has fields for each layer, each
+        of which refers to a Material. This functions allows the object 
         representing a Material to be fetched using the name of the layer.
-    
+        
+        Returns the first item found since if there is more than one matching item,
+        it is a malformed IDF.
+        
         Parameters
         ----------
+        referring_object : EpBunch
+            The object which contains a reference to another object,
         fieldname : str
-            The name of the field in the EpBunch which contains the reference 
-            to another object.
+            The name of the field in the referring object which contains the 
+            reference to another object.
             
         Returns
         -------
         EpBunch
-
+    
         """
         return get_referenced_object(self, fieldname)
         
-    def get_referenced_object_alter(self, fieldname):
-        return get_referenced_object_alter(self, fieldname)
-
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -470,10 +473,14 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
 
 def get_referenced_object(referring_object, fieldname):
     """
-    Get an object referred to by a field in another object. For example an
-    object of type Construction has fields for each layer, each of which refers
-    to a Material. This functions allows the object representing a Material to
-    be fetched using the name of the layer.
+    Get an object referred to by a field in another object.
+    
+    For example an object of type Construction has fields for each layer, each
+    of which refers to a Material. This functions allows the object 
+    representing a Material to be fetched using the name of the layer.
+    
+    Returns the first item found since if there is more than one matching item,
+    it is a malformed IDF.
     
     Parameters
     ----------
@@ -486,48 +493,17 @@ def get_referenced_object(referring_object, fieldname):
     Returns
     -------
     EpBunch
-    
+
     """
-    referenced_object_name = referring_object.__getattr__(fieldname)
-    # get a list of object-lists
-    object_list = [
-        field['object-list'][0] for field in referring_object.objidd[1:]
-        if matchfieldnames(field['field'][0], fieldname)]
-    
-    # get keys which have a reference to an object-list in object_list
-    valid_keys = []
-    for key in referring_object.theidf.idd_info:
-        try:
-            reference = key[1]['reference'][0]
-        except (IndexError, KeyError):
-            continue
-        if reference in object_list:
-            idf_obj = key[0]['idfobj'].upper()
-            valid_keys.append(idf_obj)
-
-    # loop over the valid keys until we find a referring object
-    for key in valid_keys:
-        obj = referring_object.theidf.getobject(key, referenced_object_name)
-        if obj is not None:
-            return obj
-
-def get_referenced_object_alter(referring_object, fieldname):
-    """alternate implementation of get_referenced_object"""
-    theidf = referring_object.theidf
+    idf = referring_object.theidf
     object_list = referring_object.getfieldidd_item(fieldname, u'object-list')
-    for objkey in theidf.idfobjects.keys():
-        for referedobj in theidf.idfobjects[objkey]:
-            refnames = referedobj.getfieldidd_item("Name", u'reference')
-            if not refnames:
-                break # no point continuing. t
-                      # here are no refrences in this objkey
-            if set(object_list).intersection(set(refnames)):
-                # intersection is not empty
-                fieldvalue = referring_object[fieldname]
-                if referedobj.isequal("Name", fieldvalue):
-                    return referedobj
-                    # return the first item
-                    # if there are more items, it is a malformed idf
+    for obj_type in idf.idfobjects:
+        for obj in idf.idfobjects[obj_type]:
+            valid_object_lists = obj.getfieldidd_item("Name", u'reference')
+            if set(object_list).intersection(set(valid_object_lists)):
+                referenced_obj_name = referring_object[fieldname]
+                if obj.Name == referenced_obj_name:
+                    return obj
             
 
     

@@ -889,35 +889,35 @@ class TestEpBunch(object):
         """py.test for get_referenced_object"""
         idf = IDF()
         idf.initnew('test.idf')
-        idf.newidfobject('CONSTRUCTION', 'c')
-        obj = idf.getobject('CONSTRUCTION', 'c')
-        obj.Outside_Layer = 'TestMaterial'
-        
-        expected = idf.newidfobject('MATERIAL', 'TestMaterial')
-        
-        fetched = idf.getobject('MATERIAL', 'TestMaterial')
-        assert fetched == expected
-    
-        material = obj.get_referenced_object('Outside_Layer')
-        assert material == expected
-
-    def test_get_referenced_object_alter(self):
-        """py.test for get_referenced_object_alter"""
-        idf = IDF()
-        idf.initnew('test.idf')
         idf.newidfobject('VERSION') # does not have a field "Name"
-        idf.newidfobject('CONSTRUCTION', 'c')
-        obj = idf.getobject('CONSTRUCTION', 'c')
-        obj.Outside_Layer = 'TestMaterial'
+
+        # construction material        
+        construction = idf.newidfobject('CONSTRUCTION', 'construction')
+        construction.Outside_Layer = 'TestMaterial'
         
         expected = idf.newidfobject('MATERIAL', 'TestMaterial')
         
         fetched = idf.getobject('MATERIAL', 'TestMaterial')
         assert fetched == expected
     
-        material = obj.get_referenced_object_alter('Outside_Layer')
+        material = construction.get_referenced_object('Outside_Layer')
         assert material == expected
+        
+        # window material
+        glazing_group = idf.newidfobject(
+            'WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC', 'glazing_group')
+        glazing_group.Window_Material_Glazing_Name_1 = 'TestWindowMaterial'
 
+        expected = idf.newidfobject(
+            'WINDOWMATERIAL:GLAZING', 'TestWindowMaterial') # has several \references
+        
+        fetched = idf.getobject('WINDOWMATERIAL:GLAZING', 'TestWindowMaterial')
+        assert fetched == expected
+        
+        material = glazing_group.get_referenced_object(
+            'Window_Material_Glazing_Name_1')
+        assert material == expected
+    
     
 bldfidf = """
 Version,
