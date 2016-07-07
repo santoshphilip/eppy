@@ -692,11 +692,18 @@ class TestEpBunch(object):
                     result = idfobject.checkrange(fieldname)
 
     def test_getfieldidd(self):
-        """py.test for getidd"""
+        """py.test for getfieldidd"""
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
         result = idfobject.getfieldidd('North_Axis')
         assert result == {'type': ['real']}
+        
+    def test_getfieldidd_item(self):
+        """py.test for test_getfieldidd_item"""
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        result = idfobject.getfieldidd_item('North_Axis', 'type')
+        assert result == ['real']
         
     def test_get_retaincase(self):
         """py.test for get_retaincase"""
@@ -886,6 +893,22 @@ class TestEpBunch(object):
         assert fetched == expected
     
         material = obj.get_referenced_object('Outside_Layer')
+        assert material == expected
+
+    def test_get_referenced_object_alter(self):
+        """py.test for get_referenced_object_alter"""
+        idf = IDF()
+        idf.initnew('test.idf')
+        idf.newidfobject('CONSTRUCTION', 'c')
+        obj = idf.getobject('CONSTRUCTION', 'c')
+        obj.Outside_Layer = 'TestMaterial'
+        
+        expected = idf.newidfobject('MATERIAL', 'TestMaterial')
+        
+        fetched = idf.getobject('MATERIAL', 'TestMaterial')
+        assert fetched == expected
+    
+        material = obj.get_referenced_object_alter('Outside_Layer')
         assert material == expected
 
     

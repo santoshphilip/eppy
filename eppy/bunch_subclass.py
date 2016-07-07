@@ -175,6 +175,11 @@ class EpBunch(Bunch):
         """return the idd for the field"""
         return getfieldidd(self, fieldname)
         
+    def getfieldidd_item(self, fieldname, iddkey):
+        """return an item from the fieldidd, given the iddkey
+        will return and empty list if it does not have the key"""
+        return getfieldidd_item(self, fieldname, iddkey)
+        
     def get_retaincase(self, fieldname):
         """check if the field should retain case"""
         return get_retaincase(self, fieldname)
@@ -209,6 +214,9 @@ class EpBunch(Bunch):
 
         """
         return get_referenced_object(self, fieldname)
+        
+    def get_referenced_object_alter(self, fieldname):
+        return get_referenced_object_alter(self, fieldname)
 
     def __setattr__(self, name, value):
         try:
@@ -375,6 +383,16 @@ def getfieldidd(bch, fieldname):
     fieldidd = bch.objidd[fieldindex]
     return fieldidd
     
+def getfieldidd_item(bch, fieldname, iddkey):
+    """return an item from the fieldidd, given the iddkey
+    will return and empty list if it does not have the key"""
+    fieldidd = getfieldidd(bch, fieldname)
+    try:
+        return fieldidd[iddkey]
+    except KeyError as e:
+        return []
+    
+    
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
@@ -482,3 +500,19 @@ def get_referenced_object(referring_object, fieldname):
         obj = referring_object.theidf.getobject(key, referenced_object_name)
         if obj is not None:
             return obj
+
+def get_referenced_object_alter(referring_object, fieldname):
+    """alternate implementation of get_referenced_object"""
+    theidf = referring_object.theidf
+    object_list = referring_object.getfieldidd_item(fieldname, u'object-list')
+    for objkey in theidf.idfobjects.keys():
+        for referedobj in theidf.idfobjects[objkey]:
+            refnames = referedobj.getfieldidd_item("Name", u'reference')
+            if set(object_list).intersection(set(refnames)):
+                # intersection is not empty
+                fieldvalue = referring_object[fieldname]
+                if referedobj.isequal("Name", fieldvalue):
+                    return referedobj
+            
+
+    
