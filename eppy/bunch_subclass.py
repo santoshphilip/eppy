@@ -99,6 +99,7 @@ def addfunctions(abunch):
     names = [
         "Construction",
         "Material",             
+        "Material:AirGap",             
               ]
     names = [name.upper() for name in names]
     if key in names:

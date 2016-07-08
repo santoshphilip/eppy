@@ -6,11 +6,14 @@
 # =======================================================================
 """Functions to calculate the thermal properties of constructions and materials.
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-  
+
+from itertools import product
+
 
 INSIDE_FILM_R = 0.12
 OUTSIDE_FILM_R = 0.03
@@ -25,11 +28,18 @@ def rvalue(ddtt):
         thickness = ddtt.obj[ddtt.objls.index('Thickness')]
         conductivity = ddtt.obj[ddtt.objls.index('Conductivity')]
         rvalue = thickness / conductivity
-    else:
+    elif ddtt.obj[0] == 'Material:AirGap':
+        rvalue = ddtt.obj[ddtt.objls.index('Thermal_Resistance')] 
+    elif ddtt.obj[0] == 'Construction':
         rvalue = INSIDE_FILM_R + OUTSIDE_FILM_R
         layers = ddtt.obj[2:]
-        rvalue += sum(ddtt.theidf.getobject('MATERIAL', l).rvalue 
-                      for l in layers)
+        # TODO: function and data structure for getting object-lists
+        object_list = ['MATERIAL', 'MATERIAL:AIRGAP']
+        for key, layer in product(object_list, layers):
+            try:
+                rvalue += ddtt.theidf.getobject(key, layer).rvalue
+            except AttributeError:
+                pass
     return rvalue
 
 def ufactor(ddtt):
@@ -49,9 +59,16 @@ def heatcapacity(ddtt):
         density = ddtt.obj[ddtt.objls.index('Density')]
         specificheat = ddtt.obj[ddtt.objls.index('Specific_Heat')]
         heatcapacity = thickness * density * specificheat * 0.001
-    else:
+    elif ddtt.obj[0] == 'Material:AirGap':
+        heatcapacity = 0
+    elif ddtt.obj[0] == 'Construction':
+        heatcapacity = 0
         layers = ddtt.obj[2:]
-        heatcapacity = sum(ddtt.theidf.getobject('MATERIAL', l).heatcapacity 
-                      for l in layers)
+        object_list = ['MATERIAL', 'MATERIAL:AIRGAP']
+        for key, layer in product(object_list, layers):
+            try:
+                heatcapacity += ddtt.theidf.getobject(key, layer).heatcapacity
+            except AttributeError:
+                pass
     return heatcapacity
         
