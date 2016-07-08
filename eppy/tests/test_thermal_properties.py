@@ -18,6 +18,7 @@ from eppy.modeleditor import IDF
 
 from eppy.constructions.thermal_properties import INSIDE_FILM_R
 from eppy.constructions.thermal_properties import OUTSIDE_FILM_R
+from eppy.pytest_helpers import almostequal
 
 
 iddfhandle = StringIO(iddcurrent.iddtxt)
@@ -59,6 +60,28 @@ double_layer = """
     0.6;                     !- Visible Absorptance
     """
   
+air_gap = """
+  Construction,
+    TestConstruction,        !- Name
+    TestMaterial,            !- Inside Layer
+    AirGap,                  !- Layer 2
+    TestMaterial;            !- Outside Layer
+    
+  Material,
+    TestMaterial,
+    Rough,                   !- Roughness
+    0.10,                    !- Thickness {m}
+    0.5,                     !- Conductivity {W/m-K}
+    1000.0,                  !- Density {kg/m3}
+    1200,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+  Material:AirGap,
+    AirGap,
+    0.1;                     !- Thermal Resistance
+    """
+  
 
 class TestThermalProperties(object):
       
@@ -84,6 +107,20 @@ class TestThermalProperties(object):
                     OUTSIDE_FILM_R)
         assert c.rvalue == expected
         assert c.rvalue == 0.55
+
+    def test_rvalue_airgap_construction(self):
+        idf = IDF()
+        idf.initreadtxt(air_gap)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        a = idf.getobject('MATERIAL:AIRGAP', 'AirGap')
+        expected = (INSIDE_FILM_R +
+                    m.Thickness / m.Conductivity +
+                    a.Thermal_Resistance +
+                    m.Thickness / m.Conductivity +
+                    OUTSIDE_FILM_R)
+        assert almostequal(c.rvalue, expected, places=2)
+        assert almostequal(c.rvalue, 0.65, places=2)
 
     def test_rvalue_material(self):
         idf = IDF()
@@ -116,6 +153,20 @@ class TestThermalProperties(object):
         assert c.ufactor == expected
         assert c.ufactor == 1 / 0.55
       
+    def test_ufactor_airgap_construction(self):
+        idf = IDF()
+        idf.initreadtxt(air_gap)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        a = idf.getobject('MATERIAL:AIRGAP', 'AirGap')
+        expected = 1 /(INSIDE_FILM_R +
+                       m.Thickness / m.Conductivity +
+                       a.Thermal_Resistance +
+                       m.Thickness / m.Conductivity +
+                       OUTSIDE_FILM_R)
+        assert almostequal(c.ufactor, expected, places=2)
+        assert almostequal(c.ufactor, 1 / 0.65, places=2)
+
     def test_ufactor_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
@@ -142,6 +193,16 @@ class TestThermalProperties(object):
         assert c.heatcapacity == expected
         assert c.heatcapacity == 240
       
+    def test_heatcapacity_airgap_construction(self):
+        idf = IDF()
+        idf.initreadtxt(air_gap)
+        c = idf.getobject('CONSTRUCTION', 'TestConstruction')
+        m = idf.getobject('MATERIAL', 'TestMaterial')
+        a = idf.getobject('MATERIAL:AIRGAP', 'AirGap')
+        expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
+        assert almostequal(c.heatcapacity, expected, places=2)
+        assert almostequal(c.heatcapacity, 240, places=2)
+
     def test_heatcapacity_material(self):
         idf = IDF()
         idf.initreadtxt(single_layer)
