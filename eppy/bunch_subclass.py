@@ -76,6 +76,15 @@ def addfunctions(abunch):
     # proof of concept
     
     key = abunch.obj[0].upper()
+    
+    #-----------------
+    # TODO : alternate strategy to avoid listing the objkeys in snames
+    # check if epbunch has field "Zone_Name" or "Building_Surface_Name"
+    # and is in group u'Thermal Zones and Surfaces'
+    # then it is likely to be a surface.
+    # of course we need to recode for surfaces that do not have coordinates :-(
+    # or we can filter those out since they do not have 
+    # the field "Number_of_Vertices"
     snames = [
         "BuildingSurface:Detailed",
         "Wall:Detailed",
@@ -97,6 +106,7 @@ def addfunctions(abunch):
         }
         abunch.__functions.update(func_dict)
 
+    #-----------------
     names = [
         "Construction",
         "Material",             
@@ -110,12 +120,17 @@ def addfunctions(abunch):
             'heatcapacity': fh.heatcapacity,
         }
         abunch.__functions.update(func_dict)
+
+    # =====
     # code for references
+    #-----------------
+    # add function zonesurfaces
     if key == 'ZONE':
         func_dict = {'zonesurfaces':fh.zonesurfaces}
         abunch.__functions.update(func_dict)
 
-    # add function subsurface
+    #-----------------
+    # add function subsurfaces
     # going to cheat here a bit
     # check if epbunch has field "Zone_Name" 
     # and is in group u'Thermal Zones and Surfaces'
