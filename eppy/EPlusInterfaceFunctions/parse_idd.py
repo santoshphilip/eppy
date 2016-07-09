@@ -80,7 +80,41 @@ def removeblanklines(astr):
     return "\n".join(lines)
 
 @decorator
-def embeddgroupdata(extract_func, fname, debug=False):
+def make_idd_index(extract_func, fname, debug):
+    """generate tie iddindex"""
+    # copied the reading of fname from extractidddata - start
+    # removed decode (the decode will happen in extractidddata)
+    try:
+        if isinstance(fname, (file, StringIO)):
+            astr = fname.read()
+        else:
+            astr = open(fname, 'rb').read()
+    except NameError:
+        if isinstance(fname, (FileIO, StringIO)):
+            astr = fname.read()
+        else:
+            astr = mylib2.readfile(fname)
+    # copied the reading of fname from extractidddata- end
+    
+    # fname is exhausted by the above read
+    # reconstitute fname as a StringIO
+    fname = StringIO(astr)
+
+    # glist = iddgroups.iddtxt2grouplist(astr.decode('ISO-8859-2'))
+    
+    
+    blocklst, commlst, commdct = extract_func(fname)
+    # add group information to commlst and commdct
+    # glist = getglist(fname)
+    # commlst = iddgroups.group2commlst(commlst, glist)
+    # commdct = iddgroups.group2commdct(commdct, glist)
+
+    idd_index = {}
+    
+    return blocklst, commlst, commdct, idd_index
+
+@decorator
+def embeddgroupdata(extract_func, fname, debug):
     """insert group info into extracted idd"""
     
     # copied the reading of fname from extractidddata - start
@@ -111,6 +145,7 @@ def embeddgroupdata(extract_func, fname, debug=False):
     commdct = iddgroups.group2commdct(commdct, glist)
     return blocklst, commlst, commdct
 
+@make_idd_index
 @embeddgroupdata
 def extractidddata(fname, debug=False):
     """
@@ -118,8 +153,13 @@ def extractidddata(fname, debug=False):
     if debug is True,  it generates a series of text files.
     Each text file is incrementally different. You can do a diff
     see what the change is
-    - 
-    Does not integrate group data into the results
+    -
+    this code is from 2004.
+    it works.
+    I am trying not to change it (until I rewrite the whole thing) 
+    to add functionality to it, I am using decorators
+    So Now
+    Does not integrate group data into the results (@embeddgroupdata does it)
     """
     try:
         if isinstance(fname, (file, StringIO)):
