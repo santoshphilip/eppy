@@ -13,4 +13,4 @@ OR / AND
 construction and materials
 - use EpBunch.get_referenced_object to get the MaterialName in a construction
 
-- write functin get_referable_objects
+- write function get_referable_objects
