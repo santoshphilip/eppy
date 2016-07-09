@@ -1,0 +1,16 @@
+THINK POT
+=========
+
+You put ideas in a pot and let them simmer with the other ideas. New ideas may get cooked up.
+
+2016-07-08
+----------
+
+- add a field IDF.idd_index We already have IDF.idd_info
+OR / AND
+- embed the index within IDF.idd_info
+
+construction and materials
+- use EpBunch.get_referenced_object to get the MaterialName in a construction
+
+- write functin get_referable_objects
