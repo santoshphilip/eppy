@@ -16,6 +16,7 @@ from __future__ import unicode_literals
 
 import eppy.EPlusInterfaceFunctions.parse_idd as parse_idd
 import eppy.EPlusInterfaceFunctions.eplusdata as eplusdata
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 # from EPlusInterfaceFunctions import parse_idd
 # from EPlusInterfaceFunctions import eplusdata
