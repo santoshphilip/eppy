@@ -588,4 +588,8 @@ def test_idfinmsequence():
     assert materials[0].theidf == idf
     
     
-    
+def test_idd_index():
+    """py.test to see if idd_index is returned"""
+    idftxt = """"""
+    idf = IDF(StringIO(idftxt))
+    assert idf.idd_index == {}
