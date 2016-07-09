@@ -569,3 +569,23 @@ def test_getiddgroupdict():
         result = idf.getiddgroupdict()
         assert result[None] == gdict[None]
 
+def test_idfinmsequence():
+    """py.test for setting of theidf in Idf_MSequence"""
+    idftxt = """Version, 6.0;"""
+    # theidf set in Idf_MSequence.__init__
+    idf = IDF(StringIO(idftxt))
+    versions = idf.idfobjects['version'.upper()]
+    assert versions.theidf == idf
+    assert versions[0].theidf == idf
+    # theidf set in Idf_MSequence.insert()
+    material = idf.newidfobject('material'.upper())
+    assert material.theidf == idf
+    # theidf set when you pop an item
+    newmaterial = idf.newidfobject('material'.upper())
+    materials = idf.idfobjects['material'.upper()]
+    material = materials.pop(0)
+    assert material.theidf == None
+    assert materials[0].theidf == idf
+    
+    
+    

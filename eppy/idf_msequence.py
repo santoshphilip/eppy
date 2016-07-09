@@ -12,6 +12,8 @@ list has to be subclassed to solve this problem
 
 import collections
 
+from eppy.bunch_subclass import EpBunch
+
 class TypedList(collections.MutableSequence):
     """This is Alex Martelli example from
     http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list
@@ -97,10 +99,14 @@ class Idf_MSequence_old(collections.MutableSequence):
         return self.list2 == other.list2
 
 class Idf_MSequence(collections.MutableSequence):
-    def __init__(self, list1, list2):
+    def __init__(self, list1, list2, theidf):
         super(Idf_MSequence, self).__init__()
         self.list1 = list1
         self.list2 = list2
+        self.theidf = theidf
+        for v in self.list1:
+            if isinstance(v, EpBunch):
+                v.theidf = self.theidf            
     def __getitem__(self, i):
         return self.list1[i]
     def __setitem__(self, i, v):
@@ -108,6 +114,9 @@ class Idf_MSequence(collections.MutableSequence):
         self.list2[i] = v.obj
         # print "in __setitem__"
     def __delitem__(self, i):
+        v = self.list1[i]
+        if isinstance(v, EpBunch):
+            v.theidf = None
         del self.list1[i]
         del self.list2[i]
     def __len__(self):
@@ -116,6 +125,8 @@ class Idf_MSequence(collections.MutableSequence):
         # print len(self.list1), len(self.list2)
         self.list1.insert(i, v)
         self.list2.insert(i, v.obj)
+        if isinstance(v, EpBunch):
+            v.theidf = self.theidf
         # print len(self.list1), len(self.list2)
         # print "in insert"
     def __str__(self):
