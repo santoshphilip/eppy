@@ -17,6 +17,7 @@ added:
 - surface.subsurfaces -> will return all the subsurfaces (windows, doors etc.) that belong to the surface
 
 added two functions that scan through the entire idf file:
+
 - EpBunch.getreferingobjs(args)
 - EpBunch.get_referenced_object(args)
 - they make it possible for an idf object to scan through it's idf file and find other idf objects that are related to it (thru object-list and reference) 
