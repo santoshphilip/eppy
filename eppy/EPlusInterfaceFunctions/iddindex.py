@@ -39,3 +39,9 @@
 #  # MaterialName:[MATERIAL, MATERIAL:AIRGAP, ...] is the same list as in
 #  # ref2names above, not a new list. So we don't use too much memory
 #  u'type': [u'object-list']}
+
+from eppy.bunch_subclass import getfieldidd_item
+
+def makename2refdct(commlst):
+    """make the name2refs dict in the idd_index"""
+    pass

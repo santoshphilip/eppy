@@ -78,12 +78,9 @@ def removeblanklines(astr):
     lines = astr.splitlines()
     lines = [line for line in lines if line.strip() != ""]
     return "\n".join(lines)
-
-@decorator
-def make_idd_index(extract_func, fname, debug):
-    """generate tie iddindex"""
-    # copied the reading of fname from extractidddata - start
-    # removed decode (the decode will happen in extractidddata)
+    
+def _readfname(fname):
+    """copied from extractidddata. It deals with all the types of fnames"""
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -94,8 +91,13 @@ def make_idd_index(extract_func, fname, debug):
             astr = fname.read()
         else:
             astr = mylib2.readfile(fname)
-    # copied the reading of fname from extractidddata- end
-    
+    return astr
+            
+@decorator
+def make_idd_index(extract_func, fname, debug):
+    """generate tie iddindex"""
+    astr = _readfname(fname)
+
     # fname is exhausted by the above read
     # reconstitute fname as a StringIO
     fname = StringIO(astr)
@@ -104,11 +106,6 @@ def make_idd_index(extract_func, fname, debug):
     
     
     blocklst, commlst, commdct = extract_func(fname)
-    # add group information to commlst and commdct
-    # glist = getglist(fname)
-    # commlst = iddgroups.group2commlst(commlst, glist)
-    # commdct = iddgroups.group2commdct(commdct, glist)
-
     idd_index = {}
     
     return blocklst, commlst, commdct, idd_index
@@ -117,19 +114,7 @@ def make_idd_index(extract_func, fname, debug):
 def embeddgroupdata(extract_func, fname, debug):
     """insert group info into extracted idd"""
     
-    # copied the reading of fname from extractidddata - start
-    # removed decode (the decode will happen in extractidddata)
-    try:
-        if isinstance(fname, (file, StringIO)):
-            astr = fname.read()
-        else:
-            astr = open(fname, 'rb').read()
-    except NameError:
-        if isinstance(fname, (FileIO, StringIO)):
-            astr = fname.read()
-        else:
-            astr = mylib2.readfile(fname)
-    # copied the reading of fname from extractidddata- end
+    astr = _readfname(fname)
     
     # fname is exhausted by the above read
     # reconstitute fname as a StringIO
