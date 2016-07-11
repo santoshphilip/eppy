@@ -22,6 +22,9 @@ construction and materials
     - This will have to copy the referenced layers too.
     - will there be duplicates in the copied-to file
     - how do copy file->file in eppy. I think this has been implemented
+- Need a way to insert, delete, add and move layers in construction
+    - this is moving repeatable fields
+    - this may be needed in other objects too. 
 
 - write function get_referable_objects
     this is what you see when you click on the edit box in "IDF Editor" that comes with E+
