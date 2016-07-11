@@ -48,6 +48,17 @@ def ufactor(ddtt):
     1 / R value (W/K)
     """
     return 1 / rvalue(ddtt)
+    
+def ufactor_ip(ddtt):
+    """return ufactor in IP inits"""
+    # quick fix for Santosh. Needs to thought thru
+    mult = 0.076 / 0.429 # base on doing conversion in the table report
+    return ufactor(ddtt) * mult
+
+def rvalue_ip(ddtt):
+    """return R value in IP units"""
+    # quick fix for Santosh. Needs to thought thru
+    return 1. /  ufactor_ip(ddtt)       
 
 def heatcapacity(ddtt):
     """

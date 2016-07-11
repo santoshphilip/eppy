@@ -106,6 +106,8 @@ def addfunctions(abunch):
         func_dict = {
             'rvalue': fh.rvalue,
             'ufactor': fh.ufactor,
+            'rvalue_ip': fh.rvalue_ip,# quick fix for Santosh. Needs to thought thru
+            'ufactor_ip': fh.ufactor_ip,# quick fix for Santosh. Needs to thought thru
             'heatcapacity': fh.heatcapacity,
         }
         abunch.__functions.update(func_dict)
