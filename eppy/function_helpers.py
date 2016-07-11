@@ -74,6 +74,14 @@ def ufactor(ddtt):
     ufactor = thermal_properties.ufactor(ddtt)
     return ufactor
 
+def ufactor_ip(ddtt):
+    ufactor_ip = thermal_properties.ufactor_ip(ddtt)
+    return ufactor_ip
+
+def rvalue_ip(ddtt):
+    rvalue_ip = thermal_properties.rvalue_ip(ddtt)
+    return rvalue_ip
+
 def heatcapacity(ddtt):
     heatcapacity = thermal_properties.heatcapacity(ddtt)
     return heatcapacity
