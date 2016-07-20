@@ -23,6 +23,7 @@ from decorator import decorator
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.EPlusInterfaceFunctions.iddindex as iddindex
 
 
 def nocomment(astr, com):
@@ -106,7 +107,11 @@ def make_idd_index(extract_func, fname, debug):
     
     
     blocklst, commlst, commdct = extract_func(fname)
-    idd_index = {}
+    
+    name2refs = iddindex.makename2refdct(commdct)
+    ref2namesdct = iddindex.makeref2namesdct(name2refs)
+    idd_index = dict(name2refs=name2refs, ref2names=ref2namesdct)
+    commdct = iddindex.ref2names2commdct(ref2namesdct, commdct)
     
     return blocklst, commlst, commdct, idd_index
 

@@ -8,6 +8,12 @@
 - idd_index indexes idd_info so that it is easy to search through it.
 - idd_info is the datastructure that holds the info in the Energy+.idd file"""
 
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+
 # possible data structure:
 # idd_index = {
 #     ref2names:{
@@ -42,6 +48,38 @@
 
 from eppy.bunch_subclass import getfieldidd_item
 
-def makename2refdct(commlst):
+def makename2refdct(commdct):
     """make the name2refs dict in the idd_index"""
-    pass
+    refdct = {}
+    for comm in commdct: # commdct is a list of dict
+        try:
+            idfobj = comm[0]['idfobj'].upper()
+            field1 = comm[1]
+            if 'Name' in field1['field']:
+                references = field1['reference']
+                refdct[idfobj] = references
+        except (KeyError, IndexError) as e:
+            continue # not the expected pattern for reference
+    return refdct
+    
+def makeref2namesdct(name2refdct):
+    """make the ref2namesdct in the idd_index"""
+    ref2namesdct = {}
+    for key, values in name2refdct.items():
+        for value in values:
+            ref2namesdct.setdefault(value, set()).add(key)
+    return ref2namesdct
+    
+def ref2names2commdct(ref2names, commdct):
+    """embed ref2names into commdct"""
+    for comm in commdct:
+        for cdct in comm:
+            try:
+                refs = cdct['object-list'][0]
+                pointsto = ref2names[refs]
+                # pointsto = set(pointsto)
+                cdct.update({'pointsto':pointsto})
+            except KeyError as e:
+                continue
+    return commdct
+                
