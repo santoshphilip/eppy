@@ -81,7 +81,8 @@ def removeblanklines(astr):
     return "\n".join(lines)
     
 def _readfname(fname):
-    """copied from extractidddata. It deals with all the types of fnames"""
+    """copied from extractidddata below. 
+    It deals with all the types of fnames"""
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -96,7 +97,7 @@ def _readfname(fname):
             
 @decorator
 def make_idd_index(extract_func, fname, debug):
-    """generate tie iddindex"""
+    """generate the iddindex"""
     astr = _readfname(fname)
 
     # fname is exhausted by the above read
@@ -116,7 +117,7 @@ def make_idd_index(extract_func, fname, debug):
     return blocklst, commlst, commdct, idd_index
 
 @decorator
-def embeddgroupdata(extract_func, fname, debug):
+def embedgroupdata(extract_func, fname, debug):
     """insert group info into extracted idd"""
     
     astr = _readfname(fname)
@@ -136,7 +137,7 @@ def embeddgroupdata(extract_func, fname, debug):
     return blocklst, commlst, commdct
 
 @make_idd_index
-@embeddgroupdata
+@embedgroupdata
 def extractidddata(fname, debug=False):
     """
     extracts all the needed information out of the idd file
@@ -148,8 +149,9 @@ def extractidddata(fname, debug=False):
     it works.
     I am trying not to change it (until I rewrite the whole thing) 
     to add functionality to it, I am using decorators
-    So Now
-    Does not integrate group data into the results (@embeddgroupdata does it)
+    So if
+    Does not integrate group data into the results (@embedgroupdata does it)
+    Does not integrate iddindex into the results (@make_idd_index does it)
     """
     try:
         if isinstance(fname, (file, StringIO)):

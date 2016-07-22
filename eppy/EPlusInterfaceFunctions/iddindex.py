@@ -76,9 +76,8 @@ def ref2names2commdct(ref2names, commdct):
         for cdct in comm:
             try:
                 refs = cdct['object-list'][0]
-                pointsto = ref2names[refs]
-                # pointsto = set(pointsto)
-                cdct.update({'pointsto':pointsto})
+                validobjects = ref2names[refs]
+                cdct.update({'validobjects':validobjects})
             except KeyError as e:
                 continue
     return commdct
