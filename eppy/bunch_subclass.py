@@ -348,6 +348,11 @@ class EpBunch(Bunch):
         # unit test
         return self.__repr__()
 
+    def __dir__(self):
+        fnames = self.fieldnames
+        func_names = self['__functions'].keys()
+        return super(EpBunch, self).__dir__() + fnames + func_names
+    
 
 def getrange(bch, fieldname):
     """get the ranges for this field"""
