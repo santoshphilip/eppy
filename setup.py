@@ -48,7 +48,8 @@ setup(
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
     classifiers = [
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Development Status :: 4 - Beta',
         'Natural Language :: English',
         'Environment :: Console',
