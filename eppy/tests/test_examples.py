@@ -90,7 +90,7 @@ def test_addobject():
     assert len(zones) == 7
     modeleditor.addobject(
         bunchdt, data,
-        commdct, "Zone".upper(), aname="NewZone")
+        commdct, "Zone".upper(), None, aname="NewZone")
     assert len(zones) == 8
     assert zones[-1].obj == [
         'ZONE', 'NewZone', 0., 0., 0., 0., 1, 1,

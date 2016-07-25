@@ -17,7 +17,6 @@ from six import StringIO
 import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
-from eppy.idfreader import addfunctions2new
 from eppy.idfreader import makeabunch
 import itertools
 import os
@@ -26,6 +25,7 @@ import platform
 from py._log import warning
 
 import eppy.function_helpers as function_helpers
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 
 class NoObjectError(Exception):
@@ -129,7 +129,7 @@ def newrawobject(data, commdct, key):
     return obj
 
 
-def addthisbunch(bunchdt, data, commdct, thisbunch):
+def addthisbunch(bunchdt, data, commdct, thisbunch, theidf):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
@@ -158,7 +158,7 @@ def namebunch(abunch, aname):
     return abunch
 
 
-def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
+def addobject(bunchdt, data, commdct, key, theidf, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
     abunch = obj2bunch(data, commdct, obj)
@@ -371,6 +371,8 @@ def rename(idf, objkey, objname, newname):
         objlists = getallobjlists(idf, refname)
         # [('OBJKEY', refname, fieldindexlist), ...]
         for refname in refnames:
+        # TODO : there seems to be a duplication in this loop. Check.
+        # refname appears in both loops
             for robjkey, refname, fieldindexlist in objlists:
                 idfobjects = idf.idfobjects[robjkey]
                 for idfobject in idfobjects:
@@ -489,6 +491,10 @@ def zonevolume(idf, zonename):
 
     return volume
 
+def refname2key(idf, refname):
+    """return all keys that have the reference name"""
+    return [item[0] for item in getallobjlists(idf, refname)]
+
 
 class IDF(object):
 
@@ -532,6 +538,7 @@ class IDF(object):
             Path to an IDF file (which does not have to exist yet).
 
         """
+        # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
@@ -651,7 +658,7 @@ class IDF(object):
                         "Set it using IDF.setiddname(iddfile)")
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
-            self.idfname, self.iddname,
+            self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
         self.idfobjects, block, self.model, idd_info = readout
         self.__class__.setidd(idd_info, block)
@@ -728,7 +735,6 @@ class IDF(object):
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):
             abunch[k] = v
-        abunch = addfunctions2new(abunch, key)
         return abunch
 
     def popidfobject(self, key, index):
@@ -773,7 +779,7 @@ class IDF(object):
         addthisbunch(self.idfobjects,
                      self.model,
                      self.idd_info,
-                     idfobject)
+                     idfobject, self)
 
     def getobject(self, key, name):
         """Fetch an IDF object given key and name.
@@ -969,3 +975,19 @@ class IDF(object):
 
         """
         self.save(filename, lineendings, encoding)
+        
+    def getiddgroupdict(self):
+        """Return a idd group dictionary
+        sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
+         'Compliance Objects': ['Compliance:Building'], 'Controllers':
+         ['Controller:WaterCoil',
+          'Controller:OutdoorAir',
+          'Controller:MechanicalVentilation',
+          'AirLoopHVAC:ControllerList'], 
+        ...}
+        
+        Returns
+        -------
+        dict 
+        """
+        return iddgroups.commdct2grouplist(self.idd_info)

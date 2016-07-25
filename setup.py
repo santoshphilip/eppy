@@ -43,7 +43,7 @@ setup(
     author_email='eppy_scripting@yahoo.com',
     description='Scripting language for E+ idf files, and E+ output files',
     long_description=long_description,# TODO set this up
-    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry'],
+    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry', 'eppy.constructions'],
     include_package_data=True,
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy

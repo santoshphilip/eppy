@@ -35,9 +35,6 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="dev_docs/index.html" title="Developer Documentation for eppy"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -54,38 +51,65 @@
             
   <div class="section" id="changes">
 <h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="release-r0-5-2">
-<h2>release r0.5.2<a class="headerlink" href="#release-r0-5-2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>2016-05-27<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
-<p>added ability to update idf files thru JSON messages.</p>
+<h2>2016-07-09<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>added:</p>
+<ul class="simple">
+<li>construction.rfactor and material.rfactor</li>
+<li>construction.uvalue and material.uvalue</li>
+<li>construction.heatcapacity and material.heatcapacity</li>
+<li>the above functions do not work in all cases yet. But are still usefull</li>
+</ul>
+<p>added:</p>
+<ul class="simple">
+<li>zone.zonesurfaces -&gt; return all surfaces of the zone</li>
+<li>surface.subsurfaces -&gt; will return all the subsurfaces (windows, doors etc.) that belong to the surface</li>
+</ul>
+<p>added two functions that scan through the entire idf file:</p>
+<ul class="simple">
+<li>EpBunch.getreferingobjs(args)</li>
+<li>EpBunch.get_referenced_object(args)</li>
+<li>they make it possible for an idf object to scan through it&#8217;s idf file and find other idf objects that are related to it (thru object-list and reference)</li>
+</ul>
 </div>
 <div class="section" id="id2">
-<h3>2016-04-02<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>Replaced library bunch with munch</p>
+<h2>2016-05-31<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>refactored code for class IDF and class EpBunch
+fixed a bug in modeleditor.newidfobject</p>
+<div class="section" id="release-r0-5-2">
+<h3>release r0.5.2<a class="headerlink" href="#release-r0-5-2" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
-<div class="section" id="release-r0-5-1">
-<h2>release r0.5.1<a class="headerlink" href="#release-r0-5-1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
-<h3>2016-02-07<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h2>2016-05-27<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>added ability to update idf files thru JSON messages.</p>
+</div>
+<div class="section" id="id4">
+<h2>2016-04-02<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Replaced library bunch with munch</p>
+<div class="section" id="release-r0-5-1">
+<h3>release r0.5.1<a class="headerlink" href="#release-r0-5-1" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>2016-02-07<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>bug fix -&gt; read files that have mixed line endings. Both DOS and Unix line endings</li>
 </ul>
-</div>
-</div>
 <div class="section" id="release-r0-5">
-<h2>release r0.5<a class="headerlink" href="#release-r0-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3>2015-07-12<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>release r0.5<a class="headerlink" href="#release-r0-5" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>2015-07-12<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>python3 version of eppy is in ./p3/eppy</li>
 <li>eppy license has transitioned from GPLv3 to MIT license</li>
 <li>made some bugfixes to hvacbuilder.py</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>2015-05-30<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h2>2015-05-30<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">bugfix in ./eppy/Air:useful_scripts/idfdiff.py</p>
 </li>
@@ -99,8 +123,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>2015-05-27<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h2>2015-05-27<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><dl class="first docutils">
 <dt>idf.saveas(newname) changes the idf.idfname to newname</dt>
@@ -114,8 +138,8 @@
 </li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>2015-05-26<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h2>2015-05-26<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <p>updated the following:
 - idf.save(lineendings=&#8217;default&#8217;)
 - idf.saveas(fname, lineendings=&#8217;default&#8217;)</p>
@@ -131,29 +155,29 @@
 </dl>
 </li>
 </ul>
-</div>
-</div>
 <div class="section" id="release-r0-464a">
-<h2>release r0.464a<a class="headerlink" href="#release-r0-464a" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id8">
-<h3>2015-01-13<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>release r0.464a<a class="headerlink" href="#release-r0-464a" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>2015-01-13<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>r0.464a released on 2015-01-13. This in alpha release of this version. There may be minor updates after review from users.</p>
 </div>
-<div class="section" id="id9">
-<h3>2015-01-06<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h2>2015-01-06<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Developer documentation has been completed</li>
 <li>Added a stubs folder with scripts that can be used as templates</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>2014-10-21<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h2>2014-10-21<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>fixed a bug in script eppy/useful_scripts/loopdiagram.py</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>2014-09-01<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h2>2014-09-01<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">added a script eppy/useful_scripts/loopdiagram.py:</p>
 <div class="highlight-python"><pre>python loopdiagram.py --help
@@ -176,22 +200,22 @@ optional arguments:
 <li><p class="first">fixed a bug in hvacbuilder.makeplantloop and hvacbuilder.makecondenserloop</p>
 </li>
 </ul>
-</div>
-</div>
 <div class="section" id="release-r0-463">
-<h2>release r0.463<a class="headerlink" href="#release-r0-463" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id12">
-<h3>2014-08-21<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<h3>release r0.463<a class="headerlink" href="#release-r0-463" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>2014-08-21<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>added eppy/useful_scripts/eppy_version.py</li>
 <li>updated documentation to match</li>
 </ul>
-</div>
-</div>
 <div class="section" id="release-r0-462">
-<h2>release r0.462<a class="headerlink" href="#release-r0-462" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id13">
-<h3>2014-08-19<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<h3>release r0.462<a class="headerlink" href="#release-r0-462" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id15">
+<h2>2014-08-19<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><dl class="first docutils">
 <dt>added a script that can compare two idf files. It is documented in &#8220;Useful Scripts&#8221;. The script is in</dt>
@@ -215,7 +239,6 @@ optional arguments:
 </ul>
 </div>
 </div>
-</div>
 
 
           </div>
@@ -226,37 +249,39 @@ optional arguments:
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changes</a><ul>
-<li><a class="reference internal" href="#release-r0-5-2">release r0.5.2</a><ul>
-<li><a class="reference internal" href="#id1">2016-05-27</a></li>
-<li><a class="reference internal" href="#id2">2016-04-02</a></li>
+<li><a class="reference internal" href="#id1">2016-07-09</a></li>
+<li><a class="reference internal" href="#id2">2016-05-31</a><ul>
+<li><a class="reference internal" href="#release-r0-5-2">release r0.5.2</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-r0-5-1">release r0.5.1</a><ul>
-<li><a class="reference internal" href="#id3">2016-02-07</a></li>
+<li><a class="reference internal" href="#id3">2016-05-27</a></li>
+<li><a class="reference internal" href="#id4">2016-04-02</a><ul>
+<li><a class="reference internal" href="#release-r0-5-1">release r0.5.1</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-r0-5">release r0.5</a><ul>
-<li><a class="reference internal" href="#id4">2015-07-12</a></li>
-<li><a class="reference internal" href="#id5">2015-05-30</a></li>
-<li><a class="reference internal" href="#id6">2015-05-27</a></li>
-<li><a class="reference internal" href="#id7">2015-05-26</a></li>
+<li><a class="reference internal" href="#id5">2016-02-07</a><ul>
+<li><a class="reference internal" href="#release-r0-5">release r0.5</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-r0-464a">release r0.464a</a><ul>
-<li><a class="reference internal" href="#id8">2015-01-13</a></li>
-<li><a class="reference internal" href="#id9">2015-01-06</a></li>
-<li><a class="reference internal" href="#id10">2014-10-21</a></li>
-<li><a class="reference internal" href="#id11">2014-09-01</a></li>
+<li><a class="reference internal" href="#id6">2015-07-12</a></li>
+<li><a class="reference internal" href="#id7">2015-05-30</a></li>
+<li><a class="reference internal" href="#id8">2015-05-27</a></li>
+<li><a class="reference internal" href="#id9">2015-05-26</a><ul>
+<li><a class="reference internal" href="#release-r0-464a">release r0.464a</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-r0-463">release r0.463</a><ul>
-<li><a class="reference internal" href="#id12">2014-08-21</a></li>
+<li><a class="reference internal" href="#id10">2015-01-13</a></li>
+<li><a class="reference internal" href="#id11">2015-01-06</a></li>
+<li><a class="reference internal" href="#id12">2014-10-21</a></li>
+<li><a class="reference internal" href="#id13">2014-09-01</a><ul>
+<li><a class="reference internal" href="#release-r0-463">release r0.463</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#release-r0-462">release r0.462</a><ul>
-<li><a class="reference internal" href="#id13">2014-08-19</a></li>
+<li><a class="reference internal" href="#id14">2014-08-21</a><ul>
+<li><a class="reference internal" href="#release-r0-462">release r0.462</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id15">2014-08-19</a></li>
 </ul>
 </li>
 </ul>
@@ -295,9 +320,6 @@ optional arguments:
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
         <li class="right" >
           <a href="dev_docs/index.html" title="Developer Documentation for eppy"
              >next</a> |</li>

@@ -7,14 +7,11 @@
 
 """helper functions for the functions called by bunchdt"""
 
-
-
-
-
-
 from six.moves import zip_longest
-# import geometry
+import itertools
+from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
+
 
 def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
@@ -53,4 +50,34 @@ def tilt(ddtt):
     """tilt of the surface"""
     coords = getcoords(ddtt)
     return g_surface.tilt(coords)
+
+def buildingname(ddtt):
+    """return building name"""
+    idf = ddtt.theidf
+    building = idf.idfobjects['building'.upper()][0]
+    return building.Name
+    
+def zonesurfaces(ddtt):
+    """return al list of surfaces that belong to the zone"""
+    kwargs = {'fields':[u'Zone_Name', ],
+        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    return ddtt.getreferingobjs(**kwargs)
+    
+def subsurfaces(ddtt):
+    """return al list of surfaces that belong to the zone"""
+    kwargs = {'fields':[u'Building_Surface_Name', ],
+        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    return ddtt.getreferingobjs(**kwargs)
+    
+def rvalue(ddtt):
+    rvalue = thermal_properties.rvalue(ddtt)
+    return rvalue
+
+def ufactor(ddtt):
+    ufactor = thermal_properties.ufactor(ddtt)
+    return ufactor
+
+def heatcapacity(ddtt):
+    heatcapacity = thermal_properties.heatcapacity(ddtt)
+    return heatcapacity
 

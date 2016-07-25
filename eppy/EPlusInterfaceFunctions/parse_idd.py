@@ -7,16 +7,14 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """legacy code from EPlusInterface"""
-
-
-
-
-
+from six import StringIO
+from io import FileIO
+from decorator import decorator
 
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 
 def nocomment(astr, com):
@@ -73,16 +71,48 @@ def removeblanklines(astr):
     lines = [line for line in lines if line.strip() != ""]
     return "\n".join(lines)
 
+@decorator
+def embeddgroupdata(extract_func, fname, debug=False):
+    """insert group info into extracted idd"""
+    
+    # copied the reading of fname from extractidddata - start
+    # removed decode (the decode will happen in extractidddata)
+    try:
+        if isinstance(fname, (file, StringIO)):
+            astr = fname.read()
+        else:
+            astr = open(fname, 'rb').read()
+    except NameError:
+        if isinstance(fname, (FileIO, StringIO)):
+            astr = fname.read()
+        else:
+            astr = mylib2.readfile(fname)
+    # copied the reading of fname from extractidddata- end
+    
+    # fname is exhausted by the above read
+    # reconstitute fname as a StringIO
+    fname = StringIO(astr)
 
+    glist = iddgroups.iddtxt2grouplist(astr.decode('ISO-8859-2'))
+    
+    
+    blocklst, commlst, commdct = extract_func(fname)
+    # add group information to commlst and commdct
+    # glist = getglist(fname)
+    commlst = iddgroups.group2commlst(commlst, glist)
+    commdct = iddgroups.group2commdct(commdct, glist)
+    return blocklst, commlst, commdct
+
+@embeddgroupdata
 def extractidddata(fname, debug=False):
     """
     extracts all the needed information out of the idd file
     if debug is True,  it generates a series of text files.
     Each text file is incrementally different. You can do a diff
     see what the change is
+    - 
+    Does not integrate group data into the results
     """
-    from six import StringIO
-    from io import FileIO
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -109,7 +139,7 @@ def extractidddata(fname, debug=False):
     astr = nocom
     st1 = removeblanklines(astr)
     if debug:
-        mylib1.write_str2file('nocom2.txt', st1)
+        mylib1.write_str2file('nocom2.txt', st1.encode('latin-1'))
 
 
     #find the groups and the start object of the group
@@ -134,7 +164,7 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom3.txt', st1)
+        mylib1.write_str2file('nocom3.txt', st1.encode('latin-1'))
 
     #strip each line
     for i in range(len(alist)):
@@ -142,7 +172,7 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom4.txt', st1)
+        mylib1.write_str2file('nocom4.txt', st1.encode('latin-1'))
 
     #ensure that each line is a comment or variable
     #find lines that don't start with a comment
@@ -167,7 +197,7 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom5.txt', st1)
+        mylib1.write_str2file('nocom5.txt', st1.encode('latin-1'))
 
     #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
     lss = []
@@ -190,7 +220,7 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom6.txt', st1)
+        mylib1.write_str2file('nocom6.txt', st1.encode('latin-1'))
 
     if debug:
         #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
@@ -215,7 +245,7 @@ def extractidddata(fname, debug=False):
 
         ls_debug = lss_debug[:]
         st1 = '\n'.join(ls_debug)
-        mylib1.write_str2file('nocom7.txt', st1)
+        mylib1.write_str2file('nocom7.txt', st1.encode('latin-1'))
 
 
     #replace each var with '=====var======'
@@ -239,7 +269,7 @@ def extractidddata(fname, debug=False):
                 atxt = blocklst[i][j]+'\n'
                 fhandle.write(atxt)
                 atxt = lss[k]
-                fhandle.write(atxt)
+                fhandle.write(atxt.encode('latin-1'))
                 k = k+1
 
         fhandle.close()
@@ -264,7 +294,7 @@ def extractidddata(fname, debug=False):
             for j in range(len(blocklst[i])):
                 atxt = blocklst[i][j]+'\n'
                 fhandle.write(atxt)
-                fhandle.write(lst[i][j])
+                fhandle.write(lst[i][j].encode('latin-1'))
                 k = k+1
 
         fhandle.close()
@@ -305,9 +335,14 @@ def extractidddata(fname, debug=False):
 
         lss.append(alist)
     commdct = lss
-
+    
+    # add group information to commlst and commdct
+    # glist = iddgroups.idd2grouplist(fname)
+    # commlst = group2commlst(commlst, glist)
+    # commdct = group2commdct(commdct, glist)
+    
     return blocklst, commlst, commdct
-
+    # give blocklst a better name :-(
 
 def getobjectref(blocklst, commdct):
     """
