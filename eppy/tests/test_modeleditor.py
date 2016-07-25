@@ -85,29 +85,6 @@ def test_namebunch():
         assert result.Name == thename
 
 
-def test_addobject():
-    """py.test for addobject"""
-    thedata = (
-        # key, aname, fielddict
-        ('ZONE', None, dict(Name="Gumby", X_Origin=50)),
-        ('ZONE', 'karamba', {}),  # key, aname, fielddict
-        ('ZONE', None, {}),  # key, aname, fielddict
-        # key, aname, fielddict
-        ('ZONE', None, dict(Name="Gumby", X_Origin=50)),
-    )
-    for key, aname, fielddict in thedata:
-        result = modeleditor.addobject(
-            bunchdt, data, commdct,
-            key, aname, **fielddict)
-        assert bunchdt[key][-1].key == key  # wierd, but correct :-)
-        if aname:
-            assert data.dt[key][-1][1] == aname
-            assert bunchdt[key][-1].Name == aname
-        if fielddict:
-            for kkey, value in list(fielddict.items()):
-                assert bunchdt[key][-1][kkey] == value
-
-
 def test_getnamedargs():
     """py.test for getnamedargs"""
     result = dict(a=1, b=2, c=3)
@@ -115,7 +92,6 @@ def test_getnamedargs():
     assert result == modeleditor.getnamedargs(dict(a=1, b=2, c=3))
     assert result == modeleditor.getnamedargs(dict(a=1, b=2), c=3)
     assert result == modeleditor.getnamedargs(dict(a=1), c=3, b=2)
-
 
 
 def test_getrefnames():
