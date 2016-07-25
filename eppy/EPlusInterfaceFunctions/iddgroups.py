@@ -45,7 +45,10 @@ def idd2grouplist(fhandle):
 
 def iddtxt2groups(txt):
     """extract the groups from the idd file"""
-#    txt = txt.decode('ISO-8859-2')
+    try:
+        txt = txt.decode('ISO-8859-2')
+    except AttributeError:
+        pass
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
@@ -88,7 +91,6 @@ def iddtxt2grouplist(txt):
         else:
             return astr
 
-    # txt = txt.decode('ISO-8859-2') # should be decoded by now.
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
