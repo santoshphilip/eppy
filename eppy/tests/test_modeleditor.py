@@ -68,8 +68,6 @@ def test_extendlist():
         assert lst == nlst
 
 
-
-
 def test_namebunch():
     """py.test for namebunch"""
     thedata = (

@@ -430,7 +430,8 @@ def getfieldidd_item(bch, fieldname, iddkey):
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
-    return fieldidd.has_key('retaincase')
+    return 'retaincase' in fieldidd
+    
     
 def isequal(bch, fieldname, value, places=7):
     """return True if the field is equal to value"""
@@ -484,7 +485,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
                 itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
-            if itsidd.has_key('object-list'):
+            if 'object-list' in itsidd:
                 refname = itsidd['object-list'][0]
                 if refname in references:
                     if referedobj.isequal('Name', anobj[field]):

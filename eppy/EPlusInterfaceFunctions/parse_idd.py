@@ -93,7 +93,7 @@ def embeddgroupdata(extract_func, fname, debug=False):
     # reconstitute fname as a StringIO
     fname = StringIO(astr)
 
-    glist = iddgroups.iddtxt2grouplist(astr.decode('ISO-8859-2'))
+    glist = iddgroups.iddtxt2grouplist(astr)#.decode('ISO-8859-2'))
     
     
     blocklst, commlst, commdct = extract_func(fname)

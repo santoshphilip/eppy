@@ -45,7 +45,7 @@ def idd2grouplist(fhandle):
 
 def iddtxt2groups(txt):
     """extract the groups from the idd file"""
-    txt = txt.decode('ISO-8859-2')
+#    txt = txt.decode('ISO-8859-2')
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info
@@ -149,7 +149,7 @@ def commdct2grouplist(gcommdct):
     for objidd in gcommdct:
         group = objidd[0]['group']
         objname = objidd[0]['idfobj']
-        if gdict.has_key(group):
+        if group in gdict:
             gdict[group].append(objname)
         else:
             gdict[group] = [objname, ]
