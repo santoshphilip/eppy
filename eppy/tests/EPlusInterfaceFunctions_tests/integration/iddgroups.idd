@@ -1,0 +1,56 @@
+!      W/m2, W or deg C
+!      W/s
+!      W/W
+!      years
+! **************************************************************************
+
+Lead Input;
+
+Simulation Data;
+
+\group G1
+
+Version,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
+Version1,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
+Version2,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
+\group G2
+
+VersionG,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
+VersionG1,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
+VersionG2,
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \required-field
+      \default 7.0
+
