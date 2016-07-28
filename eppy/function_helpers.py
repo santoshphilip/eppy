@@ -66,6 +66,12 @@ def zonesurfaces(ddtt):
         'iddgroups':[u'Thermal Zones and Surfaces', ]}
     return ddtt.getreferingobjs(**kwargs)
     
+def subsurfaces(ddtt):
+    """return al list of surfaces that belong to the zone"""
+    kwargs = {'fields':[u'Building_Surface_Name', ],
+        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    return ddtt.getreferingobjs(**kwargs)
+    
 def rvalue(ddtt):
     rvalue = thermal_properties.rvalue(ddtt)
     return rvalue

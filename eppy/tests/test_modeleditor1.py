@@ -22,7 +22,7 @@ idfsnippet = snippet.idfsnippet
 iddsnippet = iddcurrent.iddtxt
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct = idfreader.idfreader(idffhandle, iddfhandle, None)
+bunchdt, data, commdct, idd_index = idfreader.idfreader(idffhandle, iddfhandle, None)
 
 def test_addobject():
     """py.test for addobject"""
@@ -186,7 +186,7 @@ def test_removeextensibles():
             [
                 "BuildingSurface:Detailed", "WALL-1PF", "WALL",
                 "WALL-1", "PLENUM-1",
-                "Outdoors", "", "SunExposed", "WindExposed", 0.50000, '4',
+                "Outdoors", "", "SunExposed", "WindExposed", '0.50000', '4',
             ]
         ),  # key, objname, rawobject
     )
@@ -194,6 +194,8 @@ def test_removeextensibles():
         result = modeleditor.removeextensibles(
             bunchdt, data, commdct, key,
             objname)
+        print(result.obj)
+        print(rawobject)
         assert result.obj == rawobject
 
 def test_newrawobject():
@@ -223,8 +225,8 @@ def test_obj2bunch():
     )
     for obj in thedata:
         key_i = data.dtls.index(obj[0].upper())
-        abunch = idfreader.makeabunch(commdct, obj, key_i, None)
-        result = modeleditor.obj2bunch(data, commdct, obj, None)
+        abunch = idfreader.makeabunch(commdct, obj, key_i)
+        result = modeleditor.obj2bunch(data, commdct, obj)
         assert result.__repr__() == abunch.__repr__()
 
 def test_iddofobject():

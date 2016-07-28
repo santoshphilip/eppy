@@ -133,17 +133,17 @@ def addthisbunch(bunchdt, data, commdct, thisbunch, theidf):
     or it can be used to copy within the idf file"""
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
-    abunch = obj2bunch(data, commdct, obj, theidf)
+    abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
 
 
-def obj2bunch(data, commdct, obj, theidf):
+def obj2bunch(data, commdct, obj):
     """make a new bunch object using the data object"""
     dtls = data.dtls
     key = obj[0].upper()
     key_i = dtls.index(key)
-    abunch = makeabunch(commdct, obj, key_i, theidf)
+    abunch = makeabunch(commdct, obj, key_i)
     return abunch
 
 
@@ -159,7 +159,7 @@ def namebunch(abunch, aname):
 def addobject(bunchdt, data, commdct, key, theidf, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
-    abunch = obj2bunch(data, commdct, obj, theidf)
+    abunch = obj2bunch(data, commdct, obj)
     if aname:
         namebunch(abunch, aname)
     data.dt[key].append(obj)
@@ -184,7 +184,7 @@ def getnamedargs(*args, **kwargs):
 def addobject1(bunchdt, data, commdct, key, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
-    abunch = obj2bunch(data, commdct, obj, None)
+    abunch = obj2bunch(data, commdct, obj)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
@@ -585,7 +585,7 @@ class IDF(object):
         return cls.iddname
 
     @classmethod
-    def setidd(cls, iddinfo, block):
+    def setidd(cls, iddinfo, iddindex, block):
         """Set the IDD to be used by eppy.
 
         Parameters
@@ -598,6 +598,7 @@ class IDF(object):
         """
         cls.idd_info = iddinfo
         cls.block = block
+        cls.idd_index = iddindex
 
     """Methods to do with reading an IDF."""
 
@@ -649,6 +650,7 @@ class IDF(object):
         - idfobjects : list
         - model : list
         - idd_info : list
+        - idd_index : dict
 
         """
         if self.getiddname() == None:
@@ -658,8 +660,8 @@ class IDF(object):
         readout = idfreader1(
             self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
-        self.__class__.setidd(idd_info, block)
+        self.idfobjects, block, self.model, idd_info, idd_index = readout
+        self.__class__.setidd(idd_info, idd_index, block)
 
     """Methods to do with creating a new blank IDF object."""
 
@@ -726,7 +728,7 @@ class IDF(object):
 
         """
         obj = newrawobject(self.model, self.idd_info, key)
-        abunch = obj2bunch(self.model, self.idd_info, obj, self)
+        abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
             warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
