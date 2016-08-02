@@ -14,7 +14,6 @@ from __future__ import unicode_literals
 
 from itertools import product
 
-
 INSIDE_FILM_R = 0.12
 OUTSIDE_FILM_R = 0.03
 

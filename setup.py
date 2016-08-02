@@ -46,7 +46,7 @@ setup(
                 "pydot>1.0",
                 "pytest>=2.3.5",
                 "tinynumpy>=1.2.1",
-                "decorator",
+                "decorator>=4.0.10",
                     ],
     cmdclass={'test': PyTest},
     author_email='eppy_scripting@yahoo.com',
