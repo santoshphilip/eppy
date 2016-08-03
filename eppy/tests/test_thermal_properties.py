@@ -37,6 +37,23 @@ single_layer = """
     0.6;                     !- Visible Absorptance
     """
   
+expected_failure = """
+  Construction,
+    TestConstruction,                       !- Name
+    Skyhooks;                           !- Inside Layer
+    
+  Boiler:HotWater,
+    Skyhooks,
+    Rough,                   !- Roughness
+    0.10,                    !- Thickness {m}
+    0.5,                     !- Conductivity {W/m-K}
+    1000.0,                  !- Density {kg/m3}
+    1200,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.6,                     !- Solar Absorptance
+    0.6;                     !- Visible Absorptance
+    """
+  
 double_layer = """
   Construction,
     TestConstruction,        !- Name
@@ -112,6 +129,13 @@ class Test_ThermalProperties(object):
                     OUTSIDE_FILM_R)
         assert c.rvalue == expected
         assert c.rvalue == 0.35
+    
+    def test_rvalue_fails(self):
+        self.idf.initreadtxt(expected_failure)
+        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
+
+        print c.rvalue
+        
     
     def test_rvalue_2_layer_construction(self):
         self.idf.initreadtxt(double_layer)

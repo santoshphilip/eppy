@@ -43,7 +43,7 @@ def rvalue(ddtt):
     elif object_type == 'Material:InfraredTransparent':
         rvalue = 0
     else:
-        raise AttributeError("%s has no rvalue property" % object_type)
+        raise NotImplementedError("%s has no rvalue property" % object_type)
     return rvalue
 
 def ufactor(ddtt):
