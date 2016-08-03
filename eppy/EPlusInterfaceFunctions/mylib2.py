@@ -8,12 +8,13 @@
 
 """leagacy code from EPlusInterface"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-import os, pickle, cPickle
+
+
+
+from six.moves import cPickle
+
+import os
 # import string
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 
@@ -38,7 +39,7 @@ def printlist(alist):
 
 def printdict(adict):
     """printdict"""
-    dlist = adict.keys()
+    dlist = list(adict.keys())
     dlist.sort()
     for i in range(0, len(dlist)):
         print(dlist[i], adict[dlist[i]])
@@ -123,8 +124,8 @@ def makedoedict(str1):
 
 def makedoetree(ddict, bdict):
     """makedoetree"""
-    dlist = ddict.keys()
-    blist = bdict.keys()
+    dlist = list(ddict.keys())
+    blist = list(bdict.keys())
     dlist.sort()
     blist.sort()
     #make space dict
@@ -138,7 +139,7 @@ def makedoetree(ddict, bdict):
     for num in range(0, len(lst)):
         #print lst[num]
         doedict[lst[num]] = {}
-    lv1list = doedict.keys()
+    lv1list = list(doedict.keys())
     lv1list.sort()
 
     #make wall dict
@@ -159,7 +160,7 @@ def makedoetree(ddict, bdict):
     for i in range(0, len(lv1list)):
         adict1 = doedict[lv1list[i]]
         #for each wall
-        walllist = adict1.keys()
+        walllist = list(adict1.keys())
         walllist.sort()
         for j in range(0, len(walllist)):
             windlist = []
@@ -181,15 +182,15 @@ def tree2doe(str1):
     retstuff[1] = {}# don't need it anymore
 
     str1 = ''#just re-using it
-    l1list = ddict.keys()
+    l1list = list(ddict.keys())
     l1list.sort()
     for i in range(0, len(l1list)):
         str1 = str1 + ddict[l1list[i]]
-        l2list = ddict[l1list[i]].keys()
+        l2list = list(ddict[l1list[i]].keys())
         l2list.sort()
         for j in range(0, len(l2list)):
             str1 = str1 + ddict[l2list[j]]
-            l3list = ddict[l1list[i]][l2list[j]].keys()
+            l3list = list(ddict[l1list[i]][l2list[j]].keys())
             l3list.sort()
             for k in range(0, len(l3list)):
                 str1 = str1 + ddict[l3list[k]]

@@ -5,10 +5,10 @@
 # taken from python's unit test
 # may be covered by Python's license
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 def almostequal(first, second, places=7, printit=True):
     """docstring for almostequal"""

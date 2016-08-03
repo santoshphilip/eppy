@@ -7,10 +7,10 @@
 
 """some helper files"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from string import ascii_letters, digits
 
@@ -66,10 +66,10 @@ def replaceint(fname, replacewith='%s'):
 
 def cleaniddfield(acomm):
     """make all the keys lower case"""
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         acomm[key.lower()] = val
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         if key != key.lower():
             acomm.pop(key)

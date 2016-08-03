@@ -17,10 +17,10 @@ The idf objects in both are sorted in ascending order. The files should be
 identical. If there is a mismatch, eppy made a mistake in the read. Comparing
 the two files will show you where the error occurred.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import argparse
 

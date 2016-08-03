@@ -1,17 +1,50 @@
-language: python
-python:
-  - "2.7"
-  - "3.5"
+language: cpp
 
-install:
-  # Update the Python 3 code, and change to the p3 dir if required
-  - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then cd eppy; sh 2to3sh.sh; cd ../p3; fi
-  - pip install -r requirements.txt
+os: 
+  - osx
+  - linux
+
+dist: trusty
+sudo: required 
+
+env:
+  - PYTHON=2.7 ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+
+before_install:
+  # install EnergyPlus
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then EXT=dmg; PLATFORM=Darwin; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then EXT=sh; PLATFORM=Linux; fi
+  - ENERGYPLUS_DOWNLOAD_BASE_URL=https://github.com/NREL/EnergyPlus/releases/download/v$ENERGYPLUS_VERSION
+  - ENERGYPLUS_DOWNLOAD_FILENAME=EnergyPlus-$ENERGYPLUS_VERSION-$ENERGYPLUS_SHA-$PLATFORM-x86_64
+  - ENERGYPLUS_DOWNLOAD_URL=$ENERGYPLUS_DOWNLOAD_BASE_URL/$ENERGYPLUS_DOWNLOAD_FILENAME.$EXT
+  - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
+
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo hdiutil attach $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo installer -pkg /Volumes/$ENERGYPLUS_DOWNLOAD_FILENAME/$ENERGYPLUS_DOWNLOAD_FILENAME.pkg -target /; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then echo "y\r" | sudo ./$ENERGYPLUS_DOWNLOAD_FILENAME.$EXT; fi
+
+  - sudo rm $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT
+
+  # install python
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ $PYTHON == 2* ]]; then brew install python; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]] && [[ $PYTHON == 3* ]]; then brew install python3; fi
+  # activate virtual env
+  - if [[ $PYTHON == 2* ]]; then virtualenv venv -p python; fi
+  - if [[ $PYTHON == 3* ]]; then virtualenv venv -p python3; fi
+  - source venv/bin/activate
+
+  # coverage and testing requirements
+  - pip install --upgrade pip
   - pip install pytest-cov
   - pip install codecov
 
-script: coverage run --source=eppy  
-                     --omit=eppy/tests/test_runner.py -m py.test -v
+install:
+  - pip install -r requirements.txt
+
+script: py.test ./eppy/tests --cov=./ -v
 
 after_success:
-    - codecov
+    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi

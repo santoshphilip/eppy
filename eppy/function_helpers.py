@@ -7,20 +7,17 @@
 
 """helper functions for the functions called by bunchdt"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
+from six.moves import zip_longest
 import itertools
 from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
+
 
 def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
     args = [iter(iterable)] * num
-    return itertools.izip_longest(fillvalue=fillvalue, *args)
+    return zip_longest(fillvalue=fillvalue, *args)
 
 def getcoords(ddtt):
     """return the coordinates of the surface"""

@@ -8,10 +8,10 @@
 """Sub class Bunch to represent an IDF object.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import copy
 import itertools
@@ -350,6 +350,11 @@ class EpBunch(Bunch):
         # unit test
         return self.__repr__()
 
+    def __dir__(self):
+        fnames = self.fieldnames
+        func_names = self['__functions'].keys()
+        return super(EpBunch, self).__dir__() + fnames + func_names
+    
 
 def getrange(bch, fieldname):
     """get the ranges for this field"""
@@ -427,7 +432,8 @@ def getfieldidd_item(bch, fieldname, iddkey):
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
-    return fieldidd.has_key('retaincase')
+    return 'retaincase' in fieldidd
+    
     
 def isequal(bch, fieldname, value, places=7):
     """return True if the field is equal to value"""
@@ -481,7 +487,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
                 itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
-            if itsidd.has_key('object-list'):
+            if 'object-list' in itsidd:
                 refname = itsidd['object-list'][0]
                 if refname in references:
                     if referedobj.isequal('Name', anobj[field]):

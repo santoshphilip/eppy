@@ -8,10 +8,10 @@
 # along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 """I print the current version of eppy. Being polite, I also say hello !"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import argparse
 import sys

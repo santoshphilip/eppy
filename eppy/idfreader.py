@@ -6,12 +6,6 @@
 # =======================================================================
 
 """use epbunch"""
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
 from eppy.bunch_subclass import EpBunch
@@ -111,13 +105,78 @@ def convertfields(key_comm, obj):
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
     # import pdbdb; pdb.set_trace()
-    for key in data.dt.keys():
+    for key in list(data.dt.keys()):
         objs = data.dt[key]
         for i, obj in enumerate(objs):
             key_i = data.dtls.index(key)
             key_comm = commdct[key_i]
             obj = convertfields(key_comm, obj)
             objs[i] = obj
+
+
+def addfunctions(dtls, bunchdt):
+    """add functions to the objects"""
+    snames = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed", ]
+    for sname in snames:
+        if sname.upper() in bunchdt:
+            surfaces = bunchdt[sname.upper()]
+            for surface in surfaces:
+                func_dict = {
+                    'area': fh.area,
+                    'height': fh.height,  # not working correctly
+                    'width': fh.width,  # not working correctly
+                    'azimuth': fh.azimuth,
+                    'tilt': fh.tilt,
+                    'coords': fh.getcoords,  # needed for debugging
+                }
+                try:
+                    surface.__functions.update(func_dict)
+                except KeyError as e:
+                    surface.__functions = func_dict
+    # add common functions
+    # for name in dtls:
+    #     for idfobject in bunchdt[name]:
+    # idfobject.__functions
+    #         idfobject['__functions']['fieldnames'] = fieldnames
+    #         idfobject['__functions']['fieldvalues'] = fieldvalues
+    #         idfobject['__functions']['getrange'] = GetRange(idfobject)
+    #         idfobject['__functions']['checkrange'] = CheckRange(idfobject)
+
+def addfunctions2new(abunch, key):
+    """add functions to a new bunch/munch object"""
+    snames = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed", ]
+    snames = [sname.upper() for sname in snames]
+    if key in snames:
+        func_dict = {
+            'area': fh.area,
+            'height': fh.height,  # not working correctly
+            'width': fh.width,  # not working correctly
+            'azimuth': fh.azimuth,
+            'tilt': fh.tilt,
+            'coords': fh.getcoords,  # needed for debugging
+        }
+        try:
+            abunch.__functions.update(func_dict)
+        except KeyError as e:
+            abunch.__functions = func_dict
+    return abunch
+
 
 def idfreader(fname, iddfile, conv=True):
     """read idf file and return bunches"""
