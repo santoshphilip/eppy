@@ -7,12 +7,15 @@
 # =======================================================================
 """Functions to calculate the thermal properties of constructions and materials.
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
 from itertools import product
+import warnings
+
 
 INSIDE_FILM_R = 0.12
 OUTSIDE_FILM_R = 0.03
@@ -29,11 +32,16 @@ def rvalue(ddtt):
         layers = ddtt.obj[2:]
         field_idd = ddtt.getfieldidd('Outside_Layer')
         validobjects = field_idd['validobjects']
-        for key, layer in product(validobjects, layers):
-            try:
-                rvalue += ddtt.theidf.getobject(key, layer).rvalue
-            except AttributeError:
-                pass
+        for layer in layers:
+            found = False
+            for key in validobjects:
+                try:
+                    rvalue += ddtt.theidf.getobject(key, layer).rvalue
+                    found = True
+                except AttributeError:
+                    pass
+            if not found:
+                raise AttributeError("%s material not found in IDF" % layer)
     elif object_type == 'Material':
         thickness = ddtt.obj[ddtt.objls.index('Thickness')]
         conductivity = ddtt.obj[ddtt.objls.index('Conductivity')]
@@ -42,8 +50,17 @@ def rvalue(ddtt):
         rvalue = ddtt.obj[ddtt.objls.index('Thermal_Resistance')] 
     elif object_type == 'Material:InfraredTransparent':
         rvalue = 0
+    elif object_type == 'Material:NoMass':
+        rvalue = ddtt.obj[ddtt.objls.index('Thermal_Resistance')] 
+    elif object_type == 'Material:RoofVegetation':
+        warnings.warn(
+            "Material:RoofVegetation thermal properties are based on dry soil",
+            UserWarning)
+        thickness = ddtt.obj[ddtt.objls.index('Thickness')]
+        conductivity = ddtt.obj[ddtt.objls.index('Conductivity_of_Dry_Soil')]
+        rvalue = thickness / conductivity
     else:
-        raise NotImplementedError("%s has no rvalue property" % object_type)
+        raise AttributeError("%s rvalue property not implemented" % object_type)
     return rvalue
 
 def ufactor(ddtt):
@@ -78,11 +95,16 @@ def heatcapacity(ddtt):
         layers = ddtt.obj[2:]
         field_idd = ddtt.getfieldidd('Outside_Layer')
         validobjects = field_idd['validobjects']
-        for key, layer in product(validobjects, layers):
-            try:
-                heatcapacity += ddtt.theidf.getobject(key, layer).heatcapacity
-            except AttributeError:
-                pass
+        for layer in layers:
+            found = False
+            for key in validobjects:
+                try:
+                    heatcapacity += ddtt.theidf.getobject(key, layer).heatcapacity
+                    found = True
+                except AttributeError:
+                    pass
+            if not found:
+                raise AttributeError("%s material not found in IDF" % layer)
     elif object_type == 'Material':
         thickness = ddtt.obj[ddtt.objls.index('Thickness')]
         density = ddtt.obj[ddtt.objls.index('Density')]
@@ -92,6 +114,19 @@ def heatcapacity(ddtt):
         heatcapacity = 0
     elif object_type == 'Material:InfraredTransparent':
         heatcapacity = 0
+    elif object_type == 'Material:NoMass':
+        warnings.warn(
+            "Material:NoMass materials included in heat capacity calculation",
+            UserWarning)
+        heatcapacity = 0
+    elif object_type == 'Material:RoofVegetation':
+        warnings.warn(
+            "Material:RoofVegetation thermal properties are based on dry soil",
+            UserWarning)
+        thickness = ddtt.obj[ddtt.objls.index('Thickness')]
+        density = ddtt.obj[ddtt.objls.index('Density_of_Dry_Soil')]
+        specificheat = ddtt.obj[ddtt.objls.index('Specific_Heat_of_Dry_Soil')]
+        heatcapacity = thickness * density * specificheat * 0.001
     else:
         raise AttributeError("%s has no heatcapacity property" % object_type)
     return heatcapacity
