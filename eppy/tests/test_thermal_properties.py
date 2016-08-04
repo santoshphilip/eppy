@@ -193,8 +193,8 @@ class Test_ThermalProperties(object):
             c.rvalue
             assert False
         except AttributeError as e:
-            assert e[0] == "Skyhooks material not found in IDF"
-            
+            assert str(e) == "Skyhooks material not found in IDF"
+                
     def test_rvalue_2_layer_construction(self):
         self.idf.initreadtxt(double_layer)
         c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
