@@ -75,7 +75,7 @@ htables = readhtml.titletable(filehandle) # reads the tables with their titles
 # <codecell>
 
 firstitem = htables[0]
-print firstitem
+print(firstitem)
 
 # <markdowncell>
 
@@ -112,7 +112,7 @@ pp.pprint(firstitem_table)
 # <codecell>
 
 thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row
-print thirdrow
+print(thirdrow)
 
 # <codecell>
 
@@ -242,7 +242,7 @@ table_itself = last_ltable[-1]
 
 # join lines_before_table into a paragraph of text
 justtext = '\n'.join(lines_before_table)
-print justtext
+print(justtext)
 
 # <codecell>
 
@@ -290,7 +290,7 @@ atable = [["",  "a b", "b c", "c d"],
 
 # <codecell>
 
-print atable[1][3]
+print(atable[1][3])
 
 # <markdowncell>
 
@@ -303,7 +303,7 @@ h_table = readhtml.named_grid_h(atable)
 
 # <codecell>
 
-print h_table.x_y.c_d
+print(h_table.x_y.c_d)
 
 # <markdowncell>
 
@@ -311,7 +311,7 @@ print h_table.x_y.c_d
 
 # <codecell>
 
-print h_table[0][2]
+print(h_table[0][2])
 
 # <markdowncell>
 
@@ -323,9 +323,9 @@ print h_table[0][2]
 
 # <codecell>
 
-print h_table.x_y[2]
+print(h_table.x_y[2])
 # or
-print h_table[0].c_d
+print(h_table[0].c_d)
 
 # <markdowncell>
 
@@ -333,7 +333,7 @@ print h_table[0].c_d
 
 # <codecell>
 
-print h_table._fields
+print(h_table._fields)
 
 # <markdowncell>
 
@@ -354,7 +354,7 @@ h_table.x_y._fields
 # <codecell>
 
 v_table = readhtml.named_grid_v(atable)
-print v_table.c_d.x_y
+print(v_table.c_d.x_y)
 
 # <markdowncell>
 
@@ -362,9 +362,9 @@ print v_table.c_d.x_y
 
 # <codecell>
 
-print v_table[2][0]
-print v_table.c_d[0]
-print v_table[2].x_y
+print(v_table[2][0])
+print(v_table.c_d[0])
+print(v_table[2].x_y)
 
 # <markdowncell>
 
@@ -389,8 +389,8 @@ v_table.a_b
 # <codecell>
 
 values_in_first_column = [cell for cell in v_table.a_b]
-print values_in_first_column
-print sum(values_in_first_column) # sum is a builtin function that will sum a list
+print(values_in_first_column)
+print(sum(values_in_first_column)) # sum is a builtin function that will sum a list
 
 # <markdowncell>
 
@@ -399,8 +399,8 @@ print sum(values_in_first_column) # sum is a builtin function that will sum a li
 # <codecell>
 
 values_in_first_row = [cell for cell in h_table.x_y]
-print values_in_first_row
-print sum(values_in_first_row)
+print(values_in_first_row)
+print(sum(values_in_first_row))
 
 # <codecell>
 

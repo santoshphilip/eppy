@@ -6,12 +6,12 @@
 # =======================================================================
 """functions to edit the E+ model"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
 
-from StringIO import StringIO
+
+
+
+
+from io import StringIO
 import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
@@ -163,7 +163,7 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         abunch[key] = value
     return abunch
 
@@ -187,7 +187,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
-    for kkey, value in kwargs.iteritems():
+    for kkey, value in kwargs.items():
         abunch[kkey] = value
     return abunch
 
@@ -211,7 +211,7 @@ def getobject(bunchdt, key, name):
 
 def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         if not isfieldvalue(
                 bunchdt, data, commdct,
                 idfobject, key, value, places=places):
@@ -245,7 +245,7 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
         return None
     theidd = iddofobject(data, commdct, key)
     extensible_i = [
-        i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -259,7 +259,7 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
         return theobject
     theidd = iddofobject(data, commdct, key)
     extensible_i = [
-        i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -284,7 +284,7 @@ def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
 def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
     """test if case has to be retained for that field"""
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
-    return thiscommdct.has_key('retaincase')
+    return 'retaincase' in thiscommdct
 
 
 def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
@@ -294,7 +294,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
     # return False # takes care of autocalculate and real
     # check float
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
-    if thiscommdct.has_key('type'):
+    if 'type' in thiscommdct:
         if thiscommdct['type'][0] in ('real', 'integer'):
             # test for autocalculate
             try:
@@ -333,9 +333,9 @@ def getrefnames(idf, objname):
     index = dtls.index(objname)
     fieldidds = iddinfo[index]
     for fieldidd in fieldidds:
-        if fieldidd.has_key('field'):
+        if 'field' in fieldidd:
             if fieldidd['field'][0].endswith('Name'):
-                if fieldidd.has_key('reference'):
+                if 'reference' in fieldidd:
                     return fieldidd['reference']
                 else:
                     return []
@@ -352,7 +352,7 @@ def getallobjlists(idf, refname):
     for i, fieldidds in enumerate(idf.idd_info):
         indexlist = []
         for j, fieldidd in enumerate(fieldidds):
-            if fieldidd.has_key('object-list'):
+            if 'object-list' in fieldidd:
                 if fieldidd['object-list'][0].upper() == refname.upper():
                     indexlist.append(j)
         if indexlist != []:
@@ -723,7 +723,7 @@ class IDF(object):
             warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             abunch[k] = v
         return abunch
 

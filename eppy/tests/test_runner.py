@@ -21,7 +21,6 @@ import os
 import re
 import shutil
 from subprocess import CalledProcessError
-import sys
 
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
@@ -33,11 +32,7 @@ from eppy.modeleditor import IDF
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-if (sys.version_info > (3, 0)):
-    RESOURCES_DIR = os.path.join(
-        THIS_DIR, os.pardir, os.pardir, os.pardir, 'eppy/resources')
-else:
-    RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
+RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
 
 IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
 IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
@@ -502,7 +497,7 @@ class TestMultiprocessing(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         IDF.setiddname(open(iddfile, 'r'), testing=True)
         runs = []
-        for i in xrange(4):
+        for i in range(4):
             runs.append([IDF(open(fname1, 'r'), TEST_EPW),
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2

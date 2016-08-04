@@ -5,17 +5,12 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """functions to edit the E+ model"""
+from six import iteritems
+from six import StringIO
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-from StringIO import StringIO
 import copy
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
-from eppy.idfreader import addfunctions2new
 from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
@@ -27,6 +22,7 @@ import platform
 from py._log import warning
 
 import eppy.function_helpers as function_helpers
+import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
 
 class NoObjectError(Exception):
@@ -130,7 +126,7 @@ def newrawobject(data, commdct, key):
     return obj
 
 
-def addthisbunch(bunchdt, data, commdct, thisbunch):
+def addthisbunch(bunchdt, data, commdct, thisbunch, theidf):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
@@ -159,7 +155,7 @@ def namebunch(abunch, aname):
     return abunch
 
 
-def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
+def addobject(bunchdt, data, commdct, key, theidf, aname=None, **kwargs):
     """add an object to the eplus model"""
     obj = newrawobject(data, commdct, key)
     abunch = obj2bunch(data, commdct, obj)
@@ -167,7 +163,7 @@ def addobject(bunchdt, data, commdct, key, aname=None, **kwargs):
         namebunch(abunch, aname)
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         abunch[key] = value
     return abunch
 
@@ -191,7 +187,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
-    for kkey, value in kwargs.iteritems():
+    for kkey, value in iteritems(kwargs):
         abunch[kkey] = value
     return abunch
 
@@ -215,7 +211,7 @@ def getobject(bunchdt, key, name):
 
 def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         if not isfieldvalue(
                 bunchdt, data, commdct,
                 idfobject, key, value, places=places):
@@ -249,7 +245,7 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
         return None
     theidd = iddofobject(data, commdct, key)
     extensible_i = [
-        i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -263,7 +259,7 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
         return theobject
     theidd = iddofobject(data, commdct, key)
     extensible_i = [
-        i for i in range(len(theidd)) if theidd[i].has_key('begin-extensible')]
+        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -288,7 +284,7 @@ def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
 def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
     """test if case has to be retained for that field"""
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
-    return thiscommdct.has_key('retaincase')
+    return 'retaincase' in thiscommdct
 
 
 def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
@@ -298,7 +294,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
     # return False # takes care of autocalculate and real
     # check float
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
-    if thiscommdct.has_key('type'):
+    if 'type' in thiscommdct:
         if thiscommdct['type'][0] in ('real', 'integer'):
             # test for autocalculate
             try:
@@ -337,9 +333,9 @@ def getrefnames(idf, objname):
     index = dtls.index(objname)
     fieldidds = iddinfo[index]
     for fieldidd in fieldidds:
-        if fieldidd.has_key('field'):
+        if 'field' in fieldidd:
             if fieldidd['field'][0].endswith('Name'):
-                if fieldidd.has_key('reference'):
+                if 'reference' in fieldidd:
                     return fieldidd['reference']
                 else:
                     return []
@@ -356,7 +352,7 @@ def getallobjlists(idf, refname):
     for i, fieldidds in enumerate(idf.idd_info):
         indexlist = []
         for j, fieldidd in enumerate(fieldidds):
-            if fieldidd.has_key('object-list'):
+            if 'object-list' in fieldidd:
                 if fieldidd['object-list'][0].upper() == refname.upper():
                     indexlist.append(j)
         if indexlist != []:
@@ -372,6 +368,8 @@ def rename(idf, objkey, objname, newname):
         objlists = getallobjlists(idf, refname)
         # [('OBJKEY', refname, fieldindexlist), ...]
         for refname in refnames:
+        # TODO : there seems to be a duplication in this loop. Check.
+        # refname appears in both loops
             for robjkey, refname, fieldindexlist in objlists:
                 idfobjects = idf.idfobjects[robjkey]
                 for idfobject in idfobjects:
@@ -490,6 +488,10 @@ def zonevolume(idf, zonename):
 
     return volume
 
+def refname2key(idf, refname):
+    """return all keys that have the reference name"""
+    return [item[0] for item in getallobjlists(idf, refname)]
+
 
 class IDF(object):
 
@@ -535,6 +537,7 @@ class IDF(object):
             File path to the EPW file to use if running the IDF.
 
         """
+        # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
@@ -585,7 +588,7 @@ class IDF(object):
         return cls.iddname
 
     @classmethod
-    def setidd(cls, iddinfo, block):
+    def setidd(cls, iddinfo, iddindex, block):
         """Set the IDD to be used by eppy.
 
         Parameters
@@ -598,6 +601,7 @@ class IDF(object):
         """
         cls.idd_info = iddinfo
         cls.block = block
+        cls.idd_index = iddindex
 
     """Methods to do with reading an IDF."""
 
@@ -649,6 +653,7 @@ class IDF(object):
         - idfobjects : list
         - model : list
         - idd_info : list
+        - idd_index : dict
 
         """
         if self.getiddname() == None:
@@ -656,10 +661,10 @@ class IDF(object):
                         "Set it using IDF.setiddname(iddfile)")
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
-            self.idfname, self.iddname,
+            self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
-        self.__class__.setidd(idd_info, block)
+        self.idfobjects, block, self.model, idd_info, idd_index = readout
+        self.__class__.setidd(idd_info, idd_index, block)
 
     """Methods to do with creating a new blank IDF object."""
 
@@ -731,9 +736,8 @@ class IDF(object):
             warning.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
-        for k, v in kwargs.items():
+        for k, v in list(kwargs.items()):
             abunch[k] = v
-        abunch = addfunctions2new(abunch, key)
         return abunch
 
     def popidfobject(self, key, index):
@@ -778,7 +782,7 @@ class IDF(object):
         addthisbunch(self.idfobjects,
                      self.model,
                      self.idd_info,
-                     idfobject)
+                     idfobject, self)
 
     def getobject(self, key, name):
         """Fetch an IDF object given key and name.
@@ -993,3 +997,19 @@ class IDF(object):
         run('in.idf', self.epw, **kwargs)
         # remove in.idf
         os.remove('in.idf')
+                
+    def getiddgroupdict(self):
+        """Return a idd group dictionary
+        sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
+         'Compliance Objects': ['Compliance:Building'], 'Controllers':
+         ['Controller:WaterCoil',
+          'Controller:OutdoorAir',
+          'Controller:MechanicalVentilation',
+          'AirLoopHVAC:ControllerList'], 
+        ...}
+        
+        Returns
+        -------
+        dict 
+        """
+        return iddgroups.commdct2grouplist(self.idd_info)

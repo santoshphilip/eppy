@@ -6,12 +6,6 @@
 # =======================================================================
 
 """use epbunch"""
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
 from eppy.bunch_subclass import EpBunch
@@ -70,7 +64,7 @@ def makebunches(data, commdct):
     return bunchdt
 
 
-def makebunches_alter(data, commdct):
+def makebunches_alter(data, commdct, theidf):
     """make bunches with data"""
     bunchdt = {}
     dt, dtls = data.dt, data.dtls
@@ -81,7 +75,7 @@ def makebunches_alter(data, commdct):
         for obj in objs:
             bobj = makeabunch(commdct, obj, obj_i)
             list1.append(bobj)
-        bunchdt[key] = Idf_MSequence(list1, objs)
+        bunchdt[key] = Idf_MSequence(list1, objs, theidf)
         # print "id(objs)", id(objs)
         # print "id(dt[key])", id(dt[key])
         # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
@@ -111,7 +105,7 @@ def convertfields(key_comm, obj):
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
     # import pdbdb; pdb.set_trace()
-    for key in data.dt.keys():
+    for key in list(data.dt.keys()):
         objs = data.dt[key]
         for i, obj in enumerate(objs):
             key_i = data.dtls.index(key)
@@ -132,7 +126,7 @@ def addfunctions(dtls, bunchdt):
         "Shading:Building:Detailed",
         "Shading:Zone:Detailed", ]
     for sname in snames:
-        if bunchdt.has_key(sname.upper()):
+        if sname.upper() in bunchdt:
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 func_dict = {
@@ -183,9 +177,10 @@ def addfunctions2new(abunch, key):
             abunch.__functions = func_dict
     return abunch
 
+
 def idfreader(fname, iddfile, conv=True):
     """read idf file and return bunches"""
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct, idd_index = readidf.readdatacommdct(fname, iddfile=iddfile)
     if conv:
         convertallfields(data, commdct)
     # fill gaps in idd
@@ -196,18 +191,14 @@ def idfreader(fname, iddfile, conv=True):
         skiplist=["TABLE:MULTIVARIABLELOOKUP"])
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
-    # TODO : add functions here.
-    # -
-    addfunctions(dtls, bunchdt)
-    # -
-    return bunchdt, data, commdct
+    return bunchdt, data, commdct, idd_index
 
 
-def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
+def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
-  # import pdbdb; pdb.set_trace()
-    block, data, commdct = readidf.readdatacommdct1(
+    # import pdb; pdb.set_trace()
+    block, data, commdct, idd_index = readidf.readdatacommdct1(
         fname,
         iddfile=iddfile,
         commdct=commdct,
@@ -225,9 +216,5 @@ def idfreader1(fname, iddfile, conv=True, commdct=None, block=None):
         skiplist=skiplist)
     iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
     # bunchdt = makebunches(data, commdct)
-    bunchdt = makebunches_alter(data, commdct)
-    # TODO : add functions here.
-    # -
-    addfunctions(dtls, bunchdt)
-    # -
-    return bunchdt, block, data, commdct
+    bunchdt = makebunches_alter(data, commdct, theidf)
+    return bunchdt, block, data, commdct, idd_index

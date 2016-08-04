@@ -7,10 +7,10 @@
 
 """use epbunch"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
@@ -111,7 +111,7 @@ def convertfields(key_comm, obj):
 def convertallfields(data, commdct):
     """docstring for convertallfields"""
     # import pdbdb; pdb.set_trace()
-    for key in data.dt.keys():
+    for key in list(data.dt.keys()):
         objs = data.dt[key]
         for i, obj in enumerate(objs):
             key_i = data.dtls.index(key)
@@ -132,7 +132,7 @@ def addfunctions(dtls, bunchdt):
         "Shading:Building:Detailed",
         "Shading:Zone:Detailed", ]
     for sname in snames:
-        if bunchdt.has_key(sname.upper()):
+        if sname.upper() in bunchdt:
             surfaces = bunchdt[sname.upper()]
             for surface in surfaces:
                 surface.__functions = {

@@ -15,10 +15,10 @@
 # credited by ActiveState Code Recipes code.activestate.com
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 try:
     import numpy as np

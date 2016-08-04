@@ -1,0 +1,30 @@
+THINK POT
+=========
+
+You put ideas in a pot and let them simmer with the other ideas. New ideas may get cooked up.
+
+2016-07-08
+----------
+
+- add a field IDF.idd_index We already have IDF.idd_info
+OR / AND
+- embed the index within IDF.idd_info
+    2016-07-09
+    ----------
+    elaborating further:
+    - idd_info can point to data snippets within idd_index.
+    - So the index is accesible from idd_info or idd_index
+    - this can give some flexibility in future coding.
+
+construction and materials
+- use EpBunch.get_referenced_object to get the MaterialName in a construction
+- We need a way to copy a construction from one idf to another.
+    - This will have to copy the referenced layers too.
+    - will there be duplicates in the copied-to file
+    - how do copy file->file in eppy. I think this has been implemented
+- Need a way to insert, delete, add and move layers in construction
+    - this is moving repeatable fields
+    - this may be needed in other objects too. 
+
+- write function get_referable_objects
+    this is what you see when you click on the edit box in "IDF Editor" that comes with E+

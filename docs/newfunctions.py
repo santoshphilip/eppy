@@ -62,8 +62,8 @@ fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
 try:
     idf1 = IDF(fname1)
-except modeleditor.IDDNotSetError, e:
-    print "raised eppy.modeleditor.IDDNotSetError"
+except modeleditor.IDDNotSetError as e:
+    print("raised eppy.modeleditor.IDDNotSetError")
     
 
 # <markdowncell>
@@ -88,8 +88,8 @@ idf1 = IDF(fname1)
 
 try:
     IDF.setiddname("anotheridd.idd")
-except modeleditor.IDDAlreadySetError, e:
-    print "raised modeleditor.IDDAlreadySetError"   
+except modeleditor.IDDAlreadySetError as e:
+    print("raised modeleditor.IDDAlreadySetError")   
     
 
 # <markdowncell>
@@ -126,15 +126,15 @@ idf1 = IDF(fname1)
 # <codecell>
 
 building = idf1.idfobjects['building'.upper()][0]
-print building
+print(building)
 
 # <codecell>
 
-print building.getrange("Loads_Convergence_Tolerance_Value")
+print(building.getrange("Loads_Convergence_Tolerance_Value"))
 
 # <codecell>
 
-print building.checkrange("Loads_Convergence_Tolerance_Value")
+print(building.checkrange("Loads_Convergence_Tolerance_Value"))
 
 # <markdowncell>
 
@@ -145,9 +145,9 @@ print building.checkrange("Loads_Convergence_Tolerance_Value")
 building.Loads_Convergence_Tolerance_Value = 0.6
 from eppy.bunch_subclass import RangeError
 try:
-    print building.checkrange("Loads_Convergence_Tolerance_Value")
-except RangeError, e:
-    print "raised range error"
+    print(building.checkrange("Loads_Convergence_Tolerance_Value"))
+except RangeError as e:
+    print("raised range error")
     
 
 # <markdowncell>
@@ -164,7 +164,7 @@ except RangeError, e:
 
 # <codecell>
 
-print building.fieldnames
+print(building.fieldnames)
 
 # <markdowncell>
 
@@ -173,7 +173,7 @@ print building.fieldnames
 # <codecell>
 
 for fieldname in building.fieldnames:
-    print "%s = %s" % (fieldname, building[fieldname])
+    print("%s = %s" % (fieldname, building[fieldname]))
     
 
 # <markdowncell>
@@ -186,9 +186,9 @@ from eppy.bunch_subclass import RangeError
 for fieldname in building.fieldnames:
     try:
         building.checkrange(fieldname)
-        print "%s = %s #-in range" % (fieldname, building[fieldname],)
+        print("%s = %s #-in range" % (fieldname, building[fieldname],))
     except RangeError as e:
-        print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
+        print("%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],))
         
 
 # <markdowncell>
@@ -237,7 +237,7 @@ idf_fromfilehandle.printidf()
 
 # - How do I create a blank new idf file  
 idftxt = "" # empty string
-from StringIO import StringIO
+from io import StringIO
 fhandle = StringIO(idftxt) # we can make a file handle of a string
 idf_emptyfile = IDF(fhandle) # initialize the IDF object with the file handle
 
@@ -278,7 +278,7 @@ idf_notemptyfile.save()
 # <codecell>
 
 txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
-print txt
+print(txt)
 
 # <markdowncell>
 
@@ -305,7 +305,7 @@ os.remove("notemptyfile.idf")
 
 # making a blank idf object
 blankstr = ""
-from StringIO import StringIO
+from io import StringIO
 idf = IDF(StringIO(blankstr))
 
 # <markdowncell>
@@ -320,7 +320,7 @@ newobject = idf.newidfobject("material".upper()) # the key for the object type h
 
 # <codecell>
 
-print newobject
+print(newobject)
 
 # <markdowncell>
 
@@ -329,7 +329,7 @@ print newobject
 # <codecell>
 
 newobject.Name = "Shiny new material object"
-print newobject
+print(newobject)
 
 # <codecell>
 
@@ -337,7 +337,7 @@ anothermaterial = idf.newidfobject("material".upper())
 anothermaterial.Name = "Lousy material"
 thirdmaterial = idf.newidfobject("material".upper())
 thirdmaterial.Name = "third material"
-print thirdmaterial
+print(thirdmaterial)
 
 # <markdowncell>
 
@@ -345,7 +345,7 @@ print thirdmaterial
 
 # <codecell>
 
-print idf.idfobjects["MATERIAL"]
+print(idf.idfobjects["MATERIAL"])
 
 # <markdowncell>
 
@@ -369,7 +369,7 @@ idf.popidfobject('MATERIAL', 1) # first material is '0', second is '1'
 
 # <codecell>
 
-print idf.idfobjects['MATERIAL']
+print(idf.idfobjects['MATERIAL'])
 
 # <markdowncell>
 
@@ -385,7 +385,7 @@ idf.removeidfobject(firstmaterial)
 
 # <codecell>
 
-print idf.idfobjects['MATERIAL']
+print(idf.idfobjects['MATERIAL'])
 
 # <markdowncell>
 
@@ -412,7 +412,7 @@ idf.copyidfobject(onlymaterial)
 
 # <codecell>
 
-print idf.idfobjects["MATERIAL"]
+print(idf.idfobjects["MATERIAL"])
 
 # <markdowncell>
 
@@ -441,7 +441,7 @@ gypboard = idf.newidfobject('MATERIAL', Name="G01a 19mm gypsum board",
 
 # <codecell>
 
-print gypboard
+print(gypboard)
 
 # <markdowncell>
 
@@ -449,7 +449,7 @@ print gypboard
 
 # <codecell>
 
-print idf.idfobjects["MATERIAL"]
+print(idf.idfobjects["MATERIAL"])
 
 # <headingcell level=2>
 
@@ -477,7 +477,7 @@ interiorwall = idf.newidfobject("CONSTRUCTION", Name="Interior Wall",
                  Outside_Layer="G01a 19mm gypsum board",
                  Layer_2="Shiny new material object",
                  Layer_3="G01a 19mm gypsum board")
-print interiorwall
+print(interiorwall)
 
 # <markdowncell>
 
@@ -489,7 +489,7 @@ modeleditor.rename(idf, "MATERIAL", "G01a 19mm gypsum board", "peanut butter")
 
 # <codecell>
 
-print interiorwall
+print(interiorwall)
 
 # <markdowncell>
 
@@ -523,9 +523,9 @@ idf = IDF(fname1)
 
 surfaces = idf.idfobjects["BuildingSurface:Detailed".upper()]
 surface = surfaces[0]
-print "area = %s" % (surface.area, )
-print "tilt = %s" % (surface.tilt, )
-print "azimuth = %s" % (surface.azimuth, )
+print("area = %s" % (surface.area, ))
+print("tilt = %s" % (surface.tilt, ))
+print("azimuth = %s" % (surface.azimuth, ))
 
 # <markdowncell>
 
@@ -541,8 +541,8 @@ zones = idf.idfobjects["ZONE"]
 zone = zones[0]
 area = modeleditor.zonearea(idf, zone.Name)
 volume = modeleditor.zonevolume(idf, zone.Name)
-print "zone area = %s" % (area, )
-print "zone volume = %s" % (volume, )
+print("zone area = %s" % (area, ))
+print("zone volume = %s" % (volume, ))
 
 # <markdowncell>
 

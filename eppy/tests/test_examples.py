@@ -7,10 +7,10 @@
 
 """py.test for examples. (ex_*.py files)"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from eppy.idfreader import idfreader
 import eppy.snippet as snippet
@@ -27,10 +27,11 @@ iddsnippet = iddcurrent.iddtxt
 
 idfsnippet = snippet.idfsnippet
 
-from StringIO import StringIO
+from six import StringIO
+
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct = idfreader(idffhandle, iddfhandle)
+bunchdt, data, commdct, idd_index = idfreader(idffhandle, iddfhandle)
 
 def test_readwrite():
     """py.test for ex_readwrite"""
@@ -89,7 +90,7 @@ def test_addobject():
     assert len(zones) == 7
     modeleditor.addobject(
         bunchdt, data,
-        commdct, "Zone".upper(), aname="NewZone")
+        commdct, "Zone".upper(), None, aname="NewZone")
     assert len(zones) == 8
     assert zones[-1].obj == [
         'ZONE', 'NewZone', 0., 0., 0., 0., 1, 1,

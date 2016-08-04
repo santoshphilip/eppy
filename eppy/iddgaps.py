@@ -10,10 +10,10 @@ With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 # see iddgaps6.py on usage
 # TODO : need unit tests for all htese functions
@@ -39,19 +39,19 @@ from __future__ import unicode_literals
 # gather the repeating field names (without the integer)
 # generate all the repeating fields for all variables
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import eppy.bunchhelpers as bunchhelpers
 
 def cleaniddfield(acomm):
     """make all the keys lower case"""
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         acomm[key.lower()] = val
-    for key in acomm.keys():
+    for key in list(acomm.keys()):
         val = acomm[key]
         if key != key.lower():
             acomm.pop(key)
@@ -65,7 +65,7 @@ def getfields(comm):
     """get all the fields that have the key 'field' """
     fields = []
     for field in comm:
-        if field.has_key('field'):
+        if 'field' in field:
             fields.append(field)
     return fields
 
@@ -76,7 +76,7 @@ def repeatingfieldsnames(fields):
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
     fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
     dct = dict(fnames)
-    repnames = fnames[:len(dct.keys())]
+    repnames = fnames[:len(list(dct.keys()))]
     return repnames
 
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.

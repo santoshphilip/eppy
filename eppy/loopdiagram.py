@@ -14,10 +14,10 @@ removed arrow between demand and supply
 has main with arguments"""
 # copy of s_airplantloop1.py
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import getopt
 import os
@@ -68,7 +68,7 @@ def dropnodes(edges):
                     newtup = (edge1[0], edge[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, err:
+                    except ValueError as err:
                         newedges.append(newtup)
                     added = True
         elif secondisnode(edge):
@@ -77,7 +77,7 @@ def dropnodes(edges):
                     newtup = (edge[0], edge1[1])
                     try:
                         newedges.index(newtup)
-                    except ValueError, err:
+                    except ValueError as err:
                         newedges.append(newtup)
                     added = True
         # gets the hanging nodes - nodes with no connection
@@ -146,7 +146,7 @@ def makeendnode(name):
 def escape_char(name, char):
     """escape strings which contain a specific character, char"""
     if char in name:
-        return u"\"" + name + u"\""
+        return "\"" + name + "\""
     else:
         return name
 
@@ -157,7 +157,7 @@ def nodetype(anode):
     """return the type of node"""
     try:
         return anode[1]
-    except IndexError, e:
+    except IndexError as e:
         return None
 
 
@@ -168,7 +168,7 @@ def edges2nodes(edges):
         nodes.append(e1)
         nodes.append(e2)
     nodedict = dict([(n, None) for n in nodes])
-    justnodes = nodedict.keys()
+    justnodes = list(nodedict.keys())
     justnodes.sort()
     return justnodes
 
@@ -194,7 +194,7 @@ def makediagram(edges):
         makeendnode(node[0])) for node in nodes if nodetype(node) == "EndNode"]
     epbr = [(node, makeabranch(node)) for node in nodes if not istuple(node)]
     nodedict = dict(epnodes + epbr + endnodes)
-    for value in nodedict.values():
+    for value in list(nodedict.values()):
         graph.add_node(value)
     for e1, e2 in edges:
         graph.add_edge(pydot.Edge(nodedict[e1], nodedict[e2]))
@@ -246,7 +246,7 @@ def makebranchcomponents(data, commdct, anode="epnode"):
         data, commdct,
         objkey, [outletfields] * numobjects)
 
-    zipped = zip(inlts, cmps, otlts)
+    zipped = list(zip(inlts, cmps, otlts))
     tzipped = [transpose2d(item) for item in zipped]
     for i in range(len(data.dt[objkey])):
         tt = tzipped[i]
@@ -294,7 +294,7 @@ def makeairplantloop(data, commdct):
     for br in branches:
         br_name = br[1]
         in_out = loops.branch_inlet_outlet(data, commdct, br_name)
-        branch_i_o[br_name] = dict(zip(["inlet", "outlet"], in_out))
+        branch_i_o[br_name] = dict(list(zip(["inlet", "outlet"], in_out)))
     # for br_name, in_out in branch_i_o.items():
     #     edges.append(((in_out["inlet"], anode), br_name))
     #     edges.append((br_name, (in_out["outlet"], anode)))
@@ -424,7 +424,7 @@ def makeairplantloop(data, commdct):
     fieldlists = [fieldlist] * loops.objectcount(data, objkey)
     equiplists = loops.extractfields(data, commdct, objkey, fieldlists)
     equiplistdct = dict([(ep[0], ep[1:])  for ep in equiplists])
-    for key, equips in equiplistdct.items():
+    for key, equips in list(equiplistdct.items()):
         enames = [equips[i] for i in range(1, len(equips), 2)]
         equiplistdct[key] = enames
     # adistuunit -> room
@@ -444,7 +444,7 @@ def makeairplantloop(data, commdct):
     #   get Name, airinletnode
     adistuinlets = loops.makeadistu_inlets(data, commdct)
     alladistu_comps = []
-    for key in adistuinlets.keys():
+    for key in list(adistuinlets.keys()):
         objkey = key.upper()
         singlefields = ["Name"] + adistuinlets[key]
         repeatfields = []
@@ -564,7 +564,7 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
-        except getopt.error, msg:
+        except getopt.error as msg:
             raise Usage(msg)
 
         # option processing
@@ -589,7 +589,7 @@ def main(argv=None):
         pngname = '%s.png' % (os.path.splitext(fname)[0])
         g.write(dotname)
         g.write_png(pngname)
-    except Usage, err:
+    except Usage as err:
         sys.stderr.write()(sys.argv[0].split("/")[-1] + ": " + str(err.msg))
         sys.stderr.write()("\t for help use --help")
         return 2

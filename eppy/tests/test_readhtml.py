@@ -7,10 +7,10 @@
 
 """py.test for readhtml.py"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 import collections
 from bs4 import BeautifulSoup
@@ -136,35 +136,35 @@ def test_lines_table():
     assert result == [
         [
             [
-                u'Table of Contents',
-                u'Report: Annual Building Utility Performance Summary',
-                u'For: Entire Facility',
-                u'Timestamp: 2014-01-13\n    16:47:19',
-                u'Values gathered over      8760.00 hours',
-                u'Site and Source Energy'
+                'Table of Contents',
+                'Report: Annual Building Utility Performance Summary',
+                'For: Entire Facility',
+                'Timestamp: 2014-01-13\n    16:47:19',
+                'Values gathered over      8760.00 hours',
+                'Site and Source Energy'
             ],
-            [[u'a', u'2'], [u'3', u'4']]
+            [['a', '2'], ['3', '4']]
         ],
         [
-            [u'Site to Source Energy Conversion Factors'],
-            [[u'b', u'6'], [u'7', u'8']]
+            ['Site to Source Energy Conversion Factors'],
+            [['b', '6'], ['7', '8']]
         ],
         [
             [
-                u'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND',
-                u'For: Meter',
-                u'Timestamp: 2014-01-13\n    16:47:19',
-                u'Custom Monthly Report'
+                'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND',
+                'For: Meter',
+                'Timestamp: 2014-01-13\n    16:47:19',
+                'Custom Monthly Report'
             ],
-            [[u'c', u'16'], [u'17', u'18']]],
+            [['c', '16'], ['17', '18']]],
         [
             [
-                u'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND',
-                u'For: Meter',
-                u'Timestamp: 2014-01-13\n    16:47:19',
-                u'Custom Monthly Report'
+                'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND',
+                'For: Meter',
+                'Timestamp: 2014-01-13\n    16:47:19',
+                'Custom Monthly Report'
             ],
-            [[u'd', u'26'], [u'27', u'28']]
+            [['d', '26'], ['27', '28']]
         ]]
 
 def test_make_ntgrid():

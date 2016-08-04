@@ -7,20 +7,17 @@
 
 """helper functions for the functions called by bunchdt"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
+from six.moves import zip_longest
 import itertools
-# import geometry
+from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
+
 
 def grouper(num, iterable, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     # grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx
     args = [iter(iterable)] * num
-    return itertools.izip_longest(fillvalue=fillvalue, *args)
+    return zip_longest(fillvalue=fillvalue, *args)
 
 def getcoords(ddtt):
     """return the coordinates of the surface"""
@@ -53,4 +50,42 @@ def tilt(ddtt):
     """tilt of the surface"""
     coords = getcoords(ddtt)
     return g_surface.tilt(coords)
+
+def buildingname(ddtt):
+    """return building name"""
+    idf = ddtt.theidf
+    building = idf.idfobjects['building'.upper()][0]
+    return building.Name
+    
+def zonesurfaces(ddtt):
+    """return al list of surfaces that belong to the zone"""
+    kwargs = {'fields':[u'Zone_Name', ],
+        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    return ddtt.getreferingobjs(**kwargs)
+    
+def subsurfaces(ddtt):
+    """return al list of surfaces that belong to the zone"""
+    kwargs = {'fields':[u'Building_Surface_Name', ],
+        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    return ddtt.getreferingobjs(**kwargs)
+    
+def rvalue(ddtt):
+    rvalue = thermal_properties.rvalue(ddtt)
+    return rvalue
+
+def ufactor(ddtt):
+    ufactor = thermal_properties.ufactor(ddtt)
+    return ufactor
+
+def ufactor_ip(ddtt):
+    ufactor_ip = thermal_properties.ufactor_ip(ddtt)
+    return ufactor_ip
+
+def rvalue_ip(ddtt):
+    rvalue_ip = thermal_properties.rvalue_ip(ddtt)
+    return rvalue_ip
+
+def heatcapacity(ddtt):
+    heatcapacity = thermal_properties.heatcapacity(ddtt)
+    return heatcapacity
 

@@ -8,7 +8,7 @@ def clean(path):
     try:
         content = opendir(path)
     except OSError:
-        print >> sys.stderr, "skipping", path
+        print("skipping", path, file=sys.stderr)
         return
     for filename, smode in content:
         if stat.S_ISDIR(smode):
@@ -26,7 +26,7 @@ def clean(path):
 count = 0
 
 for arg in sys.argv[1:] or ['.']:
-    print "cleaning path", arg, "of .pyc/.pyo/__pycache__ files"
+    print("cleaning path", arg, "of .pyc/.pyo/__pycache__ files")
     clean(arg)
 
-print "%d files removed" % (count,)
+print("%d files removed" % (count,))
