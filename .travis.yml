@@ -38,6 +38,7 @@ before_install:
 
   # coverage and testing requirements
   - pip install --upgrade pip
+  - pip install --upgrade setuptools
   - pip install pytest-cov
   - pip install codecov
 
