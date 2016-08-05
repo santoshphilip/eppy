@@ -42,7 +42,7 @@ before_install:
   - pip install codecov
 
 install:
-  - pip install -r requirements.txt
+  - python setup.py install
 
 script: py.test ./eppy/tests --cov=./ -v
 
