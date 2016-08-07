@@ -6,26 +6,21 @@
 # =======================================================================
 """functions to edit the E+ model"""
 
-
-
-
-
-
-from six import iteritems
-from six import StringIO
-
 import copy
-from eppy.iddcurrent import iddcurrent
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
 import itertools
 import os
 import platform
 
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import makeabunch
+from eppy.pytest_helpers import almostequal
 from py._log import warning
+from six import StringIO
+from six import iteritems
 
-import eppy.function_helpers as function_helpers
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.function_helpers as function_helpers
 
 
 class NoObjectError(Exception):
@@ -50,25 +45,6 @@ class IDDAlreadySetError(Exception):
 
     """Exception Object"""
     pass
-
-
-def almostequal(first, second, places=7, printit=True):
-    """
-    Test if two values are equal to a given number of places.
-    This is based on python's unittest so may be covered by Python's 
-    license.
-
-    """
-    if first == second:
-        return True
-
-    if round(abs(second - first), places) != 0:
-        if printit:
-            print(round(abs(second - first), places))
-            print("notalmost: %s != %s to %i places" % (first, second, places))
-        return False
-    else:
-        return True
 
 
 def poptrailing(lst):
@@ -306,7 +282,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
                         return True
             except AttributeError:
                 pass
-            return almostequal(float(idfobj[fieldname]), float(value), places, False)
+            return almostequal(float(idfobj[fieldname]), float(value), places)
     # check retaincase
     if is_retaincase(bunchdt, data, commdct, idfobj, fieldname):
         return idfobj[fieldname] == value
