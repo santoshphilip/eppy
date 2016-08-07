@@ -1,5 +1,205 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2016-07-20
+----------
+documentation for changes in IDF.idd_info and other stuff;
+- IDF.idd_index
+- embedded data in IDF.idd_info
+    zone = idf.idfobjects['ZONE'][0]
+    zone.idf > access to the idf
+    zone.objidd[0] has new keys
+        - group, idfobj
+    window = idf.idfobjects['WINDOW'][0]
+    window.getfieldidd('Construction_Name') will give
+        {u'field': [u'Construction Name'],
+         u'note': [u'To be matched with a construction in this input file'],
+         u'object-list': [u'ConstructionNames'],
+         u'validobjects': {u'CONSTRUCTION',
+          u'CONSTRUCTION:CFACTORUNDERGROUNDWALL',
+          u'CONSTRUCTION:COMPLEXFENESTRATIONSTATE',
+          u'CONSTRUCTION:FFACTORGROUNDFLOOR',
+          u'CONSTRUCTION:INTERNALSOURCE',
+          u'CONSTRUCTION:WINDOWDATAFILE'},
+         u'required-field': [u''],
+         u'type': [u'object-list']}
+    validobjects -> is a new key
+    
+
+
+2016-07-07
+----------
+further thought from get_referenced_object
+- do get_referable_objects -> gets all the objects that can be referred 
+- wall.getfunctions -> return the functions specific to wall
+- safeguard for name-clash in EpBunch.
+    - can be done by having all functions start with a suffix get_ , f_ ,
+    - aslo run a check when EpBunch is initiated. 
+- get_referenced_object is a geeky functions. Most users will need something more specific with the most commonly used ones. 
+        - Wall.belongsto or wall.parent
+        - surface.belongsto or surface.parent
+        - (might be good to have users have the ability to add functions)
+
+2016-07-06
+----------
+review bunch_subclass.get_referenced_object
+some syntactic sugar is possible - DONE
+
+2016-06-28
+----------
+parse the idd to gather all the relationships between 'object-list' and 'reference'. write specific functions for all the refs - DONE in ./docs/temp3.py
+
+2016-06-26
+----------
+in branch i102_mseq_idf.
+remove the setting of epbunch.idf in all places.
+set it when it is __set__ into Idf_MSequence
+Idf_MSequence will need a varaible theidf
+steps:
+- remove all setting of idf in epbunch.idf 
+    - remove the arg from __init__ DONE
+    - it will be set to None in the __init__ DONE
+- it should be set in Idf_MSequence DONE
+
+2016-06-24
+----------
+epbunch.theidd - when does theidd have to be chnaged
+- when epbunch is copied to a new idf
+- when epbunch is removed form an idf file
+- when a new epbunch is created in an idf
+- when an epbunch is added to an idf
+possibly if this is done in Idf_MSequence, all of it will be automatically taken care of. - DONE
+
+
+2016-06-20
+----------
+write a script that will track all the references from the idd_info.
+look at this to see what function must be written to wrap over getreferingobjs
+
+- open an issue for all this code.
+
+write function to return all the surfaces of a zone
+This is a generic problem in eppy:
+- return all the subsurfaces of a surface
+- return all the objects that use a schedule
+- etc
+
+So write a more generic function that will work with 'object-list' and 'reference' (as described in the idd file)
+
+
+2016-06-19
+----------
+TODO : remove self.idd_groups from IDF - DONE
+abstraction of getzonesurfaces() - DONE
+
+referredobj 
+
+referringobjs = []
+referedobj has: -> Name
+                -> reference    
+for each obj in idf: 
+[optional filter -> objects in iddgroup]
+    each field of obj:
+    [optional filter -> field in fieldlist]
+        has object-list [refname]:
+            if refname in reference:
+                if Name = field value:
+                    referringobjs.append() 
+
+
+
+def getreferingobjs(referedobj, iddgroups=None, fields=None):
+    referringobjs = []
+    idf = referedidd.theidf
+    referedidd = referedobj.getidd(Name)
+    references = referedidd['references']
+    idfobjs = idf.idfobjects.values()
+    idfobjs = list(itertools.chain.from_iterable(values)) # flatten list
+    if iddgroups: # optional filter
+        idfobjs = [anobj for anobj in idfobjs 
+            if anobj.getidd('key')['group'] in iddgroups]
+    for anobj in idfobjs:
+        if not fields:
+            fields = anobj.objls
+        for field in fields:
+            itsidd = anobj.getidd(field)
+            if itsidd.has_key('object-list'):
+                refname = itsidd['object-list']
+                if refname in references:
+                    if referedobj.isequal('Name', anobj[field]):
+                        referringobjs.append(anobj)
+    return referringobjs
+        
+args = referedobj
+
+def getrefereingobjs(referedobj):
+    
+referedidd = referedobj.getidd(Name)
+references = referedidd['references']
+referringobjs = [idfobj for idfobj in idf]
+if iddgroup:
+    referringobjs = [idfobj for idfobj in referringobjs if idfobj in iddgroup]
+referringobjs = [idfobj for idfobj in referringobjs isrefering(idfobj)]
+
+def isrefering(anobj):
+    if not fields:
+        fields = anobj.iddls
+    for field in fields:
+        itsidd = anobj.getidd(field)
+        try:
+            refname = itsidd['object-list']
+            if refname in references:
+                return True
+        except KeyError as e:
+            return False
+
+2016-06-13
+----------
+write code to get the list of zone surfaces. - DONE
+abstract this into generic code. 
+
+2016-06-11
+----------
+- idd2groups is built and tested
+- groups are embedded into commdct
+- extract glist from commdct - DONE
+
+maybe do the following:
+    - now explore idd_parse to understand what it is doing. 
+    - maybe use this as a way to rebuild parse_idd.extractidddata
+    - call "block" -> "field"
+
+
+2016-06-03
+----------
+access the idf in epbunch - DONE
+trace surfaces of walls.
+    - reference give another name for key.
+        to find a reference, search all key.Name.reference
+would be nice to do 
+    - wall.Name.idd['reference']
+    - OR -> wall.getidd(fieldname)['reference']
+wall.Zone_Name.idd['object-list'] -> ZoneNames
+search
+    [value[0]. for key, value in idfobjects.items() if len(value) != 0]
+refname2key(idf, refname)
+
+- would be nice to have the group data in idd_info
+    - either put it into the idddata
+    or
+    - have a separate data structure
+- without the group data, the relavant lists have to be made by hand
+- make a new branch to test this ?
+- branch - brazil_iddgroups
+data structure
+{'group 1 name':[k1, k2, k3, k4], 'grout2':[k5, k6, k7], }
+{k1:g1, k2:g2, k3:g3}
+OR
+objidd = [{"group":"gname", ...}, {... }, ....]
+
+idd2groups is built - now where do I use it ?    
+
+
+
 
 2015-07-22
 ----------

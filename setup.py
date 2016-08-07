@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 import io
@@ -39,23 +39,25 @@ setup(
     license='MIT License',
     author='Santosh Philip',
     tests_require=['pytest'],
-    install_requires=["munch>=2.0.2",
-                "beautifulsoup4>=4.2.1",
-                # "numpy>=1.7.1",
-                "pyparsing>=pyparsing",
-                "pydot>1.0",
-                "pytest>=2.3.5",
-                    ],
     cmdclass={'test': PyTest},
     author_email='eppy_scripting@yahoo.com',
     description='Scripting language for E+ idf files, and E+ output files',
     long_description=long_description,# TODO set this up
-    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry'],
+    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry', 'eppy.constructions'],
     include_package_data=True,
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
+    install_requires = [
+        "munch>=2.0.2",
+        "beautifulsoup4>=4.2.1",
+        "pytest>=2.3.5",
+        "tinynumpy>=1.2.1",
+        "six>=1.10.0",
+        "decorator>=4.0.10"
+        ],
     classifiers = [
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
         'Development Status :: 4 - Beta',
         'Natural Language :: English',
         'Environment :: Console',
@@ -65,6 +67,12 @@ setup(
         'Topic :: Scientific/Engineering',
         ],
     extras_require={
-        'testing': ['pytest'],
+        ':python_version<="2.7"': [
+            'pydot>1.0',
+            ],
+        ':python_version>="3.5"': [
+            'pydot3k',
+            ],
+        'testing': ['pytest'],        
     }
 )

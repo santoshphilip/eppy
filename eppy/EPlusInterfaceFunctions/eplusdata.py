@@ -5,7 +5,6 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-from StringIO import StringIO
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -15,6 +14,8 @@ import copy
 from io import IOBase
 
 from eppy.EPlusInterfaceFunctions import mylib2
+from six import StringIO
+from six import string_types as str
 
 
 def removecomment(astr, cphrase):
@@ -89,27 +90,27 @@ class Eplusdata(object):
         # import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
             self.dt, self.dtls = {}, []
-        if isinstance(dictfile, basestring) and fname == None:
+        if isinstance(dictfile, str) and fname == None:
             self.initdict(dictfile)
         if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
-        if isinstance(fname, basestring) and isinstance(dictfile, basestring):
+        if isinstance(fname, str) and isinstance(dictfile, str):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
-        if isinstance(fname, basestring) and isinstance(dictfile, Idd):
+        if isinstance(fname, str) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, 'rb')
             self.makedict(dictfile, fnamefobject)
         try:
             # will fail in python3 because of file
             if (isinstance(fname, (file, StringIO)) and
-                    isinstance(dictfile, basestring)):
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
             if (isinstance(fname, (file, StringIO)) and
                     isinstance(dictfile, Idd)):
                 self.makedict(dictfile, fname)
         except NameError:
             if (isinstance(fname, (IOBase, StringIO)) and
-                    isinstance(dictfile, basestring)):
+                    isinstance(dictfile, str)):
                 self.makedict(dictfile, fname)
             if (isinstance(fname, (IOBase, StringIO)) and
                     isinstance(dictfile, Idd)):
@@ -199,7 +200,7 @@ class Eplusdata(object):
 
         for element in lss:
             node = element[0].upper()
-            if dt.has_key(node):
+            if node in dt:
                 # stuff data in this key
                 dt[node.upper()].append(element)
             else:
@@ -239,13 +240,7 @@ class Eplusdata(object):
         """
         alist = []
         for element in reflist:
-            if self.dt.has_key(element[0].upper()):
+            if element[0].upper() in self.dt:
                 for elm in self.dt[element[0].upper()]:
                     alist.append(elm[element[1]])
         return alist
-
-
-#------------------------------------------
-
-def test_coverage():
-    pass

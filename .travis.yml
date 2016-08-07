@@ -38,16 +38,12 @@ before_install:
 
   # coverage and testing requirements
   - pip install --upgrade pip
+  - pip install --upgrade setuptools
   - pip install pytest-cov
   - pip install codecov
 
 install:
-  # Update the Python 3 code, and change to the p3 dir if required
-  - if [[ $PYTHON == 3* ]]; then cd eppy; sh 2to3sh.sh; cd ../p3; fi
-  - pip install -r requirements.txt
-
-script: coverage run -m py.test eppy/tests -v
+  - python setup.py install
 
 after_success:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
-    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash <(curl -s https://codecov.io/bash); fi

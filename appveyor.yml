@@ -31,10 +31,8 @@ install:
   # about it being out of date.
   - "pip install --disable-pip-version-check --user --upgrade pip"
   - ps: echo $env:PYTHON
-  - ps: if ($env:PYTHON -eq 'C:\Python35') {cd 'p3'; echo 'Changed to p3 directory'}
-  - ps: if ($env:PYTHON -eq 'C:\Python35-x64') {cd 'p3'; echo 'Changed to p3 directory'}
   - "%PYTHON%\\python.exe -m pip install pytest"
-  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+  - "%PYTHON%\\python.exe setup.py install"
 
 build: off
 

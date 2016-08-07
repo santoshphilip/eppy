@@ -12,7 +12,7 @@ from eppy.idf_msequence import Idf_MSequence
 def test_IDF_MSequence():
     l1 = ['a', 'b', 'c', 'd']
     l2 = ['1', '2', '3', '4']
-    idfms =  Idf_MSequence(l1, l2)
+    idfms =  Idf_MSequence(l1, l2, None)
     assert isinstance(idfms, Idf_MSequence)
     
     assert idfms[1] == 'b'

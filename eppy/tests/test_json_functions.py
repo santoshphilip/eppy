@@ -6,14 +6,14 @@
 # =======================================================================
 """py.test for json_functions"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF
-import StringIO
+from six import StringIO
 
 from eppy.iddcurrent import iddcurrent
 
@@ -23,7 +23,7 @@ from eppy import json_functions
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with
 # the old reading
-iddfhandle = StringIO.StringIO(iddcurrent.iddtxt)
+iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
@@ -93,7 +93,7 @@ def test_updateidf():
     "UpperLeftCorner"), # idftxt, dct, key, field, fieldval
     )
     for idftxt, dct, key, field, fieldval in data:
-        idfhandle = StringIO.StringIO(idftxt)
+        idfhandle = StringIO(idftxt)
         idf = IDF(idfhandle)
         json_functions.updateidf(idf, dct)
         assert idf.idfobjects[key.upper()][0][field] ==fieldval

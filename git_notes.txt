@@ -8,3 +8,12 @@ compare file in two branches
 
 branch description
 - git branch --edit-description #add or update a branch description
+
+delete a local branch
+- git branch --delete <branch>
+- git branch -d <branch> # Shorter version
+- git branch -D <branch> # Force delete un-merged branches
+remove a remote branch
+- git push origin --delete <branchName>
+Deleting a local remote-tracking branch:
+- git branch --delete --remotes <remote>/<branch>
