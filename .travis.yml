@@ -46,7 +46,7 @@ install:
   # Update the Python 3 code, and change to the p3 dir if required
   - python setup.py install 
 
-script: coverage run -m py.test eppy/tests -v
+script: coverage run --source eppy -m py.test eppy/tests -v
 
 after_success:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
