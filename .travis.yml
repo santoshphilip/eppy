@@ -43,10 +43,14 @@ before_install:
   - pip install codecov
 
 install:
-  # Update the Python 3 code, and change to the p3 dir if required
   - python setup.py install 
 
-script: coverage run --source eppy -m py.test eppy/tests -v
+script:
+  # run all tests in eppy/tests and check coverage of the eppy dir
+  - coverage run --source eppy -m py.test eppy/tests -v
 
 after_success:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
+  # coverage reporting to Travis CI output and on CodeCov 
+  - coverage report
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
+    
