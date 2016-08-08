@@ -505,7 +505,18 @@ class IDF(object):
     iddname = None
     idd_info = None
     block = None
-
+    
+    def __almostequal__(self, other, places=7):
+        for dtls1, dtls2 in zip(self.model.dtls, other.model.dtls):
+            objlst1 = self.model.dt[dtls1]
+            objlst2 = other.model.dt[dtls2]
+            for obj1, obj2 in zip(objlst1, objlst2):
+                for fld1, fld2 in zip(obj1, obj2):
+                    if not almostequal(fld1, fld2, places):
+                        return False
+        return True
+    
+    
     def __init__(self, idfname=None):
         """
         Parameters
@@ -519,6 +530,7 @@ class IDF(object):
             self.idfname = idfname
             self.read()
         self.outputtype = "standard"
+
 
     """ Methods to set up the IDD."""
     @classmethod
