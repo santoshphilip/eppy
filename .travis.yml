@@ -47,11 +47,9 @@ install:
 
 script:
   # run all tests in eppy/tests and check coverage of the eppy dir
-  # don't report on coverage of files in the tests dir itself
-  - coverage run --source eppy --omit eppy/tests/* -m py.test eppy/tests -v
+  - py.test -v --cov-config .coveragerc --cov=eppy eppy/tests
 
 after_success:
-  # coverage reporting to Travis CI output and on CodeCov 
-  - coverage report
+  # coverage reporting on CodeCov 
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
     
