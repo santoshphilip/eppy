@@ -16,11 +16,12 @@ Run as
 
 """
 
-from six import StringIO
+from collections import defaultdict
 import sys
 
 import argparse
 from eppy.modeleditor import IDF
+from six import StringIO
 
 
 pathnameto_eppy = '../'
@@ -71,7 +72,7 @@ def get_references(okey, idf):
 
 def get_groupfield(idf, references):
     # @TODO: Make this run faster
-    groupfield = {}
+    groupfield = defaultdict(list)
     ikeys = idf.idfobjects.keys()
     for key in ikeys:
         objs = idf.idfobjects[key]
@@ -89,7 +90,7 @@ def get_groupfield(idf, references):
                 referrings = fieldidd[u'object-list']
             except KeyError as e:
                 referrings = []
-            if fieldidd.has_key('begin-extensible'):
+            if 'begin-extensible' in fieldidd:
                 break # do extensibles later
             s_references = set(references)
             s_referrings = set(referrings)
@@ -97,11 +98,7 @@ def get_groupfield(idf, references):
             intersect = s_references.intersection(s_referrings)
             if intersect:
                 akey = (group, field)
-                if not groupfield.has_key(akey):
-                    groupfield[akey] = []
-                    groupfield[akey].append(key)
-                else:
-                    groupfield[akey].append(key)
+                groupfield[akey].append(key)
     return groupfield
 
 

@@ -6,41 +6,21 @@
 # =======================================================================
 """py.test for relatedobjects.py"""
 
+from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from six import StringIO
 
+from eppy.useful_scripts.relatedobjects import get_groupfield
 from eppy.useful_scripts.relatedobjects import get_references
-from eppy.useful_scripts.relatedobjects import iddcurrent
-from useful_scripts.relatedobjects import get_groupfield
 
 
-def test_get_references():
-    iddfhandle = StringIO(iddcurrent.iddtxt)
-    if IDF.getiddname() == None:
-        IDF.setiddname(iddfhandle)
-    idf = IDF(StringIO(""))
-    
-    # object has a reference
-    okey = 'AVAILABILITYMANAGERASSIGNMENTLIST'
-    idf.newidfobject(okey)
-    references = get_references(okey, idf)
-    expected = [u'SystemAvailabilityManagerLists']
-    assert references == expected
-    
-    # object has no references
-    okey = 'PIPE:UNDERGROUND'
-    idf.newidfobject(okey)
-    references = get_references(okey, idf)
-    expected = []
-    assert references == expected
+iddfhandle = StringIO(iddcurrent.iddtxt)
 
 
 def test_get_groupfield():
-    iddfhandle = StringIO(iddcurrent.iddtxt)
     if IDF.getiddname() == None:
         IDF.setiddname(iddfhandle)
     idf = IDF(StringIO(""))
-    
     # object has a reference but no groupfield
     okey = 'AVAILABILITYMANAGERASSIGNMENTLIST'
     idf.newidfobject(okey)
@@ -56,5 +36,24 @@ def test_get_groupfield():
     assert groupfield == {
         (u'Zone HVAC Forced Air Units', u'Availability_Manager_List_Name'):
             [u'ZONEHVAC:OUTDOORAIRUNIT']}
+
+
+def test_get_references():
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+    idf = IDF(StringIO(""))
+    # object has a reference
+    okey = 'AVAILABILITYMANAGERASSIGNMENTLIST'
+    idf.newidfobject(okey)
+    references = get_references(okey, idf)
+    expected = [u'SystemAvailabilityManagerLists']
+    assert references == expected
+    
+    # object has no references
+    okey = 'PIPE:UNDERGROUND'
+    idf.newidfobject(okey)
+    references = get_references(okey, idf)
+    expected = []
+    assert references == expected
 
 
