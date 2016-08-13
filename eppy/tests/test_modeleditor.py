@@ -587,4 +587,4 @@ def test_idd_index():
     """py.test to see if idd_index is returned"""
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
-    assert idf.idd_index == {}
+    assert set(idf.idd_index.keys()) == set(['ref2names', 'name2refs'])
