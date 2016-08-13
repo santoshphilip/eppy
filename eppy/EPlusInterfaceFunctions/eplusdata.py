@@ -13,7 +13,7 @@ from __future__ import unicode_literals
 import copy
 from io import IOBase
 
-from eppy.EPlusInterfaceFunctions import mylib2
+from eppy.EPlusInterfaceFunctions import filereader
 from six import StringIO
 from six import string_types as str
 
@@ -143,7 +143,7 @@ class Eplusdata(object):
             self.dt, self.dtls = fname.dt, fname.dtls
             return self.dt, self.dtls
 
-        astr = mylib2.readfile(fname)
+        astr = filereader.readfile(fname)
         nocom = removecomment(astr, '!')
         idfst = nocom
         alist = idfst.split(';')
@@ -177,7 +177,6 @@ class Eplusdata(object):
             dt, dtls = localidd.dt, localidd.dtls
         else:
             dt, dtls = self.initdict(dictfile)
-        # astr = mylib2.readfile(fname)
         astr = fnamefobject.read()
         try:
             astr = astr.decode('ISO-8859-2')
