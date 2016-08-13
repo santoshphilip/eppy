@@ -14,12 +14,6 @@
 # The following code within the block
 # credited by ActiveState Code Recipes code.activestate.com
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
-
-
-
-
-
-
 try:
     import numpy as np
     from numpy import arccos as acos

@@ -6,12 +6,6 @@
 # =======================================================================
 
 """pytest for idfreader. very few tests"""
-
-
-
-
-
-
 import eppy.idfreader as idfreader
 from six import StringIO
 
