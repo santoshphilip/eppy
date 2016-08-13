@@ -16,7 +16,7 @@ from eppy.useful_scripts.loopdiagram import dropnodes
 from eppy.useful_scripts.loopdiagram import edges2nodes
 from eppy.useful_scripts.loopdiagram import process_idf
 from eppy.useful_scripts.loopdiagram import replace_colon
-from pytest_helpers import do_integration_tests
+from eppy.pytest_helpers import do_integration_tests
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -92,7 +92,8 @@ def test_cleanedges():
         assert result == clean_edg
         
 
-@pytest.mark.skipif(not do_integration_tests())        
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_loopdiagram_integration():
     """End-to-end smoke test on an example file"""
     idd = os.path.join(IDD_FILES, "Energy+V8_1_0.idd")

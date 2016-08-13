@@ -10,7 +10,7 @@ import pytest
 from six import StringIO
 
 import eppy.idfreader as idfreader
-from pytest_helpers import do_integration_tests
+from eppy.pytest_helpers import do_integration_tests
 
 
 def test_iddversiontuple():
@@ -50,11 +50,13 @@ def test_addfunctions2new():
     pass
 
 
-@pytest.mark.skipif(not do_integration_tests())
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_idfreader():
     pass
 
 
-@pytest.mark.skipif(os.environ['TESTS'] != "INTEGRATION")
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_idfreader1():
     pass

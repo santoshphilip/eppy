@@ -28,7 +28,7 @@ def almostequal(first, second, places=7):
 
 def do_integration_tests():
     """
-    Check whether the 'EPPY_TESTS' environment variable has been set to do
+    Check whether the 'EPPY_INTEGRATION' environment variable has been set to do
     integration tests.
     
     Returns
@@ -36,7 +36,4 @@ def do_integration_tests():
     bool
     
     """
-    try:
-        return os.environ['TESTS'] == 'INTEGRATION'
-    except KeyError:
-        return False
+    return os.getenv('EPPY_INTEGRATION', False)
