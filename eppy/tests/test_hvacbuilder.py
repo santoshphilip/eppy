@@ -4,38 +4,22 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """py.test for hvacbuilder"""
+# idd is read only once in this test
+# if it has already been read from some other test, it will continue with the old reading
 
-
-
-
-
-
-import eppy.hvacbuilder as hvacbuilder
+from eppy.hvacbuilder import makeairloop
+from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from six import StringIO
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with the old reading
-from eppy.iddcurrent import iddcurrent
+import eppy.hvacbuilder as hvacbuilder
+import eppy.iddv7 as iddv7
+
+
 iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+IDF.setiddname(iddfhandle, testing=True)
 
-
-def test_flattencopy():
-    """py.test for flattencopy"""
-    tdata = (
-        ([1, 2], [1, 2]), #lst , nlst
-        ([1, 2, [3, 4]], [1, 2, 3, 4]), #lst , nlst
-        ([1, 2, [3, [4, 5, 6], 7, 8]], [1, 2, 3, 4, 5, 6, 7, 8]), #lst , nlst
-        ([1, 2, [3, [4, 5, [6, 7], 8], 9]], [1, 2, 3, 4, 5, 6, 7, 8, 9]),
-        #lst , nlst
-    )
-    for lst, nlst in tdata:
-        result = hvacbuilder.flattencopy(lst)
-        assert result == nlst
 
 def test_makeplantloop():
     """pytest for makeplantloop"""
@@ -656,4 +640,20 @@ def test__clean_listofcomponents_tuples():
         result = hvacbuilder._clean_listofcomponents_tuples(lst)
         assert result == clst
 
-        
+
+def test_makeairloop():
+    """smoke test for hvacbuilder makeairloop"""
+    IDF.setiddname(StringIO(iddv7.iddtxt), testing=True)
+    idf1 = IDF(StringIO(''))
+    loopname = "p_loop"
+    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+    dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+    # makeplantloop(idf1, loopname, sloop, dloop)
+    loopname = "c_loop"
+    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+    dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
+    # makecondenserloop(idf1, loopname, sloop, dloop)
+    loopname = "a_loop"
+    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
+    dloop = ['zone1', 'zone2', 'zone3']
+    makeairloop(idf1, loopname, sloop, dloop)
