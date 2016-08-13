@@ -60,5 +60,8 @@ script:
 
 after_success:
   # coverage reporting on CodeCov 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] &&
+       [[ $PYTHON == 3* ]] &&
+       [[ $EPPY_INTEGRATION == True ]] &&
+       [[ $NUMPY == numpy ]]; then codecov; fi
     
