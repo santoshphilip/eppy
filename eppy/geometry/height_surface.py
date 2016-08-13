@@ -8,28 +8,23 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 ## modified by Tuan Tran trantuan@hawaii.edu at L+U, www.coolshadow.com
 """height and surface"""
-
-
-
-
-
-
 try:
     import numpy as np
+    from np.linalg import det
 except ImportError as err:
-    import tinynumpy as np
+    import tinynumpy.tinynumpy as np
+    from np.tinylinalg import det
 
 
 # area of a polygon
 def area(poly):
-    """area"""
     if len(poly) < 3: # not a plane - no area
         return 0
     total = [0, 0, 0]
-    num = len(poly)
-    for i in range(num):
+    N = len(poly)
+    for i in range(N):
         vi1 = poly[i]
-        vi2 = poly[(i+1) % num]
+        vi2 = poly[(i+1) % N]
         prod = np.cross(vi1, vi2)
         total[0] += prod[0]
         total[1] += prod[1]
@@ -37,28 +32,37 @@ def area(poly):
     result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
     return abs(result/2)
 
-# average height of a polygon
+def unit_normal(a, b, c):
+    """unit normal vector of plane defined by points a, b, and c"""
+    x = det([
+        [1, a[1], a[2]], [1, b[1], b[2]], [1, c[1], c[2]]])
+    y = det([
+        [a[0], 1, a[2]], [b[0], 1, b[2]], [c[0], 1, c[2]]])
+    z = det([
+        [a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])
+    magnitude = (x**2 + y**2 + z**2)**.5
+
+    if magnitude < 0.00000001:
+        mag = (0, 0, 0)
+    else: mag = (x/magnitude, y/magnitude, z/magnitude)
+    
+    return mag
+
 def height(poly):
-    """height"""
+    """average height of a polygon"""
     num = len(poly)
     hgt = 0.0
     for i in range(num):
         hgt += (poly[i][2])
     return hgt/num
 
-#unit normal vector of plane defined by points a, b, and c
-def unit_normal(apnt, bpnt, cpnt):
-    """unit normal"""
-    xvar = np.tinylinalg.det([
-        [1, apnt[1], apnt[2]], [1, bpnt[1], bpnt[2]], [1, cpnt[1], cpnt[2]]])
-    yvar = np.tinylinalg.det([
-        [apnt[0], 1, apnt[2]], [bpnt[0], 1, bpnt[2]], [cpnt[0], 1, cpnt[2]]])
-    zvar = np.tinylinalg.det([
-        [apnt[0], apnt[1], 1], [bpnt[0], bpnt[1], 1], [cpnt[0], cpnt[1], 1]])
-    magnitude = (xvar**2 + yvar**2 + zvar**2)**.5
-    if magnitude < 0.00000001:
-        mag = (0, 0, 0)
-    else: mag = (xvar/magnitude, yvar/magnitude, zvar/magnitude)
-    return mag
-## end of http://code.activestate.com/recipes/578276/ }}}
-
+def test_area():
+    pts = [(0,0,0), (0,1,0), (1,1,0), (1,0,0)]
+    assert area(pts) == 1
+    assert area(list(reversed(pts))) == 1
+    pts = [(0,0,0), (1,1,0), (0,1,0)]
+    assert area(pts) == 0.5
+    assert area(list(reversed(pts))) == 0.5
+    pts = [(0,0,0), (0,1,0)]
+    assert area(pts) == 0
+    

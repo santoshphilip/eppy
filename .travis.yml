@@ -3,14 +3,16 @@ language: cpp
 os: 
   - osx
   - linux
+  - osx
+  - linux
 
 dist: trusty
 sudo: required 
 
 env:
   - PYTHON=2.7 NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
-  - PYTHON=3.5 NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
-  - PYTHON=2.7 NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=2.7 NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
   - PYTHON=3.5 NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
 
 before_install:
@@ -48,7 +50,7 @@ before_install:
 install:
   - python setup.py install 
   # install numpy and remove tinynumpy if testing with numpy
-  - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy; fi
+  - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy -y; fi
 
 script:
   # run all tests in eppy/tests and check coverage of the eppy dir
