@@ -4,10 +4,14 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """pytest for idfreader. very few tests"""
-import eppy.idfreader as idfreader
+
+import pytest
 from six import StringIO
+
+import eppy.idfreader as idfreader
+from pytest_helpers import do_integration_tests
+
 
 def test_iddversiontuple():
     """py.test for iddversiontuple"""
@@ -16,3 +20,41 @@ def test_iddversiontuple():
     fhandle = StringIO(iddtxt)
     result = idfreader.iddversiontuple(fhandle)
     assert result == (9, 8, 4)
+
+
+def test_makeabunch():
+    pass
+
+
+def test_makebunches():
+    pass
+
+
+def test_makebunches_alter():
+    pass
+
+
+def test_convertfields():
+    pass
+
+
+def test_convertallfields():
+    pass
+
+
+def test_addfunctions():
+    pass
+
+
+def test_addfunctions2new():
+    pass
+
+
+@pytest.mark.skipif(not do_integration_tests())
+def test_idfreader():
+    pass
+
+
+@pytest.mark.skipif(os.environ['TESTS'] != "INTEGRATION")
+def test_idfreader1():
+    pass
