@@ -13,11 +13,6 @@ Find the intersection between two lines
 V = (1/6)*|(a-d).((b-d)x(c-d))|
 """
 
-
-
-
-
-
 import numpy as np
 
 def vol_tehrahedron(poly):
