@@ -54,6 +54,7 @@ setup(
         "tinynumpy>=1.2.1",
         "six>=1.10.0",
         "decorator>=4.0.10"
+        "sympy>=1.0",
         ],
     classifiers = [
         'Programming Language :: Python :: 2',
