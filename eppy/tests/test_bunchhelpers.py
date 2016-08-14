@@ -4,15 +4,12 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """pytest for bunchhelpers"""
 
-
-
-
-
+from eppy.bunchhelpers import matchfieldnames
 
 import eppy.bunchhelpers as bunchhelpers
+
 
 def test_onlylegalchar():
     """py.test for onlylegalchar"""
@@ -58,3 +55,18 @@ def test_replaceint():
         result = bunchhelpers.replaceint(fname)
         assert result == newname
 
+def test_matchfieldnames():
+    """pytest for matchfieldnames"""
+    a = "TESTFORCASE" 
+    b = "TestForCase"
+    c = "testforcase"
+    assert matchfieldnames(a, b)
+    assert matchfieldnames(a, c)
+    assert matchfieldnames(b, c)
+    
+    a = "test for spaces"
+    b = "test_for_spaces"
+    c = "test_for spaces"
+    assert matchfieldnames(a, b)
+    assert matchfieldnames(a, c)
+    assert matchfieldnames(b, c)
