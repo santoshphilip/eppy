@@ -17,7 +17,7 @@ def onlylegalchar(name):
 
 
 def makefieldname(namefromidd):
-    """made a field name that can be used by bunch"""
+    """make a field name that can be used by bunch"""
     newname = onlylegalchar(namefromidd)
     bunchname = newname.replace(' ', '_')
     return bunchname

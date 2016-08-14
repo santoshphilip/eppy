@@ -515,7 +515,8 @@ def test_replacebranch():
                                 for key, nm, thisnode in componenttuple]
         branch = idf.getobject('BRANCH', branchname)
         newbr = hvacbuilder.replacebranch(idf, loop, branch,
-                                          components_thisnodes, fluid=fluid)
+                                          components_thisnodes, debugsave=True,
+                                          fluid=fluid)
         assert newbr.obj == outbranch
 
 def test_makepipecomponent():
@@ -616,7 +617,7 @@ def test_flattencopy():
             )
     for lst, nlst in tdata:
         result = hvacbuilder.flattencopy(lst)
-        assert result == nlst
+        assert list(result) == nlst
 
 def test__clean_listofcomponents():
     """py.test for _clean_listofcomponents"""
