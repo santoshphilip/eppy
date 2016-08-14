@@ -17,30 +17,32 @@ class WhichLoopError(Exception):
     pass
 
 
-class SomeFields(object):
-    """Some fields"""
-    c_fields = ['Condenser Side Inlet Node Name',
+somefields = {'CONDENSERLOOP': [
+                'Condenser Side Inlet Node Name',
                 'Condenser Side Outlet Node Name',
                 'Condenser Side Branch List Name',
                 'Condenser Side Connector List Name',
                 'Demand Side Inlet Node Name',
                 'Demand Side Outlet Node Name',
                 'Condenser Demand Side Branch List Name',
-                'Condenser Demand Side Connector List Name']
-    p_fields = ['Plant Side Inlet Node Name',
+                'Condenser Demand Side Connector List Name'],
+              'PLANTLOOP': [
+                'Plant Side Inlet Node Name',
                 'Plant Side Outlet Node Name',
                 'Plant Side Branch List Name',
                 'Plant Side Connector List Name',
                 'Demand Side Inlet Node Name',
                 'Demand Side Outlet Node Name',
                 'Demand Side Branch List Name',
-                'Demand Side Connector List Name']
-    a_fields = ['Branch List Name',
+                'Demand Side Connector List Name'],
+              'AIRLOOPHVAC':  [
+                'Branch List Name',
                 'Connector List Name',
                 'Supply Side Inlet Node Name',
                 'Demand Side Outlet Node Name',
                 'Demand Side Inlet Node Names',
-                'Supply Side Outlet Node Names']
+                'Supply Side Outlet Node Names'],
+              }
 
 
 def flattencopy(lst):
@@ -354,7 +356,7 @@ def makeairloop(idf, loopname, sloop, dloop):
 
 
 def make_air_demand_loop(idf, dloop):
-    """Make the demand side loop for an airloop
+    """Make the demand side of an air loop
     """
     #ZoneHVAC:EquipmentConnections
     for zone in dloop:
@@ -383,7 +385,9 @@ def make_air_demand_loop(idf, dloop):
     
     # make AirTerminal:SingleDuct:Uncontrolled
     for zone in dloop:
-        z_equipconn = modeleditor.getobjects(idf.idfobjects, idf.model, idf.idd_info, "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        z_equipconn = modeleditor.getobjects(
+            idf.idfobjects, idf.model, idf.idd_info, 
+            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
             **dict(Zone_Name=zone))[0]
         key = "AirTerminal:SingleDuct:Uncontrolled".upper()
         z_airterm = idf.newidfobject(key)
@@ -395,21 +399,34 @@ def make_air_demand_loop(idf, dloop):
     
     
 def make_air_splitters_mixers_and_paths(idf, loopname, dloop, newloop):
-    # MAKE AirLoopHVAC:ZoneSplitter
-    # zone = dloop[0]
-    key = "AirLoopHVAC:ZoneSplitter".upper()
-    z_splitter = idf.newidfobject(key)
+    """Make splitters and mixers and supply and return paths for an air loop.
+    """
+    # make AirLoopHVAC:ZoneSplitter
+    z_splitter = idf.newidfobject("AIRLOOPHVAC:ZONESPLITTER")
     z_splitter.Name = "%s Demand Side Splitter" % (loopname, )
     z_splitter.Inlet_Node_Name = newloop.Demand_Side_Inlet_Node_Names
     for i, zone in enumerate(dloop):
-        z_equipconn = modeleditor.getobjects(idf.idfobjects, idf.model, idf.idd_info, "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+        z_equipconn = modeleditor.getobjects(
+            idf.idfobjects, idf.model, idf.idd_info, 
+            "ZoneHVAC:EquipmentConnections".upper(),
             **dict(Zone_Name=zone))[0]
         fld = "Outlet_%s_Node_Name" % (i + 1, )
         z_splitter[fld] = z_equipconn.Zone_Air_Inlet_Node_or_NodeList_Name
     
+    # make AirLoopHVAC:ZoneMixer
+    z_mixer = idf.newidfobject("AIRLOOPHVAC:ZONEMIXER")
+    z_mixer.Name = "%s Demand Side Mixer" % (loopname, )
+    z_mixer.Outlet_Node_Name = newloop.Demand_Side_Outlet_Node_Name
+    for i, zone in enumerate(dloop):
+        z_equipconn = modeleditor.getobjects(
+            idf.idfobjects, idf.model, idf.idd_info, 
+            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+            **dict(Zone_Name=zone))[0]
+        fld = "Inlet_%s_Node_Name" % (i + 1, )
+        z_mixer[fld] = z_equipconn.Zone_Return_Air_Node_Name
+    
     # make AirLoopHVAC:SupplyPath
-    key = "AirLoopHVAC:SupplyPath".upper()
-    z_supplypth = idf.newidfobject(key)
+    z_supplypth = idf.newidfobject("AIRLOOPHVAC:SUPPLYPATH")
     z_supplypth.Name = "%sSupplyPath" % (loopname, )
     fld1 = "Supply_Air_Path_Inlet_Node_Name"
     fld2 = "Demand_Side_Inlet_Node_Names"
@@ -417,22 +434,12 @@ def make_air_splitters_mixers_and_paths(idf, loopname, dloop, newloop):
     z_supplypth.Component_1_Object_Type = "AirLoopHVAC:ZoneSplitter"
     z_supplypth.Component_1_Name = z_splitter.Name
     
-    # make AirLoopHVAC:ZoneMixer
-    key = "AirLoopHVAC:ZoneMixer".upper()
-    z_mixer = idf.newidfobject(key)
-    z_mixer.Name = "%s Demand Side Mixer" % (loopname, )
-    z_mixer.Outlet_Node_Name = newloop.Demand_Side_Outlet_Node_Name
-    for i, zone in enumerate(dloop):
-        z_equipconn = modeleditor.getobjects(idf.idfobjects, idf.model, idf.idd_info, "ZoneHVAC:EquipmentConnections".upper(), #places=7,
-            **dict(Zone_Name=zone))[0]
-        fld = "Inlet_%s_Node_Name" % (i + 1, )
-        z_mixer[fld] = z_equipconn.Zone_Return_Air_Node_Name
-    
     # make AirLoopHVAC:ReturnPath
-    key = "AirLoopHVAC:ReturnPath".upper()
-    z_returnpth = idf.newidfobject(key)
+    z_returnpth = idf.newidfobject("AIRLOOPHVAC:RETURNPATH")
     z_returnpth.Name = "%sReturnPath" % (loopname, )
-    z_returnpth.Return_Air_Path_Outlet_Node_Name = newloop.Demand_Side_Outlet_Node_Name
+    fld1 = "Return_Air_Path_Outlet_Node_Name"
+    fld2 = "Demand_Side_Outlet_Node_Name"
+    z_returnpth[fld1] = newloop[fld2]
     z_returnpth.Component_1_Object_Type = "AirLoopHVAC:ZoneMixer"
     z_returnpth.Component_1_Name = z_mixer.Name
     
@@ -440,12 +447,7 @@ def make_air_splitters_mixers_and_paths(idf, loopname, dloop, newloop):
 def makeloop(idf, newloop, sloop, dloop):
     """Make an air loop, condenser loop or plant loop.
     """
-    if newloop.key == 'CONDENSERLOOP':
-        fields = SomeFields.c_fields
-    elif newloop.key == 'PLANTLOOP':
-        fields = SomeFields.p_fields
-    elif newloop.key == 'AIRLOOPHVAC':
-        fields = SomeFields.a_fields
+    fields = somefields[newloop.key]
 
     initialise_loop(newloop, fields)
 
@@ -701,9 +703,6 @@ def replacebranch(idf, loop, branch,
     listofcomponents"""
     if fluid is None:
         fluid = ''
-    # -------- testing ---------
-    testn = 0
-    # -------- testing ---------
 
     # join them into a branch
     # -----------------------
@@ -718,23 +717,14 @@ def replacebranch(idf, loop, branch,
     if debugsave:
         print(idf.idfstr())
 #        idf.savecopy("hhh3.idf")
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
-    fields = SomeFields.a_fields
+
+    fields = somefields[loop.key]
 
     thebranch = branch
     componentsintobranch(idf, thebranch, listofcomponents, fluid=fluid)
     if debugsave:
         print(idf.idfstr())
 #        idf.savecopy("hhh4.idf")
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
 
     # # gather all renamed nodes
     # # do the renaming
@@ -742,19 +732,9 @@ def replacebranch(idf, loop, branch,
     if debugsave:
         print(idf.idfstr())
 #        idf.savecopy("hhh7.idf")
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
 
     # check for the end nodes of the loop
-    if loop.key == 'AIRLOOPHVAC':
-        fields = SomeFields.a_fields
-    if loop.key == 'PLANTLOOP':
-        fields = SomeFields.p_fields
-    if loop.key == 'CONDENSERLOOP':
-        fields = SomeFields.c_fields
+    fields = somefields[loop.key]
     # for use in bunch
     flnames = [field.replace(' ', '_') for field in fields]
 
@@ -802,11 +782,6 @@ def replacebranch(idf, loop, branch,
                 comp[outletnodename] = [
                     comp[outletnodename],
                     loop[flnames[1]]] # .Plant_Side_Outlet_Node_Name
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
 
     if fluid.upper() == 'WATER':
         demandconlistname = loop[flnames[7]] # .Demand_Side_Connector_List_Name
@@ -850,12 +825,6 @@ def replacebranch(idf, loop, branch,
                         comp[outletnodename],
                         loop[flnames[5]]] # .Demand_Side_Outlet_Node_Name
 
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
-
     if debugsave:
         print(idf.idfstr())
 #        idf.savecopy("hhh8.idf")
@@ -863,11 +832,7 @@ def replacebranch(idf, loop, branch,
     # # gather all renamed nodes
     # # do the renaming
     renamenodes(idf, 'node')
-    # -------- testing ---------
-    testn = doingtesting(testing, testn)
-    if testn == None:
-        returnnone()
-    # -------- testing ---------
+
     if debugsave:
         print(idf.idfstr())
 #        idf.savecopy("hhh9.idf")

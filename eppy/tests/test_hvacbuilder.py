@@ -8,13 +8,10 @@
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with the old reading
 
-from eppy.hvacbuilder import makeairloop
+from eppy import hvacbuilder
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from six import StringIO
-
-import eppy.hvacbuilder as hvacbuilder
-import eppy.iddv7 as iddv7
 
 
 iddfhandle = StringIO(iddcurrent.iddtxt)
@@ -78,6 +75,7 @@ def test_makeplantloop():
         hvacbuilder.makeplantloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
+
 
 def test_makecondenserloop():
     """pytest for makecondenserloop"""
@@ -264,6 +262,7 @@ def test_getbranchcomponents():
             lresult = [item.obj for item in result]
             assert lresult == componentlist
 
+
 def test_renamenodes():
     """py.test for renamenodes"""
     idftxt = """PIPE:ADIABATIC,
@@ -308,6 +307,7 @@ def test_renamenodes():
     result = idf.idfobjects['PIPE:ADIABATIC'][0].obj
     assert result == outidf.idfobjects['PIPE:ADIABATIC'][0].obj
 
+
 def test_getfieldnamesendswith():
     """py.test for getfieldnamesendswith"""
     idftxt = """PIPE:ADIABATIC,
@@ -337,6 +337,7 @@ def test_getfieldnamesendswith():
         result = hvacbuilder.getfieldnamesendswith(idfobject, endswith)
         assert result == fieldnames
 
+
 def test_getnodefieldname():
     """py.test for getnodefieldname"""
     tdata = (
@@ -361,6 +362,7 @@ def test_getnodefieldname():
         idfobject = idf.newidfobject(objtype, objname)
         result = hvacbuilder.getnodefieldname(idfobject, endswith, fluid)
         assert result == nodefieldname
+
 
 def test_connectcomponents():
     """py.test for connectcomponents"""
@@ -475,6 +477,7 @@ def test_initinletoutlet():
             result = idfobject[nodefield]
             assert result == outlet
 
+
 def test_componentsintobranch():
     """py.test for componentsintobranch"""
     tdata = (
@@ -539,6 +542,7 @@ def test_componentsintobranch():
                                                   components_thisnodes, fluid)
         assert branch.obj[4:] == branchcomps
 
+
 def test_replacebranch():
     """py.test for replacebranch"""
     tdata = (
@@ -571,11 +575,15 @@ def test_replacebranch():
         components_thisnodes = [(idf.newidfobject(key, nm), thisnode)
                                 for key, nm, thisnode in componenttuple]
         branch = idf.getobject('BRANCH', branchname)
-        newbr = hvacbuilder.replacebranch(idf, loop, branch,
-                                          components_thisnodes, debugsave=True,
-                                          fluid=fluid)
+        newbr = hvacbuilder.replacebranch(
+            idf, loop, branch, components_thisnodes, fluid=fluid)
         assert newbr.obj == outbranch
 
+        other_newbr = hvacbuilder.replacebranch1(
+            idf, loop, branch.Name, componenttuple, fluid=fluid)
+        assert other_newbr.obj == outbranch
+    
+    
 def test_makepipecomponent():
     """py.test for makepipecomponent"""
     tdata = (
@@ -594,6 +602,7 @@ def test_makepipecomponent():
         result = hvacbuilder.makepipecomponent(idf, pname)
         assert result.obj == pipe_obj
 
+
 def test_makeductcomponent():
     """py.test for makeductcomponent"""
     tdata = ((
@@ -606,6 +615,7 @@ def test_makeductcomponent():
         idf = IDF(fhandle)
         result = hvacbuilder.makeductcomponent(idf, dname)
         assert result.obj == duct_obj
+
 
 def test_makepipebranch():
     """py.test for makepipebranch"""
@@ -635,6 +645,7 @@ def test_makepipebranch():
         thepipe = idf.getobject('PIPE:ADIABATIC', result.Component_1_Name)
         assert thepipe.obj == pipe_obj
 
+
 def test_makeductbranch():
     """py.test for makeductbranch"""
     tdata = ((
@@ -663,6 +674,7 @@ def test_makeductbranch():
         theduct = idf.getobject('DUCT', result.Component_1_Name)
         assert theduct.obj == duct_obj
 
+
 def test_flattencopy():
     """py.test for flattencopy"""
     tdata = (([1, 2], [1, 2]), #lst , nlst -a
@@ -676,6 +688,7 @@ def test_flattencopy():
         result = hvacbuilder.flattencopy(lst)
         assert list(result) == nlst
 
+
 def test__clean_listofcomponents():
     """py.test for _clean_listofcomponents"""
     data = (
@@ -687,6 +700,7 @@ def test__clean_listofcomponents():
         result = hvacbuilder._clean_listofcomponents(lst)
         assert result == clst
 
+
 def test__clean_listofcomponents_tuples():
     """py.test for _clean_listofcomponents_tuples"""
     data = (
@@ -697,5 +711,3 @@ def test__clean_listofcomponents_tuples():
     for lst, clst in data:
         result = hvacbuilder._clean_listofcomponents_tuples(lst)
         assert result == clst
-
-
