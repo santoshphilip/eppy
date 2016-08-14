@@ -130,15 +130,72 @@ def test_makecondenserloop():
         ), # blankidf, loopname, sloop, dloop, nidf
             )
     for blankidf, loopname, sloop, dloop, nidf in tdata:
-
-        fhandle = StringIO("")
+        fhandle = StringIO(blankidf)
         idf1 = IDF(fhandle)
-        loopname = "c_loop"
-        sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-        dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
         hvacbuilder.makecondenserloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
+
+
+def test_makeairloop():
+    """pytest for makeairloop"""
+    tdata = ((
+        "",
+        "a_loop",
+        ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
+        ['zone1', 'zone2', 'zone3'],
+        """AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, zone1DirectAir, , 
+        zone1 Inlet Node, autosize;  AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, 
+        zone2DirectAir, , zone2 Inlet Node, autosize;  
+        AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, zone3DirectAir, , zone3 Inlet Node,
+        autosize;  ZONEHVAC:EQUIPMENTLIST, zone1 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone1DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTLIST, zone2 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone2DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTLIST, zone3 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone3DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone1, zone1 equip list, 
+        zone1 Inlet Node, , zone1 Node, zone1 Outlet Node;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone2, zone2 equip list, 
+        zone2 Inlet Node, , zone2 Node, zone2 Outlet Node;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone3, zone3 equip list, 
+        zone3 Inlet Node, , zone3 Node, zone3 Outlet Node;  
+        AIRLOOPHVAC, a_loop, , , 0, a_loop Branchs, a_loop Connectors, 
+        a_loop Supply Side Inlet, a_loop Demand Outlet, a_loop Demand Inlet, 
+        a_loop Supply Side Outlet;  AIRLOOPHVAC:ZONESPLITTER, 
+        a_loop Demand Side Splitter, a_loop Demand Inlet, zone1 Inlet Node, 
+        zone2 Inlet Node, zone3 Inlet Node;  AIRLOOPHVAC:SUPPLYPATH, 
+        a_loopSupplyPath, a_loop Demand Inlet, AirLoopHVAC:ZoneSplitter, 
+        a_loop Demand Side Splitter;  AIRLOOPHVAC:ZONEMIXER, 
+        a_loop Demand Side Mixer, a_loop Demand Outlet, zone1 Outlet Node, 
+        zone2 Outlet Node, zone3 Outlet Node;  AIRLOOPHVAC:RETURNPATH, 
+        a_loopReturnPath, a_loop Demand Outlet, AirLoopHVAC:ZoneMixer, 
+        a_loop Demand Side Mixer;  BRANCH, sb0, 0, , Pipe:Adiabatic, 
+        sb0_pipe, sb0_pipe_inlet, sb0_pipe_outlet, Bypass;  BRANCH, sb1, 0, , 
+        Pipe:Adiabatic, sb1_pipe, sb1_pipe_inlet, sb1_pipe_outlet, Bypass;  
+        BRANCH, sb2, 0, , Pipe:Adiabatic, sb2_pipe, sb2_pipe_inlet, 
+        sb2_pipe_outlet, Bypass;  BRANCH, sb3, 0, , Pipe:Adiabatic, sb3_pipe, 
+        sb3_pipe_inlet, sb3_pipe_outlet, Bypass;  BRANCH, sb4, 0, , 
+        Pipe:Adiabatic, sb4_pipe, sb4_pipe_inlet, sb4_pipe_outlet, Bypass;  
+        BRANCHLIST, a_loop Branchs, sb0, sb1, sb2, sb3, sb4;  
+        CONNECTOR:SPLITTER, a_loop_supply_splitter, sb0, sb1, sb2, sb3;  
+        CONNECTOR:MIXER, a_loop_supply_mixer, sb4, sb1, sb2, sb3;  
+        CONNECTORLIST, a_loop Connectors, Connector:Splitter, 
+        a_loop_supply_splitter, Connector:Mixer, a_loop_supply_mixer;  
+        PIPE:ADIABATIC, sb0_pipe, sb0_pipe_inlet, sb0_pipe_outlet;  
+        PIPE:ADIABATIC, sb1_pipe, sb1_pipe_inlet, sb1_pipe_outlet;  
+        PIPE:ADIABATIC, sb2_pipe, sb2_pipe_inlet, sb2_pipe_outlet;  
+        PIPE:ADIABATIC, sb3_pipe, sb3_pipe_inlet, sb3_pipe_outlet;  
+        PIPE:ADIABATIC, sb4_pipe, sb4_pipe_inlet, sb4_pipe_outlet; """
+    ), # blankidf, loopname, sloop, dloop, nidf
+            )
+    for blankidf, loopname, sloop, dloop, nidf in tdata:
+        fhandle = StringIO(blankidf)
+        idf1 = IDF(fhandle)
+        hvacbuilder.makeairloop(idf1, loopname, sloop, dloop)
+        idf2 = IDF(StringIO(nidf))
+        assert str(idf1.model) == str(idf2.model)
+
 
 def test_getbranchcomponents():
     """py.test for getbranchcomponents"""
@@ -642,19 +699,3 @@ def test__clean_listofcomponents_tuples():
         assert result == clst
 
 
-def test_makeairloop():
-    """smoke test for hvacbuilder makeairloop"""
-    IDF.setiddname(StringIO(iddv7.iddtxt), testing=True)
-    idf1 = IDF(StringIO(''))
-    loopname = "p_loop"
-    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-    dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
-    # makeplantloop(idf1, loopname, sloop, dloop)
-    loopname = "c_loop"
-    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-    dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
-    # makecondenserloop(idf1, loopname, sloop, dloop)
-    loopname = "a_loop"
-    sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-    dloop = ['zone1', 'zone2', 'zone3']
-    makeairloop(idf1, loopname, sloop, dloop)
