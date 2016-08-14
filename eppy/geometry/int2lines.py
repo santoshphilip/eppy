@@ -25,7 +25,9 @@ def intersection(a, b):
     Returns
     -------
     list
-        An empty list if the lines don't intersect, otherwise
+        An empty list if the lines don't intersect, an [(x,y,z)] tuple if they
+        intersect at a single point, or a [(x,y,z),(x,y,z)] list representing a
+        line segment if they overlap.
     
     """
     l1 = Segment3D(Point3D(a[0]), Point3D(a[1]))
@@ -34,10 +36,27 @@ def intersection(a, b):
     if intersect:
         if isinstance(intersect[0], Point3D):
             pt = intersect[0].evalf()
-            return [(pt.x, pt.y, pt.z)]
+            result = [pt_to_tuple(pt)]
         elif isinstance(intersect[0], Segment3D):
             pt1 = intersect[0].p1
             pt2 = intersect[0].p2
-            return [(pt1.x, pt1.y, pt1.z), (pt2.x, pt2.y, pt2.z)]
+            result = [pt_to_tuple(pt1), pt_to_tuple(pt2)]
     else:
-        return []
+        result = []
+
+    return result
+
+def pt_to_tuple(pt):
+    """Convert a Point3D to an (x,y,z) tuple.
+    
+    Parameters
+    ----------
+    pt : sympy.Point3D
+        The point to convert.
+    
+    Returns
+    -------
+    tuple
+
+    """
+    return (pt.x, pt.y, pt.z)    

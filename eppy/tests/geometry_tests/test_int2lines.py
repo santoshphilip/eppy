@@ -6,7 +6,7 @@
 # =======================================================================
 """pytest for int2lines.py"""
 
-from geometry.int2lines import intersection
+from eppy.geometry.int2lines import intersection
 
 
 def test_intersection():
