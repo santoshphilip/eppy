@@ -5,25 +5,23 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
-"""some helper files"""
-
-
-
-
-
+"""some helper functions"""
 
 from string import ascii_letters, digits
+
 
 def onlylegalchar(name):
     """return only legal chars"""
     legalchar = ascii_letters + digits + ' '
     return ''.join([s for s in name[:] if s in legalchar])
 
+
 def makefieldname(namefromidd):
     """made a field name that can be used by bunch"""
     newname = onlylegalchar(namefromidd)
     bunchname = newname.replace(' ', '_')
     return bunchname
+
 
 def matchfieldnames(field_a, field_b):
     """Check match between two strings, ignoring case and spaces/underscores.
@@ -43,6 +41,7 @@ def matchfieldnames(field_a, field_b):
     
     return normalised_a == normalised_b
 
+
 def intinlist(lst):
     """test if int in list"""
     for item in lst:
@@ -52,6 +51,7 @@ def intinlist(lst):
         except ValueError:
             pass
     return False
+
 
 def replaceint(fname, replacewith='%s'):
     """replace int in lst"""
@@ -63,19 +63,3 @@ def replaceint(fname, replacewith='%s'):
         except ValueError:
             pass
     return ' '.join(words)
-
-def cleaniddfield(acomm):
-    """make all the keys lower case"""
-    for key in list(acomm.keys()):
-        val = acomm[key]
-        acomm[key.lower()] = val
-    for key in list(acomm.keys()):
-        val = acomm[key]
-        if key != key.lower():
-            acomm.pop(key)
-    return acomm
-
-def cleancommdct(commdct):
-    """make all keys in commdct lower case"""
-    return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
-    
