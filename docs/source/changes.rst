@@ -1,6 +1,14 @@
 Changes
 =======
 
+release r0.5.3
+~~~~~~~~~~~~~~
+
+2016-08-24
+----------
+
+- bug fix -> fix python3 installation.
+
 release r0.5.2
 ~~~~~~~~~~~~~~
 
