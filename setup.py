@@ -43,6 +43,7 @@ setup(
                 "beautifulsoup4>=4.2.1",
                 # "numpy>=1.7.1",
                 "pyparsing>=pyparsing",
+                "tinynumpy",
                 "decorator",
                 "pydot>1.0",
                 "pytest>=2.3.5",
