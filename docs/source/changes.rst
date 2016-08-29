@@ -1,6 +1,39 @@
 Changes
 =======
 
+2016-07-21
+----------
+
+tab completion of fileds (of idfobjects) works in ipython and ipython notebook
+
+2016-07-09
+----------
+
+added:
+
+- construction.rfactor and material.rfactor
+- construction.uvalue and material.uvalue
+- construction.heatcapacity and material.heatcapacity
+- the above functions do not work in all cases yet. But are still usefull
+
+added:
+
+- zone.zonesurfaces -> return all surfaces of the zone
+- surface.subsurfaces -> will return all the subsurfaces (windows, doors etc.) that belong to the surface
+
+added two functions that scan through the entire idf file:
+
+- EpBunch.getreferingobjs(args)
+- EpBunch.get_referenced_object(args)
+- they make it possible for an idf object to scan through it's idf file and find other idf objects that are related to it (thru object-list and reference) 
+
+
+2016-05-31
+----------
+
+refactored code for class IDF and class EpBunch
+fixed a bug in modeleditor.newidfobject
+
 release r0.5.2
 ~~~~~~~~~~~~~~
 

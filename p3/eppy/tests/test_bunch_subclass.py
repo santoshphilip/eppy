@@ -433,6 +433,7 @@ def test_EpBunch():
 
     # add functions
     bwall.__functions = {'svalues':bunch_subclass.somevalues}
+    assert 'svalues' in bwall.__functions
 
     # print bwall.svalues
     assert bwall.svalues == (
@@ -515,7 +516,11 @@ def test_extendlist():
         assert lst == nlst
 
 class TestEpBunch(object):
-    """py.test for EpBunch.getrange, EpBunch.checkrange"""
+    """
+    py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames and
+    EpBunch.fieldvalues.
+    
+    """
     def initdata(self):
         obj, objls, objidd = (
             [
@@ -570,6 +575,29 @@ class TestEpBunch(object):
                     'type': ['real']},
                 ])
         return obj, objls, objidd
+    
+    def test_fieldnames(self):
+        """
+        Test that the contents of idfobject.fieldnames are the same as those
+        of objls.
+        
+        """
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fn_item, objls_item in zip(idfobject.fieldnames, idfobject.objls):
+            assert fn_item == objls_item
+        
+    def test_fieldvalues(self):
+        """
+        Test that the contents of idfobject.fieldvalues are the same as those
+        of obj.
+        
+        """
+        obj, objls, objidd = self.initdata()
+        idfobject = EpBunch(obj, objls, objidd)
+        for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
+            assert fv_item == objls_item
+    
 
     def test_getrange(self):
         data = (

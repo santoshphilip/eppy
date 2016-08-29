@@ -1,3 +1,8 @@
+2016-05-29
+----------
+set up integration tests for open and save of files
+maybe use find_idd from i41_idfnew. also Add to license. 
+build it up simple to get the pieces in place.
 2016-02-13
 ----------
 look into 

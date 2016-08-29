@@ -4,7 +4,6 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """functions to edit the E+ model"""
 
 
@@ -12,12 +11,17 @@
 
 
 
+from io import StringIO
 import copy
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import addfunctions2new
+from eppy.idfreader import makeabunch
+import itertools
 import os
 import platform
 
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
+from py._log import warning
 
 import eppy.function_helpers as function_helpers
 
@@ -47,24 +51,29 @@ class IDDAlreadySetError(Exception):
 
 
 def almostequal(first, second, places=7, printit=True):
-    # taken from python's unit test
-    # may be covered by Python's license
-    """docstring for almostequal"""
+    """
+    Test if two values are equal to a given number of places.
+    This is based on python's unittest so may be covered by Python's 
+    license.
+
+    """
+    if first == second:
+        return True
+
     if round(abs(second - first), places) != 0:
         if printit:
             print(round(abs(second - first), places))
-            print("notalmost: %s != %s" % (first, second))
+            print("notalmost: %s != %s to %i places" % (first, second, places))
         return False
     else:
         return True
 
 
 def poptrailing(lst):
-    """pop the trailing items in lst that are blank"""
-    for i in range(len(lst)):
-        if lst[-1] != '':
-            break
-        lst.pop(-1)
+    """Remove trailing blank items from lst.
+    """
+    while lst and lst[-1] == '':
+        lst.pop()
     return lst
 
 
@@ -79,7 +88,23 @@ def extendlist(lst, i, value=''):
 
 
 def newrawobject(data, commdct, key):
-    """make a new object for key"""
+    """Make a new object for the given key.
+
+    Parameters
+    ----------
+    data : Eplusdata object
+        Data dictionary and list of objects for the entire model.
+    commdct : list of dicts
+        Comments from the IDD file describing each item type in `data`.
+    key : str
+        Object type of the object to add (in ALL_CAPS).
+
+    Returns
+    -------
+    list
+        A list of field values for the new object.
+
+    """
     dtls = data.dtls
     key = key.upper()
 
@@ -102,29 +127,12 @@ def newrawobject(data, commdct, key):
     return obj
 
 
-def addthisbunch_old(bunchdt, data, commdct, thisbunch):
-    """add a bunch to model.
-    abunch usually comes from another idf file
-    or it can be used to copy within the idf file"""
-    key = thisbunch.key.upper()
-    obj = copy.copy(thisbunch.obj)
-    data.dt[key].append(obj)
-    abunch = obj2bunch(data, commdct, obj)
-    bunchdt[key].append(abunch)
-    return abunch
-
-
 def addthisbunch(bunchdt, data, commdct, thisbunch):
     """add a bunch to model.
     abunch usually comes from another idf file
     or it can be used to copy within the idf file"""
     key = thisbunch.key.upper()
     obj = copy.copy(thisbunch.obj)
-    abunch = obj2bunch(data, commdct, obj)
-    bunchdt[key].append(abunch)
-    return abunch
-
-    data.dt[key].append(obj)
     abunch = obj2bunch(data, commdct, obj)
     bunchdt[key].append(abunch)
     return abunch
@@ -423,7 +431,6 @@ def zone_height_min2max(idf, zonename, debug=False):
     surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     surf_xyzs = [function_helpers.getcoords(s) for s in zone_surfs]
-    import itertools  # to flatten the list
     surf_xyzs = list(itertools.chain(*surf_xyzs))
     surf_zs = [z for x, y, z in surf_xyzs]
     topz = max(surf_zs)
@@ -481,37 +488,78 @@ def zonevolume(idf, zonename):
     return volume
 
 
-class IDF0(object):
+class IDF(object):
 
     """
-    document the following variables:
+    The IDF class holds all the information about an EnergyPlus IDF. 
 
-    - idfobjects
-    - outputtype
-    - iddname
-    - idfname
-    - idd_info
-    - model
+    Class attributes
+    ---------------
+    iddname : str
+        Name of the IDD currently being used by eppy. As a class attribute, this
+        is set for all IDFs which are currently being processed and cannot be 
+        changed for an individual IDF.
+    iddinfo : list
+        Comments and metadata about fields in the IDD.
+    block : list
+        Field names in the IDD.
 
+    Instance attributes
+    -------------------
+    idfname : str
+        Path to the IDF file.
+    idfobjects : list
+        List of EpBunch objects in the IDF.
+    model : Eplusdata object
+        Data dictionary and list of objects for the entire model.
+    outputtype : str
+        How to format the output of IDF.print or IDF.save, IDF.saveas or
+        IDF.savecopy. The options are: 'standard', 'nocomment', 'nocomment1',
+        'nocomment2', and 'compressed'.
 
-"""
+    """
     iddname = None
     idd_info = None
     block = None
 
     def __init__(self, idfname=None):
-        # import pdb; pdb.set_trace()
+        """
+        Parameters
+        ----------
+        idf_name : str, optional
+            Path to an IDF file (which does not have to exist yet).
+
+        """
         if idfname != None:
             self.idfname = idfname
             self.read()
+        self.outputtype = "standard"
 
+    """ Methods to set up the IDD."""
     @classmethod
-    def setiddname(cls, arg, testing=False):
+    def setiddname(cls, iddname, testing=False):
+        """
+        Set the path to the EnergyPlus IDD for the version of EnergyPlus which
+        is to be used by eppy.
+
+        Parameters
+        ----------
+        iddname : str
+            Path to the IDD file.
+        testing : bool
+            Flag to use if running tests since we may want to ignore the
+            `IDDAlreadySetError`.
+
+        Raises
+        ------
+        IDDAlreadySetError
+
+        """
         if cls.iddname == None:
-            cls.iddname = arg
+            cls.iddname = iddname
             cls.idd_info = None
             cls.block = None
-        elif cls.iddname == arg:
+        elif cls.iddname == iddname:
             pass
         else:
             if testing == False:
@@ -520,205 +568,63 @@ class IDF0(object):
 
     @classmethod
     def getiddname(cls):
+        """Get the name of the current IDD used by eppy.
+
+        Returns
+        -------
+        str
+
+        """
         return cls.iddname
 
     @classmethod
     def setidd(cls, iddinfo, block):
+        """Set the IDD to be used by eppy.
+
+        Parameters
+        ----------
+        iddinfo : list
+            Comments and metadata about fields in the IDD.
+        block : list
+            Field names in the IDD.
+
+        """
         cls.idd_info = iddinfo
         cls.block = block
 
-    def read(self):
-        """read the idf file and the idd file.
-        If the idd file had been already read, it will not be read again.
-        Read populates the following data structures:
-
-        - idfobjects
-        - model
-        - idd_info # done only once"""
-        # TODO unit test
-        if self.getiddname() == None:
-            errortxt = "IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)"
-            raise IDDNotSetError(errortxt)
-        readout = idfreader1(
-            self.idfname, self.iddname,
-            commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
-        self.__class__.setidd(idd_info, block)
-
-
-class IDF1(IDF0):
-
-    """subclass of IDF0. Uses functions of IDF0
-    """
-
-    def __init__(self, idfname=None):
-        super(IDF1, self).__init__(idfname)
-
-    def newidfobject(self, key, aname='', **kwargs):
-        """add a new idfobject to the model
-
-        for example ::
-
-            newidfobject("CONSTRUCTION")
-            newidfobject("CONSTRUCTION",
-                Name='Interior Ceiling_class',
-                Outside_Layer='LW Concrete',
-                Layer_2='soundmat')
-
-        If you don't specify a value for a field, the default value will be set
-
-        aname is not used. It is left there for backward compatibility"""
-        obj = newrawobject(self.model, self.idd_info, key)
-        abunch = obj2bunch(self.model, self.idd_info, obj)
-        if aname:
-            namebunch(abunch, aname)
-        self.idfobjects[key].append(abunch)
-        for k, v in list(kwargs.items()):
-            abunch[k] = v
-        return abunch
-
-    def popidfobject(self, key, index):
-        """pop this object"""
-        return self.idfobjects[key].pop(index)
-
-    def removeidfobject(self, idfobject):
-        """remove this idfobject"""
-        key = idfobject.key.upper()
-        self.idfobjects[key].remove(idfobject)
-
-    def copyidfobject(self, idfobject):
-        """add idfobject to this model
-
-        idfobject usually comes from another idf file
-        or it can be used to copy within this idf file"""
-        addthisbunch(self.idfobjects,
-                     self.model,
-                     self.idd_info,
-                     idfobject)
-
-    def copyidfobject_old(self, idfobject):
-        """add idfobject to this model
-
-        idfobject usually comes from another idf file
-        or it can be used to copy within this idf file"""
-        # TODO unit test
-        addthisbunch(self.idfobjects,
-                     self.model,
-                     self.idd_info,
-                     idfobject)
-
-    def getobject(self, key, name):
-        """return the object given key and name"""
-        return getobject(self.idfobjects, key, name)
-
-    def getextensibleindex(self, key, name):
-        """get the index of the first extensible item
-
-        only for internal use. # TODO : hide this"""
-        return getextensibleindex(
-            self.idfobjects, self.model, self.idd_info,
-            key, name)
-
-    def removeextensibles(self, key, name):
-        """remove extensible items in the object of key and name
-
-        only for internal use. # TODO : hide this"""
-        return removeextensibles(
-            self.idfobjects, self.model, self.idd_info,
-            key, name)
-
-
-class IDF2(IDF1):
-
-    """subclass of IDF1. Uses functions of IDF1
-
-    """
-
-    def __init__(self, idfname=None):
-        super(IDF2, self).__init__(idfname)
-        self.outputtype = "standard"  # standard,
-        # nocomment,
-        # nocomment1,
-        # nocomment2,
-        # compressed
-
-    def idfstr(self):
-        if self.outputtype != 'standard':
-            astr = self.model.__repr__()
-            if self.outputtype == 'nocomment':
-                return astr
-            elif self.outputtype == 'nocomment1':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                return '\n'.join(slist)
-            elif self.outputtype == 'nocomment2':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                slist = [item for item in slist if item != '']
-                return '\n'.join(slist)
-            elif self.outputtype == 'compressed':
-                slist = astr.split('\n')
-                slist = [item.strip() for item in slist]
-                return ' '.join(slist)
-        # else:
-        astr = ''
-        dtls = self.model.dtls
-        for objname in dtls:
-            for obj in self.idfobjects[objname]:
-                astr = astr + obj.__repr__()
-        return astr
-
-    def printidf(self):
-        """print the idf"""
-        print(self.idfstr())
-
-    # def initread(self, idfname):
-    #     """use the latest iddfile and read file fname"""
-    #     from StringIO import StringIO
-    #     from eppy.iddcurrent import iddcurrent
-    #     iddfhandle = StringIO(iddcurrent.iddtxt)
-    #     if self.getiddname() == None:
-    #         self.setiddname(iddfhandle)
-    #     self.idfname = idfname
-    #     self.read()
-
-
-class IDF3(IDF2):
-
-    """subclass of IDF2. Uses functions of IDF1 and IDF2
-    """
-
-    def __init__(self, idfname=None):
-        super(IDF3, self).__init__(idfname)
+    """Methods to do with reading an IDF."""
 
     def initread(self, idfname):
-        """use the latest iddfile and read file fname
-        idd is initialized only if it has not been done earlier"""
-        from io import StringIO
-        from eppy.iddcurrent import iddcurrent
+        """
+        Use the current IDD and read an IDF from file. If the IDD has not yet
+        been initialised then this is done first.
+
+        Parameters
+        ----------
+        idf_name : str
+            Path to an IDF file.
+
+        """
+        with open(idfname, 'r') as _:
+            # raise nonexistent file error early if idfname doesn't exist
+            pass
         iddfhandle = StringIO(iddcurrent.iddtxt)
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
         self.idfname = idfname
         self.read()
 
-    def initnew(self):
-        """use the latest iddfile and opens a new file
-        idd is initialized only if it has not been done earlier"""
-        from io import StringIO
-        from eppy.iddcurrent import iddcurrent
-        iddfhandle = StringIO(iddcurrent.iddtxt)
-        if self.getiddname() == None:
-            self.setiddname(iddfhandle)
-        idfhandle = StringIO('')
-        self.idfname = idfhandle
-        self.read()
-
     def initreadtxt(self, idftxt):
-        """use the latest iddfile and read txt
-        idd is initialized only if it has not been done earlier"""
-        from io import StringIO
-        from eppy.iddcurrent import iddcurrent
+        """
+        Use the current IDD and read an IDF from text data. If the IDD has not
+        yet been initialised then this is done first.
+
+        Parameters
+        ----------
+        idftxt : str
+            Text representing an IDF file.
+
+        """
         iddfhandle = StringIO(iddcurrent.iddtxt)
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
@@ -726,26 +632,252 @@ class IDF3(IDF2):
         self.idfname = idfhandle
         self.read()
 
+    def read(self):
+        """
+        Read the IDF file and the IDD file. If the IDD file had already been
+        read, it will not be read again.
 
-class IDF4(IDF3):
+        Read populates the following data structures:
 
-    """subclass of IDF3. Uses all the functions of IDF1, IDF2, IDF3"""
+        - idfobjects : list
+        - model : list
+        - idd_info : list
 
-    def __init__(self, idfname=None):
-        super(IDF4, self).__init__(idfname)
+        """
+        if self.getiddname() == None:
+            errortxt = ("IDD file needed to read the idf file. "
+                        "Set it using IDF.setiddname(iddfile)")
+            raise IDDNotSetError(errortxt)
+        readout = idfreader1(
+            self.idfname, self.iddname,
+            commdct=self.idd_info, block=self.block)
+        self.idfobjects, block, self.model, idd_info = readout
+        self.__class__.setidd(idd_info, block)
+
+    """Methods to do with creating a new blank IDF object."""
 
     def new(self, fname=None):
-        """create a blank new idf file. Filename is optional"""
-        # modify this so that setidd has to be called before
-        self.initnew()
+        """Create a blank new idf file. Filename is optional.
 
+        Parameters
+        ----------
+        fname : str, optional
+            Path to an IDF. This does not need to be set at this point.
 
-class IDF5(IDF4):
+        """
+        self.initnew(fname)
 
-    """subclass of IDF4. Uses functions of IDF1, IDF2, IDF3, IDF4"""
+    def initnew(self, fname):
+        """
+        Use the current IDD and create a new empty IDF. If the IDD has not yet
+        been initialised then this is done first.
 
-    def __init__(self, idfname=None):
-        super(IDF5, self).__init__(idfname)
+        Parameters
+        ----------
+        fname : str, optional
+            Path to an IDF. This does not need to be set at this point.
+
+        """
+        iddfhandle = StringIO(iddcurrent.iddtxt)
+        if self.getiddname() == None:
+            self.setiddname(iddfhandle)
+        idfhandle = StringIO('')
+        self.idfname = idfhandle
+        self.read()
+        if fname:
+            self.idfname = fname
+
+    """Methods to do with manipulating the objects in an IDF object."""
+
+    def newidfobject(self, key, aname='', **kwargs):
+        """
+        Add a new idfobject to the model. If you don't specify a value for a
+        field, the default value will be set.
+
+        For example ::
+
+            newidfobject("CONSTRUCTION")
+            newidfobject("CONSTRUCTION",
+                Name='Interior Ceiling_class',
+                Outside_Layer='LW Concrete',
+                Layer_2='soundmat')
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        aname : str, deprecated
+            This parameter is not used. It is left there for backward 
+            compatibility.
+        **kwargs
+            Keyword arguments in the format `field=value` used to set the value
+            of fields in the IDF object when it is created. 
+
+        Returns
+        -------
+        EpBunch object
+
+        """
+        obj = newrawobject(self.model, self.idd_info, key)
+        abunch = obj2bunch(self.model, self.idd_info, obj)
+        if aname:
+            warning.warn("The aname parameter should no longer be used.")
+            namebunch(abunch, aname)
+        self.idfobjects[key].append(abunch)
+        for k, v in list(kwargs.items()):
+            abunch[k] = v
+        abunch = addfunctions2new(abunch, key)
+        return abunch
+
+    def popidfobject(self, key, index):
+        """Pop an IDF object from the IDF.
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        index : int
+            The index of the object to pop.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
+        return self.idfobjects[key].pop(index)
+
+    def removeidfobject(self, idfobject):
+        """Remove an IDF object from the IDF.
+
+        Parameters
+        ----------
+        idfobject : EpBunch object
+            The IDF object to remove.
+
+        """
+        key = idfobject.key.upper()
+        self.idfobjects[key].remove(idfobject)
+
+    def copyidfobject(self, idfobject):
+        """Add an IDF object to the IDF.
+
+        Parameters
+        ----------
+        idfobject : EpBunch object
+            The IDF object to remove. This usually comes from another idf file,
+            or it can be used to copy within this idf file.
+
+        """
+        addthisbunch(self.idfobjects,
+                     self.model,
+                     self.idd_info,
+                     idfobject)
+
+    def getobject(self, key, name):
+        """Fetch an IDF object given key and name.
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        EpBunch object.
+
+        """
+        return getobject(self.idfobjects, key, name)
+
+    def getextensibleindex(self, key, name):
+        """
+        Get the index of the first extensible item.
+
+        Only for internal use. # TODO : hide this
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        int
+
+        """
+        return getextensibleindex(
+            self.idfobjects, self.model, self.idd_info,
+            key, name)
+
+    def removeextensibles(self, key, name):
+        """
+        Remove extensible items in the object of key and name.
+
+        Only for internal use. # TODO : hide this
+
+        Parameters
+        ----------
+        key : str
+            The type of IDF object. This must be in ALL_CAPS.
+        name : str
+            The name of the object to fetch.
+
+        Returns
+        -------
+        EpBunch object
+
+        """
+        return removeextensibles(
+            self.idfobjects, self.model, self.idd_info,
+            key, name)
+
+    """Methods to do with outputting an IDF."""
+
+    def printidf(self):
+        """Print the IDF.
+        """
+        print(self.idfstr())
+
+    def idfstr(self):
+        """String representation of the IDF.
+
+        Returns
+        -------
+        str
+
+        """
+        if self.outputtype == 'standard':
+            astr = ''
+        else:
+            astr = self.model.__repr__()
+
+        if self.outputtype == 'standard':
+            astr = ''
+            dtls = self.model.dtls
+            for objname in dtls:
+                for obj in self.idfobjects[objname]:
+                    astr = astr + obj.__repr__()
+        elif self.outputtype == 'nocomment':
+            return astr
+        elif self.outputtype == 'nocomment1':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            astr = '\n'.join(slist)
+        elif self.outputtype == 'nocomment2':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            slist = [item for item in slist if item != '']
+            astr = '\n'.join(slist)
+        elif self.outputtype == 'compressed':
+            slist = astr.split('\n')
+            slist = [item.strip() for item in slist]
+            astr = ' '.join(slist)
+        else:
+            raise ValueError("%s is not a valid outputtype" % self.outputtype)
+        return astr
 
     def save(self, filename=None, lineendings='default', encoding='latin-1'):
         """ 
@@ -835,15 +967,3 @@ class IDF5(IDF4):
 
         """
         self.save(filename, lineendings, encoding)
-
-
-IDF = IDF5
-
-
-class something(IDF0):
-
-    """docstring for something"""
-
-    def __init__(self, arg):
-        super(something, self).__init__()
-        self.arg = arg

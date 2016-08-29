@@ -1,31 +1,54 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
-"""sub class bunch in steps going from data, aliases, functions"""
+"""Sub class Bunch to represent an IDF object.
+"""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 import copy
-from eppy.EPlusInterfaceFunctions import readidf
+import itertools
+
 from munch import Munch as Bunch
-# import eppy.bunchhelpers
 
-class BadEPFieldError(Exception):
-    """an exception"""
+from eppy.bunchhelpers import matchfieldnames
+import eppy.function_helpers as fh
+
+
+class BadEPFieldError(AttributeError):
+    """An Exception"""
     pass
 
-class RangeError(Exception):
-    """an Exception"""
+
+class RangeError(ValueError):
+    """An Exception"""
     pass
 
+
+def almostequal(first, second, places=7, printit=True):
+    """
+    Test if two values are equal to a given number of places.
+    This is based on python's unittest so may be covered by Python's 
+    license.
+
+    """
+    if first == second:
+        return True
+
+    if round(abs(second - first), places) != 0:
+        if printit:
+            print(round(abs(second - first), places))
+            print("notalmost: %s != %s to %i places" % (first, second, places))
+        return False
+    else:
+        return True
 
 def somevalues(ddtt):
     """returns some values"""
@@ -37,40 +60,272 @@ def extendlist(lst, i, value=''):
         pass
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
+        
 
-class EpBunch_1(Bunch):
-    """Has data in bunch"""
+
+def return42(self, *args, **kwargs):
+    # proof of concept - to be removed
+    return 42        
+
+def addfunctions(abunch):
+    """add functions to epbunch"""
+
+    # proof of concept - remove
+    abunch['__functions'].update({'return42':return42}) 
+    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    # proof of concept
+    
+    key = abunch.obj[0].upper()
+    
+    #-----------------
+    # TODO : alternate strategy to avoid listing the objkeys in snames
+    # check if epbunch has field "Zone_Name" or "Building_Surface_Name"
+    # and is in group u'Thermal Zones and Surfaces'
+    # then it is likely to be a surface.
+    # of course we need to recode for surfaces that do not have coordinates :-(
+    # or we can filter those out since they do not have 
+    # the field "Number_of_Vertices"
+    snames = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed", ]
+    snames = [sname.upper() for sname in snames]
+    if key in snames:
+        func_dict = {
+            'area': fh.area,
+            'height': fh.height,  # not working correctly
+            'width': fh.width,  # not working correctly
+            'azimuth': fh.azimuth,
+            'tilt': fh.tilt,
+            'coords': fh.getcoords,  # needed for debugging
+        }
+        abunch.__functions.update(func_dict)
+
+    #-----------------
+    names = [
+        "Construction",
+        "Material",             
+        "Material:AirGap",             
+              ]
+    names = [name.upper() for name in names]
+    if key in names:
+        func_dict = {
+            'rvalue': fh.rvalue,
+            'ufactor': fh.ufactor,
+            'heatcapacity': fh.heatcapacity,
+        }
+        abunch.__functions.update(func_dict)
+
+    # =====
+    # code for references
+    #-----------------
+    # add function zonesurfaces
+    if key == 'ZONE':
+        func_dict = {'zonesurfaces':fh.zonesurfaces}
+        abunch.__functions.update(func_dict)
+
+    #-----------------
+    # add function subsurfaces
+    # going to cheat here a bit
+    # check if epbunch has field "Zone_Name" 
+    # and is in group u'Thermal Zones and Surfaces'
+    # then it is likely to be a surface attached to a zone
+    fields = abunch.fieldnames
+    try:
+        group = abunch.getfieldidd('key')['group']
+    except KeyError as e: # some pytests don't have group
+        group = None
+    if group == u'Thermal Zones and Surfaces':
+        if "Zone_Name" in fields:
+            func_dict = {'subsurfaces':fh.subsurfaces}
+            abunch.__functions.update(func_dict)
+
+    return abunch
+
+class EpBunch(Bunch):
+    """
+    Fields, values, and descriptions of fields in an EnergyPlus IDF object 
+    stored in a `bunch` which is a `dict` extended to allow access to dict 
+    fields as attributes as well as by keys.
+    
+    """
     def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_1, self).__init__(*args, **kwargs)
-        self.obj = obj
-        self.objls = objls
-        self.objidd = objidd
+        super(EpBunch, self).__init__(*args, **kwargs)
+        self.obj = obj        # field names
+        self.objls = objls    # field values
+        self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
+        self.theidf = None    # pointer to the idf this epbunch belongs to
+                              # This is None if there is no idf - a standalone epbunch      
+                              # This will be set by Idf_MSequence
+        self['__functions'] = {} # initialize the functions
+        addfunctions(self)
+        
+    @property
+    def fieldnames(self):
+        """Friendly name for objls.
+        """
+        return self.objls
+
+    @property
+    def fieldvalues(self):
+        """Friendly name for obj.
+        """
+        return self.obj    
+    
+    def checkrange(self, fieldname):
+        """Check if the value for a field is within the allowed range.
+        """
+        return checkrange(self, fieldname)
+    
+    def getrange(self, fieldname):
+        """Get the allowed range of values for a field.
+        """
+        return getrange(self, fieldname)
+        
+    def getfieldidd(self, fieldname):
+        """get the idd dict for this field
+        Will return {} if the fieldname does not exist"""
+        return getfieldidd(self, fieldname)
+        
+    def getfieldidd_item(self, fieldname, iddkey):
+        """return an item from the fieldidd, given the iddkey
+        will return and empty list if it does not have the iddkey
+        or if the fieldname does not exist"""
+        return getfieldidd_item(self, fieldname, iddkey)
+        
+    def get_retaincase(self, fieldname):
+        """check if the field should retain case"""
+        return get_retaincase(self, fieldname)
+        
+    def isequal(self, fieldname, value, places=7):
+        """return True if the field == value
+        Will retain case if get_retaincase == True
+        for real value will compare to decimal 'places'
+        """
+        return isequal(self, fieldname, value, places=places)
+        
+    def getreferingobjs(self, iddgroups=None, fields=None):
+        """Get a list of objects that refer to this object"""
+        return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
+        
+    def get_referenced_object(self, fieldname):
+        """
+        Get an object referred to by a field in another object.
+        
+        For example an object of type Construction has fields for each layer, each
+        of which refers to a Material. This functions allows the object 
+        representing a Material to be fetched using the name of the layer.
+        
+        Returns the first item found since if there is more than one matching item,
+        it is a malformed IDF.
+        
+        Parameters
+        ----------
+        referring_object : EpBunch
+            The object which contains a reference to another object,
+        fieldname : str
+            The name of the field in the referring object which contains the 
+            reference to another object.
+            
+        Returns
+        -------
+        EpBunch
+    
+        """
+        return get_referenced_object(self, fieldname)
+        
     def __setattr__(self, name, value):
-        if name in ('obj', 'objls', 'objidd'):
-            super(EpBunch_1, self).__setattr__(name, value)
+        try:
+            origname = self['__functions'][name]
+            # TODO: unit test never hits here so what is it for?
+            self[origname] = value
+        except KeyError:
+            pass
+
+        try:
+            name = self['__aliases'][name]  # get original name of the alias
+        except KeyError:
+            pass
+
+        if name in ('__functions', '__aliases'):  # just set the new value
+            self[name] = value
             return None
-        elif name in self['objls']:
-            i = self['objls'].index(name)
+        elif name in ('obj', 'objls', 'objidd', 'theidf'):  # let Bunch handle it
+            super(EpBunch, self).__setattr__(name, value)
+            return None
+        elif name in self.fieldnames:  # set the value, extending if needed
+            i = self.fieldnames.index(name)
             try:
-                self['obj'][i] = value
+                self.fieldvalues[i] = value
             except IndexError:
-                extendlist(self['obj'], i)
-                self['obj'][i] = value
+                extendlist(self.fieldvalues, i)
+                self.fieldvalues[i] = value
         else:
             astr = "unable to find field %s" % (name, )
-            raise BadEPFieldError(astr)
+            raise BadEPFieldError(astr)  # TODO: could raise AttributeError
+        
     def __getattr__(self, name):
-        if name in ('obj', 'objls', 'objidd'):
-            return super(EpBunch_1, self).__getattr__(name)
-        elif name in self['objls']:
-            i = self['objls'].index(name)
+        try:
+            func = self['__functions'][name]
+            return func(self)
+        except KeyError:
+            pass
+
+        try:
+            name = self['__aliases'][name]
+        except KeyError:
+            pass
+
+        if name == '__functions':
+            return self['__functions']
+        elif name in ('__aliases', 'obj', 'objls', 'objidd', 'theidf'):
+            # unit test
+            return super(EpBunch, self).__getattr__(name)
+        elif name in self.fieldnames:
+            i = self.fieldnames.index(name)
             try:
-                return self['obj'][i]
+                return self.fieldvalues[i]
             except IndexError:
                 return ''
         else:
             astr = "unable to find field %s" % (name, )
             raise BadEPFieldError(astr)
+        
+    def __getitem__(self, key):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
+            return super(EpBunch, self).__getitem__(key)
+        elif key in self.fieldnames:
+            i = self.fieldnames.index(key)
+            try:
+                return self.fieldvalues[i]
+            except IndexError:
+                return ''
+        else:
+            astr = "unknown field %s" % (key, )
+            raise BadEPFieldError(astr)
+    
+    def __setitem__(self, key, value):
+        if key in ('obj', 'objls', 'objidd', 
+                '__functions', '__aliases', 'theidf'):
+            super(EpBunch, self).__setitem__(key, value)
+            return None
+        elif key in self.fieldnames:
+            i = self.fieldnames.index(key)
+            try:
+                self.fieldvalues[i] = value
+            except IndexError:
+                extendlist(self.fieldvalues, i)
+                self.fieldvalues[i] = value
+        else:
+            astr = "unknown field %s" % (key, )
+            raise BadEPFieldError(astr)
+
     def __repr__(self):
         """print this as an idf snippet"""
         lines = [str(val) for val in self.obj]
@@ -86,229 +341,190 @@ class EpBunch_1(Bunch):
         nlines.insert(0, lines[0])# first line without comment
         astr = '\n'.join(nlines)
         return '\n%s\n' % (astr, )
+    
     def __str__(self):
         """same as __repr__"""
         # needed if YAML is installed. See issue 67
+        # unit test
         return self.__repr__()
 
-class EpBunch_2(EpBunch_1):
-    """Has data, aliases in bunch"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_2, self).__init__(obj, objls, objidd, *args, **kwargs)
-    def __setattr__(self, name, value):
-        if name == '__aliases':
-            self[name] = value
-            return None
-        try:
-            origname = self['__aliases'][name]
-            super(EpBunch_2, self).__setattr__(origname, value)
-        except KeyError:
-            super(EpBunch_2, self).__setattr__(name, value)
-    def __getattr__(self, name):
-        if name == '__aliases':
-            return super(EpBunch_2, self).__getattr__(name)
-        try:
-            origname = self['__aliases'][name]
-            return super(EpBunch_2, self).__getattr__(origname)
-        except KeyError:
-            return super(EpBunch_2, self).__getattr__(name)
+    def __dir__(self):
+        fnames = self.fieldnames
+        func_names = self['__functions'].keys()
+        return super(EpBunch, self).__dir__() + fnames + func_names
+    
 
-class EpBunch_3(EpBunch_2):
-    """Has data, aliases, functions in bunch"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_3, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions'] = {}
-    def __setattr__(self, name, value):
-        if name == '__functions':
-            self[name] = value
-            return None
-        try:
-            origname = self['__functions'][name]
-            self[origname] = value
-        except KeyError:
-            super(EpBunch_3, self).__setattr__(name, value)
-    def __getattr__(self, name):
-        if name == '__functions':
-            return self['__functions']
-        try:
-            func = self['__functions'][name]
-            if isinstance(func, EpBunchFunctionClass):
-                return func.func
-            else:
-                return func(self)
-        except KeyError:
-            return super(EpBunch_3, self).__getattr__(name)
+def getrange(bch, fieldname):
+    """get the ranges for this field"""
+    keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
+    index = bch.objls.index(fieldname)
+    fielddct_orig = bch.objidd[index]
+    fielddct = copy.deepcopy(fielddct_orig)
+    therange = {}
+    for key in keys:
+        therange[key] = fielddct.setdefault(key, None)
+    if therange['type']:
+        therange['type'] = therange['type'][0]
+    if therange['type'] == 'real':
+        for key in keys[:-1]:
+            if therange[key]:
+                therange[key] = float(therange[key][0])
+    if therange['type'] == 'integer':
+        for key in keys[:-1]:
+            if therange[key]:
+                therange[key] = int(therange[key][0])
+    return therange
 
-class EpBunch_4(EpBunch_3):
-    """h implements __getitem__ and __setitem__"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_4, self).__init__(obj, objls, objidd, *args, **kwargs)
-    def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            return super(EpBunch_4, self).__getitem__(key)
-        elif key in self['objls']:
-            i = self['objls'].index(key)
-            try:
-                return self['obj'][i]
-            except IndexError:
-                return ''
+
+def checkrange(bch, fieldname):
+    """throw exception if the out of range"""
+    fieldvalue = bch[fieldname]
+    therange = bch.getrange(fieldname)
+    if therange['maximum'] != None:
+        if fieldvalue > therange['maximum']:
+            astr = "Value %s is not less or equal to the 'maximum' of %s"
+            astr = astr % (fieldvalue, therange['maximum'])
+            raise RangeError(astr)
+    if therange['minimum'] != None:
+        if fieldvalue < therange['minimum']:
+            astr = "Value %s is not greater or equal to the 'minimum' of %s"
+            astr = astr % (fieldvalue, therange['minimum'])
+            raise RangeError(astr)
+    if therange['maximum<'] != None:
+        if fieldvalue >= therange['maximum<']:
+            astr = "Value %s is not less than the 'maximum<' of %s"
+            astr = astr % (fieldvalue, therange['maximum<'])
+            raise RangeError(astr)
+    if  therange['minimum>'] != None:
+        if fieldvalue <= therange['minimum>']:
+            astr = "Value %s is not greater than the 'minimum>' of %s"
+            astr = astr % (fieldvalue, therange['minimum>'])
+            raise RangeError(astr)
+    return fieldvalue
+    """get the idd dict for this field
+    Will return {} if the fieldname does not exist"""
+    
+def getfieldidd(bch, fieldname):
+    """get the idd dict for this field
+    Will return {} if the fieldname does not exist"""
+    # print(bch)
+    try:
+        fieldindex = bch.objls.index(fieldname)
+    except ValueError as e:
+        return {}   # the fieldname does not exist
+                    # so there is no idd
+    fieldidd = bch.objidd[fieldindex]
+    return fieldidd
+    
+def getfieldidd_item(bch, fieldname, iddkey):
+    """return an item from the fieldidd, given the iddkey
+    will return and empty list if it does not have the iddkey
+    or if the fieldname does not exist"""
+    fieldidd = getfieldidd(bch, fieldname)
+    try:
+        return fieldidd[iddkey]
+    except KeyError as e:
+        return []
+    
+    
+def get_retaincase(bch, fieldname):
+    """Check if the field should retain case"""
+    fieldidd = bch.getfieldidd(fieldname)
+    return fieldidd.has_key('retaincase')
+    
+def isequal(bch, fieldname, value, places=7):
+    """return True if the field is equal to value"""
+    def equalalphanumeric(bch, fieldname, value):
+        if bch.get_retaincase(fieldname):
+            return bch[fieldname] == value
         else:
-            astr = "unknown field %s" % (key, )
-            raise BadEPFieldError(astr)
-    def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__functions', '__aliases'):
-            super(EpBunch_4, self).__setitem__(key, value)
-            return None
-        elif key in self['objls']:
-            i = self['objls'].index(key)
-            try:
-                self['obj'][i] = value
-            except IndexError:
-                extendlist(self['obj'], i)
-                self['obj'][i] = value
-
+            return bch[fieldname].upper() == value.upper()
+            
+    fieldidd = bch.getfieldidd(fieldname)
+    try:
+        ftype = fieldidd['type'][0]
+        if ftype in ['real', 'integer']:
+            return almostequal(bch[fieldname], float(value), places=places)
         else:
-            astr = "unknown field %s" % (key, )
-            raise BadEPFieldError(astr)
+            return equalalphanumeric(bch, fieldname, value)
+    except KeyError as e:
+        return equalalphanumeric(bch, fieldname, value)
+    
+
+def getreferingobjs(referedobj, iddgroups=None, fields=None):
+    """Get a list of objects that refer to this object"""
+    # pseudocode for code below
+    # referringobjs = []
+    # referedobj has: -> Name
+    #                 -> reference
+    # for each obj in idf:
+    # [optional filter -> objects in iddgroup]
+    #     each field of obj:
+    #     [optional filter -> field in fields]
+    #         has object-list [refname]:
+    #             if refname in reference:
+    #                 if Name = field value:
+    #                     referringobjs.append()
+    referringobjs = []
+    idf = referedobj.theidf
+    referedidd = referedobj.getfieldidd("Name")
+    references = referedidd['reference']
+    idfobjs = idf.idfobjects.values()
+    idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
+    if iddgroups: # optional filter
+        idfobjs = [anobj for anobj in idfobjs
+            if anobj.getfieldidd('key')['group'] in iddgroups]
+    for anobj in idfobjs:
+        if not fields:
+            thefields = anobj.objls
+        else:
+            thefields = fields
+        for field in thefields:
+            try:
+                itsidd = anobj.getfieldidd(field)
+            except ValueError as e:
+                continue
+            if itsidd.has_key('object-list'):
+                refname = itsidd['object-list'][0]
+                if refname in references:
+                    if referedobj.isequal('Name', anobj[field]):
+                        referringobjs.append(anobj)
+    return referringobjs
 
 
-# TODO unit test
-def fieldnames(bch):
-    """field names"""
-    return bch.objls
+def get_referenced_object(referring_object, fieldname):
+    """
+    Get an object referred to by a field in another object.
+    
+    For example an object of type Construction has fields for each layer, each
+    of which refers to a Material. This functions allows the object 
+    representing a Material to be fetched using the name of the layer.
+    
+    Returns the first item found since if there is more than one matching item,
+    it is a malformed IDF.
+    
+    Parameters
+    ----------
+    referring_object : EpBunch
+        The object which contains a reference to another object,
+    fieldname : str
+        The name of the field in the referring object which contains the 
+        reference to another object.
+        
+    Returns
+    -------
+    EpBunch
 
-def fieldvalues(bch):
-    """field values"""
-    return bch.obj
+    """
+    idf = referring_object.theidf
+    object_list = referring_object.getfieldidd_item(fieldname, u'object-list')
+    for obj_type in idf.idfobjects:
+        for obj in idf.idfobjects[obj_type]:
+            valid_object_lists = obj.getfieldidd_item("Name", u'reference')
+            if set(object_list).intersection(set(valid_object_lists)):
+                referenced_obj_name = referring_object[fieldname]
+                if obj.Name == referenced_obj_name:
+                    return obj
+            
 
-class EpBunchFunctionClass(object):
-    """Exception Object"""
-    pass
-
-class GetRange(EpBunchFunctionClass):
-    def __init__(self, arg):
-        self.bch = arg
-    def func(self, fieldname):
-        """get the ranges for this field"""
-        bch = self.bch
-        keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
-        index = bch.objls.index(fieldname)
-        fielddct_orig = bch.objidd[index]
-        fielddct = copy.deepcopy(fielddct_orig)
-        therange = {}
-        for key in keys:
-            therange[key] = fielddct.setdefault(key, None)
-        if therange['type']:
-            therange['type'] = therange['type'][0]
-        if therange['type'] == 'real':
-            for key in keys[:-1]:
-                if therange[key]:
-                    therange[key] = float(therange[key][0])
-        if therange['type'] == 'integer':
-            for key in keys[:-1]:
-                if therange[key]:
-                    therange[key] = int(therange[key][0])
-        return therange
-
-class CheckRange(EpBunchFunctionClass):
-    def __init__(self, arg):
-        self.bch = arg
-    # def init(self, arg):
-    #     self.bch = arg
-    def func(self, fieldname):
-        """throw exception if the out of range"""
-        bch = self.bch
-        fieldvalue = bch[fieldname]
-        therange = bch.getrange(fieldname)
-        # keys = ['maximum', 'minimum', 'maximum<', 'minimum>']
-        # index = bch.objls.index(fieldname)
-        # fielddct = bch.objidd[index]
-        if therange['maximum'] != None:
-            if fieldvalue > therange['maximum']:
-                astr = "Value %s is not less or equal to the 'maximum' of %s"
-                astr = astr % (fieldvalue, therange['maximum'])
-                raise RangeError(astr)
-        if therange['minimum'] != None:
-            if fieldvalue < therange['minimum']:
-                astr = "Value %s is not greater or equal to the 'minimum' of %s"
-                astr = astr % (fieldvalue, therange['minimum'])
-                raise RangeError(astr)
-        if therange['maximum<'] != None:
-            if fieldvalue >= therange['maximum<']:
-                astr = "Value %s is not less than the 'maximum<' of %s"
-                astr = astr % (fieldvalue, therange['maximum<'])
-                raise RangeError(astr)
-        if  therange['minimum>'] != None:
-            if fieldvalue <= therange['minimum>']:
-                astr = "Value %s is not greater than the 'minimum>' of %s"
-                astr = astr % (fieldvalue, therange['minimum>'])
-                raise RangeError(astr)
-        return fieldvalue
-
-class EpBunch_5(EpBunch_4):
-    """implements getrange, checkrange, fieldnames"""
-    def __init__(self, obj, objls, objidd, *args, **kwargs):
-        super(EpBunch_5, self).__init__(obj, objls, objidd, *args, **kwargs)
-        self['__functions']['fieldnames'] = fieldnames
-        self['__functions']['fieldvalues'] = fieldvalues
-        self['__functions']['getrange'] = GetRange(self)
-        self['__functions']['checkrange'] = CheckRange(self)
-
-
-EpBunch = EpBunch_5
-
-def main():
-    """main function"""
-    # read code
-    # iddfile = "../iddfiles/Energy+V6_0.idd"
-    iddfile = "./walls.idd"
-    fname = "./walls.idf" # small file with only surfaces
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-
-    # setup code walls - can be generic for any object
-    ddtt = data.dt
-    dtls = data.dtls
-    wall_i = dtls.index('BuildingSurface:Detailed'.upper())
-    wallkey = 'BuildingSurface:Detailed'.upper()
-
-    dwalls = ddtt[wallkey]
-    dwall = dwalls[0]
-
-    wallfields = [comm.get('field') for comm in commdct[wall_i]]
-    wallfields[0] = ['key']
-    wallfields = [field[0] for field in wallfields]
-    wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
-    print(wall_fields[:20])
-
-    bwall = EpBunch(dwall, wall_fields)
-
-    print(bwall.Name)
-    print(data.dt[wallkey][0][1])
-    bwall.Name = 'Gumby'
-    print(bwall.Name)
-    print(data.dt[wallkey][0][1])
-    print()
-
-    # set aliases
-    bwall.__aliases = {'Constr':'Construction_Name'}
-
-    print("wall.Construction_Name = %s" % (bwall.Construction_Name, ))
-    print("wall.Constr = %s" % (bwall.Constr, ))
-    print()
-    print ("change wall.Constr")
-    bwall.Constr = 'AnewConstr'
-    print("wall.Constr = %s" % (bwall.Constr, ))
-    print("wall.Constr = %s" % (data.dt[wallkey][0][3], ))
-    print()
-
-    # add functions
-    bwall.__functions = {'svalues':somevalues}
-
-    print(bwall.svalues)
-    print(bwall.__functions)
-
-
-
-if __name__ == '__main__':
-    main()
-
+    
