@@ -41,7 +41,6 @@ before_install:
   - if [[ $PYTHON == 2* ]]; then virtualenv venv -p python; fi
   - if [[ $PYTHON == 3* ]]; then virtualenv venv -p python3; fi
   - source venv/bin/activate
-
   # coverage and testing requirements
   - pip install --upgrade pip
   - pip install --upgrade setuptools
@@ -49,7 +48,6 @@ before_install:
   - pip install codecov
   
 
-install:
   - python setup.py install 
   # install numpy and remove tinynumpy if testing with numpy
   - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy -y; fi
