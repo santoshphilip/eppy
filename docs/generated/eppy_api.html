@@ -35,6 +35,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="changes.html" title="Changes"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -49,8 +52,312 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="eppy-api">
-<h1>Eppy API<a class="headerlink" href="#eppy-api" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-eppy.modeleditor">
+<span id="eppy-api"></span><h1>Eppy API<a class="headerlink" href="#module-eppy.modeleditor" title="Permalink to this headline">¶</a></h1>
+<p>functions to edit the E+ model</p>
+<dl class="class">
+<dt id="eppy.modeleditor.IDF">
+<em class="property">class </em><tt class="descclassname">eppy.modeleditor.</tt><tt class="descname">IDF</tt><big>(</big><em>idfname=None</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>The IDF class holds all the information about an EnergyPlus IDF.</p>
+<dl class="docutils">
+<dt>iddname <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Name of the IDD currently being used by eppy. As a class attribute, this
+is set for all IDFs which are currently being processed and cannot be 
+changed for an individual IDF.</dd>
+<dt>iddinfo <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Comments and metadata about fields in the IDD.</dd>
+<dt>block <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Field names in the IDD.</dd>
+</dl>
+<dl class="docutils">
+<dt>idfname <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path to the IDF file.</dd>
+<dt>idfobjects <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>List of EpBunch objects in the IDF.</dd>
+<dt>model <span class="classifier-delimiter">:</span> <span class="classifier">Eplusdata object</span></dt>
+<dd>Data dictionary and list of objects for the entire model.</dd>
+<dt>outputtype <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>How to format the output of IDF.print or IDF.save, IDF.saveas or
+IDF.savecopy. The options are: &#8216;standard&#8217;, &#8216;nocomment&#8217;, &#8216;nocomment1&#8217;,
+&#8216;nocomment2&#8217;, and &#8216;compressed&#8217;.</dd>
+</dl>
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.copyidfobject">
+<tt class="descname">copyidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.copyidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.copyidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an IDF object to the IDF.</p>
+<dl class="docutils">
+<dt>idfobject <span class="classifier-delimiter">:</span> <span class="classifier">EpBunch object</span></dt>
+<dd>The IDF object to remove. This usually comes from another idf file,
+or it can be used to copy within this idf file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.getextensibleindex">
+<tt class="descname">getextensibleindex</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.getextensibleindex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.getextensibleindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the index of the first extensible item.</p>
+<p>Only for internal use. # TODO : hide this</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The type of IDF object. This must be in ALL_CAPS.</dd>
+<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The name of the object to fetch.</dd>
+</dl>
+<p>int</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.getiddgroupdict">
+<tt class="descname">getiddgroupdict</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.getiddgroupdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.getiddgroupdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a idd group dictionary
+sample: {&#8216;Plant-Condenser Loops&#8217;: [&#8216;PlantLoop&#8217;, &#8216;CondenserLoop&#8217;],</p>
+<blockquote>
+<div><p>&#8216;Compliance Objects&#8217;: [&#8216;Compliance:Building&#8217;], &#8216;Controllers&#8217;:
+[&#8216;Controller:WaterCoil&#8217;,</p>
+<blockquote>
+<div>&#8216;Controller:OutdoorAir&#8217;,
+&#8216;Controller:MechanicalVentilation&#8217;,
+&#8216;AirLoopHVAC:ControllerList&#8217;],</div></blockquote>
+</div></blockquote>
+<p>...}</p>
+<p>dict</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="eppy.modeleditor.IDF.getiddname">
+<em class="property">classmethod </em><tt class="descname">getiddname</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.getiddname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.getiddname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the name of the current IDD used by eppy.</p>
+<p>str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.getobject">
+<tt class="descname">getobject</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.getobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.getobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch an IDF object given key and name.</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The type of IDF object. This must be in ALL_CAPS.</dd>
+<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The name of the object to fetch.</dd>
+</dl>
+<p>EpBunch object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.idfstr">
+<tt class="descname">idfstr</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.idfstr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.idfstr" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of the IDF.</p>
+<p>str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.initnew">
+<tt class="descname">initnew</tt><big>(</big><em>fname</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.initnew"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.initnew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the current IDD and create a new empty IDF. If the IDD has not yet
+been initialised then this is done first.</p>
+<dl class="docutils">
+<dt>fname <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Path to an IDF. This does not need to be set at this point.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.initread">
+<tt class="descname">initread</tt><big>(</big><em>idfname</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.initread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.initread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the current IDD and read an IDF from file. If the IDD has not yet
+been initialised then this is done first.</p>
+<dl class="docutils">
+<dt>idf_name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path to an IDF file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.initreadtxt">
+<tt class="descname">initreadtxt</tt><big>(</big><em>idftxt</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.initreadtxt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.initreadtxt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the current IDD and read an IDF from text data. If the IDD has not
+yet been initialised then this is done first.</p>
+<dl class="docutils">
+<dt>idftxt <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Text representing an IDF file.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.new">
+<tt class="descname">new</tt><big>(</big><em>fname=None</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a blank new idf file. Filename is optional.</p>
+<dl class="docutils">
+<dt>fname <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Path to an IDF. This does not need to be set at this point.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.newidfobject">
+<tt class="descname">newidfobject</tt><big>(</big><em>key</em>, <em>aname=u''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.newidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.newidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new idfobject to the model. If you don&#8217;t specify a value for a
+field, the default value will be set.</p>
+<p>For example</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">)</span>
+<span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">,</span>
+    <span class="n">Name</span><span class="o">=</span><span class="s">&#39;Interior Ceiling_class&#39;</span><span class="p">,</span>
+    <span class="n">Outside_Layer</span><span class="o">=</span><span class="s">&#39;LW Concrete&#39;</span><span class="p">,</span>
+    <span class="n">Layer_2</span><span class="o">=</span><span class="s">&#39;soundmat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The type of IDF object. This must be in ALL_CAPS.</dd>
+<dt>aname <span class="classifier-delimiter">:</span> <span class="classifier">str, deprecated</span></dt>
+<dd>This parameter is not used. It is left there for backward 
+compatibility.</dd>
+<dt><a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs</dt>
+<dd>Keyword arguments in the format <cite>field=value</cite> used to set the value
+of fields in the IDF object when it is created.</dd>
+</dl>
+<p>EpBunch object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.popidfobject">
+<tt class="descname">popidfobject</tt><big>(</big><em>key</em>, <em>index</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.popidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.popidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop an IDF object from the IDF.</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The type of IDF object. This must be in ALL_CAPS.</dd>
+<dt>index <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>The index of the object to pop.</dd>
+</dl>
+<p>EpBunch object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.printidf">
+<tt class="descname">printidf</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.printidf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.printidf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the IDF.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.read">
+<tt class="descname">read</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the IDF file and the IDD file. If the IDD file had already been
+read, it will not be read again.</p>
+<p>Read populates the following data structures:</p>
+<ul class="simple">
+<li>idfobjects : list</li>
+<li>model : list</li>
+<li>idd_info : list</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.removeextensibles">
+<tt class="descname">removeextensibles</tt><big>(</big><em>key</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.removeextensibles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.removeextensibles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove extensible items in the object of key and name.</p>
+<p>Only for internal use. # TODO : hide this</p>
+<dl class="docutils">
+<dt>key <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The type of IDF object. This must be in ALL_CAPS.</dd>
+<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>The name of the object to fetch.</dd>
+</dl>
+<p>EpBunch object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.removeidfobject">
+<tt class="descname">removeidfobject</tt><big>(</big><em>idfobject</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.removeidfobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.removeidfobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an IDF object from the IDF.</p>
+<dl class="docutils">
+<dt>idfobject <span class="classifier-delimiter">:</span> <span class="classifier">EpBunch object</span></dt>
+<dd>The IDF object to remove.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.save">
+<tt class="descname">save</tt><big>(</big><em>filename=None</em>, <em>lineendings=u'default'</em>, <em>encoding=u'latin-1'</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the IDF as a text file with the optional filename passed, or with
+the current idfname of the IDF.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Filepath to save the file. If None then use the IDF.idfname
+parameter. Also accepts a file handle.</dd>
+<dt>lineendings <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Line endings to use in the saved file. Options are &#8216;default&#8217;,
+&#8216;windows&#8217; and &#8216;unix&#8217; the default is &#8216;default&#8217; which uses the line
+endings for the current system.</dd>
+<dt>encoding <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Encoding to use for the saved file. The default is &#8216;latin-1&#8217; which
+is compatible with the EnergyPlus IDFEditor.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.saveas">
+<tt class="descname">saveas</tt><big>(</big><em>filename</em>, <em>lineendings=u'default'</em>, <em>encoding=u'latin-1'</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.saveas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.saveas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the IDF as a text file with the filename passed.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filepath to to set the idfname attribute to and save the file as.</dd>
+<dt>lineendings <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Line endings to use in the saved file. Options are &#8216;default&#8217;,
+&#8216;windows&#8217; and &#8216;unix&#8217; the default is &#8216;default&#8217; which uses the line
+endings for the current system.</dd>
+<dt>encoding <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Encoding to use for the saved file. The default is &#8216;latin-1&#8217; which
+is compatible with the EnergyPlus IDFEditor.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="eppy.modeleditor.IDF.savecopy">
+<tt class="descname">savecopy</tt><big>(</big><em>filename</em>, <em>lineendings=u'default'</em>, <em>encoding=u'latin-1'</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.savecopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.savecopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a copy of the file with the filename passed.</p>
+<dl class="docutils">
+<dt>filename <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Filepath to save the file.</dd>
+<dt>lineendings <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Line endings to use in the saved file. Options are &#8216;default&#8217;,
+&#8216;windows&#8217; and &#8216;unix&#8217; the default is &#8216;default&#8217; which uses the line
+endings for the current system.</dd>
+<dt>encoding <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd>Encoding to use for the saved file. The default is &#8216;latin-1&#8217; which
+is compatible with the EnergyPlus IDFEditor.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="eppy.modeleditor.IDF.setidd">
+<em class="property">classmethod </em><tt class="descname">setidd</tt><big>(</big><em>iddinfo</em>, <em>block</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.setidd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.setidd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the IDD to be used by eppy.</p>
+<dl class="docutils">
+<dt>iddinfo <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Comments and metadata about fields in the IDD.</dd>
+<dt>block <span class="classifier-delimiter">:</span> <span class="classifier">list</span></dt>
+<dd>Field names in the IDD.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="eppy.modeleditor.IDF.setiddname">
+<em class="property">classmethod </em><tt class="descname">setiddname</tt><big>(</big><em>iddname</em>, <em>testing=False</em><big>)</big><a class="reference internal" href="_modules/eppy/modeleditor.html#IDF.setiddname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eppy.modeleditor.IDF.setiddname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the path to the EnergyPlus IDD for the version of EnergyPlus which
+is to be used by eppy.</p>
+<dl class="docutils">
+<dt>iddname <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>Path to the IDD file.</dd>
+<dt>testing <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd>Flag to use if running tests since we may want to ignore the
+<cite>IDDAlreadySetError</cite>.</dd>
+</dl>
+<p>IDDAlreadySetError</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-eppy.bunch_subclass"></span><p>Sub class Bunch to represent an IDF object.</p>
 </div>
 
 
@@ -93,6 +400,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="changes.html" title="Changes"
              >next</a> |</li>
