@@ -10,11 +10,6 @@ With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
 
-
-
-
-
-
 # see iddgaps6.py on usage
 # TODO : need unit tests for all htese functions
 
@@ -38,11 +33,6 @@ see: SCHEDULE:DAY:LIST as an example"""
 # find the first field that has an integer. This is a repeating field
 # gather the repeating field names (without the integer)
 # generate all the repeating fields for all variables
-
-
-
-
-
 
 import eppy.bunchhelpers as bunchhelpers
 

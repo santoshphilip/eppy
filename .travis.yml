@@ -8,8 +8,14 @@ dist: trusty
 sudo: required 
 
 env:
-  - PYTHON=2.7 ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
-  - PYTHON=3.5 ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=2.7 EPPY_INTEGRATION=True NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=2.7 EPPY_INTEGRATION=True NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 EPPY_INTEGRATION=True NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 EPPY_INTEGRATION=True NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=2.7 NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=2.7 NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 NUMPY=numpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
+  - PYTHON=3.5 NUMPY=tinynumpy ENERGYPLUS_VERSION=8.5.0 ENERGYPLUS_SHA=c87e61b44b ENERGYPLUS_INSTALL_VERSION=8-5-0
 
 before_install:
   # install EnergyPlus
@@ -35,16 +41,25 @@ before_install:
   - if [[ $PYTHON == 2* ]]; then virtualenv venv -p python; fi
   - if [[ $PYTHON == 3* ]]; then virtualenv venv -p python3; fi
   - source venv/bin/activate
-
   # coverage and testing requirements
   - pip install --upgrade pip
+  - pip install --upgrade setuptools
   - pip install pytest-cov
   - pip install codecov
+  
 
-install:
-  - python setup.py install
+  - python setup.py install 
+  # install numpy and remove tinynumpy if testing with numpy
+  - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy -y; fi
 
-script: py.test ./eppy/tests --cov=./ -v
+script:
+  # run all tests in eppy/tests and check coverage of the eppy dir
+  - py.test -v --cov-config .coveragerc --cov=eppy eppy/tests
 
 after_success:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
+  # coverage reporting on CodeCov 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] &&
+       [[ $PYTHON == 3* ]] &&
+       [[ $EPPY_INTEGRATION == True ]] &&
+       [[ $NUMPY == numpy ]]; then codecov; fi
+    

@@ -8,7 +8,9 @@
 from six import StringIO
 from six import string_types
 from eppy import modeleditor
+from eppy.bunch_subclass import Bunch
 from eppy.iddcurrent import iddcurrent
+from eppy.idf_msequence import Idf_MSequence
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 from itertools import product
@@ -18,7 +20,7 @@ import pytest
 
 import eppy.idfreader as idfreader
 import eppy.snippet as snippet
-from eppy.bunch_subclass import Bunch
+
 
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
@@ -294,7 +296,7 @@ def test_new():
     """py.test for IDF.new()"""
     idf = IDF()
     idf.new()
-    # assert idf.idfobjects['building'.upper()] == Idf_MSequence()
+    assert idf.idfobjects['building'.upper()] == Idf_MSequence([],[], None)
     assert idf.idfobjects['building'.upper()].list1 == []
     assert idf.idfobjects['building'.upper()].list2 == []
 
@@ -585,4 +587,4 @@ def test_idd_index():
     """py.test to see if idd_index is returned"""
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
-    assert idf.idd_index == {}
+    assert set(idf.idd_index.keys()) == set(['ref2names', 'name2refs'])

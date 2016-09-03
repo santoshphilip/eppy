@@ -38,4 +38,4 @@ build: off
 
 test_script:
   # Test command.
-  - "%PYTHON%\\python.exe -m pytest eppy -v"
+  - "%PYTHON%\\python.exe -m pytest eppy/tests -v"

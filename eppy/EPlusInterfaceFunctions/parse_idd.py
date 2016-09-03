@@ -12,8 +12,7 @@ from six import StringIO
 from io import FileIO
 from decorator import decorator
 
-import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
-import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+import eppy.EPlusInterfaceFunctions.filereader as filereader
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 import eppy.EPlusInterfaceFunctions.iddindex as iddindex
 
@@ -84,7 +83,7 @@ def _readfname(fname):
         if isinstance(fname, (FileIO, StringIO)):
             astr = fname.read()
         else:
-            astr = mylib2.readfile(fname)
+            astr = filereader.readfile(fname)
     return astr
             
 @decorator
@@ -157,8 +156,7 @@ def extractidddata(fname, debug=False):
             except AttributeError:
                 pass 
         else:
-            astr = mylib2.readfile(fname)
-            # astr = astr.decode('ISO-8859-2') -> mylib1 does a decode
+            astr = filereader.readfile(fname)
     except NameError:
         if isinstance(fname, (FileIO, StringIO)):
             astr = fname.read()
@@ -167,16 +165,15 @@ def extractidddata(fname, debug=False):
             except AttributeError:
                 pass
         else:
-            astr = mylib2.readfile(fname)
-            # astr = astr.decode('ISO-8859-2') -> mylib2.readfile has decoded
+            astr = filereader.readfile(fname)
     (nocom, nocom1, blocklst) = get_nocom_vars(astr)
 
 
     astr = nocom
     st1 = removeblanklines(astr)
     if debug:
-        mylib1.write_str2file('nocom2.txt', st1.encode('latin-1'))
-
+        with open('nocom2.txt', 'w') as f:
+            f.write(st1)
 
     #find the groups and the start object of the group
     #find all the group strings
@@ -200,7 +197,8 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom3.txt', st1.encode('latin-1'))
+        with open('nocom3.txt', 'w') as f:
+            f.write(st1)
 
     #strip each line
     for i in range(len(alist)):
@@ -208,7 +206,8 @@ def extractidddata(fname, debug=False):
 
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom4.txt', st1.encode('latin-1'))
+        with open('nocom4.txt', 'w') as f:
+            f.write(st1)
 
     #ensure that each line is a comment or variable
     #find lines that don't start with a comment
@@ -233,7 +232,8 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom5.txt', st1.encode('latin-1'))
+        with open('nocom5.txt', 'w') as f:
+            f.write(st1)
 
     #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
     lss = []
@@ -256,7 +256,8 @@ def extractidddata(fname, debug=False):
     alist = lss[:]
     if debug:
         st1 = '\n'.join(alist)
-        mylib1.write_str2file('nocom6.txt', st1.encode('latin-1'))
+        with open('nocom6.txt', 'w') as f:
+            f.write(st1)
 
     if debug:
         #need to make sure that each line has only one variable - as in WindowGlassSpectralData,
@@ -281,8 +282,8 @@ def extractidddata(fname, debug=False):
 
         ls_debug = lss_debug[:]
         st1 = '\n'.join(ls_debug)
-        mylib1.write_str2file('nocom7.txt', st1.encode('latin-1'))
-
+        with open('nocom7.txt', 'w') as f:
+            f.write(st1)
 
     #replace each var with '=====var======'
     #join into a string,
@@ -297,18 +298,15 @@ def extractidddata(fname, debug=False):
     lss.pop(0) # the above split generates an extra item at start
 
     if debug:
-        fname = 'nocom8.txt'
-        fhandle = open(fname, 'wb')
-        k = 0
-        for i in range(len(blocklst)):
-            for j in range(len(blocklst[i])):
-                atxt = blocklst[i][j]+'\n'
-                fhandle.write(atxt)
-                atxt = lss[k]
-                fhandle.write(atxt.encode('latin-1'))
-                k = k+1
-
-        fhandle.close()
+        with open('nocom8.txt', 'w') as f:
+            k = 0
+            for i in range(len(blocklst)):
+                for j in range(len(blocklst[i])):
+                    atxt = blocklst[i][j]+'\n'
+                    f.write(atxt)
+                    atxt = lss[k]
+                    f.write(atxt.encode('latin-1'))
+                    k = k+1
 
     #map the structure of the comments -(this is 'lss' now) to
     #the structure of blocklst - blocklst is a nested list
@@ -321,21 +319,15 @@ def extractidddata(fname, debug=False):
             lst[i].append(lss[k])
             k = k+1
 
-
     if debug:
-        fname = 'nocom9.txt'
-        fhandle = open(fname, 'wb')
-        k = 0
-        for i in range(len(blocklst)):
-            for j in range(len(blocklst[i])):
-                atxt = blocklst[i][j]+'\n'
-                fhandle.write(atxt)
-                fhandle.write(lst[i][j].encode('latin-1'))
-                k = k+1
-
-        fhandle.close()
-
-
+        with open('nocom9.txt', 'w') as f:
+            k = 0
+            for i in range(len(blocklst)):
+                for j in range(len(blocklst[i])):
+                    atxt = blocklst[i][j]+'\n'
+                    f.write(atxt)
+                    f.write(lst[i][j].encode('latin-1'))
+                    k = k+1
 
     #break up multiple line comment so that it is a list
     for i in range(len(lst)):
@@ -345,7 +337,6 @@ def extractidddata(fname, debug=False):
             for k in range(len(lst[i][j])):
                 lst[i][j][k] = lst[i][j][k][1:]
     commlst = lst
-
 
     #copied with minor modifications from readidd2_2.py -- which has been erased ha !
     clist = lst
@@ -379,6 +370,7 @@ def extractidddata(fname, debug=False):
     
     return blocklst, commlst, commdct
     # give blocklst a better name :-(
+
 
 def getobjectref(blocklst, commdct):
     """

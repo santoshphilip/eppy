@@ -1,68 +1,62 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
-# Find the intersection between two lines
-# V = (1/6)*|(a-d).((b-d)x(c-d))|
-
 """
 Find the intersection between two lines
-V = (1/6)*|(a-d).((b-d)x(c-d))|
 """
 
+from sympy import Segment3D
+from sympy.geometry.point import Point3D
 
 
+def intersection(a, b):
+    """Find the intersection of two line segments.
+    
+    Parameters
+    ----------
+    a : list of tuples
+        A line defined by two 3D points, e.g. [(0,1,1), (1,0,0)].
+    b : list of tuples
+        A second line defined by two 3D points, e.g. [(0,1,1), (1,0,0)].
+    
+    Returns
+    -------
+    list
+        An empty list if the lines don't intersect, an [(x,y,z)] tuple if they
+        intersect at a single point, or a [(x,y,z),(x,y,z)] list representing a
+        line segment if they overlap.
+    
+    """
+    l1 = Segment3D(Point3D(a[0]), Point3D(a[1]))
+    l2 = Segment3D(Point3D(b[0]), Point3D(b[1]))
+    intersect = l1.intersection(l2)
+    if intersect:
+        if isinstance(intersect[0], Point3D):
+            pt = intersect[0].evalf()
+            result = [pt_to_tuple(pt)]
+        elif isinstance(intersect[0], Segment3D):
+            pt1 = intersect[0].p1
+            pt2 = intersect[0].p2
+            result = [pt_to_tuple(pt1), pt_to_tuple(pt2)]
+    else:
+        result = []
 
+    return result
 
+def pt_to_tuple(pt):
+    """Convert a Point3D to an (x,y,z) tuple.
+    
+    Parameters
+    ----------
+    pt : sympy.Point3D
+        The point to convert.
+    
+    Returns
+    -------
+    tuple
 
-import numpy as np
-
-def vol_tehrahedron(poly):
-    """volume of a irregular tetrahedron"""
-    a_pnt = np.array(poly[0])
-    b_pnt = np.array(poly[1])
-    c_pnt = np.array(poly[2])
-    d_pnt = np.array(poly[3])
-    return abs(np.dot(
-        (a_pnt-d_pnt), np.cross((b_pnt-d_pnt), (c_pnt-d_pnt))) / 6)
-
-# poly = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0.0, 0.0, 1.0)]
-
-def central_p(poly1, poly2):
-    """central point of a prism"""
-    central_point = np.array([0.0, 0.0, 0.0])
-    for i in range(len(poly1)):
-        central_point += np.array(poly1[i]) + np.array(poly2[i])
-    return central_point/ (len(poly1)) / 2
-
-# poly1 = [(0.0, 0.0, 0.0), (1.0, 0.0, 0.0), (1.0, 1.0, 0.0), (0, 1.0, 0.0)]
-# poly2 = [(0.0, 0.0, 1), (1.0, 0.0, 1), (1.0, 1.0, 1), (0, 1.0, 1)]
-
-def vol_zone(poly1, poly2):
-    """"volume of a zone defined by two polygon bases """
-    c_point = central_p(poly1, poly2)
-    c_point = (c_point[0], c_point[1], c_point[2])
-    vol_therah = 0
-    num = len(poly1)
-    for i in range(num-2):
-        # the upper part
-        tehrahedron = [c_point, poly1[0], poly1[i+1], poly1[i+2]]
-        vol_therah += vol_tehrahedron(tehrahedron)
-        # the bottom part
-        tehrahedron = [c_point, poly2[0], poly2[i+1], poly2[i+2]]
-        vol_therah += vol_tehrahedron(tehrahedron)
-    # the middle part
-    for i in range(num-1):
-        tehrahedron = [c_point, poly1[i], poly2[i], poly2[i+1]]
-        vol_therah += vol_tehrahedron(tehrahedron)
-        tehrahedron = [c_point, poly1[i], poly1[i+1], poly2[i]]
-        vol_therah += vol_tehrahedron(tehrahedron)
-    tehrahedron = [c_point, poly1[num-1], poly2[num-1], poly2[0]]
-    vol_therah += vol_tehrahedron(tehrahedron)
-    tehrahedron = [c_point, poly1[num-1], poly1[0], poly2[0]]
-    vol_therah += vol_tehrahedron(tehrahedron)
-    return vol_therah
-
+    """
+    return (pt.x, pt.y, pt.z)    

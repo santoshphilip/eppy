@@ -6,26 +6,21 @@
 # =======================================================================
 """functions to edit the E+ model"""
 
-
-
-
-
-
-from six import iteritems
-from six import StringIO
-
 import copy
-from eppy.iddcurrent import iddcurrent
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
 import itertools
 import os
 import platform
 
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import makeabunch
+from eppy.pytest_helpers import almostequal
 from py._log import warning
+from six import StringIO
+from six import iteritems
 
-import eppy.function_helpers as function_helpers
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.function_helpers as function_helpers
 
 
 class NoObjectError(Exception):
@@ -50,25 +45,6 @@ class IDDAlreadySetError(Exception):
 
     """Exception Object"""
     pass
-
-
-def almostequal(first, second, places=7, printit=True):
-    """
-    Test if two values are equal to a given number of places.
-    This is based on python's unittest so may be covered by Python's 
-    license.
-
-    """
-    if first == second:
-        return True
-
-    if round(abs(second - first), places) != 0:
-        if printit:
-            print(round(abs(second - first), places))
-            print("notalmost: %s != %s to %i places" % (first, second, places))
-        return False
-    else:
-        return True
 
 
 def poptrailing(lst):
@@ -306,7 +282,7 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
                         return True
             except AttributeError:
                 pass
-            return almostequal(float(idfobj[fieldname]), float(value), places, False)
+            return almostequal(float(idfobj[fieldname]), float(value), places)
     # check retaincase
     if is_retaincase(bunchdt, data, commdct, idfobj, fieldname):
         return idfobj[fieldname] == value
@@ -529,7 +505,18 @@ class IDF(object):
     iddname = None
     idd_info = None
     block = None
-
+    
+    def __almostequal__(self, other, places=7):
+        for dtls1, dtls2 in zip(self.model.dtls, other.model.dtls):
+            objlst1 = self.model.dt[dtls1]
+            objlst2 = other.model.dt[dtls2]
+            for obj1, obj2 in zip(objlst1, objlst2):
+                for fld1, fld2 in zip(obj1, obj2):
+                    if not almostequal(fld1, fld2, places):
+                        return False
+        return True
+    
+    
     def __init__(self, idfname=None):
         """
         Parameters
@@ -543,6 +530,7 @@ class IDF(object):
             self.idfname = idfname
             self.read()
         self.outputtype = "standard"
+
 
     """ Methods to set up the IDD."""
     @classmethod
@@ -568,6 +556,7 @@ class IDF(object):
             cls.iddname = iddname
             cls.idd_info = None
             cls.block = None
+            cls.idd_index = None
         elif cls.iddname == iddname:
             pass
         else:
@@ -661,7 +650,7 @@ class IDF(object):
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
             self.idfname, self.iddname, self,
-            commdct=self.idd_info, block=self.block)
+            commdct=self.idd_info, block=self.block, idd_index=self.idd_index)
         self.idfobjects, block, self.model, idd_info, idd_index = readout
         self.__class__.setidd(idd_info, idd_index, block)
 

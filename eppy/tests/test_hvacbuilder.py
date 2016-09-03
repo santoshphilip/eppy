@@ -4,38 +4,19 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-
 """py.test for hvacbuilder"""
+# idd is read only once in this test
+# if it has already been read from some other test, it will continue with the old reading
 
-
-
-
-
-
-import eppy.hvacbuilder as hvacbuilder
+from eppy import hvacbuilder
+from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from six import StringIO
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with the old reading
-from eppy.iddcurrent import iddcurrent
+
 iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+IDF.setiddname(iddfhandle, testing=True)
 
-
-def test_flattencopy():
-    """py.test for flattencopy"""
-    tdata = (
-        ([1, 2], [1, 2]), #lst , nlst
-        ([1, 2, [3, 4]], [1, 2, 3, 4]), #lst , nlst
-        ([1, 2, [3, [4, 5, 6], 7, 8]], [1, 2, 3, 4, 5, 6, 7, 8]), #lst , nlst
-        ([1, 2, [3, [4, 5, [6, 7], 8], 9]], [1, 2, 3, 4, 5, 6, 7, 8, 9]),
-        #lst , nlst
-    )
-    for lst, nlst in tdata:
-        result = hvacbuilder.flattencopy(lst)
-        assert result == nlst
 
 def test_makeplantloop():
     """pytest for makeplantloop"""
@@ -95,6 +76,7 @@ def test_makeplantloop():
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
 
+
 def test_makecondenserloop():
     """pytest for makecondenserloop"""
     tdata = ((
@@ -146,15 +128,72 @@ def test_makecondenserloop():
         ), # blankidf, loopname, sloop, dloop, nidf
             )
     for blankidf, loopname, sloop, dloop, nidf in tdata:
-
-        fhandle = StringIO("")
+        fhandle = StringIO(blankidf)
         idf1 = IDF(fhandle)
-        loopname = "c_loop"
-        sloop = ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4']
-        dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
         hvacbuilder.makecondenserloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
         assert str(idf1.model) == str(idf2.model)
+
+
+def test_makeairloop():
+    """pytest for makeairloop"""
+    tdata = ((
+        "",
+        "a_loop",
+        ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
+        ['zone1', 'zone2', 'zone3'],
+        """AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, zone1DirectAir, , 
+        zone1 Inlet Node, autosize;  AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, 
+        zone2DirectAir, , zone2 Inlet Node, autosize;  
+        AIRTERMINAL:SINGLEDUCT:UNCONTROLLED, zone3DirectAir, , zone3 Inlet Node,
+        autosize;  ZONEHVAC:EQUIPMENTLIST, zone1 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone1DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTLIST, zone2 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone2DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTLIST, zone3 equip list, 
+        AirTerminal:SingleDuct:Uncontrolled, zone3DirectAir, 1, 1;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone1, zone1 equip list, 
+        zone1 Inlet Node, , zone1 Node, zone1 Outlet Node;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone2, zone2 equip list, 
+        zone2 Inlet Node, , zone2 Node, zone2 Outlet Node;  
+        ZONEHVAC:EQUIPMENTCONNECTIONS, zone3, zone3 equip list, 
+        zone3 Inlet Node, , zone3 Node, zone3 Outlet Node;  
+        AIRLOOPHVAC, a_loop, , , 0, a_loop Branchs, a_loop Connectors, 
+        a_loop Supply Side Inlet, a_loop Demand Outlet, a_loop Demand Inlet, 
+        a_loop Supply Side Outlet;  AIRLOOPHVAC:ZONESPLITTER, 
+        a_loop Demand Side Splitter, a_loop Demand Inlet, zone1 Inlet Node, 
+        zone2 Inlet Node, zone3 Inlet Node;  AIRLOOPHVAC:SUPPLYPATH, 
+        a_loopSupplyPath, a_loop Demand Inlet, AirLoopHVAC:ZoneSplitter, 
+        a_loop Demand Side Splitter;  AIRLOOPHVAC:ZONEMIXER, 
+        a_loop Demand Side Mixer, a_loop Demand Outlet, zone1 Outlet Node, 
+        zone2 Outlet Node, zone3 Outlet Node;  AIRLOOPHVAC:RETURNPATH, 
+        a_loopReturnPath, a_loop Demand Outlet, AirLoopHVAC:ZoneMixer, 
+        a_loop Demand Side Mixer;  BRANCH, sb0, 0, , Pipe:Adiabatic, 
+        sb0_pipe, sb0_pipe_inlet, sb0_pipe_outlet, Bypass;  BRANCH, sb1, 0, , 
+        Pipe:Adiabatic, sb1_pipe, sb1_pipe_inlet, sb1_pipe_outlet, Bypass;  
+        BRANCH, sb2, 0, , Pipe:Adiabatic, sb2_pipe, sb2_pipe_inlet, 
+        sb2_pipe_outlet, Bypass;  BRANCH, sb3, 0, , Pipe:Adiabatic, sb3_pipe, 
+        sb3_pipe_inlet, sb3_pipe_outlet, Bypass;  BRANCH, sb4, 0, , 
+        Pipe:Adiabatic, sb4_pipe, sb4_pipe_inlet, sb4_pipe_outlet, Bypass;  
+        BRANCHLIST, a_loop Branchs, sb0, sb1, sb2, sb3, sb4;  
+        CONNECTOR:SPLITTER, a_loop_supply_splitter, sb0, sb1, sb2, sb3;  
+        CONNECTOR:MIXER, a_loop_supply_mixer, sb4, sb1, sb2, sb3;  
+        CONNECTORLIST, a_loop Connectors, Connector:Splitter, 
+        a_loop_supply_splitter, Connector:Mixer, a_loop_supply_mixer;  
+        PIPE:ADIABATIC, sb0_pipe, sb0_pipe_inlet, sb0_pipe_outlet;  
+        PIPE:ADIABATIC, sb1_pipe, sb1_pipe_inlet, sb1_pipe_outlet;  
+        PIPE:ADIABATIC, sb2_pipe, sb2_pipe_inlet, sb2_pipe_outlet;  
+        PIPE:ADIABATIC, sb3_pipe, sb3_pipe_inlet, sb3_pipe_outlet;  
+        PIPE:ADIABATIC, sb4_pipe, sb4_pipe_inlet, sb4_pipe_outlet; """
+    ), # blankidf, loopname, sloop, dloop, nidf
+            )
+    for blankidf, loopname, sloop, dloop, nidf in tdata:
+        fhandle = StringIO(blankidf)
+        idf1 = IDF(fhandle)
+        hvacbuilder.makeairloop(idf1, loopname, sloop, dloop)
+        idf2 = IDF(StringIO(nidf))
+        assert str(idf1.model) == str(idf2.model)
+
 
 def test_getbranchcomponents():
     """py.test for getbranchcomponents"""
@@ -223,6 +262,7 @@ def test_getbranchcomponents():
             lresult = [item.obj for item in result]
             assert lresult == componentlist
 
+
 def test_renamenodes():
     """py.test for renamenodes"""
     idftxt = """PIPE:ADIABATIC,
@@ -267,6 +307,7 @@ def test_renamenodes():
     result = idf.idfobjects['PIPE:ADIABATIC'][0].obj
     assert result == outidf.idfobjects['PIPE:ADIABATIC'][0].obj
 
+
 def test_getfieldnamesendswith():
     """py.test for getfieldnamesendswith"""
     idftxt = """PIPE:ADIABATIC,
@@ -296,6 +337,7 @@ def test_getfieldnamesendswith():
         result = hvacbuilder.getfieldnamesendswith(idfobject, endswith)
         assert result == fieldnames
 
+
 def test_getnodefieldname():
     """py.test for getnodefieldname"""
     tdata = (
@@ -320,6 +362,7 @@ def test_getnodefieldname():
         idfobject = idf.newidfobject(objtype, objname)
         result = hvacbuilder.getnodefieldname(idfobject, endswith, fluid)
         assert result == nodefieldname
+
 
 def test_connectcomponents():
     """py.test for connectcomponents"""
@@ -434,6 +477,7 @@ def test_initinletoutlet():
             result = idfobject[nodefield]
             assert result == outlet
 
+
 def test_componentsintobranch():
     """py.test for componentsintobranch"""
     tdata = (
@@ -498,6 +542,7 @@ def test_componentsintobranch():
                                                   components_thisnodes, fluid)
         assert branch.obj[4:] == branchcomps
 
+
 def test_replacebranch():
     """py.test for replacebranch"""
     tdata = (
@@ -530,10 +575,15 @@ def test_replacebranch():
         components_thisnodes = [(idf.newidfobject(key, nm), thisnode)
                                 for key, nm, thisnode in componenttuple]
         branch = idf.getobject('BRANCH', branchname)
-        newbr = hvacbuilder.replacebranch(idf, loop, branch,
-                                          components_thisnodes, fluid=fluid)
+        newbr = hvacbuilder.replacebranch(
+            idf, loop, branch, components_thisnodes, fluid=fluid)
         assert newbr.obj == outbranch
 
+        other_newbr = hvacbuilder.replacebranch1(
+            idf, loop, branch.Name, componenttuple, fluid=fluid)
+        assert other_newbr.obj == outbranch
+    
+    
 def test_makepipecomponent():
     """py.test for makepipecomponent"""
     tdata = (
@@ -552,6 +602,7 @@ def test_makepipecomponent():
         result = hvacbuilder.makepipecomponent(idf, pname)
         assert result.obj == pipe_obj
 
+
 def test_makeductcomponent():
     """py.test for makeductcomponent"""
     tdata = ((
@@ -564,6 +615,7 @@ def test_makeductcomponent():
         idf = IDF(fhandle)
         result = hvacbuilder.makeductcomponent(idf, dname)
         assert result.obj == duct_obj
+
 
 def test_makepipebranch():
     """py.test for makepipebranch"""
@@ -593,6 +645,7 @@ def test_makepipebranch():
         thepipe = idf.getobject('PIPE:ADIABATIC', result.Component_1_Name)
         assert thepipe.obj == pipe_obj
 
+
 def test_makeductbranch():
     """py.test for makeductbranch"""
     tdata = ((
@@ -621,6 +674,7 @@ def test_makeductbranch():
         theduct = idf.getobject('DUCT', result.Component_1_Name)
         assert theduct.obj == duct_obj
 
+
 def test_flattencopy():
     """py.test for flattencopy"""
     tdata = (([1, 2], [1, 2]), #lst , nlst -a
@@ -632,7 +686,8 @@ def test_flattencopy():
             )
     for lst, nlst in tdata:
         result = hvacbuilder.flattencopy(lst)
-        assert result == nlst
+        assert list(result) == nlst
+
 
 def test__clean_listofcomponents():
     """py.test for _clean_listofcomponents"""
@@ -645,6 +700,7 @@ def test__clean_listofcomponents():
         result = hvacbuilder._clean_listofcomponents(lst)
         assert result == clst
 
+
 def test__clean_listofcomponents_tuples():
     """py.test for _clean_listofcomponents_tuples"""
     data = (
@@ -655,5 +711,3 @@ def test__clean_listofcomponents_tuples():
     for lst, clst in data:
         result = hvacbuilder._clean_listofcomponents_tuples(lst)
         assert result == clst
-
-        

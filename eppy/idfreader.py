@@ -12,7 +12,6 @@ from eppy.bunch_subclass import EpBunch
 # from eppy.bunch_subclass import fieldnames, fieldvalues
 import eppy.iddgaps as iddgaps
 import eppy.function_helpers as fh
-from eppy.idf_msequence import Idf_MSequence_old
 from eppy.idf_msequence import Idf_MSequence
 
 
@@ -194,7 +193,7 @@ def idfreader(fname, iddfile, conv=True):
     return bunchdt, data, commdct, idd_index
 
 
-def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
+def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None, idd_index=None):
     """read idf file and return bunches"""
     versiontuple = iddversiontuple(iddfile)
     # import pdb; pdb.set_trace()
@@ -202,7 +201,8 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
         fname,
         iddfile=iddfile,
         commdct=commdct,
-        block=block)
+        block=block,
+        idd_index=idd_index)
     if conv:
         convertallfields(data, commdct)
     # fill gaps in idd
