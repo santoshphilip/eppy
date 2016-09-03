@@ -2,16 +2,22 @@ language: python
 python:
   - "2.7"
   - "3.5"
-
-install:
+before_install:
   # Update the Python 3 code, and change to the p3 dir if required
   - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then cd eppy; sh 2to3sh.sh; cd ../p3; fi
-  - pip install -r requirements.txt
+
+  # coverage and testing requirements
+  - pip install --upgrade pip
+  - pip install --upgrade setuptools
   - pip install pytest-cov
   - pip install codecov
 
-script: coverage run --source=eppy  
-                     --omit=eppy/tests/test_runner.py -m py.test -v
+install:
+  - python setup.py install
+
+script:
+  # run all tests in eppy/tests and check coverage of the eppy dir
+  - py.test -v --cov-config .coveragerc --cov=eppy eppy/tests
 
 after_success:
     - codecov

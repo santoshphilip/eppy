@@ -5,10 +5,10 @@
 #  http://opensource.org/licenses/MIT)
 """extract the groups from the iddfile"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
+
+
 
 def nocomment(astr, com):
     """
@@ -66,18 +66,18 @@ def iddtxt2groups(txt):
         gdict.update({gsplit[0]:gsplit[1:]})
         # makes dict {groupname:[k1, k2], groupname2:[k3, k4]}
 
-    gdict = {k:'\n'.join(v) for k, v in gdict.items()}# joins lines back
-    gdict = {k:v.split(';') for k, v in gdict.items()} # splits into idfobjects
-    gdict = {k:[i.strip() for i in v] for k, v in gdict.items()} # cleanup
-    gdict = {k:[i.splitlines() for i in v] for k, v in gdict.items()}
+    gdict = {k:'\n'.join(v) for k, v in list(gdict.items())}# joins lines back
+    gdict = {k:v.split(';') for k, v in list(gdict.items())} # splits into idfobjects
+    gdict = {k:[i.strip() for i in v] for k, v in list(gdict.items())} # cleanup
+    gdict = {k:[i.splitlines() for i in v] for k, v in list(gdict.items())}
         # splits idfobjects into lines
-    gdict = {k:[i for i in v if len(i) > 0] for k, v in gdict.items()}
+    gdict = {k:[i for i in v if len(i) > 0] for k, v in list(gdict.items())}
         # cleanup - removes blank lines
-    gdict = {k:[i[0] for i in v] for k, v in gdict.items()} # use first line
-    gdict = {k:[i.split(',')[0] for i in v] for k, v in gdict.items()}
+    gdict = {k:[i[0] for i in v] for k, v in list(gdict.items())} # use first line
+    gdict = {k:[i.split(',')[0] for i in v] for k, v in list(gdict.items())}
         # remove ','
     nvalue = gdict.pop(None) # remove group with no name
-    gdict = {k[len('-group '):]:v for k, v in gdict.items()} # get group name
+    gdict = {k[len('-group '):]:v for k, v in list(gdict.items())} # get group name
     gdict.update({None:nvalue}) # put back group with no name
     return gdict
 
@@ -102,7 +102,7 @@ def iddtxt2grouplist(txt):
     gsplits = txt.split('!') # split into groups, since we have !-group
     gsplits = [gsplit.splitlines() for gsplit in gsplits] # split group
 
-    gsplits[0].insert(0, u'-group None')
+    gsplits[0].insert(0, '-group None')
         # Put None for the first group that does nothave a group name
     
     glist = []
@@ -152,7 +152,7 @@ def commdct2grouplist(gcommdct):
     for objidd in gcommdct:
         group = objidd[0]['group']
         objname = objidd[0]['idfobj']
-        if gdict.has_key(group):
+        if group in gdict:
             gdict[group].append(objname)
         else:
             gdict[group] = [objname, ]

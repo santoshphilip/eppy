@@ -6,6 +6,7 @@ pydot3k
 # pyparsing==1.5.7
 pytest>=2.3.5
 tinynumpy>=1.2.1
+decorator
 
 # dev stuff
 # pip install "ipython[all]" # does not work from requirements.txt
