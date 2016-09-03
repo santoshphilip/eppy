@@ -19,8 +19,8 @@ from eppy import modeleditor
 from eppy.modeleditor import IDF
 import io
 
-iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
-iddfile = "../eppy/resources/iddfiles/Energy+V8_0_0.idd"
+iddfile = "./eppy/resources/iddfiles/Energy+V7_2_0.idd"
+iddfile = "./eppy/resources/iddfiles/Energy+V8_0_0.idd"
 
 IDF.setiddname(iddfile)
 idf = IDF(io.StringIO(""))

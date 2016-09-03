@@ -585,7 +585,7 @@ class IDF(object):
         return cls.iddname
 
     @classmethod
-    def setidd(cls, iddinfo, block):
+    def setidd(cls, iddinfo, iddindex, block):
         """Set the IDD to be used by eppy.
 
         Parameters
@@ -598,6 +598,7 @@ class IDF(object):
         """
         cls.idd_info = iddinfo
         cls.block = block
+        cls.idd_index = iddindex
 
     """Methods to do with reading an IDF."""
 
@@ -649,6 +650,7 @@ class IDF(object):
         - idfobjects : list
         - model : list
         - idd_info : list
+        - idd_index : dict
 
         """
         if self.getiddname() == None:
@@ -658,8 +660,8 @@ class IDF(object):
         readout = idfreader1(
             self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info = readout
-        self.__class__.setidd(idd_info, block)
+        self.idfobjects, block, self.model, idd_info, idd_index = readout
+        self.__class__.setidd(idd_info, idd_index, block)
 
     """Methods to do with creating a new blank IDF object."""
 

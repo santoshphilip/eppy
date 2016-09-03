@@ -30,7 +30,7 @@ idfsnippet = snippet.idfsnippet
 from io import StringIO
 idffhandle = StringIO(idfsnippet)
 iddfhandle = StringIO(iddsnippet)
-bunchdt, data, commdct = idfreader(idffhandle, iddfhandle)
+bunchdt, data, commdct, idd_index = idfreader(idffhandle, iddfhandle)
 
 def test_readwrite():
     """py.test for ex_readwrite"""

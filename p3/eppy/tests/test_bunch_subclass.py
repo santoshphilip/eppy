@@ -389,7 +389,7 @@ def test_EpBunch():
 
     iddfile = StringIO(iddtxt)
     fname = StringIO(idftxt)
-    block, data, commdct = readidf.readdatacommdct1(fname, 
+    block, data, commdct, idd_index = readidf.readdatacommdct1(fname, 
                 iddfile=iddfile)
 
     # setup code walls - can be generic for any object
@@ -957,7 +957,7 @@ def test_EpBunch1():
     """py.test for EpBunch1"""
     iddfile = StringIO(iddtxt)
     idffile = StringIO(bldfidf)
-    block, data, commdct = readidf.readdatacommdct1(idffile, 
+    block, data, commdct, idd_index = readidf.readdatacommdct1(idffile, 
             iddfile=iddfile)
     key = "BUILDING"
     objs = data.dt[key]

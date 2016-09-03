@@ -23,6 +23,7 @@ from decorator import decorator
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.EPlusInterfaceFunctions.iddindex as iddindex
 
 
 def nocomment(astr, com):
@@ -78,13 +79,10 @@ def removeblanklines(astr):
     lines = astr.splitlines()
     lines = [line for line in lines if line.strip() != ""]
     return "\n".join(lines)
-
-@decorator
-def embeddgroupdata(extract_func, fname, debug=False):
-    """insert group info into extracted idd"""
     
-    # copied the reading of fname from extractidddata - start
-    # removed decode (the decode will happen in extractidddata)
+def _readfname(fname):
+    """copied from extractidddata below. 
+    It deals with all the types of fnames"""
     try:
         if isinstance(fname, (file, StringIO)):
             astr = fname.read()
@@ -95,7 +93,34 @@ def embeddgroupdata(extract_func, fname, debug=False):
             astr = fname.read()
         else:
             astr = mylib2.readfile(fname)
-    # copied the reading of fname from extractidddata- end
+    return astr
+            
+@decorator
+def make_idd_index(extract_func, fname, debug):
+    """generate the iddindex"""
+    astr = _readfname(fname)
+
+    # fname is exhausted by the above read
+    # reconstitute fname as a StringIO
+    fname = StringIO(astr)
+
+    # glist = iddgroups.iddtxt2grouplist(astr.decode('ISO-8859-2'))
+    
+    
+    blocklst, commlst, commdct = extract_func(fname)
+    
+    name2refs = iddindex.makename2refdct(commdct)
+    ref2namesdct = iddindex.makeref2namesdct(name2refs)
+    idd_index = dict(name2refs=name2refs, ref2names=ref2namesdct)
+    commdct = iddindex.ref2names2commdct(ref2namesdct, commdct)
+    
+    return blocklst, commlst, commdct, idd_index
+
+@decorator
+def embedgroupdata(extract_func, fname, debug):
+    """insert group info into extracted idd"""
+    
+    astr = _readfname(fname)
     
     # fname is exhausted by the above read
     # reconstitute fname as a StringIO
@@ -115,15 +140,22 @@ def embeddgroupdata(extract_func, fname, debug=False):
     commdct = iddgroups.group2commdct(commdct, glist)
     return blocklst, commlst, commdct
 
-@embeddgroupdata
+@make_idd_index
+@embedgroupdata
 def extractidddata(fname, debug=False):
     """
     extracts all the needed information out of the idd file
     if debug is True,  it generates a series of text files.
     Each text file is incrementally different. You can do a diff
     see what the change is
-    - 
-    Does not integrate group data into the results
+    -
+    this code is from 2004.
+    it works.
+    I am trying not to change it (until I rewrite the whole thing) 
+    to add functionality to it, I am using decorators
+    So if
+    Does not integrate group data into the results (@embedgroupdata does it)
+    Does not integrate iddindex into the results (@make_idd_index does it)
     """
     try:
         if isinstance(fname, (file, StringIO)):
