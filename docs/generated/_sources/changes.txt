@@ -1,6 +1,11 @@
 Changes
 =======
 
+2016-07-21
+----------
+
+tab completion of fileds (of idfobjects) works in ipython and ipython notebook
+
 2016-07-09
 ----------
 

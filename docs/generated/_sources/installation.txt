@@ -13,4 +13,4 @@ Go to http://www.numpy.org and install NumPy.
 
 Go to  http://www.graphviz.org and install graphviz
 
-*Note: eppy runs on python2. There are plans for python3, but we are not there yet*
+*Note: eppy runs on python2 and python 3.*
