@@ -8,7 +8,7 @@
     
     <title>Underlying Data Structure of eppy &mdash; eppy 0.5.31 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,8 +28,8 @@
     <link rel="next" title="EpBunch" href="epbunch.html" />
     <link rel="prev" title="The Future of eppy" href="future_eppy.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,15 +41,15 @@
         <li class="right" >
           <a href="future_eppy.html" title="The Future of eppy"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">eppy 0.5.31 documentation</a> &raquo;</li>
-          <li><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.31 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="underlying-data-structure-of-eppy">
 <h1>Underlying Data Structure of eppy<a class="headerlink" href="#underlying-data-structure-of-eppy" title="Permalink to this headline">¶</a></h1>
@@ -79,7 +79,7 @@
 <span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -112,7 +112,8 @@ MATERIAL:AIRGAP,
 
 MATERIAL:AIRGAP,
     F05 Ceiling air space resistance,    !- Name
-    0.18;                     !- Thermal Resistance</pre>
+    0.18;                     !- Thermal Resistance
+</pre></div>
 </div>
 <div class="section" id="original-data-structure-in-eplusinterface">
 <h2>Original Data Structure in EPlusInterface<a class="headerlink" href="#original-data-structure-in-eplusinterface" title="Permalink to this headline">¶</a></h2>
@@ -136,9 +137,9 @@ not know what I was doing when I wrote this code and now we are stuck
 with it</p>
 <p>There are three varaibles that hold all the data we need. They are:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">idf1.model.dtls</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">idf1.model.dt</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">idf1.idd_info</span></tt></li>
+<li><code class="docutils literal"><span class="pre">idf1.model.dtls</span></code></li>
+<li><code class="docutils literal"><span class="pre">idf1.model.dt</span></code></li>
+<li><code class="docutils literal"><span class="pre">idf1.idd_info</span></code></li>
 </ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">dtls</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span> <span class="c"># names of all the idf objects</span>
 <span class="n">dt</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span> <span class="c"># the idf model</span>
@@ -151,7 +152,8 @@ with it</p>
 <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">dtls</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>&lt;type 'list'&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;type &#39;list&#39;&gt;
+</pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># dtls is a list</span>
 <span class="k">print</span> <span class="n">dtls</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> <span class="c"># print the first ten items</span>
@@ -166,7 +168,7 @@ with it</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="mi">683</span>
 </pre></div>
 </div>
-<p>Couple of points to note about <tt class="docutils literal"><span class="pre">dtls</span></tt>:</p>
+<p>Couple of points to note about <code class="docutils literal"><span class="pre">dtls</span></code>:</p>
 <ul class="simple">
 <li><strong>dtls</strong> is a list of all the names of the Energyplus objects.</li>
 <li>This list is extracted from the the <strong>idd</strong> file</li>
@@ -179,7 +181,8 @@ with it</p>
 <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>&lt;type 'dict'&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;type &#39;dict&#39;&gt;
+</pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c"># print 10 of the keys</span>
 <span class="k">print</span> <span class="n">dt</span><span class="o">.</span><span class="n">keys</span><span class="p">()[:</span><span class="mi">10</span><span class="p">]</span>
@@ -212,7 +215,8 @@ the idd file.</li>
 <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">idd_info</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>&lt;type 'list'&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;type &#39;list&#39;&gt;
+</pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">idd_info</span><span class="p">)</span> <span class="c"># number of items in the list</span>
 </pre></div>
@@ -244,7 +248,7 @@ the idd file.</li>
 </div>
 <p>That does not make much sense. Below is the first 3 items from the idd
 file</p>
-<div class="highlight-python"><pre>Lead Input;
+<div class="highlight-python"><div class="highlight"><pre>Lead Input;
 
 Simulation Data;
 
@@ -255,7 +259,8 @@ Version,
       \format singleLine
   A1 ; \field Version Identifier
       \required-field
-      \default 7.0</pre>
+      \default 7.0
+</pre></div>
 </div>
 <ul class="simple">
 <li>If you compare the text file with the sturcture of idd_info, you can
@@ -303,7 +308,8 @@ idf1.model.dt</p>
 <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">airgaps</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>&lt;type 'list'&gt;</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;type &#39;list&#39;&gt;
+</pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">airgaps</span>
 </pre></div>
@@ -313,13 +319,14 @@ idf1.model.dt</p>
 </pre></div>
 </div>
 <p>A snippet of the <strong>idf</strong> text file shows this</p>
-<div class="highlight-python"><pre>MATERIAL:AIRGAP,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL:AIRGAP,
     F04 Wall air space resistance,    !- Name
     0.15;                     !- Thermal Resistance
 
 MATERIAL:AIRGAP,
     F05 Ceiling air space resistance,    !- Name
-    0.18;                     !- Thermal Resistance</pre>
+    0.18;                     !- Thermal Resistance
+</pre></div>
 </div>
 <p>Notice the following things about idf1.model.dt:</p>
 <ul class="simple">
@@ -370,7 +377,7 @@ Resistance&#8221; is a float and not a string</li>
 </pre></div>
 </div>
 <p>Compare to text in idd file:</p>
-<div class="highlight-python"><pre>Material:AirGap,
+<div class="highlight-python"><div class="highlight"><pre>Material:AirGap,
        \min-fields 2
        \memo Air Space in Opaque Construction
   A1 , \field Name
@@ -380,7 +387,8 @@ Resistance&#8221; is a float and not a string</li>
   N1 ; \field Thermal Resistance
        \units m2-K/W
        \type real
-       \minimum&gt; 0</pre>
+       \minimum&gt; 0
+</pre></div>
 </div>
 <ul class="simple">
 <li>idd_airgaps gives details about each field</li>
@@ -473,9 +481,10 @@ idd_info to do so.</p>
 <li>airgap1.Thermal_Resistance</li>
 </ul>
 <p>to remind you, the text file we are reading looks like this:</p>
-<div class="highlight-python"><pre>MATERIAL:AIRGAP,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL:AIRGAP,
     F04 Wall air space resistance,    !- Name
-    0.15;                             !- Thermal Resistance</pre>
+    0.15;                             !- Thermal Resistance
+</pre></div>
 </div>
 <ul class="simple">
 <li>We are using the field names that come from the idd file</li>
@@ -530,7 +539,7 @@ next one implements more.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -558,12 +567,14 @@ next one implements more.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="epbunch.html"
                         title="next chapter">EpBunch</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/dev_docs/data_eppy.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/dev_docs/data_eppy.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -580,7 +591,7 @@ next one implements more.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -592,13 +603,13 @@ next one implements more.</p>
         <li class="right" >
           <a href="future_eppy.html" title="The Future of eppy"
              >previous</a> |</li>
-        <li><a href="../index.html">eppy 0.5.31 documentation</a> &raquo;</li>
-          <li><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.31 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
