@@ -39,13 +39,6 @@ setup(
     license='MIT License',
     author='Santosh Philip',
     tests_require=['pytest'],
-    install_requires=[
-                "munch>=2.0.2",
-                "beautifulsoup4>=4.2.1",
-                "tinynumpy",
-                "decorator",
-                "pytest>=2.3.5",
-                    ],
     cmdclass={'test': PyTest},
     author_email='eppy_scripting@yahoo.com',
     description='Scripting language for E+ idf files, and E+ output files',
