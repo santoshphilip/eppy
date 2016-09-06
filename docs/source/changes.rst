@@ -1,6 +1,14 @@
 Changes
 =======
 
+release r0.5.40
+~~~~~~~~~~~~~~~
+
+2016-09-06
+----------
+
+This is a release for python2 and python3. pip install will automatically install the correct version.
+
 release r0.5.31
 ~~~~~~~~~~~~~~~
 
