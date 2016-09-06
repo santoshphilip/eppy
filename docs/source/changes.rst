@@ -1,6 +1,17 @@
 Changes
 =======
 
+release r0.5.31
+~~~~~~~~~~~~~~~
+
+2016-09-04
+----------
+
+bugfix so that json_functions can have idf objects with names that have dots in them
+
+release r0.5.3
+~~~~~~~~~~~~~~
+
 2016-07-21
 ----------
 

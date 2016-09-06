@@ -1166,6 +1166,7 @@ a look at this:
     json_str = {"idf.BUILDING.Taj.Terrain": "Rural",}
     json_functions.updateidf(idf1, json_str)
     idf1.idfobjects['building'.upper()]
+    # of course, you are creating an invalid E+ file. But we are just playing here.
 
 
 
@@ -1184,6 +1185,71 @@ a look at this:
     , 
     BUILDING,                 
         Taj,                      !- Name
+        0.0,                      !- North Axis
+        Rural,                    !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    ]
+
+
+
+What if you object name had a dot ``.`` in it? Will the json\_function
+get confused?
+
+If the name has a dot in it, there are two ways of doing this.
+
+.. code:: python
+
+    # first way
+    json_str = {"idf.BUILDING.Taj.with.dot.Terrain": "Rural",}
+    json_functions.updateidf(idf1, json_str)
+    # second way (put the name in single quotes)
+    json_str = {"idf.BUILDING.'Another.Taj.with.dot'.Terrain": "Rural",}
+    json_functions.updateidf(idf1, json_str)
+.. code:: python
+
+    idf1.idfobjects['building'.upper()]
+
+
+
+.. parsed-literal::
+
+    [
+    BUILDING,                 
+        Empire State Building,    !- Name
+        52,                       !- North Axis
+        Rural,                    !- Terrain
+        0.6,                      !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    , 
+    BUILDING,                 
+        Taj,                      !- Name
+        0.0,                      !- North Axis
+        Rural,                    !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    , 
+    BUILDING,                 
+        Taj.with.dot,             !- Name
+        0.0,                      !- North Axis
+        Rural,                    !- Terrain
+        0.04,                     !- Loads Convergence Tolerance Value
+        0.4,                      !- Temperature Convergence Tolerance Value
+        FullExterior,             !- Solar Distribution
+        25,                       !- Maximum Number of Warmup Days
+        6;                        !- Minimum Number of Warmup Days
+    , 
+    BUILDING,                 
+        Another.Taj.with.dot,     !- Name
         0.0,                      !- North Axis
         Rural,                    !- Terrain
         0.04,                     !- Loads Convergence Tolerance Value
