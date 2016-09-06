@@ -11,14 +11,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 def key2elements(key):
     """split key to elements"""
     return key.split('.')
     
 def updateidf(idf, dct):
     """update idf using dct"""
-    for key in dct.keys():
+    for key in list(dct.keys()):
         if key.startswith('idf.'):
             idftag, objkey, objname, field = key2elements(key)
             if objname == '':

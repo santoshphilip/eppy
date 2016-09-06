@@ -17,7 +17,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 import argparse
 
 import sys
@@ -46,7 +45,7 @@ def getobjname(item):
     """return obj name or blank """
     try:
         objname = item.Name
-    except BadEPFieldError, e:
+    except BadEPFieldError as e:
         objname = ' '
     return objname
 
@@ -75,7 +74,7 @@ def makecsvdiffs(thediffs, dtls, n1, n2):
     rows.append(['file2 = %s' % (n2, )])
     rows.append('')
     rows.append(theheader(n1, n2))
-    keys = thediffs.keys() # ensures sorting by Name
+    keys = list(thediffs.keys()) # ensures sorting by Name
     keys.sort()
     # sort the keys in the same order as in the idd
     dtlssorter = DtlsSorter(dtls)
@@ -108,7 +107,7 @@ def idfdiffs(idf1, idf2):
                           if getobjname(item) == name]
             n_idfobjs2 = [item for item in idfobjs2
                           if getobjname(item) == name]
-            for idfobj1, idfobj2 in itertools.izip_longest(n_idfobjs1,
+            for idfobj1, idfobj2 in itertools.zip_longest(n_idfobjs1,
                                                            n_idfobjs2):
                 if idfobj1 == None:
                     thediffs[(idfobj2.key.upper(), 

@@ -1,3 +1,17 @@
+2016-09-06
+----------
+to rn integration tests on mac:
+do the follwing in your shell:
+- EPPY_INTEGRATION=TRUE
+- export EPPY_INTEGRATION
+now integration test will not be skipped
+to skip do:
+- unset EPPY_INTEGRATION
+
+python 3:
+pyvenv ~/venvs/eppy3
+source ~/venvs/eppy3/bin/activate
+
 2016-05-29
 ----------
 set up integration tests for open and save of files

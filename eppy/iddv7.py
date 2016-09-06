@@ -1,3 +1,8 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 iddtxt = """!IDD_Version 7.2.0.006
 ! **************************************************************************
 ! This file is the Input Data Dictionary (IDD) for EnergyPlus.

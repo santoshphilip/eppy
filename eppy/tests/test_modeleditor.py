@@ -5,13 +5,13 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """py.test for modeleditor"""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+from six import StringIO
+from six import string_types
 from eppy import modeleditor
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
@@ -73,8 +73,6 @@ def test_extendlist():
         assert lst == nlst
 
 
-
-
 def test_namebunch():
     """py.test for namebunch"""
     thedata = (
@@ -91,6 +89,7 @@ def test_namebunch():
         result = modeleditor.namebunch(abunch, aname)
         assert result.Name == thename
 
+
 def test_getnamedargs():
     """py.test for getnamedargs"""
     result = dict(a=1, b=2, c=3)
@@ -98,7 +97,6 @@ def test_getnamedargs():
     assert result == modeleditor.getnamedargs(dict(a=1, b=2, c=3))
     assert result == modeleditor.getnamedargs(dict(a=1, b=2), c=3)
     assert result == modeleditor.getnamedargs(dict(a=1), c=3, b=2)
-
 
 
 def test_getrefnames():
@@ -439,15 +437,15 @@ def test_initread():
     idf.saveas('tmp.idf')
 
     # test fname as unicode
-    fname = unicode('tmp.idf')
-    assert type(fname) == unicode
+    fname = 'tmp.idf'
+    assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
-
+    
     # test fname as str
     fname = str('tmp.idf')
-    assert type(fname) == str
+    assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
