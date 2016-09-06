@@ -47,8 +47,8 @@ def iddtxt2groups(txt):
     """extract the groups from the idd file"""
     try:
         txt = txt.decode('ISO-8859-2')
-    except AttributeError:
-        pass
+    except AttributeError as e:
+        pass # for python 3
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info

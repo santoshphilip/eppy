@@ -9,6 +9,10 @@
 There are two output files saved in the same location as the idf file:
 - idf_file_location/idf_filename.dot
 - idf_file_location/idf_filename.png"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import pydot
 import argparse

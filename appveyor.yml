@@ -32,6 +32,9 @@ install:
   - "pip install --disable-pip-version-check --user --upgrade pip"
   - ps: echo $env:PYTHON
   - "%PYTHON%\\python.exe -m pip install pytest"
+  # set the integration test environment variable
+  - "SET EPPY_INTEGRATION=TRUE"
+  # install rppy
   - "%PYTHON%\\python.exe setup.py install"
 
 build: off

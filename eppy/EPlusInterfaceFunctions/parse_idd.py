@@ -8,6 +8,11 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """legacy code from EPlusInterface"""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 from six import StringIO
 from io import FileIO
 from decorator import decorator
@@ -120,8 +125,8 @@ def embedgroupdata(extract_func, fname, debug):
 
     try:
         astr = astr.decode('ISO-8859-2')
-    except AttributeError:
-        pass
+    except Exception as e:
+        pass # for python 3
     glist = iddgroups.iddtxt2grouplist(astr)
     
     

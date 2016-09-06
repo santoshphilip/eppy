@@ -9,11 +9,10 @@
 With \note fields as indicated
 This code fills those gaps
 see: SCHEDULE:DAY:LIST as an example"""
-
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 # see iddgaps6.py on usage
 # TODO : need unit tests for all htese functions
