@@ -125,8 +125,8 @@ def embedgroupdata(extract_func, fname, debug):
 
     try:
         astr = astr.decode('ISO-8859-2')
-    except AttributeError:
-        pass
+    except Exception as e:
+        pass # for python 3
     glist = iddgroups.iddtxt2grouplist(astr)
     
     

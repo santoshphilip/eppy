@@ -12,9 +12,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six.moves import cPickle
-
-import os
+import os, pickle
 # import string
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 
@@ -320,13 +318,3 @@ def pickledump(theobject, fname):
     """same as pickle.dump(theobject, fhandle).takes filename as parameter"""
     fhandle = open(fname, 'wb')
     pickle.dump(theobject, fhandle)
-
-def cpickleload(fname):
-    """same as pickle.load(fhandle).takes filename as parameter"""
-    fhandle = open(fname, 'rb')
-    return cPickle.load(fhandle)
-
-def cpickledump(theobject, fname):
-    """same as pickle.dump(theobject, fhandle).takes filename as parameter"""
-    fhandle = open(fname, 'wb')
-    cPickle.dump(theobject, fhandle)
