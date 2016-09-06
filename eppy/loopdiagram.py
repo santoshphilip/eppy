@@ -13,11 +13,10 @@ s_plantloop5.py + s_airloop2.py
 removed arrow between demand and supply
 has main with arguments"""
 # copy of s_airplantloop1.py
-
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import getopt
 import os

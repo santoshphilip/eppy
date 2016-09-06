@@ -9,11 +9,10 @@
 
 # this is a test version ... not for real use
 # dammit i am using it
-
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import copy
 from six import StringIO

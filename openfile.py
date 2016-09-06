@@ -1,5 +1,10 @@
 """run this in ipython and explore.
 Looks like idd is being read wrong."""
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import sys
 # pathnameto_eppy = 'c:/eppy'
 pathnameto_eppy = '../'
