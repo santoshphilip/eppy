@@ -135,7 +135,7 @@ sys.path.append(pathnameto_eppy)
 from eppy.modeleditor import IDF
 from eppy import hvacbuilder
 
-from StringIO import StringIO
+from io import StringIO
 iddfile = "../eppy/resources/iddfiles/Energy+V7_0_0_036.idd"
 IDF.setiddname(iddfile)
 
@@ -266,22 +266,22 @@ edges = ex_loopdiagram.getedges(fname, iddfile)
 from eppy import walk_hvac
 firstnode = "Central_Chiller"
 nextnodes = walk_hvac.nextnode(edges, firstnode)
-print nextnodes
+print(nextnodes)
 
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <markdowncell>
 
@@ -290,17 +290,17 @@ print nextnodes
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <codecell>
 
 nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
-print nextnodes
+print(nextnodes)
 
 # <markdowncell>
 
@@ -312,37 +312,37 @@ print nextnodes
 
 lastnode = 'sb4_pipe'
 prevnodes = walk_hvac.prevnode(edges, lastnode)
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <codecell>
 
 prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
-print prevnodes
+print(prevnodes)
 
 # <markdowncell>
 

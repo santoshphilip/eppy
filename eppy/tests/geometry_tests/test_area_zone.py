@@ -8,6 +8,10 @@
 """ pytest for area_zone.py"""
 # Wrote by Tuan Tran trantuan@hawaii.edu / tranhuuanhtuan@gmail.com
 # School of Architecture, University of Hawaii at Manoa
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import eppy.geometry.area_zone as area_zone
 from eppy.pytest_helpers import almostequal

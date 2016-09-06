@@ -1,3 +1,7 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 # coding: utf-8
 
@@ -32,7 +36,7 @@ idf1.saveas("bl_original.idf")
 
 # In[5]:
 
-keys = idf1.idfobjects.keys()
+keys = list(idf1.idfobjects.keys())
 
 
 # In[6]:
@@ -49,7 +53,7 @@ for key in keys:
                 newname = name.replace(':', '__') 
                 # print "%s, %s, %s" %  (key, name, newname)
                 modeleditor.rename(idf1, key, name, newname)
-        except BadEPFieldError , e:
+        except BadEPFieldError as e:
             pass
         
 
@@ -70,7 +74,7 @@ for key in keys:
                     if field.find(":") != -1:
                         newfield = field.replace(":", "__")
                         objectfields[i + 1] = newfield
-            except AttributeError, e:
+            except AttributeError as e:
                 # may be a number
                 pass
 
@@ -89,7 +93,7 @@ for key in keys:
             try:
                 # print f_idd["field"][0]
                 nodeinname = "Node" in f_idd["field"][0]
-            except KeyError, e:
+            except KeyError as e:
                 # field may not be a key
                 nodeinname = False
             if nodeinname:
@@ -99,7 +103,7 @@ for key in keys:
                         newfield = field.replace(":", "__")
                         objectfields[i + 1] = newfield
                         # print f_idd["field"], field
-                except AttributeError, e:
+                except AttributeError as e:
                     # may be a number
                     pass
                 

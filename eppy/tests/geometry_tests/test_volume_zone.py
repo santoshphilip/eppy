@@ -13,7 +13,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-
 import eppy.geometry.volume_zone as volume_zone
 from eppy.pytest_helpers import almostequal
 

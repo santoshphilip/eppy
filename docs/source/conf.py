@@ -48,8 +48,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'eppy'
-copyright = u'2013, Santosh Philip'
+project = 'eppy'
+copyright = '2013, Santosh Philip'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -201,8 +201,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'eppy.tex', u'eppy Documentation',
-   u'Santosh Philip', 'manual'),
+  ('index', 'eppy.tex', 'eppy Documentation',
+   'Santosh Philip', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -231,8 +231,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'eppy', u'eppy Documentation',
-     [u'Santosh Philip'], 1)
+    ('index', 'eppy', 'eppy Documentation',
+     ['Santosh Philip'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -245,8 +245,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'eppy', u'eppy Documentation',
-   u'Santosh Philip', 'eppy', 'One line description of project.',
+  ('index', 'eppy', 'eppy Documentation',
+   'Santosh Philip', 'eppy', 'One line description of project.',
    'Miscellaneous'),
 ]
 

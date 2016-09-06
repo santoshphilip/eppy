@@ -5,13 +5,17 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """change the edges in loopdaigram so that there are no names with colons (:) """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 def replace_colon(s, replacewith='__'):
     """replace the colon with something"""
     return s.replace(":", replacewith)
     
 def clean_edges(arg):
-    if isinstance(arg, basestring): # Python 3: isinstance(arg, str)
+    if isinstance(arg, str): # Python 3: isinstance(arg, str)
         return replace_colon(arg)
     try:
         return tuple(clean_edges(x) for x in arg)

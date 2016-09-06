@@ -6,7 +6,6 @@
 # =======================================================================
 
 """py.test for bunch_subclass"""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -15,7 +14,7 @@ from __future__ import unicode_literals
 # This test is ugly because I have to send file names and not able to send file handles
 
 import pytest
-from StringIO import StringIO
+from six import StringIO
 
 
 from eppy.EPlusInterfaceFunctions import readidf
