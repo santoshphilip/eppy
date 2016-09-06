@@ -1,3 +1,12 @@
+2016-09-06
+----------
+to rn integration tests on mac:
+do the follwing in your shell:
+- EPPY_INTEGRATION=TRUE
+- export EPPY_INTEGRATION
+now integration test will not be skipped
+to skip do:
+- unset EPPY_INTEGRATION
 2016-05-29
 ----------
 set up integration tests for open and save of files
