@@ -11,12 +11,21 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import os
 import sys
-pathnameto_eppy = './'
-sys.path.append(pathnameto_eppy)
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF
+from eppy.pytest_helpers import do_integration_tests
+import pytest
+
+from eppy.pytest_helpers import IDD_FILES
+from eppy.pytest_helpers import INTEGRATION_FILES
+from eppy.pytest_helpers import PATH_TO_EPPY
+
+
+sys.path.append(PATH_TO_EPPY)
+
 
 def getversion(idf):
     """return the version number"""
@@ -28,22 +37,23 @@ def setversion(idf, newversion):
     versions = idf.idfobjects['VERSION']
     versions[0].Version_Identifier = newversion
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_modeleditor():
     """test reading a idf file"""
     # TODO : organize this differently .. as multiple tests
     # TODO : add cleanup code
-    iddfile = "./eppy/resources/iddfiles/Energy+V7_2_0.idd"
-    startfolder = "./eppy/tests/integration/data2test"
-    origfile = "%s/%s" % (startfolder, "origfile.idf")
+    iddfile = os.path.join(IDD_FILES, "Energy+V7_2_0.idd")
+    origfile = "%s/%s" % (INTEGRATION_FILES, "origfile.idf")
 
     # make a copy of test file
-    startfile = "%s/%s" % (startfolder, "startfile.idf")
+    startfile = "%s/%s" % (INTEGRATION_FILES, "startfile.idf")
     import shutil
     shutil.copy(origfile, startfile)
     
     # pytest open the file
     # check the version number
-    IDF.setiddname(iddfile)
+    IDF.setiddname(iddfile, testing=True)
     idf = IDF(startfile)
     result = getversion(idf)
     assert result == '7.3'
@@ -61,7 +71,7 @@ def test_modeleditor():
 
     # pytest saveas
     # saveas changes the filename. The next save should save with new name
-    saveasfile = "%s/%s" %  (startfolder, "saveas.idf")
+    saveasfile = "%s/%s" %  (INTEGRATION_FILES, "saveas.idf")
     idf = IDF(startfile)
     idf.saveas(saveasfile)
     setversion(idf, '7.4')
@@ -72,7 +82,7 @@ def test_modeleditor():
 
     # pytest savecopy
     # test that it saves a copy. If a following save is done, the copy is unchanged
-    copyfile = "%s/%s" %  (startfolder, "savecopy.idf")
+    copyfile = "%s/%s" %  (INTEGRATION_FILES, "savecopy.idf")
     idf = IDF(startfile)
     idf.savecopy(copyfile)
     setversion(idf, '7.5')
