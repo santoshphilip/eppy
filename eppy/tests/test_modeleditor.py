@@ -453,6 +453,60 @@ def test_savecopy():
     assert idf.idfname == 'test.idf'
 
 
+def test_shallowcopy():
+    """Test that copies made of the IDF using idf.copy remain linked.
+    
+    Fails if changes to a copy are not reflected in the original, and vice
+    versa.
+    
+    """
+    idf_txt = "Building, The White House, , , , , , , ;"    
+    idf1 = IDF()
+    idf1.initreadtxt(idf_txt)
+
+    # make a shallow copy that should remain "entangled" with idf1
+    idf2 = idf1.shallowcopy()
+
+    # change building name in idf1 and check in idf2
+    obj = idf1.getobject('BUILDING', 'The White House')
+    obj.Name = 'Big Ben'
+    assert idf2.getobject('BUILDING', 'Big Ben')
+    assert idf1.idfstr() == idf2.idfstr()  # the two IDFs are the same
+
+    # change building name in idf2 and check in idf1
+    obj = idf2.getobject('BUILDING', 'Big Ben') 
+    obj.Name = 'The Colosseum'
+    assert idf1.getobject('BUILDING', 'The Colosseum')
+    assert idf1.idfstr() == idf2.idfstr()  # the two IDFs are the same
+
+
+def test_deepcopy():
+    """Test that copies made of the IDF using idf.deepcopy do not remain linked.
+    
+    Fails if changes to a copy are reflected in the original, and vice
+    versa.
+    
+    """
+    idf_txt = "Building, The White House, , , , , , , ;"    
+    idf1 = IDF()
+    idf1.initreadtxt(idf_txt)
+
+    # make a deep copy that is not linked to the original IDF
+    idf2 = idf1.deepcopy()
+
+    # change building name in idf1 and check in idf2
+    obj = idf1.getobject('BUILDING', 'The White House')
+    obj.Name = 'Big Ben'
+    assert idf2.getobject('BUILDING', 'The White House')  # unchanged
+    assert idf1.idfstr() != idf2.idfstr()  # the two IDFs are not the same
+
+    # change building name in idf2 and check in idf1
+    obj = idf2.getobject('BUILDING', 'The White House')
+    obj.Name = 'The Colosseum'
+    assert not idf1.getobject('BUILDING', 'The Colosseum')
+    assert idf1.idfstr() != idf2.idfstr()  # the two IDFs are not the same
+    
+
 def test_initread():
     """Test for IDF.initread() with filename in unicode and as python str.
     """
