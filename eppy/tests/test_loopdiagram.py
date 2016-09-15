@@ -14,14 +14,15 @@ from __future__ import unicode_literals
 
 import os
 
+from eppy.pytest_helpers import do_integration_tests
 import pytest
 
 from eppy.useful_scripts.loopdiagram import clean_edges
 from eppy.useful_scripts.loopdiagram import dropnodes
 from eppy.useful_scripts.loopdiagram import edges2nodes
+from eppy.useful_scripts.loopdiagram import getedges
 from eppy.useful_scripts.loopdiagram import process_idf
 from eppy.useful_scripts.loopdiagram import replace_colon
-from eppy.pytest_helpers import do_integration_tests
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -104,3 +105,12 @@ def test_loopdiagram_integration():
     idd = os.path.join(IDD_FILES, "Energy+V8_1_0.idd")
     fname = os.path.join(IDF_FILES, "V8_1_0/Boiler.idf")
     process_idf(fname, idd)
+
+
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+def test_getedges():
+    idd = os.path.join(IDD_FILES, "Energy+V8_1_0.idd")
+    fname = os.path.join(IDF_FILES, "V8_1_0/Boiler.idf")
+    getedges(fname, idd)
+    
