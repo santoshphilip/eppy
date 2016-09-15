@@ -2,10 +2,8 @@
 Useful Scripts
 ==============
 
-
 Location of the scripts
 -----------------------
-
 
 Here are some scripts that you may find useful. They are in the folder
 "./eppy/useful\_scripts"
@@ -17,6 +15,7 @@ And now for some housekeeping before we start off
     import os
     os.chdir("../eppy/useful_scripts")
     # changes directory, so we are where the scripts are located
+
 .. code:: python
 
     # you would normaly install eppy by doing
@@ -32,6 +31,7 @@ And now for some housekeeping before we start off
     pathnameto_eppy = '../../'
     sys.path.append(pathnameto_eppy) 
 
+
 If you look in the folder "./eppy/useful\_scripts", you fill find the
 following scripts
 
@@ -46,10 +46,8 @@ The scripts are:
     - eppyreadtest_file.py
         
 
-
 eppy\_version.py
 ----------------
-
 
 Many scripts will print out some help information, if you use the --help
 option. Let us try that
@@ -59,6 +57,7 @@ option. Let us try that
     %%bash
     # ignore the line above. It simply lets me run a command line from ipython notebook
     python eppy_version.py --help
+
 
 .. parsed-literal::
 
@@ -80,6 +79,7 @@ Now let us try running the program
     # ignore the line above. It simply lets me run a command line from ipython notebook
     python eppy_version.py
 
+
 .. parsed-literal::
 
     Hello! I am  eppy version 0.4.6.4a
@@ -87,7 +87,6 @@ Now let us try running the program
 
 Redirecting output to a file
 ----------------------------
-
 
 Most scripts will print the output to a terminal. Sometimes we want to
 send the output to a file, so that we can save it for posterity. We can
@@ -103,7 +102,6 @@ browser
 Compare two idf files - idfdiff.py
 ----------------------------------
 
-
 This script will compare two idf files. The results will be displayed
 printed in "csv" format or in "html" format.
 
@@ -116,6 +114,7 @@ the help for this script, by typing:
     %%bash
     # ignore the line above. It simply lets me run a command line from ipython notebook
     python idfdiff.py -h
+
 
 .. parsed-literal::
 
@@ -146,6 +145,7 @@ we open them in a file comparing software, it would look like this:
     for_images.display_png(for_images.filemerge) # display the image below
 
 
+
 .. image:: useful_scripts_files/useful_scripts_21_0.png
 
 
@@ -158,6 +158,7 @@ diff in html format.
     %%bash
     # python idfdiff.py idd file1 file2
     python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf 
+
 
 .. parsed-literal::
 
@@ -182,6 +183,7 @@ below is the html file
 
 
 
+
 .. raw:: html
 
     <html><p>file1 = ../resources/idffiles/V_7_2/constr.idf</p><p>file2 = ../resources/idffiles/V_7_2/constr_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>CONSTRUCTION</td><td>CLNG-1</td><td>Outside Layer</td><td>MAT-CLNG-1</td><td>MAT-CLNG-8</td></tr><tr><td>CONSTRUCTION</td><td>GARAGE-SLAB-1</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-E</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-U</td><td></td><td>not here</td><td>is here</td></tr><tr><td>OUTPUTCONTROL:TABLE:STYLE</td><td> </td><td>Column Separator</td><td>HTML</td><td>CSV</td></tr></table></html>
@@ -199,6 +201,7 @@ Now let us try the same thin in csv format
     %%bash
     # python idfdiff.py idd file1 file2
     python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+
 
 .. parsed-literal::
 
@@ -219,10 +222,8 @@ We see the same output, but now in csv format. You can redirect it to a
 loopdiagram.py
 --------------
 
-
 Diagrams of HVAC loops
 ~~~~~~~~~~~~~~~~~~~~~~
-
 
 This script will draw all the loops in an idf file. It is a bit of a
 hack. So it will work on most files, but sometimes it will not :-(. But
@@ -241,6 +242,7 @@ the help for this script
     %%bash
     # ignore the line above. It simply lets me run a command line from ipython notebook
     python loopdiagram.py --help
+
 
 .. parsed-literal::
 
@@ -271,6 +273,7 @@ simple plant loop in "../resources/idffiles/V\_7\_2/plantloop.idf"
     # ignore the line above. It simply lets me run a command line from ipython notebook
     python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf
 
+
 .. parsed-literal::
 
     constructing the loops
@@ -293,6 +296,7 @@ shown seperately for clarity*
     for_images.display_png(for_images.plantloop) # display the image below
 
 
+
 .. image:: useful_scripts_files/useful_scripts_38_0.png
 
 
@@ -304,7 +308,6 @@ Try it yourself. Draw the daigram for
 Names in loopdiagrams
 ~~~~~~~~~~~~~~~~~~~~~
 
-
 -  `Designbuilder <http://www.designbuilder.co.uk>`__ is an energyplus
    editor autogenerates object names like "MyHouse:SAPZone1"
 -  Note the ":" in the name.
@@ -314,15 +317,12 @@ Names in loopdiagrams
 -  So the names in the diagram will not match the names in your file,
    but you can make out what is going on
 
-
 eppyreadtest\_folder.py
 -----------------------
-
 
 Not yet documented
 
 eppyreadtest\_file.py
 ---------------------
-
 
 Not yet documented

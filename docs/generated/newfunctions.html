@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &#8212; eppy 0.5.40 documentation</title>
+    <title>New functions &mdash; eppy 0.5.41 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.40',
+        VERSION:     '0.5.41',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.40 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.41 documentation" href="index.html" />
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -35,15 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.40 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.41 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,17 +55,17 @@
 documentation</p>
 <div class="section" id="python-lesson-errors-and-exceptions">
 <h2>Python Lesson: Errors and Exceptions<a class="headerlink" href="#python-lesson-errors-and-exceptions" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># you would normaly install eppy by doing</span>
-<span class="c1"># python setup.py install</span>
-<span class="c1"># or</span>
-<span class="c1"># pip install eppy</span>
-<span class="c1"># or</span>
-<span class="c1"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
 
-<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="c"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -94,34 +91,34 @@ So let us use eppy incorrectly and make eppy raise the exception, just
 see how that happens.</p>
 <p>First let us try to open an <strong>idf</strong> file without setting an <strong>idd</strong>
 file.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">modeleditor</span>
-<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 </pre></div>
 </div>
 <p>Now let us open file fname1 without setting the <strong>idd</strong> file</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
     <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
-<span class="n">IDDNotSetError</span>                            <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+IDDNotSetError                            Traceback (most recent call last)
 
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">44</span><span class="n">ad2b53d42c</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-      <span class="mi">2</span>     <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
-      <span class="mi">3</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-<span class="o">----&gt;</span> <span class="mi">4</span>     <span class="k">raise</span> <span class="n">e</span>
-      <span class="mi">5</span>
+&lt;ipython-input-3-44ad2b53d42c&gt; in &lt;module&gt;()
+      2     idf1 = IDF(fname1)
+      3 except Exception, e:
+----&gt; 4     raise e
+      5
 
 
-<span class="n">IDDNotSetError</span><span class="p">:</span> <span class="n">IDD</span> <span class="n">file</span> <span class="n">needed</span> <span class="n">to</span> <span class="n">read</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span><span class="o">.</span> <span class="n">Set</span> <span class="n">it</span> <span class="n">using</span> <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+IDDNotSetError: IDD file needed to read the idf file. Set it using IDF.setiddname(iddfile)
 </pre></div>
 </div>
 <p>OK. It does not let you do that and it raises an exception</p>
 <p>So let us set the <strong>idd</strong> file and then open the idf file</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
@@ -129,23 +126,23 @@ file.</p>
 <p>That worked without raising an exception</p>
 <p>Now let us try to change the <strong>idd</strong> file. Eppy should not let you do
 this and should raise an exception.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
-    <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="s2">&quot;anotheridd.idd&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="s">&quot;anotheridd.idd&quot;</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
-<span class="n">IDDAlreadySetError</span>                        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+IDDAlreadySetError                        Traceback (most recent call last)
 
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">52</span><span class="n">df819ac489</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-      <span class="mi">2</span>     <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="s2">&quot;anotheridd.idd&quot;</span><span class="p">)</span>
-      <span class="mi">3</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-<span class="o">----&gt;</span> <span class="mi">4</span>     <span class="k">raise</span> <span class="n">e</span>
-      <span class="mi">5</span>
+&lt;ipython-input-5-52df819ac489&gt; in &lt;module&gt;()
+      2     IDF.setiddname(&quot;anotheridd.idd&quot;)
+      3 except Exception, e:
+----&gt; 4     raise e
+      5
 
 
-<span class="n">IDDAlreadySetError</span><span class="p">:</span> <span class="n">IDD</span> <span class="n">file</span> <span class="ow">is</span> <span class="nb">set</span> <span class="n">to</span><span class="p">:</span> <span class="o">../</span><span class="n">eppy</span><span class="o">/</span><span class="n">resources</span><span class="o">/</span><span class="n">iddfiles</span><span class="o">/</span><span class="n">Energy</span><span class="o">+</span><span class="n">V7_2_0</span><span class="o">.</span><span class="n">idd</span>
+IDDAlreadySetError: IDD file is set to: ../eppy/resources/iddfiles/Energy+V7_2_0.idd
 </pre></div>
 </div>
 <p>Excellent!! It raised the exception we were expecting.</p>
@@ -161,21 +158,21 @@ your value lies within that range</p>
 <li>EpBunch.checkrange(fieldname) # will throw an exception if the value
 is outside the range</li>
 </ul>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">modeleditor</span>
-<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># IDF.setiddname(iddfile)# idd ws set further up in this page</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># IDF.setiddname(iddfile)# idd ws set further up in this page</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">building</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()][</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">building</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>BUILDING,
+<div class="highlight-python"><div class="highlight"><pre>BUILDING,
     Empire State Building,    !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
@@ -186,38 +183,38 @@ is outside the range</li>
     6;                        !- Minimum Number of Warmup Days
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">building</span><span class="o">.</span><span class="n">getrange</span><span class="p">(</span><span class="s2">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">getrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">u&#39;maximum&lt;&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">u&#39;minimum&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">u&#39;type&#39;</span><span class="p">:</span> <span class="s1">u&#39;real&#39;</span><span class="p">,</span> <span class="s1">u&#39;maximum&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">u&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">u&#39;maximum&lt;&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">u&#39;minimum&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s">u&#39;type&#39;</span><span class="p">:</span> <span class="s">u&#39;real&#39;</span><span class="p">,</span> <span class="s">u&#39;maximum&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s">u&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s2">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">0.04</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">0.04</span>
 </pre></div>
 </div>
 <p>Let us set these values outside the range and see what happens</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">building</span><span class="o">.</span><span class="n">Loads_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="k">import</span> <span class="n">RangeError</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">building</span><span class="o">.</span><span class="n">Loads_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s2">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">RangeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">e</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
-<span class="n">RangeError</span>                                <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+RangeError                                Traceback (most recent call last)
 
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="n">a824cb1ec673</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-      <span class="mi">4</span>     <span class="nb">print</span> <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="s2">&quot;Loads_Convergence_Tolerance_Value&quot;</span><span class="p">)</span>
-      <span class="mi">5</span> <span class="k">except</span> <span class="n">RangeError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
-<span class="o">----&gt;</span> <span class="mi">6</span>     <span class="k">raise</span> <span class="n">e</span>
-      <span class="mi">7</span>
+&lt;ipython-input-11-a824cb1ec673&gt; in &lt;module&gt;()
+      4     print building.checkrange(&quot;Loads_Convergence_Tolerance_Value&quot;)
+      5 except RangeError, e:
+----&gt; 6     raise e
+      7
 
 
-<span class="n">RangeError</span><span class="p">:</span> <span class="n">Value</span> <span class="mf">0.6</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">less</span> <span class="ow">or</span> <span class="n">equal</span> <span class="n">to</span> <span class="n">the</span> <span class="s1">&#39;maximum&#39;</span> <span class="n">of</span> <span class="mf">0.5</span>
+RangeError: Value 0.6 is not less or equal to the &#39;maximum&#39; of 0.5
 </pre></div>
 </div>
 <p>So the Range Check works</p>
@@ -228,37 +225,37 @@ is outside the range</li>
 you want to do a <em>range check</em> on all the fields in an idf object ? To
 do this we will need a list of all the fields in the idf object. We can
 do this easily by the following line</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">u&#39;key&#39;</span><span class="p">,</span> <span class="s1">u&#39;Name&#39;</span><span class="p">,</span> <span class="s1">u&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s1">u&#39;Terrain&#39;</span><span class="p">,</span> <span class="s1">u&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s1">u&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s1">u&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s1">u&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s1">u&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;key&#39;</span><span class="p">,</span> <span class="s">u&#39;Name&#39;</span><span class="p">,</span> <span class="s">u&#39;North_Axis&#39;</span><span class="p">,</span> <span class="s">u&#39;Terrain&#39;</span><span class="p">,</span> <span class="s">u&#39;Loads_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">u&#39;Temperature_Convergence_Tolerance_Value&#39;</span><span class="p">,</span> <span class="s">u&#39;Solar_Distribution&#39;</span><span class="p">,</span> <span class="s">u&#39;Maximum_Number_of_Warmup_Days&#39;</span><span class="p">,</span> <span class="s">u&#39;Minimum_Number_of_Warmup_Days&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>So let us use this</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">key</span> <span class="o">=</span> <span class="n">BUILDING</span>
-<span class="n">Name</span> <span class="o">=</span> <span class="n">Empire</span> <span class="n">State</span> <span class="n">Building</span>
-<span class="n">North_Axis</span> <span class="o">=</span> <span class="mf">30.0</span>
-<span class="n">Terrain</span> <span class="o">=</span> <span class="n">City</span>
-<span class="n">Loads_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.6</span>
-<span class="n">Temperature_Convergence_Tolerance_Value</span> <span class="o">=</span> <span class="mf">0.4</span>
-<span class="n">Solar_Distribution</span> <span class="o">=</span> <span class="n">FullExterior</span>
-<span class="n">Maximum_Number_of_Warmup_Days</span> <span class="o">=</span> <span class="mi">25</span>
-<span class="n">Minimum_Number_of_Warmup_Days</span> <span class="o">=</span> <span class="mi">6</span>
+<div class="highlight-python"><div class="highlight"><pre>key = BUILDING
+Name = Empire State Building
+North_Axis = 30.0
+Terrain = City
+Loads_Convergence_Tolerance_Value = 0.6
+Temperature_Convergence_Tolerance_Value = 0.4
+Solar_Distribution = FullExterior
+Maximum_Number_of_Warmup_Days = 25
+Minimum_Number_of_Warmup_Days = 6
 </pre></div>
 </div>
 <p>Now let us test if the values are in the legal range. We know that
 &#8220;Loads_Convergence_Tolerance_Value&#8221; is out of range</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="k">import</span> <span class="n">RangeError</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.bunch_subclass</span> <span class="kn">import</span> <span class="n">RangeError</span>
 <span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="n">building</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">building</span><span class="o">.</span><span class="n">checkrange</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span>
-        <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> #-in range&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-in range&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
     <span class="k">except</span> <span class="n">RangeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> #-****OUT OF RANGE****&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
+        <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> = </span><span class="si">%s</span><span class="s"> #-****OUT OF RANGE****&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">building</span><span class="p">[</span><span class="n">fieldname</span><span class="p">],)</span>
 </pre></div>
 </div>
 <pre class="literal-block">
@@ -284,19 +281,19 @@ disk:</p>
 <li>Save it to the disk</li>
 </ul>
 <p>Here are the steps to do that</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># some initial steps</span>
-<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="c1"># IDF.setiddname(iddfile) # Has already been set</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># some initial steps</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="c"># IDF.setiddname(iddfile) # Has already been set</span>
 
-<span class="c1"># - Let us first open a file from the disk</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
-<span class="n">idf_fromfilename</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span> <span class="c1"># initialize the IDF object with the file name</span>
+<span class="c"># - Let us first open a file from the disk</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">idf_fromfilename</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file name</span>
 
 <span class="n">idf_fromfilename</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -324,15 +321,15 @@ SITE:LOCATION,
     190.0;                    !- Elevation
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># - now let us open a file from the disk differently</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
-<span class="n">fhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="c1"># open the file for reading and assign it a file handle</span>
-<span class="n">idf_fromfilehandle</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c1"># initialize the IDF object with the file handle</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - now let us open a file from the disk differently</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname1</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="c"># open the file for reading and assign it a file handle</span>
+<span class="n">idf_fromfilehandle</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
 
 <span class="n">idf_fromfilehandle</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -360,53 +357,53 @@ SITE:LOCATION,
     190.0;                    !- Elevation
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># So IDF object can be initialized with either a file name or a file handle</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># So IDF object can be initialized with either a file name or a file handle</span>
 
-<span class="c1"># - How do I create a blank new idf file</span>
-<span class="n">idftxt</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="c1"># empty string</span>
-<span class="kn">from</span> <span class="nn">StringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
-<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c1"># we can make a file handle of a string</span>
-<span class="n">idf_emptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c1"># initialize the IDF object with the file handle</span>
+<span class="c"># - How do I create a blank new idf file</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="c"># empty string</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_emptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
 
 <span class="n">idf_emptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>It did not print anything. Why should it. It was empty.</p>
 <p>What if we give it a string that was not blank</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># - The string does not have to be blank</span>
-<span class="n">idftxt</span> <span class="o">=</span> <span class="s2">&quot;VERSION, 7.3;&quot;</span> <span class="c1"># Not an emplty string. has just the version number</span>
-<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c1"># we can make a file handle of a string</span>
-<span class="n">idf_notemptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c1"># initialize the IDF object with the file handle</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - The string does not have to be blank</span>
+<span class="n">idftxt</span> <span class="o">=</span> <span class="s">&quot;VERSION, 7.3;&quot;</span> <span class="c"># Not an emplty string. has just the version number</span>
+<span class="n">fhandle</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">idftxt</span><span class="p">)</span> <span class="c"># we can make a file handle of a string</span>
+<span class="n">idf_notemptyfile</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fhandle</span><span class="p">)</span> <span class="c"># initialize the IDF object with the file handle</span>
 
 <span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     7.3;                      !- Version Identifier
 </pre></div>
 </div>
 <p>Aha !</p>
 <p>Now let us give it a file name</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># - give it a file name</span>
-<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="s2">&quot;notemptyfile.idf&quot;</span>
-<span class="c1"># - Save it to the disk</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># - give it a file name</span>
+<span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">idfname</span> <span class="o">=</span> <span class="s">&quot;notemptyfile.idf&quot;</span>
+<span class="c"># - Save it to the disk</span>
 <span class="n">idf_notemptyfile</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Let us confirm that the file was saved to disk</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;notemptyfile.idf&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="c1"># read the file from the disk</span>
-<span class="nb">print</span> <span class="n">txt</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">txt</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="c"># read the file from the disk</span>
+<span class="k">print</span> <span class="n">txt</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>!- Darwin Line endings
+<div class="highlight-python"><div class="highlight"><pre>!- Darwin Line endings
 
 VERSION,
     7.3;                      !- Version Identifier
 </pre></div>
 </div>
 <p>Yup ! that file was saved. Let us delete it since we were just playing</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;notemptyfile.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -416,22 +413,22 @@ VERSION,
 <h3>Making a new idf object<a class="headerlink" href="#making-a-new-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Let us start with a blank idf file and make some new &#8220;MATERIAL&#8221; objects
 in it</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># making a blank idf object</span>
-<span class="n">blankstr</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">StringIO</span> <span class="k">import</span> <span class="n">StringIO</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># making a blank idf object</span>
+<span class="n">blankstr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
 <span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">blankstr</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>To make and add a new idfobject object, we use the function
 IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">newobject</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="c1"># the key for the object type has to be in upper case</span>
-                                     <span class="c1"># .upper() makes it upper case</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">newobject</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="c"># the key for the object type has to be in upper case</span>
+                                     <span class="c"># .upper() makes it upper case</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">newobject</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">newobject</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     ,                         !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -444,11 +441,11 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
 </pre></div>
 </div>
 <p>Let us give this a name, say &#8220;Shiny new material object&#8221;</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">newobject</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Shiny new material object&quot;</span>
-<span class="nb">print</span> <span class="n">newobject</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">newobject</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Shiny new material object&quot;</span>
+<span class="k">print</span> <span class="n">newobject</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -460,14 +457,14 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
     0.7;                      !- Visible Absorptance
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">anothermaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-<span class="n">anothermaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Lousy material&quot;</span>
-<span class="n">thirdmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-<span class="n">thirdmaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;third material&quot;</span>
-<span class="nb">print</span> <span class="n">thirdmaterial</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">anothermaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">anothermaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;Lousy material&quot;</span>
+<span class="n">thirdmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;material&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+<span class="n">thirdmaterial</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&quot;third material&quot;</span>
+<span class="k">print</span> <span class="n">thirdmaterial</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     third material,           !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -480,10 +477,10 @@ IDF.newidfobject(). We want to make an object of type &#8220;MATERIAL&#8221;</p>
 </pre></div>
 </div>
 <p>Let us look at all the &#8220;MATERIAL&#8221; objects</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
@@ -530,10 +527,10 @@ MATERIAL,
 <h3>Deleting an idf object<a class="headerlink" href="#deleting-an-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s1">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">popidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c"># first material is &#39;0&#39;, second is &#39;1&#39;</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     Lousy material,           !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -545,10 +542,10 @@ So let us remove the second material</p>
     0.7;                      !- Visible Absorptance
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;MATERIAL&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
@@ -575,16 +572,16 @@ MATERIAL,
 </div>
 <p>You can see that the second material is gone ! Now let us remove the
 first material, but do it using a different function</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">firstmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;MATERIAL&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstmaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">removeidfobject</span><span class="p">(</span><span class="n">firstmaterial</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">removeidfobject</span><span class="p">(</span><span class="n">firstmaterial</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;MATERIAL&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
@@ -608,16 +605,16 @@ MATERIAL,
 <h3>Copying/Adding an idf object<a class="headerlink" href="#copying-adding-an-idf-object" title="Permalink to this headline">¶</a></h3>
 <p>Having deleted two &#8220;MATERIAL&#8221; objects, we have only one left. Let us
 make a copy of this object and add it to our idf file</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">onlymaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">onlymaterial</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">copyidfobject</span><span class="p">(</span><span class="n">onlymaterial</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">copyidfobject</span><span class="p">(</span><span class="n">onlymaterial</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
@@ -653,18 +650,18 @@ can do that too.</p>
 </div>
 <div class="section" id="renaming-an-idf-object">
 <h2>Renaming an idf object<a class="headerlink" href="#renaming-an-idf-object" title="Permalink to this headline">¶</a></h2>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">gypboard</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="n">Name</span><span class="o">=</span><span class="s2">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span>
-                            <span class="n">Roughness</span><span class="o">=</span><span class="s2">&quot;MediumSmooth&quot;</span><span class="p">,</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">gypboard</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;MATERIAL&#39;</span><span class="p">,</span> <span class="n">Name</span><span class="o">=</span><span class="s">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span>
+                            <span class="n">Roughness</span><span class="o">=</span><span class="s">&quot;MediumSmooth&quot;</span><span class="p">,</span>
                             <span class="n">Thickness</span><span class="o">=</span><span class="mf">0.019</span><span class="p">,</span>
                             <span class="n">Conductivity</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span>
                             <span class="n">Density</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
                             <span class="n">Specific_Heat</span><span class="o">=</span><span class="mi">1090</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">gypboard</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">gypboard</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     G01a 19mm gypsum board,    !- Name
     MediumSmooth,             !- Roughness
     0.019,                    !- Thickness
@@ -678,10 +675,10 @@ can do that too.</p>
 </div>
 <p>newidfobject() also fills in the default values like &#8220;Thermal
 Absorptance&#8221;, &#8220;Solar Absorptance&#8221;, etc.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;MATERIAL&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;MATERIAL&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
@@ -732,14 +729,14 @@ change it in the construction object.</p>
 will have to change it in all those construction objects. Sounds
 painfull.</p>
 <p>Let us try this with an example:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">interiorwall</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;CONSTRUCTION&quot;</span><span class="p">,</span> <span class="n">Name</span><span class="o">=</span><span class="s2">&quot;Interior Wall&quot;</span><span class="p">,</span>
-                 <span class="n">Outside_Layer</span><span class="o">=</span><span class="s2">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span>
-                 <span class="n">Layer_2</span><span class="o">=</span><span class="s2">&quot;Shiny new material object&quot;</span><span class="p">,</span>
-                 <span class="n">Layer_3</span><span class="o">=</span><span class="s2">&quot;G01a 19mm gypsum board&quot;</span><span class="p">)</span>
-<span class="nb">print</span> <span class="n">interiorwall</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">interiorwall</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;CONSTRUCTION&quot;</span><span class="p">,</span> <span class="n">Name</span><span class="o">=</span><span class="s">&quot;Interior Wall&quot;</span><span class="p">,</span>
+                 <span class="n">Outside_Layer</span><span class="o">=</span><span class="s">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span>
+                 <span class="n">Layer_2</span><span class="o">=</span><span class="s">&quot;Shiny new material object&quot;</span><span class="p">,</span>
+                 <span class="n">Layer_3</span><span class="o">=</span><span class="s">&quot;G01a 19mm gypsum board&quot;</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">interiorwall</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>CONSTRUCTION,
+<div class="highlight-python"><div class="highlight"><pre>CONSTRUCTION,
     Interior Wall,            !- Name
     G01a 19mm gypsum board,    !- Outside Layer
     Shiny new material object,    !- Layer 2
@@ -748,10 +745,10 @@ painfull.</p>
 </div>
 <p>to rename gypboard and have that name change in all the places we call
 modeleditor.rename(idf, key, oldname, newname)</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">modeleditor</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="s2">&quot;MATERIAL&quot;</span><span class="p">,</span> <span class="s2">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span> <span class="s2">&quot;peanut butter&quot;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">modeleditor</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="s">&quot;MATERIAL&quot;</span><span class="p">,</span> <span class="s">&quot;G01a 19mm gypsum board&quot;</span><span class="p">,</span> <span class="s">&quot;peanut butter&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     peanut butter,            !- Name
     MediumSmooth,             !- Roughness
     0.019,                    !- Thickness
@@ -763,10 +760,10 @@ modeleditor.rename(idf, key, oldname, newname)</p>
     0.7;                      !- Visible Absorptance
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">interiorwall</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">interiorwall</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>CONSTRUCTION,
+<div class="highlight-python"><div class="highlight"><pre>CONSTRUCTION,
     Interior Wall,            !- Name
     peanut butter,            !- Outside Layer
     Shiny new material object,    !- Layer 2
@@ -775,10 +772,10 @@ modeleditor.rename(idf, key, oldname, newname)</p>
 </div>
 <p>Now we have &#8220;peanut butter&#8221; everywhere. At least where we need it. Let
 us look at the entir idf file, just to be sure</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>MATERIAL,
+<div class="highlight-python"><div class="highlight"><pre>MATERIAL,
     Shiny new material object,    !- Name
     ,                         !- Roughness
     ,                         !- Thickness
@@ -824,24 +821,24 @@ CONSTRUCTION,
 <p>The idf file has zones with surfaces and windows. It is easy to get the
 attributes of the surfaces and windows as we have seen in the tutorial.
 Let us review this once more:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">modeleditor</span>
-<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V_7_2/box.idf&quot;</span>
-<span class="c1"># IDF.setiddname(iddfile)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/box.idf&quot;</span>
+<span class="c"># IDF.setiddname(iddfile)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">surfaces</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;BuildingSurface:Detailed&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">surfaces</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;BuildingSurface:Detailed&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 <span class="n">surface</span> <span class="o">=</span> <span class="n">surfaces</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span> <span class="s2">&quot;area = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="p">)</span>
-<span class="nb">print</span> <span class="s2">&quot;tilt = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="p">)</span>
-<span class="nb">print</span> <span class="s2">&quot;azimuth = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;area = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">area</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;tilt = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">tilt</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;azimuth = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">surface</span><span class="o">.</span><span class="n">azimuth</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">area</span> <span class="o">=</span> <span class="mf">30.0</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">area</span> <span class="o">=</span> <span class="mf">30.0</span>
 <span class="n">tilt</span> <span class="o">=</span> <span class="mf">180.0</span>
 <span class="n">azimuth</span> <span class="o">=</span> <span class="mf">0.0</span>
 </pre></div>
@@ -849,16 +846,16 @@ Let us review this once more:</p>
 <p>Can we do the same for zones ?</p>
 <p>Not yet .. not yet. Not in this version on eppy</p>
 <p>But we can still get the area and volume of the zone</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">zones</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s2">&quot;ZONE&quot;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">zones</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&quot;ZONE&quot;</span><span class="p">]</span>
 <span class="n">zone</span> <span class="o">=</span> <span class="n">zones</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">area</span> <span class="o">=</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">zonearea</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
 <span class="n">volume</span> <span class="o">=</span> <span class="n">modeleditor</span><span class="o">.</span><span class="n">zonevolume</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">zone</span><span class="o">.</span><span class="n">Name</span><span class="p">)</span>
-<span class="nb">print</span> <span class="s2">&quot;zone area = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="p">)</span>
-<span class="nb">print</span> <span class="s2">&quot;zone volume = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;zone area = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;zone volume = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">zone</span> <span class="n">area</span> <span class="o">=</span> <span class="mf">30.0</span>
-<span class="n">zone</span> <span class="n">volume</span> <span class="o">=</span> <span class="mf">90.0</span>
+<div class="highlight-python"><div class="highlight"><pre>zone area = 30.0
+zone volume = 90.0
 </pre></div>
 </div>
 <p>Not as slick, but still pretty easy</p>
@@ -876,10 +873,10 @@ function returns 0</li>
 <p>we are going to update <code class="docutils literal"><span class="pre">idf1</span></code> using json. First let us print the
 <code class="docutils literal"><span class="pre">idf1</span></code> before changing it, so we can see what has changed once we make
 an update</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -907,21 +904,21 @@ SITE:LOCATION,
     190.0;                    !- Elevation
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">eppy.json_functions</span> <span class="k">as</span> <span class="nn">json_functions</span>
-<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;idf.VERSION..Version_Identifier&quot;</span><span class="p">:</span><span class="mf">8.5</span><span class="p">,</span>
-            <span class="s2">&quot;idf.SIMULATIONCONTROL..Do_Zone_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;idf.SIMULATIONCONTROL..Do_System_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;idf.SIMULATIONCONTROL..Do_Plant_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s2">&quot;No&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;idf.BUILDING.Empire State Building.North_Axis&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
-            <span class="s2">&quot;idf.BUILDING.Empire State Building.Terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;Rural&quot;</span><span class="p">,</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">eppy.json_functions</span> <span class="kn">as</span> <span class="nn">json_functions</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.VERSION..Version_Identifier&quot;</span><span class="p">:</span><span class="mf">8.5</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_Zone_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_System_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.SIMULATIONCONTROL..Do_Plant_Sizing_Calculation&quot;</span><span class="p">:</span> <span class="s">&quot;No&quot;</span><span class="p">,</span>
+            <span class="s">&quot;idf.BUILDING.Empire State Building.North_Axis&quot;</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+            <span class="s">&quot;idf.BUILDING.Empire State Building.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,</span>
             <span class="p">}</span>
 <span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>VERSION,
+<div class="highlight-python"><div class="highlight"><pre>VERSION,
     8.5;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -951,7 +948,7 @@ SITE:LOCATION,
 </div>
 <p>Compare the first printidf() and the second printidf().</p>
 <p>The syntax of the json string is described below:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>idf.BUILDING.Empire State Building.Terrain&quot;: &quot;Rural&quot;
+<div class="highlight-python"><div class="highlight"><pre>idf.BUILDING.Empire State Building.Terrain&quot;: &quot;Rural&quot;
 
 The key fields are seperated by dots. Let us walk through each field:
 
@@ -970,13 +967,13 @@ This is done for the version number change.
 </div>
 <p>You can also create a new object using JSON, using the same syntax. Take
 a look at this:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;idf.BUILDING.Taj.Terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;Rural&quot;</span><span class="p">,}</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
 <span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
-<span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-<span class="c1"># of course, you are creating an invalid E+ file. But we are just playing here.</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<span class="c"># of course, you are creating an invalid E+ file. But we are just playing here.</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 BUILDING,
     Empire State Building,    !- Name
     52,                       !- North Axis
@@ -1002,18 +999,18 @@ BUILDING,
 <p>What if you object name had a dot <code class="docutils literal"><span class="pre">.</span></code> in it? Will the json_function
 get confused?</p>
 <p>If the name has a dot in it, there are two ways of doing this.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># first way</span>
-<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;idf.BUILDING.Taj.with.dot.Terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;Rural&quot;</span><span class="p">,}</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># first way</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.with.dot.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
 <span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
-<span class="c1"># second way (put the name in single quotes)</span>
-<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;idf.BUILDING.&#39;Another.Taj.with.dot&#39;.Terrain&quot;</span><span class="p">:</span> <span class="s2">&quot;Rural&quot;</span><span class="p">,}</span>
+<span class="c"># second way (put the name in single quotes)</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.&#39;Another.Taj.with.dot&#39;.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
 <span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span>[
+<div class="highlight-python"><div class="highlight"><pre>[
 BUILDING,
     Empire State Building,    !- Name
     52,                       !- North Axis
@@ -1125,11 +1122,14 @@ you shouldn&#8217;t care :-)</p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1143,20 +1143,17 @@ you shouldn&#8217;t care :-)</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.40 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.41 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+        &copy; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
