@@ -4,9 +4,14 @@
 .ipynb_checkpoints/
 .cache
 __pycache__
+
 # Eclipse/PyDev
 .project
 .pydevproject
 .settings/
 /remove_licence.py
 /.coverage
+
+# Builds
+.eggs
+*.egg-info

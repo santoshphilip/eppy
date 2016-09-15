@@ -37,14 +37,13 @@ before_install:
   - source venv/bin/activate
 
   # coverage and testing requirements
+  - pip install --upgrade setuptools
   - pip install --upgrade pip
   - pip install pytest-cov
   - pip install codecov
 
-install:
-  - python setup.py install
-
-script: py.test ./eppy/tests --cov=./ -v
+script:
+  - python setup.py test
 
 after_success:
     - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi

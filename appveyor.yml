@@ -27,18 +27,19 @@ install:
   - "python --version"
   - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
 
-  # Upgrade to the latest version of pip to avoid it displaying warnings
-  # about it being out of date.
+  # Upgrade to the latest version of pip and setuptools to avoid displaying
+  # warnings about it being out of date.
   - "pip install --disable-pip-version-check --user --upgrade pip"
+  - "pip install --upgrade setuptools"
+  
   - ps: echo $env:PYTHON
-  - "%PYTHON%\\python.exe -m pip install pytest"
+  - "pip install pytest"
+  - "pip install pytest-cov"
   # set the integration test environment variable
   - "SET EPPY_INTEGRATION=TRUE"
-  # install rppy
-  - "%PYTHON%\\python.exe setup.py install"
 
 build: off
 
 test_script:
   # Test command.
-  - "%PYTHON%\\python.exe -m pytest eppy -v"
+  - "%PYTHON%\\python.exe setup.py test"
