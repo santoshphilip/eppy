@@ -10,6 +10,7 @@ from Eppy. These tests will fail unless run on a system with EnergyPlus
 installed in the default location.
 
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -22,12 +23,15 @@ import re
 import shutil
 from subprocess import CalledProcessError
 
+from eppy.modeleditor import IDF
+from eppy.pytest_helpers import do_integration_tests
+import pytest
+
 from eppy.runner.run_functions import EPLUS_WEATHER
 from eppy.runner.run_functions import VERSION
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
-from eppy.modeleditor import IDF
 
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -100,6 +104,8 @@ class TestEnvironment(object):
         assert os.path.isfile(f)
     
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 class TestRunFunction(object):
 
     """Tests for simple running of EnergyPlus from Eppy.
@@ -162,9 +168,11 @@ class TestRunFunction(object):
             assert "ERROR: Could not find input data file:" in out
 
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 class TestIDFRunner(object):
 
-    """Tests for running EnergyPlus from an IDF6 object.
+    """Tests for running EnergyPlus from an IDF object.
     """
 
     def setup(self):
@@ -424,6 +432,8 @@ class TestIDFRunner(object):
         assert len(out) == 0
 
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 class TestMultiprocessing(object):
 
     """Tests for running multiple EnergyPlus jobs simultaneously.
