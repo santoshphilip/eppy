@@ -12,10 +12,10 @@ Do a diff between two idf files.
 Prints the diff in csv  or html file format.
 You can redirect the output to a file and open the file using as a spreadsheet or by using a browser
 """
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import argparse
 

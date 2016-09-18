@@ -4,22 +4,11 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-<<<<<<< HEAD
-
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
->>>>>>> refs/heads/develop
 
-<<<<<<< HEAD
-
-
-
-
-=======
->>>>>>> refs/heads/develop
 from six import StringIO
 import eppy.simpleread as simpleread
 

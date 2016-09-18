@@ -5,32 +5,28 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """functions to edit the E+ model"""
-<<<<<<< HEAD
-=======
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
->>>>>>> refs/heads/develop
-from six import iteritems
-from six import StringIO
-
 import copy
-from eppy.iddcurrent import iddcurrent
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
-from eppy.runner.run_functions import run
-from eppy.runner.run_functions import wrapped_help_text
-
 import itertools
 import os
 import platform
 
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import makeabunch
 from py._log import warning
+from six import StringIO
+from six import iteritems
 
-import eppy.function_helpers as function_helpers
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.function_helpers as function_helpers
+from eppy.runner.run_functions import run
+from eppy.runner.run_functions import wrapped_help_text
 
 
 class NoObjectError(Exception):
@@ -986,7 +982,7 @@ class IDF(object):
 
         """
         self.save(filename, lineendings, encoding)
-
+        
     @wrapped_help_text(run)
     def run(self, **kwargs):
         """

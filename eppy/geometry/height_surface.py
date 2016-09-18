@@ -8,18 +8,10 @@
 ## {{{ http://code.activestate.com/recipes/578276/ (r1)
 ## modified by Tuan Tran trantuan@hawaii.edu at L+U, www.coolshadow.com
 """height and surface"""
-<<<<<<< HEAD
-
-
-
-
-
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
->>>>>>> refs/heads/develop
 
 try:
     import numpy as np

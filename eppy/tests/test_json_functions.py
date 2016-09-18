@@ -5,18 +5,10 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """py.test for json_functions"""
-<<<<<<< HEAD
-
-
-
-
-
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
->>>>>>> refs/heads/develop
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF

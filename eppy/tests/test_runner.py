@@ -175,8 +175,8 @@ class TestIDFRunner(object):
             shutil.rmtree(outdir)
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF.setiddname(open(iddfile, 'r'), testing=True)
-        self.idf = IDF(open(fname1, 'r'), TEST_EPW)
+        IDF.setiddname(iddfile, testing=True)
+        self.idf = IDF(fname1, TEST_EPW)
 
         self.expected_files = [
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',

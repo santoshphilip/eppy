@@ -6,18 +6,10 @@
 # =======================================================================
 """script to test idf reads.
 Use this to test all the files in the example folder when a new version is released"""
-<<<<<<< HEAD
-
-
-
-
-
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
->>>>>>> refs/heads/develop
 
 import argparse
 

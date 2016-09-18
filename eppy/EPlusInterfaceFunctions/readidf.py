@@ -6,20 +6,10 @@
 # =======================================================================
 
 """just read the idf file"""
-<<<<<<< HEAD
-
-
-
-
-
-
-
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
->>>>>>> refs/heads/develop
 
 import eppy.EPlusInterfaceFunctions.parse_idd as parse_idd
 import eppy.EPlusInterfaceFunctions.eplusdata as eplusdata

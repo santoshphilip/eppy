@@ -5,15 +5,11 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """py.test for modeleditor"""
-<<<<<<< HEAD
-from eppy.bunch_subclass import Bunch
-=======
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
->>>>>>> refs/heads/develop
 from six import StringIO
 from six import string_types
 from eppy import modeleditor
@@ -23,8 +19,11 @@ from eppy.pytest_helpers import almostequal
 from itertools import product
 import os
 
-import eppy.snippet as snippet
+import pytest
 
+import eppy.idfreader as idfreader
+import eppy.snippet as snippet
+from eppy.bunch_subclass import Bunch
 
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
