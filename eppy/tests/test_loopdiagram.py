@@ -13,7 +13,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
-import subprocess
 
 from eppy.pytest_helpers import do_integration_tests
 import pytest
