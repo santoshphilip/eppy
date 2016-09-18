@@ -13,6 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
+import subprocess
 
 from eppy.pytest_helpers import do_integration_tests
 import pytest
@@ -113,4 +114,3 @@ def test_getedges():
     idd = os.path.join(IDD_FILES, "Energy+V8_1_0.idd")
     fname = os.path.join(IDF_FILES, "V8_1_0/Boiler.idf")
     getedges(fname, idd)
-    

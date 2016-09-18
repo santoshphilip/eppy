@@ -545,6 +545,9 @@ def main():
     parser.add_argument('idd', nargs='?', type=str, action='store', 
         help='location of idd file = ./somewhere/eplusv8-0-1.idd')
     args = parser.parse_args()
+    if not (args.file and args.idd):
+        parser.print_help()
+        sys.exit(1)
     make_and_save_diagram(args.file, args.idd)
 
 
