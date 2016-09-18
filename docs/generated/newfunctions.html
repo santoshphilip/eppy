@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &mdash; eppy 0.5.2 documentation</title>
+    <title>New functions &mdash; eppy 0.5.31 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.2',
+        VERSION:     '0.5.31',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.2 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.31 documentation" href="index.html" />
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -35,12 +35,15 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.31 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -943,6 +946,7 @@ a look at this:</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
 <span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
 <span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<span class="c"># of course, you are creating an invalid E+ file. But we are just playing here.</span>
 </pre></div>
 </div>
 <div class="highlight-python"><pre>[
@@ -958,6 +962,62 @@ BUILDING,
 ,
 BUILDING,
     Taj,                      !- Name
+    0.0,                      !- North Axis
+    Rural,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+]</pre>
+</div>
+<p>What if you object name had a dot <tt class="docutils literal"><span class="pre">.</span></tt> in it? Will the json_function
+get confused?</p>
+<p>If the name has a dot in it, there are two ways of doing this.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># first way</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.Taj.with.dot.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
+<span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
+<span class="c"># second way (put the name in single quotes)</span>
+<span class="n">json_str</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;idf.BUILDING.&#39;Another.Taj.with.dot&#39;.Terrain&quot;</span><span class="p">:</span> <span class="s">&quot;Rural&quot;</span><span class="p">,}</span>
+<span class="n">json_functions</span><span class="o">.</span><span class="n">updateidf</span><span class="p">(</span><span class="n">idf1</span><span class="p">,</span> <span class="n">json_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;building&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><pre>[
+BUILDING,
+    Empire State Building,    !- Name
+    52,                       !- North Axis
+    Rural,                    !- Terrain
+    0.6,                      !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+,
+BUILDING,
+    Taj,                      !- Name
+    0.0,                      !- North Axis
+    Rural,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+,
+BUILDING,
+    Taj.with.dot,             !- Name
+    0.0,                      !- North Axis
+    Rural,                    !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+,
+BUILDING,
+    Another.Taj.with.dot,     !- Name
     0.0,                      !- North Axis
     Rural,                    !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
@@ -1055,12 +1115,15 @@ you shouldn&#8217;t care :-)</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.2 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.31 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

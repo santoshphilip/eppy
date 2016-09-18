@@ -5,11 +5,18 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """read the idf file by just parsing the text"""
+<<<<<<< HEAD
 
 
 
 
 
+=======
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+>>>>>>> refs/heads/develop
 
 import eppy.modeleditor as modeleditor
 from eppy.modeleditor import IDF

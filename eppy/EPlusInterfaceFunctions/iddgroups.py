@@ -10,6 +10,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from eppy.EPlusInterfaceFunctions.iddgroups import iddtxt2grouplist
+
+
 def nocomment(astr, com):
     """
     just like the comment in python.
@@ -47,8 +50,13 @@ def iddtxt2groups(txt):
     """extract the groups from the idd file"""
     try:
         txt = txt.decode('ISO-8859-2')
+<<<<<<< HEAD
     except AttributeError:
         pass
+=======
+    except AttributeError as e:
+        pass # for python 3
+>>>>>>> refs/heads/develop
     txt = nocomment(txt, '!')
     txt = txt.replace("\\group", "!-group") # retains group in next line
     txt = nocomment(txt, '\\') # remove all other idd info

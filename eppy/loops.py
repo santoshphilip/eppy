@@ -12,10 +12,17 @@ Other notes:
 uses the following objects
 ['plantloop', ]
 """
+<<<<<<< HEAD
 
 
 
 
+=======
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+>>>>>>> refs/heads/develop
 
 
 def extractfields(data, commdct, objkey, fieldlists):

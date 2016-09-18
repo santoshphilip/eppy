@@ -5,11 +5,18 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """py.test for json_functions"""
+<<<<<<< HEAD
 
 
 
 
 
+=======
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+>>>>>>> refs/heads/develop
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF
@@ -29,10 +36,16 @@ if IDF.getiddname() == None:
 
 def test_key2elements():
     """py.test for key2elements"""
-    data = (("a.b.c", ['a', 'b', 'c']), # key, elements
+    data = (
+    ("a.b.c.d", ['a', 'b', 'c', 'd']), # key, elements
+    ("idf.a.Name.name.c", ['idf', 'a', 'Name.name', 'c']), # key, elements
+    ("idf.a.'Name.name'.c", ['idf', 'a', 'Name.name', 'c']), # key, elements
+    ("idf.a.'Name.name.n'.c", ['idf', 'a', 'Name.name.n', 'c']), # key, elements
     )
     for key, elements in data:
         result = json_functions.key2elements(key)
+        # print(result)
+        # print(elements)
         assert result == elements
 
 def test_updateidf():
@@ -91,6 +104,36 @@ def test_updateidf():
     "GlobalGeometryRules",
     "Starting_Vertex_Position",
     "UpperLeftCorner"), # idftxt, dct, key, field, fieldval
+    (
+    """Building,
+    Name.name,                !- Name
+    0.0,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullInteriorAndExterior, !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    ;                        !- Minimum Number of Warmup Days
+    """,
+    {"idf.BUilding.Name.name.Terrain":"Rural"},
+    "Building",
+    "Terrain",
+    "Rural"), # idftxt, dct, key, field, fieldval
+    (
+    """Building,
+    Name.name,                !- Name
+    0.0,                     !- North Axis {deg}
+    City,                    !- Terrain
+    0.04,                    !- Loads Convergence Tolerance Value
+    0.4,                     !- Temperature Convergence Tolerance Value {deltaC}
+    FullInteriorAndExterior, !- Solar Distribution
+    25,                      !- Maximum Number of Warmup Days
+    ;                        !- Minimum Number of Warmup Days
+    """,
+    {"idf.BUilding.'Name.name'.Terrain":"Rural"},
+    "Building",
+    "Terrain",
+    "Rural"), # idftxt, dct, key, field, fieldval
     )
     for idftxt, dct, key, field, fieldval in data:
         idfhandle = StringIO(idftxt)

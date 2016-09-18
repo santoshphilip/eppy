@@ -5,6 +5,10 @@ this is to work with issue 40 in github:
 idf1.idfobjects['BUILDING'] is a list and is not connected to idf1.model.dt['BUILDING']
 list has to be subclassed to solve this problem
 """
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 # Alex Martelli describes how to use collections.MutableSequence in
 # <http://stackoverflow.com/questions/3487434/overriding-append-method-after-inheriting-from-a-python-list>

@@ -6,12 +6,22 @@
 # =======================================================================
 
 """py.test for class IDF"""
+<<<<<<< HEAD
+
+=======
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+>>>>>>> refs/heads/develop
+
+<<<<<<< HEAD
 
 
 
 
-
-
+=======
+>>>>>>> refs/heads/develop
 from six import StringIO
 
 from eppy.iddcurrent import iddcurrent

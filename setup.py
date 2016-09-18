@@ -47,6 +47,14 @@ setup(
     include_package_data=True,
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
+    install_requires = [
+        "munch>=2.0.2",
+        "beautifulsoup4>=4.2.1",
+        "pytest>=2.3.5",
+        "tinynumpy>=1.2.1",
+        "six>=1.10.0",
+        "decorator>=4.0.10"
+        ],
     classifiers = [
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
@@ -59,6 +67,13 @@ setup(
         'Topic :: Scientific/Engineering',
         ],
     extras_require={
-        'testing': ['pytest'],
+        'python_version<="2.7"': [
+            'pydot>1.0',
+            'pyparsing==1.5.7'
+            ],
+        'python_version>="3.5"': [
+            'pydot3k',
+            ],
+        'testing': ['pytest'],        
     }
 )

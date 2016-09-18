@@ -1,7 +1,6 @@
-!- Darwin Line endings 
 
 VERSION,                  
-    7.4;                      !- Version Identifier
+    7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,        
     Yes,                      !- Do Zone Sizing Calculation
@@ -26,3 +25,4 @@ SITE:LOCATION,
     -87.75,                   !- Longitude
     -6.0,                     !- Time Zone
     190.0;                    !- Elevation
+

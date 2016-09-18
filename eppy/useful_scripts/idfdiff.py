@@ -17,7 +17,6 @@ You can redirect the output to a file and open the file using as a spreadsheet o
 
 
 
-
 import argparse
 
 import sys

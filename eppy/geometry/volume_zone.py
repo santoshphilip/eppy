@@ -11,11 +11,18 @@
 
 # Find the intersection between two lines
 # V = (1/6)*|(a-d).((b-d)x(c-d))| http://en.wikipedia.org/wiki/Tetrahedron
+<<<<<<< HEAD
 
 
 
 
 
+=======
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+>>>>>>> refs/heads/develop
 
 try:
     import numpy as np

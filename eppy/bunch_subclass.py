@@ -8,10 +8,10 @@
 """Sub class Bunch to represent an IDF object.
 """
 
-
-
-
-
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import copy
 import itertools
@@ -107,31 +107,16 @@ def addfunctions(abunch):
         abunch.__functions.update(func_dict)
 
     #-----------------
-    abunch.getfieldidd
     names = [
-        "CONSTRUCTION",
-        "MATERIAL",
-        "MATERIAL:AIRGAP",
-        "MATERIAL:INFRAREDTRANSPARENT",
-        "MATERIAL:NOMASS",
-        "MATERIAL:ROOFVEGETATION",
-        "WINDOWMATERIAL:BLIND",
-        "WINDOWMATERIAL:GLAZING",
-        "WINDOWMATERIAL:GLAZING:REFRACTIONEXTINCTIONMETHOD",
-        "WINDOWMATERIAL:GAP",
-        "WINDOWMATERIAL:GAS",
-        "WINDOWMATERIAL:GASMIXTURE",
-        "WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC",
-        "WINDOWMATERIAL:SCREEN",
-        "WINDOWMATERIAL:SHADE",
-        "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM",
+        "Construction",
+        "Material",             
+        "Material:AirGap",             
               ]
+    names = [name.upper() for name in names]
     if key in names:
         func_dict = {
             'rvalue': fh.rvalue,
             'ufactor': fh.ufactor,
-            'rvalue_ip': fh.rvalue_ip,# quick fix for Santosh. Needs to thought thru
-            'ufactor_ip': fh.ufactor_ip,# quick fix for Santosh. Needs to thought thru
             'heatcapacity': fh.heatcapacity,
         }
         abunch.__functions.update(func_dict)
@@ -445,8 +430,7 @@ def getfieldidd_item(bch, fieldname, iddkey):
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
-    return 'retaincase' in fieldidd
-    
+    return fieldidd.has_key('retaincase')
     
 def isequal(bch, fieldname, value, places=7):
     """return True if the field is equal to value"""
@@ -500,7 +484,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
                 itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
-            if 'object-list' in itsidd:
+            if itsidd.has_key('object-list'):
                 refname = itsidd['object-list'][0]
                 if refname in references:
                     if referedobj.isequal('Name', anobj[field]):
