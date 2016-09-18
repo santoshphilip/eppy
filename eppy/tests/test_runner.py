@@ -391,7 +391,7 @@ class TestIDFRunner(object):
 
     def test_help(self, capfd):
         """
-        Test of calling the `help` built-in function on an IDF6 object.
+        Test of calling the `help` built-in function on an IDF object.
         Fails if the expected help output is not returned.
 
         """
@@ -495,10 +495,10 @@ class TestMultiprocessing(object):
         pool.map(multirunner, runs)
         pool.close()
   
-    def test_multiprocess_run_IDF6(self):
+    def test_multiprocess_run_IDF(self):
         """
         Test that we can run a sequence of runs using the signature:
-            runIDFs([[IDF6, kwargs],...], num_CPUs)
+            runIDFs([[IDF, kwargs],...], num_CPUs)
         Fails if expected output files are not in the expected output
         directories.
   
