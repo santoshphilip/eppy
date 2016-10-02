@@ -1,0 +1,3 @@
+To trigger integration tests on local machine do the following:
+(for unix platforms)
+- export EPPY_INTEGRATION=True
