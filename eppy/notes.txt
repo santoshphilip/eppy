@@ -1,3 +1,8 @@
+2016-10-26
+----------
+How to install specific branch using pip install
+pip install https://github.com/santoshphilip/eppy/archive/weppy.zip
+
 2016-09-06
 ----------
 to rn integration tests on mac:
