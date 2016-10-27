@@ -70,8 +70,8 @@ def addfunctions(abunch):
     """add functions to epbunch"""
 
     # proof of concept - remove
-    abunch['__functions'].update({'return42':return42}) 
-    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    # abunch['__functions'].update({'return42':return42})
+    # abunch['__functions'].update({'buildingname':fh.buildingname})
     # proof of concept
     
     key = abunch.obj[0].upper()
