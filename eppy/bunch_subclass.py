@@ -70,8 +70,8 @@ def addfunctions(abunch):
     """add functions to epbunch"""
 
     # proof of concept - remove
-    abunch['__functions'].update({'return42':return42}) 
-    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    # abunch['__functions'].update({'return42':return42})
+    # abunch['__functions'].update({'buildingname':fh.buildingname})
     # proof of concept
     
     key = abunch.obj[0].upper()
@@ -483,7 +483,10 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     referringobjs = []
     idf = referedobj.theidf
     referedidd = referedobj.getfieldidd("Name")
-    references = referedidd['reference']
+    try:
+        references = referedidd['reference']
+    except KeyError as e:
+        return referringobjs
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
     if iddgroups: # optional filter
