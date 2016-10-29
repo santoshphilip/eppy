@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 
 from six import iteritems
 from six import StringIO
+from past.builtins import basestring    # pip install future
 
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
@@ -30,6 +31,8 @@ def getanymentions(idf, anidfobject):
     idfkeyobjects = [idf.idfobjects[key.upper()] for key in keys]
     for idfobjects in idfkeyobjects:
         for idfobject in idfobjects:
-            if name.upper() in [item.upper() for item in idfobject.obj if isinstance(item, basestring)]:
+            if name.upper() in [item.upper() 
+                                    for item in idfobject.obj 
+                                        if isinstance(item, basestring)]:
                 foundobjs.append(idfobject)
     return foundobjs    
