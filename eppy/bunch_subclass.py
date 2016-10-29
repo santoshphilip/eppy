@@ -486,7 +486,7 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     try:
         references = referedidd['reference']
     except KeyError as e:
-        reference referringobjs
+        return referringobjs
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
     if iddgroups: # optional filter
