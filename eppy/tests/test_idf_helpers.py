@@ -34,3 +34,12 @@ def test_idfobjectkeys():
     result = idf_helpers.idfobjectkeys(idf)
     assert result[:5] == expected
     
+    
+def test_getanymentions():
+    """py.test for getanymentions"""
+    idf = IDF(StringIO(""))
+    mat = idf.newidfobject('MATERIAL', Name='mat')
+    aconst = idf.newidfobject('CONSTRUCTION', Name='const')
+    foundobjs = idf_helpers.getanymentions(idf, mat)
+    assert len(foundobjs) == 1
+    assert foundobjs[0] == mat
