@@ -66,6 +66,36 @@ def test_getobject_use_prevfield():
     foundobject = idf_helpers.getobject_use_prevfield(idf, 
                                 branch,  u'Component_3_Name')
     foundobject = None # bad idfobject key
-    
-    
+
+
+def test_getidfkeyswithnodes():
+    """py.test for getidfkeyswithnodes"""
+    nodekeys = idf_helpers.getidfkeyswithnodes()
+    # print(len(nodekeys))
+    assert 'PLANTLOOP' in nodekeys
+    assert 'ZONE' not in nodekeys
+
+# def test_a():
+#     assert 1== 2
         
+def test_getobjectswithnode():
+    """py.test for getobjectswithnode"""
+    idf = IDF(StringIO(""))
+    plantloop = idf.newidfobject('PlantLoop'.upper(), 
+                    Name='Chilled Water Loop',
+                    Plant_Side_Inlet_Node_Name='CW Supply Inlet Node')
+    branch = idf.newidfobject('Branch'.upper(), 
+                    Name='CW Pump Branch',
+                    Component_1_Inlet_Node_Name='CW Supply Inlet Node')
+    pump = idf.newidfobject('Pump:VariableSpeed'.upper(), 
+                    Name='CW Circ Pump',
+                    Inlet_Node_Name='CW Supply Inlet Node')
+    zone = idf.newidfobject('zone'.upper())
+    foundobjs = idf_helpers.getobjectswithnode(idf, 'CW Supply Inlet Node')
+    expected = [plantloop, branch, pump] 
+    expectedset = set([item.key for item in expected])
+    resultset = set([item.key for item in foundobjs]) 
+    assert  resultset ==  expectedset
+    expectedset = set([item.Name for item in expected])
+    resultset = set([item.Name for item in foundobjs]) 
+    assert  resultset ==  expectedset

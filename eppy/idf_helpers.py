@@ -17,6 +17,8 @@ from six import iteritems
 from six import StringIO
 from past.builtins import basestring    # pip install future
 
+from eppy.modeleditor import IDF
+
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
     it is an ordered list of idf.idfobjects.keys() 
@@ -54,3 +56,35 @@ def getobject_use_prevfield(idf, idfobject, fieldname):
     except KeyError as e:
         return None
     return foundobj
+    
+def getidfkeyswithnodes():
+    """return a list of keys of idfobjects that hve 'None Name' fields"""
+    idf = IDF(StringIO(""))
+    keys = idfobjectkeys(idf)
+    keysfieldnames = ((key, idf.newidfobject(key.upper()).fieldnames) 
+                for key in keys)
+    keysnodefdnames = ((key,  (name for name in fdnames 
+                                if (name.endswith('Node_Name')))) 
+                            for key, fdnames in keysfieldnames)
+    nodekeys = [key for key, fdnames in keysnodefdnames if list(fdnames)]
+    return nodekeys
+
+def getobjectswithnode(idf, nodename):
+    """return all objects that mention this node name"""
+    keys = getidfkeyswithnodes()
+    listofidfobjects = (idf.idfobjects[key.upper()] 
+                for key in keys if idf.idfobjects[key.upper()])
+    idfobjects = [idfobj 
+                    for idfobjs in listofidfobjects 
+                        for idfobj in idfobjs]
+    objwithnodes = []
+    for obj in idfobjects:
+        values = obj.fieldvalues
+        fdnames = obj.fieldnames
+        for value, fdname in zip(values, fdnames):
+            if fdname.endswith('Node_Name'):
+                if value == nodename:
+                    objwithnodes.append(obj)
+                    break
+    return objwithnodes
+    
