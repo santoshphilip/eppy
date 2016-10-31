@@ -69,9 +69,9 @@ def getidfkeyswithnodes():
     nodekeys = [key for key, fdnames in keysnodefdnames if list(fdnames)]
     return nodekeys
 
-def getobjectswithnode(idf, nonodekeys, nodename):
+def getobjectswithnode(idf, nodekeys, nodename):
     """return all objects that mention this node name"""
-    keys = nonodekeys
+    keys = nodekeys
     # TODO getidfkeyswithnodes needs to be done only once. take out of here
     listofidfobjects = (idf.idfobjects[key.upper()] 
                 for key in keys if idf.idfobjects[key.upper()])

@@ -81,7 +81,7 @@ def test_getidfkeyswithnodes():
 def test_getobjectswithnode():
     """py.test for getobjectswithnode"""
     idf = IDF(StringIO(""))
-    nonodekeys = idf_helpers.getidfkeyswithnodes() 
+    nodekeys = idf_helpers.getidfkeyswithnodes() 
     plantloop = idf.newidfobject('PlantLoop'.upper(), 
                     Name='Chilled Water Loop',
                     Plant_Side_Inlet_Node_Name='CW Supply Inlet Node')
@@ -92,7 +92,7 @@ def test_getobjectswithnode():
                     Name='CW Circ Pump',
                     Inlet_Node_Name='CW Supply Inlet Node')
     zone = idf.newidfobject('zone'.upper())
-    foundobjs = idf_helpers.getobjectswithnode(idf, nonodekeys, 
+    foundobjs = idf_helpers.getobjectswithnode(idf, nodekeys, 
                                         'CW Supply Inlet Node')
     expected = [plantloop, branch, pump] 
     expectedset = set([item.key for item in expected])
