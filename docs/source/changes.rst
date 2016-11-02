@@ -1,6 +1,11 @@
 Changes
 =======
 
+2016-11-02
+----------
+
+It is now possible to run E+ from eppy
+
 release r0.5.31
 ~~~~~~~~~~~~~~~
 
