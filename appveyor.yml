@@ -1,11 +1,14 @@
 environment:
 
   matrix:
-
     - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python35"
+      ARCHITECTURE: "i386"
+    - PYTHON: "C:\\Python27-x64" 
+      ARCHITECTURE: "x86_64"
+    - PYTHON: "C:\\Python35" 
+      ARCHITECTURE: "i386"
     - PYTHON: "C:\\Python35-x64"
+      ARCHITECTURE: "x86_64"
 
 install:
   - ECHO "Filesystem root:"
@@ -13,6 +16,19 @@ install:
 
   - ECHO "Installed SDKs:"
   - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+
+  # install EnergyPlus
+  - ECHO "Installing EnergyPlus"
+  - ps: $env:ENERGYPLUS_VERSION = "8.5.0"
+  - ps: $env:ENERGYPLUS_TAG = "v8.5.0"
+  - ps: $env:ENERGYPLUS_SHA = "c87e61b44b"
+  - ps: $env:ENERGYPLUS_INSTALL_VERSION = "8-5-0"
+  - ps: $env:ENERGYPLUS_DOWNLOAD_BASE_URL = "https://github.com/NREL/EnergyPlus/releases/download/$env:ENERGYPLUS_TAG"
+  - ps: $env:ENERGYPLUS_DOWNLOAD_FILENAME = "EnergyPlus-$env:ENERGYPLUS_VERSION-$env:ENERGYPLUS_SHA-Windows-$env:ARCHITECTURE.exe"
+  - ps: $env:ENERGYPLUS_DOWNLOAD_URL = "$env:ENERGYPLUS_DOWNLOAD_BASE_URL/$env:ENERGYPLUS_DOWNLOAD_FILENAME"
+
+  - ps: "curl $env:ENERGYPLUS_DOWNLOAD_URL -OutFile $env:TMP\\$env:ENERGYPLUS_DOWNLOAD_FILENAME"
+  - ps: "& $env:TMP\\$env:ENERGYPLUS_DOWNLOAD_FILENAME /S | Out-Null"
 
   # Install Python (from the official .msi of http://python.org) and pip when
   # not already installed.
@@ -34,7 +50,7 @@ install:
   - "%PYTHON%\\python.exe -m pip install pytest"
   # set the integration test environment variable
   - "SET EPPY_INTEGRATION=TRUE"
-  # install rppy
+  # install eppy
   - "%PYTHON%\\python.exe setup.py install"
 
 build: off

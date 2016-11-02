@@ -5,26 +5,28 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """functions to edit the E+ model"""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six import iteritems
-from six import StringIO
-
 import copy
-from eppy.iddcurrent import iddcurrent
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
 import itertools
 import os
 import platform
 
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import makeabunch
 from py._log import warning
+from six import StringIO
+from six import iteritems
 
-import eppy.function_helpers as function_helpers
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.function_helpers as function_helpers
+from eppy.runner.run_functions import run
+from eppy.runner.run_functions import wrapped_help_text
 
 
 class NoObjectError(Exception):
@@ -529,18 +531,22 @@ class IDF(object):
     idd_info = None
     block = None
 
-    def __init__(self, idfname=None):
+    def __init__(self, idfname=None, epw=None):
         """
         Parameters
         ----------
-        idf_name : str, optional
+        idfname : str, optional
             Path to an IDF file (which does not have to exist yet).
+        epw : str, optional
+            File path to the EPW file to use if running the IDF.
 
         """
         # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
+        if epw != None:
+            self.epw = epw
         self.outputtype = "standard"
 
     """ Methods to set up the IDD."""
@@ -977,6 +983,25 @@ class IDF(object):
         """
         self.save(filename, lineendings, encoding)
         
+    @wrapped_help_text(run)
+    def run(self, **kwargs):
+        """
+        Run an IDF file with a given EnergyPlus weather file. This is a
+        wrapper for the EnergyPlus command line interface.
+
+        Parameters
+        ----------
+        **kwargs
+            See eppy.runner.functions.run()
+
+        """
+        # write the IDF to the current directory
+        self.saveas('in.idf')
+        # run EnergyPlus
+        run('in.idf', self.epw, **kwargs)
+        # remove in.idf
+        os.remove('in.idf')
+                
     def getiddgroupdict(self):
         """Return a idd group dictionary
         sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],

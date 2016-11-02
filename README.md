@@ -4,7 +4,7 @@ Eppy
  from PyPI
 
 [![Travis](https://img.shields.io/travis/santoshphilip/eppy/master.svg)](https://travis-ci.org/santoshphilip/eppy)
- for Python 2.7 and 3.5 on Linux via Travis
+ for Python 2.7 and 3.5 on Linux and OSX via Travis
 
 [![Appveyor](https://img.shields.io/appveyor/ci/santoshphilip/eppy/master.svg)](https://ci.appveyor.com/api/projects/status/github/santoshphilip/eppy)
  for Python 2.7 and 3.5 on Windows via Appveyor

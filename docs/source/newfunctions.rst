@@ -1045,7 +1045,101 @@ Some notes on the zone area calculation:
    zone area
 -  if there are no floors, ceilings or roof, we are out of luck. The
    function returns 0
+   
+Running EnergyPlus from Eppy
+----------------------------
+It would be great if we could run EnergyPlus directly from our IDF wouldn't it?
 
+Well here's how we can.
+
+.. code:: python
+
+	from eppy.runner import IDF5
+	    
+    fname1 = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
+	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+	idf = IDF5(open(fname1, 'r'), epw)
+	
+	idf.run()
+
+It's as simple as that to run using the EnergyPlus defaults, but all the 
+EnergyPlus command line interface options are also supported.
+
+To get a description of the options available, as well as the defaults you can 
+call the Python built-in `help` function on the `IDF5.run` method and it will 
+print a full description of the options to the console.
+
+.. code:: python
+
+	help(idf.run)
+
+.. parsed-literal::
+	
+	Help on method run in module eppy.runner.runner:
+	
+	run(self, **kwargs) method of eppy.runner.runner.IDF5 instance
+	    This method wraps the following method:
+	    
+	    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False, 
+	    	design_day=False, idd=None, epmacro=False, expandobjects=False,
+	    	readvars=False, output_prefix=None, output_suffix=None, version=False, 
+	    	verbose=u'v')
+	    	
+	        Wrapper around the EnergyPlus command line interface.
+	        
+	        Parameters
+	        ----------
+	        idf : str
+	            Full or relative path to the IDF file to be run.
+	            
+	        weather : str
+	            Full or relative path to the weather file.
+	            
+	        output_directory : str, optional
+	            Full or relative path to an output directory (default: 'run_outputs)
+	            
+	        annual : bool, optional
+	            If True then force annual simulation (default: False)
+	            
+	        design_day : bool, optional
+	            Force design-day...
+
+Running in parallel processes
+----------------------------------------
+
+One of the great things about Eppy is that it allows you to set up a lot of 
+jobs really easily. However, it can be slow running a lot of EnergyPlus 
+simulations, so it's pretty important that we can make the most of the 
+processing power you have available by running on multiple CPUs.
+
+Again this is as simple as you'd hope it would be.
+
+You first need to create your jobs as a list of lists in the form 
+
+.. parsed-literal::
+    [[<IDF5 object>, <dict of command line parameters>], ...]
+
+The example here just creates 4 identical jobs apart from the 
+`output_directory` the results are saved in, but you would obviously want to 
+make each job different.
+
+.. code:: python
+	from eppy.runner.run_functions import multirunner
+	
+	fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
+	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+	
+	runs = []
+	for i in range(4):
+		idf = IDF5(open(fname1, 'r'), epw)
+		runs.append([idf, {'output_directory': 'results_%i' % i}])
+	
+Then run the jobs on the required number of CPUs using `runIDFs`...
+
+.. code:: python
+	runIDFs(runs, num_CPUs=2)
+
+... and your results will all be in the `output_directory` you specified.
 
 Using JSON to update idf
 ------------------------
@@ -1281,3 +1375,99 @@ If you have an eppy running on a remote server somewhere on the
 internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
+
+
+Running EnergyPlus from Eppy
+----------------------------
+It would be great if we could run EnergyPlus directly from our IDF wouldn't it?
+
+Well here's how we can.
+
+.. code:: python
+
+	from eppy.modeleditor import IDF
+	    
+    fname = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
+	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+	idf = IDF(fname, epw)
+	
+	idf.run()
+
+It's as simple as that to run using the EnergyPlus defaults, but all the 
+EnergyPlus command line interface options are also supported.
+
+To get a description of the options available, as well as the defaults you can 
+call the Python built-in `help` function on the `IDF.run` method and it will 
+print a full description of the options to the console.
+
+.. code:: python
+
+	help(idf.run)
+
+.. parsed-literal::
+	
+	Help on method run in module eppy.runner.runner:
+	
+	run(self, **kwargs) method of eppy.runner.runner.IDF instance
+	    This method wraps the following method:
+	    
+	    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False, 
+	    	design_day=False, idd=None, epmacro=False, expandobjects=False,
+	    	readvars=False, output_prefix=None, output_suffix=None, version=False, 
+	    	verbose=u'v')
+	    	
+	        Wrapper around the EnergyPlus command line interface.
+	        
+	        Parameters
+	        ----------
+	        idf : str
+	            Full or relative path to the IDF file to be run.
+	            
+	        weather : str
+	            Full or relative path to the weather file.
+	            
+	        output_directory : str, optional
+	            Full or relative path to an output directory (default: 'run_outputs)
+	            
+	        annual : bool, optional
+	            If True then force annual simulation (default: False)
+	            
+	        design_day : bool, optional
+	            Force design-day...
+
+Running in parallel processes
+----------------------------------------
+
+One of the great things about Eppy is that it allows you to set up a lot of 
+jobs really easily. However, it can be slow running a lot of EnergyPlus 
+simulations, so it's pretty important that we can make the most of the 
+processing power you have available by running on multiple CPUs.
+
+Again this is as simple as you'd hope it would be.
+
+You first need to create your jobs as a list of lists in the form 
+
+.. parsed-literal::
+    [[<IDF object>, <dict of command line parameters>], ...]
+
+The example here just creates 4 identical jobs apart from the 
+`output_directory` the results are saved in, but you would obviously want to 
+make each job different.
+
+.. code:: python
+	from eppy.runner.run_functions import multirunner
+	
+	fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
+	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+	
+	runs = []
+	for i in range(4):
+		idf = IDF(fname, epw)
+		runs.append([idf, {'output_directory': 'results_%i' % i}])
+	
+Then run the jobs on the required number of CPUs using `runIDFs`...
+
+.. code:: python
+	runIDFs(runs, num_CPUs=2)
+
+... and your results will all be in the `output_directory` you specified.
