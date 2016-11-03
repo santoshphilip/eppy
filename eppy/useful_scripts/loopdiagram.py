@@ -19,12 +19,15 @@ import argparse
 import sys
 import os
 
+from six import string_types
+
+from eppy.EPlusInterfaceFunctions import readidf
+import eppy.loops as loops
+
 
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
 
-from eppy.EPlusInterfaceFunctions import readidf
-import eppy.loops as loops
 
 def firstisnode(edge):
     if type(edge[0]) == tuple:
@@ -81,41 +84,6 @@ def dropnodes(edges):
     return newedges
     
     
-def test_dropnodes():
-    """py.test for dropnodes"""
-    # test 1
-    node = "node"
-    (a,b,c,d,e,f,g,h,i) = (('a', node),'b',('c', node),'d',
-        ('e', node),'f',('g', node),'h',('i', node))
-    edges = [(a, b),
-    (b, c),
-    (c, d),
-    (d, e),
-    (e, f),
-    (f, g),
-    (g, h),
-    (h, i),]
-    theresult = [('a', 'b'), ('b', 'd'), ('d', 'f'), ('f', 'h'), ('h', 'i')]
-    result = dropnodes(edges)
-    assert result == theresult
-    # test 2
-    (a,b,c,d,e,f,g,h,i,j) = (('a', node),'b',('c', node),
-        ('d', node),'e','f',('g', node),('h', node),'i',('j', node))
-    edges = [(a, b),
-    (b, c),
-    (c, e),
-    (e, g),
-    (g, i),
-    (i, j),
-    (b, d),
-    (d, f),
-    (f, h),
-    (h, i),]
-    theresult = [('a', 'b'), ('b', 'e'), ('e', 'i'), ('i', 'j'), 
-            ('b', 'f'), ('f', 'i')]
-    result = dropnodes(edges)
-    assert result == theresult
-    
 def makeanode(name):
     return pydot.Node(name, shape="plaintext", label=name)
     
@@ -149,15 +117,6 @@ def edges2nodes(edges):
     justnodes = sorted(justnodes, key=lambda x: str(x[0]))
     return justnodes
     
-def test_edges2nodes():
-    """py.test for edges2nodes"""
-    thedata = (([("a", "b"), ("b", "c"), ("c", "d")],
-    ["a", "b", "c", "d"]), # edges, nodes
-    )
-    for edges, nodes in thedata:
-        result = edges2nodes(edges)   
-        assert result == nodes
-        
 
 def makediagram(edges):
     """make the diagram with the edges"""
@@ -534,34 +493,13 @@ def replace_colon(s, replacewith='__'):
     return s.replace(":", replacewith)
     
 def clean_edges(arg):
-    if isinstance(arg, str): # Python 3: isinstance(arg, str)
+    if isinstance(arg, string_types):
         return replace_colon(arg)
     try:
         return tuple(clean_edges(x) for x in arg)
     except TypeError: # catch when for loop fails
         return replace_colon(arg) # not a sequence so just return repr
 
-# start pytests +++++++++++++++++++++++
-
-def test_replace_colon():
-    """py.test for replace_colon"""
-    data = (("zone:aap", '@', "zone@aap"),# s, r, replaced
-    )    
-    for s, r, replaced in data:
-        result = replace_colon(s, r)
-        assert result == replaced
-        
-def test_cleanedges():
-    """py.test for cleanedges"""
-    data = (([('a:a', 'a'), (('a', 'a'), 'a:a'), ('a:a', ('a', 'a'))],
-    (('a__a', 'a'), (('a', 'a'), 'a__a'), ('a__a', ('a', 'a')))), 
-    # edg, clean_edg
-    )
-    for edg, clean_edg in data:
-        result = clean_edges(edg)
-        assert result == clean_edg
-        
-# end pytests +++++++++++++++++++++++
     
 def main():
     from argparse import RawTextHelpFormatter
@@ -576,7 +514,7 @@ def main():
     nspace = parser.parse_args()
     fname = nspace.file
     iddfile = nspace.idd
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct, idd_index = readidf.readdatacommdct(fname, iddfile=iddfile)
     print("constructing the loops")
     edges = makeairplantloop(data, commdct)
     print("cleaning edges")
