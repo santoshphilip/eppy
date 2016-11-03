@@ -19,12 +19,15 @@ import argparse
 import sys
 import os
 
+from six import string_types
+
+from eppy.EPlusInterfaceFunctions import readidf
+import eppy.loops as loops
+
 
 pathnameto_eplusscripting = "../../"
 sys.path.append(pathnameto_eplusscripting)
 
-from eppy.EPlusInterfaceFunctions import readidf
-import eppy.loops as loops
 
 def firstisnode(edge):
     if type(edge[0]) == tuple:
@@ -534,7 +537,7 @@ def replace_colon(s, replacewith='__'):
     return s.replace(":", replacewith)
     
 def clean_edges(arg):
-    if isinstance(arg, str): # Python 3: isinstance(arg, str)
+    if isinstance(arg, string_types):
         return replace_colon(arg)
     try:
         return tuple(clean_edges(x) for x in arg)
