@@ -579,7 +579,7 @@ def main():
     nspace = parser.parse_args()
     fname = nspace.file
     iddfile = nspace.idd
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct, idd_index = readidf.readdatacommdct(fname, iddfile=iddfile)
     print("constructing the loops")
     edges = makeairplantloop(data, commdct)
     print("cleaning edges")
