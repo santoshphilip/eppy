@@ -491,7 +491,7 @@ def makeairplantloop(data, commdct):
 
 def getedges(fname, iddfile):
     """return the edges of the idf file fname"""
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct _idd_index= readidf.readdatacommdct(fname, iddfile=iddfile)
     edges = makeairplantloop(data, commdct)
     return edges
 

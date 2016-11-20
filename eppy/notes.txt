@@ -1,3 +1,7 @@
+2016-11-19
+----------
+latest setuptools and pip need to be installed
+
 2016-10-26
 ----------
 How to install specific branch using pip install
