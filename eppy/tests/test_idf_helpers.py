@@ -101,3 +101,28 @@ def test_getobjectswithnode():
     expectedset = set([item.Name for item in expected])
     resultset = set([item.Name for item in foundobjs]) 
     assert  resultset ==  expectedset
+
+def test_name2idfobject():
+    """py.test for name2idfobject"""
+    idf = IDF(StringIO(""))
+    plantloopname = "plantloopname"
+    branchname = "branchname"
+    pumpname = "pumpname"
+    zonename = "zonename"
+    plantloop = idf.newidfobject('PlantLoop'.upper(), 
+                    Name=plantloopname,
+                    Plant_Side_Inlet_Node_Name='CW Supply Inlet Node')
+    branch = idf.newidfobject('Branch'.upper(), 
+                    Name=branchname,
+                    Component_1_Inlet_Node_Name='CW Supply Inlet Node')
+    pump = idf.newidfobject('Pump:VariableSpeed'.upper(), 
+                    Name=pumpname,
+                    Inlet_Node_Name='CW Supply Inlet Node')
+    zone = idf.newidfobject('zone'.upper(), Name=zonename)
+    # - test
+    names = [plantloopname, branchname, pumpname, zonename]
+    idfobjs = [plantloop, branch, pump, zone]
+    for name, idfobj in zip(names, idfobjs):
+        result = idf_helpers.name2idfobject(idf, Name=plantloopname)
+        assert result == plantloop
+    

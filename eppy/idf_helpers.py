@@ -89,3 +89,12 @@ def getobjectswithnode(idf, nodekeys, nodename):
                     break
     return objwithnodes
     
+def name2idfobject(idf, Name=None, groups=None):
+    """return the object, if the Name or some other field is known"""
+    # TODO : this is a very slow search. revist to speed it up.
+    objkeys = idfobjectkeys(idf)
+    for objkey in objkeys:
+        idfobjs = idf.idfobjects[objkey.upper()]
+        for idfobj in idfobjs:
+            if idfobj.Name == Name:
+                return idfobj
