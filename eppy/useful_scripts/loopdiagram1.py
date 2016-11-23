@@ -381,6 +381,11 @@ def makeairplantloop(data, commdct):
     for key, equips in list(equiplistdct.items()):
         enames = [equips[i] for i in range(1, len(equips), 2)]
         equiplistdct[key] = enames
+
+    # -- debugger
+    import pdb; pdb.set_trace()
+    # -- debugger
+
     # adistuunit -> room    
     # adistuunit <- VAVreheat 
     # airinlet -> VAVreheat
@@ -481,11 +486,6 @@ def makeairplantloop(data, commdct):
         zequiplistname = equipconnection[1]
         for zequip in equiplistdct[zequiplistname]:
             edges.append((zequip, zonename))
-
-    # -- debugger
-    import pdb; pdb.set_trace()
-    # -- debugger
-
 
     # adistuunit <- adistu_component 
     for adistuunit in adistuunits:
