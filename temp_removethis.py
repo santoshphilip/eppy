@@ -13,6 +13,10 @@ fname = "/Users/santoshphilip/Documents/coolshadow/github/weppy/examplefiles/5Zo
 
 idf = IDF(fname)
 
-from eppy.useful_scripts import loopdiagram1
-edges = loopdiagram1.getedges(fname, iddfile)
+from eppy.useful_scripts import loopdiagram
+edges = loopdiagram.getedges(fname, iddfile)
 print edges
+
+from eppy import walk_hvac
+comp = 'Central Chiller'
+print walk_hvac.nextnode(edges, comp)
