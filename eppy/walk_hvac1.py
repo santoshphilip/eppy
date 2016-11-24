@@ -72,5 +72,11 @@ def main():
         c = prevcs[0]
         # next(e, c)
 
+    # make diagram
+    # from eppy.useful_scripts import loopdiagram1
+    # g = loopdiagram1.makediagram(edges)
+    # loopdiagram1.save_diagram('a', g)
+
+
 if __name__ == '__main__':
     main()
