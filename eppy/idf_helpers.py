@@ -18,6 +18,7 @@ from six import StringIO
 from past.builtins import basestring    # pip install future
 
 from eppy.modeleditor import IDF
+from eppy.bunch_subclass import BadEPFieldError
 
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
@@ -96,5 +97,8 @@ def name2idfobject(idf, Name=None, groups=None):
     for objkey in objkeys:
         idfobjs = idf.idfobjects[objkey.upper()]
         for idfobj in idfobjs:
-            if idfobj.Name == Name:
-                return idfobj
+            try:
+                if idfobj.Name == Name:
+                    return idfobj
+            except BadEPFieldError as e:
+                continue

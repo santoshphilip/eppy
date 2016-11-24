@@ -119,10 +119,10 @@ def test_name2idfobject():
                     Name=pumpname,
                     Inlet_Node_Name='CW Supply Inlet Node')
     zone = idf.newidfobject('zone'.upper(), Name=zonename)
+    simulation = idf.newidfobject('SimulationControl'.upper()) 
     # - test
     names = [plantloopname, branchname, pumpname, zonename]
     idfobjs = [plantloop, branch, pump, zone]
     for name, idfobj in zip(names, idfobjs):
         result = idf_helpers.name2idfobject(idf, Name=plantloopname)
         assert result == plantloop
-    
