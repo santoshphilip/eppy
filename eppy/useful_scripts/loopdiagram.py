@@ -168,19 +168,22 @@ def transpose2d(mtx):
 def makebranchcomponents(data, commdct, anode="epnode"):
     """return the edges jointing the components of a branch"""
     alledges = []
-
     objkey = 'BRANCH'
+    ctypefield = "Component %s Object Type"
     cnamefield = "Component %s Name"
     inletfield = "Component %s Inlet Node Name"
     outletfield = "Component %s Outlet Node Name"
 
     numobjects = len(data.dt[objkey])
+    ctypefields = loops.repeatingfields(data, commdct, objkey, ctypefield)
     cnamefields = loops.repeatingfields(data, commdct, objkey, cnamefield)
     inletfields = loops.repeatingfields(data, commdct, objkey, inletfield)
     outletfields = loops.repeatingfields(data, commdct, objkey, outletfield)
 
     inlts = loops.extractfields(data, commdct, 
         objkey, [inletfields] * numobjects)
+    ctps = loops.extractfields(data, commdct, 
+        objkey, [ctypefields] * numobjects)
     cmps = loops.extractfields(data, commdct, 
         objkey, [cnamefields] * numobjects)
     otlts = loops.extractfields(data, commdct, 
@@ -188,8 +191,14 @@ def makebranchcomponents(data, commdct, anode="epnode"):
 
     zipped = list(zip(inlts, cmps, otlts))
     tzipped = [transpose2d(item) for item in zipped]
+
+    zipped1 = list(zip(inlts, cmps, ctps, otlts))
+    tzipped1 = [transpose2d(item) for item in zipped1]
+    tzipped2 = [[(j1, (j2, j3), j4) for j1, j2, j3, j4  in i] 
+                                                for i in tzipped1]
     for i in range(len(data.dt[objkey])):
-        tt = tzipped[i]
+        # tt = tzipped[i]
+        tt = tzipped2[i]
         # branchname = data.dt[objkey][i][1]
         edges = []
         for t0 in tt:
@@ -202,6 +211,8 @@ def makeairplantloop(data, commdct):
     """make the edges for the airloop and the plantloop"""
     anode = "epnode"
     endnode = "EndNode"
+    splitterkey = "Connector:Splitter".upper()
+    mixerkey = "Connector:Mixer".upper()
 
     # in plantloop get:
     #     demand inlet, outlet, branchlist
@@ -252,12 +263,12 @@ def makeairplantloop(data, commdct):
         inletbranchname = splitter[1] 
         splitter_inlet = branch_i_o[inletbranchname]["outlet"]
         # edges = splitter_inlet -> splittername
-        edges.append(((splitter_inlet, anode), splittername))
+        edges.append(((splitter_inlet, anode), (splittername, splitterkey)))
         # splitter_outlets = ouletbranches.nodes
         outletbranchnames = [br for br in splitter[2:]]
         splitter_outlets = [branch_i_o[br]["inlet"] for br in outletbranchnames]
         # edges = [splittername -> outlet for outlet in splitter_outlets]
-        moreedges = [(splittername, 
+        moreedges = [((splittername, splitterkey), 
                             (outlet, anode)) for outlet in splitter_outlets]
         edges = edges + moreedges
 
@@ -267,12 +278,13 @@ def makeairplantloop(data, commdct):
         outletbranchname = mixer[1] 
         mixer_outlet = branch_i_o[outletbranchname]["inlet"]
         # edges = mixername -> mixer_outlet
-        edges.append((mixername, (mixer_outlet, anode)))
+        edges.append(((mixername, mixerkey), (mixer_outlet, anode)))
         # mixer_inlets = inletbranches.nodes
         inletbranchnames = [br for br in mixer[2:]]
         mixer_inlets = [branch_i_o[br]["outlet"] for br in inletbranchnames]
         # edges = [mixername -> inlet for inlet in mixer_inlets]
-        moreedges = [((inlet, anode), mixername) for inlet in mixer_inlets]
+        moreedges = [((inlet, anode), (mixername, mixerkey)) 
+                                for inlet in mixer_inlets]
         edges = edges + moreedges
 
     # connect demand and supply side
@@ -303,6 +315,7 @@ def makeairplantloop(data, commdct):
     # in AirLoopHVAC:ZoneSplitter:
     #   get Name, inlet, all outlets
     objkey = "AirLoopHVAC:ZoneSplitter".upper()
+    zonesplitterkey = objkey
     singlefields = ["Name", "Inlet Node Name"]
     fld = "Outlet %s Node Name"
     repeatfields = loops.repeatingfields(data, commdct, objkey, fld)
@@ -313,6 +326,7 @@ def makeairplantloop(data, commdct):
     # in AirLoopHVAC:SupplyPlenum:
     #   get Name, Zone Name, Zone Node Name, inlet, all outlets
     objkey = "AirLoopHVAC:SupplyPlenum".upper()
+    supplyplenumkey = objkey
     singlefields = ["Name", "Zone Name", "Zone Node Name", "Inlet Node Name"]
     fld = "Outlet %s Node Name"
     repeatfields = loops.repeatingfields(data, commdct, objkey, fld)
@@ -323,6 +337,7 @@ def makeairplantloop(data, commdct):
     # in AirLoopHVAC:ZoneMixer:
     #   get Name, outlet, all inlets
     objkey = "AirLoopHVAC:ZoneMixer".upper()
+    zonemixerkey = objkey
     singlefields = ["Name", "Outlet Node Name"]
     fld = "Inlet %s Node Name"
     repeatfields = loops.repeatingfields(data, commdct, objkey, fld)
@@ -333,6 +348,7 @@ def makeairplantloop(data, commdct):
     # in AirLoopHVAC:ReturnPlenum:
     #   get Name, Zone Name, Zone Node Name, outlet, all inlets
     objkey = "AirLoopHVAC:ReturnPlenum".upper()
+    returnplenumkey = objkey
     singlefields = ["Name", "Zone Name", "Zone Node Name", "Outlet Node Name"]
     fld = "Inlet %s Node Name"
     repeatfields = loops.repeatingfields(data, commdct, objkey, fld)
@@ -365,6 +381,11 @@ def makeairplantloop(data, commdct):
     for key, equips in list(equiplistdct.items()):
         enames = [equips[i] for i in range(1, len(equips), 2)]
         equiplistdct[key] = enames
+
+    # -- debugger
+    import pdb; pdb.set_trace()
+    # -- debugger
+
     # adistuunit -> room    
     # adistuunit <- VAVreheat 
     # airinlet -> VAVreheat
@@ -421,42 +442,43 @@ def makeairplantloop(data, commdct):
         name = zonesplitter[0]
         inlet = zonesplitter[1]
         outlets = zonesplitter[2:]
-        edges.append(((inlet, anode), name))
+        edges.append(((inlet, anode), (name, zonesplitterkey)))
         for outlet in outlets:
-            edges.append((name, (outlet, anode)))
+            edges.append(((name, zonesplitterkey), (outlet, anode)))
 
     # connect supplyplenum to nodes
     for supplyplenum in supplyplenums:
         name = supplyplenum[0]
         inlet = supplyplenum[3]
         outlets = supplyplenum[4:]
-        edges.append(((inlet, anode), name))
+        edges.append(((inlet, anode), (name, supplyplenumkey)))
         for outlet in outlets:
-            edges.append((name, (outlet, anode)))
+            edges.append(((name, supplyplenumkey), (outlet, anode)))
 
     # connect zonemixer to nodes
     for zonemixer in zonemixers:
         name = zonemixer[0]
         outlet = zonemixer[1]
         inlets = zonemixer[2:]
-        edges.append((name, (outlet, anode)))
+        edges.append(((name, zonemixerkey), (outlet, anode)))
         for inlet in inlets:
-            edges.append(((inlet, anode), name))
+            edges.append(((inlet, anode), (name, zonemixerkey)))
 
     # connect returnplenums to nodes
     for returnplenum in returnplenums:
         name = returnplenum[0]
         outlet = returnplenum[3]
         inlets = returnplenum[4:]
-        edges.append((name, (outlet, anode)))
+        edges.append(((name, returnplenumkey), (outlet, anode)))
         for inlet in inlets:
-            edges.append(((inlet, anode), name))
+            edges.append(((inlet, anode), (name, returnplenumkey)))
 
     # connect room to return node
+    zoneobjkey = "zone".upper()
     for equipconnection in equipconnections:
         zonename = equipconnection[0]
         returnnode = equipconnection[-1]
-        edges.append((zonename, (returnnode, anode)))
+        edges.append(((zonename, zoneobjkey), (returnnode, anode)))
     
     # connect equips to room
     for equipconnection in equipconnections:
