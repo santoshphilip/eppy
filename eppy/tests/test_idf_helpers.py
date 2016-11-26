@@ -126,3 +126,10 @@ def test_name2idfobject():
     for name, idfobj in zip(names, idfobjs):
         result = idf_helpers.name2idfobject(idf, Name=plantloopname)
         assert result == plantloop
+    # test when objkeys!=None
+    objkey = 'ZoneHVAC:EquipmentConnections'.upper()
+    equipconnections = idf.newidfobject(objkey,
+                        Zone_Name=zonename)
+    result = idf_helpers.name2idfobject(idf, Zone_Name=zonename, 
+                    objkeys=[objkey, ])
+    assert result == equipconnections
