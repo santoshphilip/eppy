@@ -1,0 +1,105 @@
+E+ !IDD_Version 8.6.0 has idfobjects that has fields with no field names. 
+
+eppy picks up the field names from the idd file. These objects have fields that do not have field names. See the idd snippet below
+
+    GroundHeatTransfer:Slab:XFACE,
+             \memo This is only needed when using manual gridding (not recommended)
+             \memo XFACE: X Direction cell face coordinates: m
+            N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, N12, N13, N14,                  \note fields as indicated
+            N15, N16, N17, N18, N19, N20, N21, N22, N23, N24, N25, N26, N27, N28, N29,    \note fields as indicated
+            N30, N31, N32, N33, N34, N35, N36, N37, N38, N39, N40;                        \note fields as indicated
+    
+An idfobject that has field names would look like this:
+
+        Version,
+              \memo Specifies the EnergyPlus version of the IDF file.
+              \unique-object
+              \format singleLine
+          A1 ; \field Version Identifier
+              \default 8.6
+        
+See:
+
+    A1 ; \field Version Identifier
+    
+The field name here is `Version Identifier`. `Eppy` will treat this as `Version_Identifier`. Note that `GROUNDHEATTRANSFER:SLAB:XFACE` does not have any field names. 
+
+Without field names, looks like eppy is fundamentally broken. But all is not lost, we can still work with this. Let me demonstrate with this sample code
+
+    from eppy import modeleditor 
+    from eppy.modeleditor import IDF
+    iddfile = "/Applications/EnergyPlus-8-6-0/Energy+.idd"
+
+    import StringIO
+    IDF.setiddname(iddfile)
+    idf = IDF(StringIO.StringIO(""))
+    
+    ver = idf.newidfobject("version".upper())
+    print ver
+    
+    ----
+    VERSION,                  
+        8.6;                      !- Version Identifier
+    ----
+
+    print ver.obj
+
+    ----    
+    ['VERSION', u'8.6']
+    ----
+    
+The actual data structure for the idfobject is in the list ver.obj. Eppy is really syntactic sugar around this list. So let us change this list directly and see what happens.
+
+    ver.obj[-1] = 'Spiderman'
+    print ver.obj
+    print ver
+    
+    ----    
+    ['VERSION', 'Spiderman']
+
+    VERSION,                  
+        Spiderman;                !- Version Identifier
+    ----    
+
+We can do the same with `GROUNDHEATTRANSFER:SLAB:XFACE`:
+
+    groundtr_x = idf.newidfobject("GROUNDHEATTRANSFER:SLAB:XFACE")
+    print groundtr_x.obj
+    
+    ----    
+    ['GROUNDHEATTRANSFER:SLAB:XFACE']
+    ----    
+    
+To add new fields to it we directly change groundtr_x.obj
+
+    groundtr_x.obj.append(5)
+    print groundtr_x.obj
+    print groundtr_x
+    
+
+    ----    
+    ['GROUNDHEATTRANSFER:SLAB:XFACE', 5]
+
+    GROUNDHEATTRANSFER:SLAB:XFACE,
+        5;                        !- a
+    ----    
+
+Going further we can also do this:
+
+    groundtr_x.obj.extend([6,7,99])
+    print groundtr_x.obj
+    print groundtr_x
+    
+    ----    
+    ['GROUNDHEATTRANSFER:SLAB:XFACE', 5, 6, 7, 99]
+
+    GROUNDHEATTRANSFER:SLAB:XFACE,
+        5,                        !- a
+        6,                        !- a
+        7,                        !- a
+        99;                       !- a
+    ----    
+
+This will give a stop gap measure to still be able to use eppy.
+
+I am not sure of what is the best long term solution to this. Would appreciate any suggestions from others who are following this thread. (I am travelling with poor internet connectivity, so my responses may be delayed)
