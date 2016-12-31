@@ -162,4 +162,4 @@ def missingkeys_nonstandard(commdct, dtls, objectlist, afield='afiled %s'):
                 break
         for i, cmt in enumerate(comm):
             if i >= first_i:
-                comm[i]['field'] = afield % (i - first_i +1,)
+                comm[i]['field'] = [afield % (i - first_i +1,),]
