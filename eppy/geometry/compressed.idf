@@ -1,0 +1,379 @@
+Version,                  
+    8.5;                      !- Version Identifier
+
+Building,                 
+    Building 1,               !- Name
+    ,                         !- North Axis
+    ,                         !- Terrain
+    ,                         !- Loads Convergence Tolerance Value
+    ,                         !- Temperature Convergence Tolerance Value
+    ,                         !- Solar Distribution
+    ,                         !- Maximum Number of Warmup Days
+    ;                         !- Minimum Number of Warmup Days
+
+Zone,                     
+    Thermal Zone 1,           !- Name
+    0.0,                      !- Direction of Relative North
+    0.0,                      !- X Origin
+    0.0,                      !- Y Origin
+    0.0,                      !- Z Origin
+    ,                         !- Type
+    1,                        !- Multiplier
+    ,                         !- Ceiling Height
+    ,                         !- Volume
+    ,                         !- Floor Area
+    ,                         !- Zone Inside Convection Algorithm
+    ,                         !- Zone Outside Convection Algorithm
+    Yes;                      !- Part of Total Floor Area
+
+Zone,                     
+    Thermal Zone 2,           !- Name
+    0.0,                      !- Direction of Relative North
+    0.0,                      !- X Origin
+    0.0,                      !- Y Origin
+    0.0,                      !- Z Origin
+    ,                         !- Type
+    1,                        !- Multiplier
+    ,                         !- Ceiling Height
+    ,                         !- Volume
+    ,                         !- Floor Area
+    ,                         !- Zone Inside Convection Algorithm
+    ,                         !- Zone Outside Convection Algorithm
+    Yes;                      !- Part of Total Floor Area
+
+BuildingSurface:Detailed, 
+    z1 Floor 0001,            !- Name
+    Floor,                    !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Ground,                   !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.259,                   !- Vertex 1 Xcoordinate
+    2.46,                     !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    -0.259,                   !- Vertex 2 Xcoordinate
+    0.4,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    -1.68,                    !- Vertex 3 Xcoordinate
+    0.4,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    -1.68,                    !- Vertex 4 Xcoordinate
+    2.46,                     !- Vertex 4 Ycoordinate
+    0.0;                      !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Wall 0001,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.259,                   !- Vertex 1 Xcoordinate
+    2.46,                     !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -0.259,                   !- Vertex 2 Xcoordinate
+    2.46,                     !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    -1.68,                    !- Vertex 3 Xcoordinate
+    2.46,                     !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    -1.68,                    !- Vertex 4 Xcoordinate
+    2.46,                     !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Wall 0002,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.259,                   !- Vertex 1 Xcoordinate
+    0.4,                      !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -0.259,                   !- Vertex 2 Xcoordinate
+    0.4,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    -0.259,                   !- Vertex 3 Xcoordinate
+    2.46,                     !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    -0.259,                   !- Vertex 4 Xcoordinate
+    2.46,                     !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Wall 0003,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -1.68,                    !- Vertex 1 Xcoordinate
+    0.4,                      !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -1.68,                    !- Vertex 2 Xcoordinate
+    0.4,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    -0.259,                   !- Vertex 3 Xcoordinate
+    0.4,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    -0.259,                   !- Vertex 4 Xcoordinate
+    0.4,                      !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Wall 0004,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -1.68,                    !- Vertex 1 Xcoordinate
+    2.46,                     !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -1.68,                    !- Vertex 2 Xcoordinate
+    2.46,                     !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    -1.68,                    !- Vertex 3 Xcoordinate
+    0.4,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    -1.68,                    !- Vertex 4 Xcoordinate
+    0.4,                      !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Roof 0001,             !- Name
+    Roof,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.259,                   !- Vertex 1 Xcoordinate
+    0.4,                      !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -0.259,                   !- Vertex 2 Xcoordinate
+    2.46,                     !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -1.68,                    !- Vertex 3 Xcoordinate
+    2.46,                     !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -1.68,                    !- Vertex 4 Xcoordinate
+    0.4,                      !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Floor 0001,            !- Name
+    Floor,                    !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Ground,                   !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    2.8999999999068677,       !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -2.139999999664724,       !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -2.139999999664724,       !- Vertex 4 Xcoordinate
+    2.8999999999068677,       !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Wall 0001,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -2.14,                    !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    1.458,                    !- Vertex 1 Zcoordinate
+    -2.14,                    !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    1.458;                    !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Wall 0002,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -2.14,                    !- Vertex 1 Xcoordinate
+    2.9,                      !- Vertex 1 Ycoordinate
+    1.458,                    !- Vertex 1 Zcoordinate
+    -2.14,                    !- Vertex 2 Xcoordinate
+    2.9,                      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -2.14,                    !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -2.14,                    !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    1.458;                    !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Wall 0003,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    2.9,                      !- Vertex 1 Ycoordinate
+    1.458,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    2.9,                      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -2.14,                    !- Vertex 3 Xcoordinate
+    2.9,                      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -2.14,                    !- Vertex 4 Xcoordinate
+    2.9,                      !- Vertex 4 Ycoordinate
+    1.458;                    !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Wall 0004,             !- Name
+    Wall,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    1.458,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    2.9,                      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    2.9,                      !- Vertex 4 Ycoordinate
+    1.458;                    !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Roof 0001,             !- Name
+    Roof,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    1.458,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    2.9,                      !- Vertex 2 Ycoordinate
+    1.458,                    !- Vertex 2 Zcoordinate
+    -2.14,                    !- Vertex 3 Xcoordinate
+    2.9,                      !- Vertex 3 Ycoordinate
+    1.458,                    !- Vertex 3 Zcoordinate
+    -2.14,                    !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    1.458;                    !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z1 Roof 0001_new_1,       !- Name
+    Roof,                     !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 1,           !- Zone Name
+    Surface,                  !- Outside Boundary Condition
+    z2 Floor 0001_new_1,      !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.2589999996125698,      !- Vertex 1 Xcoordinate
+    2.459999999962747,        !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -0.2589999996125698,      !- Vertex 2 Xcoordinate
+    0.39999999990686774,      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -1.6799999997019768,      !- Vertex 3 Xcoordinate
+    0.39999999990686774,      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -1.6799999997019768,      !- Vertex 4 Xcoordinate
+    2.459999999962747,        !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
+BuildingSurface:Detailed, 
+    z2 Floor 0001_new_1,      !- Name
+    Floor,                    !- Surface Type
+    ,                         !- Construction Name
+    Thermal Zone 2,           !- Zone Name
+    Surface,                  !- Outside Boundary Condition
+    z1 Roof 0001_new_1,       !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    ,                         !- View Factor to Ground
+    ,                         !- Number of Vertices
+    -0.2589999996125698,      !- Vertex 1 Xcoordinate
+    2.459999999962747,        !- Vertex 1 Ycoordinate
+    0.7279,                   !- Vertex 1 Zcoordinate
+    -0.2589999996125698,      !- Vertex 2 Xcoordinate
+    0.39999999990686774,      !- Vertex 2 Ycoordinate
+    0.7279,                   !- Vertex 2 Zcoordinate
+    -1.6799999997019768,      !- Vertex 3 Xcoordinate
+    0.39999999990686774,      !- Vertex 3 Ycoordinate
+    0.7279,                   !- Vertex 3 Zcoordinate
+    -1.6799999997019768,      !- Vertex 4 Xcoordinate
+    2.459999999962747,        !- Vertex 4 Ycoordinate
+    0.7279;                   !- Vertex 4 Zcoordinate
+
