@@ -1,6 +1,23 @@
 Changes
 =======
 
+
+release r0.5.41
+~~~~~~~~~~~~~~~
+
+2016-09-14
+----------
+
+bugfix in loopdiagram.py. Some cleanup by removing extra copies of loopdiagram.py
+
+release r0.5.40
+~~~~~~~~~~~~~~~
+
+2016-09-06
+----------
+
+This is a release for python2 and python3. pip install will automatically install the correct version.
+
 release r0.5.31
 ~~~~~~~~~~~~~~~
 

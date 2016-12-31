@@ -2,10 +2,8 @@
 HVAC Loops
 ==========
 
-
 Conceptual Introduction to HVAC Loops
 -------------------------------------
-
 
 Eppy builds threee kinds of loops for the energyplus idf file:
 
@@ -76,6 +74,7 @@ In eppy you could embody this is a list
     supplyside = ['start_brandh',   [  'branch1',   'branch2',   'branch3'],   'end_branch']
     demandside = ['d_start_brandh', ['d_branch1', 'd_branch2', 'd_branch3'], 'd_end_branch']
 
+
 Eppy will build the build the shape/topology of the loop using the two
 lists above. Each branch will have a placeholder component, like a pipe
 or a duct::
@@ -102,7 +101,6 @@ components, once the initial toplogy is right
 Building a Plant loops
 ----------------------
 
-
 Eppy can build up the topology of a plant loop using single pipes in a
 branch. Once we do that the simple branch in the loop we have built can
 be replaced with a more complex branch.
@@ -111,7 +109,6 @@ Let us try this out ans see how it works.
 
 Building the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 .. code:: python
 
@@ -128,6 +125,7 @@ Building the topology of the loop
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
 
+
 .. code:: python
 
     from eppy.modeleditor import IDF
@@ -136,6 +134,7 @@ Building the topology of the loop
     from StringIO import StringIO
     iddfile = "../eppy/resources/iddfiles/Energy+V7_0_0_036.idd"
     IDF.setiddname(iddfile)
+
 
 .. code:: python
 
@@ -147,12 +146,12 @@ Building the topology of the loop
     hvacbuilder.makeplantloop(idf, loopname, sloop, dloop)
     idf.saveas("hhh1.idf")
 
+
 | We have made plant loop and saved it as hhh1.idf.
 | Now let us look at what the loop looks like.
 
 Diagram of the loop
 ~~~~~~~~~~~~~~~~~~~
-
 
 Let us use the script "eppy/useful\_scripts/loopdiagrams.py" to draw
 this diagram
@@ -173,12 +172,12 @@ shown seperately for clarity*
 
 
 
+
 .. image:: HVAC_Tutorial_files/HVAC_Tutorial_23_0.png
 
 
 Modifying the topology of the loop
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Let us make a new branch and replace the exisiting branch
 
@@ -208,6 +207,7 @@ the new branch would look like "chiller-> pipe1->pipe2"
     branch = idf.getobject('BRANCH', 'sb0') # args are (key, name)
     listofcomponents = [chiller, pipe1, pipe2] # the new components are connected in this order
 
+
 Now we are going to try to replace **branch** with the a branch made up
 of **listofcomponents**
 
@@ -215,13 +215,13 @@ of **listofcomponents**
 -  Calling replacebranch can throw an exception ``WhichLoopError``
 -  In a moment, you will see why this exception is important
 
-
 .. code:: python
 
     try:
         newbr = hvacbuilder.replacebranch(idf, loop, branch, listofcomponents, fluid='Water')
     except hvacbuilder.WhichLoopError as e:
         print e
+
 
 
 .. parsed-literal::
@@ -263,6 +263,7 @@ exactly. eppy is a little nerdy about that)
     idf.saveas("hhh_new.idf")
 
 
+
 .. parsed-literal::
 
     no exception was thrown
@@ -274,7 +275,6 @@ links
 
 -  http://shahriar.svbtle.com/the-possibly-forgotten-optional-else-in-python-try-statement
 -  https://docs.python.org/2/tutorial/errors.html
-
 
 | We have saved this as file "hhh\_new.idf".
 | Let us draw the diagram of this file. (run this from eppy/eppy folder)
@@ -290,6 +290,7 @@ python ex_loopdiagram.py hhh_new.idf
 
 
 
+
 .. image:: HVAC_Tutorial_files/HVAC_Tutorial_34_0.png
 
 
@@ -297,7 +298,6 @@ This diagram shows the new components in the branch
 
 Work flow with ``WhichLoopError``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 When you are writing scripts don't bother to use ``try .. except`` for
 ``WhichLoopError``.
@@ -317,7 +317,6 @@ people. We don't write code unless it is needed :-)
 Traversing the loop
 ~~~~~~~~~~~~~~~~~~~
 
-
 It would be nice to move through the loop using functions "nextnode()"
 and "prevnode()"
 
@@ -336,6 +335,7 @@ Let us try to traverse the loop above.
     # edges are the lines that draw the nodes in the loop. 
     # The term comes from graph theory in mathematics
 
+
 The above code gets us the edges of the loop diagram. Once we have the
 edges, we can traverse through the diagram. Let us start with the
 "Central\_Chiller" and work our way down.
@@ -346,6 +346,7 @@ edges, we can traverse through the diagram. Let us start with the
     firstnode = "Central_Chiller"
     nextnodes = walk_hvac.nextnode(edges, firstnode)
     print nextnodes
+
 
 
 .. parsed-literal::
@@ -359,6 +360,7 @@ edges, we can traverse through the diagram. Let us start with the
     print nextnodes
 
 
+
 .. parsed-literal::
 
     [u'np2']
@@ -370,6 +372,7 @@ edges, we can traverse through the diagram. Let us start with the
     print nextnodes
 
 
+
 .. parsed-literal::
 
     [u'p_loop_supply_splitter']
@@ -379,6 +382,7 @@ edges, we can traverse through the diagram. Let us start with the
 
     nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
+
 
 
 .. parsed-literal::
@@ -395,6 +399,7 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
     print nextnodes
 
 
+
 .. parsed-literal::
 
     [u'p_loop_supply_mixer']
@@ -406,6 +411,7 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
     print nextnodes
 
 
+
 .. parsed-literal::
 
     [u'sb4_pipe']
@@ -415,6 +421,7 @@ This leads us to three components -> ['sb1\_pipe', 'sb2\_pipe',
 
     nextnodes = walk_hvac.nextnode(edges, nextnodes[0])
     print nextnodes
+
 
 
 .. parsed-literal::
@@ -433,6 +440,7 @@ We can follow this in reverse using the function prevnode()
     print prevnodes
 
 
+
 .. parsed-literal::
 
     [u'p_loop_supply_mixer']
@@ -442,6 +450,7 @@ We can follow this in reverse using the function prevnode()
 
     prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
+
 
 
 .. parsed-literal::
@@ -455,6 +464,7 @@ We can follow this in reverse using the function prevnode()
     print prevnodes
 
 
+
 .. parsed-literal::
 
     [u'p_loop_supply_splitter']
@@ -464,6 +474,7 @@ We can follow this in reverse using the function prevnode()
 
     prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
+
 
 
 .. parsed-literal::
@@ -477,6 +488,7 @@ We can follow this in reverse using the function prevnode()
     print prevnodes
 
 
+
 .. parsed-literal::
 
     [u'np1']
@@ -486,6 +498,7 @@ We can follow this in reverse using the function prevnode()
 
     prevnodes = walk_hvac.prevnode(edges, prevnodes[0])
     print prevnodes
+
 
 
 .. parsed-literal::
@@ -499,6 +512,7 @@ We can follow this in reverse using the function prevnode()
     print prevnodes
 
 
+
 .. parsed-literal::
 
     []
@@ -508,7 +522,6 @@ All the way to where the loop ends
 
 Building a Condensor loop
 -------------------------
-
 
 We build the condensor loop the same way we built the plant loop. Pipes
 are put as place holders for the components. Let us build a new idf file
@@ -523,13 +536,13 @@ with just a condensor loop in it.
     theloop = hvacbuilder.makecondenserloop(condensorloop_idf, loopname, sloop, dloop)
     condensorloop_idf.saveas("c_loop.idf")
 
+
 Again, just as we did in the plant loop, we can change the components of
 the loop, by replacing the branchs and traverse the loop using the
 functions nextnode() and prevnode()
 
 Building an Air Loop
 --------------------
-
 
 Building an air loop is similar to the plant and condensor loop. The
 difference is that instead of pipes , we have ducts as placeholder
@@ -544,6 +557,7 @@ side.
     dloop = ['zone1', 'zone2', 'zone3'] # zones on the demand side
     hvacbuilder.makeairloop(airloop_idf, loopname, sloop, dloop)
     airloop_idf.saveas("a_loop.idf")
+
 
 Again, just as we did in the plant and condensor loop, we can change the
 components of the loop, by replacing the branchs and traverse the loop

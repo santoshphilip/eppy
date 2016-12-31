@@ -36,6 +36,9 @@ Steps for release
 -
 - upload code to pypi
     - python setup.py sdist upload
+    or
+    - python setup.py register sdist upload -r https://www.python.org/pypi
+        - if your computer does not have password
 - install from pypi in virtualenv. eplus_sphinx (or eppy_sphinx)
     - pip install --upgrade eppy 
     - this is needed so that code api is there

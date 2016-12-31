@@ -1,10 +1,31 @@
 Changes
 =======
 
+2016-12-31
+~~~~~~~~~~
+
+bugfix for idfobjects with no fieldnames. Such fields are named A!, A2, A3/ N1, N2, N3 taken from the IDD file
+
 2016-11-02
 ----------
 
 It is now possible to run E+ from eppy
+
+release r0.5.41
+~~~~~~~~~~~~~~~
+
+2016-09-14
+----------
+
+bugfix in loopdiagram.py. Some cleanup by removing extra copies of loopdiagram.py
+
+release r0.5.40
+~~~~~~~~~~~~~~~
+
+2016-09-06
+----------
+
+This is a release for python2 and python3. pip install will automatically install the correct version.
 
 release r0.5.31
 ~~~~~~~~~~~~~~~
