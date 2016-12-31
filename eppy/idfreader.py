@@ -194,7 +194,7 @@ def idfreader(fname, iddfile, conv=True):
     nofirstfields = iddgaps.missingkeys_standard(
         commdct, dtls,
         skiplist=["TABLE:MULTIVARIABLELOOKUP"])
-    iddgaps.missingkeys_nonstandard(commdct, dtls, nofirstfields)
+    iddgaps.missingkeys_nonstandard(None, commdct, dtls, nofirstfields)
     bunchdt = makebunches(data, commdct)
     return bunchdt, data, commdct, idd_index
 
