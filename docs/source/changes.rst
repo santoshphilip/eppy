@@ -1,6 +1,10 @@
 Changes
 =======
 
+2016-12-31
+~~~~~~~~~~
+
+bugfix for idfobjects with no fieldnames. Such fields are named A!, A2, A3/ N1, N2, N3 taken from the IDD file
 
 release r0.5.41
 ~~~~~~~~~~~~~~~
