@@ -150,7 +150,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
     return nofirstfields
 
 def missingkeys_nonstandard(block, commdct, dtls, objectlist, afield='afiled %s'):
-    """This is an object list where thre is no first field name
+    """This is an object list where there is no first field name
     to give a hint of what the first field name should be"""
     afield = 'afield %s'
     for key_txt in objectlist:
