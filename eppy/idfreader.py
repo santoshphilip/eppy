@@ -212,7 +212,7 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
         convertallfields(data, commdct)
     # fill gaps in idd
     ddtt, dtls = data.dt, data.dtls
-    if versiontuple < (8,):
+    if versiontuple < (7,):
         skiplist = ["TABLE:MULTIVARIABLELOOKUP"]
     else:
         skiplist = None

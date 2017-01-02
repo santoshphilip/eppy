@@ -92,7 +92,6 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
     for key_txt in gkeys:
         if key_txt in skiplist:
             continue
-        # print key_txt
         # for a function, pass comm as a variable
         key_i = dtls.index(key_txt.upper())
         comm = commdct[key_i]
@@ -110,7 +109,6 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         except IndexError:
             nofirstfields.append(key_txt)
             continue
-        # print first
 
         # get all comments of the first repeating field names
         firstnames = [repname[0] % (1, ) for repname in repnames]
