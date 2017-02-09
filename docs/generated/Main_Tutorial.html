@@ -35,6 +35,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -621,7 +624,7 @@ Lady Gaga</pre>
 </div>
 <p>How do I make sense of this?</p>
 <p>To understand this you need to see the list in the following manner:</p>
-<div class="highlight-python"><pre>[ &quot;Donald Trump&quot;, &quot;Mick Jagger&quot;, &quot;Steve Jobs&quot;, &quot;Lady Gaga&quot;, &quot;Santa Clause&quot; ]
+<div class="highlight-python"><pre>[ "Donald Trump", "Mick Jagger", "Steve Jobs", "Lady Gaga", "Santa Clause" ]
  ^               ^              ^             ^            ^              ^
  0               1              2             3            4              5
 -5              -4             -3            -2           -1</pre>
@@ -968,11 +971,11 @@ to determine the grouping of statements
        some languages use symbols to mark
        where the function code starts and stops
        but python uses indentation to tell you this
-                i&#x27;m using indentation to
+                i'm using indentation to
                 show the beginning and end of a sentence
        this is a very simple explanation
        of indentation in python
- if you&#x27;d like to know more, there is plenty of information
+ if you'd like to know more, there is plenty of information
  about indentation in python on the web</pre>
 </div>
 <p>It&#8217;s elegant, but it means that the indentation of the code holds
@@ -1024,19 +1027,19 @@ I am a fruit said the bannana</pre>
 </div>
 <p>Did you follow all that??</p>
 <p>Just in case you didn&#8217;t, let&#8217;s review that last one:</p>
-<div class="highlight-python"><pre>[&quot;rotten &quot; + fruit for fruit in fruits]
+<div class="highlight-python"><pre>["rotten " + fruit for fruit in fruits]
                    -------------------
-                   This is the &quot;for loop&quot;
+                   This is the "for loop"
                    it steps through each fruit in fruits
 
-[&quot;rotten &quot; + fruit for fruit in fruits]
+["rotten " + fruit for fruit in fruits]
  -----------------
- add &quot;rotten &quot; to the fruit at each step
- this is your &quot;do something&quot;
+ add "rotten " to the fruit at each step
+ this is your "do something"
 
-[&quot;rotten &quot; + fruit for fruit in fruits]
+["rotten " + fruit for fruit in fruits]
 ---------------------------------------
-give a new list that is a result of the &quot;do something&quot;</pre>
+give a new list that is a result of the "do something"</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">rottenfruits</span>
 </pre></div>
@@ -1051,7 +1054,7 @@ give a new list that is a result of the &quot;do something&quot;</pre>
 <p>Indentation is also important in &#8216;if&#8217; statements, as you&#8217;ll see:</p>
 <div class="highlight-python"><pre>if &lt;someconstraint&gt;:
     &lt;if the first line is true, do this&gt;
-&lt;but if it&#x27;s false, do this&gt;</pre>
+&lt;but if it's false, do this&gt;</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="p">,</span> <span class="s">&quot;orange&quot;</span><span class="p">,</span> <span class="s">&quot;pear&quot;</span><span class="p">,</span> <span class="s">&quot;berry&quot;</span><span class="p">,</span> <span class="s">&quot;mango&quot;</span><span class="p">,</span> <span class="s">&quot;plum&quot;</span><span class="p">,</span> <span class="s">&quot;peach&quot;</span><span class="p">,</span> <span class="s">&quot;melon&quot;</span><span class="p">,</span> <span class="s">&quot;bannana&quot;</span><span class="p">]</span>
 </pre></div>
@@ -1087,19 +1090,19 @@ give a new list that is a result of the &quot;do something&quot;</pre>
 <span class="n">p_fruits</span> <span class="o">=</span> <span class="p">[</span><span class="n">fruit</span> <span class="k">for</span> <span class="n">fruit</span> <span class="ow">in</span> <span class="n">fruits</span> <span class="k">if</span> <span class="n">fruit</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;p&quot;</span><span class="p">)]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><pre>[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+<div class="highlight-python"><pre>[fruit for fruit in fruits if fruit.startswith("p")]
        -------------------
        for loop
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
                            ------------------------
                            pick only some of the fruits
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
  -----
- give me the variable fruit as it appears in the list, don&#x27;t change it
+ give me the variable fruit as it appears in the list, don't change it
 
-[fruit for fruit in fruits if fruit.startswith(&quot;p&quot;)]
+[fruit for fruit in fruits if fruit.startswith("p")]
 ----------------------------------------------------
 a fresh new list with those fruits</pre>
 </div>
@@ -1684,6 +1687,9 @@ rather quickly.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >next</a> |</li>
