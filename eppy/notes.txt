@@ -1,3 +1,8 @@
+2017-02-09
+----------
+an install failed because setup.py did not include folder runner 
+The unit tests do not catch this because it is running within the code
+Such a bug is likely to happen again, so we need some process to catch this.
 2016-09-06
 ----------
 to rn integration tests on mac:
