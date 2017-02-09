@@ -1,6 +1,14 @@
 Changes
 =======
 
+release r0.5.43
+~~~~~~~~~~~~~~~
+
+2017-02-09
+----------
+
+fixed the bug in the setup file
+
 release r0.5.42
 ~~~~~~~~~~~~~~~
 
@@ -8,6 +16,8 @@ release r0.5.42
 ~~~~~~~~~~
 
 bugfix for idfobjects with no fieldnames. Such fields are named A!, A2, A3/ N1, N2, N3 taken from the IDD file
+
+There is a bug in the setup.py in this version
 
 2016-11-02
 ----------

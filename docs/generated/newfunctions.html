@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>New functions &mdash; eppy 0.5.42 documentation</title>
+    <title>New functions &mdash; eppy 0.5.43 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.42',
+        VERSION:     '0.5.43',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.42 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.43 documentation" href="index.html" />
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="Reading outputs from E+" href="Outputs_Tutorial.html" /> 
   </head>
@@ -35,15 +35,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.42 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.43 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -138,7 +135,7 @@ this and should raise an exception.</p>
 IDDAlreadySetError                        Traceback (most recent call last)
 
 &lt;ipython-input-5-52df819ac489&gt; in &lt;module&gt;()
-      2     IDF.setiddname("anotheridd.idd")
+      2     IDF.setiddname(&quot;anotheridd.idd&quot;)
       3 except Exception, e:
 ----&gt; 4     raise e
       5
@@ -208,13 +205,13 @@ is outside the range</li>
 RangeError                                Traceback (most recent call last)
 
 &lt;ipython-input-11-a824cb1ec673&gt; in &lt;module&gt;()
-      4     print building.checkrange("Loads_Convergence_Tolerance_Value")
+      4     print building.checkrange(&quot;Loads_Convergence_Tolerance_Value&quot;)
       5 except RangeError, e:
 ----&gt; 6     raise e
       7
 
 
-RangeError: Value 0.6 is not less or equal to the 'maximum' of 0.5</pre>
+RangeError: Value 0.6 is not less or equal to the &#x27;maximum&#x27; of 0.5</pre>
 </div>
 <p>So the Range Check works</p>
 </div>
@@ -853,9 +850,9 @@ function returns 0</li>
 <p>Well here&#8217;s how we can.</p>
 <div class="code python highlight-python"><pre>    from eppy.runner import IDF5
 
-fname1 = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
-    epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-    idf = IDF5(open(fname1, 'r'), epw)
+fname1 = &quot;../eppy/resources/idffiles/V_8_3/smallfile.idf&quot;
+    epw = &#x27;USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw&#x27;
+    idf = IDF5(open(fname1, &#x27;r&#x27;), epw)
 
     idf.run()</pre>
 </div>
@@ -872,10 +869,10 @@ print a full description of the options to the console.</p>
 run(self, **kwargs) method of eppy.runner.runner.IDF5 instance
     This method wraps the following method:
 
-    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False,
+    run(idf=None, weather=None, output_directory=u&#x27;run_outputs&#x27;, annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose=u'v')
+        verbose=u&#x27;v&#x27;)
 
         Wrapper around the EnergyPlus command line interface.
 
@@ -888,7 +885,7 @@ run(self, **kwargs) method of eppy.runner.runner.IDF5 instance
             Full or relative path to the weather file.
 
         output_directory : str, optional
-            Full or relative path to an output directory (default: 'run_outputs)
+            Full or relative path to an output directory (default: &#x27;run_outputs)
 
         annual : bool, optional
             If True then force annual simulation (default: False)
@@ -991,7 +988,7 @@ SITE:LOCATION,
 </div>
 <p>Compare the first printidf() and the second printidf().</p>
 <p>The syntax of the json string is described below:</p>
-<div class="highlight-python"><pre>idf.BUILDING.Empire State Building.Terrain": "Rural"
+<div class="highlight-python"><pre>idf.BUILDING.Empire State Building.Terrain&quot;: &quot;Rural&quot;
 
 The key fields are seperated by dots. Let us walk through each field:
 
@@ -1000,12 +997,12 @@ BUILDING -&gt; the key for object to be changed
 Empire State Building -&gt; The name of the object. In other word - the value of the field `Name`
 Terrain -&gt; the field to be changed
 
-"Rural" -&gt; the new value of the field
+&quot;Rural&quot; -&gt; the new value of the field
 
 If the object does not have a `Name` field, you leave a blank between the two dots and the first object will be changed.
 This is done for the version number change.
 
-"idf.VERSION..Version_Identifier":8.5</pre>
+&quot;idf.VERSION..Version_Identifier&quot;:8.5</pre>
 </div>
 <p>You can also create a new object using JSON, using the same syntax. Take
 a look at this:</p>
@@ -1118,8 +1115,8 @@ you shouldn&#8217;t care :-)</p>
 <p>Well here&#8217;s how we can.</p>
 <div class="code python highlight-python"><pre>    from eppy.modeleditor import IDF
 
-fname = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
-    epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
+fname = &quot;../eppy/resources/idffiles/V_8_3/smallfile.idf&quot;
+    epw = &#x27;USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw&#x27;
     idf = IDF(fname, epw)
 
     idf.run()</pre>
@@ -1137,10 +1134,10 @@ print a full description of the options to the console.</p>
 run(self, **kwargs) method of eppy.runner.runner.IDF instance
     This method wraps the following method:
 
-    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False,
+    run(idf=None, weather=None, output_directory=u&#x27;run_outputs&#x27;, annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose=u'v')
+        verbose=u&#x27;v&#x27;)
 
         Wrapper around the EnergyPlus command line interface.
 
@@ -1153,7 +1150,7 @@ run(self, **kwargs) method of eppy.runner.runner.IDF instance
             Full or relative path to the weather file.
 
         output_directory : str, optional
-            Full or relative path to an output directory (default: 'run_outputs)
+            Full or relative path to an output directory (default: &#x27;run_outputs)
 
         annual : bool, optional
             If True then force annual simulation (default: False)
@@ -1251,15 +1248,12 @@ make each job different.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
           <a href="useful_scripts.html" title="Useful Scripts"
              >next</a> |</li>
         <li class="right" >
           <a href="Outputs_Tutorial.html" title="Reading outputs from E+"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.42 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.43 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
