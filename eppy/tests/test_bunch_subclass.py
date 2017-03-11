@@ -11,21 +11,20 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-# This test is ugly because I have to send file names and not able to send file handles
-
 import pytest
 from six import StringIO
 
-
 from eppy.EPlusInterfaceFunctions import readidf
-import eppy.bunchhelpers as bunchhelpers
 import eppy.bunch_subclass as bunch_subclass
+import eppy.bunchhelpers as bunchhelpers
+from eppy.iddcurrent import iddcurrent
+import eppy.idfreader as idfreader
 from eppy.modeleditor import IDF
 
 
+# This test is ugly because I have to send file names and not able to send file handles
 EpBunch = bunch_subclass.EpBunch
 
-from eppy.iddcurrent import iddcurrent
 iddtxt = iddcurrent.iddtxt
 
 # idd is read only once in this test
@@ -388,7 +387,7 @@ def test_EpBunch():
 
     iddfile = StringIO(iddtxt)
     fname = StringIO(idftxt)
-    block, data, commdct, idd_index = readidf.readdatacommdct1(fname, 
+    block, data, commdct, idd_index = readidf.readdatacommdct1(fname,
                 iddfile=iddfile)
 
     # setup code walls - can be generic for any object
@@ -516,10 +515,10 @@ def test_EpBunch():
 def test_extendlist():
     """py.test for extendlist"""
     data = (
-        ([1, 2, 3], 2, 0, [1, 2, 3]), # lst, i, value, nlst
-        ([1, 2, 3], 3, 0, [1, 2, 3, 0]), # lst, i, value, nlst
-        ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]), # lst, i, value, nlst
-        ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]), # lst, i, value, nlst
+        ([1, 2, 3], 2, 0, [1, 2, 3]),  # lst, i, value, nlst
+        ([1, 2, 3], 3, 0, [1, 2, 3, 0]),  # lst, i, value, nlst
+        ([1, 2, 3], 5, 0, [1, 2, 3, 0, 0, 0]),  # lst, i, value, nlst
+        ([1, 2, 3], 7, 0, [1, 2, 3, 0, 0, 0, 0, 0]),  # lst, i, value, nlst
     )
     for lst, i, value, nlst in data:
         bunch_subclass.extendlist(lst, i, value=value)
@@ -529,7 +528,7 @@ class TestEpBunch(object):
     """
     py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames,
     EpBunch.fieldvalues, EpBunch.getidd.
-    
+
     """
     def initdata(self):
         obj, objls, objidd = (
@@ -542,7 +541,7 @@ class TestEpBunch(object):
                 0.4,
                 'FullExterior',
                 25,
-                6], #obj
+                6],  # obj
 
             [
                 'key',
@@ -592,29 +591,29 @@ class TestEpBunch(object):
                     'type': ['real']},
                 ])
         return obj, objls, objidd
-    
+
     def test_fieldnames(self):
         """
         Test that the contents of idfobject.fieldnames are the same as those
         of objls.
-        
+
         """
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
         for fn_item, objls_item in zip(idfobject.fieldnames, idfobject.objls):
             assert fn_item == objls_item
-        
+
     def test_fieldvalues(self):
         """
         Test that the contents of idfobject.fieldvalues are the same as those
         of obj.
-        
+
         """
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
         for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
             assert fv_item == objls_item
-    
+
 
     def test_getrange(self):
         data = (
@@ -622,12 +621,12 @@ class TestEpBunch(object):
                 "Loads_Convergence_Tolerance_Value",
                 {
                     'maximum': .5, 'minimum>': 0.0, 'maximum<':None,
-                    'minimum':None, 'type': 'real'},), # fieldname, theranges
+                    'minimum':None, 'type': 'real'},),  # fieldname, theranges
             (
                 "Maximum_Number_of_Warmup_Days",
                 {
-                    'maximum': None, 'minimum>': -3, 'maximum<':5,
-                    'minimum':None, 'type': 'integer'},), # fieldname, theranges
+                    'maximum': None, 'minimum>':-3, 'maximum<':5,
+                    'minimum':None, 'type': 'integer'},),  # fieldname, theranges
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
@@ -647,10 +646,10 @@ class TestEpBunch(object):
              5, False, None),
             # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-             -3, False, None),
+             - 3, False, None),
             # fieldname, fieldvalue, isexception, theexception
             ("Minimum_Number_of_Warmup_Days",
-             -4, True, bunch_subclass.RangeError),
+             - 4, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
             # -
             ("Maximum_Number_of_Warmup_Days",
@@ -660,7 +659,7 @@ class TestEpBunch(object):
              5, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
             ("Maximum_Number_of_Warmup_Days",
-             -3, True, bunch_subclass.RangeError),
+             - 3, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
             ("Loads_Convergence_Tolerance_Value",
              0.3, False, bunch_subclass.RangeError),
@@ -698,7 +697,7 @@ class TestEpBunch(object):
         assert result == {'type': ['real']}
         result = idfobject.getfieldidd('No_such_field')
         assert result == {}
-        
+
     def test_getfieldidd_item(self):
         """py.test for test_getfieldidd_item"""
         obj, objls, objidd = self.initdata()
@@ -709,7 +708,7 @@ class TestEpBunch(object):
         assert result == []
         result = idfobject.getfieldidd_item('no_such_field', 'type')
         assert result == []
-        
+
     def test_get_retaincase(self):
         """py.test for get_retaincase"""
         obj, objls, objidd = self.initdata()
@@ -718,7 +717,7 @@ class TestEpBunch(object):
         assert result == True
         result = idfobject.get_retaincase('Terrain')
         assert result == False
-        
+
     def test_isequal(self):
         """py.test for isequal"""
         obj, objls, objidd = self.initdata()
@@ -752,7 +751,7 @@ class TestEpBunch(object):
         assert result == True
         result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25.00001)
         assert result == False
-        
+
     def test_getreferingobjs(self):
         """py.test for getreferingobjs"""
         thedata = ((
@@ -779,15 +778,15 @@ class TestEpBunch(object):
         5.000000000000,  !- Vertex 1 X-coordinate {m}
         6.000000000000,  !- Vertex 1 Y-coordinate {m}
         3.000000000000;  !- Vertex 1 Z-coordinate {m}
-    
-      WALL:EXTERIOR,            
+
+      WALL:EXTERIOR,
           WallExterior,                    !- Name
           ,                         !- Construction Name
           Box,                         !- Zone Name
           ,                         !- Azimuth Angle
           90;                       !- Tilt Angle
 
-        BUILDINGSURFACE:DETAILED, 
+        BUILDINGSURFACE:DETAILED,
             EWall,                    !- Name
             ,                         !- Surface Type
             ,                         !- Construction Name
@@ -799,7 +798,7 @@ class TestEpBunch(object):
             autocalculate,            !- View Factor to Ground
             autocalculate;            !- Number of Vertices
 
-        BUILDINGSURFACE:DETAILED, 
+        BUILDINGSURFACE:DETAILED,
             EWall1,                    !- Name
             ,                         !- Surface Type
             ,                         !- Construction Name
@@ -830,7 +829,7 @@ class TestEpBunch(object):
         autocalculate;            !- Number of Vertices
       """,
         'Box',
-        ['N_Wall', 'EWall', 'WallExterior']), # idftxt, zname, surfnamelst
+        ['N_Wall', 'EWall', 'WallExterior']),  # idftxt, zname, surfnamelst
         )
         for idftxt, zname, surfnamelst in thedata:
             # import pdb; pdb.set_trace()
@@ -854,7 +853,7 @@ class TestEpBunch(object):
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
             zone = idf.getobject('zone'.upper(), zname)
-            kwargs = {'fields':[u'Zone_Name', ],}
+            kwargs = {'fields':[u'Zone_Name', ], }
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -883,41 +882,41 @@ class TestEpBunch(object):
             rnames.sort()
             surfnamelst.sort()
             assert rnames == windownamelist
-        
+
     def test_get_referenced_object(self):
         """py.test for get_referenced_object"""
         idf = IDF()
         idf.initnew('test.idf')
-        idf.newidfobject('VERSION') # does not have a field "Name"
+        idf.newidfobject('VERSION')  # does not have a field "Name"
 
-        # construction material        
-        construction = idf.newidfobject('CONSTRUCTION', 'construction')
+        # construction material
+        construction = idf.newidfobject('CONSTRUCTION', Name='construction')
         construction.Outside_Layer = 'TestMaterial'
-        
-        expected = idf.newidfobject('MATERIAL', 'TestMaterial')
-        
+
+        expected = idf.newidfobject('MATERIAL', Name='TestMaterial')
+
         fetched = idf.getobject('MATERIAL', 'TestMaterial')
         assert fetched == expected
-    
+
         material = construction.get_referenced_object('Outside_Layer')
         assert material == expected
-        
+
         # window material
         glazing_group = idf.newidfobject(
-            'WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC', 'glazing_group')
+            'WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC', Name='glazing_group')
         glazing_group.Window_Material_Glazing_Name_1 = 'TestWindowMaterial'
 
         expected = idf.newidfobject(
-            'WINDOWMATERIAL:GLAZING', 'TestWindowMaterial') # has several \references
-        
+            'WINDOWMATERIAL:GLAZING', Name='TestWindowMaterial')  # has several \references
+
         fetched = idf.getobject('WINDOWMATERIAL:GLAZING', 'TestWindowMaterial')
         assert fetched == expected
-        
+
         material = glazing_group.get_referenced_object(
             'Window_Material_Glazing_Name_1')
         assert material == expected
-    
-    
+
+
 bldfidf = """
 Version,
     6.0;
@@ -950,13 +949,12 @@ BuildingSurface:Detailed,
 """
 # test_EpBunch1()
 # import idfreader
-import eppy.idfreader as idfreader
 
 def test_EpBunch1():
     """py.test for EpBunch1"""
     iddfile = StringIO(iddtxt)
     idffile = StringIO(bldfidf)
-    block, data, commdct, idd_index = readidf.readdatacommdct1(idffile, 
+    block, data, commdct, idd_index = readidf.readdatacommdct1(idffile,
             iddfile=iddfile)
     key = "BUILDING"
     objs = data.dt[key]
@@ -970,7 +968,7 @@ def test_EpBunch1():
     assert bunchobj.Name == "Kutub Minar"
     prnt = bunchobj.__repr__()
     result = """
-BUILDING,                 
+BUILDING,
     Kutub Minar,              !- Name
     30.0,                     !- North Axis
     City,                     !- Terrain
