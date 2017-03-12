@@ -13,9 +13,8 @@ from __future__ import unicode_literals
 
 import copy
 
-from eppy.modeleditor import IDF
-
 import eppy.bunch_subclass as bunch_subclass
+from eppy.modeleditor import IDF
 import eppy.modeleditor as modeleditor
 from six.moves import xrange
 
@@ -57,43 +56,43 @@ def flattencopy(lst):
     # http://stackoverflow.com/questions/2158395/flatten-an-irregular-list-of-lists-in-python
     thelist = copy.deepcopy(lst)
     list_is_nested = True
-    while list_is_nested:                 #outer loop
+    while list_is_nested:  # outer loop
         keepchecking = False
         atemp = []
-        for element in thelist:         #inner loop
+        for element in thelist:  # inner loop
             if isinstance(element, list):
                 atemp.extend(element)
                 keepchecking = True
             else:
                 atemp.append(element)
-        list_is_nested = keepchecking     #determine if outer loop exits
+        list_is_nested = keepchecking  # determine if outer loop exits
         thelist = atemp[:]
     return thelist
 
 def makepipecomponent(idf, pname):
     """make a pipe component
     generate inlet outlet names"""
-    apipe = idf.newidfobject("Pipe:Adiabatic".upper(), pname)
-    apipe.Inlet_Node_Name = "%s_inlet" % (pname, )
-    apipe.Outlet_Node_Name = "%s_outlet" % (pname, )
+    apipe = idf.newidfobject("Pipe:Adiabatic".upper(), Name=pname)
+    apipe.Inlet_Node_Name = "%s_inlet" % (pname,)
+    apipe.Outlet_Node_Name = "%s_outlet" % (pname,)
     return apipe
 
 def makeductcomponent(idf, dname):
     """make a duct component
     generate inlet outlet names"""
-    aduct = idf.newidfobject("duct".upper(), dname)
-    aduct.Inlet_Node_Name = "%s_inlet" % (dname, )
-    aduct.Outlet_Node_Name = "%s_outlet" % (dname, )
+    aduct = idf.newidfobject("duct".upper(), Name=dname)
+    aduct.Inlet_Node_Name = "%s_inlet" % (dname,)
+    aduct.Outlet_Node_Name = "%s_outlet" % (dname,)
     return aduct
 
 def makepipebranch(idf, bname):
     """make a branch with a pipe
     use standard inlet outlet names"""
     # make the pipe component first
-    pname = "%s_pipe" % (bname, )
+    pname = "%s_pipe" % (bname,)
     apipe = makepipecomponent(idf, pname)
     # now make the branch with the pipe in it
-    abranch = idf.newidfobject("BRANCH", bname)
+    abranch = idf.newidfobject("BRANCH", Name=bname)
     abranch.Component_1_Object_Type = 'Pipe:Adiabatic'
     abranch.Component_1_Name = pname
     abranch.Component_1_Inlet_Node_Name = apipe.Inlet_Node_Name
@@ -105,10 +104,10 @@ def makeductbranch(idf, bname):
     """make a branch with a duct
     use standard inlet outlet names"""
     # make the duct component first
-    pname = "%s_duct" % (bname, )
+    pname = "%s_duct" % (bname,)
     aduct = makeductcomponent(idf, pname)
     # now make the branch with the duct in it
-    abranch = idf.newidfobject("BRANCH", bname)
+    abranch = idf.newidfobject("BRANCH", Name=bname)
     abranch.Component_1_Object_Type = 'duct'
     abranch.Component_1_Name = pname
     abranch.Component_1_Inlet_Node_Name = aduct.Inlet_Node_Name
@@ -123,10 +122,10 @@ def getbranchcomponents(idf, branch, utest=False):
     complist = []
     for i in range(1, 100000):
         try:
-            objtype = branch[fobjtype % (i, )]
+            objtype = branch[fobjtype % (i,)]
             if objtype.strip() == '':
                 break
-            objname = branch[fobjname % (i, )]
+            objname = branch[fobjname % (i,)]
             complist.append((objtype, objname))
         except bunch_subclass.BadEPFieldError:
             break
@@ -231,7 +230,7 @@ def initinletoutlet(idf, idfobject, thisnode, force=False):
                 return True
             else:
                 return False
-        except AttributeError: # field may be a list
+        except AttributeError:  # field may be a list
             return False
     def trimfields(fields, thisnode):
         if len(fields) > 1:
@@ -249,12 +248,12 @@ def initinletoutlet(idf, idfobject, thisnode, force=False):
             return fields
 
     inletfields = getfieldnamesendswith(idfobject, "Inlet_Node_Name")
-    inletfields = trimfields(inletfields, thisnode) # or warn with exception
+    inletfields = trimfields(inletfields, thisnode)  # or warn with exception
     for inletfield in inletfields:
         if blankfield(idfobject[inletfield]) == True or force == True:
             idfobject[inletfield] = "%s_%s" % (idfobject.Name, inletfield)
     outletfields = getfieldnamesendswith(idfobject, "Outlet_Node_Name")
-    outletfields = trimfields(outletfields, thisnode) # or warn with exception
+    outletfields = trimfields(outletfields, thisnode)  # or warn with exception
     for outletfield in outletfields:
         if blankfield(idfobject[outletfield]) == True or force == True:
             idfobject[outletfield] = "%s_%s" % (idfobject.Name, outletfield)
@@ -271,12 +270,12 @@ def componentsintobranch(idf, branch, listofcomponents, fluid=None):
     # assumes that the nodes of the component connect to each other
     # empty branch if it has existing components
     thebranchname = branch.Name
-    thebranch = idf.removeextensibles('BRANCH', thebranchname) # empty the branch
+    thebranch = idf.removeextensibles('BRANCH', thebranchname)  # empty the branch
     # fill in the new components with the node names into this branch
         # find the first extensible field and fill in the data in obj.
     e_index = idf.getextensibleindex('BRANCH', thebranchname)
     theobj = thebranch.obj
-    modeleditor.extendlist(theobj, e_index) # just being careful here
+    modeleditor.extendlist(theobj, e_index)  # just being careful here
     for comp, compnode in listofcomponents:
         theobj.append(comp.key)
         theobj.append(comp.Name)
@@ -308,7 +307,7 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing ---------
     testn = 0
     # -------- testing ---------
-    newairloop = idf.newidfobject("AirLoopHVAC".upper(), loopname)
+    newairloop = idf.newidfobject("AirLoopHVAC".upper(), Name=loopname)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
@@ -340,7 +339,7 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
 
     # make the branch lists for this air loop
     sbranchlist = idf.newidfobject("BRANCHLIST",
-                                   newairloop[flnames[0]])
+                                   Name=newairloop[flnames[0]])
 
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -369,10 +368,10 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing ---------
     # rename inlet outlet of endpoints of loop
     anode = "Component_1_Inlet_Node_Name"
-    sameinnode = "Supply_Side_Inlet_Node_Name" # TODO : change ?
+    sameinnode = "Supply_Side_Inlet_Node_Name"  # TODO : change ?
     sbranchs[0][anode] = newairloop[sameinnode]
     anode = "Component_1_Outlet_Node_Name"
-    sameoutnode = "Supply_Side_Outlet_Node_Names" # TODO : change ?
+    sameoutnode = "Supply_Side_Outlet_Node_Names"  # TODO : change ?
     sbranchs[-1][anode] = newairloop[sameoutnode]
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -380,11 +379,11 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
-    dname = sbranchs[0]['Component_1_Name'] # get the duct name
-    aduct = idf.getobject('duct'.upper(), dname) # get duct
+    dname = sbranchs[0]['Component_1_Name']  # get the duct name
+    aduct = idf.getobject('duct'.upper(), dname)  # get duct
     aduct.Inlet_Node_Name = newairloop[sameinnode]
-    dname = sbranchs[-1]['Component_1_Name'] # get the duct name
-    aduct = idf.getobject('duct'.upper(), dname) # get duct
+    dname = sbranchs[-1]['Component_1_Name']  # get the duct name
+    aduct = idf.getobject('duct'.upper(), dname)  # get duct
     aduct.Outlet_Node_Name = newairloop[sameoutnode]
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -395,16 +394,16 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     # # TODO : test if there are parallel branches
     # make the connectorlist an fill fields
     sconnlist = idf.newidfobject("CONNECTORLIST",
-                                 newairloop.Connector_List_Name)
+                                 Name=newairloop.Connector_List_Name)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
         returnnone()
     # -------- testing ---------
     sconnlist.Connector_1_Object_Type = "Connector:Splitter"
-    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
+    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname,)
     sconnlist.Connector_2_Object_Type = "Connector:Mixer"
-    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
+    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname,)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
@@ -412,10 +411,10 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing ---------
     # make splitters and mixers
     s_splitter = idf.newidfobject("CONNECTOR:SPLITTER",
-                                  sconnlist.Connector_1_Name)
+                                  Name=sconnlist.Connector_1_Name)
     s_splitter.obj.extend([sloop[0]] + sloop[1])
     s_mixer = idf.newidfobject("CONNECTOR:MIXER",
-                               sconnlist.Connector_2_Name)
+                               Name=sconnlist.Connector_2_Name)
     s_mixer.obj.extend([sloop[-1]] + sloop[1])
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -423,18 +422,18 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing ---------
     # demand side loop for airloop is made below
-    #ZoneHVAC:EquipmentConnections
+    # ZoneHVAC:EquipmentConnections
     for zone in dloop:
         equipconn = idf.newidfobject("ZoneHVAC:EquipmentConnections".upper())
         equipconn.Zone_Name = zone
         fldname = "Zone_Conditioning_Equipment_List_Name"
-        equipconn[fldname] = "%s equip list" % (zone, )
+        equipconn[fldname] = "%s equip list" % (zone,)
         fldname = "Zone_Air_Inlet_Node_or_NodeList_Name"
-        equipconn[fldname] = "%s Inlet Node" % (zone, )
+        equipconn[fldname] = "%s Inlet Node" % (zone,)
         fldname = "Zone_Air_Node_Name"
-        equipconn[fldname] = "%s Node" % (zone, )
+        equipconn[fldname] = "%s Node" % (zone,)
         fldname = "Zone_Return_Air_Node_Name"
-        equipconn[fldname] = "%s Outlet Node" % (zone, )
+        equipconn[fldname] = "%s Outlet Node" % (zone,)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
@@ -446,12 +445,12 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
         z_equipconn = modeleditor.getobjects(
             idf.idfobjects,
             idf.model, idf.idd_info,
-            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+            "ZoneHVAC:EquipmentConnections".upper(),  # places=7,
             **dict(Zone_Name=zone))[0]
         z_equiplst.Name = z_equipconn.Zone_Conditioning_Equipment_List_Name
         fld = "Zone_Equipment_1_Object_Type"
         z_equiplst[fld] = "AirTerminal:SingleDuct:Uncontrolled"
-        z_equiplst.Zone_Equipment_1_Name = "%sDirectAir" % (zone, )
+        z_equiplst.Zone_Equipment_1_Name = "%sDirectAir" % (zone,)
         z_equiplst.Zone_Equipment_1_Cooling_Sequence = 1
         z_equiplst.Zone_Equipment_1_Heating_or_NoLoad_Sequence = 1
     # -------- testing ---------
@@ -464,11 +463,11 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
         z_equipconn = modeleditor.getobjects(
             idf.idfobjects,
             idf.model, idf.idd_info,
-            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+            "ZoneHVAC:EquipmentConnections".upper(),  # places=7,
             **dict(Zone_Name=zone))[0]
         key = "AirTerminal:SingleDuct:Uncontrolled".upper()
         z_airterm = idf.newidfobject(key)
-        z_airterm.Name = "%sDirectAir" % (zone, )
+        z_airterm.Name = "%sDirectAir" % (zone,)
         fld1 = "Zone_Supply_Air_Node_Name"
         fld2 = "Zone_Air_Inlet_Node_or_NodeList_Name"
         z_airterm[fld1] = z_equipconn[fld2]
@@ -487,15 +486,15 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     if testn == None:
         returnnone()
     # -------- testing ---------
-    z_splitter.Name = "%s Demand Side Splitter" % (loopname, )
+    z_splitter.Name = "%s Demand Side Splitter" % (loopname,)
     z_splitter.Inlet_Node_Name = newairloop.Demand_Side_Inlet_Node_Names
     for i, zone in enumerate(dloop):
         z_equipconn = modeleditor.getobjects(
             idf.idfobjects,
             idf.model, idf.idd_info,
-            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+            "ZoneHVAC:EquipmentConnections".upper(),  # places=7,
             **dict(Zone_Name=zone))[0]
-        fld = "Outlet_%s_Node_Name" % (i + 1, )
+        fld = "Outlet_%s_Node_Name" % (i + 1,)
         z_splitter[fld] = z_equipconn.Zone_Air_Inlet_Node_or_NodeList_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -505,7 +504,7 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     # make AirLoopHVAC:SupplyPath
     key = "AirLoopHVAC:SupplyPath".upper()
     z_supplypth = idf.newidfobject(key)
-    z_supplypth.Name = "%sSupplyPath" % (loopname, )
+    z_supplypth.Name = "%sSupplyPath" % (loopname,)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
@@ -529,7 +528,7 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     if testn == None:
         returnnone()
     # -------- testing ---------
-    z_mixer.Name = "%s Demand Side Mixer" % (loopname, )
+    z_mixer.Name = "%s Demand Side Mixer" % (loopname,)
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
     if testn == None:
@@ -545,9 +544,9 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
         z_equipconn = modeleditor.getobjects(
             idf.idfobjects,
             idf.model, idf.idd_info,
-            "ZoneHVAC:EquipmentConnections".upper(), #places=7,
+            "ZoneHVAC:EquipmentConnections".upper(),  # places=7,
             **dict(Zone_Name=zone))[0]
-        fld = "Inlet_%s_Node_Name" % (i + 1, )
+        fld = "Inlet_%s_Node_Name" % (i + 1,)
         z_mixer[fld] = z_equipconn.Zone_Return_Air_Node_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn, newairloop)
@@ -562,7 +561,7 @@ def makeairloop(idf, loopname, sloop, dloop, testing=None):
     if testn == None:
         returnnone()
     # -------- testing ---------
-    z_returnpth.Name = "%sReturnPath" % (loopname, )
+    z_returnpth.Name = "%sReturnPath" % (loopname,)
     z_returnpth.Return_Air_Path_Outlet_Node_Name = newairloop.Demand_Side_Outlet_Node_Name
     z_returnpth.Component_1_Object_Type = "AirLoopHVAC:ZoneMixer"
     z_returnpth.Component_1_Name = z_mixer.Name
@@ -578,7 +577,7 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
     # -------- <testing ---------
     testn = 0
     # -------- testing> ---------
-    newplantloop = idf.newidfobject("PLANTLOOP", loopname)
+    newplantloop = idf.newidfobject("PLANTLOOP", Name=loopname)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
     if testn == None:
@@ -610,7 +609,7 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
     # make the branch lists for this plant loop
     sbranchlist = idf.newidfobject(
         "BRANCHLIST",
-        newplantloop.Plant_Side_Branch_List_Name)
+        Name=newplantloop.Plant_Side_Branch_List_Name)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
     if testn == None:
@@ -618,7 +617,7 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     dbranchlist = idf.newidfobject(
         "BRANCHLIST",
-        newplantloop.Demand_Side_Branch_List_Name)
+        Name=newplantloop.Demand_Side_Branch_List_Name)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
     if testn == None:
@@ -669,11 +668,11 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
-    pname = sbranchs[0]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = sbranchs[0]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Inlet_Node_Name = newplantloop[sameinnode]
-    pname = sbranchs[-1]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = sbranchs[-1]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Outlet_Node_Name = newplantloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
@@ -704,11 +703,11 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
-    pname = dbranchs[0]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = dbranchs[0]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Inlet_Node_Name = newplantloop[sameinnode]
-    pname = dbranchs[-1]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = dbranchs[-1]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Outlet_Node_Name = newplantloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
@@ -721,18 +720,18 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
     # make the connectorlist an fill fields
     sconnlist = idf.newidfobject(
         "CONNECTORLIST",
-        newplantloop.Plant_Side_Connector_List_Name)
+        Name=newplantloop.Plant_Side_Connector_List_Name)
     sconnlist.Connector_1_Object_Type = "Connector:Splitter"
-    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
+    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname,)
     sconnlist.Connector_2_Object_Type = "Connector:Mixer"
-    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
+    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname,)
     dconnlist = idf.newidfobject(
         "CONNECTORLIST",
-        newplantloop.Demand_Side_Connector_List_Name)
+        Name=newplantloop.Demand_Side_Connector_List_Name)
     dconnlist.Connector_1_Object_Type = "Connector:Splitter"
-    dconnlist.Connector_1_Name = "%s_demand_splitter" % (loopname, )
+    dconnlist.Connector_1_Name = "%s_demand_splitter" % (loopname,)
     dconnlist.Connector_2_Object_Type = "Connector:Mixer"
-    dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname, )
+    dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname,)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
     if testn == None:
@@ -742,20 +741,20 @@ def makeplantloop(idf, loopname, sloop, dloop, testing=None):
     # make splitters and mixers
     s_splitter = idf.newidfobject(
         "CONNECTOR:SPLITTER",
-        sconnlist.Connector_1_Name)
+        Name=sconnlist.Connector_1_Name)
     s_splitter.obj.extend([sloop[0]] + sloop[1])
     s_mixer = idf.newidfobject(
         "CONNECTOR:MIXER",
-        sconnlist.Connector_2_Name)
+        Name=sconnlist.Connector_2_Name)
     s_mixer.obj.extend([sloop[-1]] + sloop[1])
     # -
     d_splitter = idf.newidfobject(
         "CONNECTOR:SPLITTER",
-        dconnlist.Connector_1_Name)
+        Name=dconnlist.Connector_1_Name)
     d_splitter.obj.extend([dloop[0]] + dloop[1])
     d_mixer = idf.newidfobject(
         "CONNECTOR:MIXER",
-        dconnlist.Connector_2_Name)
+        Name=dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newplantloop)
@@ -770,7 +769,7 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- <testing ---------
     testn = 0
     # -------- testing> ---------
-    newcondenserloop = idf.newidfobject("CondenserLoop".upper(), loopname)
+    newcondenserloop = idf.newidfobject("CondenserLoop".upper(), Name=loopname)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
     if testn == None:
@@ -805,10 +804,10 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # make the branch lists for this condenser loop
     sbranchlist = idf.newidfobject(
         "BRANCHLIST",
-        newcondenserloop.Condenser_Side_Branch_List_Name)
+        Name=newcondenserloop.Condenser_Side_Branch_List_Name)
     dbranchlist = idf.newidfobject(
         "BRANCHLIST",
-        newcondenserloop.Condenser_Demand_Side_Branch_List_Name)
+        Name=newcondenserloop.Condenser_Demand_Side_Branch_List_Name)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
     if testn == None:
@@ -844,10 +843,10 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop
     anode = "Component_1_Inlet_Node_Name"
-    sameinnode = "Condenser_Side_Inlet_Node_Name" # TODO : change ?
+    sameinnode = "Condenser_Side_Inlet_Node_Name"  # TODO : change ?
     sbranchs[0][anode] = newcondenserloop[sameinnode]
     anode = "Component_1_Outlet_Node_Name"
-    sameoutnode = "Condenser_Side_Outlet_Node_Name" # TODO : change ?
+    sameoutnode = "Condenser_Side_Outlet_Node_Name"  # TODO : change ?
     sbranchs[-1][anode] = newcondenserloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -855,11 +854,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
-    pname = sbranchs[0]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = sbranchs[0]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Inlet_Node_Name = newcondenserloop[sameinnode]
-    pname = sbranchs[-1]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = sbranchs[-1]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Outlet_Node_Name = newcondenserloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -879,10 +878,10 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in branch
     anode = "Component_1_Inlet_Node_Name"
-    sameinnode = "Demand_Side_Inlet_Node_Name" # TODO : change ?
+    sameinnode = "Demand_Side_Inlet_Node_Name"  # TODO : change ?
     dbranchs[0][anode] = newcondenserloop[sameinnode]
     anode = "Component_1_Outlet_Node_Name"
-    sameoutnode = "Demand_Side_Outlet_Node_Name" # TODO : change ?
+    sameoutnode = "Demand_Side_Outlet_Node_Name"  # TODO : change ?
     dbranchs[-1][anode] = newcondenserloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -890,11 +889,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
         returnnone()
     # -------- testing> ---------
     # rename inlet outlet of endpoints of loop - rename in pipe
-    pname = dbranchs[0]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = dbranchs[0]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Inlet_Node_Name = newcondenserloop[sameinnode]
-    pname = dbranchs[-1]['Component_1_Name'] # get the pipe name
-    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname) # get pipe
+    pname = dbranchs[-1]['Component_1_Name']  # get the pipe name
+    apipe = idf.getobject('Pipe:Adiabatic'.upper(), pname)  # get pipe
     apipe.Outlet_Node_Name = newcondenserloop[sameoutnode]
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -907,11 +906,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # make the connectorlist an fill fields
     sconnlist = idf.newidfobject(
         "CONNECTORLIST",
-        newcondenserloop.Condenser_Side_Connector_List_Name)
+        Name=newcondenserloop.Condenser_Side_Connector_List_Name)
     sconnlist.Connector_1_Object_Type = "Connector:Splitter"
-    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname, )
+    sconnlist.Connector_1_Name = "%s_supply_splitter" % (loopname,)
     sconnlist.Connector_2_Object_Type = "Connector:Mixer"
-    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname, )
+    sconnlist.Connector_2_Name = "%s_supply_mixer" % (loopname,)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
     if testn == None:
@@ -919,11 +918,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -------- testing> ---------
     dconnlist = idf.newidfobject(
         "CONNECTORLIST",
-        newcondenserloop.Condenser_Demand_Side_Connector_List_Name)
+        Name=newcondenserloop.Condenser_Demand_Side_Connector_List_Name)
     dconnlist.Connector_1_Object_Type = "Connector:Splitter"
-    dconnlist.Connector_1_Name = "%s_demand_splitter" % (loopname, )
+    dconnlist.Connector_1_Name = "%s_demand_splitter" % (loopname,)
     dconnlist.Connector_2_Object_Type = "Connector:Mixer"
-    dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname, )
+    dconnlist.Connector_2_Name = "%s_demand_mixer" % (loopname,)
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
     if testn == None:
@@ -933,11 +932,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # make splitters and mixers
     s_splitter = idf.newidfobject(
         "CONNECTOR:SPLITTER",
-        sconnlist.Connector_1_Name)
+        Name=sconnlist.Connector_1_Name)
     s_splitter.obj.extend([sloop[0]] + sloop[1])
     s_mixer = idf.newidfobject(
         "CONNECTOR:MIXER",
-        sconnlist.Connector_2_Name)
+        Name=sconnlist.Connector_2_Name)
     s_mixer.obj.extend([sloop[-1]] + sloop[1])
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -947,11 +946,11 @@ def makecondenserloop(idf, loopname, sloop, dloop, testing=None):
     # -
     d_splitter = idf.newidfobject(
         "CONNECTOR:SPLITTER",
-        dconnlist.Connector_1_Name)
+        Name=dconnlist.Connector_1_Name)
     d_splitter.obj.extend([dloop[0]] + dloop[1])
     d_mixer = idf.newidfobject(
         "CONNECTOR:MIXER",
-        dconnlist.Connector_2_Name)
+        Name=dconnlist.Connector_2_Name)
     d_mixer.obj.extend([dloop[-1]] + dloop[1])
     # -------- <testing ---------
     testn = doingtesting(testing, testn, newcondenserloop)
@@ -984,7 +983,7 @@ def getmakeidfobject(idf, key, name):
     """get idfobject or make it if it does not exist"""
     idfobject = idf.getobject(key, name)
     if not idfobject:
-        return idf.newidfobject(key, name)
+        return idf.newidfobject(key, Name=name)
     else:
         return idfobject
 
@@ -994,7 +993,7 @@ def replacebranch1(idf, loop, branchname, listofcomponents_tuples, fluid=None,
     if fluid is None:
         fluid = ''
     listofcomponents_tuples = _clean_listofcomponents_tuples(listofcomponents_tuples)
-    branch = idf.getobject('BRANCH', branchname) # args are (key, name)
+    branch = idf.getobject('BRANCH', branchname)  # args are (key, name)
     listofcomponents = []
     for comp_type, comp_name, compnode in listofcomponents_tuples:
         comp = getmakeidfobject(idf, comp_type.upper(), comp_name)
@@ -1069,17 +1068,17 @@ def replacebranch(idf, loop, branch,
         supplyconlistname = loop[flnames[3]]
         # Plant_Side_Connector_List_Name or Condenser_Side_Connector_List_Name
     elif fluid.upper() == 'AIR':
-        supplyconlistname = loop[flnames[1]] # Connector_List_Name'
+        supplyconlistname = loop[flnames[1]]  # Connector_List_Name'
     supplyconlist = idf.getobject('CONNECTORLIST', supplyconlistname)
-    for i in range(1, 100000): # large range to hit end
+    for i in range(1, 100000):  # large range to hit end
         try:
-            fieldname = 'Connector_%s_Object_Type' % (i, )
+            fieldname = 'Connector_%s_Object_Type' % (i,)
             ctype = supplyconlist[fieldname]
         except bunch_subclass.BadEPFieldError:
             break
         if ctype.strip() == '':
             break
-        fieldname = 'Connector_%s_Name' % (i, )
+        fieldname = 'Connector_%s_Name' % (i,)
         cname = supplyconlist[fieldname]
         connector = idf.getobject(ctype.upper(), cname)
         if connector.key == 'CONNECTOR:SPLITTER':
@@ -1100,7 +1099,7 @@ def replacebranch(idf, loop, branch,
                     "Inlet_Node_Name", fluid)
                 comp[inletnodename] = [
                     comp[inletnodename],
-                    loop[flnames[0]]] # Plant_Side_Inlet_Node_Name
+                    loop[flnames[0]]]  # Plant_Side_Inlet_Node_Name
             else:
                 comp = comps[-1]
                 outletnodename = getnodefieldname(
@@ -1108,7 +1107,7 @@ def replacebranch(idf, loop, branch,
                     "Outlet_Node_Name", fluid)
                 comp[outletnodename] = [
                     comp[outletnodename],
-                    loop[flnames[1]]] # .Plant_Side_Outlet_Node_Name
+                    loop[flnames[1]]]  # .Plant_Side_Outlet_Node_Name
     # -------- testing ---------
     testn = doingtesting(testing, testn)
     if testn == None:
@@ -1116,17 +1115,17 @@ def replacebranch(idf, loop, branch,
     # -------- testing ---------
 
     if fluid.upper() == 'WATER':
-        demandconlistname = loop[flnames[7]] # .Demand_Side_Connector_List_Name
+        demandconlistname = loop[flnames[7]]  # .Demand_Side_Connector_List_Name
         demandconlist = idf.getobject('CONNECTORLIST', demandconlistname)
-        for i in range(1, 100000): # large range to hit end
+        for i in range(1, 100000):  # large range to hit end
             try:
-                fieldname = 'Connector_%s_Object_Type' % (i, )
+                fieldname = 'Connector_%s_Object_Type' % (i,)
                 ctype = demandconlist[fieldname]
             except bunch_subclass.BadEPFieldError:
                 break
             if ctype.strip() == '':
                 break
-            fieldname = 'Connector_%s_Name' % (i, )
+            fieldname = 'Connector_%s_Name' % (i,)
             cname = demandconlist[fieldname]
             connector = idf.getobject(ctype.upper(), cname)
             if connector.key == 'CONNECTOR:SPLITTER':
@@ -1147,7 +1146,7 @@ def replacebranch(idf, loop, branch,
                         "Inlet_Node_Name", fluid)
                     comp[inletnodename] = [
                         comp[inletnodename],
-                        loop[flnames[4]]] #.Demand_Side_Inlet_Node_Name
+                        loop[flnames[4]]]  # .Demand_Side_Inlet_Node_Name
                 if not isfirst:
                     comp = comps[-1]
                     outletnodename = getnodefieldname(
@@ -1155,7 +1154,7 @@ def replacebranch(idf, loop, branch,
                         "Outlet_Node_Name", fluid)
                     comp[outletnodename] = [
                         comp[outletnodename],
-                        loop[flnames[5]]] # .Demand_Side_Outlet_Node_Name
+                        loop[flnames[5]]]  # .Demand_Side_Outlet_Node_Name
 
     # -------- testing ---------
     testn = doingtesting(testing, testn)

@@ -5,25 +5,28 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """py.test for modeleditor"""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six import StringIO
-from six import string_types
-from eppy import modeleditor
-from eppy.iddcurrent import iddcurrent
-from eppy.modeleditor import IDF
-from eppy.pytest_helpers import almostequal
 from itertools import product
 import os
+import warnings
 
 import pytest
+from six import StringIO
+from six import string_types
 
-import eppy.idfreader as idfreader
-import eppy.snippet as snippet
+from eppy import modeleditor
 from eppy.bunch_subclass import Bunch
+from eppy.iddcurrent import iddcurrent
+import eppy.idfreader as idfreader
+from eppy.modeleditor import IDF
+from eppy.pytest_helpers import almostequal
+import eppy.snippet as snippet
+
 
 iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
@@ -39,7 +42,7 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-        
+
 def test_poptrailing():
     """py.test for poptrailing"""
     tdata = (
@@ -340,6 +343,30 @@ def test_newidfobject():
     assert obj.fieldvalues[1] == 'A Wall'
 
 
+def test_newidfobject_warning():
+    """Test that the warning for newidfobject created with `aname` is working.
+
+    Fails if the warning is not issued when `aname` is used, or if the warning
+    is issued when `aname` is not used.
+    """
+    # make a blank idf
+    # make a function for this and then continue.
+    idf = IDF()
+    idf.new()
+    objtype = 'material:airgap'.upper()
+    # expect warnings here
+    pytest.warns(UserWarning, idf.newidfobject, objtype, aname="Krypton")
+    pytest.warns(UserWarning, idf.newidfobject, objtype, "Krypton")
+    # expect no warnings here
+    # This works because pytest.warn raises an exception if no warning is
+    # produced. We expect this and catch it with pytest.raises.
+    pytest.raises(
+        Exception,
+        pytest.warns, UserWarning,
+        idf.newidfobject,
+        objtype, Name="Krypton")
+
+
 def test_save():
     """
     Test the IDF.save() function using a filehandle to avoid external effects.
@@ -358,7 +385,7 @@ def test_save():
 
 def test_save_with_lineendings_and_encodings():
     """
-    Test the IDF.save() function with combinations of encodings and line 
+    Test the IDF.save() function with combinations of encodings and line
     endings.
 
     """
@@ -442,7 +469,7 @@ def test_initread():
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject('BUILDING', 'Building')
-    
+
     # test fname as str
     fname = str('tmp.idf')
     assert isinstance(fname, string_types)
@@ -474,7 +501,7 @@ def test_initreadtxt():
           0.16,                    !- Conductivity {W/m-K}
           800,                     !- Density {kg/m3}
           1090;                    !- Specific Heat {J/kg-K}
-        
+
         Construction,
           Interior Wall,           !- Name
           G01a 19mm gypsum board,  !- Outside Layer
@@ -542,8 +569,8 @@ def test_refname2key():
         ),  # refname, key
         (
             'AllCurves',
-            [u'PUMP:VARIABLESPEED', 
-            u'PUMP:CONSTANTSPEED', u'BOILER:HOTWATER', 
+            [u'PUMP:VARIABLESPEED',
+            u'PUMP:CONSTANTSPEED', u'BOILER:HOTWATER',
             u'ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE'],
         ),  # refname, key
     )
@@ -559,7 +586,7 @@ def test_getiddgroupdict():
     {
         None: ['Lead Input', 'Simulation Data']
     },
-    ), # gdict,
+    ),  # gdict,
     )
     for gdict, in data:
         fhandle = StringIO("")
@@ -584,8 +611,8 @@ def test_idfinmsequence():
     material = materials.pop(0)
     assert material.theidf == None
     assert materials[0].theidf == idf
-    
-    
+
+
 def test_idd_index():
     """py.test to see if idd_index is returned"""
     idftxt = """"""

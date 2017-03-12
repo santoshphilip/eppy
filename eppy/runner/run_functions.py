@@ -20,7 +20,10 @@ from subprocess import CalledProcessError
 from subprocess import check_call
 import tempfile
 
-import multiprocessing as mp
+try:
+    import multiprocessing as mp
+except ImportError:
+    pass
 
 try:
     VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
@@ -89,10 +92,14 @@ def runIDFs(jobs_list, processors=1):
         idf.saveas(idf_path)
         processed_runs.append([[idf_path, epw], kwargs])
 
-    pool = mp.Pool(processors)
-    pool.map(multirunner, processed_runs)
-    pool.close()
-
+    try:
+        pool = mp.Pool(processors)
+        pool.map(multirunner, processed_runs)
+        pool.close()
+    except NameError:
+        # multiprocessing not present so pass the jobs one at a time
+        for job in processed_runs:
+            multirunner([job])
     shutil.rmtree("multi_runs", ignore_errors=True)
 
 
