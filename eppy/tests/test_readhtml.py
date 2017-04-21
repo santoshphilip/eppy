@@ -13,9 +13,22 @@ from __future__ import unicode_literals
 
 import collections
 from bs4 import BeautifulSoup
+import os
 import eppy.results.readhtml as readhtml
 from eppy.tests.sample_html import sample_html as SAMPLE_HTML
 
+def test_version(v=7):
+    """test using actual html data"""
+    dir=os.getcwd()
+    print(dir)
+    if v==7:
+        file=dir+"\\eppy\\tests\\html\\v8_7.html"
+    else:
+        file=dir+"\\eppy\\tests\\html\\v8_3.html"
+    print(file)
+    html=open(file,'r').read()
+    htables=readhtml.titletable(html)
+    print (htables)
 
 
 def test_table2matrix():
@@ -180,3 +193,4 @@ def test_make_ntgrid():
         x_y=ntrow(a_b=1, b_c=2, c_d=3),
         y_z=ntrow(a_b=4, b_c=5, c_d=6),
         z_z=ntrow(a_b=7, b_c=8, c_d=9))
+
