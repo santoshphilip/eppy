@@ -20,15 +20,14 @@ from eppy.tests.sample_html import sample_html as SAMPLE_HTML
 def test_version(v=7):
     """test using actual html data"""
     dir=os.getcwd()
-    print(dir)
     if v==7:
         file=dir+"\\eppy\\tests\\html\\v8_7.html"
     else:
         file=dir+"\\eppy\\tests\\html\\v8_3.html"
-    print(file)
+        
     html=open(file,'r').read()
     htables=readhtml.titletable(html)
-    print (htables)
+    #print (htables)
 
 
 def test_table2matrix():
