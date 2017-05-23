@@ -31,14 +31,12 @@ def iddversiontuple(afile):
     except TypeError:
         fhandle = afile
     line1 = fhandle.readline()
-    if line1 == '':
-        line1 = fhandle.buf.split('\n')[0]
     try:
         line1 = line1.decode('ISO-8859-2')
     except AttributeError:
         pass
     line = line1.strip()
-    if line == '':
+    if line1 == '':
         return (0,)
     vers = line.split()[-1]
     return versiontuple(vers)
