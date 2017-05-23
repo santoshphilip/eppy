@@ -669,7 +669,7 @@ class IDF(object):
         readout = idfreader1(
             self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        (self.idfobjects, block, self.model, 
+        (self.idfobjects, block, self.model,
             idd_info, idd_index, idd_version) = readout
         self.__class__.setidd(idd_info, idd_index, block, idd_version)
 
@@ -1001,7 +1001,7 @@ class IDF(object):
         # write the IDF to the current directory
         self.saveas('in.idf')
         # run EnergyPlus
-        run('in.idf', self.epw, **kwargs)
+        run(self, self.epw, **kwargs)
         # remove in.idf
         os.remove('in.idf')
 

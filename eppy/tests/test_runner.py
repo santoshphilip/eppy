@@ -23,10 +23,11 @@ import re
 import shutil
 from subprocess import CalledProcessError
 
-from eppy.modeleditor import IDF
-from eppy.pytest_helpers import do_integration_tests
 import pytest
+from six.moves import reload_module as reload
 
+from eppy import modeleditor
+from eppy.pytest_helpers import do_integration_tests
 from eppy.runner.run_functions import install_paths
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
@@ -55,6 +56,24 @@ def has_severe_errors(results='run_outputs'):
         end_txt = end_file.read()
     num_severe = int(re.findall(r' (\d*) Severe Error', end_txt)[0])
     return num_severe > 0
+
+
+def test_version_reader():
+    """Test that get the expected idd_version when reading an IDF/IDD.
+    """
+    # We need to reload modeleditor since the IDF class may have had an IDD
+    # which causes problems.
+    # https://stackoverflow.com/questions/437589/how-do-i-unload-reload-a-python-module
+    reload(modeleditor)
+    iddfile = os.path.join(IDD_FILES, TEST_IDD)
+    fname1 = os.path.join(IDF_FILES, TEST_IDF)
+    modeleditor.IDF.setiddname(iddfile, testing=True)
+    idf = modeleditor.IDF(fname1, TEST_EPW)
+    ep_version = idf.idd_version
+    assert ep_version == (8, 5, 0)
+    ep_version = modeleditor.IDF.idd_version
+    assert ep_version == (8, 5, 0)
+
 
 class TestEnvironment(object):
 
@@ -135,7 +154,7 @@ class TestRunFunction(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         epw = os.path.join(
             eplus_weather, TEST_EPW)
-        run(fname1, epw, output_directory="test_results")
+        run(fname1, epw, output_directory="test_results", ep_version="8-5-0")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -148,7 +167,9 @@ class TestRunFunction(object):
 
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        run(fname1, TEST_EPW, output_directory="test_results")
+        run(fname1, TEST_EPW,
+            output_directory="test_results",
+            ep_version="8-5-0")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -162,7 +183,9 @@ class TestRunFunction(object):
         """
         fname1 = os.path.join(IDF_FILES, "XXXXXXX_fake_file.idf")
         try:
-            run(fname1, TEST_EPW, output_directory="test_results")
+            run(fname1, TEST_EPW,
+                output_directory="test_results",
+                ep_version="8-5-0")
             assert False  # missed the error
         except CalledProcessError:
             out, _err = capfd.readouterr()
@@ -184,8 +207,13 @@ class TestIDFRunner(object):
             shutil.rmtree(outdir)
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF.setiddname(iddfile, testing=True)
-        self.idf = IDF(fname1, TEST_EPW)
+        modeleditor.IDF.setiddname(iddfile, testing=True)
+        self.idf = modeleditor.IDF(fname1, TEST_EPW)
+        try:
+            ep_version = self.idf.idd_version
+            assert ep_version == (8, 5, 0)
+        except AttributeError:
+            raise
 
         self.expected_files = [
             u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
@@ -470,7 +498,8 @@ class TestMultiprocessing(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
         for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
+            kwargs = {'output_directory': 'results_%s' % i,
+                      'ep_version': '8-5-0'}
             runs.append([[fname1, TEST_EPW], kwargs])
         for r in runs:
             run(*r[0], **r[1])
@@ -489,8 +518,11 @@ class TestMultiprocessing(object):
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
+        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        assert ep_version == '8-5-0'
         for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i}
+            kwargs = {'output_directory': 'results_%s' % i,
+                      'ep_version': ep_version}
             runs.append([[fname1, TEST_EPW], kwargs])
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
@@ -506,11 +538,14 @@ class TestMultiprocessing(object):
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        IDF.setiddname(open(iddfile, 'r'), testing=True)
+        modeleditor.IDF.setiddname(open(iddfile, 'r'), testing=True)
+        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        assert ep_version == '8-5-0'
         runs = []
         for i in range(4):
-            runs.append([IDF(open(fname1, 'r'), TEST_EPW),
-                         {'output_directory': 'results_%i' % i}])
+            runs.append([modeleditor.IDF(open(fname1, 'r'), TEST_EPW),
+                         {'output_directory': 'results_%i' % i,
+                          'ep_version': ep_version}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
 

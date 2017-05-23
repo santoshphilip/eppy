@@ -186,20 +186,35 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     ------
     CalledProcessError
 
+    AttributeError
+        If no ep_version parameter is passed when calling with an IDF file path
+        rather than an IDF object.
+
+
     """
     args = locals().copy()
+    # get unneeded params out of args ready to pass the rest to energyplus.exe
+    verbose = args.pop('verbose')
+    idf = args.pop('idf')
+    try:
+        idf_path = os.path.abspath(idf.idfname)
+    except AttributeError:
+        idf_path = os.path.abspath(idf)
+    ep_version = args.pop('ep_version')
     # get version from IDF object or by parsing the IDF file for it
-    ep_version = "8-5-0"
+    if not ep_version:
+        try:
+            ep_version = '-'.join(str(x) for x in idf.idd_version[:3])
+        except AttributeError:
+            raise AttributeError(
+                "The ep_version must be set when passing an IDF path. \
+                Alternatively, use IDF.run()")
     eplus_exe_path, eplus_weather_path = install_paths(ep_version)
     if version:
         # just get EnergyPlus version number and return
         cmd = [eplus_exe_path, '--version']
         check_call(cmd)
         return
-
-    # get unneeded params out of args ready to pass the rest to energyplus.exe
-    verbose = args.pop('verbose')
-    idf = os.path.abspath(args.pop('idf'))
 
     # convert paths to absolute paths if required
     if os.path.isfile(args['weather']):
@@ -222,7 +237,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             cmd.extend(['--{}'.format(arg.replace('_', '-'))])
             if args[arg] != "":
                 cmd.extend([args[arg]])
-    cmd.extend([idf])
+    cmd.extend([idf_path])
 
     try:
         if verbose == 'v':
