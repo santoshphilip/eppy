@@ -84,6 +84,8 @@ def test_version_reader():
     assert ep_version == versiontuple(VERSION)
 
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 class TestEnvironment(object):
 
     """
