@@ -25,23 +25,29 @@ try:
 except ImportError:
     pass
 
-try:
-    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
-except KeyError:
-    VERSION = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
 
-if platform.system() == 'Windows':
-    EPLUS_HOME = "C:/EnergyPlusV{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
-elif platform.system() == "Linux":
-    EPLUS_HOME = "/usr/local/EnergyPlus-{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
-else:
-    EPLUS_HOME = "/Applications/EnergyPlus-{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
+def install_paths(version=None):
+    """Get the install paths for EnergyPlus executable and weather files.
+    """
+    if not version:
+        try:
+            version = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
+        except KeyError:
+            version = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
 
-EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
-THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+    if platform.system() == 'Windows':
+        eplus_home = "C:/EnergyPlusV{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+    elif platform.system() == "Linux":
+        eplus_home = "/usr/local/EnergyPlus-{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    else:
+        eplus_home = "/Applications/EnergyPlus-{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+
+    eplus_weather = os.path.join(eplus_home, 'WeatherData')
+
+    return eplus_exe, eplus_weather
 
 
 def wrapped_help_text(wrapped_func):
@@ -178,9 +184,10 @@ def run(idf=None, weather=None, output_directory='', annual=False,
 
     """
     args = locals().copy()
+    eplus_exe_path, eplus_weather_path = install_paths()
     if version:
         # just get EnergyPlus version number and return
-        cmd = [EPLUS_EXE, '--version']
+        cmd = [eplus_exe_path, '--version']
         check_call(cmd)
         return
 
@@ -192,7 +199,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     if os.path.isfile(args['weather']):
         args['weather'] = os.path.abspath(args['weather'])
     else:
-        args['weather'] = os.path.join(EPLUS_WEATHER, args['weather'])
+        args['weather'] = os.path.join(eplus_weather_path, args['weather'])
     args['output_directory'] = os.path.abspath(args['output_directory'])
 
     # store the directory we start in
@@ -201,7 +208,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     os.chdir(run_dir)
 
     # build a list of command line arguments
-    cmd = [EPLUS_EXE]
+    cmd = [eplus_exe_path]
     for arg in args:
         if args[arg]:
             if isinstance(args[arg], bool):

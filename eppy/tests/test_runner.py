@@ -6,7 +6,7 @@
 # =======================================================================
 """
 Integration tests for features in eppy.runner related to running EnergyPlus
-from Eppy. These tests will fail unless run on a system with EnergyPlus 
+from Eppy. These tests will fail unless run on a system with EnergyPlus
 installed in the default location.
 
 """
@@ -27,8 +27,7 @@ from eppy.modeleditor import IDF
 from eppy.pytest_helpers import do_integration_tests
 import pytest
 
-from eppy.runner.run_functions import EPLUS_WEATHER
-from eppy.runner.run_functions import VERSION
+from eppy.runner.run_functions import install_paths
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
@@ -40,12 +39,13 @@ RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
 
 IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
 IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
-
+VERSION = "8-5-0"
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
 TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
 TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
 TEST_OLD_IDD = 'Energy+V8_1_0.idd'
 
+eplus_exe, eplus_weather = install_paths(VERSION)
 
 def has_severe_errors(results='run_outputs'):
     """Check for severe errors in the eplusout.end file.
@@ -57,11 +57,11 @@ def has_severe_errors(results='run_outputs'):
     return num_severe > 0
 
 class TestEnvironment(object):
-    
+
     """
     Test that the environment has been correctly set up with EnergyPlus
     in the default location.
-    
+
     """
 
     def test_thisdir_exists(self):
@@ -82,27 +82,28 @@ class TestEnvironment(object):
     def test_epw_exists(self):
         """Test the test EPW file is where we expect it to be.
         """
-        f = os.path.join(EPLUS_WEATHER, TEST_EPW)
+        f = os.path.join(eplus_weather, TEST_EPW)
+        print(f)
         assert os.path.isfile(f)
-    
+
     def test_idf_exists(self):
         """Test the test IDF file is where we expect it to be.
         """
         f = os.path.join(IDF_FILES, TEST_IDF)
         assert os.path.isfile(f)
-    
+
     def test_idd_exists(self):
         """Test the test IDD file is where we expect it to be.
         """
         f = os.path.join(IDD_FILES, TEST_IDD)
         assert os.path.isfile(f)
-    
+
     def test_old_idd_exists(self):
         """Test the test old IDD file is where we expect it to be.
         """
         f = os.path.join(IDD_FILES, TEST_OLD_IDD)
         assert os.path.isfile(f)
-    
+
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
@@ -133,7 +134,7 @@ class TestRunFunction(object):
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         epw = os.path.join(
-            EPLUS_WEATHER, TEST_EPW)
+            eplus_weather, TEST_EPW)
         run(fname1, epw, output_directory="test_results")
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
@@ -484,7 +485,7 @@ class TestMultiprocessing(object):
             run([idf_path, epw], kwargs)
         Fails if expected output files are not in the expected output
         directories.
-  
+
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
@@ -494,14 +495,14 @@ class TestMultiprocessing(object):
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
         pool.close()
-  
+
     def test_multiprocess_run_IDF(self):
         """
         Test that we can run a sequence of runs using the signature:
             runIDFs([[IDF, kwargs],...], num_CPUs)
         Fails if expected output files are not in the expected output
         directories.
-  
+
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
@@ -512,6 +513,6 @@ class TestMultiprocessing(object):
                          {'output_directory': 'results_%i' % i}])
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
-  
+
         num_CPUs = -1
         runIDFs(runs, num_CPUs)
