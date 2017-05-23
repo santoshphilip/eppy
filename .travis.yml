@@ -45,8 +45,15 @@ before_install:
 
 install:
   - python setup.py install
+  # install numpy and remove tinynumpy if testing with numpy
+  - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy -y; fi
 
 script: py.test ./eppy/tests --cov=./ -v
 
 after_success:
-    - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then codecov; fi
+  # coverage reporting on CodeCov 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] &&
+       [[ $PYTHON == 3* ]] &&
+       [[ $EPPY_INTEGRATION == True ]] &&
+       [[ $NUMPY == numpy ]]; then codecov; fi
+    
