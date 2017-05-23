@@ -124,14 +124,14 @@ def multirunner(args):
 def run(idf=None, weather=None, output_directory='', annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose='v'):
+        verbose='v', ep_version=None):
     """
     Wrapper around the EnergyPlus command line interface.
 
     Parameters
     ----------
     idf : str
-        Full or relative path to the IDF file to be run.
+        Full or relative path to the IDF file to be run, or an IDF object.
 
     weather : str
         Full or relative path to the weather file.
@@ -174,6 +174,10 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             v: verbose
             q: quiet
 
+    ep_version: str
+        EnergyPlus version, used to find install directory. Required if run() is
+        called with an IDF file path rather than an IDF object.
+
     Returns
     -------
     str : status
@@ -184,7 +188,9 @@ def run(idf=None, weather=None, output_directory='', annual=False,
 
     """
     args = locals().copy()
-    eplus_exe_path, eplus_weather_path = install_paths()
+    # get version from IDF object or by parsing the IDF file for it
+    ep_version = "8-5-0"
+    eplus_exe_path, eplus_weather_path = install_paths(ep_version)
     if version:
         # just get EnergyPlus version number and return
         cmd = [eplus_exe_path, '--version']
