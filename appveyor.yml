@@ -19,10 +19,10 @@ install:
 
   # install EnergyPlus
   - ECHO "Installing EnergyPlus"
-  - ps: $env:ENERGYPLUS_VERSION = "8.5.0"
-  - ps: $env:ENERGYPLUS_TAG = "v8.5.0"
-  - ps: $env:ENERGYPLUS_SHA = "c87e61b44b"
-  - ps: $env:ENERGYPLUS_INSTALL_VERSION = "8-5-0"
+  - ps: $env:ENERGYPLUS_VERSION = "8.7.0"
+  - ps: $env:ENERGYPLUS_TAG = "v8.7.0"
+  - ps: $env:ENERGYPLUS_SHA = "78a111df4a"
+  - ps: $env:ENERGYPLUS_INSTALL_VERSION = "8-7-0"
   - ps: $env:ENERGYPLUS_DOWNLOAD_BASE_URL = "https://github.com/NREL/EnergyPlus/releases/download/$env:ENERGYPLUS_TAG"
   - ps: $env:ENERGYPLUS_DOWNLOAD_FILENAME = "EnergyPlus-$env:ENERGYPLUS_VERSION-$env:ENERGYPLUS_SHA-Windows-$env:ARCHITECTURE.exe"
   - ps: $env:ENERGYPLUS_DOWNLOAD_URL = "$env:ENERGYPLUS_DOWNLOAD_BASE_URL/$env:ENERGYPLUS_DOWNLOAD_FILENAME"
