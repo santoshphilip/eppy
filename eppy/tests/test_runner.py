@@ -34,19 +34,28 @@ from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
 
 
+def versiontuple(vers):
+    """version tuple"""
+    return tuple([int(num) for num in vers.split("-")])
+
+
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
 
 IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
 IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
-VERSION = "8-5-0"
+try:
+    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
+except KeyError:
+    VERSION = '8-6-0'  # current default for integration tests on local system
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
 TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
 TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
 TEST_OLD_IDD = 'Energy+V8_1_0.idd'
 
 eplus_exe, eplus_weather = install_paths(VERSION)
+
 
 def has_severe_errors(results='run_outputs'):
     """Check for severe errors in the eplusout.end file.
@@ -70,9 +79,9 @@ def test_version_reader():
     modeleditor.IDF.setiddname(iddfile, testing=True)
     idf = modeleditor.IDF(fname1, TEST_EPW)
     ep_version = idf.idd_version
-    assert ep_version == (8, 5, 0)
+    assert ep_version == versiontuple(VERSION)
     ep_version = modeleditor.IDF.idd_version
-    assert ep_version == (8, 5, 0)
+    assert ep_version == versiontuple(VERSION)
 
 
 class TestEnvironment(object):
@@ -154,7 +163,7 @@ class TestRunFunction(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         epw = os.path.join(
             eplus_weather, TEST_EPW)
-        run(fname1, epw, output_directory="test_results", ep_version="8-5-0")
+        run(fname1, epw, output_directory="test_results", ep_version=VERSION)
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -169,7 +178,7 @@ class TestRunFunction(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         run(fname1, TEST_EPW,
             output_directory="test_results",
-            ep_version="8-5-0")
+            ep_version=VERSION)
         assert len(os.listdir('test_results')) > 0
         for f in os.listdir('test_results'):
             assert os.path.isfile(os.path.join('test_results', f))
@@ -185,7 +194,7 @@ class TestRunFunction(object):
         try:
             run(fname1, TEST_EPW,
                 output_directory="test_results",
-                ep_version="8-5-0")
+                ep_version=VERSION)
             assert False  # missed the error
         except CalledProcessError:
             out, _err = capfd.readouterr()
@@ -211,7 +220,7 @@ class TestIDFRunner(object):
         self.idf = modeleditor.IDF(fname1, TEST_EPW)
         try:
             ep_version = self.idf.idd_version
-            assert ep_version == (8, 5, 0)
+            assert ep_version == versiontuple(VERSION)
         except AttributeError:
             raise
 
@@ -499,7 +508,7 @@ class TestMultiprocessing(object):
         runs = []
         for i in range(2):
             kwargs = {'output_directory': 'results_%s' % i,
-                      'ep_version': '8-5-0'}
+                      'ep_version': VERSION}
             runs.append([[fname1, TEST_EPW], kwargs])
         for r in runs:
             run(*r[0], **r[1])
@@ -519,7 +528,7 @@ class TestMultiprocessing(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
         ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
-        assert ep_version == '8-5-0'
+        assert ep_version == VERSION
         for i in range(2):
             kwargs = {'output_directory': 'results_%s' % i,
                       'ep_version': ep_version}
@@ -540,7 +549,7 @@ class TestMultiprocessing(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         modeleditor.IDF.setiddname(open(iddfile, 'r'), testing=True)
         ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
-        assert ep_version == '8-5-0'
+        assert ep_version == VERSION
         runs = []
         for i in range(4):
             runs.append([modeleditor.IDF(open(fname1, 'r'), TEST_EPW),

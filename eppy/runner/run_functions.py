@@ -26,15 +26,9 @@ except ImportError:
     pass
 
 
-def install_paths(version=None):
+def install_paths(version):
     """Get the install paths for EnergyPlus executable and weather files.
     """
-    if not version:
-        try:
-            version = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
-        except KeyError:
-            version = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
-
     if platform.system() == 'Windows':
         eplus_home = "C:/EnergyPlusV{version}".format(**locals())
         eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
