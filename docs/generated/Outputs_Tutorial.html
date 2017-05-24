@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Reading outputs from E+ &#8212; eppy 0.5.43 documentation</title>
+    <title>Reading outputs from E+ &mdash; eppy 0.5.44 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.43',
+        VERSION:     '0.5.44',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.43 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.44 documentation" href="index.html" />
     <link rel="next" title="New functions" href="newfunctions.html" />
     <link rel="prev" title="HVAC Loops" href="HVAC_Tutorial.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.43 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,7 +51,7 @@
             
   <div class="section" id="reading-outputs-from-e">
 <h1>Reading outputs from E+<a class="headerlink" href="#reading-outputs-from-e" title="Permalink to this headline">¶</a></h1>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># some initial set up</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># some initial set up</span>
 <span class="c1"># if you have not installed epp, and only downloaded it</span>
 <span class="c1"># you will need the following lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -65,7 +65,7 @@
 <p>So far we have been making changes to the IDF input file. How about
 looking at the outputs.</p>
 <p>Energyplus makes nice htmlout files that look like this.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet1</span><span class="p">)</span> <span class="c1">#display the image below</span>
 </pre></div>
@@ -79,7 +79,7 @@ get the data from any of it&#8217;s cells.</p>
 <p>The number you want is in the third row, second column and it&#8217;s value is
 &#8220;47694.47&#8221;</p>
 <p>Let us use eppy to extract this number</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="k">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html&quot;</span> <span class="c1"># the html file you want to read</span>
 <span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># get a file handle to the html file</span>
 
@@ -96,23 +96,23 @@ title = previous item with a &lt;b&gt; tag
 table = rows -&gt; [[cell1, cell2, ..], [cell1, cell2, ..], ..]&#8221;&#8220;&#8221;</div></blockquote>
 <p>The documentation says that it returns a list. Let us take a look inside
 this list. Let us look at the first item in the list.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">firstitem</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem</span> <span class="o">=</span> <span class="n">htables</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">firstitem</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span> <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span> <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span> <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Total Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">],</span> <span class="p">[</span><span class="s1">u&#39;Net Source Energy&#39;</span><span class="p">,</span> <span class="mf">140159.1</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">,</span> <span class="mf">151.16</span><span class="p">]])</span>
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line">Ughh !!! that is ugly. Hard to see what it is.</div>
 <div class="line">Let us use a python module to print it pretty</div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pprint</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pprint</span>
 <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">()</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
  <span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span>
    <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
    <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
@@ -124,18 +124,18 @@ this list. Let us look at the first item in the list.</p>
 </pre></div>
 </div>
 <p>Nice. that is a little clearer</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">firstitem_title</span> <span class="o">=</span> <span class="n">firstitem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem_title</span> <span class="o">=</span> <span class="n">firstitem</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem_title</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">u&#39;Site and Source Energy&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="s1">u&#39;Site and Source Energy&#39;</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">firstitem_table</span> <span class="o">=</span> <span class="n">firstitem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">firstitem_table</span> <span class="o">=</span> <span class="n">firstitem</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">firstitem_table</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">u&#39;&#39;</span><span class="p">,</span>
   <span class="s1">u&#39;Total Energy [kWh]&#39;</span><span class="p">,</span>
   <span class="s1">u&#39;Energy Per Total Building Area [kWh/m2]&#39;</span><span class="p">,</span>
   <span class="s1">u&#39;Energy Per Conditioned Building Area [kWh/m2]&#39;</span><span class="p">],</span>
@@ -150,18 +150,18 @@ this list. Let us look at the first item in the list.</p>
 <div class="line">We know it is in the third row, second column of the table.</div>
 </div>
 <p>Easy.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">thirdrow</span> <span class="o">=</span> <span class="n">firstitem_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># we start counting with 0. So 0, 1, 2 is third row</span>
-<span class="nb">print</span> <span class="n">thirdrow</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow</span> <span class="o">=</span> <span class="n">firstitem_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># we start counting with 0. So 0, 1, 2 is third row</span>
+<span class="k">print</span> <span class="n">thirdrow</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Net Site Energy&#39;</span><span class="p">,</span> <span class="mf">47694.47</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">,</span> <span class="mf">51.44</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">thirdrow_secondcolumn</span> <span class="o">=</span> <span class="n">thirdrow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">thirdrow_secondcolumn</span> <span class="o">=</span> <span class="n">thirdrow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">thirdrow_secondcolumn</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">47694.47</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">47694.47</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -169,20 +169,20 @@ this list. Let us look at the first item in the list.</p>
 <div class="line">That is why you see that weird &#8216;u&#8217; letter.</div>
 </div>
 <p>Let us convert it to a floating point number</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">net_site_energy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">thirdrow_secondcolumn</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">net_site_energy</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">thirdrow_secondcolumn</span><span class="p">)</span>
 <span class="n">net_site_energy</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">47694.47</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mf">47694.47</span>
 </pre></div>
 </div>
 <p>Let us have a little fun with the tables.</p>
 <p>Get the titles of all the tables</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">alltitles</span> <span class="o">=</span> <span class="p">[</span><span class="n">htable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">htable</span> <span class="ow">in</span> <span class="n">htables</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">alltitles</span> <span class="o">=</span> <span class="p">[</span><span class="n">htable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">htable</span> <span class="ow">in</span> <span class="n">htables</span><span class="p">]</span>
 <span class="n">alltitles</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Site and Source Energy&#39;</span><span class="p">,</span>
  <span class="s1">u&#39;Site to Source Energy Conversion Factors&#39;</span><span class="p">,</span>
  <span class="s1">u&#39;Building Area&#39;</span><span class="p">,</span>
  <span class="s1">u&#39;End Uses&#39;</span><span class="p">,</span>
@@ -213,7 +213,7 @@ that this title will adequetly describe the table. This is true in most
 cases and titletable() is perfectly good to use. Unfortuntely there are
 some tables that do not follow this rule. The snippet below shows one of
 them.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
 <span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">html_snippet2</span><span class="p">)</span> <span class="c1"># display the image below</span>
 </pre></div>
@@ -224,7 +224,7 @@ The first two lines have information that describe the table. We need to
 look at both those lines to understand what the table contains. So we
 need a different function that will capture all those lines before the
 table. The funtion lines_table() described below will do this.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="k">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span> <span class="c1"># the eppy module with functions to read the html</span>
 <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html&quot;</span> <span class="c1"># the html file you want to read</span>
 <span class="n">filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># get a file handle to the html file</span>
 
@@ -236,7 +236,7 @@ table. The funtion lines_table() described below will do this.</p>
 opened. We have used lines_table() to read the tables into the variable
 ltables. We can get to the last table by ltable[-1]. Let us print it and
 see what we have.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pprint</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pprint</span>
 <span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">()</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">ltables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
@@ -269,7 +269,7 @@ see what we have.</p>
 </pre>
 <p>We can see that ltables has captured all the lines before the table. Let
 us make our code more explicit to see this</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">last_ltable</span> <span class="o">=</span> <span class="n">ltables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">last_ltable</span> <span class="o">=</span> <span class="n">ltables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">lines_before_table</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">table_itself</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
@@ -290,17 +290,17 @@ that has the following two lines before it.</p>
 <li>Report: FANGER DURING COOLING AND ADAPTIVE COMFORT</li>
 <li>For: PERIMETER_MID_ZN_4</li>
 </ul>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">line1</span> <span class="o">=</span> <span class="s1">&#39;Report: FANGER DURING COOLING AND ADAPTIVE COMFORT&#39;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">line1</span> <span class="o">=</span> <span class="s1">&#39;Report: FANGER DURING COOLING AND ADAPTIVE COMFORT&#39;</span>
 <span class="n">line2</span> <span class="o">=</span> <span class="s1">&#39;For: PERIMETER_MID_ZN_4&#39;</span>
 <span class="c1">#</span>
 <span class="c1"># check if those two lines are before the table</span>
 <span class="n">line1</span> <span class="ow">in</span> <span class="n">lines_before_table</span> <span class="ow">and</span> <span class="n">line2</span> <span class="ow">in</span> <span class="n">lines_before_table</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kc">True</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># find all the tables where those two lines are before the table</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># find all the tables where those two lines are before the table</span>
 <span class="p">[</span><span class="n">ltable</span> <span class="k">for</span> <span class="n">ltable</span> <span class="ow">in</span> <span class="n">ltables</span>
     <span class="k">if</span> <span class="n">line1</span> <span class="ow">in</span> <span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">line2</span> <span class="ow">in</span> <span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 </pre></div>
@@ -334,30 +334,30 @@ that has the following two lines before it.</p>
 <p>That worked !</p>
 <p>What if you want to find the words &#8220;FANGER&#8221; and &#8220;PERIMETER_MID_ZN_4&#8221;
 before the table. The following code will do it.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># sample code to illustrate what we are going to do</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># sample code to illustrate what we are going to do</span>
 <span class="n">last_ltable</span> <span class="o">=</span> <span class="n">ltables</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">lines_before_table</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">table_itself</span> <span class="o">=</span> <span class="n">last_ltable</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="c1"># join lines_before_table into a paragraph of text</span>
 <span class="n">justtext</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines_before_table</span><span class="p">)</span>
-<span class="nb">print</span> <span class="n">justtext</span>
+<span class="k">print</span> <span class="n">justtext</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Table</span> <span class="n">of</span> <span class="n">Contents</span>
-<span class="n">Report</span><span class="p">:</span> <span class="n">FANGER</span> <span class="n">DURING</span> <span class="n">COOLING</span> <span class="n">AND</span> <span class="n">ADAPTIVE</span> <span class="n">COMFORT</span>
-<span class="n">For</span><span class="p">:</span> <span class="n">PERIMETER_MID_ZN_4</span>
-<span class="n">Timestamp</span><span class="p">:</span> <span class="mi">2014</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">07</span>
-    <span class="mi">12</span><span class="p">:</span><span class="mi">29</span><span class="p">:</span><span class="mi">08</span>
+<div class="highlight-python"><div class="highlight"><pre>Table of Contents
+Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
+For: PERIMETER_MID_ZN_4
+Timestamp: 2014-02-07
+    12:29:08
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="n">justtext</span> <span class="ow">and</span> <span class="s2">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="n">justtext</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="s2">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="n">justtext</span> <span class="ow">and</span> <span class="s2">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="n">justtext</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kc">True</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Let us combine the this trick to find the table</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Let us combine the this trick to find the table</span>
 <span class="p">[</span><span class="n">ltable</span> <span class="k">for</span> <span class="n">ltable</span> <span class="ow">in</span> <span class="n">ltables</span>
     <span class="k">if</span> <span class="s2">&quot;FANGER&quot;</span> <span class="ow">in</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="s2">&quot;PERIMETER_MID_ZN_4&quot;</span> <span class="ow">in</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ltable</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 </pre></div>
@@ -396,8 +396,8 @@ The first vertical row has text. The remaining cells have numbers. We
 can identify the numbers we need by looking at the labelin the top row
 and the label in the first column. Let us construct a simple example and
 explore this.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># ignore the following three lines. I am using them to construct the table below</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># ignore the following three lines. I am using them to construct the table below</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 <span class="n">atablestring</span> <span class="o">=</span> <span class="s1">&#39;&lt;TABLE cellpadding=&quot;4&quot; style=&quot;border: 1px solid #000000; border-collapse: collapse;&quot; border=&quot;1&quot;&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;&amp;nbsp;&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;a b&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;b c&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;c d&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;x y&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;1&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;2&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;3&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;y z&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;4&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;5&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;6&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1"> &lt;TR&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;z z&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;7&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;8&lt;/TD&gt;</span><span class="se">\n</span><span class="s1">  &lt;TD&gt;9&lt;/TD&gt;</span><span class="se">\n</span><span class="s1"> &lt;/TR&gt;</span><span class="se">\n</span><span class="s1">&lt;/TABLE&gt;&#39;</span>
 <span class="n">HTML</span><span class="p">(</span><span class="n">atablestring</span><span class="p">)</span>
 </pre></div>
@@ -428,7 +428,7 @@ explore this.</p>
   <TD>9</TD>
  </TR>
 </TABLE><p>This table is actually in the follwoing form:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">atable</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="s2">&quot;a b&quot;</span><span class="p">,</span> <span class="s2">&quot;b c&quot;</span><span class="p">,</span> <span class="s2">&quot;c d&quot;</span><span class="p">],</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">atable</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="s2">&quot;a b&quot;</span><span class="p">,</span> <span class="s2">&quot;b c&quot;</span><span class="p">,</span> <span class="s2">&quot;c d&quot;</span><span class="p">],</span>
      <span class="p">[</span><span class="s2">&quot;x y&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>     <span class="mi">2</span><span class="p">,</span>     <span class="mi">3</span> <span class="p">],</span>
      <span class="p">[</span><span class="s2">&quot;y z&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>     <span class="mi">5</span><span class="p">,</span>     <span class="mi">6</span> <span class="p">],</span>
      <span class="p">[</span><span class="s2">&quot;z z&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>     <span class="mi">8</span><span class="p">,</span>     <span class="mi">9</span> <span class="p">],]</span>
@@ -437,10 +437,10 @@ explore this.</p>
 <p>We can see the labels in the table. So we an look at row &#8220;x y&#8221; and
 column &#8220;c d&#8221;. The value there is 3</p>
 <p>right now we can get to it by saying atable[1][3]</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">atable</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">atable</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 </pre></div>
 </div>
 <p>readhtml has some functions that will let us address the values by the
@@ -449,105 +449,105 @@ The only limitation is that the labels have to be letters or digits.
 Named tuples does not allow spaces in the labels. We could replace the
 space with an underscore &#8216; _ &#8216;. So &#8220;a b&#8221; will become &#8220;a_b&#8221;. So we can
 look for row &#8220;x_y&#8221; and column &#8220;c_d&#8221;. Let us try this out.</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="k">import</span> <span class="n">readhtml</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.results</span> <span class="kn">import</span> <span class="n">readhtml</span>
 <span class="n">h_table</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">named_grid_h</span><span class="p">(</span><span class="n">atable</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="o">.</span><span class="n">c_d</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="o">.</span><span class="n">c_d</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 </pre></div>
 </div>
 <p>We can still get to the value by index</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">h_table</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 </pre></div>
 </div>
 <p>Note that we used atable[1][3], but here we used h_table[0][2]. That is
 because h_table does not count the rows and columns where the labels
 are.</p>
 <p>We can also do the following:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="c1"># or</span>
-<span class="nb">print</span> <span class="n">h_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">c_d</span>
+<span class="k">print</span> <span class="n">h_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">c_d</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 <span class="mi">3</span>
 </pre></div>
 </div>
 <p>Wow … that is pretty cool. What if we want to just check what the labels
 are ?</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">_fields</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">h_table</span><span class="o">.</span><span class="n">_fields</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;x_y&#39;</span><span class="p">,</span> <span class="s1">&#39;y_z&#39;</span><span class="p">,</span> <span class="s1">&#39;z_z&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">&#39;x_y&#39;</span><span class="p">,</span> <span class="s1">&#39;y_z&#39;</span><span class="p">,</span> <span class="s1">&#39;z_z&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>That gives us the horizontal lables. How about the vertical labels ?</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="o">.</span><span class="n">_fields</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="o">.</span><span class="n">_fields</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;a_b&#39;</span><span class="p">,</span> <span class="s1">&#39;b_c&#39;</span><span class="p">,</span> <span class="s1">&#39;c_d&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="s1">&#39;a_b&#39;</span><span class="p">,</span> <span class="s1">&#39;b_c&#39;</span><span class="p">,</span> <span class="s1">&#39;c_d&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>There you go !!!</p>
 <p>How about if I want to use the labels differently ? Say I want to refer
 to the row first and then to the column. That woul be saying
 table.c_d.x_y. We can do that by using a different function</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">v_table</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">named_grid_v</span><span class="p">(</span><span class="n">atable</span><span class="p">)</span>
-<span class="nb">print</span> <span class="n">v_table</span><span class="o">.</span><span class="n">c_d</span><span class="o">.</span><span class="n">x_y</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">v_table</span> <span class="o">=</span> <span class="n">readhtml</span><span class="o">.</span><span class="n">named_grid_v</span><span class="p">(</span><span class="n">atable</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">v_table</span><span class="o">.</span><span class="n">c_d</span><span class="o">.</span><span class="n">x_y</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 </pre></div>
 </div>
 <p>And we can do the following</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">v_table</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">v_table</span><span class="o">.</span><span class="n">c_d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">v_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">x_y</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">v_table</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">v_table</span><span class="o">.</span><span class="n">c_d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">v_table</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">x_y</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="mi">3</span>
 <span class="mi">3</span>
 <span class="mi">3</span>
 </pre></div>
 </div>
 <p>Let us try to get the numbers in the first column and then get their sum</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ntrow</span><span class="p">(</span><span class="n">x_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_z</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">z_z</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ntrow</span><span class="p">(</span><span class="n">x_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_z</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">z_z</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Look like we got the right column. But not in the right format. We
 really need a list of numbers</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>That looks like waht we wanted. Now let us get the sum</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">values_in_first_column</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">values_in_first_column</span>
-<span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_column</span><span class="p">)</span> <span class="c1"># sum is a builtin function that will sum a list</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">values_in_first_column</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">v_table</span><span class="o">.</span><span class="n">a_b</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">values_in_first_column</span>
+<span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_column</span><span class="p">)</span> <span class="c1"># sum is a builtin function that will sum a list</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">]</span>
 <span class="mi">12</span>
 </pre></div>
 </div>
 <p>To get the first row we use the variable h_table</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">values_in_first_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="p">]</span>
-<span class="nb">print</span> <span class="n">values_in_first_row</span>
-<span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_row</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">values_in_first_row</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">h_table</span><span class="o">.</span><span class="n">x_y</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">values_in_first_row</span>
+<span class="k">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values_in_first_row</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="mi">6</span>
 </pre></div>
 </div>
@@ -586,11 +586,14 @@ really need a list of numbers</p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -609,12 +612,12 @@ really need a list of numbers</p>
         <li class="right" >
           <a href="HVAC_Tutorial.html" title="HVAC Loops"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.43 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+        &copy; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

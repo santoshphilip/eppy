@@ -1,6 +1,18 @@
 Changes
 =======
 
+release r0.5.44
+~~~~~~~~~~~~~~~
+
+2017-05-23
+----------
+
+- IDF.run() works with E+ version >= 8.3
+    - This will run the idf file
+    - documentation updated to reflect this
+- Some changes made to support eppy working on grasshopper
+    - more work needs to be done on this
+
 release r0.5.43
 ~~~~~~~~~~~~~~~
 
