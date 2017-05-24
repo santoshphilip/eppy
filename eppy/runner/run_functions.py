@@ -20,25 +20,28 @@ from subprocess import CalledProcessError
 from subprocess import check_call
 import tempfile
 
-import multiprocessing as mp
-
 try:
-    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
-except KeyError:
-    VERSION = '8-5-0'  # TODO: Get this from IDD, IDF/IMF, config file?
+    import multiprocessing as mp
+except ImportError:
+    pass
 
-if platform.system() == 'Windows':
-    EPLUS_HOME = "C:/EnergyPlusV{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus.exe')
-elif platform.system() == "Linux":
-    EPLUS_HOME = "/usr/local/EnergyPlus-{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
-else:
-    EPLUS_HOME = "/Applications/EnergyPlus-{VERSION}".format(**locals())
-    EPLUS_EXE = os.path.join(EPLUS_HOME, 'energyplus')
 
-EPLUS_WEATHER = os.path.join(EPLUS_HOME, 'WeatherData')
-THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+def install_paths(version):
+    """Get the install paths for EnergyPlus executable and weather files.
+    """
+    if platform.system() == 'Windows':
+        eplus_home = "C:/EnergyPlusV{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+    elif platform.system() == "Linux":
+        eplus_home = "/usr/local/EnergyPlus-{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    else:
+        eplus_home = "/Applications/EnergyPlus-{version}".format(**locals())
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+
+    eplus_weather = os.path.join(eplus_home, 'WeatherData')
+
+    return eplus_exe, eplus_weather
 
 
 def wrapped_help_text(wrapped_func):
@@ -89,10 +92,14 @@ def runIDFs(jobs_list, processors=1):
         idf.saveas(idf_path)
         processed_runs.append([[idf_path, epw], kwargs])
 
-    pool = mp.Pool(processors)
-    pool.map(multirunner, processed_runs)
-    pool.close()
-
+    try:
+        pool = mp.Pool(processors)
+        pool.map(multirunner, processed_runs)
+        pool.close()
+    except NameError:
+        # multiprocessing not present so pass the jobs one at a time
+        for job in processed_runs:
+            multirunner([job])
     shutil.rmtree("multi_runs", ignore_errors=True)
 
 
@@ -111,14 +118,14 @@ def multirunner(args):
 def run(idf=None, weather=None, output_directory='', annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose='v'):
+        verbose='v', ep_version=None):
     """
     Wrapper around the EnergyPlus command line interface.
 
     Parameters
     ----------
     idf : str
-        Full or relative path to the IDF file to be run.
+        Full or relative path to the IDF file to be run, or an IDF object.
 
     weather : str
         Full or relative path to the weather file.
@@ -161,6 +168,10 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             v: verbose
             q: quiet
 
+    ep_version: str
+        EnergyPlus version, used to find install directory. Required if run() is
+        called with an IDF file path rather than an IDF object.
+
     Returns
     -------
     str : status
@@ -169,23 +180,41 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     ------
     CalledProcessError
 
+    AttributeError
+        If no ep_version parameter is passed when calling with an IDF file path
+        rather than an IDF object.
+
+
     """
     args = locals().copy()
-    if version:
-        # just get EnergyPlus version number and return
-        cmd = [EPLUS_EXE, '--version']
-        check_call(cmd)
-        return
-
     # get unneeded params out of args ready to pass the rest to energyplus.exe
     verbose = args.pop('verbose')
-    idf = os.path.abspath(args.pop('idf'))
+    idf = args.pop('idf')
+    try:
+        idf_path = os.path.abspath(idf.idfname)
+    except AttributeError:
+        idf_path = os.path.abspath(idf)
+    ep_version = args.pop('ep_version')
+    # get version from IDF object or by parsing the IDF file for it
+    if not ep_version:
+        try:
+            ep_version = '-'.join(str(x) for x in idf.idd_version[:3])
+        except AttributeError:
+            raise AttributeError(
+                "The ep_version must be set when passing an IDF path. \
+                Alternatively, use IDF.run()")
+    eplus_exe_path, eplus_weather_path = install_paths(ep_version)
+    if version:
+        # just get EnergyPlus version number and return
+        cmd = [eplus_exe_path, '--version']
+        check_call(cmd)
+        return
 
     # convert paths to absolute paths if required
     if os.path.isfile(args['weather']):
         args['weather'] = os.path.abspath(args['weather'])
     else:
-        args['weather'] = os.path.join(EPLUS_WEATHER, args['weather'])
+        args['weather'] = os.path.join(eplus_weather_path, args['weather'])
     args['output_directory'] = os.path.abspath(args['output_directory'])
 
     # store the directory we start in
@@ -194,7 +223,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     os.chdir(run_dir)
 
     # build a list of command line arguments
-    cmd = [EPLUS_EXE]
+    cmd = [eplus_exe_path]
     for arg in args:
         if args[arg]:
             if isinstance(args[arg], bool):
@@ -202,7 +231,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             cmd.extend(['--{}'.format(arg.replace('_', '-'))])
             if args[arg] != "":
                 cmd.extend([args[arg]])
-    cmd.extend([idf])
+    cmd.extend([idf_path])
 
     try:
         if verbose == 'v':
