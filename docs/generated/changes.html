@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Changes &mdash; eppy 0.5.43 documentation</title>
+    <title>Changes &#8212; eppy 0.5.43 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -27,27 +27,30 @@
     <link rel="next" title="Developer Documentation for eppy" href="dev_docs/index.html" />
     <link rel="prev" title="Eppy API" href="eppy_api.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="dev_docs/index.html" title="Developer Documentation for eppy"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.43 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.43 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="changes">
 <h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
@@ -226,21 +229,22 @@ fixed a bug in modeleditor.newidfobject</p>
 <h3>2014-09-01<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">added a script eppy/useful_scripts/loopdiagram.py:</p>
-<div class="highlight-python"><pre>python loopdiagram.py --help
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
 
-usage: loopdiagram.py [-h] idd file
+<span class="n">usage</span><span class="p">:</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">idd</span> <span class="n">file</span>
 
-draw all the  loops in the idf file
-There are two output files saved in the same location as the idf file:
-- idf_file_location/idf_filename.dot
-- idf_file_location/idf_filename.png
+<span class="n">draw</span> <span class="nb">all</span> <span class="n">the</span>  <span class="n">loops</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span>
+<span class="n">There</span> <span class="n">are</span> <span class="n">two</span> <span class="n">output</span> <span class="n">files</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">location</span> <span class="k">as</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">dot</span>
+<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">png</span>
 
-positional arguments:
-  idd         location of idd file = ./somewhere/eplusv8-0-1.idd
-  file        location of idf file = ./somewhere/f1.idf
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">idd</span>         <span class="n">location</span> <span class="n">of</span> <span class="n">idd</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">eplusv8</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mf">1.</span><span class="n">idd</span>
+  <span class="n">file</span>        <span class="n">location</span> <span class="n">of</span> <span class="n">idf</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">f1</span><span class="o">.</span><span class="n">idf</span>
 
-optional arguments:
-  -h, --help  show this help message and exit</pre>
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>  <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+</pre></div>
 </div>
 </li>
 <li><p class="first">fixed a bug in hvacbuilder.makeplantloop and hvacbuilder.makecondenserloop</p>
@@ -291,7 +295,7 @@ optional arguments:
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -364,46 +368,48 @@ optional arguments:
   <h4>Next topic</h4>
   <p class="topless"><a href="dev_docs/index.html"
                         title="next chapter">Developer Documentation for eppy</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/changes.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/changes.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="dev_docs/index.html" title="Developer Documentation for eppy"
              >next</a> |</li>
         <li class="right" >
           <a href="eppy_api.html" title="Eppy API"
              >previous</a> |</li>
-        <li><a href="index.html">eppy 0.5.43 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.43 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
     </div>
   </body>
 </html>

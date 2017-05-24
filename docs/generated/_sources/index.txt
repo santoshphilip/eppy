@@ -16,8 +16,8 @@ Contents:
     HVAC_Tutorial
     Outputs_Tutorial
     newfunctions
+    runningeplus
     useful_scripts
-    eppy_api
     changes
     dev_docs/index
     LICENSE
