@@ -2,6 +2,7 @@
 Reading outputs from E+
 =======================
 
+
 .. code:: python
 
     # some initial set up
@@ -12,9 +13,9 @@ Reading outputs from E+
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
 
-
 Using titletable() to get at the tables
 ---------------------------------------
+
 
 So far we have been making changes to the IDF input file. How about
 looking at the outputs.
@@ -26,7 +27,6 @@ Energyplus makes nice htmlout files that look like this.
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.html_snippet1) #display the image below
-
 
 
 
@@ -55,7 +55,6 @@ Let us use eppy to extract this number
     
     htables = readhtml.titletable(filehandle) # reads the tables with their titles
 
-
 If you open the python file readhtml.py and look at the function
 titletable, you can see the function documentation.
 
@@ -75,7 +74,6 @@ this list. Let us look at the first item in the list.
     print firstitem
 
 
-
 .. parsed-literal::
 
     (u'Site and Source Energy', [[u'', u'Total Energy [kWh]', u'Energy Per Total Building Area [kWh/m2]', u'Energy Per Conditioned Building Area [kWh/m2]'], [u'Total Site Energy', 47694.47, 51.44, 51.44], [u'Net Site Energy', 47694.47, 51.44, 51.44], [u'Total Source Energy', 140159.1, 151.16, 151.16], [u'Net Source Energy', 140159.1, 151.16, 151.16]])
@@ -89,7 +87,6 @@ this list. Let us look at the first item in the list.
     import pprint
     pp = pprint.PrettyPrinter()
     pp.pprint(firstitem)
-
 
 
 .. parsed-literal::
@@ -113,7 +110,6 @@ Nice. that is a little clearer
     pp.pprint(firstitem_title)
 
 
-
 .. parsed-literal::
 
     u'Site and Source Energy'
@@ -123,7 +119,6 @@ Nice. that is a little clearer
 
     firstitem_table = firstitem[1]
     pp.pprint(firstitem_table)
-
 
 
 .. parsed-literal::
@@ -149,7 +144,6 @@ Easy.
     print thirdrow
 
 
-
 .. parsed-literal::
 
     [u'Net Site Energy', 47694.47, 51.44, 51.44]
@@ -159,7 +153,6 @@ Easy.
 
     thirdrow_secondcolumn = thirdrow[1]
     thirdrow_secondcolumn
-
 
 
 
@@ -183,7 +176,6 @@ Let us convert it to a floating point number
 
 
 
-
 .. parsed-literal::
 
     47694.47
@@ -198,7 +190,6 @@ Get the titles of all the tables
 
     alltitles = [htable[0] for htable in htables]
     alltitles
-
 
 
 
@@ -234,6 +225,7 @@ html output file.
 Using lines\_table() to get at the tables
 -----------------------------------------
 
+
 We have been using titletable() to get at the tables. There is a
 constraint using function titletable(). Titletable() assumes that there
 is a unique title (in HTML bold) just above the table. It is assumed
@@ -247,7 +239,6 @@ them.
     from eppy import ex_inits #no need to know this code, it just shows the image below
     for_images = ex_inits
     for_images.display_png(for_images.html_snippet2) # display the image below
-
 
 
 
@@ -269,7 +260,6 @@ table. The funtion lines\_table() described below will do this.
     
     ltables = readhtml.lines_table(filehandle) # reads the tables with their titles
 
-
 The html snippet shown above is the last table in HTML file we just
 opened. We have used lines\_table() to read the tables into the variable
 ltables. We can get to the last table by ltable[-1]. Let us print it and
@@ -280,7 +270,6 @@ see what we have.
     import pprint
     pp = pprint.PrettyPrinter()
     pp.pprint(ltables[-1])
-
 
 
 .. parsed-literal::
@@ -323,7 +312,6 @@ us make our code more explicit to see this
     pp.pprint(lines_before_table)
 
 
-
 .. parsed-literal::
 
     [u'Table of Contents',
@@ -340,6 +328,7 @@ that has the following two lines before it.
 -  Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 -  For: PERIMETER\_MID\_ZN\_4
 
+
 .. code:: python
 
     line1 = 'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT'
@@ -347,7 +336,6 @@ that has the following two lines before it.
     #
     # check if those two lines are before the table
     line1 in lines_before_table and line2 in lines_before_table
-
 
 
 
@@ -363,7 +351,6 @@ that has the following two lines before it.
     # find all the tables where those two lines are before the table
     [ltable for ltable in ltables 
         if line1 in ltable[0] and line2 in ltable[0]]
-
 
 
 
@@ -414,7 +401,6 @@ before the table. The following code will do it.
     print justtext
 
 
-
 .. parsed-literal::
 
     Table of Contents
@@ -431,7 +417,6 @@ before the table. The following code will do it.
 
 
 
-
 .. parsed-literal::
 
     True
@@ -443,7 +428,6 @@ before the table. The following code will do it.
     # Let us combine the this trick to find the table
     [ltable for ltable in ltables 
         if "FANGER" in '\n'.join(ltable[0]) and "PERIMETER_MID_ZN_4" in '\n'.join(ltable[0])]
-
 
 
 
@@ -479,6 +463,7 @@ before the table. The following code will do it.
 Extracting data from the tables
 -------------------------------
 
+
 The tables in the HTML page in general have text in the top header row.
 The first vertical row has text. The remaining cells have numbers. We
 can identify the numbers we need by looking at the labelin the top row
@@ -491,7 +476,6 @@ explore this.
     from IPython.display import HTML
     atablestring = '<TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">\n <TR>\n  <TD>&nbsp;</TD>\n  <TD>a b</TD>\n  <TD>b c</TD>\n  <TD>c d</TD>\n </TR>\n <TR>\n  <TD>x y</TD>\n  <TD>1</TD>\n  <TD>2</TD>\n  <TD>3</TD>\n </TR>\n <TR>\n  <TD>y z</TD>\n  <TD>4</TD>\n  <TD>5</TD>\n  <TD>6</TD>\n </TR>\n <TR>\n  <TD>z z</TD>\n  <TD>7</TD>\n  <TD>8</TD>\n  <TD>9</TD>\n </TR>\n</TABLE>'
     HTML(atablestring)
-
 
 
 
@@ -536,7 +520,6 @@ This table is actually in the follwoing form:
          ["y z", 4,     5,     6 ],
          ["z z", 7,     8,     9 ],]
 
-
 We can see the labels in the table. So we an look at row "x y" and
 column "c d". The value there is 3
 
@@ -545,7 +528,6 @@ right now we can get to it by saying atable[1][3]
 .. code:: python
 
     print atable[1][3]
-
 
 .. parsed-literal::
 
@@ -564,11 +546,9 @@ look for row "x\_y" and column "c\_d". Let us try this out.
     from eppy.results import readhtml
     h_table = readhtml.named_grid_h(atable)
 
-
 .. code:: python
 
     print h_table.x_y.c_d
-
 
 
 .. parsed-literal::
@@ -581,7 +561,6 @@ We can still get to the value by index
 .. code:: python
 
     print h_table[0][2]
-
 
 
 .. parsed-literal::
@@ -602,7 +581,6 @@ We can also do the following:
     print h_table[0].c_d
 
 
-
 .. parsed-literal::
 
     3
@@ -617,7 +595,6 @@ are ?
     print h_table._fields
 
 
-
 .. parsed-literal::
 
     ('x_y', 'y_z', 'z_z')
@@ -628,7 +605,6 @@ That gives us the horizontal lables. How about the vertical labels ?
 .. code:: python
 
     h_table.x_y._fields
-
 
 
 
@@ -651,7 +627,6 @@ table.c\_d.x\_y. We can do that by using a different function
     print v_table.c_d.x_y
 
 
-
 .. parsed-literal::
 
     3
@@ -666,7 +641,6 @@ And we can do the following
     print v_table[2].x_y
 
 
-
 .. parsed-literal::
 
     3
@@ -679,7 +653,6 @@ Let us try to get the numbers in the first column and then get their sum
 .. code:: python
 
     v_table.a_b
-
 
 
 
@@ -700,7 +673,6 @@ really need a list of numbers
 
 
 
-
 .. parsed-literal::
 
     [1, 4, 7]
@@ -716,7 +688,6 @@ That looks like waht we wanted. Now let us get the sum
     print sum(values_in_first_column) # sum is a builtin function that will sum a list
 
 
-
 .. parsed-literal::
 
     [1, 4, 7]
@@ -730,7 +701,6 @@ To get the first row we use the variable h\_table
     values_in_first_row = [cell for cell in h_table.x_y]
     print values_in_first_row
     print sum(values_in_first_row)
-
 
 
 .. parsed-literal::
