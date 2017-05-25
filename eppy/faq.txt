@@ -1,2 +1,0 @@
-- In objects with extensible fields, how do I add additional fields
-- My changes are not updated in the file. What do I do.

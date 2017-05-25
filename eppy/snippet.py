@@ -1,6 +1,6 @@
 # Copyright (c) 2012 Santosh Philip
 
-"""just a snippet that may not be used"""
+"""just a snippet that is used in tests"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
