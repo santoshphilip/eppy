@@ -1,5 +1,10 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2017-05-25
+----------
+slash and burn on i116_slashandburn
+remove dfunct functions to improve coverage.
+
 2016-07-20
 ----------
 documentation for changes in IDF.idd_info and other stuff;
