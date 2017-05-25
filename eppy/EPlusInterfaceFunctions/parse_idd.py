@@ -18,7 +18,6 @@ from io import FileIO
 from decorator import decorator
 
 import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
-import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 import eppy.EPlusInterfaceFunctions.iddindex as iddindex
 
@@ -89,7 +88,7 @@ def _readfname(fname):
         if isinstance(fname, (FileIO, StringIO)):
             astr = fname.read()
         else:
-            astr = mylib2.readfile(fname)
+            astr = mylib1.readfile(fname)
     return astr
             
 @decorator
@@ -162,7 +161,7 @@ def extractidddata(fname, debug=False):
             except AttributeError:
                 pass 
         else:
-            astr = mylib2.readfile(fname)
+            astr = mylib1.readfile(fname)
             # astr = astr.decode('ISO-8859-2') -> mylib1 does a decode
     except NameError:
         if isinstance(fname, (FileIO, StringIO)):
@@ -172,8 +171,8 @@ def extractidddata(fname, debug=False):
             except AttributeError:
                 pass
         else:
-            astr = mylib2.readfile(fname)
-            # astr = astr.decode('ISO-8859-2') -> mylib2.readfile has decoded
+            astr = mylib1.readfile(fname)
+            # astr = astr.decode('ISO-8859-2') -> mylib1.readfile has decoded
     (nocom, nocom1, blocklst) = get_nocom_vars(astr)
 
 

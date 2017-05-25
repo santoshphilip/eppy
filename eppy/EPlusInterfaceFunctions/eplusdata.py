@@ -18,7 +18,7 @@ import copy
 from six import StringIO
 from six import string_types as str
 
-import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+import eppy.EPlusInterfaceFunctions.mylib1 as mylib1
 
 
 def removecomment(astr, cphrase):
@@ -63,7 +63,7 @@ class Idd(object):
 
     def initdict(self, fname):
         """initdict"""
-        astr = mylib2.readfile(fname)
+        astr = mylib1.readfile(fname)
         nocom = removecomment(astr, '!')
         idfst = nocom
         alist = idfst.split(';')
@@ -149,7 +149,7 @@ class Eplusdata(object):
             self.dt, self.dtls = fname.dt, fname.dtls
             return self.dt, self.dtls
 
-        astr = mylib2.readfile(fname)
+        astr = mylib1.readfile(fname)
         nocom = removecomment(astr, '!')
         idfst = nocom
         alist = idfst.split(';')
@@ -183,7 +183,7 @@ class Eplusdata(object):
             dt, dtls = localidd.dt, localidd.dtls
         else:
             dt, dtls = self.initdict(dictfile)
-        # astr = mylib2.readfile(fname)
+        # astr = mylib1.readfile(fname)
         astr = fnamefobject.read()
         try:
             astr = astr.decode('ISO-8859-2')
