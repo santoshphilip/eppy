@@ -222,4 +222,4 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     iddgaps.missingkeys_nonstandard(block, commdct, dtls, nofirstfields)
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct, theidf)
-    return bunchdt, block, data, commdct, idd_index
+    return bunchdt, block, data, commdct, idd_index, versiontuple

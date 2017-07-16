@@ -2,13 +2,11 @@
 New functions
 =============
 
-
 These are recently written functions that have not made it into the main
 documentation
 
 Python Lesson: Errors and Exceptions
 ------------------------------------
-
 
 .. code:: python
 
@@ -25,6 +23,7 @@ Python Lesson: Errors and Exceptions
     pathnameto_eppy = '../'
     sys.path.append(pathnameto_eppy) 
 
+
 When things go wrong in your eppy script, you get "Errors and
 Exceptions".
 
@@ -34,7 +33,6 @@ Exceptions <http://docs.python.org/2/tutorial/errors.html>`__
 
 Setting IDD name
 ----------------
-
 
 When you work with Energyplus you are working with **idf** files (files
 that have the extension \*.idf). There is another file that is very
@@ -60,6 +58,7 @@ file.
     from eppy.modeleditor import IDF
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
+
 Now let us open file fname1 without setting the **idd** file
 
 .. code:: python
@@ -69,6 +68,7 @@ Now let us open file fname1 without setting the **idd** file
     except Exception, e:
         raise e
         
+
 
 ::
 
@@ -96,6 +96,7 @@ So let us set the **idd** file and then open the idf file
     IDF.setiddname(iddfile)
     idf1 = IDF(fname1)
 
+
 That worked without raising an exception
 
 Now let us try to change the **idd** file. Eppy should not let you do
@@ -108,6 +109,7 @@ this and should raise an exception.
     except Exception, e:
         raise e   
         
+
 
 ::
 
@@ -130,7 +132,6 @@ Excellent!! It raised the exception we were expecting.
 Check range for fields
 ----------------------
 
-
 The fields of idf objects often have a range of legal values. The
 following functions will let you discover what that range is and test if
 your value lies within that range
@@ -141,7 +142,6 @@ demonstrate two new functions:
 -  EpBunch.checkrange(fieldname) # will throw an exception if the value
    is outside the range
 
-
 .. code:: python
 
     from eppy import modeleditor 
@@ -149,15 +149,18 @@ demonstrate two new functions:
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
+
 .. code:: python
 
     # IDF.setiddname(iddfile)# idd ws set further up in this page
     idf1 = IDF(fname1)
 
+
 .. code:: python
 
     building = idf1.idfobjects['building'.upper()][0]
     print building
+
 
 
 .. parsed-literal::
@@ -180,6 +183,7 @@ demonstrate two new functions:
     print building.getrange("Loads_Convergence_Tolerance_Value")
 
 
+
 .. parsed-literal::
 
     {u'maximum<': None, u'minimum': None, u'type': u'real', u'maximum': 0.5, u'minimum>': 0.0}
@@ -188,6 +192,7 @@ demonstrate two new functions:
 .. code:: python
 
     print building.checkrange("Loads_Convergence_Tolerance_Value")
+
 
 
 .. parsed-literal::
@@ -206,6 +211,7 @@ Let us set these values outside the range and see what happens
     except RangeError, e:
         raise e
         
+
 
 ::
 
@@ -228,7 +234,6 @@ So the Range Check works
 Looping through all the fields in an idf object
 -----------------------------------------------
 
-
 We have seen how to check the range of field in the idf object. What if
 you want to do a *range check* on all the fields in an idf object ? To
 do this we will need a list of all the fields in the idf object. We can
@@ -237,6 +242,7 @@ do this easily by the following line
 .. code:: python
 
     print building.fieldnames
+
 
 
 .. parsed-literal::
@@ -251,6 +257,7 @@ So let us use this
     for fieldname in building.fieldnames:
         print "%s = %s" % (fieldname, building[fieldname])
         
+
 
 .. parsed-literal::
 
@@ -279,6 +286,7 @@ Now let us test if the values are in the legal range. We know that
             print "%s = %s #-****OUT OF RANGE****" % (fieldname, building[fieldname],)
             
 
+
 .. parsed-literal::
 
     key = BUILDING #-in range
@@ -296,7 +304,6 @@ You see, we caught the out of range value
 
 Blank idf file
 --------------
-
 
 Until now in all our examples, we have been reading an idf file from
 disk:
@@ -319,6 +326,7 @@ Here are the steps to do that
     idf_fromfilename = IDF(fname1) # initialize the IDF object with the file name
     
     idf_fromfilename.printidf()
+
 
 
 .. parsed-literal::
@@ -361,6 +369,7 @@ Here are the steps to do that
     idf_fromfilehandle = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_fromfilehandle.printidf()
+
 
 
 .. parsed-literal::
@@ -408,6 +417,7 @@ Here are the steps to do that
     idf_emptyfile.printidf()
 
 
+
 .. parsed-literal::
 
     
@@ -425,6 +435,7 @@ What if we give it a string that was not blank
     idf_notemptyfile = IDF(fhandle) # initialize the IDF object with the file handle
     
     idf_notemptyfile.printidf()
+
 
 
 .. parsed-literal::
@@ -446,12 +457,14 @@ Now let us give it a file name
     # - Save it to the disk
     idf_notemptyfile.save()
 
+
 Let us confirm that the file was saved to disk
 
 .. code:: python
 
     txt = open("notemptyfile.idf", 'r').read()# read the file from the disk
     print txt
+
 
 
 .. parsed-literal::
@@ -469,13 +482,12 @@ Yup ! that file was saved. Let us delete it since we were just playing
     import os
     os.remove("notemptyfile.idf")
 
+
 Deleting, copying/adding and making new idfobjects
 --------------------------------------------------
 
-
 Making a new idf object
 ~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Let us start with a blank idf file and make some new "MATERIAL" objects
 in it
@@ -487,6 +499,7 @@ in it
     from StringIO import StringIO
     idf = IDF(StringIO(blankstr))
 
+
 To make and add a new idfobject object, we use the function
 IDF.newidfobject(). We want to make an object of type "MATERIAL"
 
@@ -495,9 +508,11 @@ IDF.newidfobject(). We want to make an object of type "MATERIAL"
     newobject = idf.newidfobject("material".upper()) # the key for the object type has to be in upper case
                                          # .upper() makes it upper case
         
+
 .. code:: python
 
     print newobject
+
 
 
 .. parsed-literal::
@@ -522,6 +537,7 @@ Let us give this a name, say "Shiny new material object"
 
     newobject.Name = "Shiny new material object"
     print newobject
+
 
 
 .. parsed-literal::
@@ -549,6 +565,7 @@ Let us give this a name, say "Shiny new material object"
     print thirdmaterial
 
 
+
 .. parsed-literal::
 
     
@@ -570,6 +587,7 @@ Let us look at all the "MATERIAL" objects
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
+
 
 
 .. parsed-literal::
@@ -616,10 +634,8 @@ As we can see there are three MATERIAL idfobjects. They are:
 2. Lousy material
 3. third material
 
-
 Deleting an idf object
 ~~~~~~~~~~~~~~~~~~~~~~
-
 
 Let us remove 2. Lousy material. It is the second material in the list.
 So let us remove the second material
@@ -627,6 +643,7 @@ So let us remove the second material
 .. code:: python
 
     idf.popidfobject('MATERIAL', 1) # first material is '0', second is '1'
+
 
 
 
@@ -651,6 +668,7 @@ So let us remove the second material
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
+
 
 
 .. parsed-literal::
@@ -687,13 +705,16 @@ first material, but do it using a different function
 
     firstmaterial = idf.idfobjects['MATERIAL'][-1]
 
+
 .. code:: python
 
     idf.removeidfobject(firstmaterial)
 
+
 .. code:: python
 
     print idf.idfobjects['MATERIAL']
+
 
 
 .. parsed-literal::
@@ -717,10 +738,8 @@ So we have two ways of deleting an idf object:
 1. popidfobject -> give it the idf key: "MATERIAL", and the index number
 2. removeidfobject -> give it the idf object to be deleted
 
-
 Copying/Adding an idf object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 Having deleted two "MATERIAL" objects, we have only one left. Let us
 make a copy of this object and add it to our idf file
@@ -728,12 +747,15 @@ make a copy of this object and add it to our idf file
 .. code:: python
 
     onlymaterial = idf.idfobjects["MATERIAL"][0]
+
 .. code:: python
 
     idf.copyidfobject(onlymaterial)
+
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
+
 
 .. parsed-literal::
 
@@ -768,13 +790,11 @@ idf objects from other idf files too.
 Making an idf object with named arguments
 -----------------------------------------
 
-
 What if we wanted to make an idf object with values for it's fields? We
 can do that too.
 
 Renaming an idf object
 ----------------------
-
 
 .. code:: python
 
@@ -784,9 +804,11 @@ Renaming an idf object
                                 Conductivity=0.16,
                                 Density=800,
                                 Specific_Heat=1090)
+
 .. code:: python
 
     print gypboard
+
 
 .. parsed-literal::
 
@@ -810,6 +832,7 @@ Absorptance", "Solar Absorptance", etc.
 .. code:: python
 
     print idf.idfobjects["MATERIAL"]
+
 
 .. parsed-literal::
 
@@ -852,7 +875,6 @@ Absorptance", "Solar Absorptance", etc.
 Renaming an idf object
 ----------------------
 
-
 It is easy to rename an idf object. If we want to rename the gypboard
 object that we created above, we simply say:
 
@@ -879,6 +901,7 @@ Let us try this with an example:
     print interiorwall
 
 
+
 .. parsed-literal::
 
     
@@ -896,6 +919,7 @@ modeleditor.rename(idf, key, oldname, newname)
 .. code:: python
 
     modeleditor.rename(idf, "MATERIAL", "G01a 19mm gypsum board", "peanut butter")
+
 
 
 
@@ -920,6 +944,7 @@ modeleditor.rename(idf, key, oldname, newname)
 
     print interiorwall
 
+
 .. parsed-literal::
 
     
@@ -937,6 +962,7 @@ us look at the entir idf file, just to be sure
 .. code:: python
 
     idf.printidf()
+
 
 .. parsed-literal::
 
@@ -985,7 +1011,6 @@ us look at the entir idf file, just to be sure
 Zone area and volume
 --------------------
 
-
 The idf file has zones with surfaces and windows. It is easy to get the
 attributes of the surfaces and windows as we have seen in the tutorial.
 Let us review this once more:
@@ -997,9 +1022,11 @@ Let us review this once more:
     iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
     fname1 = "../eppy/resources/idffiles/V_7_2/box.idf"
     # IDF.setiddname(iddfile)
+
 .. code:: python
 
     idf = IDF(fname1)
+
 .. code:: python
 
     surfaces = idf.idfobjects["BuildingSurface:Detailed".upper()]
@@ -1007,6 +1034,7 @@ Let us review this once more:
     print "area = %s" % (surface.area, )
     print "tilt = %s" % (surface.tilt, )
     print "azimuth = %s" % (surface.azimuth, )
+
 
 .. parsed-literal::
 
@@ -1030,6 +1058,7 @@ But we can still get the area and volume of the zone
     print "zone area = %s" % (area, )
     print "zone volume = %s" % (volume, )
 
+
 .. parsed-literal::
 
     zone area = 30.0
@@ -1045,106 +1074,9 @@ Some notes on the zone area calculation:
    zone area
 -  if there are no floors, ceilings or roof, we are out of luck. The
    function returns 0
-   
-Running EnergyPlus from Eppy
-----------------------------
-It would be great if we could run EnergyPlus directly from our IDF wouldn't it?
-
-Well here's how we can.
-
-.. code:: python
-
-	from eppy.runner import IDF5
-	    
-    fname1 = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
-	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-	idf = IDF5(open(fname1, 'r'), epw)
-	
-	idf.run()
-
-It's as simple as that to run using the EnergyPlus defaults, but all the 
-EnergyPlus command line interface options are also supported.
-
-To get a description of the options available, as well as the defaults you can 
-call the Python built-in `help` function on the `IDF5.run` method and it will 
-print a full description of the options to the console.
-
-.. code:: python
-
-	help(idf.run)
-
-.. parsed-literal::
-	
-	Help on method run in module eppy.runner.runner:
-	
-	run(self, **kwargs) method of eppy.runner.runner.IDF5 instance
-	    This method wraps the following method:
-	    
-	    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False, 
-	    	design_day=False, idd=None, epmacro=False, expandobjects=False,
-	    	readvars=False, output_prefix=None, output_suffix=None, version=False, 
-	    	verbose=u'v')
-	    	
-	        Wrapper around the EnergyPlus command line interface.
-	        
-	        Parameters
-	        ----------
-	        idf : str
-	            Full or relative path to the IDF file to be run.
-	            
-	        weather : str
-	            Full or relative path to the weather file.
-	            
-	        output_directory : str, optional
-	            Full or relative path to an output directory (default: 'run_outputs)
-	            
-	        annual : bool, optional
-	            If True then force annual simulation (default: False)
-	            
-	        design_day : bool, optional
-	            Force design-day...
-
-Running in parallel processes
-----------------------------------------
-
-One of the great things about Eppy is that it allows you to set up a lot of 
-jobs really easily. However, it can be slow running a lot of EnergyPlus 
-simulations, so it's pretty important that we can make the most of the 
-processing power you have available by running on multiple CPUs.
-
-Again this is as simple as you'd hope it would be.
-
-You first need to create your jobs as a list of lists in the form 
-
-.. parsed-literal::
-    [[<IDF5 object>, <dict of command line parameters>], ...]
-
-The example here just creates 4 identical jobs apart from the 
-`output_directory` the results are saved in, but you would obviously want to 
-make each job different.
-
-.. code:: python
-	from eppy.runner.run_functions import multirunner
-	
-	fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
-	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-	
-	runs = []
-	for i in range(4):
-		idf = IDF5(open(fname1, 'r'), epw)
-		runs.append([idf, {'output_directory': 'results_%i' % i}])
-	
-Then run the jobs on the required number of CPUs using `runIDFs`...
-
-.. code:: python
-	runIDFs(runs, num_CPUs=2)
-
-... and your results will all be in the `output_directory` you specified.
-
 
 Using JSON to update idf
 ------------------------
-
 
 we are going to update ``idf1`` using json. First let us print the
 ``idf1`` before changing it, so we can see what has changed once we make
@@ -1153,6 +1085,7 @@ an update
 .. code:: python
 
     idf1.printidf()
+
 
 .. parsed-literal::
 
@@ -1197,9 +1130,11 @@ an update
                 "idf.BUILDING.Empire State Building.Terrain": "Rural",
                 }
     json_functions.updateidf(idf1, json_str)
+
 .. code:: python
 
     idf1.printidf()
+
 
 .. parsed-literal::
 
@@ -1265,6 +1200,7 @@ a look at this:
 
 
 
+
 .. parsed-literal::
 
     [
@@ -1304,9 +1240,11 @@ If the name has a dot in it, there are two ways of doing this.
     # second way (put the name in single quotes)
     json_str = {"idf.BUILDING.'Another.Taj.with.dot'.Terrain": "Rural",}
     json_functions.updateidf(idf1, json_str)
+
 .. code:: python
 
     idf1.idfobjects['building'.upper()]
+
 
 
 
@@ -1367,108 +1305,10 @@ If the name has a dot in it, there are two ways of doing this.
 -  In any case, if the object does not exist, it is created with the
    default values
 
-
 Use Case for JSON update
 ~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 If you have an eppy running on a remote server somewhere on the
 internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
-
-
-Running EnergyPlus from Eppy
-----------------------------
-It would be great if we could run EnergyPlus directly from our IDF wouldn't it?
-
-Well here's how we can.
-
-.. code:: python
-
-	from eppy.modeleditor import IDF
-	    
-    fname = "../eppy/resources/idffiles/V_8_3/smallfile.idf"
-	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-	idf = IDF(fname, epw)
-	
-	idf.run()
-
-It's as simple as that to run using the EnergyPlus defaults, but all the 
-EnergyPlus command line interface options are also supported.
-
-To get a description of the options available, as well as the defaults you can 
-call the Python built-in `help` function on the `IDF.run` method and it will 
-print a full description of the options to the console.
-
-.. code:: python
-
-	help(idf.run)
-
-.. parsed-literal::
-	
-	Help on method run in module eppy.runner.runner:
-	
-	run(self, **kwargs) method of eppy.runner.runner.IDF instance
-	    This method wraps the following method:
-	    
-	    run(idf=None, weather=None, output_directory=u'run_outputs', annual=False, 
-	    	design_day=False, idd=None, epmacro=False, expandobjects=False,
-	    	readvars=False, output_prefix=None, output_suffix=None, version=False, 
-	    	verbose=u'v')
-	    	
-	        Wrapper around the EnergyPlus command line interface.
-	        
-	        Parameters
-	        ----------
-	        idf : str
-	            Full or relative path to the IDF file to be run.
-	            
-	        weather : str
-	            Full or relative path to the weather file.
-	            
-	        output_directory : str, optional
-	            Full or relative path to an output directory (default: 'run_outputs)
-	            
-	        annual : bool, optional
-	            If True then force annual simulation (default: False)
-	            
-	        design_day : bool, optional
-	            Force design-day...
-
-Running in parallel processes
-----------------------------------------
-
-One of the great things about Eppy is that it allows you to set up a lot of 
-jobs really easily. However, it can be slow running a lot of EnergyPlus 
-simulations, so it's pretty important that we can make the most of the 
-processing power you have available by running on multiple CPUs.
-
-Again this is as simple as you'd hope it would be.
-
-You first need to create your jobs as a list of lists in the form 
-
-.. parsed-literal::
-    [[<IDF object>, <dict of command line parameters>], ...]
-
-The example here just creates 4 identical jobs apart from the 
-`output_directory` the results are saved in, but you would obviously want to 
-make each job different.
-
-.. code:: python
-	from eppy.runner.run_functions import multirunner
-	
-	fname1 = "../eppy/resources/idffiles/V8_3/smallfile.idf"
-	epw = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-	
-	runs = []
-	for i in range(4):
-		idf = IDF(fname, epw)
-		runs.append([idf, {'output_directory': 'results_%i' % i}])
-	
-Then run the jobs on the required number of CPUs using `runIDFs`...
-
-.. code:: python
-	runIDFs(runs, num_CPUs=2)
-
-... and your results will all be in the `output_directory` you specified.
