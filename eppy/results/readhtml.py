@@ -29,7 +29,8 @@ def is_simpletable(table):
                 if not isinstance(td.contents[0], NavigableString):
                     return False
             else:
-                return False
+                print (td)
+                return True
     return True
 
 def table2matrix(table):
