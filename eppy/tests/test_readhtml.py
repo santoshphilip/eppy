@@ -24,10 +24,10 @@ def test_version(v=7):
         file=dir+"\\eppy\\tests\\html\\v8_7.html"
     else:
         file=dir+"\\eppy\\tests\\html\\v8_3.html"
-        
+
     html=open(file,'r').read()
     htables=readhtml.titletable(html)
-    #print (htables)
+    print (htables)
 
 
 def test_table2matrix():
