@@ -16,9 +16,9 @@ from bs4 import BeautifulSoup
 import os
 import eppy.results.readhtml as readhtml
 from eppy.tests.sample_html import sample_html as SAMPLE_HTML
-
+"""
 def test_version(v=7):
-    """test using actual html data"""
+
     dir=os.getcwd()
     if v==7:
         file=dir+"\\eppy\\tests\\html\\v8_7.html"
@@ -28,7 +28,7 @@ def test_version(v=7):
     html=open(file,'r').read()
     htables=readhtml.titletable(html)
     print (htables)
-
+"""
 
 def test_table2matrix():
     """py.test for table2matrix"""
