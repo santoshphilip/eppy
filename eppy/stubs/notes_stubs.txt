@@ -1,7 +1,0 @@
-2014-12-12
-----------
-pathnames are set if eppy is not installed
-path nemes can be commented out if eppy is installed
-stub files for the following
-- open an existing file
-- open a new file
