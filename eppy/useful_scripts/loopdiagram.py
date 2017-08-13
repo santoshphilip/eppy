@@ -198,11 +198,14 @@ def makebranchcomponents(data, commdct, anode="epnode"):
     return alledges
 
 
-def makeairplantloop(data, commdct):
-    """make the edges for the airloop and the plantloop"""
+def makeplantloop(data, commdct):
+
+    edges = []
+
     anode = "epnode"
     endnode = "EndNode"
 
+    
     # in plantloop get:
     #     demand inlet, outlet, branchlist
     #     supply inlet, outlet, branchlist
@@ -286,6 +289,18 @@ def makeairplantloop(data, commdct):
     #         ((demandoutlet, endnode), (supplyinlet, endnode))]
     #     edges = edges + moreedges
     #     
+
+    return edges
+
+
+def makeairloop(data, commdct):
+    
+    
+    edges = []
+    
+    anode = "epnode"
+    endnode = "EndNode"
+
     # -----------air loop stuff----------------------
     # from s_airloop2.py
     # Get the demand and supply nodes from 'airloophvac'
@@ -400,8 +415,6 @@ def makeairplantloop(data, commdct):
     fieldlists = [fieldlist] * loops.objectcount(data, objkey)
     uncontrolleds = loops.extractfields(data, commdct, objkey, fieldlists)
 
-    anode = "epnode"
-    endnode = "EndNode"
 
     # edges = []
 
@@ -483,16 +496,29 @@ def makeairplantloop(data, commdct):
         name = uncontrolled[0]
         airnode = uncontrolled[1]            
         edges.append(((airnode, anode), name))
-                
 
-    # edges = edges + moreedges    
+    return edges
+
+def makeairplantloop(data, commdct, do_plant_loops=True, do_air_loops=True):
+    """make the edges for the airloop and the plantloop"""
+        
+    plant_loop_edges = []
+    if do_plant_loops:
+        plant_loop_edges = makeplantloop(data, commdct)
+
+    air_loop_edges = []
+    if do_air_loops:
+        air_loop_edges = makeairloop(data, commdct)
+    
+    edges = plant_loop_edges + air_loop_edges
+
     return edges
 
 
-def getedges(fname, iddfile):
+def getedges(fname, iddfile, do_plant_loops=True, do_air_loops=True):
     """return the edges of the idf file fname"""
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
-    edges = makeairplantloop(data, commdct)
+    data, commdct, _iddindex = readidf.readdatacommdct(fname, iddfile=iddfile)
+    edges = makeairplantloop(data, commdct, do_plant_loops, do_air_loops)
     return edges
 
 
@@ -541,11 +567,9 @@ def main():
                 formatter_class=argparse.RawTextHelpFormatter)
                 # need the formatter to print newline from __doc__
     parser.add_argument('idd', type=str, action='store', 
-        help='location of idd file = ./somewhere/eplusv8-0-1.idd',
-        required=True)
+        help='location of idd file = ./somewhere/eplusv8-0-1.idd')
     parser.add_argument('file', type=str, action='store', 
-        help='location of idf file = ./somewhere/f1.idf',
-        required=True)
+        help='location of idf file = ./somewhere/f1.idf')
     args = parser.parse_args()
     make_and_save_diagram(args.file, args.idd)
 
