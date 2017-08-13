@@ -34,7 +34,7 @@ def doreadtest(iddfile, folder, silent=False):
 
 
     iddhandle = open(iddfile, 'r')
-    for i, fname in enumerate(lst[355:359]): # lst[6:7]
+    for i, fname in enumerate(lst): # lst[6:7]
                                     # if you want to test a specific file
         fname1 = "%s/%s" % (folder, fname)
         idfhandle1 = open(fname1, 'rb')

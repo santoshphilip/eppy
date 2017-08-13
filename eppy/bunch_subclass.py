@@ -17,7 +17,6 @@ import itertools
 
 from munch import Munch as Bunch
 
-from eppy.bunchhelpers import matchfieldnames
 import eppy.function_helpers as fh
 
 
@@ -61,19 +60,8 @@ def extendlist(lst, i, value=''):
         lst.extend([value, ] * (i - len(lst) + 1))
 
 
-
-def return42(self, *args, **kwargs):
-    # proof of concept - to be removed
-    return 42
-
 def addfunctions(abunch):
     """add functions to epbunch"""
-
-    # proof of concept - remove
-    abunch['__functions'].update({'return42':return42})
-    abunch['__functions'].update({'buildingname':fh.buildingname})
-    # proof of concept
-
     key = abunch.obj[0].upper()
 
     #-----------------
@@ -421,7 +409,6 @@ def checkrange(bch, fieldname):
 def getfieldidd(bch, fieldname):
     """get the idd dict for this field
     Will return {} if the fieldname does not exist"""
-    # print(bch)
     try:
         fieldindex = bch.objls.index(fieldname)
     except ValueError as e:
@@ -468,18 +455,6 @@ def isequal(bch, fieldname, value, places=7):
 
 def getreferingobjs(referedobj, iddgroups=None, fields=None):
     """Get a list of objects that refer to this object"""
-    # pseudocode for code below
-    # referringobjs = []
-    # referedobj has: -> Name
-    #                 -> reference
-    # for each obj in idf:
-    # [optional filter -> objects in iddgroup]
-    #     each field of obj:
-    #     [optional filter -> field in fields]
-    #         has object-list [refname]:
-    #             if refname in reference:
-    #                 if Name = field value:
-    #                     referringobjs.append()
     referringobjs = []
     idf = referedobj.theidf
     referedidd = referedobj.getfieldidd("Name")
