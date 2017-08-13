@@ -53,7 +53,8 @@ setup(
         "pytest>=2.3.5",
         "tinynumpy>=1.2.1",
         "six>=1.10.0",
-        "decorator>=4.0.10"
+        "decorator>=4.0.10",
+        "lxml>=3.8.0",
         ],
     classifiers = [
         'Programming Language :: Python :: 2',
