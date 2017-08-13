@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>HVAC Loops &mdash; eppy 0.5.41 documentation</title>
+    <title>HVAC Loops &mdash; eppy 0.5.44 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.5.41',
+        VERSION:     '0.5.44',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.41 documentation" href="index.html" />
+    <link rel="top" title="eppy 0.5.44 documentation" href="index.html" />
     <link rel="next" title="Reading outputs from E+" href="Outputs_Tutorial.html" />
     <link rel="prev" title="Eppy Tutorial" href="Main_Tutorial.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.41 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -109,8 +109,8 @@ d_start_branch   --&gt; d_branch2 --&gt; d_end_branch
 </pre></div>
 </div>
 <p>In eppy you could embody this is a list</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">supplyside</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;start_brandh&#39;</span><span class="p">,</span>   <span class="p">[</span>  <span class="s">&#39;branch1&#39;</span><span class="p">,</span>   <span class="s">&#39;branch2&#39;</span><span class="p">,</span>   <span class="s">&#39;branch3&#39;</span><span class="p">],</span>   <span class="s">&#39;end_branch&#39;</span><span class="p">]</span>
-<span class="n">demandside</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;d_start_brandh&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;d_branch1&#39;</span><span class="p">,</span> <span class="s">&#39;d_branch2&#39;</span><span class="p">,</span> <span class="s">&#39;d_branch3&#39;</span><span class="p">],</span> <span class="s">&#39;d_end_branch&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">supplyside</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;start_brandh&#39;</span><span class="p">,</span>   <span class="p">[</span>  <span class="s1">&#39;branch1&#39;</span><span class="p">,</span>   <span class="s1">&#39;branch2&#39;</span><span class="p">,</span>   <span class="s1">&#39;branch3&#39;</span><span class="p">],</span>   <span class="s1">&#39;end_branch&#39;</span><span class="p">]</span>
+<span class="n">demandside</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;d_start_brandh&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d_branch1&#39;</span><span class="p">,</span> <span class="s1">&#39;d_branch2&#39;</span><span class="p">,</span> <span class="s1">&#39;d_branch3&#39;</span><span class="p">],</span> <span class="s1">&#39;d_end_branch&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Eppy will build the build the shape/topology of the loop using the two
@@ -139,17 +139,17 @@ be replaced with a more complex branch.</p>
 <p>Let us try this out ans see how it works.</p>
 <div class="section" id="building-the-topology-of-the-loop">
 <h3>Building the topology of the loop<a class="headerlink" href="#building-the-topology-of-the-loop" title="Permalink to this headline">¶</a></h3>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
-<span class="c"># python setup.py install</span>
-<span class="c"># or</span>
-<span class="c"># pip install eppy</span>
-<span class="c"># or</span>
-<span class="c"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># you would normaly install eppy by doing</span>
+<span class="c1"># python setup.py install</span>
+<span class="c1"># or</span>
+<span class="c1"># pip install eppy</span>
+<span class="c1"># or</span>
+<span class="c1"># easy_install eppy</span>
 
-<span class="c"># if you have not done so, uncomment the following three lines</span>
+<span class="c1"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -157,17 +157,17 @@ be replaced with a more complex branch.</p>
 <span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">hvacbuilder</span>
 
 <span class="kn">from</span> <span class="nn">StringIO</span> <span class="kn">import</span> <span class="n">StringIO</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_0_0_036.idd&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V7_0_0_036.idd&quot;</span>
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># make the topology of the loop</span>
-<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">))</span> <span class="c"># makes an empty idf file in memory with no file name</span>
-<span class="n">loopname</span> <span class="o">=</span> <span class="s">&quot;p_loop&quot;</span>
-<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;sb1&#39;</span><span class="p">,</span> <span class="s">&#39;sb2&#39;</span><span class="p">,</span> <span class="s">&#39;sb3&#39;</span><span class="p">],</span> <span class="s">&#39;sb4&#39;</span><span class="p">]</span> <span class="c"># supply side of the loop</span>
-<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db1&#39;</span><span class="p">,</span> <span class="s">&#39;db2&#39;</span><span class="p">,</span> <span class="s">&#39;db3&#39;</span><span class="p">],</span> <span class="s">&#39;db4&#39;</span><span class="p">]</span> <span class="c"># demand side of the loop</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># make the topology of the loop</span>
+<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span> <span class="c1"># makes an empty idf file in memory with no file name</span>
+<span class="n">loopname</span> <span class="o">=</span> <span class="s2">&quot;p_loop&quot;</span>
+<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sb1&#39;</span><span class="p">,</span> <span class="s1">&#39;sb2&#39;</span><span class="p">,</span> <span class="s1">&#39;sb3&#39;</span><span class="p">],</span> <span class="s1">&#39;sb4&#39;</span><span class="p">]</span> <span class="c1"># supply side of the loop</span>
+<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;db0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;db1&#39;</span><span class="p">,</span> <span class="s1">&#39;db2&#39;</span><span class="p">,</span> <span class="s1">&#39;db3&#39;</span><span class="p">],</span> <span class="s1">&#39;db4&#39;</span><span class="p">]</span> <span class="c1"># demand side of the loop</span>
 <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">makeplantloop</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">loopname</span><span class="p">,</span> <span class="n">sloop</span><span class="p">,</span> <span class="n">dloop</span><span class="p">)</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&quot;hhh1.idf&quot;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s2">&quot;hhh1.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="line-block">
@@ -184,9 +184,9 @@ page for details on how to do this</p>
 <p>Below is the diagram for this simple loop</p>
 <p><em>Note: the supply and demnd sides are not connected in the diagram, but
 shown seperately for clarity</em></p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
-<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop1</span><span class="p">)</span> <span class="c"># display the image below</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop1</span><span class="p">)</span> <span class="c1"># display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/HVAC_Tutorial_23_0.png" src="_images/HVAC_Tutorial_23_0.png" />
@@ -199,22 +199,22 @@ component sb0_pipe.</p>
 <p>Let us replace it with a branch that has a chiller that is connected to
 a pipe which is turn connected to another pipe. So the connections in
 the new branch would look like &#8220;chiller-&gt; pipe1-&gt;pipe2&#8221;</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># make a new branch chiller-&gt;pipe1-&gt; pipe2</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># make a new branch chiller-&gt;pipe1-&gt; pipe2</span>
 
-<span class="c"># make a new pipe component</span>
-<span class="n">pipe1</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;PIPE:ADIABATIC&quot;</span><span class="p">,</span> <span class="s">&#39;np1&#39;</span><span class="p">)</span>
+<span class="c1"># make a new pipe component</span>
+<span class="n">pipe1</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;PIPE:ADIABATIC&quot;</span><span class="p">,</span> <span class="s1">&#39;np1&#39;</span><span class="p">)</span>
 
-<span class="c"># make a new chiller</span>
-<span class="n">chiller</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;Chiller:Electric&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s">&#39;Central_Chiller&#39;</span><span class="p">)</span>
+<span class="c1"># make a new chiller</span>
+<span class="n">chiller</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;Chiller:Electric&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="s1">&#39;Central_Chiller&#39;</span><span class="p">)</span>
 
-<span class="c"># make another pipe component</span>
-<span class="n">pipe2</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&quot;PIPE:ADIABATIC&quot;</span><span class="p">,</span> <span class="s">&#39;np2&#39;</span><span class="p">)</span>
+<span class="c1"># make another pipe component</span>
+<span class="n">pipe2</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s2">&quot;PIPE:ADIABATIC&quot;</span><span class="p">,</span> <span class="s1">&#39;np2&#39;</span><span class="p">)</span>
 
-<span class="c"># get the loop we are trying to modify</span>
-<span class="n">loop</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;PLANTLOOP&#39;</span><span class="p">,</span> <span class="s">&#39;p_loop&#39;</span><span class="p">)</span> <span class="c"># args are (key, name)</span>
-<span class="c"># get the branch we are trying to modify</span>
-<span class="n">branch</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s">&#39;BRANCH&#39;</span><span class="p">,</span> <span class="s">&#39;sb0&#39;</span><span class="p">)</span> <span class="c"># args are (key, name)</span>
-<span class="n">listofcomponents</span> <span class="o">=</span> <span class="p">[</span><span class="n">chiller</span><span class="p">,</span> <span class="n">pipe1</span><span class="p">,</span> <span class="n">pipe2</span><span class="p">]</span> <span class="c"># the new components are connected in this order</span>
+<span class="c1"># get the loop we are trying to modify</span>
+<span class="n">loop</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s1">&#39;PLANTLOOP&#39;</span><span class="p">,</span> <span class="s1">&#39;p_loop&#39;</span><span class="p">)</span> <span class="c1"># args are (key, name)</span>
+<span class="c1"># get the branch we are trying to modify</span>
+<span class="n">branch</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">getobject</span><span class="p">(</span><span class="s1">&#39;BRANCH&#39;</span><span class="p">,</span> <span class="s1">&#39;sb0&#39;</span><span class="p">)</span> <span class="c1"># args are (key, name)</span>
+<span class="n">listofcomponents</span> <span class="o">=</span> <span class="p">[</span><span class="n">chiller</span><span class="p">,</span> <span class="n">pipe1</span><span class="p">,</span> <span class="n">pipe2</span><span class="p">]</span> <span class="c1"># the new components are connected in this order</span>
 </pre></div>
 </div>
 <p>Now we are going to try to replace <strong>branch</strong> with the a branch made up
@@ -225,7 +225,7 @@ of <strong>listofcomponents</strong></p>
 <li>In a moment, you will see why this exception is important</li>
 </ul>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
-    <span class="n">newbr</span> <span class="o">=</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">replacebranch</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">listofcomponents</span><span class="p">,</span> <span class="n">fluid</span><span class="o">=</span><span class="s">&#39;Water&#39;</span><span class="p">)</span>
+    <span class="n">newbr</span> <span class="o">=</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">replacebranch</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">listofcomponents</span><span class="p">,</span> <span class="n">fluid</span><span class="o">=</span><span class="s1">&#39;Water&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">WhichLoopError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">e</span>
 </pre></div>
@@ -248,19 +248,19 @@ know that the chiller needs to be connected to the chilled water inlet
 and outlet. Simply copy <code class="docutils literal"><span class="pre">Chilled_Water_</span></code> from the text in the
 exception and paste as shown in the code below. (make sure you copy it
 exactly. eppy is a little nerdy about that)</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># instead of passing chiller to the function, we pass a tuple (chiller, &#39;Chilled_Water_&#39;).</span>
-<span class="c"># This lets eppy know where the connection should be made.</span>
-<span class="c"># The idfobject pipe does not have this ambiguity. So pipes do not need this extra information</span>
-<span class="n">listofcomponents</span> <span class="o">=</span> <span class="p">[(</span><span class="n">chiller</span><span class="p">,</span> <span class="s">&#39;Chilled_Water_&#39;</span><span class="p">),</span> <span class="n">pipe1</span><span class="p">,</span> <span class="n">pipe2</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># instead of passing chiller to the function, we pass a tuple (chiller, &#39;Chilled_Water_&#39;).</span>
+<span class="c1"># This lets eppy know where the connection should be made.</span>
+<span class="c1"># The idfobject pipe does not have this ambiguity. So pipes do not need this extra information</span>
+<span class="n">listofcomponents</span> <span class="o">=</span> <span class="p">[(</span><span class="n">chiller</span><span class="p">,</span> <span class="s1">&#39;Chilled_Water_&#39;</span><span class="p">),</span> <span class="n">pipe1</span><span class="p">,</span> <span class="n">pipe2</span><span class="p">]</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">newbr</span> <span class="o">=</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">replacebranch</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">listofcomponents</span><span class="p">,</span> <span class="n">fluid</span><span class="o">=</span><span class="s">&#39;Water&#39;</span><span class="p">)</span>
+    <span class="n">newbr</span> <span class="o">=</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">replacebranch</span><span class="p">(</span><span class="n">idf</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">branch</span><span class="p">,</span> <span class="n">listofcomponents</span><span class="p">,</span> <span class="n">fluid</span><span class="o">=</span><span class="s1">&#39;Water&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="k">print</span> <span class="n">e</span>
-<span class="k">else</span><span class="p">:</span> <span class="c"># else will run only if the try suceeds</span>
-    <span class="k">print</span> <span class="s">&quot;no exception was thrown&quot;</span>
+<span class="k">else</span><span class="p">:</span> <span class="c1"># else will run only if the try suceeds</span>
+    <span class="k">print</span> <span class="s2">&quot;no exception was thrown&quot;</span>
 
-<span class="n">idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&quot;hhh_new.idf&quot;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s2">&quot;hhh_new.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>no exception was thrown
@@ -278,9 +278,9 @@ links</p>
 <div class="line">Let us draw the diagram of this file. (run this from eppy/eppy folder)</div>
 </div>
 <p>python ex_loopdiagram.py hhh_new.idf</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c">#no need to know this code, it just shows the image below</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_inits</span> <span class="c1">#no need to know this code, it just shows the image below</span>
 <span class="n">for_images</span> <span class="o">=</span> <span class="n">ex_inits</span>
-<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop2</span><span class="p">)</span> <span class="c"># display the image below</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop2</span><span class="p">)</span> <span class="c1"># display the image below</span>
 </pre></div>
 </div>
 <img alt="_images/HVAC_Tutorial_34_0.png" src="_images/HVAC_Tutorial_34_0.png" />
@@ -308,47 +308,47 @@ people. We don&#8217;t write code unless it is needed :-)</p>
 and &#8220;prevnode()&#8221;</p>
 <p>Eppy indeed has such functions</p>
 <p>Let us try to traverse the loop above.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># to traverse the loop we are going to call some functions ex_loopdiagrams.py,</span>
-<span class="c"># the program that draws the loop diagrams.</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># to traverse the loop we are going to call some functions ex_loopdiagrams.py,</span>
+<span class="c1"># the program that draws the loop diagrams.</span>
 <span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">ex_loopdiagram</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="s">&#39;hhh_new.idf&#39;</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&#39;../eppy/resources/iddfiles/Energy+V8_0_0.idd&#39;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;hhh_new.idf&#39;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s1">&#39;../eppy/resources/iddfiles/Energy+V8_0_0.idd&#39;</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">ex_loopdiagram</span><span class="o">.</span><span class="n">getedges</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">iddfile</span><span class="p">)</span>
-<span class="c"># edges are the lines that draw the nodes in the loop.</span>
-<span class="c"># The term comes from graph theory in mathematics</span>
+<span class="c1"># edges are the lines that draw the nodes in the loop.</span>
+<span class="c1"># The term comes from graph theory in mathematics</span>
 </pre></div>
 </div>
 <p>The above code gets us the edges of the loop diagram. Once we have the
 edges, we can traverse through the diagram. Let us start with the
 &#8220;Central_Chiller&#8221; and work our way down.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">walk_hvac</span>
-<span class="n">firstnode</span> <span class="o">=</span> <span class="s">&quot;Central_Chiller&quot;</span>
+<span class="n">firstnode</span> <span class="o">=</span> <span class="s2">&quot;Central_Chiller&quot;</span>
 <span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">firstnode</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;np1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np2&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;np2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s1">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s1">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This leads us to three components -&gt; [&#8216;sb1_pipe&#8217;, &#8216;sb2_pipe&#8217;,
@@ -357,14 +357,14 @@ edges, we can traverse through the diagram. Let us start with the
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">nextnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb4_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;sb4_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">nextnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">nextnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nextnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -376,47 +376,47 @@ edges, we can traverse through the diagram. Let us start with the
 </div>
 <p>We have reached the end of this branch. There are no more components.</p>
 <p>We can follow this in reverse using the function prevnode()</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">lastnode</span> <span class="o">=</span> <span class="s">&#39;sb4_pipe&#39;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">lastnode</span> <span class="o">=</span> <span class="s1">&#39;sb4_pipe&#39;</span>
 <span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">lastnode</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;p_loop_supply_mixer&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;sb1_pipe&#39;</span><span class="p">,</span> <span class="s1">u&#39;sb2_pipe&#39;</span><span class="p">,</span> <span class="s1">u&#39;sb3_pipe&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;p_loop_supply_splitter&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np2&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;np2&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;np1&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;np1&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">prevnodes</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">u&#39;Central_Chiller&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">u&#39;Central_Chiller&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">prevnodes</span> <span class="o">=</span> <span class="n">walk_hvac</span><span class="o">.</span><span class="n">prevnode</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">prevnodes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -434,12 +434,12 @@ edges, we can traverse through the diagram. Let us start with the
 <p>We build the condensor loop the same way we built the plant loop. Pipes
 are put as place holders for the components. Let us build a new idf file
 with just a condensor loop in it.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">condensorloop_idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">))</span>
-<span class="n">loopname</span> <span class="o">=</span> <span class="s">&quot;c_loop&quot;</span>
-<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;sb1&#39;</span><span class="p">,</span> <span class="s">&#39;sb2&#39;</span><span class="p">,</span> <span class="s">&#39;sb3&#39;</span><span class="p">],</span> <span class="s">&#39;sb4&#39;</span><span class="p">]</span> <span class="c"># supply side</span>
-<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;db0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;db1&#39;</span><span class="p">,</span> <span class="s">&#39;db2&#39;</span><span class="p">,</span> <span class="s">&#39;db3&#39;</span><span class="p">],</span> <span class="s">&#39;db4&#39;</span><span class="p">]</span> <span class="c"># demand side</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">condensorloop_idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="n">loopname</span> <span class="o">=</span> <span class="s2">&quot;c_loop&quot;</span>
+<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sb1&#39;</span><span class="p">,</span> <span class="s1">&#39;sb2&#39;</span><span class="p">,</span> <span class="s1">&#39;sb3&#39;</span><span class="p">],</span> <span class="s1">&#39;sb4&#39;</span><span class="p">]</span> <span class="c1"># supply side</span>
+<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;db0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;db1&#39;</span><span class="p">,</span> <span class="s1">&#39;db2&#39;</span><span class="p">,</span> <span class="s1">&#39;db3&#39;</span><span class="p">],</span> <span class="s1">&#39;db4&#39;</span><span class="p">]</span> <span class="c1"># demand side</span>
 <span class="n">theloop</span> <span class="o">=</span> <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">makecondenserloop</span><span class="p">(</span><span class="n">condensorloop_idf</span><span class="p">,</span> <span class="n">loopname</span><span class="p">,</span> <span class="n">sloop</span><span class="p">,</span> <span class="n">dloop</span><span class="p">)</span>
-<span class="n">condensorloop_idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&quot;c_loop.idf&quot;</span><span class="p">)</span>
+<span class="n">condensorloop_idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s2">&quot;c_loop.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Again, just as we did in the plant loop, we can change the components of
@@ -452,12 +452,12 @@ functions nextnode() and prevnode()</p>
 difference is that instead of pipes , we have ducts as placeholder
 components. The other difference is that we have zones on the demand
 side.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">airloop_idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">))</span>
-<span class="n">loopname</span> <span class="o">=</span> <span class="s">&quot;a_loop&quot;</span>
-<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;sb1&#39;</span><span class="p">,</span> <span class="s">&#39;sb2&#39;</span><span class="p">,</span> <span class="s">&#39;sb3&#39;</span><span class="p">],</span> <span class="s">&#39;sb4&#39;</span><span class="p">]</span> <span class="c"># supply side of the loop</span>
-<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;zone1&#39;</span><span class="p">,</span> <span class="s">&#39;zone2&#39;</span><span class="p">,</span> <span class="s">&#39;zone3&#39;</span><span class="p">]</span> <span class="c"># zones on the demand side</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">airloop_idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>
+<span class="n">loopname</span> <span class="o">=</span> <span class="s2">&quot;a_loop&quot;</span>
+<span class="n">sloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sb0&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;sb1&#39;</span><span class="p">,</span> <span class="s1">&#39;sb2&#39;</span><span class="p">,</span> <span class="s1">&#39;sb3&#39;</span><span class="p">],</span> <span class="s1">&#39;sb4&#39;</span><span class="p">]</span> <span class="c1"># supply side of the loop</span>
+<span class="n">dloop</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;zone1&#39;</span><span class="p">,</span> <span class="s1">&#39;zone2&#39;</span><span class="p">,</span> <span class="s1">&#39;zone3&#39;</span><span class="p">]</span> <span class="c1"># zones on the demand side</span>
 <span class="n">hvacbuilder</span><span class="o">.</span><span class="n">makeairloop</span><span class="p">(</span><span class="n">airloop_idf</span><span class="p">,</span> <span class="n">loopname</span><span class="p">,</span> <span class="n">sloop</span><span class="p">,</span> <span class="n">dloop</span><span class="p">)</span>
-<span class="n">airloop_idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s">&quot;a_loop.idf&quot;</span><span class="p">)</span>
+<span class="n">airloop_idf</span><span class="o">.</span><span class="n">saveas</span><span class="p">(</span><span class="s2">&quot;a_loop.idf&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Again, just as we did in the plant and condensor loop, we can change the
@@ -534,12 +534,12 @@ using the functions nextnode() and prevnode()</p>
         <li class="right" >
           <a href="Main_Tutorial.html" title="Eppy Tutorial"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.41 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

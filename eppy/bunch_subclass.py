@@ -34,7 +34,7 @@ class RangeError(ValueError):
 def almostequal(first, second, places=7, printit=True):
     """
     Test if two values are equal to a given number of places.
-    This is based on python's unittest so may be covered by Python's 
+    This is based on python's unittest so may be covered by Python's
     license.
 
     """
@@ -59,30 +59,30 @@ def extendlist(lst, i, value=''):
         pass
     else:
         lst.extend([value, ] * (i - len(lst) + 1))
-        
+
 
 
 def return42(self, *args, **kwargs):
     # proof of concept - to be removed
-    return 42        
+    return 42
 
 def addfunctions(abunch):
     """add functions to epbunch"""
 
     # proof of concept - remove
-    abunch['__functions'].update({'return42':return42}) 
-    abunch['__functions'].update({'buildingname':fh.buildingname}) 
+    abunch['__functions'].update({'return42':return42})
+    abunch['__functions'].update({'buildingname':fh.buildingname})
     # proof of concept
-    
+
     key = abunch.obj[0].upper()
-    
+
     #-----------------
     # TODO : alternate strategy to avoid listing the objkeys in snames
     # check if epbunch has field "Zone_Name" or "Building_Surface_Name"
     # and is in group u'Thermal Zones and Surfaces'
     # then it is likely to be a surface.
     # of course we need to recode for surfaces that do not have coordinates :-(
-    # or we can filter those out since they do not have 
+    # or we can filter those out since they do not have
     # the field "Number_of_Vertices"
     snames = [
         "BuildingSurface:Detailed",
@@ -129,8 +129,8 @@ def addfunctions(abunch):
         func_dict = {
             'rvalue': fh.rvalue,
             'ufactor': fh.ufactor,
-            'rvalue_ip': fh.rvalue_ip,# quick fix for Santosh. Needs to thought thru
-            'ufactor_ip': fh.ufactor_ip,# quick fix for Santosh. Needs to thought thru
+            'rvalue_ip': fh.rvalue_ip,  # quick fix for Santosh. Needs to thought thru
+            'ufactor_ip': fh.ufactor_ip,  # quick fix for Santosh. Needs to thought thru
             'heatcapacity': fh.heatcapacity,
         }
         abunch.__functions.update(func_dict)
@@ -146,13 +146,13 @@ def addfunctions(abunch):
     #-----------------
     # add function subsurfaces
     # going to cheat here a bit
-    # check if epbunch has field "Zone_Name" 
+    # check if epbunch has field "Zone_Name"
     # and is in group u'Thermal Zones and Surfaces'
     # then it is likely to be a surface attached to a zone
     fields = abunch.fieldnames
     try:
         group = abunch.getfieldidd('key')['group']
-    except KeyError as e: # some pytests don't have group
+    except KeyError as e:  # some pytests don't have group
         group = None
     if group == u'Thermal Zones and Surfaces':
         if "Zone_Name" in fields:
@@ -163,22 +163,22 @@ def addfunctions(abunch):
 
 class EpBunch(Bunch):
     """
-    Fields, values, and descriptions of fields in an EnergyPlus IDF object 
-    stored in a `bunch` which is a `dict` extended to allow access to dict 
+    Fields, values, and descriptions of fields in an EnergyPlus IDF object
+    stored in a `bunch` which is a `dict` extended to allow access to dict
     fields as attributes as well as by keys.
-    
+
     """
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
-        self.obj = obj        # field names
-        self.objls = objls    # field values
+        self.obj = obj  # field names
+        self.objls = objls  # field values
         self.objidd = objidd  # field metadata (minimum, maximum, type, etc.)
-        self.theidf = None    # pointer to the idf this epbunch belongs to
-                              # This is None if there is no idf - a standalone epbunch      
+        self.theidf = None  # pointer to the idf this epbunch belongs to
+                              # This is None if there is no idf - a standalone epbunch
                               # This will be set by Idf_MSequence
-        self['__functions'] = {} # initialize the functions
+        self['__functions'] = {}  # initialize the functions
         addfunctions(self)
-        
+
     @property
     def fieldnames(self):
         """Friendly name for objls.
@@ -189,70 +189,70 @@ class EpBunch(Bunch):
     def fieldvalues(self):
         """Friendly name for obj.
         """
-        return self.obj    
-    
+        return self.obj
+
     def checkrange(self, fieldname):
         """Check if the value for a field is within the allowed range.
         """
         return checkrange(self, fieldname)
-    
+
     def getrange(self, fieldname):
         """Get the allowed range of values for a field.
         """
         return getrange(self, fieldname)
-        
+
     def getfieldidd(self, fieldname):
         """get the idd dict for this field
         Will return {} if the fieldname does not exist"""
         return getfieldidd(self, fieldname)
-        
+
     def getfieldidd_item(self, fieldname, iddkey):
         """return an item from the fieldidd, given the iddkey
         will return and empty list if it does not have the iddkey
         or if the fieldname does not exist"""
         return getfieldidd_item(self, fieldname, iddkey)
-        
+
     def get_retaincase(self, fieldname):
         """check if the field should retain case"""
         return get_retaincase(self, fieldname)
-        
+
     def isequal(self, fieldname, value, places=7):
         """return True if the field == value
         Will retain case if get_retaincase == True
         for real value will compare to decimal 'places'
         """
         return isequal(self, fieldname, value, places=places)
-        
+
     def getreferingobjs(self, iddgroups=None, fields=None):
         """Get a list of objects that refer to this object"""
-        return getreferingobjs(self, iddgroups=iddgroups, fields=fields) 
-        
+        return getreferingobjs(self, iddgroups=iddgroups, fields=fields)
+
     def get_referenced_object(self, fieldname):
         """
         Get an object referred to by a field in another object.
-        
+
         For example an object of type Construction has fields for each layer, each
-        of which refers to a Material. This functions allows the object 
+        of which refers to a Material. This functions allows the object
         representing a Material to be fetched using the name of the layer.
-        
+
         Returns the first item found since if there is more than one matching item,
         it is a malformed IDF.
-        
+
         Parameters
         ----------
         referring_object : EpBunch
             The object which contains a reference to another object,
         fieldname : str
-            The name of the field in the referring object which contains the 
+            The name of the field in the referring object which contains the
             reference to another object.
-            
+
         Returns
         -------
         EpBunch
-    
+
         """
         return get_referenced_object(self, fieldname)
-        
+
     def __setattr__(self, name, value):
         try:
             origname = self['__functions'][name]
@@ -280,9 +280,9 @@ class EpBunch(Bunch):
                 extendlist(self.fieldvalues, i)
                 self.fieldvalues[i] = value
         else:
-            astr = "unable to find field %s" % (name, )
+            astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)  # TODO: could raise AttributeError
-        
+
     def __getattr__(self, name):
         try:
             func = self['__functions'][name]
@@ -307,11 +307,11 @@ class EpBunch(Bunch):
             except IndexError:
                 return ''
         else:
-            astr = "unable to find field %s" % (name, )
+            astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
-        
+
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd', 
+        if key in ('obj', 'objls', 'objidd',
                 '__functions', '__aliases', 'theidf'):
             return super(EpBunch, self).__getitem__(key)
         elif key in self.fieldnames:
@@ -321,11 +321,11 @@ class EpBunch(Bunch):
             except IndexError:
                 return ''
         else:
-            astr = "unknown field %s" % (key, )
+            astr = "unknown field %s" % (key,)
             raise BadEPFieldError(astr)
-    
+
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', 
+        if key in ('obj', 'objls', 'objidd',
                 '__functions', '__aliases', 'theidf'):
             super(EpBunch, self).__setitem__(key, value)
             return None
@@ -337,25 +337,25 @@ class EpBunch(Bunch):
                 extendlist(self.fieldvalues, i)
                 self.fieldvalues[i] = value
         else:
-            astr = "unknown field %s" % (key, )
+            astr = "unknown field %s" % (key,)
             raise BadEPFieldError(astr)
 
     def __repr__(self):
         """print this as an idf snippet"""
         lines = [str(val) for val in self.obj]
         comments = [comm.replace('_', ' ') for comm in self.objls]
-        lines[0] = "%s," % (lines[0], ) # comma after first line
+        lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
-            lines[i + 1] = '    %s,' % (line, ) # indent and comma
-        lines[-1] = '    %s;' % (lines[-1], )# ';' after last line
-        lines = [line.ljust(26) for line in lines] # ljsut the lines
+            lines[i + 1] = '    %s,' % (line,)  # indent and comma
+        lines[-1] = '    %s;' % (lines[-1],)  # ';' after last line
+        lines = lines[:1] + [line.ljust(26) for line in lines[1:]]  # ljsut the lines
         filler = '%s    !- %s'
         nlines = [filler % (line, comm) for line,
-                  comm in zip(lines[1:], comments[1:])]# adds comments to line
-        nlines.insert(0, lines[0])# first line without comment
+                  comm in zip(lines[1:], comments[1:])]  # adds comments to line
+        nlines.insert(0, lines[0])  # first line without comment
         astr = '\n'.join(nlines)
-        return '\n%s\n' % (astr, )
-    
+        return '\n%s\n' % (astr,)
+
     def __str__(self):
         """same as __repr__"""
         # needed if YAML is installed. See issue 67
@@ -366,7 +366,7 @@ class EpBunch(Bunch):
         fnames = self.fieldnames
         func_names = self['__functions'].keys()
         return super(EpBunch, self).__dir__() + fnames + func_names
-    
+
 
 def getrange(bch, fieldname):
     """get the ranges for this field"""
@@ -417,7 +417,7 @@ def checkrange(bch, fieldname):
     return fieldvalue
     """get the idd dict for this field
     Will return {} if the fieldname does not exist"""
-    
+
 def getfieldidd(bch, fieldname):
     """get the idd dict for this field
     Will return {} if the fieldname does not exist"""
@@ -425,11 +425,11 @@ def getfieldidd(bch, fieldname):
     try:
         fieldindex = bch.objls.index(fieldname)
     except ValueError as e:
-        return {}   # the fieldname does not exist
+        return {}  # the fieldname does not exist
                     # so there is no idd
     fieldidd = bch.objidd[fieldindex]
     return fieldidd
-    
+
 def getfieldidd_item(bch, fieldname, iddkey):
     """return an item from the fieldidd, given the iddkey
     will return and empty list if it does not have the iddkey
@@ -439,14 +439,14 @@ def getfieldidd_item(bch, fieldname, iddkey):
         return fieldidd[iddkey]
     except KeyError as e:
         return []
-    
-    
+
+
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
     return 'retaincase' in fieldidd
-    
-    
+
+
 def isequal(bch, fieldname, value, places=7):
     """return True if the field is equal to value"""
     def equalalphanumeric(bch, fieldname, value):
@@ -454,7 +454,7 @@ def isequal(bch, fieldname, value, places=7):
             return bch[fieldname] == value
         else:
             return bch[fieldname].upper() == value.upper()
-            
+
     fieldidd = bch.getfieldidd(fieldname)
     try:
         ftype = fieldidd['type'][0]
@@ -464,7 +464,7 @@ def isequal(bch, fieldname, value, places=7):
             return equalalphanumeric(bch, fieldname, value)
     except KeyError as e:
         return equalalphanumeric(bch, fieldname, value)
-    
+
 
 def getreferingobjs(referedobj, iddgroups=None, fields=None):
     """Get a list of objects that refer to this object"""
@@ -485,8 +485,8 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     referedidd = referedobj.getfieldidd("Name")
     references = referedidd['reference']
     idfobjs = idf.idfobjects.values()
-    idfobjs = list(itertools.chain.from_iterable(idfobjs)) # flatten list
-    if iddgroups: # optional filter
+    idfobjs = list(itertools.chain.from_iterable(idfobjs))  # flatten list
+    if iddgroups:  # optional filter
         idfobjs = [anobj for anobj in idfobjs
             if anobj.getfieldidd('key')['group'] in iddgroups]
     for anobj in idfobjs:
@@ -510,22 +510,22 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
 def get_referenced_object(referring_object, fieldname):
     """
     Get an object referred to by a field in another object.
-    
+
     For example an object of type Construction has fields for each layer, each
-    of which refers to a Material. This functions allows the object 
+    of which refers to a Material. This functions allows the object
     representing a Material to be fetched using the name of the layer.
-    
+
     Returns the first item found since if there is more than one matching item,
     it is a malformed IDF.
-    
+
     Parameters
     ----------
     referring_object : EpBunch
         The object which contains a reference to another object,
     fieldname : str
-        The name of the field in the referring object which contains the 
+        The name of the field in the referring object which contains the
         reference to another object.
-        
+
     Returns
     -------
     EpBunch
@@ -540,6 +540,6 @@ def get_referenced_object(referring_object, fieldname):
                 referenced_obj_name = referring_object[fieldname]
                 if obj.Name == referenced_obj_name:
                     return obj
-            
 
-    
+
+

@@ -45,6 +45,8 @@ setup(
     long_description=long_description,# TODO set this up
     packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry',
               'eppy.constructions', 'eppy.useful_scripts'],
+    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry', 
+              'eppy.constructions', 'eppy.useful_scripts', 'eppy.runner'],
     include_package_data=True,
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
@@ -68,7 +70,7 @@ setup(
         'Topic :: Scientific/Engineering',
         ],
     extras_require={
-        ':python_version<="2.7"': [
+        ':python_version<="2.7.2"': [
             'pydot>1.0',
             'pyparsing>=2.1.4'
             ],

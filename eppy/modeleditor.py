@@ -1,30 +1,33 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 """functions to edit the E+ model"""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six import iteritems
-from six import StringIO
-
 import copy
-from eppy.iddcurrent import iddcurrent
-from eppy.idfreader import idfreader1
-from eppy.idfreader import makeabunch
 import itertools
 import os
 import platform
+import warnings
 
-from py._log import warning
+from six import StringIO
+from six import iteritems
 
-import eppy.function_helpers as function_helpers
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
+import eppy.function_helpers as function_helpers
+from eppy.iddcurrent import iddcurrent
+from eppy.idfreader import idfreader1
+from eppy.idfreader import makeabunch
+from eppy.runner.run_functions import run
+from eppy.runner.run_functions import wrapped_help_text
 
 
 class NoObjectError(Exception):
@@ -54,7 +57,7 @@ class IDDAlreadySetError(Exception):
 def almostequal(first, second, places=7, printit=True):
     """
     Test if two values are equal to a given number of places.
-    This is based on python's unittest so may be covered by Python's 
+    This is based on python's unittest so may be covered by Python's
     license.
 
     """
@@ -498,13 +501,13 @@ def refname2key(idf, refname):
 class IDF(object):
 
     """
-    The IDF class holds all the information about an EnergyPlus IDF. 
+    The IDF class holds all the information about an EnergyPlus IDF.
 
     Class attributes
     ---------------
     iddname : str
         Name of the IDD currently being used by eppy. As a class attribute, this
-        is set for all IDFs which are currently being processed and cannot be 
+        is set for all IDFs which are currently being processed and cannot be
         changed for an individual IDF.
     iddinfo : list
         Comments and metadata about fields in the IDD.
@@ -529,18 +532,22 @@ class IDF(object):
     idd_info = None
     block = None
 
-    def __init__(self, idfname=None):
+    def __init__(self, idfname=None, epw=None):
         """
         Parameters
         ----------
-        idf_name : str, optional
+        idfname : str, optional
             Path to an IDF file (which does not have to exist yet).
+        epw : str, optional
+            File path to the EPW file to use if running the IDF.
 
         """
         # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
             self.read()
+        if epw != None:
+            self.epw = epw
         self.outputtype = "standard"
 
     """ Methods to set up the IDD."""
@@ -571,7 +578,7 @@ class IDF(object):
             pass
         else:
             if testing == False:
-                errortxt = "IDD file is set to: %s" % (cls.iddname, )
+                errortxt = "IDD file is set to: %s" % (cls.iddname,)
                 raise IDDAlreadySetError(errortxt)
 
     @classmethod
@@ -586,7 +593,7 @@ class IDF(object):
         return cls.iddname
 
     @classmethod
-    def setidd(cls, iddinfo, iddindex, block):
+    def setidd(cls, iddinfo, iddindex, block, idd_version):
         """Set the IDD to be used by eppy.
 
         Parameters
@@ -600,6 +607,7 @@ class IDF(object):
         cls.idd_info = iddinfo
         cls.block = block
         cls.idd_index = iddindex
+        cls.idd_version = idd_version
 
     """Methods to do with reading an IDF."""
 
@@ -661,8 +669,9 @@ class IDF(object):
         readout = idfreader1(
             self.idfname, self.iddname, self,
             commdct=self.idd_info, block=self.block)
-        self.idfobjects, block, self.model, idd_info, idd_index = readout
-        self.__class__.setidd(idd_info, idd_index, block)
+        (self.idfobjects, block, self.model,
+            idd_info, idd_index, idd_version) = readout
+        self.__class__.setidd(idd_info, idd_index, block, idd_version)
 
     """Methods to do with creating a new blank IDF object."""
 
@@ -717,11 +726,11 @@ class IDF(object):
         key : str
             The type of IDF object. This must be in ALL_CAPS.
         aname : str, deprecated
-            This parameter is not used. It is left there for backward 
+            This parameter is not used. It is left there for backward
             compatibility.
         **kwargs
             Keyword arguments in the format `field=value` used to set the value
-            of fields in the IDF object when it is created. 
+            of fields in the IDF object when it is created.
 
         Returns
         -------
@@ -731,7 +740,7 @@ class IDF(object):
         obj = newrawobject(self.model, self.idd_info, key)
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
-            warning.warn("The aname parameter should no longer be used.")
+            warnings.warn("The aname parameter should no longer be used.")
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):
@@ -889,7 +898,7 @@ class IDF(object):
         return astr
 
     def save(self, filename=None, lineendings='default', encoding='latin-1'):
-        """ 
+        """
         Save the IDF as a text file with the optional filename passed, or with
         the current idfname of the IDF.
 
@@ -976,7 +985,26 @@ class IDF(object):
 
         """
         self.save(filename, lineendings, encoding)
-        
+
+    @wrapped_help_text(run)
+    def run(self, **kwargs):
+        """
+        Run an IDF file with a given EnergyPlus weather file. This is a
+        wrapper for the EnergyPlus command line interface.
+
+        Parameters
+        ----------
+        **kwargs
+            See eppy.runner.functions.run()
+
+        """
+        # write the IDF to the current directory
+        self.saveas('in.idf')
+        # run EnergyPlus
+        run(self, self.epw, **kwargs)
+        # remove in.idf
+        os.remove('in.idf')
+
     def getiddgroupdict(self):
         """Return a idd group dictionary
         sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
@@ -984,11 +1012,11 @@ class IDF(object):
          ['Controller:WaterCoil',
           'Controller:OutdoorAir',
           'Controller:MechanicalVentilation',
-          'AirLoopHVAC:ControllerList'], 
+          'AirLoopHVAC:ControllerList'],
         ...}
-        
+
         Returns
         -------
-        dict 
+        dict
         """
         return iddgroups.commdct2grouplist(self.idd_info)

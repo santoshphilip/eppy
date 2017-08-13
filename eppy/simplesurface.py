@@ -406,7 +406,7 @@ def glazeddoor(idf, fsdobject, deletebsd=True, setto000=False):
         return simpleobject
     return None
 
-def simplesufrace(idf, bsd, deletebsd=True, setto000=False):
+def simplesurface(idf, bsd, deletebsd=True, setto000=False):
     """convert a bsd (buildingsurface:detailed) into a simple surface"""
     funcs = (wallexterior,
         walladiabatic,

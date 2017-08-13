@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Idf_MSequence - Syntactic Sugar work &mdash; eppy 0.5.41 documentation</title>
+    <title>Idf_MSequence - Syntactic Sugar work &mdash; eppy 0.5.44 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.5.41',
+        VERSION:     '0.5.44',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="eppy 0.5.41 documentation" href="../index.html" />
+    <link rel="top" title="eppy 0.5.44 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation for eppy" href="index.html" />
     <link rel="next" title="IDF in modeleditor" href="modeleditor.html" />
     <link rel="prev" title="EpBunch" href="epbunch.html" /> 
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="epbunch.html" title="EpBunch"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.41 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,12 +56,12 @@
 <div class="section" id="underlying-data-structure-of-again">
 <h2>Underlying Data structure of again<a class="headerlink" href="#underlying-data-structure-of-again" title="Permalink to this headline">¶</a></h2>
 <p>Let us open a small idf file and look at the underlying data structure.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># assume we have open an IDF file called idf</span>
-<span class="c"># let us add three construction objects to it</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C1&#39;</span><span class="p">)</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C2&#39;</span><span class="p">)</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C3&#39;</span><span class="p">)</span>
-<span class="n">constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># assume we have open an IDF file called idf</span>
+<span class="c1"># let us add three construction objects to it</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 <span class="k">print</span> <span class="n">constructions</span>
 </pre></div>
 </div>
@@ -85,7 +85,7 @@ real_constructions = = idf.model.dt[&#39;construction&#39;.upper()]
 print real_constructions
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C3&#39;</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>real_constructions -&gt; the underlying data structure
@@ -94,7 +94,7 @@ constructions -&gt; syntactic sugar for real_constructions
 </div>
 <p>So any changes made in constructions should reflected in constructions.
 Let us test this out.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">constructions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#39;New C1&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">constructions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s1">&#39;New C1&#39;</span>
 <span class="k">print</span> <span class="n">constructions</span>
 </pre></div>
 </div>
@@ -113,13 +113,13 @@ CONSTRUCTION,
 <div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">real_constructions</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;New C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C3&#39;</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;New C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>Even though we made the change only in <em>constructions</em>, we can see the
 changes in both <em>constructions</em> and <em>real_constructions</em>. <code class="docutils literal"><span class="pre">Ep_Bunch</span></code>
 takes care of this for us.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;type for constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s1">&#39;type for constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>type for constructions &lt;type &#39;list&#39;&gt;
@@ -152,16 +152,16 @@ only two items.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">real_constructions</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;New C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C3&#39;</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;New C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>Dammit !! Why not ?</p>
 <p>We still have 3 items in real_constructions and 2 items in
 constructions</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s">&#39;type for constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;id of constructions&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;type for real_constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
-<span class="k">print</span> <span class="s">&#39;id of real_constructions&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">real_constructions</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="s1">&#39;type for constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;id of constructions&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;type for real_constructions&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">constructions</span><span class="p">)</span>
+<span class="k">print</span> <span class="s1">&#39;id of real_constructions&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">real_constructions</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>type for constructions &lt;type &#39;list&#39;&gt;
@@ -203,22 +203,22 @@ form <code class="docutils literal"><span class="pre">collections.MutableSequenc
 </ul>
 <p>Let us take a look at how it works (in all versions of eppy newer than
 0.5):</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># using eppy version greater than 0.5</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># using eppy version greater than 0.5</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../../../&#39;</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../../../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 <span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C1&#39;</span><span class="p">)</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C2&#39;</span><span class="p">)</span>
-<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s">&#39;C3&#39;</span><span class="p">)</span>
-<span class="n">constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C2&#39;</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">newidfobject</span><span class="p">(</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">Name</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">constructions</span>
@@ -236,11 +236,11 @@ CONSTRUCTION,
 ]
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">real_constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">real_constructions</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s1">&#39;construction&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
 <span class="k">print</span> <span class="n">real_constructions</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C3&#39;</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>Shall we test <code class="docutils literal"><span class="pre">pop(0)</span></code> here ?</p>
@@ -266,7 +266,7 @@ CONSTRUCTION,
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">real_constructions</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s">&#39;C3&#39;</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;CONSTRUCTION&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 <p>Awesome !!! both <code class="docutils literal"><span class="pre">constructions</span></code> and <code class="docutils literal"><span class="pre">real_constructions</span></code> have the
@@ -316,33 +316,33 @@ with <code class="docutils literal"><span class="pre">TwoLists</span></code> her
 <span class="k">print</span> <span class="n">twolists</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r_5&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_5&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">twolists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 <span class="k">print</span> <span class="n">twolists</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r_5&#39;</span><span class="p">,</span> <span class="s">&quot;r_{&#39;a&#39;: 15}&quot;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_5&#39;</span><span class="p">,</span> <span class="s2">&quot;r_{&#39;a&#39;: 15}&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">twolists</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">twolists</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r_5&#39;</span><span class="p">,</span> <span class="s">&#39;r_42&#39;</span><span class="p">,</span> <span class="s">&quot;r_{&#39;a&#39;: 15}&quot;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_5&#39;</span><span class="p">,</span> <span class="s1">&#39;r_42&#39;</span><span class="p">,</span> <span class="s2">&quot;r_{&#39;a&#39;: 15}&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">twolists</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">twolists</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="p">],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;r_5&#39;</span><span class="p">,</span> <span class="s">&#39;r_42&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">list1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="p">],</span> <span class="n">list2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;r_5&#39;</span><span class="p">,</span> <span class="s1">&#39;r_42&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Isn&#8217;t that neat !! <code class="docutils literal"><span class="pre">Idf_MSequence</span></code> works in a similar way. Out of
@@ -407,13 +407,13 @@ sheer laziness I am going to let you figure it out on your own. (ignore
         <li class="right" >
           <a href="epbunch.html" title="EpBunch"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.41 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

@@ -47,10 +47,16 @@ Steps for release
 python setup.py upload_docs --upload-dir=docs/generated
 -
 - push to github
-- git tag r0.5
-- git push origin r0.5
+- git tag r0.5.44
+- git push origin r0.5.44
 - make a release on github with a new tag = release number
     - copy and paste from changes.rst (translate to markdown)
+    
+-
+- to delete a tag
+- git push --delete origin tagname # on remote
+- git tag --delete tagname # on local
+    
 
 2013-10-30
 ----------
