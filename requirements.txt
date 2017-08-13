@@ -3,7 +3,7 @@ beautifulsoup4>=4.2.1
 pydot>1.0; python_version <= '2.7'
 pydot3k; python_version >= '3.0'
 pyparsing==1.5.7; python_version <= '2.7'
-pytest>=2.3.5
+pytest>=3.2.1
 tinynumpy>=1.2.1
 six>=1.10.0
 decorator>=4.0.10

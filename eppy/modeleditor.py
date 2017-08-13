@@ -740,7 +740,7 @@ class IDF(object):
         obj = newrawobject(self.model, self.idd_info, key)
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
-            warnings.warn("The aname parameter should no longer be used.")
+            warnings.warn("The aname parameter should no longer be used.", UserWarning)
             namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):
