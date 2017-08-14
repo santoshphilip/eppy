@@ -17,7 +17,6 @@ import eppy.results.readhtml as readhtml
 from eppy.tests.sample_html import sample_html as SAMPLE_HTML
 
 
-
 def test_table2matrix():
     """py.test for table2matrix"""
     thedata = (
@@ -36,7 +35,7 @@ def test_table2matrix():
         ), # tabletxt, rows
     )
     for tabletxt, rows in thedata:
-        soup = BeautifulSoup(tabletxt)
+        soup = BeautifulSoup(tabletxt, "lxml")
         table = soup.find('table')
         result = readhtml.table2matrix(table)
         assert result == rows
@@ -57,9 +56,24 @@ def test_table2val_matrix():
             </table>""",
             [["b", 2], [3, 4]]
         ), # tabletxt, rows
+        # the following test data has a <br> in the <td></td>
+        # it will test if tdbr2EOL works correctly
+        (
+            """<table border="1" cellspacing="0" cellpadding="4">
+            <tr>
+                <td>b <br> b</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            </table>""",
+            [["b \n b", 2], [3, 4]]
+        ), # tabletxt, rows
     )
     for tabletxt, rows in thedata:
-        soup = BeautifulSoup(tabletxt)
+        soup = BeautifulSoup(tabletxt, "lxml")
         table = soup.find('table')
         result = readhtml.table2val_matrix(table)
         assert result == rows
@@ -107,18 +121,15 @@ def test_gettables():
             ], True), # titlerows, tofloat
     )
     for titlerows, tofloat in thedata:
-        # print titlerows
         result = readhtml.titletable(SAMPLE_HTML, tofloat=tofloat)
         for (title1, rows1), (title2, rows2) in zip(result, titlerows):
-            # print title1, title2
             assert title1 == title2
-            # print rows1, rows2
             assert rows1 == rows2
         assert result == titlerows
 
 def test_has_name():
     """py.test for has_name"""
-    soup = BeautifulSoup(SAMPLE_HTML)
+    soup = BeautifulSoup(SAMPLE_HTML, "lxml")
     # soup.p = <p><a href="#toc" style="float: right">Table of Contents</a></p>
     assert readhtml._has_name(soup.p) is True
     # soup.b = <b>EnergyPlus-Windows-OMP-32 7.2.0.006, YMD=2013.01.28 16:38</b>
