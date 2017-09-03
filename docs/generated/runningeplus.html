@@ -8,7 +8,7 @@
     
     <title>Running EnergyPlus from Eppy &mdash; eppy 0.5.44 documentation</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -27,8 +27,8 @@
     <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
     <link rel="prev" title="New functions" href="newfunctions.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,49 +40,49 @@
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="running-energyplus-from-eppy">
 <h1>Running EnergyPlus from Eppy<a class="headerlink" href="#running-energyplus-from-eppy" title="Permalink to this headline">¶</a></h1>
 <p>It would be great if we could run EnergyPlus directly from our IDF
 wouldn’t it?</p>
 <p>Well here’s how we can.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># you would normaly install eppy by doing</span>
-<span class="c1"># python setup.py install</span>
-<span class="c1"># or</span>
-<span class="c1"># pip install eppy</span>
-<span class="c1"># or</span>
-<span class="c1"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
 
-<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="c"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
 
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/Energy+.idd&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;/Applications/EnergyPlus-8-3-0/Energy+.idd&quot;</span>
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idfname</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/ExampleFiles/BasicsFiles/Exercise1A.idf&quot;</span>
-<span class="n">epwfile</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/WeatherData/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw&quot;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idfname</span> <span class="o">=</span> <span class="s">&quot;/Applications/EnergyPlus-8-3-0/ExampleFiles/BasicsFiles/Exercise1A.idf&quot;</span>
+<span class="n">epwfile</span> <span class="o">=</span> <span class="s">&quot;/Applications/EnergyPlus-8-3-0/WeatherData/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw&quot;</span>
 
 <span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">idfname</span><span class="p">,</span> <span class="n">epwfile</span><span class="p">)</span>
 <span class="n">idf</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>if you are in a terminal, you will see something like this:</p>
-<div class="highlight-python"><div class="highlight"><pre>Processing Data Dictionary
+<div class="highlight-python"><pre>Processing Data Dictionary
 Processing Input File
 Initializing Simulation
 Reporting Surfaces
@@ -104,8 +104,7 @@ Warming up {5}
 Warming up {6}
 Starting Simulation at 01/21 for CHICAGO_IL_USA HEATING 99.6% CONDITIONS
 Writing final SQL reports
-EnergyPlus Run Time=00hr 00min  0.24sec
-</pre></div>
+EnergyPlus Run Time=00hr 00min  0.24sec</pre>
 </div>
 <p>It’s as simple as that to run using the EnergyPlus defaults, but all the
 EnergyPlus command line interface options are also supported.</p>
@@ -115,12 +114,12 @@ it will print a full description of the options to the console.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">help</span><span class="p">(</span><span class="n">idf</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>Help on method run in module eppy.modeleditor:
+<div class="highlight-python"><pre>Help on method run in module eppy.modeleditor:
 
 run(self, **kwargs) method of eppy.modeleditor.IDF instance
     This method wraps the following method:
 
-    run(idf=None, weather=None, output_directory=u&#39;&#39;, annual=False, design_day=False, idd=None, epmacro=False, expandobjects=False, readvars=False, output_prefix=None, output_suffix=None, version=False, verbose=u&#39;v&#39;, ep_version=None)
+    run(idf=None, weather=None, output_directory=u&#x27;&#x27;, annual=False, design_day=False, idd=None, epmacro=False, expandobjects=False, readvars=False, output_prefix=None, output_suffix=None, version=False, verbose=u&#x27;v&#x27;, ep_version=None)
         Wrapper around the EnergyPlus command line interface.
 
         Parameters
@@ -132,7 +131,7 @@ run(self, **kwargs) method of eppy.modeleditor.IDF instance
             Full or relative path to the weather file.
 
         output_directory : str, optional
-            Full or relative path to an output directory (default: &#39;run_outputs)
+            Full or relative path to an output directory (default: &#x27;run_outputs)
 
         annual : bool, optional
             If True then force annual simulation (default: False)
@@ -183,8 +182,7 @@ run(self, **kwargs) method of eppy.modeleditor.IDF instance
 
         AttributeError
             If no ep_version parameter is passed when calling with an IDF file path
-            rather than an IDF object.
-</pre></div>
+            rather than an IDF object.</pre>
 </div>
 <p><em>Note:</em> idf.run() works for E+ version &gt;= 8.3</p>
 <div class="section" id="running-in-parallel-processes">
@@ -196,8 +194,7 @@ most of the processing power you have available by running on multiple
 CPUs.</p>
 <p>Again this is as simple as you’d hope it would be.</p>
 <p>You first need to create your jobs as a list of lists in the form:</p>
-<div class="highlight-python"><div class="highlight"><pre>[[&lt;IDF object&gt;, &lt;dict of command line parameters&gt;], ...]
-</pre></div>
+<div class="highlight-python"><pre>[[&lt;IDF object&gt;, &lt;dict of command line parameters&gt;], ...]</pre>
 </div>
 <p>The example here just creates 4 identical jobs apart from the
 output_directory the results are saved in, but you would obviously want
@@ -211,7 +208,7 @@ to make each job different.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -227,14 +224,12 @@ to make each job different.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="useful_scripts.html"
                         title="next chapter">Useful Scripts</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/runningeplus.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/runningeplus.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -251,7 +246,7 @@ to make each job different.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -263,12 +258,12 @@ to make each job different.</p>
         <li class="right" >
           <a href="newfunctions.html" title="New functions"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

@@ -8,7 +8,7 @@
     
     <title>IDF in modeleditor &mdash; eppy 0.5.44 documentation</title>
     
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,8 +28,8 @@
     <link rel="next" title="Unit Testing Eppy" href="pytest_eppy.html" />
     <link rel="prev" title="Idf_MSequence - Syntactic Sugar work" href="idf_msequence.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,15 +41,15 @@
         <li class="right" >
           <a href="idf_msequence.html" title="Idf_MSequence - Syntactic Sugar work"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
+        <li><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="idf-in-modeleditor">
 <h1>IDF in modeleditor<a class="headerlink" href="#idf-in-modeleditor" title="Permalink to this headline">¶</a></h1>
@@ -67,10 +67,10 @@ following was set as IDF = IDF3</p>
 <p>Some important methods in IDF0</p>
 <div class="section" id="idf0-setiddname">
 <h3>IDF0.setiddname<a class="headerlink" href="#idf0-setiddname" title="Permalink to this headline">¶</a></h3>
-<p>This method has a decorator <code class="docutils literal"><span class="pre">&#64;classmethod</span></code>. This decorator makes the
+<p>This method has a decorator <tt class="docutils literal"><span class="pre">&#64;classmethod</span></tt>. This decorator makes the
 method a class method. From a stackoverflow comment, I found a brief
 description of when this should be used.</p>
-<p><code class="docutils literal"><span class="pre">&quot;Class</span> <span class="pre">methods</span> <span class="pre">are</span> <span class="pre">essential</span> <span class="pre">when</span> <span class="pre">you</span> <span class="pre">are</span> <span class="pre">doing</span> <span class="pre">set-up</span> <span class="pre">or</span> <span class="pre">computation</span> <span class="pre">that</span> <span class="pre">precedes</span> <span class="pre">the</span> <span class="pre">creation</span> <span class="pre">of</span> <span class="pre">an</span> <span class="pre">actual</span> <span class="pre">instance,</span> <span class="pre">because</span> <span class="pre">until</span> <span class="pre">the</span> <span class="pre">instance</span> <span class="pre">exists</span> <span class="pre">you</span> <span class="pre">obviously</span> <span class="pre">cannot</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">instance</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">dispatch</span> <span class="pre">point</span> <span class="pre">for</span> <span class="pre">your</span> <span class="pre">method</span> <span class="pre">calls&quot;</span></code></p>
+<p><tt class="docutils literal"><span class="pre">&quot;Class</span> <span class="pre">methods</span> <span class="pre">are</span> <span class="pre">essential</span> <span class="pre">when</span> <span class="pre">you</span> <span class="pre">are</span> <span class="pre">doing</span> <span class="pre">set-up</span> <span class="pre">or</span> <span class="pre">computation</span> <span class="pre">that</span> <span class="pre">precedes</span> <span class="pre">the</span> <span class="pre">creation</span> <span class="pre">of</span> <span class="pre">an</span> <span class="pre">actual</span> <span class="pre">instance,</span> <span class="pre">because</span> <span class="pre">until</span> <span class="pre">the</span> <span class="pre">instance</span> <span class="pre">exists</span> <span class="pre">you</span> <span class="pre">obviously</span> <span class="pre">cannot</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">instance</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">dispatch</span> <span class="pre">point</span> <span class="pre">for</span> <span class="pre">your</span> <span class="pre">method</span> <span class="pre">calls&quot;</span></tt></p>
 <p>Having said that, I am outside my comfort zone on trying to explain this
 in any depth. I will simply explain what I am doing with this here.
 Below is a brief explanation intent.</p>
@@ -88,16 +88,16 @@ version (meaing, the use the same idd file)</li>
 <ul class="simple">
 <li>The class method &#8216;setiddname&#8217;, allows us to set the name of the idd
 file, before creating an instance of IDF. It is set by the statement
-<code class="docutils literal"><span class="pre">IDF.setiddname(iddfilename)</span></code></li>
+<tt class="docutils literal"><span class="pre">IDF.setiddname(iddfilename)</span></tt></li>
 <li>There are other class methods that make sure that this idd name
 cannot be changed.</li>
 <li>An instance of the class IDF is created using the statement
-<code class="docutils literal"><span class="pre">idf</span> <span class="pre">=</span> <span class="pre">IDF(idffilename)</span></code>. This can be done multiple times, creating
+<tt class="docutils literal"><span class="pre">idf</span> <span class="pre">=</span> <span class="pre">IDF(idffilename)</span></tt>. This can be done multiple times, creating
 multiple instances and they will all use the same idd file</li>
 </ul>
 </div>
 <div class="section" id="idf0-init">
-<h3>IDF0.<code class="docutils literal"><span class="pre">__init__</span></code><a class="headerlink" href="#idf0-init" title="Permalink to this headline">¶</a></h3>
+<h3>IDF0.<tt class="docutils literal"><span class="pre">__init__</span></tt><a class="headerlink" href="#idf0-init" title="Permalink to this headline">¶</a></h3>
 <p>IDF is initialized by passing it the idf file name. I would look like
 this:</p>
 <blockquote>
@@ -105,7 +105,7 @@ this:</p>
 <ul class="simple">
 <li>Once the class is initialized, it will read the idf file.</li>
 <li>If this the first time the class is inititalized, the idd file set by
-<code class="docutils literal"><span class="pre">setiddname()</span></code> will be read too.</li>
+<tt class="docutils literal"><span class="pre">setiddname()</span></tt> will be read too.</li>
 <li>the idd file is read only once and then same copy is used.</li>
 </ul>
 </div>
@@ -139,7 +139,7 @@ detail</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -147,7 +147,7 @@ detail</p>
 <li><a class="reference internal" href="#class-idf">Class IDF</a></li>
 <li><a class="reference internal" href="#class-idf0">Class IDF0</a><ul>
 <li><a class="reference internal" href="#idf0-setiddname">IDF0.setiddname</a></li>
-<li><a class="reference internal" href="#idf0-init">IDF0.<code class="docutils literal"><span class="pre">__init__</span></code></a></li>
+<li><a class="reference internal" href="#idf0-init">IDF0.<tt class="docutils literal"><span class="pre">__init__</span></tt></a></li>
 <li><a class="reference internal" href="#idf0-read">IDF0.read</a></li>
 </ul>
 </li>
@@ -162,14 +162,12 @@ detail</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pytest_eppy.html"
                         title="next chapter">Unit Testing Eppy</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/dev_docs/modeleditor.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/dev_docs/modeleditor.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -186,7 +184,7 @@ detail</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -198,13 +196,13 @@ detail</p>
         <li class="right" >
           <a href="idf_msequence.html" title="Idf_MSequence - Syntactic Sugar work"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
+        <li><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

@@ -8,7 +8,7 @@
     
     <title>&lt;no title&gt; &mdash; eppy 0.5.44 documentation</title>
     
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,76 +25,75 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="eppy 0.5.44 documentation" href="index.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="code python highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;HVAC diagrams&quot;&quot;&quot;</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="s1">&#39;HVAC diagrams&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&#39;HVAC diagrams&#39;</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># you would normaly install eppy by doing</span>
-<span class="c1"># python setup.py install</span>
-<span class="c1"># or</span>
-<span class="c1"># pip install eppy</span>
-<span class="c1"># or</span>
-<span class="c1"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
 
-<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="c"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V8_0_0.idd&quot;</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V8_0_0.idd&quot;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&quot;</span>
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># idf.model</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># idf.model</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.EPlusInterfaceFunctions</span> <span class="kn">import</span> <span class="n">readidf</span>
 <span class="kn">from</span> <span class="nn">eppy.ex_loopdiagram</span> <span class="kn">import</span> <span class="n">makeairplantloop</span><span class="p">,</span> <span class="n">makediagram</span>
 
-<span class="k">print</span> <span class="s2">&quot;readingfile&quot;</span>
+<span class="k">print</span> <span class="s">&quot;readingfile&quot;</span>
 <span class="n">data</span><span class="p">,</span> <span class="n">commdct</span> <span class="o">=</span> <span class="n">readidf</span><span class="o">.</span><span class="n">readdatacommdct</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">iddfile</span><span class="o">=</span><span class="n">iddfile</span><span class="p">)</span>
-<span class="k">print</span> <span class="s2">&quot;constructing the loops&quot;</span>
+<span class="k">print</span> <span class="s">&quot;constructing the loops&quot;</span>
 <span class="n">edges</span> <span class="o">=</span> <span class="n">makeairplantloop</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">)</span>
-<span class="k">print</span> <span class="s2">&quot;making the diagram&quot;</span>
+<span class="k">print</span> <span class="s">&quot;making the diagram&quot;</span>
 <span class="n">g</span> <span class="o">=</span> <span class="n">makediagram</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
-<span class="n">dotname</span> <span class="o">=</span> <span class="s2">&quot;a.dot&quot;</span>
-<span class="n">pngname</span> <span class="o">=</span> <span class="s2">&quot;a.png&quot;</span>
-<span class="c1"># dotname = &#39;%s.dot&#39; % (os.path.splitext(fname)[0])</span>
-<span class="c1"># pngname = &#39;%s.png&#39; % (os.path.splitext(fname)[0])</span>
+<span class="n">dotname</span> <span class="o">=</span> <span class="s">&quot;a.dot&quot;</span>
+<span class="n">pngname</span> <span class="o">=</span> <span class="s">&quot;a.png&quot;</span>
+<span class="c"># dotname = &#39;%s.dot&#39; % (os.path.splitext(fname)[0])</span>
+<span class="c"># pngname = &#39;%s.png&#39; % (os.path.splitext(fname)[0])</span>
 <span class="n">g</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dotname</span><span class="p">)</span>
 <span class="n">g</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">pngname</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>readingfile
+<div class="highlight-python"><pre>readingfile
 constructing the loops
-making the diagram
-</pre></div>
+making the diagram</pre>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">True</span>
 </pre></div>
@@ -104,16 +103,14 @@ making the diagram
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/HVAC_diagrams.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/HVAC_diagrams.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -130,18 +127,18 @@ making the diagram
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
+        <li><a href="index.html">eppy 0.5.44 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

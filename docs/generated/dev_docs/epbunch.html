@@ -8,7 +8,7 @@
     
     <title>EpBunch &mdash; eppy 0.5.44 documentation</title>
     
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -28,8 +28,8 @@
     <link rel="next" title="Idf_MSequence - Syntactic Sugar work" href="idf_msequence.html" />
     <link rel="prev" title="Underlying Data Structure of eppy" href="data_eppy.html" /> 
   </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
+  <body>
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -41,15 +41,15 @@
         <li class="right" >
           <a href="data_eppy.html" title="Underlying Data Structure of eppy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
+        <li><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="epbunch">
 <h1>EpBunch<a class="headerlink" href="#epbunch" title="Permalink to this headline">¶</a></h1>
@@ -62,8 +62,8 @@
 </tbody>
 </table>
 <p>EpBunch is at the heart of what makes eppy easy to use. Specifically
-Epbunch is what allows us to use the syntax <code class="docutils literal"><span class="pre">building.Name</span></code> and
-<code class="docutils literal"><span class="pre">building.North_Axis</span></code>. Some advanced coding had to be done to make
+Epbunch is what allows us to use the syntax <tt class="docutils literal"><span class="pre">building.Name</span></tt> and
+<tt class="docutils literal"><span class="pre">building.North_Axis</span></tt>. Some advanced coding had to be done to make
 this happen. Coding that would be easy for professional programmers, but
 not for us ordinary folk :-(</p>
 <p>Most of us who are going to be coding eppy are not professional
@@ -82,13 +82,13 @@ code, so you can experiment with it.</p>
 understanding of the magic methods of Python. (For a background on magic
 methods, take a look at <a class="reference external" href="http://www.rafekettler.com/magicmethods.html">http://www.rafekettler.com/magicmethods.html</a>)
 Let us dive straight into this with some examples</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">adict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># create a dictionary</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">adict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c"># create a dictionary</span>
 <span class="k">print</span> <span class="n">adict</span>
-<span class="k">print</span> <span class="n">adict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">adict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">adict</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">adict</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 <span class="mi">10</span>
 <span class="mi">20</span>
 </pre></div>
@@ -96,25 +96,25 @@ Let us dive straight into this with some examples</p>
 <p>What happens when we say d[&#8216;a&#8217;] ?</p>
 <p>This is where the magic methods come in. Magic methods are methods that
 work behind the scenes and do some magic. So when we say d[&#8216;a&#8217;], The
-dict is calling the method <code class="docutils literal"><span class="pre">__getitem__('a')</span></code>.</p>
-<p>Magic methods have a <em>double underscore</em> &#8220;<code class="docutils literal"><span class="pre">__</span></code>&#8221;, called <strong>dunder</strong>
+dict is calling the method <tt class="docutils literal"><span class="pre">__getitem__('a')</span></tt>.</p>
+<p>Magic methods have a <em>double underscore</em> &#8220;<tt class="docutils literal"><span class="pre">__</span></tt>&#8221;, called <strong>dunder</strong>
 methods for short</p>
 <p>Let us override that method and see what happens.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># we are subclassing dict here</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="c"># we are subclassing dict here</span>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Funnydict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;key = </span><span class="si">%s</span><span class="s2">, value = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;key = </span><span class="si">%s</span><span class="s">, value = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 <span class="n">funny</span> <span class="o">=</span> <span class="n">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
 <span class="k">print</span> <span class="n">funny</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>The print worked as expected. Now let us try to print the values</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">funny</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">key</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">10</span>
@@ -122,20 +122,20 @@ methods for short</p>
 </pre></div>
 </div>
 <p>Now that worked very differently from a dict</p>
-<p>So it is true, funny[&#8216;a&#8217;] does call <code class="docutils literal"><span class="pre">__getitem__()</span></code> that we just wrote</p>
+<p>So it is true, funny[&#8216;a&#8217;] does call <tt class="docutils literal"><span class="pre">__getitem__()</span></tt> that we just wrote</p>
 <p>Let us go back to the variable <strong>adict</strong></p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># to jog our memory</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># to jog our memory</span>
 <span class="k">print</span> <span class="n">adict</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># this should not work</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># this should not work</span>
 <span class="k">print</span> <span class="n">adict</span><span class="o">.</span><span class="n">a</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+<div class="highlight-python"><pre>---------------------------------------------------------------------------
 AttributeError                            Traceback (most recent call last)
 
 &lt;ipython-input-5-8aa7211fcb66&gt; in &lt;module&gt;()
@@ -143,11 +143,10 @@ AttributeError                            Traceback (most recent call last)
 ----&gt; 2 print adict.a
 
 
-AttributeError: &#39;dict&#39; object has no attribute &#39;a&#39;
-</pre></div>
+AttributeError: &#x27;dict&#x27; object has no attribute &#x27;a&#x27;</pre>
 </div>
 <p>What method gets called when we say <strong>adict.a</strong> ?</p>
-<p>The magic method here is <code class="docutils literal"><span class="pre">__getattr__</span></code>() and <code class="docutils literal"><span class="pre">__setattr__()</span></code>.
+<p>The magic method here is <tt class="docutils literal"><span class="pre">__getattr__</span></tt>() and <tt class="docutils literal"><span class="pre">__setattr__()</span></tt>.
 Shall we override them and see if we can get the dot notation to work ?</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Like_bunch</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -159,7 +158,7 @@ Shall we override them and see if we can get the dot notation to work ?</p>
 <span class="k">print</span> <span class="n">lbunch</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>Works like a dict so far. How about <strong>lbunch.a</strong> ?</p>
@@ -172,7 +171,7 @@ Shall we override them and see if we can get the dot notation to work ?</p>
 </pre></div>
 </div>
 <p>Yipeee !!! I works</p>
-<p>How about <code class="docutils literal"><span class="pre">lbunch.nota</span> <span class="pre">=</span> <span class="pre">100</span></code></p>
+<p>How about <tt class="docutils literal"><span class="pre">lbunch.nota</span> <span class="pre">=</span> <span class="pre">100</span></tt></p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">lbunch</span><span class="o">.</span><span class="n">anot</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="k">print</span> <span class="n">lbunch</span><span class="o">.</span><span class="n">anot</span>
 </pre></div>
@@ -188,31 +187,31 @@ about the bunch library in the previous section.</p>
 <div class="section" id="open-an-idf-file">
 <h2>Open an IDF file<a class="headerlink" href="#open-an-idf-file" title="Permalink to this headline">¶</a></h2>
 <p>Once again let us open a small idf file to test.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># you would normaly install eppy by doing</span>
-<span class="c1"># python setup.py install</span>
-<span class="c1"># or</span>
-<span class="c1"># pip install eppy</span>
-<span class="c1"># or</span>
-<span class="c1"># easy_install eppy</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c"># you would normaly install eppy by doing</span>
+<span class="c"># python setup.py install</span>
+<span class="c"># or</span>
+<span class="c"># pip install eppy</span>
+<span class="c"># or</span>
+<span class="c"># easy_install eppy</span>
 
-<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="c"># if you have not done so, uncomment the following three lines</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
-<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../../../&#39;</span>
+<span class="c"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s">&#39;../../../&#39;</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
 <span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
-<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
-<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/idffiles/V_7_2/dev1.idf&quot;</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s">&quot;../../../eppy/resources/idffiles/V_7_2/dev1.idf&quot;</span>
 
 <span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
 <span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
 <span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>VERSION,
+<div class="highlight-python"><pre>VERSION,
     7.3;                      !- Version Identifier
 
 SIMULATIONCONTROL,
@@ -245,43 +244,42 @@ MATERIAL:AIRGAP,
 
 MATERIAL:AIRGAP,
     F05 Ceiling air space resistance,    !- Name
-    0.18;                     !- Thermal Resistance
-</pre></div>
+    0.18;                     !- Thermal Resistance</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">dtls</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span>
 <span class="n">dt</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span>
 <span class="n">idd_info</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idd_info</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">dt</span><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>
- <span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F05 Ceiling air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">]]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F05 Ceiling air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">]]</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">obj_i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">)</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">obj_i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">)</span>
 <span class="n">obj_idd</span> <span class="o">=</span> <span class="n">idd_info</span><span class="p">[</span><span class="n">obj_i</span><span class="p">]</span>
 <span class="n">obj_idd</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[{</span><span class="s1">&#39;memo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Air Space in Opaque Construction&#39;</span><span class="p">],</span> <span class="s1">&#39;min-fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">]},</span>
- <span class="p">{</span><span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;reference&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MaterialName&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;required-field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]},</span>
- <span class="p">{</span><span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Thermal Resistance&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;real&#39;</span><span class="p">],</span>
-  <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;m2-K/W&#39;</span><span class="p">]}]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[{</span><span class="s">&#39;memo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Air Space in Opaque Construction&#39;</span><span class="p">],</span> <span class="s">&#39;min-fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;2&#39;</span><span class="p">]},</span>
+ <span class="p">{</span><span class="s">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Name&#39;</span><span class="p">],</span>
+  <span class="s">&#39;reference&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;MaterialName&#39;</span><span class="p">],</span>
+  <span class="s">&#39;required-field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">],</span>
+  <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;alpha&#39;</span><span class="p">]},</span>
+ <span class="p">{</span><span class="s">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;Thermal Resistance&#39;</span><span class="p">],</span>
+  <span class="s">&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;0&#39;</span><span class="p">],</span>
+  <span class="s">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;real&#39;</span><span class="p">],</span>
+  <span class="s">&#39;units&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;m2-K/W&#39;</span><span class="p">]}]</span>
 </pre></div>
 </div>
 <p>For the rest of this section let us look at only one airgap object</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">airgap</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">airgap</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">airgap</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -289,7 +287,7 @@ MATERIAL:AIRGAP,
 <h2>Subclassing of Bunch<a class="headerlink" href="#subclassing-of-bunch" title="Permalink to this headline">¶</a></h2>
 <p>Let us review our knowledge of bunch</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bunch</span> <span class="kn">import</span> <span class="n">Bunch</span>
-<span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
 <span class="n">bunchdict</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
 <span class="k">print</span> <span class="n">bunchdict</span>
 <span class="k">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">a</span>
@@ -304,10 +302,10 @@ MATERIAL:AIRGAP,
 </pre></div>
 </div>
 <p>Bunch lets us use dot notation on the keys of a dictionary. We need to
-find a way of making <code class="docutils literal"><span class="pre">airgap.Name</span></code> work. This is not straightforward
+find a way of making <tt class="docutils literal"><span class="pre">airgap.Name</span></tt> work. This is not straightforward
 because, airgap is <strong>list</strong> and Bunch works on <strong>dicts</strong>. It would be
 easy if airgap was in the form
-<code class="docutils literal"><span class="pre">{'Name'</span> <span class="pre">:</span> <span class="pre">'F04</span> <span class="pre">Wall</span> <span class="pre">air</span> <span class="pre">space</span> <span class="pre">resistance',</span> <span class="pre">'Thermal</span> <span class="pre">Resistance'</span> <span class="pre">:</span> <span class="pre">0.15}</span></code>.</p>
+<tt class="docutils literal"><span class="pre">{'Name'</span> <span class="pre">:</span> <span class="pre">'F04</span> <span class="pre">Wall</span> <span class="pre">air</span> <span class="pre">space</span> <span class="pre">resistance',</span> <span class="pre">'Thermal</span> <span class="pre">Resistance'</span> <span class="pre">:</span> <span class="pre">0.15}</span></tt>.</p>
 <p>The rest of this section is a simplified version of how EpBunch works.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">EpBunch</span><span class="p">(</span><span class="n">Bunch</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objls</span><span class="p">,</span> <span class="n">objidd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -318,21 +316,21 @@ easy if airgap was in the form
 </pre></div>
 </div>
 <p>The above code shows how EpBunch is initialized. Three variables are
-passed to EpBunch to initialize it. They are <code class="docutils literal"><span class="pre">obj,</span> <span class="pre">objls,</span> <span class="pre">objidd</span></code>.</p>
+passed to EpBunch to initialize it. They are <tt class="docutils literal"><span class="pre">obj,</span> <span class="pre">objls,</span> <span class="pre">objidd</span></tt>.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">obj</span> <span class="o">=</span> <span class="n">airgap</span>
-<span class="n">objls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Thermal_Resistance&#39;</span><span class="p">]</span> <span class="c1"># a function extracts this from idf1.idd_info</span>
+<span class="n">objls</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;Thermal_Resistance&#39;</span><span class="p">]</span> <span class="c"># a function extracts this from idf1.idd_info</span>
 <span class="n">objidd</span> <span class="o">=</span> <span class="n">obj_idd</span>
-<span class="c1">#</span>
+<span class="c">#</span>
 <span class="k">print</span> <span class="n">obj</span>
 <span class="k">print</span> <span class="n">objls</span>
-<span class="c1"># let us ignore objidd for now</span>
+<span class="c"># let us ignore objidd for now</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
-<span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Thermal_Resistance&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<span class="p">[</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;Thermal_Resistance&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Now we override <code class="docutils literal"><span class="pre">__setattr__()</span></code> and <code class="docutils literal"><span class="pre">__getattr__()</span></code> in the following
+<p>Now we override <tt class="docutils literal"><span class="pre">__setattr__()</span></tt> and <tt class="docutils literal"><span class="pre">__getattr__()</span></tt> in the following
 way</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">EpBunch</span><span class="p">(</span><span class="n">Bunch</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objls</span><span class="p">,</span> <span class="n">objidd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -342,44 +340,42 @@ way</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">objidd</span> <span class="o">=</span> <span class="n">objidd</span>
 
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;objls&#39;</span><span class="p">,</span> <span class="s1">&#39;objidd&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;obj&#39;</span><span class="p">,</span> <span class="s">&#39;objls&#39;</span><span class="p">,</span> <span class="s">&#39;objidd&#39;</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;objls&#39;</span><span class="p">,</span> <span class="s1">&#39;objidd&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;obj&#39;</span><span class="p">,</span> <span class="s">&#39;objls&#39;</span><span class="p">,</span> <span class="s">&#39;objidd&#39;</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">None</span>
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 </pre></div>
 </div>
-<div class="code python highlight-python"><div class="highlight"><pre># Let us create a EpBunch object
+<div class="code python highlight-python"><pre># Let us create a EpBunch object
 bunch_airgap = EpBunch(obj, objls, objidd)
 # Use this table to see how __setattr__ and __getattr__ work in EpBunch
 
-obj   = [&#39;MATERIAL:AIRGAP&#39;, &#39;F04 Wall air space resistance&#39;, 0.15                ]
-objls = [&#39;key&#39;,             &#39;Name&#39;,                         &#39;Thermal_Resistance&#39;]
-i     =   0                  1                               2
-</pre></div>
+obj   = [&#x27;MATERIAL:AIRGAP&#x27;, &#x27;F04 Wall air space resistance&#x27;, 0.15                ]
+objls = [&#x27;key&#x27;,             &#x27;Name&#x27;,                         &#x27;Thermal_Resistance&#x27;]
+i     =   0                  1                               2</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span>
 <span class="k">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Thermal_Resistance</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>F04 Wall air space resistance
-0.15
-</pre></div>
+<div class="highlight-python"><pre>F04 Wall air space resistance
+0.15</pre>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">obj</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Let us change some values using the dot notation</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s1">&#39;Argon in gap&#39;</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s">&#39;Argon in gap&#39;</span>
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span>
@@ -391,26 +387,26 @@ i     =   0                  1                               2
 <div class="code python highlight-python"><div class="highlight"><pre><span class="k">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">obj</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Using the dot notation the value is changed in the list</p>
 <p>Let us make sure it actually has done that.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">EpBunch</span></code> acts as a wrapper around
-<code class="docutils literal"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></code></p>
-<p>In other words <code class="docutils literal"><span class="pre">EpBunch</span></code> is just <strong>Syntactic Sugar</strong> for
-<code class="docutils literal"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></code></p>
+<p><tt class="docutils literal"><span class="pre">EpBunch</span></tt> acts as a wrapper around
+<tt class="docutils literal"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></tt></p>
+<p>In other words <tt class="docutils literal"><span class="pre">EpBunch</span></tt> is just <strong>Syntactic Sugar</strong> for
+<tt class="docutils literal"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></tt></p>
 </div>
 <div class="section" id="variables-and-names-in-python">
 <h2>Variables and Names in Python<a class="headerlink" href="#variables-and-names-in-python" title="Permalink to this headline">¶</a></h2>
 <p>At this point your reaction may, &#8220;I don&#8217;t see how all those values in
-<code class="docutils literal"><span class="pre">idf1.model.dt</span></code> changed&#8221;. If such question arises in your mind, you
+<tt class="docutils literal"><span class="pre">idf1.model.dt</span></tt> changed&#8221;. If such question arises in your mind, you
 need to read the following:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#other-languages-have-variables">Other languages have
@@ -429,35 +425,35 @@ and read those links in any case.</p>
 <div class="section" id="epbunch-1">
 <h3>EpBunch_1<a class="headerlink" href="#epbunch-1" title="Permalink to this headline">¶</a></h3>
 <p>The code for EpBunch in the earlier section will work, but has been
-simplified for clarity. In file <code class="docutils literal"><span class="pre">bunch_subclass.py</span></code> take a look at the
+simplified for clarity. In file <tt class="docutils literal"><span class="pre">bunch_subclass.py</span></tt> take a look at the
 class <strong>EpBunch_1</strong> . This class does the first override of
-<code class="docutils literal"><span class="pre">__setattr__</span></code> and <code class="docutils literal"><span class="pre">__getattr__</span></code>. You will see that the code is a
+<tt class="docutils literal"><span class="pre">__setattr__</span></tt> and <tt class="docutils literal"><span class="pre">__getattr__</span></tt>. You will see that the code is a
 little more involved, dealing with edge conditions and catching
 exceptions.</p>
-<p><strong>EpBunch_1</strong> also defines <code class="docutils literal"><span class="pre">__repr__</span></code>. This lets you print EpBunch in
-a human readable format. Further research indicates that <code class="docutils literal"><span class="pre">__str__</span></code>
-should have been used to do this, not <code class="docutils literal"><span class="pre">__repr__</span></code> :-(</p>
+<p><strong>EpBunch_1</strong> also defines <tt class="docutils literal"><span class="pre">__repr__</span></tt>. This lets you print EpBunch in
+a human readable format. Further research indicates that <tt class="docutils literal"><span class="pre">__str__</span></tt>
+should have been used to do this, not <tt class="docutils literal"><span class="pre">__repr__</span></tt> :-(</p>
 </div>
 <div class="section" id="epbunch-2">
 <h3>EpBunch_2<a class="headerlink" href="#epbunch-2" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">EpBunch_2</span></code> is subclassed from <code class="docutils literal"><span class="pre">EpBunch_1</span></code>.</p>
-<p>It overrides <code class="docutils literal"><span class="pre">__setattr__</span></code> and <code class="docutils literal"><span class="pre">__getattr__</span></code> to add a small
+<p><tt class="docutils literal"><span class="pre">EpBunch_2</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_1</span></tt>.</p>
+<p>It overrides <tt class="docutils literal"><span class="pre">__setattr__</span></tt> and <tt class="docutils literal"><span class="pre">__getattr__</span></tt> to add a small
 functionality that has not been documented or used. The idea was to give
 the ability to shorten field names with alias. So
-<code class="docutils literal"><span class="pre">building.Maximum_Number_of_Warmup_Days</span></code> could be made into
-<code class="docutils literal"><span class="pre">building.warmupdays</span></code>.</p>
+<tt class="docutils literal"><span class="pre">building.Maximum_Number_of_Warmup_Days</span></tt> could be made into
+<tt class="docutils literal"><span class="pre">building.warmupdays</span></tt>.</p>
 <p>I seemed like a good idea when I wrote it. Ignore it for now, although
 it may make a comeback :-)</p>
 </div>
 <div class="section" id="epbunch-3">
 <h3>EpBunch_3<a class="headerlink" href="#epbunch-3" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">EpBunch_3</span></code> is subclassed from <code class="docutils literal"><span class="pre">EpBunch_2</span></code>.</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_3</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_2</span></tt>.</p>
 <p>EpBunch_3 adds the ability to add functions to EpBunch objects. This
 would allow the object to make calculations using data within the
-object. So <code class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></code> object has all the geometry data
+object. So <tt class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></tt> object has all the geometry data
 of the object. The function &#8216;area&#8217; will let us calculate the are of the
-object even though area is not a field in <code class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></code>.</p>
-<p>So you can call <code class="docutils literal"><span class="pre">idf1.idfobjects[&quot;BuildingSurface:Detailed&quot;][0].area</span></code>
+object even though area is not a field in <tt class="docutils literal"><span class="pre">BuildingSurface:Detailed</span></tt>.</p>
+<p>So you can call <tt class="docutils literal"><span class="pre">idf1.idfobjects[&quot;BuildingSurface:Detailed&quot;][0].area</span></tt>
 and get the area of the surface.</p>
 <p>At the moment, the functions can use only data within the object for
 it&#8217;s calculation. We need to extend this functionality so that
@@ -467,22 +463,22 @@ need data from the surfaces that the aone refers to.</p>
 </div>
 <div class="section" id="epbunch-4">
 <h3>EpBunch_4<a class="headerlink" href="#epbunch-4" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">EpBunch_4</span></code> is subclassed from <code class="docutils literal"><span class="pre">EpBunch_3</span></code>.</p>
-<p><code class="docutils literal"><span class="pre">EpBunch_4</span></code> overrides <code class="docutils literal"><span class="pre">_setitem__</span></code> and <code class="docutils literal"><span class="pre">__getitem__</span></code>. Right now
-<code class="docutils literal"><span class="pre">airgap.Name</span></code> works. This update allows <code class="docutils literal"><span class="pre">airgap[&quot;Name&quot;]</span></code> to work
+<p><tt class="docutils literal"><span class="pre">EpBunch_4</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_3</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_4</span></tt> overrides <tt class="docutils literal"><span class="pre">_setitem__</span></tt> and <tt class="docutils literal"><span class="pre">__getitem__</span></tt>. Right now
+<tt class="docutils literal"><span class="pre">airgap.Name</span></tt> works. This update allows <tt class="docutils literal"><span class="pre">airgap[&quot;Name&quot;]</span></tt> to work
 correctly too</p>
 </div>
 <div class="section" id="epbunch-5">
 <h3>EpBunch_5<a class="headerlink" href="#epbunch-5" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">EpBunch_5</span></code> is subclassed from <code class="docutils literal"><span class="pre">EpBunch_4</span></code>.</p>
-<p><code class="docutils literal"><span class="pre">EpBunch_5</span></code> adds functions that allows you to call functions
-<code class="docutils literal"><span class="pre">getrange</span></code> and <code class="docutils literal"><span class="pre">checkrange</span></code> for a field</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> is subclassed from <tt class="docutils literal"><span class="pre">EpBunch_4</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> adds functions that allows you to call functions
+<tt class="docutils literal"><span class="pre">getrange</span></tt> and <tt class="docutils literal"><span class="pre">checkrange</span></tt> for a field</p>
 </div>
 <div class="section" id="finally-epbunch">
 <h3>Finally EpBunch<a class="headerlink" href="#finally-epbunch" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">EpBunch</span> <span class="pre">=</span> <span class="pre">EpBunch_5</span></code></p>
-<p>Finally <code class="docutils literal"><span class="pre">EpBunch_5</span></code> is named as EpBunch. So the rest of the code uses
-EpBunch and in effect it uses <code class="docutils literal"><span class="pre">Epbunch_5</span></code></p>
+<p><tt class="docutils literal"><span class="pre">EpBunch</span> <span class="pre">=</span> <span class="pre">EpBunch_5</span></tt></p>
+<p>Finally <tt class="docutils literal"><span class="pre">EpBunch_5</span></tt> is named as EpBunch. So the rest of the code uses
+EpBunch and in effect it uses <tt class="docutils literal"><span class="pre">Epbunch_5</span></tt></p>
 </div>
 </div>
 </div>
@@ -491,7 +487,7 @@ EpBunch and in effect it uses <code class="docutils literal"><span class="pre">E
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
@@ -519,14 +515,12 @@ EpBunch and in effect it uses <code class="docutils literal"><span class="pre">E
   <h4>Next topic</h4>
   <p class="topless"><a href="idf_msequence.html"
                         title="next chapter">Idf_MSequence - Syntactic Sugar work</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/dev_docs/epbunch.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/dev_docs/epbunch.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
@@ -543,7 +537,7 @@ EpBunch and in effect it uses <code class="docutils literal"><span class="pre">E
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -555,13 +549,13 @@ EpBunch and in effect it uses <code class="docutils literal"><span class="pre">E
         <li class="right" >
           <a href="data_eppy.html" title="Underlying Data Structure of eppy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
+        <li><a href="../index.html">eppy 0.5.44 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Developer Documentation for eppy</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer" role="contentinfo">
+    <div class="footer">
         &copy; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
     </div>
   </body>
 </html>

@@ -2,6 +2,11 @@
 HVAC Loops
 ==========
 
+Note:
+-----
+
+This has been build tested with E+ version 7. It may be broken with E+ version 8 and greater. It is defenitely broken with E+ version 8.7. It may tike some time to fix. (`An issue <https://github.com/santoshphilip/eppy/issues/166>`_ has been opened in github. )
+
 Conceptual Introduction to HVAC Loops
 -------------------------------------
 
