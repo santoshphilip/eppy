@@ -491,7 +491,7 @@ def makeairplantloop(data, commdct):
 
 def getedges(fname, iddfile):
     """return the edges of the idf file fname"""
-    data, commdct = readidf.readdatacommdct(fname, iddfile=iddfile)
+    data, commdct, _idd_index = readidf.readdatacommdct(fname, iddfile=iddfile)
     edges = makeairplantloop(data, commdct)
     return edges
 
@@ -526,13 +526,15 @@ def process_idf(fname, iddfile):
     return makediagram(edges)
 
     
-def save_diagram(fname, g):
+def save_diagram(fname, g, silent=False):
     dotname = '%s.dot' % (os.path.splitext(fname)[0])
     pngname = '%s.png' % (os.path.splitext(fname)[0])
     g.write(dotname)
-    print("saved file: %s" % (dotname))
+    if not silent:
+        print("saved file: %s" % (dotname))
     g.write_png(pngname)
-    print("saved file: %s" % (pngname))
+    if not silent:
+        print("saved file: %s" % (pngname))
 
 
 def main():
