@@ -46,9 +46,10 @@ def fan_watts(fan_tot_eff, pascal, m3s):
     
 def fanpower_bhp(ddtt):
     """return fan power in bhp given the fan IDF object"""
+    from eppy.bunch_subclass import BadEPFieldError # here to prevent circular dependency
     try:
         fan_tot_eff = ddtt.Fan_Total_Efficiency # from V+ V8.7.0 onwards
-    except Exception as e:
+    except BadEPFieldError as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
     if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
@@ -59,9 +60,10 @@ def fanpower_bhp(ddtt):
     
 def fanpower_watts(ddtt):
     """return fan power in bhp given the fan IDF object"""
+    from eppy.bunch_subclass import BadEPFieldError # here to prevent circular dependency
     try:
         fan_tot_eff = ddtt.Fan_Total_Efficiency # from V+ V8.7.0 onwards
-    except Exception as e:
+    except BadEPFieldError as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
     if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
@@ -69,4 +71,11 @@ def fanpower_watts(ddtt):
     else:
         m3s = float(ddtt.Maximum_Flow_Rate)
     return fan_watts(fan_tot_eff, pascal, m3s)  
-        
+
+def fan_maxcfm(ddtt):
+    """return the fan max cfm"""
+    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+        return 'autosize'
+    else:
+        m3s = float(ddtt.Maximum_Flow_Rate)
+        return m3s2cfm(m3s)

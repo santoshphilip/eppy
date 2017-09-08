@@ -96,26 +96,37 @@ vavfan = """Fan:VariableVolume,
 """ 
 
 def testfanpower_bhp():
-    """py.test for fanpower_bhp"""
+    """py.test for fanpower_bhp in idf"""
     idf = IDF(StringIO(vavfan))
     thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
     thefan = thefans[0]
-    bhp = thefan.fanpower_bhp
+    bhp = thefan.f_fanpower_bhp
     assert almostequal(bhp, 2.40306611606)
     # test autosize
     thefan.Maximum_Flow_Rate = 'autosize'
-    bhp = thefan.fanpower_bhp
+    bhp = thefan.f_fanpower_bhp
     assert bhp == 'autosize'
     
 def testfanpower_watts():
-    """py.test for fanpower_watts"""
+    """py.test for fanpower_watts in idf"""
     idf = IDF(StringIO(vavfan))
     thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
     thefan = thefans[0]
-    watts = thefan.fanpower_watts
+    watts = thefan.f_fanpower_watts
     assert almostequal(watts, 1791.9664027495671)
     # test autosize
     thefan.Maximum_Flow_Rate = 'autosize'
-    watts = thefan.fanpower_watts
+    watts = thefan.f_fanpower_watts
     assert watts == 'autosize'
     
+def test_fan_maxcfm():
+    """py.test for fan_maxcfm in idf"""
+    idf = IDF(StringIO(vavfan))
+    thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
+    thefan = thefans[0]
+    cfm = thefan.f_fan_maxcfm
+    assert almostequal(cfm, 12000, places=5)
+    # test autosize
+    thefan.Maximum_Flow_Rate = 'autosize'
+    watts = thefan.f_fanpower_watts
+    assert watts == 'autosize'

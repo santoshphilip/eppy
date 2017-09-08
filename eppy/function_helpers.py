@@ -75,31 +75,28 @@ def subsurfaces(ddtt):
     return ddtt.getreferingobjs(**kwargs)
     
 def rvalue(ddtt):
-    rvalue = thermal_properties.rvalue(ddtt)
-    return rvalue
+    return thermal_properties.rvalue(ddtt)
 
 def ufactor(ddtt):
-    ufactor = thermal_properties.ufactor(ddtt)
-    return ufactor
+    return thermal_properties.ufactor(ddtt)
 
 def ufactor_ip(ddtt):
-    ufactor_ip = thermal_properties.ufactor_ip(ddtt)
-    return ufactor_ip
+    return thermal_properties.ufactor_ip(ddtt)
 
 def rvalue_ip(ddtt):
-    rvalue_ip = thermal_properties.rvalue_ip(ddtt)
-    return rvalue_ip
+    return thermal_properties.rvalue_ip(ddtt)
 
 def heatcapacity(ddtt):
-    heatcapacity = thermal_properties.heatcapacity(ddtt)
-    return heatcapacity
+    return thermal_properties.heatcapacity(ddtt)
 
 def fanpower_bhp(ddtt):
     """return fanpower in bhp"""
-    fanpower_bhp = eppy.fanpower.fanpower_bhp(ddtt)
-    return fanpower_bhp
+    return eppy.fanpower.fanpower_bhp(ddtt)
     
 def fanpower_watts(ddtt):
     """return fanpower in watts"""
-    fanpower_watts = eppy.fanpower.fanpower_watts(ddtt)
-    return fanpower_watts
+    return eppy.fanpower.fanpower_watts(ddtt)
+    
+def fan_maxcfm(ddtt):
+    """return the Maximum_Flow_Rate in cfm"""
+    return eppy.fanpower.fan_maxcfm(ddtt)   

@@ -139,8 +139,9 @@ def addfunctions(abunch):
               ]
     if key in names:
         func_dict = {
-            'fanpower_bhp': fh.fanpower_bhp,
-            'fanpower_watts': fh.fanpower_watts,
+            'f_fanpower_bhp': fh.fanpower_bhp,
+            'f_fanpower_watts': fh.fanpower_watts,
+            'f_fan_maxcfm': fh.fan_maxcfm,
         }
         abunch.__functions.update(func_dict)
     # =====
