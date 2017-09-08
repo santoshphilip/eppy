@@ -13,7 +13,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from eppy.bunch_subclass import BadEPFieldError
+# from eppy.bunch_subclass import BadEPFieldError
+# import eppy.bunch_subclass
 
 def pascal2inh2o(pascal):
     """convert pressure in Pascals to inches of water"""
@@ -47,7 +48,7 @@ def fanpower_bhp(ddtt):
     """return fan power in bhp given the fan IDF object"""
     try:
         fan_tot_eff = ddtt.Fan_Total_Efficiency # from V+ V8.7.0 onwards
-    except BadEPFieldError as e:
+    except Exception as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
     m3s = float(ddtt.Maximum_Flow_Rate)
@@ -58,7 +59,7 @@ def fanpower_watts(ddtt):
     """return fan power in bhp given the fan IDF object"""
     try:
         fan_tot_eff = ddtt.Fan_Total_Efficiency # from V+ V8.7.0 onwards
-    except BadEPFieldError as e:
+    except Exception as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
     m3s = float(ddtt.Maximum_Flow_Rate)
