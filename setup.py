@@ -43,7 +43,7 @@ setup(
     author_email='eppy_scripting@yahoo.com',
     description='Scripting language for E+ idf files, and E+ output files',
     long_description=long_description,# TODO set this up
-    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry', 'eppy.constructions', 'eppy.runner'],
+    packages=['eppy', 'eppy.EPlusInterfaceFunctions', 'eppy.geometry', 'eppy.constructions', 'eppy.runner', 'eppy.useful_scripts'],
     include_package_data=True,
     platforms='any',
     test_suite='eppy.test.test_eppy',# TODO make test_eppy
@@ -55,6 +55,7 @@ setup(
         "six>=1.10.0",
         "decorator>=4.0.10",
         "lxml>=3.8.0",
+        "future",
         ],
     classifiers = [
         'Programming Language :: Python :: 2',

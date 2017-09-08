@@ -1,23 +1,6 @@
 *~
 *.pyc
 .DS_Store
-.ipynb_checkpoints/
-__pycache__
-# Eclipse/PyDev
-.project
-.pydevproject
-.settings/
-/remove_licence.py
-
-.commitLog
-out.*
-eppy/useful_scripts/InputSim/
-.*/
-.ipynb_checkpoints/
-*.sublime*
-#*test*
-venv/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -63,6 +46,7 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+.hypothesis/
 
 # Translations
 *.mo
@@ -70,9 +54,39 @@ coverage.xml
 
 # Django stuff:
 *.log
+local_settings.py
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
 
 # Sphinx documentation
 docs/_build/
 
 # PyBuilder
 target/
+
+# IPython Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+ENV/
+
+# Spyder project settings
+.spyderproject
+
+# Rope project settings
+.ropeproject

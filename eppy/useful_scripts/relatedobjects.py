@@ -86,8 +86,8 @@ for okey in okeys:
 
 
     for kkey, values in groupfield.items():
-        print okey
-        print '\t', '->', kkey
+        print(okey)
+        print('\t', '->', kkey)
         for value in values:
-            print '\t\t', value
+            print('\t\t', value)
         print

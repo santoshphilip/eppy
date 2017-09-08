@@ -23,9 +23,17 @@ def nextnode(edges, component):
     for c2node in c2nodes:
         node2c = [(a, b) for a, b in n2c if a == c2node[-1]]
         if len(node2c) == 0:
-            return []
+            # return []
+            node2cs = []
+            break
         node2cs.append(node2c[0])
     cs = [b for a, b in node2cs]
+    # test for connections that have no nodes
+    # filter for no nodes
+    nonodes = [(a, b) for a, b in e if type(a) != tuple and type(b) != tuple]
+    for a, b in nonodes:
+        if a == component:
+            cs.append(b)
     return cs
 
 def prevnode(edges, component):
@@ -39,9 +47,17 @@ def prevnode(edges, component):
     for node2c in node2cs:
         c2node = [(a, b) for a, b in c2n if b == node2c[0]]
         if len(c2node) == 0:
-            return []
+            # return []
+            c2nodes = []
+            break
         c2nodes.append(c2node[0])
     cs = [a for a, b in c2nodes]
+    # test for connections that have no nodes
+    # filter for no nodes
+    nonodes = [(a, b) for a, b in e if type(a) != tuple and type(b) != tuple]
+    for a, b in nonodes:
+        if b == component:
+            cs.append(a)
     return cs
 
 def main():
@@ -71,6 +87,12 @@ def main():
             break
         c = prevcs[0]
         # next(e, c)
+
+    # make diagram
+    # from eppy.useful_scripts import loopdiagram1
+    # g = loopdiagram1.makediagram(edges)
+    # loopdiagram1.save_diagram('a', g)
+
 
 if __name__ == '__main__':
     main()
