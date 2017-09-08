@@ -15,6 +15,7 @@ from six.moves import zip_longest
 import itertools
 from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
+import eppy.fanpower
 
 
 def grouper(num, iterable, fillvalue=None):
@@ -93,3 +94,12 @@ def heatcapacity(ddtt):
     heatcapacity = thermal_properties.heatcapacity(ddtt)
     return heatcapacity
 
+def fanpower_bhp(ddtt):
+    """return fanpower in bhp"""
+    fanpower_bhp = eppy.fanpower.fanpower_bhp(ddtt)
+    return fanpower_bhp
+    
+def fanpower_watts(ddtt):
+    """return fanpower in watts"""
+    fanpower_watts = eppy.fanpower.fanpower_watts(ddtt)
+    return fanpower_watts

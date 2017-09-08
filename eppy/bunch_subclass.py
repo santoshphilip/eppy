@@ -69,11 +69,6 @@ def return42(self, *args, **kwargs):
 def addfunctions(abunch):
     """add functions to epbunch"""
 
-    # proof of concept - remove
-    # abunch['__functions'].update({'return42':return42})
-    # abunch['__functions'].update({'buildingname':fh.buildingname})
-    # proof of concept
-
     key = abunch.obj[0].upper()
 
     #-----------------
@@ -106,7 +101,7 @@ def addfunctions(abunch):
         abunch.__functions.update(func_dict)
 
     #-----------------
-    abunch.getfieldidd
+    # print(abunch.getfieldidd )
     names = [
         "CONSTRUCTION",
         "MATERIAL",
@@ -135,6 +130,19 @@ def addfunctions(abunch):
         }
         abunch.__functions.update(func_dict)
 
+    names = [
+        'FAN:CONSTANTVOLUME',
+        'FAN:VARIABLEVOLUME',
+        'FAN:ONOFF',
+        'FAN:ZONEEXHAUST',
+        'FANPERFORMANCE:NIGHTVENTILATION',
+              ]
+    if key in names:
+        func_dict = {
+            'fanpower_bhp': fh.fanpower_bhp,
+            'fanpower_watts': fh.fanpower_watts,
+        }
+        abunch.__functions.update(func_dict)
     # =====
     # code for references
     #-----------------

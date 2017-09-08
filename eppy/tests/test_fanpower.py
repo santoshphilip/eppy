@@ -11,8 +11,18 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import eppy.fanpower.fanpower as fanpower
+from six import StringIO
+
+import eppy.fanpower as fanpower
+from eppy.iddcurrent import iddcurrent
+from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
+
+
+iddfhandle = StringIO(iddcurrent.iddtxt)
+  
+if IDF.getiddname() == None:
+    IDF.setiddname(iddfhandle)
 
 
 def test_pascal2inh2o():
@@ -64,3 +74,39 @@ def test_fan_watts():
     for fan_tot_eff, pascal, m3s, expected in data:
         result = fanpower.fan_watts(fan_tot_eff, pascal, m3s)
         assert almostequal(result, expected)
+        
+vavfan = """Fan:VariableVolume,
+  Fan 2,                                  !- Name
+  OfficeHVACAvail,                        !- Availability Schedule Name
+  0.519,                                  !- Fan Total Efficiency
+  164.3824832215,                         !- Pressure Rise {Pa}
+  5.6633693184,                           !- Maximum Flow Rate {m3/s}
+  FixedFlowRate,                          !- Fan Power Minimum Flow Rate Input Method
+  0,                                      !- Fan Power Minimum Flow Fraction
+  1.4158423296,                           !- Fan Power Minimum Air Flow Rate {m3/s}
+  0.865,                                  !- Motor Efficiency
+  1,                                      !- Motor In Airstream Fraction
+  0.04076,                                !- Fan Power Coefficient 1
+  0.088045,                               !- Fan Power Coefficient 2
+  -0.072926,                              !- Fan Power Coefficient 3
+  0.94374,                                !- Fan Power Coefficient 4
+  0,                                      !- Fan Power Coefficient 5
+  AC(1)(2) Supply Side (Return Air) Inlet Node, !- Air Inlet Node Name
+  Fan 2 Outlet Node;                      !- Air Outlet Node Name
+""" 
+
+def testfanpower_bhp():
+    """py.test for fanpower_bhp"""
+    idf = IDF(StringIO(vavfan))
+    thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
+    thefan = thefans[0]
+    bhp = thefan.fanpower_bhp
+    assert almostequal(bhp, 2.40306611606)
+    
+def testfanpower_watts():
+    """py.test for fanpower_watts"""
+    idf = IDF(StringIO(vavfan))
+    thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
+    thefan = thefans[0]
+    watts = thefan.fanpower_watts
+    assert almostequal(watts, 1791.9664027495671)
