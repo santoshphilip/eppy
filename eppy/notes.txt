@@ -1,3 +1,6 @@
+2017-09-07
+----------
+small change to run tests on travis
 2017-02-09
 ----------
 an install failed because setup.py did not include folder runner 
