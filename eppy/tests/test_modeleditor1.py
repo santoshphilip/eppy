@@ -193,8 +193,6 @@ def test_removeextensibles():
         result = modeleditor.removeextensibles(
             bunchdt, data, commdct, key,
             objname)
-        print(result.obj)
-        print(rawobject)
         assert result.obj == rawobject
 
 def test_newrawobject():

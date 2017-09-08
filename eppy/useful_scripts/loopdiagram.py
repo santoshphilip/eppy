@@ -21,7 +21,12 @@ from __future__ import unicode_literals
 import os
 import sys
 
+pathnameto_eplusscripting = "../../"
+sys.path.append(pathnameto_eplusscripting)
+
 import argparse
+import eppy
+import eppy.EPlusInterfaceFunctions
 from eppy.EPlusInterfaceFunctions import readidf
 try:
     import pydot
