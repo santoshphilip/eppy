@@ -51,8 +51,10 @@ def fanpower_bhp(ddtt):
     except Exception as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
-    m3s = float(ddtt.Maximum_Flow_Rate)
-    # print(ddtt.Name, fan_tot_eff, pascal, m3s)
+    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+        return 'autosize'
+    else:
+        m3s = float(ddtt.Maximum_Flow_Rate)
     return fan_bhp(fan_tot_eff, pascal, m3s)  
     
 def fanpower_watts(ddtt):
@@ -62,7 +64,9 @@ def fanpower_watts(ddtt):
     except Exception as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
-    m3s = float(ddtt.Maximum_Flow_Rate)
-    # print(ddtt.Name, fan_tot_eff, pascal, m3s)
+    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+        return 'autosize'
+    else:
+        m3s = float(ddtt.Maximum_Flow_Rate)
     return fan_watts(fan_tot_eff, pascal, m3s)  
         

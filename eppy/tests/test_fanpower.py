@@ -102,6 +102,10 @@ def testfanpower_bhp():
     thefan = thefans[0]
     bhp = thefan.fanpower_bhp
     assert almostequal(bhp, 2.40306611606)
+    # test autosize
+    thefan.Maximum_Flow_Rate = 'autosize'
+    bhp = thefan.fanpower_bhp
+    assert bhp == 'autosize'
     
 def testfanpower_watts():
     """py.test for fanpower_watts"""
@@ -110,3 +114,8 @@ def testfanpower_watts():
     thefan = thefans[0]
     watts = thefan.fanpower_watts
     assert almostequal(watts, 1791.9664027495671)
+    # test autosize
+    thefan.Maximum_Flow_Rate = 'autosize'
+    watts = thefan.fanpower_watts
+    assert watts == 'autosize'
+    
