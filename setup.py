@@ -69,7 +69,7 @@ setup(
         'Topic :: Scientific/Engineering',
         ],
     extras_require={
-        ':python_version<="2.7.2"': [
+        ':python_version<="2.8"': [
             'pydot>1.0',
             'pyparsing>=2.1.4'
             ],
