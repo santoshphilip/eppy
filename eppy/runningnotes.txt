@@ -1,5 +1,34 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2017-10-08
+----------
+now in branch i170_develop
+for issue #170
+install using:
+pip install https://github.com/santoshphilip/eppy/archive/i170_develop.zip
+test on mac:
+- python2
+    - failed 
+    - update pip
+    - failed again
+    - update setuptools
+    - sucess
+- python3
+    - export VIRTUALENV_PYTHON=/usr/local/bin/python3
+    - pyvenv ~/venvs/py3_i170_develop
+    - source ~/venvs/py3_i170_develop/bin/activate
+    - pip install https://github.com/santoshphilip/eppy/archive/i170_develop.zip
+    - failed
+    - upgrade setuptools
+    - failed
+    - upgrade pip
+- ubuntu python3
+    - pip install https://github.com/santoshphilip/eppy/archive/i170_develop.zip
+    - failed - could not build pydot3k - but claims it was installed
+    - pip install pydot3k - same message
+    
+
+
 2017-05-25
 ----------
 slash and burn on i116_slashandburn
