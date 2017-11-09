@@ -1,5 +1,10 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2017-11-09
+----------
+- Fix issue #170 by ensuring pydot3k is installed for all 3.x python versions, and using miniconda envs for Appveyor CI.
+- Add Python 3.6 and EnergyPlus 8.8 to CI
+
 2017-05-25
 ----------
 slash and burn on i116_slashandburn

@@ -72,7 +72,7 @@ setup(
             'pydot>1.0',
             'pyparsing>=2.1.4'
             ],
-        ':python_version>="3.5"': [
+        ':python_version>="3.0"': [
             'pydot3k',
             ],
         'testing': ['pytest'],        
