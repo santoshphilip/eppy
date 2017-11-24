@@ -1,6 +1,11 @@
 Changes
 =======
 
+2017-10-01
+----------
+
+fixed a bug in the setup.py (It was not installing some required folders)
+
 release r0.5.44
 ~~~~~~~~~~~~~~~
 
