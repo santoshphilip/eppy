@@ -1,6 +1,14 @@
 Changes
 =======
 
+2017-10-01
+----------
+
+- fixed a bug in the setup.py (It was not installing some required folders)
+- updated documentation to include how to run Energyplus from eppy
+- format of the table file was changed in E+ 8.7. 
+    - readhtml is updated to be able to read the new format (it still reads the older versions)
+
 release r0.5.44
 ~~~~~~~~~~~~~~~
 
