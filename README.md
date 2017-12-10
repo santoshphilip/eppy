@@ -35,8 +35,8 @@ You can install from :
 <https://pypi.python.org/pypi/eppy/>
 
 The documentation is at:
-<http://pythonhosted.org//eppy/>
+<http://eppy.readthedocs.io/en/latest/>
 
 to get a quick sense of how it feels to use eppy, take a look at
-<http://pythonhosted.org//eppy/Main_Tutorial.html>
+<http://eppy.readthedocs.io/en/latest/Main_Tutorial.html>
 

@@ -1,6 +1,17 @@
 Changes
 =======
 
+release r0.5.46
+~~~~~~~~~~~~~~~
+
+2017-12-10
+----------
+
+- documentation is now at http://eppy.readthedocs.io/en/latest/
+
+release r0.5.45
+~~~~~~~~~~~~~~~
+
 2017-10-01
 ----------
 
