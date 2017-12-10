@@ -5,8 +5,17 @@ now upload docs to RTD (Read the docs)
 - login as santoshphilip 
 - click on build -> it will build from the master in github
 
+uploading using twine:
+- python setup.py sdist
+- twine upload dist/*
+
+
 pre-steps
-- change docs link on Readme.md
+- change docs link on Readme.md - DONE
+
+uploading using twine:
+- python setup.py sdist
+- twine upload dist/*
 
 2015-01-13
 ----------
@@ -44,7 +53,7 @@ Steps for release
 - change version number in ./eppy/eppy/__init__.py
 - rebuild the documentation
 -
-- upload code to pypi
+- upload code to pypi ****UPLOAD DIFFERENTLY see note 2017-12-10**** 
     - python setup.py sdist upload
     or
     - python setup.py register sdist upload -r https://www.python.org/pypi
@@ -57,8 +66,8 @@ Steps for release
 python setup.py upload_docs --upload-dir=docs/generated - ****DONT USE see note 2017-12-10****
 -
 - push to github
-- git tag r0.5.44
-- git push origin r0.5.44
+- git tag r0.5.46
+- git push origin r0.5.46
 - make a release on github with a new tag = release number
     - copy and paste from changes.rst (translate to markdown)
     
