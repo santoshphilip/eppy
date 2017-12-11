@@ -1312,3 +1312,36 @@ If you have an eppy running on a remote server somewhere on the
 internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
+
+Other miscellaneous functions
+-----------------------------
+
+Fan power in Watts, BHP and fan cfm
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We normally think of fan power in terms of Brake Horsepower (BHP),  Watts. Also when working with IP units it is useful to think of fan flow volume in terms of cubic feet per minute (cfm). 
+
+Energyplus does not have fields for those values. With eppy we have functions 
+that will calculate the values 
+
+- fan power in BHP
+- fan power in Watts
+- fan flow in CFM
+
+It will work for the following objects:
+
+- `FAN:CONSTANTVOLUME`
+- `FAN:VARIABLEVOLUME`
+- `FAN:ONOFF`
+- `FAN:ZONEEXHAUST`
+- `FANPERFORMANCE:NIGHTVENTILATION`
+
+The sample code would look like this::
+
+    thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
+    thefan = thefans[0]
+    bhp = thefan.fanpower_bhp
+    watts = thefan.fanpower_watts
+    cfm = thefan.fan_maxcfm
+    
+

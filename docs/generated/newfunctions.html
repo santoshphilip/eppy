@@ -1043,6 +1043,36 @@ internet. This is very useful if you ever need it. If you don&#8217;t need it,
 you shouldn&#8217;t care :-)</p>
 </div>
 </div>
+<div class="section" id="other-miscellaneous-functions">
+<h2>Other miscellaneous functions<a class="headerlink" href="#other-miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="fan-power-in-watts-bhp-and-fan-cfm">
+<h3>Fan power in Watts, BHP and fan cfm<a class="headerlink" href="#fan-power-in-watts-bhp-and-fan-cfm" title="Permalink to this headline">¶</a></h3>
+<p>We normally think of fan power in terms of Brake Horsepower (BHP),  Watts. Also when working with IP units it is useful to think of fan flow volume in terms of cubic feet per minute (cfm).</p>
+<p>Energyplus does not have fields for those values. With eppy we have functions
+that will calculate the values</p>
+<ul class="simple">
+<li>fan power in BHP</li>
+<li>fan power in Watts</li>
+<li>fan flow in CFM</li>
+</ul>
+<p>It will work for the following objects:</p>
+<ul class="simple">
+<li><cite>FAN:CONSTANTVOLUME</cite></li>
+<li><cite>FAN:VARIABLEVOLUME</cite></li>
+<li><cite>FAN:ONOFF</cite></li>
+<li><cite>FAN:ZONEEXHAUST</cite></li>
+<li><cite>FANPERFORMANCE:NIGHTVENTILATION</cite></li>
+</ul>
+<p>The sample code would look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">thefans</span> <span class="o">=</span> <span class="n">idf</span><span class="o">.</span><span class="n">idfobjects</span><span class="p">[</span><span class="s">&#39;Fan:VariableVolume&#39;</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+<span class="n">thefan</span> <span class="o">=</span> <span class="n">thefans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">bhp</span> <span class="o">=</span> <span class="n">thefan</span><span class="o">.</span><span class="n">fanpower_bhp</span>
+<span class="n">watts</span> <span class="o">=</span> <span class="n">thefan</span><span class="o">.</span><span class="n">fanpower_watts</span>
+<span class="n">cfm</span> <span class="o">=</span> <span class="n">thefan</span><span class="o">.</span><span class="n">fan_maxcfm</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -1071,6 +1101,10 @@ you shouldn&#8217;t care :-)</p>
 <li><a class="reference internal" href="#zone-area-and-volume">Zone area and volume</a></li>
 <li><a class="reference internal" href="#using-json-to-update-idf">Using JSON to update idf</a><ul>
 <li><a class="reference internal" href="#use-case-for-json-update">Use Case for JSON update</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-miscellaneous-functions">Other miscellaneous functions</a><ul>
+<li><a class="reference internal" href="#fan-power-in-watts-bhp-and-fan-cfm">Fan power in Watts, BHP and fan cfm</a></li>
 </ul>
 </li>
 </ul>
