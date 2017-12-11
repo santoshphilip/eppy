@@ -1,6 +1,14 @@
 Changes
 =======
 
+next release
+~~~~~~~~~~~~
+
+2017-12-11
+----------
+
+- Added documentation in the installation section on how to run eppy in grasshopper
+
 release r0.5.46
 ~~~~~~~~~~~~~~~
 
