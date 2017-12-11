@@ -8,6 +8,7 @@ next release
 ----------
 
 - Added documentation in the installation section on how to run eppy in grasshopper
+- added functions to get fan power in watts, bhp and fan flow in cfm for any fan object. This has been documented in ./docs/source/newfunctions.rst
 
 release r0.5.46
 ~~~~~~~~~~~~~~~
