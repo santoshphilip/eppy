@@ -1,6 +1,33 @@
 Changes
 =======
 
+next release
+~~~~~~~~~~~~
+
+2017-12-11
+----------
+
+- Added documentation in the installation section on how to run eppy in grasshopper
+
+release r0.5.46
+~~~~~~~~~~~~~~~
+
+2017-12-10
+----------
+
+- documentation is now at http://eppy.readthedocs.io/en/latest/
+
+release r0.5.45
+~~~~~~~~~~~~~~~
+
+2017-10-01
+----------
+
+- fixed a bug in the setup.py (It was not installing some required folders)
+- updated documentation to include how to run Energyplus from eppy
+- format of the table file was changed in E+ 8.7. 
+    - readhtml is updated to be able to read the new format (it still reads the older versions)
+
 release r0.5.44
 ~~~~~~~~~~~~~~~
 
