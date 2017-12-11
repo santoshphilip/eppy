@@ -1344,4 +1344,6 @@ The sample code would look like this::
     watts = thefan.fanpower_watts
     cfm = thefan.fan_maxcfm
     
+*Note: This code was hacked together quickly. Needs peer review in ../eppy/fanpower.py*    
+    
 
