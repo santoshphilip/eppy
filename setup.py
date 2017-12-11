@@ -56,6 +56,7 @@ setup(
         "six>=1.10.0",
         "decorator>=4.0.10",
         "lxml>=3.8.0",
+        "future",
         ],
     classifiers = [
         'Programming Language :: Python :: 2',
