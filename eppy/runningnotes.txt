@@ -1,5 +1,22 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2017-12-11
+----------
+
+email/contace all users of eppy for feedback
+
+@jamiebull1
+people who have responded to issues
+#166 @adChong
+#161 @wta12
+#154 @SriramK89
+#141 @MatthewSteen
+#137 @jasonglazer
+#136 @jmarrec
+#118 @aarongarrett
+#117 @crollinjones
+
+
 2017-11-09
 ----------
 - Fix issue #170 by ensuring pydot3k is installed for all 3.x python versions, and using miniconda envs for Appveyor CI.
