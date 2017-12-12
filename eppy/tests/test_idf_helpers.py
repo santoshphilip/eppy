@@ -133,3 +133,17 @@ def test_name2idfobject():
     result = idf_helpers.name2idfobject(idf, Zone_Name=zonename, 
                     objkeys=[objkey, ])
     assert result == equipconnections
+
+def test_getidfobjectlist():
+    """py.test for getidfobjectlist"""
+    names = ["a", "b", "c", "d", "e"]
+    idf = IDF(StringIO(""))
+    idf.newidfobject("Site:Location".upper(), Name="a")
+    idf.newidfobject("building".upper(), Name="b")
+    idf.newidfobject("building".upper(), Name="c")
+    idf.newidfobject("ScheduleTypeLimits".upper(), Name="d")
+    idf.newidfobject("ScheduleTypeLimits".upper(), Name="e")
+    result = idf_helpers.getidfobjectlist(idf)
+    assert [res.Name for res in result] == names
+    
+    

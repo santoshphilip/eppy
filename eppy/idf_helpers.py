@@ -13,6 +13,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import itertools
 from six import iteritems
 from six import StringIO
 from past.builtins import basestring    # pip install future
@@ -108,3 +109,12 @@ def name2idfobject(idf, groupnamess=None, objkeys=None, **kwargs):
                         return idfobj
                 except BadEPFieldError as e:
                     continue
+
+def getidfobjectlist(idf):
+    """return a list of all idfobjects in idf"""
+    idfobjects = idf.idfobjects
+    idfobjlst = [idfobjects[key] for key in idfobjects if idfobjects[key]]
+    idfobjlst = itertools.chain.from_iterable(idfobjlst)
+    idfobjlst = list(idfobjlst)
+    return idfobjlst
+    
