@@ -1,5 +1,33 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2017-12-12
+----------
+
+gather eppy functions as two type:
+- those that act on idf
+- those that acto in idfobject
+
+- update the documentation to reflect this first
+- see if this leads to any recoding
+
+IDF functions
+- printidf
+- idf1.idfobjects['BUILDING']
+- save
+- saveas
+- newidfobject
+- copyidfobject
+
+
+idfobjects function
+- building.Name
+- surface azimuth
+- surface tilt
+- surface area
+- building.getrange("Loads_Convergence_Tolerance_Value")
+- building.checkrange("Loads_Convergence_Tolerance_Value")
+- building.fieldnames
+
 2017-12-11
 ----------
 
