@@ -35,6 +35,8 @@ idfobjects function
 area = modeleditor.zonearea(idf, zone.Name)
 volume = modeleditor.zonevolume(idf, zone.Name)
 json_functions.updateidf(idf1, json_str)
+idf_helpers.getidfobjectlist
+idf_helpers.copyidfintoidf
 
 
 2017-12-11
