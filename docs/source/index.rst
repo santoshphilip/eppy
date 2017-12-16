@@ -18,6 +18,8 @@ Contents:
     newfunctions
     runningeplus
     useful_scripts
+    eppyfunctions
+    eppyrecipies
     changes
     dev_docs/index
     LICENSE
