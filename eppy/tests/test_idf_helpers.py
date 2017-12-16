@@ -144,7 +144,7 @@ def test_getidfobjectlist():
     idf.newidfobject("ScheduleTypeLimits".upper(), Name="d")
     idf.newidfobject("ScheduleTypeLimits".upper(), Name="e")
     result = idf_helpers.getidfobjectlist(idf)
-    assert [res.Name for res in result] == names
+    assert set([res.Name for res in result]) == set(names)
     
 def test_copyidfintoidf():
     """py.test for copyidfintoidf"""
