@@ -144,7 +144,7 @@ def test_getidfobjectlist():
     idf.newidfobject("ScheduleTypeLimits".upper(), Name="d")
     idf.newidfobject("ScheduleTypeLimits".upper(), Name="e")
     result = idf_helpers.getidfobjectlist(idf)
-    assert [res.Name for res in result] == names
+    assert set([res.Name for res in result]) == set(names)
     
 def test_copyidfintoidf():
     """py.test for copyidfintoidf"""
@@ -156,13 +156,12 @@ def test_copyidfintoidf():
     toidf.newidfobject("building".upper(), Name="b")
     toidf.newidfobject("building".upper(), Name="c")
     result = idf_helpers.getidfobjectlist(toidf)
-    assert [res.Name for res in result] == tonames
+    assert set([res.Name for res in result]) == set(tonames)
     fromidf = IDF(StringIO(""))
     fromidf.newidfobject("ScheduleTypeLimits".upper(), Name="d")
     fromidf.newidfobject("ScheduleTypeLimits".upper(), Name="e")
     result = idf_helpers.getidfobjectlist(fromidf)
-    assert [res.Name for res in result] == fromnames
+    assert set([res.Name for res in result]) == set(fromnames)
     idf_helpers.copyidfintoidf(toidf, fromidf)
     result = idf_helpers.getidfobjectlist(toidf)
-    assert [res.Name for res in result] == allnames
-        
+    assert set([res.Name for res in result]) == set(allnames)
