@@ -26,22 +26,98 @@ except ImportError:
     pass
 
 
-def install_paths(version):
+def install_paths(version=None, iddname=None):
     """Get the install paths for EnergyPlus executable and weather files.
-    """
-    if platform.system() == 'Windows':
-        eplus_home = "C:/EnergyPlusV{version}".format(**locals())
-        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
-    elif platform.system() == "Linux":
-        eplus_home = "/usr/local/EnergyPlus-{version}".format(**locals())
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
-    else:
-        eplus_home = "/Applications/EnergyPlus-{version}".format(**locals())
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
 
+    We prefer to get the install path from the IDD name but fall back to
+    getting it from the version number for backwards compatibility and to
+    simplify tests.
+
+    Parameters
+    ----------
+    version : str, optional
+        EnergyPlus version in the format "X-X-X", e.g. "8-7-0".
+    iddname : str, optional
+        File path to the IDD.
+
+    Returns
+    -------
+    eplus_exe : str
+        Full path to the EnergyPlus executable.
+    eplus_weather : str
+        Full path to the EnergyPlus weather directory.
+
+    """
+    try:
+        eplus_exe, eplus_home = paths_from_iddname(iddname)
+    except (AttributeError, TypeError, ValueError):
+        eplus_exe, eplus_home = paths_from_version(version)
     eplus_weather = os.path.join(eplus_home, 'WeatherData')
 
     return eplus_exe, eplus_weather
+
+
+def paths_from_iddname(iddname):
+    """Get the EnergyPlus install directory and executable path.
+
+    Parameters
+    ----------
+    iddname : str, optional
+        File path to the IDD.
+
+    Returns
+    -------
+    eplus_exe : str
+        Full path to the EnergyPlus executable.
+    eplus_home : str
+        Full path to the EnergyPlus install directory.
+
+    Raises
+    ------
+    AttributeError (TypeError on Windows)
+        If iddname does not have a directory component (e.g. if None).
+    ValueError
+        If eplus_exe is not a file.
+
+    """
+    eplus_home = os.path.abspath(os.path.dirname(iddname))
+    if platform.system() == 'Windows':
+        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+    elif platform.system() == "Linux":
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    else:
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    if not os.path.isfile(eplus_exe):
+        raise ValueError
+    return eplus_exe, eplus_home
+
+
+def paths_from_version(version):
+    """Get the EnergyPlus install directory and executable path.
+
+    Parameters
+    ----------
+    version : str, optional
+        EnergyPlus version in the format "X-X-X", e.g. "8-7-0".
+
+    Returns
+    -------
+    eplus_exe : str
+        Full path to the EnergyPlus executable.
+    eplus_home : str
+        Full path to the EnergyPlus install directory.
+
+    """
+    if platform.system() == 'Windows':
+        eplus_home = "C:/EnergyPlusV{version}".format(version=version)
+        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+    elif platform.system() == "Linux":
+        eplus_home = "/usr/local/EnergyPlus-{version}".format(version=version)
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    else:
+        eplus_home = "/Applications/EnergyPlus-{version}".format(version=version)
+        eplus_exe = os.path.join(eplus_home, 'energyplus')
+    return eplus_exe, eplus_home
 
 
 def wrapped_help_text(wrapped_func):
@@ -118,7 +194,7 @@ def multirunner(args):
 def run(idf=None, weather=None, output_directory='', annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose='v', ep_version=None):
+        verbose='v', ep_version=None, iddname=None):
     """
     Wrapper around the EnergyPlus command line interface.
 
@@ -190,6 +266,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     # get unneeded params out of args ready to pass the rest to energyplus.exe
     verbose = args.pop('verbose')
     idf = args.pop('idf')
+    iddname = args.pop('iddname')
     try:
         idf_path = os.path.abspath(idf.idfname)
     except AttributeError:
@@ -203,7 +280,8 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             raise AttributeError(
                 "The ep_version must be set when passing an IDF path. \
                 Alternatively, use IDF.run()")
-    eplus_exe_path, eplus_weather_path = install_paths(ep_version)
+
+    eplus_exe_path, eplus_weather_path = install_paths(ep_version, iddname)
     if version:
         # just get EnergyPlus version number and return
         cmd = [eplus_exe_path, '--version']
