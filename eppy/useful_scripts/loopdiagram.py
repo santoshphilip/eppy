@@ -547,12 +547,17 @@ def main():
                 description=__doc__, 
                 formatter_class=argparse.RawTextHelpFormatter)
                 # need the formatter to print newline from __doc__
-    parser.add_argument('idd', type=str, action='store', 
+    parser.add_argument(
+        'idd', type=str,
+        action='store',
         help='location of idd file = ./somewhere/eplusv8-0-1.idd',
-        required=True)
-    parser.add_argument('file', type=str, action='store', 
+    )
+    parser.add_argument(
+        'file',
+        type=str,
+        action='store',
         help='location of idf file = ./somewhere/f1.idf',
-        required=True)
+    )
     args = parser.parse_args()
     make_and_save_diagram(args.file, args.idd)
 
