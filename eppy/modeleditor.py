@@ -1001,7 +1001,7 @@ class IDF(object):
         # write the IDF to the current directory
         self.saveas('in.idf')
         # run EnergyPlus
-        run(self, self.epw, **kwargs)
+        run(self, self.epw, iddname=self.iddname, **kwargs)
         # remove in.idf
         os.remove('in.idf')
 
