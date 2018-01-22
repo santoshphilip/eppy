@@ -194,7 +194,7 @@ def multirunner(args):
 def run(idf=None, weather=None, output_directory='', annual=False,
         design_day=False, idd=None, epmacro=False, expandobjects=False,
         readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose='v', ep_version=None, iddname=None):
+        verbose='v', ep_version=None):
     """
     Wrapper around the EnergyPlus command line interface.
 
@@ -266,7 +266,7 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     # get unneeded params out of args ready to pass the rest to energyplus.exe
     verbose = args.pop('verbose')
     idf = args.pop('idf')
-    iddname = args.pop('iddname')
+    iddname = args.get('idd')
     try:
         idf_path = os.path.abspath(idf.idfname)
     except AttributeError:
