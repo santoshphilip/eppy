@@ -1000,8 +1000,11 @@ class IDF(object):
         """
         # write the IDF to the current directory
         self.saveas('in.idf')
+        # if `idd` is not passed explicitly, use the IDF.iddname
+        idd = kwargs.pop('idd', self.iddname)
+        epw = kwargs.pop('weather', self.epw)
         # run EnergyPlus
-        run(self, self.epw, iddname=self.iddname, **kwargs)
+        run(self, weather=epw, idd=idd, **kwargs)
         # remove in.idf
         os.remove('in.idf')
 
