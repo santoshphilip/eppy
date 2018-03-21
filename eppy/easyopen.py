@@ -18,6 +18,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
+from io import IOBase
 from six import StringIO
 import eppy
 import eppy.modeleditor
@@ -27,7 +28,7 @@ import eppy.runner.run_functions
 
 def easyopen(fname):
     """automatically set idd and open idf file. uses version from idf to set correct idd"""
-    if isinstance(fname, (file, StringIO)):
+    if isinstance(fname, (IOBase, StringIO)):
         fhandle = fname
     else:
         fhandle = open(fname, 'r')
@@ -61,7 +62,7 @@ def easyopen(fname):
     
     # - set IDD and open IDF.
     eppy.modeleditor.IDF.setiddname(iddfile)
-    if isinstance(fname, (file, StringIO)):
+    if isinstance(fname, (IOBase, StringIO)):
         fhandle.seek(0)
         idf = eppy.modeleditor.IDF(fhandle)
     else:
