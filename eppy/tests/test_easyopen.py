@@ -28,7 +28,7 @@ def _latestidd():
     pth, _ = run_functions.install_paths('8.8.0')
     dirpth = os.path.dirname(pth)
     dirpth = os.path.dirname(dirpth)
-    alldirs = os.listdir( u'/Applications')
+    alldirs = os.listdir(dirpth)
     eplusdirs = [dir for dir in alldirs if dir.startswith('EnergyPlus')]
     maxapp = max(eplusdirs)
     splitapp = maxapp.split('-')
