@@ -3,6 +3,16 @@
 On windows pip is giving a windowserror
 solution:
 - python -m pip -r requirements.txt
+----
+- EPPY_INTEGRATION=TRUE
+- export EPPY_INTEGRATION
+becomes
+- setx EPPY_INTEGRATION TRUE
+and
+- unset EPPY_INTEGRATION
+becomes
+- setx
+
 2017-09-07
 ----------
 small change to run tests on travis
@@ -13,7 +23,7 @@ The unit tests do not catch this because it is running within the code
 Such a bug is likely to happen again, so we need some process to catch this.
 2016-09-06
 ----------
-to rn integration tests on mac:
+to run integration tests on mac:
 do the follwing in your shell:
 - EPPY_INTEGRATION=TRUE
 - export EPPY_INTEGRATION
