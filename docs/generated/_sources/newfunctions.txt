@@ -1316,7 +1316,7 @@ you shouldn't care :-)
 Open a file quickly
 -------------------
 
-It is rather cumbersome to open and IDF file in eppy. From the tutorial, the steps look like this::
+It is rather cumbersome to open an IDF file in eppy. From the tutorial, the steps look like this::
 
     from eppy import modeleditor
     from eppy.modeleditor import IDF
