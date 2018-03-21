@@ -1,3 +1,8 @@
+2018-03-21
+----------
+On windows pip is giving a windowserror
+solution:
+- python -m pip -r requirements.txt
 2017-09-07
 ----------
 small change to run tests on travis
