@@ -34,7 +34,20 @@ def _latestidd():
     splitapp = maxapp.split('-')
     ver = '.'.join(splitapp[1:])
     return ver
-
+    
+def test_cleanupversion():
+    """py.test for cleanupversion"""
+    data = (
+        ('8.8.0', '8.8.0'), # ver, expected
+        ('8.8.1', '8.8.0'), # ver, expected
+        ('8.8', '8.8.0'), # ver, expected
+        ('8', '8.0.0'), # ver, expected
+        ('', '.0.0'), # ver, expected
+    )    
+    for ver, expected in data:
+        result = easyopen.cleanupversion(ver)
+        assert result == expected
+    
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_easyopen():
