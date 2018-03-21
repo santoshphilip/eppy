@@ -23,17 +23,34 @@ import eppy.runner.run_functions as run_functions
 from six import StringIO
 from six.moves import reload_module as reload
 
-def _latestidd():
+def latestidd():
     """extract the latest idd installed"""
-    pth, _ = run_functions.install_paths('8.8.0')
+    pth, _ = run_functions.install_paths(version='8.8.0')
     dirpth = os.path.dirname(pth)
     dirpth = os.path.dirname(dirpth)
     alldirs = os.listdir(dirpth)
     eplusdirs = [dir for dir in alldirs if dir.startswith('EnergyPlus')]
     maxapp = max(eplusdirs)
-    splitapp = maxapp.split('-')
-    ver = '.'.join(splitapp[1:])
+    ver = folder2ver(maxapp)
     return ver
+    
+def folder2ver(folder):
+    """get the version number from the E+ install folder"""
+    ver = folder.split('EnergyPlus')[-1]
+    ver = ver[1:]
+    splitapp = ver.split('-')
+    ver = '.'.join(splitapp)
+    return ver
+    
+def test_folder2ver():
+    """py.test for folder2ver"""
+    data = (
+    ('EnergyPlus-8-8-0', '8.8.0'), # folder, expected
+    ('EnergyPlusV8-8-0', '8.8.0'), # folder, expected
+    )   
+    for folder, expected in data:
+        result = folder2ver(folder) 
+        assert result == expected
     
 def test_cleanupversion():
     """py.test for cleanupversion"""
@@ -52,7 +69,7 @@ def test_cleanupversion():
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_easyopen():
     """py.test for easyopen"""
-    ver = _latestidd()
+    ver = latestidd()
     txt, result = ("  Version,{};".format(ver), '{}'.format(ver))
     fhandle = StringIO(txt)
     reload(modeleditor)
