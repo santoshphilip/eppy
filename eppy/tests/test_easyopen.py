@@ -12,30 +12,41 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import os
 import pytest
+
 from eppy import modeleditor
 import eppy.easyopen as easyopen
 from eppy.pytest_helpers import do_integration_tests
+import eppy.runner.run_functions as run_functions
 
 from six import StringIO
 from six.moves import reload_module as reload
+
+def _latestidd():
+    """extract the latest idd installed"""
+    pth, _ = run_functions.install_paths('8.8.0')
+    dirpth = os.path.dirname(pth)
+    dirpth = os.path.dirname(dirpth)
+    alldirs = os.listdir( u'/Applications')
+    eplusdirs = [dir for dir in alldirs if dir.startswith('EnergyPlus')]
+    maxapp = max(eplusdirs)
+    splitapp = maxapp.split('-')
+    ver = '.'.join(splitapp[1:])
+    return ver
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_easyopen():
     """py.test for easyopen"""
-    data = (("  Version,8.8;", '8.8'), # txt, result
-    )
-    for txt, result in data:
-        fhandle = StringIO(txt)
-        reload(modeleditor)
-        reload(easyopen)
-        idf = easyopen.easyopen(fhandle)
-        versions = idf.idfobjects['version'.upper()]
-        version = versions[0]
-        ver = version.Version_Identifier
-        # reload(modeleditor)
-        # reload(IDF)
-        # reload(idf_helpers)
-        assert result == ver
-        
+    ver = _latestidd()
+    txt, result = ("  Version,{};".format(ver), '{}'.format(ver))
+    fhandle = StringIO(txt)
+    reload(modeleditor)
+    reload(easyopen)
+    idf = easyopen.easyopen(fhandle)
+    versions = idf.idfobjects['version'.upper()]
+    version = versions[0]
+    ver = version.Version_Identifier
+    assert result == ver
+    
