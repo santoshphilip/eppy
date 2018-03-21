@@ -4,6 +4,11 @@ Changes
 next release
 ~~~~~~~~~~~~
 
+2018-03-21
+----------
+
+- new function easyopen(filename) will automatically set the IDD file
+
 2017-12-11
 ----------
 

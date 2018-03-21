@@ -1313,6 +1313,44 @@ internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
 
+Open a file quickly
+-------------------
+
+It is rather cumbersome to open and IDF file in eppy. From the tutorial, the steps look like this::
+
+    from eppy import modeleditor
+    from eppy.modeleditor import IDF
+    
+    iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
+    fname = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
+    IDF.setiddname(iddfile)
+    idf = IDF(fname)
+    
+- You have to find the IDD file on your hard disk. 
+- Then set the IDD using setiddname(iddfile). 
+- Now you can open the IDF file
+
+Why can't you just open the IDF file without jumping thru all those hoops. Why do you have to find the IDD file. What is the point of having a computer, if it does not do the grunt work for you. 
+
+The function easyopen will do the grunt work for you. It will automatically read the version number from the IDF file, locate the correct IDD file and set it in eppy and then open your file. It works like this::
+
+    from eppy.easyopen import easyopen
+
+    fname = './eppy/resources/idffiles/V8_8/smallfile.idf'
+    idf = easyopen(fname)
+    
+For this to work, 
+
+- the IDF file should have the VERSION object. You may not have this if you are just working on a file snippet. 
+- you need to have the version of EnergyPlus installed that matches your IDF version.
+- Energyplus should be installed in the default location.
+
+If easyopen does not work, use the long winded steps shown in the tutorial. That is guaranteed to work
+    
+    
+
+    
+
 Other miscellaneous functions
 -----------------------------
 

@@ -1043,6 +1043,39 @@ internet. This is very useful if you ever need it. If you don&#8217;t need it,
 you shouldn&#8217;t care :-)</p>
 </div>
 </div>
+<div class="section" id="open-a-file-quickly">
+<h2>Open a file quickly<a class="headerlink" href="#open-a-file-quickly" title="Permalink to this headline">¶</a></h2>
+<p>It is rather cumbersome to open and IDF file in eppy. From the tutorial, the steps look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy</span> <span class="kn">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="kn">import</span> <span class="n">IDF</span>
+
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;../eppy/resources/idffiles/V_7_2/smallfile.idf&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>You have to find the IDD file on your hard disk.</li>
+<li>Then set the IDD using setiddname(iddfile).</li>
+<li>Now you can open the IDF file</li>
+</ul>
+<p>Why can&#8217;t you just open the IDF file without jumping thru all those hoops. Why do you have to find the IDD file. What is the point of having a computer, if it does not do the grunt work for you.</p>
+<p>The function easyopen will do the grunt work for you. It will automatically read the version number from the IDF file, locate the correct IDD file and set it in eppy and then open your file. It works like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">eppy.easyopen</span> <span class="kn">import</span> <span class="n">easyopen</span>
+
+<span class="n">fname</span> <span class="o">=</span> <span class="s">&#39;./eppy/resources/idffiles/V8_8/smallfile.idf&#39;</span>
+<span class="n">idf</span> <span class="o">=</span> <span class="n">easyopen</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For this to work,</p>
+<ul class="simple">
+<li>the IDF file should have the VERSION object. You may not have this if you are just working on a file snippet.</li>
+<li>you need to have the version of EnergyPlus installed that matches your IDF version.</li>
+<li>Energyplus should be installed in the default location.</li>
+</ul>
+<p>If easyopen does not work, use the long winded steps shown in the tutorial. That is guaranteed to work</p>
+</div>
 <div class="section" id="other-miscellaneous-functions">
 <h2>Other miscellaneous functions<a class="headerlink" href="#other-miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="fan-power-in-watts-bhp-and-fan-cfm">
@@ -1104,6 +1137,7 @@ that will calculate the values</p>
 <li><a class="reference internal" href="#use-case-for-json-update">Use Case for JSON update</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#open-a-file-quickly">Open a file quickly</a></li>
 <li><a class="reference internal" href="#other-miscellaneous-functions">Other miscellaneous functions</a><ul>
 <li><a class="reference internal" href="#fan-power-in-watts-bhp-and-fan-cfm">Fan power in Watts, BHP and fan cfm</a></li>
 </ul>
