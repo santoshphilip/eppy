@@ -41,7 +41,20 @@ def cleanupversion(ver):
 
 
 def easyopen(fname):
-    """automatically set idd and open idf file. uses version from idf to set correct idd"""
+    """automatically set idd and open idf file. Uses version from idf to set correct idd
+    It will work under the following sircumstances:
+    
+    - the IDF file should have the VERSION object.
+    - Needs  the version of EnergyPlus installed that matches the IDF version.
+    - Energyplus should be installed in the default location.
+
+    Parameters
+    ----------
+    fname : str, StringIO or IOBase
+        Filepath IDF file,
+        File handle of IDF file open to read
+        StringIO with IDF contents within
+    """
     if isinstance(fname, (IOBase, StringIO)):
         fhandle = fname
     else:
