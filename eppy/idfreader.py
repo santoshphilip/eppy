@@ -100,9 +100,14 @@ class ConvInIDD(object):
             return float(x)
         except ValueError as e:
             return x
+    def conv_dict(self):
+        """dictionary of conversion"""
+        return dict(integer=self.integer, real=self.real, no_type=self.no_type)
+        
     
 
-def convertfields(key_comm, obj, inblock=None):
+# remove this one
+def convertfields_old(key_comm, obj, inblock=None):
     """convert the float and interger fields"""
     convinidd = ConvInIDD()
     typefunc = dict(integer=convinidd.integer, real=convinidd.real)
@@ -122,6 +127,30 @@ def convertfields(key_comm, obj, inblock=None):
             val = conv(val, inblock[i])
         obj[i] = val
     return obj
+
+
+def convertafield(field_comm, field_val, field_iddname):
+    """convert field based on field info in IDD"""
+    convinidd = ConvInIDD()
+    field_typ = field_comm.get('type', [None])[0]    
+    conv = convinidd.conv_dict().get(field_typ, convinidd.no_type)
+    return conv(field_val, field_iddname)
+    
+def convertfields(key_comm, obj, inblock=None):
+    """convert based on float, integer, and A1, N1"""
+    # f_ stands for field_
+    convinidd = ConvInIDD()
+    if not inblock:
+        inblock = ['does not start with N'] * len(obj)
+    for i, (f_comm, f_val, f_iddname) in enumerate(zip(key_comm, obj, inblock)):
+        if i == 0:
+            # inblock[0] is the iddobject key. No conversion here
+            pass
+        else:
+            obj[i] = convertafield(f_comm, f_val, f_iddname)
+    return obj
+        
+        
 
 
 def convertallfields(data, commdct, block=None):

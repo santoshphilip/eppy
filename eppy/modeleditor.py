@@ -25,6 +25,7 @@ import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 import eppy.function_helpers
 from eppy.iddcurrent import iddcurrent
 from eppy.idfreader import idfreader1
+from eppy.idfreader import convertafield
 from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
@@ -91,7 +92,7 @@ def extendlist(lst, i, value=''):
         lst.extend([value, ] * (i - len(lst) + 1))
 
 
-def newrawobject(data, commdct, key):
+def newrawobject(data, commdct, key, block=None):
     """Make a new object for the given key.
 
     Parameters
@@ -116,17 +117,15 @@ def newrawobject(data, commdct, key):
     key_comm = commdct[key_i]
     # set default values
     obj = [comm.get('default', [''])[0] for comm in key_comm]
-    for i, comm in enumerate(key_comm):
-        typ = comm.get('type', [''])[0]
-        if typ in ('real', 'integer'):
-            func_select = dict(real=float, integer=int)
-            try:
-                obj[i] = func_select[typ](obj[i])
-            except IndexError:
-                break
-            except ValueError:  # if value = autocalculate
-                continue
-    obj[0] = key
+    if not block:
+        inblock = ['does not start with N'] * len(obj)
+    else:
+        inblock = block[key_i]
+    for i, (f_comm, f_val, f_iddname) in enumerate(zip(key_comm, obj, inblock)):
+        if i == 0:
+            obj[i] = key
+        else:
+            obj[i] = convertafield(f_comm, f_val, f_iddname)
     obj = poptrailing(obj)  # remove the blank items in a repeating field.
     return obj
 
@@ -737,7 +736,7 @@ class IDF(object):
         EpBunch object
 
         """
-        obj = newrawobject(self.model, self.idd_info, key)
+        obj = newrawobject(self.model, self.idd_info, key, self.block)
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
             warnings.warn("The aname parameter should no longer be used.", UserWarning)

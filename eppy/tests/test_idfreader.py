@@ -27,6 +27,23 @@ def test_iddversiontuple():
     result = idfreader.iddversiontuple(fhandle)
     assert result == (9, 8, 4)
 
+def test_convertafield():
+    """py.test for convertafield"""
+    data = (
+    ({'type':'integer'}, '1', 'N1', 1),
+        # field_comm, field_val, field_iddname, expected
+    ({}, '1', 'N1', 1.0),
+        # field_comm, field_val, field_iddname, expected
+    ({'type':'real'}, '1', 'N1', 1.0),
+        # field_comm, field_val, field_iddname, expected
+    ({}, 'autosize', 'N1', 'autosize'),
+    ({}, '4', 'A1', '4'),
+        # field_comm, field_val, field_iddname, expected
+    )
+    for field_comm, field_val, field_iddname, expected in data:
+        result = idfreader.convertafield(field_comm, field_val, field_iddname)
+        assert result == expected
+
 def test_convertallfields():
     """py.test convertallfields"""
     data = (
