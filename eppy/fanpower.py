@@ -52,7 +52,8 @@ def fanpower_bhp(ddtt):
     except BadEPFieldError as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
-    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+    if str(ddtt.Maximum_Flow_Rate).lower() == 'autosize': 
+    # str can fail with unicode chars :-(
         return 'autosize'
     else:
         m3s = float(ddtt.Maximum_Flow_Rate)
@@ -66,7 +67,8 @@ def fanpower_watts(ddtt):
     except BadEPFieldError as e:
         fan_tot_eff = ddtt.Fan_Efficiency 
     pascal = float(ddtt.Pressure_Rise)
-    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+    if str(ddtt.Maximum_Flow_Rate).lower() == 'autosize':
+    # str can fail with unicode chars :-(
         return 'autosize'
     else:
         m3s = float(ddtt.Maximum_Flow_Rate)
@@ -74,7 +76,8 @@ def fanpower_watts(ddtt):
 
 def fan_maxcfm(ddtt):
     """return the fan max cfm"""
-    if ddtt.Maximum_Flow_Rate.lower() == 'autosize':
+    if str(ddtt.Maximum_Flow_Rate).lower() == 'autosize':
+    # str can fail with unicode chars :-(
         return 'autosize'
     else:
         m3s = float(ddtt.Maximum_Flow_Rate)

@@ -1,5 +1,12 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2018-03-24
+----------
+
+eppy.modeleditor.newrawobject is not converting fields to numbers
+tricky to fix this since it needs block values [A1, A2, N1] tat are not available here.
+see eppy.idfreader.convertallfields to see how this is done -> response to isse #188
+
 2017-12-12
 ----------
 

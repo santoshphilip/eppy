@@ -61,8 +61,6 @@ def makebunches(data, commdct):
         bunchdt[key] = []
         objs = ddtt[key]
         for obj in objs:
-            # if obj[0] == "Construction:WindowDataFile":
-            #     print obj
             bobj = makeabunch(commdct, obj, obj_i)
             bunchdt[key].append(bobj)
     return bunchdt
@@ -80,9 +78,6 @@ def makebunches_alter(data, commdct, theidf):
             bobj = makeabunch(commdct, obj, obj_i)
             list1.append(bobj)
         bunchdt[key] = Idf_MSequence(list1, objs, theidf)
-        # print "id(objs)", id(objs)
-        # print "id(dt[key])", id(dt[key])
-        # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
     return bunchdt
 
 def convertfields(key_comm, obj, inblock=None):
@@ -95,8 +90,16 @@ def convertfields(key_comm, obj, inblock=None):
                 return x
         else:
             return x # starts with A, is not a number
-    integer = lambda x, y : int(x)
-    real = lambda x, y : float(x)
+    def integer(x, y):
+        try:
+            return int(x)
+        except ValueError as e:
+            return x
+    def real(x, y):
+        try:
+            return float(x)
+        except ValueError as e:
+            return x
     typefunc = dict(integer=integer, real=real)
     # typefunc = dict(integer=int, real=float)
     types = []

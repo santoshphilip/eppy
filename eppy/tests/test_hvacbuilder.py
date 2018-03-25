@@ -45,19 +45,19 @@ def test_makeplantloop():
         "p_loop",
         ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
         ['db0', ['db1', 'db2', 'db3'], 'db4'],
-        """BRANCH, sb0, 0, , Pipe:Adiabatic, sb0_pipe, p_loop Supply Inlet,
-        sb0_pipe_outlet, Bypass;BRANCH, sb1, 0, , Pipe:Adiabatic, sb1_pipe,
-        sb1_pipe_inlet, sb1_pipe_outlet, Bypass;BRANCH, sb2, 0, ,
+        """BRANCH, sb0, 0.o, , Pipe:Adiabatic, sb0_pipe, p_loop Supply Inlet,
+        sb0_pipe_outlet, Bypass;BRANCH, sb1, 0.0, , Pipe:Adiabatic, sb1_pipe,
+        sb1_pipe_inlet, sb1_pipe_outlet, Bypass;BRANCH, sb2, 0.0, ,
         Pipe:Adiabatic, sb2_pipe, sb2_pipe_inlet, sb2_pipe_outlet,
-        Bypass;BRANCH, sb3, 0, , Pipe:Adiabatic, sb3_pipe, sb3_pipe_inlet,
-        sb3_pipe_outlet, Bypass;BRANCH, sb4, 0, , Pipe:Adiabatic, sb4_pipe,
-        sb4_pipe_inlet, p_loop Supply Outlet, Bypass;BRANCH, db0, 0, ,
+        Bypass;BRANCH, sb3, 0.0, , Pipe:Adiabatic, sb3_pipe, sb3_pipe_inlet,
+        sb3_pipe_outlet, Bypass;BRANCH, sb4, 0.0, , Pipe:Adiabatic, sb4_pipe,
+        sb4_pipe_inlet, p_loop Supply Outlet, Bypass;BRANCH, db0, 0.0, ,
         Pipe:Adiabatic, db0_pipe, p_loop Demand Inlet, db0_pipe_outlet,
-        Bypass;BRANCH, db1, 0, , Pipe:Adiabatic, db1_pipe, db1_pipe_inlet,
-        db1_pipe_outlet, Bypass;BRANCH, db2, 0, , Pipe:Adiabatic, db2_pipe,
-        db2_pipe_inlet, db2_pipe_outlet, Bypass;BRANCH, db3, 0, ,
+        Bypass;BRANCH, db1, 0.0, , Pipe:Adiabatic, db1_pipe, db1_pipe_inlet,
+        db1_pipe_outlet, Bypass;BRANCH, db2, 0.0, , Pipe:Adiabatic, db2_pipe,
+        db2_pipe_inlet, db2_pipe_outlet, Bypass;BRANCH, db3, 0.0, ,
         Pipe:Adiabatic, db3_pipe, db3_pipe_inlet, db3_pipe_outlet,
-        Bypass;BRANCH, db4, 0, , Pipe:Adiabatic, db4_pipe, db4_pipe_inlet,
+        Bypass;BRANCH, db4, 0.0, , Pipe:Adiabatic, db4_pipe, db4_pipe_inlet,
         p_loop Demand Outlet, Bypass;BRANCHLIST, p_loop Supply Branchs,
         sb0, sb1, sb2, sb3, sb4;BRANCHLIST, p_loop Demand Branchs, db0,
         db1, db2, db3, db4;CONNECTOR:SPLITTER, p_loop_supply_splitter,
@@ -94,11 +94,11 @@ def test_makeplantloop():
         dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
         hvacbuilder.makeplantloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
-        print('=' * 15)
-        print(idf1.model)
-        print('-' * 15)
-        print(idf2.model)
-        print('=' * 15)
+        # print('=' * 15)
+        # print(idf1.model)
+        # print('-' * 15)
+        # print(idf2.model)
+        # print('=' * 15)
         assert str(idf1.model) == str(idf2.model)
 
 def test_makecondenserloop():
@@ -108,20 +108,20 @@ def test_makecondenserloop():
         "c_loop",
         ['sb0', ['sb1', 'sb2', 'sb3'], 'sb4'],
         ['db0', ['db1', 'db2', 'db3'], 'db4'],
-        """BRANCH, sb0, 0, , Pipe:Adiabatic, sb0_pipe,
-        c_loop Cond_Supply Inlet, sb0_pipe_outlet, Bypass;  BRANCH, sb1, 0,
+        """BRANCH, sb0, 0.0, , Pipe:Adiabatic, sb0_pipe,
+        c_loop Cond_Supply Inlet, sb0_pipe_outlet, Bypass;  BRANCH, sb1, 0.0,
         , Pipe:Adiabatic, sb1_pipe, sb1_pipe_inlet, sb1_pipe_outlet,
-        Bypass;  BRANCH, sb2, 0, , Pipe:Adiabatic, sb2_pipe,
-        sb2_pipe_inlet, sb2_pipe_outlet, Bypass;  BRANCH, sb3, 0, ,
+        Bypass;  BRANCH, sb2, 0.0, , Pipe:Adiabatic, sb2_pipe,
+        sb2_pipe_inlet, sb2_pipe_outlet, Bypass;  BRANCH, sb3, 0.0, ,
         Pipe:Adiabatic, sb3_pipe, sb3_pipe_inlet, sb3_pipe_outlet,
-        Bypass;  BRANCH, sb4, 0, , Pipe:Adiabatic, sb4_pipe,
+        Bypass;  BRANCH, sb4, 0.0, , Pipe:Adiabatic, sb4_pipe,
         sb4_pipe_inlet, c_loop Cond_Supply Outlet, Bypass;  BRANCH,
-        db0, 0, , Pipe:Adiabatic, db0_pipe, c_loop Demand Inlet,
-        db0_pipe_outlet, Bypass;  BRANCH, db1, 0, , Pipe:Adiabatic, db1_pipe,
-        db1_pipe_inlet, db1_pipe_outlet, Bypass;  BRANCH, db2, 0, ,
+        db0, 0.0, , Pipe:Adiabatic, db0_pipe, c_loop Demand Inlet,
+        db0_pipe_outlet, Bypass;  BRANCH, db1, 0.0, , Pipe:Adiabatic, db1_pipe,
+        db1_pipe_inlet, db1_pipe_outlet, Bypass;  BRANCH, db2, 0.0, ,
         Pipe:Adiabatic, db2_pipe, db2_pipe_inlet, db2_pipe_outlet, Bypass;
-        BRANCH, db3, 0, , Pipe:Adiabatic, db3_pipe, db3_pipe_inlet,
-        db3_pipe_outlet, Bypass;  BRANCH, db4, 0, , Pipe:Adiabatic,
+        BRANCH, db3, 0.0, , Pipe:Adiabatic, db3_pipe, db3_pipe_inlet,
+        db3_pipe_outlet, Bypass;  BRANCH, db4, 0.0, , Pipe:Adiabatic,
         db4_pipe, db4_pipe_inlet, c_loop Demand Outlet, Bypass;
         BRANCHLIST, c_loop Cond_Supply Branchs, sb0, sb1, sb2, sb3, sb4;
         BRANCHLIST, c_loop Condenser Demand Branchs, db0, db1, db2, db3,
@@ -168,7 +168,7 @@ def test_getbranchcomponents():
         (
             """BRANCH,
             sb1,
-            0,
+            0.0,
             ,
             PIPE:ADIABATIC,
             np1,
@@ -189,7 +189,7 @@ def test_getbranchcomponents():
         (
             """BRANCH,
             sb1,
-            0,
+            0.0,
             ,
             PIPE:ADIABATIC,
             np1,
@@ -239,7 +239,7 @@ def test_renamenodes():
 
     BRANCH,
          sb0,
-         0,
+         0.0,
          ,
          Pipe:Adiabatic,
          np1,
@@ -255,7 +255,7 @@ def test_renamenodes():
 
     BRANCH,
          sb0,
-         0,
+         0.0,
          ,
          Pipe:Adiabatic,
          np1,
@@ -446,7 +446,7 @@ def test_componentsintobranch():
         (
             """BRANCH,
              sb0,
-             0,
+             0.0,
              ,
              Pipe:Adiabatic,
              sb0_pipe,
@@ -469,7 +469,7 @@ def test_componentsintobranch():
         (
             """BRANCH,
             sb0,
-            0,
+            0.0,
             ,
             Pipe:Adiabatic,
             sb0_pipe,
@@ -519,7 +519,7 @@ def test_replacebranch():
             ],
             'Water',
             [
-                'BRANCH', 'sb0', '0', '', 'CHILLER:ELECTRIC', 'Central_Chiller',
+                'BRANCH', 'sb0', '0.0', '', 'CHILLER:ELECTRIC', 'Central_Chiller',
                 'p_loop Supply Inlet', 'Central_Chiller_np1_node', '',
                 'PIPE:ADIABATIC',
                 'np1', 'Central_Chiller_np1_node', 'np1_np2_node', '',
@@ -577,7 +577,7 @@ def test_makepipebranch():
         "p_branch",
         ['BRANCH',
          'p_branch',
-         '0',
+         '0.0',
          '',
          'Pipe:Adiabatic',
          'p_branch_pipe',
@@ -606,7 +606,7 @@ def test_makeductbranch():
         [
             'BRANCH',
             'd_branch',
-            '0',
+            0.0,
             '',
             'duct',
             'd_branch_duct',
