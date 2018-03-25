@@ -94,6 +94,11 @@ def test_makeplantloop():
         dloop = ['db0', ['db1', 'db2', 'db3'], 'db4']
         hvacbuilder.makeplantloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
+        print('=' * 15)
+        print(idf1.model)
+        print('-' * 15)
+        print(idf2.model)
+        print('=' * 15)
         assert str(idf1.model) == str(idf2.model)
 
 def test_makecondenserloop():

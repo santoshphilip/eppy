@@ -85,28 +85,39 @@ def makebunches_alter(data, commdct, theidf):
         # print "id(bunchdt[key].list2)", id(bunchdt[key].list2)
     return bunchdt
 
-
-def convertfields(key_comm, obj):
+def convertfields(key_comm, obj, inblock=None):
     """convert the float and interger fields"""
-    def apass(aaa):
-        """pass thru"""
-        return aaa
-    typefunc = dict(integer=int, real=float)
-    # types = [comm.get('type', [None])[0] for comm in key_comm]
+    def no_type(x, avar):
+        if avar.startswith('N'): # is a number if it starts with N
+            try:
+                return float(x) # in case x=autosize
+            except ValueError as e:
+                return x
+        else:
+            return x # starts with A, is not a number
+    integer = lambda x, y : int(x)
+    real = lambda x, y : float(x)
+    typefunc = dict(integer=integer, real=real)
+    # typefunc = dict(integer=int, real=float)
     types = []
     for comm in key_comm:
         types.append(comm.get('type', [None])[0])
-    convs = [typefunc.get(typ, apass) for typ in types]
-    for i, (val, conv) in enumerate(zip(obj, convs)):
-        try:
-            val = conv(val)
-            obj[i] = val
-        except ValueError:
+    convs = [typefunc.get(typ, no_type) for typ in types]
+    try:
+        inblock = list(inblock)
+    except TypeError as e:
+        inblock = ['does not start with N'] * len(obj)
+    for i, (val, conv, avar) in enumerate(zip(obj, convs, inblock)):
+        if i == 0:
+            # inblock[0] is the key
             pass
+        else:
+            val = conv(val, inblock[i])
+        obj[i] = val
     return obj
 
 
-def convertallfields(data, commdct):
+def convertallfields(data, commdct, block=None):
     """docstring for convertallfields"""
     # import pdbdb; pdb.set_trace()
     for key in list(data.dt.keys()):
@@ -114,7 +125,11 @@ def convertallfields(data, commdct):
         for i, obj in enumerate(objs):
             key_i = data.dtls.index(key)
             key_comm = commdct[key_i]
-            obj = convertfields(key_comm, obj)
+            try:
+                inblock = block[key_i]
+            except TypeError as e:
+                inblock = None
+            obj = convertfields(key_comm, obj, inblock)
             objs[i] = obj
 
 
@@ -208,7 +223,7 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
         commdct=commdct,
         block=block)
     if conv:
-        convertallfields(data, commdct)
+        convertallfields(data, commdct, block)
     # fill gaps in idd
     ddtt, dtls = data.dt, data.dtls
     if versiontuple < (8,):
