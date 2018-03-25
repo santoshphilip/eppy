@@ -79,10 +79,10 @@ def makebunches_alter(data, commdct, theidf):
             list1.append(bobj)
         bunchdt[key] = Idf_MSequence(list1, objs, theidf)
     return bunchdt
-
-def convertfields(key_comm, obj, inblock=None):
-    """convert the float and interger fields"""
-    def no_type(x, avar):
+    
+class ConvInIDD(object):
+    """hold the conversion function to integer, real and no_type"""
+    def no_type(self, x, avar):
         if avar.startswith('N'): # is a number if it starts with N
             try:
                 return float(x) # in case x=autosize
@@ -90,22 +90,26 @@ def convertfields(key_comm, obj, inblock=None):
                 return x
         else:
             return x # starts with A, is not a number
-    def integer(x, y):
+    def integer(self, x, y):
         try:
             return int(x)
         except ValueError as e:
             return x
-    def real(x, y):
+    def real(self, x, y):
         try:
             return float(x)
         except ValueError as e:
             return x
-    typefunc = dict(integer=integer, real=real)
-    # typefunc = dict(integer=int, real=float)
+    
+
+def convertfields(key_comm, obj, inblock=None):
+    """convert the float and interger fields"""
+    convinidd = ConvInIDD()
+    typefunc = dict(integer=convinidd.integer, real=convinidd.real)
     types = []
     for comm in key_comm:
         types.append(comm.get('type', [None])[0])
-    convs = [typefunc.get(typ, no_type) for typ in types]
+    convs = [typefunc.get(typ, convinidd.no_type) for typ in types]
     try:
         inblock = list(inblock)
     except TypeError as e:
