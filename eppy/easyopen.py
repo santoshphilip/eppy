@@ -18,6 +18,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import os
+import io
 from io import IOBase
 from six import StringIO
 import eppy
@@ -58,14 +59,14 @@ def easyopen(fname):
     if isinstance(fname, (IOBase, StringIO)):
         fhandle = fname
     else:
-        fhandle = open(fname, 'r')
+        fhandle = io.open(fname, 'r', encoding='latin-1') # latin-1 seems to read most things
 
     # - get the version number from the idf file
     txt = fhandle.read()
-    try:
-        txt = txt.decode('latin-1') # latin-1 seems to read most things
-    except AttributeError:  
-        pass
+    # try:
+    #     txt = txt.decode('latin-1') # latin-1 seems to read most things
+    # except AttributeError:
+    #     pass
     ntxt = eppy.EPlusInterfaceFunctions.parse_idd.nocomment(txt, '!')
     blocks = ntxt.split(';')
     blocks = [block.strip()for block in blocks]
