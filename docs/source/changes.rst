@@ -4,6 +4,11 @@ Changes
 next release
 ~~~~~~~~~~~~
 
+2018-03-21
+----------
+
+- new function easyopen(idffile) will automatically set the IDD file and open the IDF file. This has been documented in ./docs/source/newfunctions.rst
+
 2017-12-11
 ----------
 

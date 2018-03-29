@@ -54,7 +54,7 @@ TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
 TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
 TEST_OLD_IDD = 'Energy+V8_1_0.idd'
 
-eplus_exe, eplus_weather = install_paths(VERSION)
+eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_IDD))
 
 
 def has_severe_errors(results='run_outputs'):
