@@ -25,7 +25,7 @@ from six.moves import reload_module as reload
 
 def latestidd():
     """extract the latest idd installed"""
-    pth, _ = run_functions.install_paths(version='8.8.0')
+    pth, _ = run_functions.install_paths(version='8.8.0') # works with any value in version
     dirpth = os.path.dirname(pth)
     dirpth = os.path.dirname(dirpth)
     alldirs = os.listdir(dirpth)
@@ -68,6 +68,21 @@ def test_cleanupversion():
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_easyopen():
+    """py.test for easyopen"""
+    ver = latestidd()
+    txt, result = ("  Version,{};".format(ver), '{}'.format(ver))
+    fhandle = StringIO(txt)
+    reload(modeleditor)
+    reload(easyopen)
+    idf = easyopen.easyopen(fhandle)
+    versions = idf.idfobjects['version'.upper()]
+    version = versions[0]
+    ver = version.Version_Identifier
+    assert result == ver
+
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+def test_easyopen_withidd():
     """py.test for easyopen"""
     ver = latestidd()
     txt, result = ("  Version,{};".format(ver), '{}'.format(ver))
