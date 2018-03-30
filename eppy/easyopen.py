@@ -41,7 +41,7 @@ def cleanupversion(ver):
     return cleanver
 
 
-def easyopen(fname):
+def easyopen(fname, idd=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
     
@@ -56,6 +56,11 @@ def easyopen(fname):
         File handle of IDF file open to read
         StringIO with IDF contents within
     """
+    if idd:
+        IDF.setiddname(idd)
+        idf = IDF(fname)
+        return idf
+    # the rest of the code runs if idd=None
     if isinstance(fname, (IOBase, StringIO)):
         fhandle = fname
     else:
