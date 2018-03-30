@@ -65,6 +65,7 @@ def test_cleanupversion():
         result = easyopen.cleanupversion(ver)
         assert result == expected
     
+
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 def test_easyopen():
@@ -85,11 +86,12 @@ def test_easyopen():
 def test_easyopen_withidd():
     """py.test for easyopen"""
     ver = latestidd()
+    iddfile = easyopen.getiddfile(ver)
     txt, result = ("  Version,{};".format(ver), '{}'.format(ver))
     fhandle = StringIO(txt)
     reload(modeleditor)
     reload(easyopen)
-    idf = easyopen.easyopen(fhandle)
+    idf = easyopen.easyopen(fhandle, idd=iddfile)
     versions = idf.idfobjects['version'.upper()]
     version = versions[0]
     ver = version.Version_Identifier

@@ -40,6 +40,18 @@ def cleanupversion(ver):
     cleanver = '.'.join(lst)
     return cleanver
 
+def getiddfile(versionid):
+    """find the IDD file of the E+ installation"""
+    vlist = versionid.split('.')
+    if len(vlist) == 1:
+        vlist = vlist + ['0', '0']
+    elif len(vlist) == 2:
+        vlist = vlist + ['0']
+    ver_str =  '-'.join(vlist)
+    eplus_exe, _  = eppy.runner.run_functions.install_paths(ver_str)
+    eplusfolder = os.path.dirname(eplus_exe)
+    iddfile = '{}/Energy+.idd'.format(eplusfolder, )
+    return iddfile
 
 def easyopen(fname, idd=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
@@ -57,8 +69,8 @@ def easyopen(fname, idd=None):
         StringIO with IDF contents within
     """
     if idd:
-        IDF.setiddname(idd)
-        idf = IDF(fname)
+        eppy.modeleditor.IDF.setiddname(idd)
+        idf = eppy.modeleditor.IDF(fname)
         return idf
     # the rest of the code runs if idd=None
     if isinstance(fname, (IOBase, StringIO)):
@@ -82,16 +94,8 @@ def easyopen(fname, idd=None):
     ver_block = ver_blocks[0]
     versionid = ver_block[1]
     
-    # - get the E+ folde based on version number
-    vlist = versionid.split('.')
-    if len(vlist) == 1:
-        vlist = vlist + ['0', '0']
-    elif len(vlist) == 2:
-        vlist = vlist + ['0']
-    ver_str =  '-'.join(vlist)
-    eplus_exe, _  = eppy.runner.run_functions.install_paths(ver_str)
-    eplusfolder = os.path.dirname(eplus_exe)
-    iddfile = '{}/Energy+.idd'.format(eplusfolder, )
+    # - get the E+ folder based on version number
+    iddfile = getiddfile(versionid)
     
     # - set IDD and open IDF.
     eppy.modeleditor.IDF.setiddname(iddfile)
