@@ -1,0 +1,4 @@
+2018-03-30
+----------
+
+document the idd=None in easyopen(fname, idd=None)
