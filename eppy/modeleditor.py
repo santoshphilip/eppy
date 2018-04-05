@@ -92,7 +92,7 @@ def extendlist(lst, i, value=''):
         lst.extend([value, ] * (i - len(lst) + 1))
 
 
-def newrawobject(data, commdct, key, block=None):
+def newrawobject(data, commdct, key, block=None, defaultvalues=True):
     """Make a new object for the given key.
 
     Parameters
@@ -116,7 +116,10 @@ def newrawobject(data, commdct, key, block=None):
     key_i = dtls.index(key)
     key_comm = commdct[key_i]
     # set default values
-    obj = [comm.get('default', [''])[0] for comm in key_comm]
+    if defaultvalues:
+        obj = [comm.get('default', [''])[0] for comm in key_comm]
+    else:
+        obj = ['' for comm in key_comm]
     if not block:
         inblock = ['does not start with N'] * len(obj)
     else:
@@ -707,7 +710,7 @@ class IDF(object):
 
     """Methods to do with manipulating the objects in an IDF object."""
 
-    def newidfobject(self, key, aname='', **kwargs):
+    def newidfobject(self, key, aname='', defaultvalues=True, **kwargs):
         """
         Add a new idfobject to the model. If you don't specify a value for a
         field, the default value will be set.
@@ -736,7 +739,9 @@ class IDF(object):
         EpBunch object
 
         """
-        obj = newrawobject(self.model, self.idd_info, key, self.block)
+        
+        obj = newrawobject(self.model, self.idd_info, 
+                    key, block=self.block, defaultvalues=defaultvalues)
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
             warnings.warn("The aname parameter should no longer be used.", UserWarning)

@@ -8,12 +8,12 @@ fname = "/Applications/EnergyPlus-8-8-0/ExampleFiles/5ZoneAirCooledWithSlab.idf"
 # fname = "a.idf"
 fhandle = open(fname, 'r')
 
-# txt = "  Version,8.8;"
+txt = "  Version,8.8;"
 # txt = "Zone, gumby;"
-# import StringIO
-# fhandle = StringIO.StringIO(txt)
+import StringIO
+fhandle = StringIO.StringIO(txt)
 
-idf = easyopen(fname)
+idf = easyopen(fhandle)
 # print idf.iddname
 # print idf.idfname
 # idf.printidf()
@@ -25,3 +25,10 @@ idf = easyopen(fname)
 # import pdb
 # pdb.set_trace()
 # idf = IDF(fname)
+
+idf.printidf()
+day = idf.newidfobject('DAYLIGHTING:CONTROLS', Name='SPACE1-1_daylCtrl',
+    Zone_Name='SPACE1-1', 
+    Daylighting_Reference_Point_1_Name='SPACE1-1_DaylRefPt1',
+    nodefaults=True)
+print(day)    
