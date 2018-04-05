@@ -26,9 +26,11 @@ idf = easyopen(fhandle)
 # pdb.set_trace()
 # idf = IDF(fname)
 
-idf.printidf()
+# idf.printidf()
 day = idf.newidfobject('DAYLIGHTING:CONTROLS', Name='SPACE1-1_daylCtrl',
     Zone_Name='SPACE1-1', 
     Daylighting_Reference_Point_1_Name='SPACE1-1_DaylRefPt1',
-    nodefaults=True)
+    Fraction_of_Zone_Controlled_by_Reference_Point_1=1,
+    Illuminance_Setpoint_at_Reference_Point_1=500,
+    defaultvalues=False)
 print(day)    
