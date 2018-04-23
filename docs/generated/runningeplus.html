@@ -186,7 +186,8 @@ run(self, **kwargs) method of eppy.modeleditor.IDF instance
             rather than an IDF object.
 </pre></div>
 </div>
-<p><em>Note:</em> idf.run() works for E+ version &gt;= 8.3</p>
+<p><em>Note 1:</em> idf.run() works for E+ version &gt;= 8.3
+<em>Note 2:</em> idf.run(readvars=True) has been tested only for E+ version &gt;= 8.9. It may work with earlier versions</p>
 <div class="section" id="running-in-parallel-processes">
 <h2>Running in parallel processes<a class="headerlink" href="#running-in-parallel-processes" title="Permalink to this headline">¶</a></h2>
 <p>One of the great things about Eppy is that it allows you to set up a lot

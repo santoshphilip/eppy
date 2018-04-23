@@ -152,7 +152,9 @@ it will print a full description of the options to the console.
     
 
 
-*Note:* idf.run() works for E+ version >= 8.3
+*Note 1:* idf.run() works for E+ version >= 8.3
+*Note 2:* idf.run(readvars=True) has been tested only for E+ version >= 8.9. It may work with earlier versions
+
 
 Running in parallel processes
 -----------------------------
