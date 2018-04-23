@@ -1049,6 +1049,9 @@ Can I turn off the defautl values. Yes you can:
 -  Try it with the object ``DAYLIGHTING:CONTROLS``, and you will see the
    need for ``defaultvalues=False``
 
+Of course, internally EnergyPlus will still use the default values it it
+is left blank. If just won't turn up in the IDF file.
+
 Zone area and volume
 --------------------
 

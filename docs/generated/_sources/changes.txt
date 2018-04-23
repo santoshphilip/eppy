@@ -4,6 +4,11 @@ Changes
 next release
 ~~~~~~~~~~~~
 
+2018-04-23
+----------
+
+- idf.newidfobject() has a parameter defaultvlaues=True or False. This can be toggled to set or not set the default values in the IDF file
+
 2018-03-24
 ----------
 
