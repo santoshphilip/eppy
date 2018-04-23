@@ -341,6 +341,12 @@ def test_newidfobject():
     obj = idf.newidfobject(objtype, Name='A Wall')
     assert obj.coords == []
     assert obj.fieldvalues[1] == 'A Wall'
+    
+    # test defaultvalues=True and defaultvalues=False
+    sim_deftrue = idf.newidfobject('SimulationControl'.upper(), defaultvalues=True)
+    assert sim_deftrue.Do_Zone_Sizing_Calculation == 'No'
+    sim_deffalse = idf.newidfobject('SimulationControl'.upper(), defaultvalues=False)
+    assert sim_deffalse.Do_Zone_Sizing_Calculation == ''
 
 
 def test_newidfobject_warning():

@@ -730,6 +730,9 @@ class IDF(object):
         aname : str, deprecated
             This parameter is not used. It is left there for backward
             compatibility.
+        defaultvalues: boolean
+            default is True. If True default values WILL be set. 
+            If False, default values WILL NOT be set
         **kwargs
             Keyword arguments in the format `field=value` used to set the value
             of fields in the IDF object when it is created.

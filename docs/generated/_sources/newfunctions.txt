@@ -74,9 +74,10 @@ Now let us open file fname1 without setting the **idd** file
 
 
     ---------------------------------------------------------------------------
+
     IDDNotSetError                            Traceback (most recent call last)
 
-    <ipython-input-3-44ad2b53d42c> in <module>()
+    <ipython-input-7-44ad2b53d42c> in <module>()
           2     idf1 = IDF(fname1)
           3 except Exception, e:
     ----> 4     raise e
@@ -115,9 +116,10 @@ this and should raise an exception.
 
 
     ---------------------------------------------------------------------------
+
     IDDAlreadySetError                        Traceback (most recent call last)
 
-    <ipython-input-5-52df819ac489> in <module>()
+    <ipython-input-9-52df819ac489> in <module>()
           2     IDF.setiddname("anotheridd.idd")
           3 except Exception, e:
     ----> 4     raise e
@@ -166,7 +168,7 @@ demonstrate two new functions:
 .. parsed-literal::
 
     
-    BUILDING,                 
+    BUILDING,
         Empire State Building,    !- Name
         30.0,                     !- North Axis
         City,                     !- Terrain
@@ -217,9 +219,10 @@ Let us set these values outside the range and see what happens
 
 
     ---------------------------------------------------------------------------
+
     RangeError                                Traceback (most recent call last)
 
-    <ipython-input-11-a824cb1ec673> in <module>()
+    <ipython-input-15-a824cb1ec673> in <module>()
           4     print building.checkrange("Loads_Convergence_Tolerance_Value")
           5 except RangeError, e:
     ----> 6     raise e
@@ -332,17 +335,17 @@ Here are the steps to do that
 .. parsed-literal::
 
     
-    VERSION,                  
+    VERSION,
         7.3;                      !- Version Identifier
     
-    SIMULATIONCONTROL,        
+    SIMULATIONCONTROL,
         Yes,                      !- Do Zone Sizing Calculation
         Yes,                      !- Do System Sizing Calculation
         Yes,                      !- Do Plant Sizing Calculation
         No,                       !- Run Simulation for Sizing Periods
         Yes;                      !- Run Simulation for Weather File Run Periods
     
-    BUILDING,                 
+    BUILDING,
         Empire State Building,    !- Name
         30.0,                     !- North Axis
         City,                     !- Terrain
@@ -352,7 +355,7 @@ Here are the steps to do that
         25,                       !- Maximum Number of Warmup Days
         6;                        !- Minimum Number of Warmup Days
     
-    SITE:LOCATION,            
+    SITE:LOCATION,
         CHICAGO_IL_USA TMY2-94846,    !- Name
         41.78,                    !- Latitude
         -87.75,                   !- Longitude
@@ -375,17 +378,17 @@ Here are the steps to do that
 .. parsed-literal::
 
     
-    VERSION,                  
+    VERSION,
         7.3;                      !- Version Identifier
     
-    SIMULATIONCONTROL,        
+    SIMULATIONCONTROL,
         Yes,                      !- Do Zone Sizing Calculation
         Yes,                      !- Do System Sizing Calculation
         Yes,                      !- Do Plant Sizing Calculation
         No,                       !- Run Simulation for Sizing Periods
         Yes;                      !- Run Simulation for Weather File Run Periods
     
-    BUILDING,                 
+    BUILDING,
         Empire State Building,    !- Name
         30.0,                     !- North Axis
         City,                     !- Terrain
@@ -395,7 +398,7 @@ Here are the steps to do that
         25,                       !- Maximum Number of Warmup Days
         6;                        !- Minimum Number of Warmup Days
     
-    SITE:LOCATION,            
+    SITE:LOCATION,
         CHICAGO_IL_USA TMY2-94846,    !- Name
         41.78,                    !- Latitude
         -87.75,                   !- Longitude
@@ -441,7 +444,7 @@ What if we give it a string that was not blank
 .. parsed-literal::
 
     
-    VERSION,                  
+    VERSION,
         7.3;                      !- Version Identifier
     
 
@@ -471,7 +474,7 @@ Let us confirm that the file was saved to disk
 
     !- Darwin Line endings 
     
-    VERSION,                  
+    VERSION,
         7.3;                      !- Version Identifier
 
 
@@ -518,7 +521,7 @@ IDF.newidfobject(). We want to make an object of type "MATERIAL"
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         ,                         !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -543,7 +546,7 @@ Let us give this a name, say "Shiny new material object"
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -569,7 +572,7 @@ Let us give this a name, say "Shiny new material object"
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         third material,           !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -593,7 +596,7 @@ Let us look at all the "MATERIAL" objects
 .. parsed-literal::
 
     [
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -604,7 +607,7 @@ Let us look at all the "MATERIAL" objects
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         Lousy material,           !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -615,7 +618,7 @@ Let us look at all the "MATERIAL" objects
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         third material,           !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -651,7 +654,7 @@ So let us remove the second material
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         Lousy material,           !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -674,7 +677,7 @@ So let us remove the second material
 .. parsed-literal::
 
     [
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -685,7 +688,7 @@ So let us remove the second material
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         third material,           !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -720,7 +723,7 @@ first material, but do it using a different function
 .. parsed-literal::
 
     [
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -760,7 +763,7 @@ make a copy of this object and add it to our idf file
 .. parsed-literal::
 
     [
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -771,7 +774,7 @@ make a copy of this object and add it to our idf file
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -793,9 +796,6 @@ Making an idf object with named arguments
 What if we wanted to make an idf object with values for it's fields? We
 can do that too.
 
-Renaming an idf object
-----------------------
-
 .. code:: python
 
     gypboard = idf.newidfobject('MATERIAL', Name="G01a 19mm gypsum board",
@@ -813,7 +813,7 @@ Renaming an idf object
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         G01a 19mm gypsum board,    !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
@@ -837,7 +837,7 @@ Absorptance", "Solar Absorptance", etc.
 .. parsed-literal::
 
     [
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -848,7 +848,7 @@ Absorptance", "Solar Absorptance", etc.
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -859,7 +859,7 @@ Absorptance", "Solar Absorptance", etc.
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     , 
-    MATERIAL,                 
+    MATERIAL,
         G01a 19mm gypsum board,    !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
@@ -905,7 +905,7 @@ Let us try this with an example:
 .. parsed-literal::
 
     
-    CONSTRUCTION,             
+    CONSTRUCTION,
         Interior Wall,            !- Name
         G01a 19mm gypsum board,    !- Outside Layer
         Shiny new material object,    !- Layer 2
@@ -926,7 +926,7 @@ modeleditor.rename(idf, key, oldname, newname)
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         peanut butter,            !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
@@ -948,7 +948,7 @@ modeleditor.rename(idf, key, oldname, newname)
 .. parsed-literal::
 
     
-    CONSTRUCTION,             
+    CONSTRUCTION,
         Interior Wall,            !- Name
         peanut butter,            !- Outside Layer
         Shiny new material object,    !- Layer 2
@@ -967,7 +967,7 @@ us look at the entir idf file, just to be sure
 .. parsed-literal::
 
     
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -978,7 +978,7 @@ us look at the entir idf file, just to be sure
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     
-    MATERIAL,                 
+    MATERIAL,
         Shiny new material object,    !- Name
         ,                         !- Roughness
         ,                         !- Thickness
@@ -989,7 +989,7 @@ us look at the entir idf file, just to be sure
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     
-    MATERIAL,                 
+    MATERIAL,
         peanut butter,            !- Name
         MediumSmooth,             !- Roughness
         0.019,                    !- Thickness
@@ -1000,13 +1000,54 @@ us look at the entir idf file, just to be sure
         0.7,                      !- Solar Absorptance
         0.7;                      !- Visible Absorptance
     
-    CONSTRUCTION,             
+    CONSTRUCTION,
         Interior Wall,            !- Name
         peanut butter,            !- Outside Layer
         Shiny new material object,    !- Layer 2
         peanut butter;            !- Layer 3
     
 
+
+Turn off default values
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Can I turn off the defautl values. Yes you can:
+
+.. code:: python
+
+    defaultmaterial = idf.newidfobject("MATERIAL", 
+                                         Name='with default')
+    print defaultmaterial
+    nodefaultmaterial = idf.newidfobject("MATERIAL", 
+                                         Name='Without default',
+                                      defaultvalues=False)
+    print nodefaultmaterial
+
+
+.. parsed-literal::
+
+    
+    MATERIAL,
+        with default,             !- Name
+        ,                         !- Roughness
+        ,                         !- Thickness
+        ,                         !- Conductivity
+        ,                         !- Density
+        ,                         !- Specific Heat
+        0.9,                      !- Thermal Absorptance
+        0.7,                      !- Solar Absorptance
+        0.7;                      !- Visible Absorptance
+    
+    
+    MATERIAL,
+        Without default;          !- Name
+    
+
+
+-  But why would you want to turn it off.
+-  Well .... sometimes you have to
+-  Try it with the object ``DAYLIGHTING:CONTROLS``, and you will see the
+   need for ``defaultvalues=False``
 
 Zone area and volume
 --------------------
@@ -1313,10 +1354,13 @@ internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
 
-Open a file quickly
--------------------
+Open a file quickly¶
+--------------------
 
-It is rather cumbersome to open an IDF file in eppy. From the tutorial, the steps look like this::
+It is rather cumbersome to open an IDF file in eppy. From the tutorial,
+the steps look like this:
+
+.. code:: python
 
     from eppy import modeleditor
     from eppy.modeleditor import IDF
@@ -1325,63 +1369,72 @@ It is rather cumbersome to open an IDF file in eppy. From the tutorial, the step
     fname = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
     IDF.setiddname(iddfile)
     idf = IDF(fname)
-    
-- You have to find the IDD file on your hard disk. 
-- Then set the IDD using setiddname(iddfile). 
-- Now you can open the IDF file
 
-Why can't you just open the IDF file without jumping thru all those hoops. Why do you have to find the IDD file. What is the point of having a computer, if it does not do the grunt work for you. 
+-  You have to find the IDD file on your hard disk.
+-  Then set the IDD using setiddname(iddfile).
+-  Now you can open the IDF file
 
-The function easyopen will do the grunt work for you. It will automatically read the version number from the IDF file, locate the correct IDD file and set it in eppy and then open your file. It works like this::
+Why can’t you just open the IDF file without jumping thru all those
+hoops. Why do you have to find the IDD file. What is the point of having
+a computer, if it does not do the grunt work for you.
+
+The function easyopen will do the grunt work for you. It will
+automatically read the version number from the IDF file, locate the
+correct IDD file and set it in eppy and then open your file. It works
+like this:
+
+.. code:: python
 
     from eppy.easyopen import easyopen
-
+    
     fname = './eppy/resources/idffiles/V8_8/smallfile.idf'
     idf = easyopen(fname)
-    
-For this to work, 
 
-- the IDF file should have the VERSION object. You may not have this if you are just working on a file snippet. 
-- you need to have the version of EnergyPlus installed that matches your IDF version.
-- Energyplus should be installed in the default location.
+For this to work,
 
-If easyopen does not work, use the long winded steps shown in the tutorial. That is guaranteed to work
-    
-    
+-  the IDF file should have the VERSION object. You may not have this if
+   you are just working on a file snippet.
+-  you need to have the version of EnergyPlus installed that matches
+   your IDF version.
+-  Energyplus should be installed in the default location.
 
-    
+If easyopen does not work, use the long winded steps shown in the
+tutorial. That is guaranteed to work
 
-Other miscellaneous functions
------------------------------
+Other miscellaneous functions¶
+------------------------------
 
-Fan power in Watts, BHP and fan cfm
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fan power in Watts, BHP and fan cfm¶
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We normally think of fan power in terms of Brake Horsepower (BHP),  Watts. Also when working with IP units it is useful to think of fan flow volume in terms of cubic feet per minute (cfm). 
+We normally think of fan power in terms of Brake Horsepower (BHP),
+Watts. Also when working with IP units it is useful to think of fan flow
+volume in terms of cubic feet per minute (cfm).
 
-Energyplus does not have fields for those values. With eppy we have functions 
-that will calculate the values 
+Energyplus does not have fields for those values. With eppy we have
+functions that will calculate the values
 
-- fan power in BHP
-- fan power in Watts
-- fan flow in CFM
+-  fan power in BHP
+-  fan power in Watts
+-  fan flow in CFM
 
 It will work for the following objects:
 
-- `FAN:CONSTANTVOLUME`
-- `FAN:VARIABLEVOLUME`
-- `FAN:ONOFF`
-- `FAN:ZONEEXHAUST`
-- `FANPERFORMANCE:NIGHTVENTILATION`
+-  FAN:CONSTANTVOLUME
+-  FAN:VARIABLEVOLUME
+-  FAN:ONOFF
+-  FAN:ZONEEXHAUST
+-  FANPERFORMANCE:NIGHTVENTILATION
 
-The sample code would look like this::
+The sample code would look like this:
+
+.. code:: python
 
     thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
     thefan = thefans[0]
     bhp = thefan.fanpower_bhp
     watts = thefan.fanpower_watts
     cfm = thefan.fan_maxcfm
-    
-*Note: This code was hacked together quickly. Needs peer review in ../eppy/fanpower.py*    
-    
 
+*Note: This code was hacked together quickly. Needs peer review in
+../eppy/fanpower.py*

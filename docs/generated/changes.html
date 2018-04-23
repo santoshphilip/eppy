@@ -1,23 +1,33 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Changes &#8212; eppy 0.5.46 documentation</title>
+    
+    <title>Changes &mdash; eppy 0.5.46 documentation</title>
+    
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5.46',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="eppy 0.5.46 documentation" href="index.html" />
     <link rel="next" title="Developer Documentation for eppy" href="dev_docs/index.html" />
     <link rel="prev" title="Eppy Recipies" href="eppyrecipies.html" /> 
-  </head><body>
+  </head>
+  <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -30,7 +40,7 @@
         <li class="right" >
           <a href="eppyrecipies.html" title="Eppy Recipies"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.46 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.46 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -76,12 +86,14 @@
 <h2>release r0.5.45<a class="headerlink" href="#release-r0-5-45" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id5">
 <h3>2017-10-01<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>fixed a bug in the setup.py (It was not installing some required folders)</li>
-<li>updated documentation to include how to run Energyplus from eppy</li>
+<ul>
+<li><p class="first">fixed a bug in the setup.py (It was not installing some required folders)</p>
+</li>
+<li><p class="first">updated documentation to include how to run Energyplus from eppy</p>
+</li>
 <li><dl class="first docutils">
 <dt>format of the table file was changed in E+ 8.7.</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>readhtml is updated to be able to read the new format (it still reads the older versions)</li>
 </ul>
 </dd>
@@ -94,10 +106,10 @@
 <h2>release r0.5.44<a class="headerlink" href="#release-r0-5-44" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id6">
 <h3>2017-05-23<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><dl class="first docutils">
 <dt>IDF.run() works with E+ version &gt;= 8.3</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>This will run the idf file</li>
 <li>documentation updated to reflect this</li>
 </ul>
@@ -106,7 +118,7 @@
 </li>
 <li><dl class="first docutils">
 <dt>Some changes made to support eppy working on grasshopper</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>more work needs to be done on this</li>
 </ul>
 </dd>
@@ -179,7 +191,7 @@
 <ul class="simple">
 <li>EpBunch.getreferingobjs(args)</li>
 <li>EpBunch.get_referenced_object(args)</li>
-<li>they make it possible for an idf object to scan through it’s idf file and find other idf objects that are related to it (thru object-list and reference)</li>
+<li>they make it possible for an idf object to scan through it&#8217;s idf file and find other idf objects that are related to it (thru object-list and reference)</li>
 </ul>
 </div>
 <div class="section" id="id15">
@@ -220,11 +232,12 @@ fixed a bug in modeleditor.newidfobject</p>
 </div>
 <div class="section" id="id20">
 <h3>2015-05-30<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>bugfix in ./eppy/Air:useful_scripts/idfdiff.py</li>
+<ul>
+<li><p class="first">bugfix in ./eppy/Air:useful_scripts/idfdiff.py</p>
+</li>
 <li><dl class="first docutils">
 <dt>added in ./eppy/Air:useful_scripts/idfdiff_missing.py</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>this displays only the missing objects in either file</li>
 </ul>
 </dd>
@@ -234,30 +247,31 @@ fixed a bug in modeleditor.newidfobject</p>
 </div>
 <div class="section" id="id21">
 <h3>2015-05-27<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><dl class="first docutils">
 <dt>idf.saveas(newname) changes the idf.idfname to newname</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>so the next idf.save() will save to newname</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>to retain the original idf.idfname use idf.savecopy(copyname)</li>
+<li><p class="first">to retain the original idf.idfname use idf.savecopy(copyname)</p>
+</li>
 </ul>
 </div>
 <div class="section" id="id22">
 <h3>2015-05-26<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <p>updated the following:
-- idf.save(lineendings=’default’)
-- idf.saveas(fname, lineendings=’default’)</p>
-<ul class="simple">
+- idf.save(lineendings=&#8217;default&#8217;)
+- idf.saveas(fname, lineendings=&#8217;default&#8217;)</p>
+<ul>
 <li><dl class="first docutils">
 <dt>optional argument lineendings</dt>
-<dd><ul class="first last">
-<li>if lineendings=’default’, uses the line endings of the platform</li>
-<li>if lineendings=’windows’, forces windows line endings</li>
-<li>if lineendings=’unix’, forces unix line endings</li>
+<dd><ul class="first last simple">
+<li>if lineendings=&#8217;default&#8217;, uses the line endings of the platform</li>
+<li>if lineendings=&#8217;windows&#8217;, forces windows line endings</li>
+<li>if lineendings=&#8217;unix&#8217;, forces unix line endings</li>
 </ul>
 </dd>
 </dl>
@@ -288,21 +302,21 @@ fixed a bug in modeleditor.newidfobject</p>
 <h3>2014-09-01<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first">added a script eppy/useful_scripts/loopdiagram.py:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+<div class="highlight-python"><div class="highlight"><pre>python loopdiagram.py --help
 
-<span class="n">usage</span><span class="p">:</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">idd</span> <span class="n">file</span>
+usage: loopdiagram.py [-h] idd file
 
-<span class="n">draw</span> <span class="nb">all</span> <span class="n">the</span>  <span class="n">loops</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span>
-<span class="n">There</span> <span class="n">are</span> <span class="n">two</span> <span class="n">output</span> <span class="n">files</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">location</span> <span class="k">as</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span><span class="p">:</span>
-<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">dot</span>
-<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">png</span>
+draw all the  loops in the idf file
+There are two output files saved in the same location as the idf file:
+- idf_file_location/idf_filename.dot
+- idf_file_location/idf_filename.png
 
-<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
-  <span class="n">idd</span>         <span class="n">location</span> <span class="n">of</span> <span class="n">idd</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">eplusv8</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mf">1.</span><span class="n">idd</span>
-  <span class="n">file</span>        <span class="n">location</span> <span class="n">of</span> <span class="n">idf</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">f1</span><span class="o">.</span><span class="n">idf</span>
+positional arguments:
+  idd         location of idd file = ./somewhere/eplusv8-0-1.idd
+  file        location of idf file = ./somewhere/f1.idf
 
-<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>  <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+optional arguments:
+  -h, --help  show this help message and exit
 </pre></div>
 </div>
 </li>
@@ -325,10 +339,10 @@ fixed a bug in modeleditor.newidfobject</p>
 <h2>release r0.462<a class="headerlink" href="#release-r0-462" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id28">
 <h3>2014-08-19<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><dl class="first docutils">
-<dt>added a script that can compare two idf files. It is documented in “Useful Scripts”. The script is in</dt>
-<dd><ul class="first last">
+<dt>added a script that can compare two idf files. It is documented in &#8220;Useful Scripts&#8221;. The script is in</dt>
+<dd><ul class="first last simple">
 <li>eppy/usefull_scripts/idfdiff.py</li>
 </ul>
 </dd>
@@ -336,14 +350,15 @@ fixed a bug in modeleditor.newidfobject</p>
 </li>
 <li><dl class="first docutils">
 <dt>added two scripts that test if eppy works when new versions of energyplus are released. Documentation for this is not yet done. The scripts are</dt>
-<dd><ul class="first last">
+<dd><ul class="first last simple">
 <li>eppy/usefull_scripts/eppyreadtest_file.py</li>
 <li>eppy/usefull_scripts/eppyreadtest_folder.py</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>fixed a bug where eppy would not read backslashes in a path name. Some idf objects have fields that are path names. On dos/windows machines these path names have backslashes</li>
+<li><p class="first">fixed a bug where eppy would not read backslashes in a path name. Some idf objects have fields that are path names. On dos/windows machines these path names have backslashes</p>
+</li>
 </ul>
 </div>
 </div>
@@ -447,20 +462,21 @@ fixed a bug in modeleditor.newidfobject</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/changes.rst.txt"
+      <li><a href="_sources/changes.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    </div>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -479,12 +495,12 @@ fixed a bug in modeleditor.newidfobject</p>
         <li class="right" >
           <a href="eppyrecipies.html" title="Eppy Recipies"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.46 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">eppy 0.5.46 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2013, Santosh Philip.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+        &copy; Copyright 2013, Santosh Philip.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.5.
     </div>
   </body>
 </html>

@@ -4,6 +4,11 @@ Changes
 next release
 ~~~~~~~~~~~~
 
+2018-03-24
+----------
+
+- fixed a bug, where some idfobject fields stayed as strings even though they were supposed to be numbers
+
 2018-03-21
 ----------
 
