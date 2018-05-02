@@ -53,7 +53,7 @@ def getiddfile(versionid):
     iddfile = '{}/Energy+.idd'.format(eplusfolder, )
     return iddfile
 
-def easyopen(fname, idd=None):
+def easyopen(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
     
@@ -101,8 +101,8 @@ def easyopen(fname, idd=None):
     eppy.modeleditor.IDF.setiddname(iddfile)
     if isinstance(fname, (IOBase, StringIO)):
         fhandle.seek(0)
-        idf = eppy.modeleditor.IDF(fhandle)
+        idf = eppy.modeleditor.IDF(fhandle, epw=epw)
     else:
-        idf = eppy.modeleditor.IDF(fname)
+        idf = eppy.modeleditor.IDF(fname, epw=epw)
     return idf
 
