@@ -1404,6 +1404,17 @@ For this to work,
 If easyopen does not work, use the long winded steps shown in the
 tutorial. That is guaranteed to work
 
+*Note:* easyopen() will also take a epw argument looking like:: 
+
+    idf = easyopen(fname, epw=path2weatherfile)
+
+If you pass the epw argument::
+ 
+     idf.run() 
+     
+will work. To know more about idf.run() see  `here 
+<./runningeplus.html>`_.
+
 Other miscellaneous functions¶
 ------------------------------
 

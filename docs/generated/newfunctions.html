@@ -1150,6 +1150,15 @@ your IDF version.</li>
 </ul>
 <p>If easyopen does not work, use the long winded steps shown in the
 tutorial. That is guaranteed to work</p>
+<p><em>Note:</em> easyopen() will also take a epw argument looking like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">idf</span> <span class="o">=</span> <span class="n">easyopen</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">epw</span><span class="o">=</span><span class="n">path2weatherfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you pass the epw argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">idf</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>will work. To know more about idf.run() see  <a class="reference external" href="./runningeplus.html">here</a>.</p>
 </div>
 <div class="section" id="other-miscellaneous-functions">
 <h2>Other miscellaneous functions¶<a class="headerlink" href="#other-miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
