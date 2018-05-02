@@ -80,6 +80,11 @@ def test_easyopen():
     version = versions[0]
     ver = version.Version_Identifier
     assert result == ver
+    # test with epw=weatherfile
+    fhandle = StringIO(txt)
+    epwname = 'weatherfile.epw'
+    idf = easyopen.easyopen(fhandle, epw=epwname)
+    assert idf.epw == epwname
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
@@ -96,4 +101,9 @@ def test_easyopen_withidd():
     version = versions[0]
     ver = version.Version_Identifier
     assert result == ver
+    # test with epw=weatherfile
+    fhandle = StringIO(txt)
+    epwname = 'weatherfile.epw'
+    idf = easyopen.easyopen(fhandle, idd=iddfile, epw=epwname)
+    assert idf.epw == epwname
     

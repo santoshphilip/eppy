@@ -67,10 +67,17 @@ def easyopen(fname, idd=None, epw=None):
         Filepath IDF file,
         File handle of IDF file open to read
         StringIO with IDF contents within
+    idd : str, StringIO or IOBase
+        This is an optional argument. easyopen will find the IDD without this arg
+        Filepath IDD file,
+        File handle of IDD file open to read
+        StringIO with IDD contents within
+    epw : str
+        path name to the weather file. This arg is needed to run EneryPlus from eppy.
     """
     if idd:
         eppy.modeleditor.IDF.setiddname(idd)
-        idf = eppy.modeleditor.IDF(fname)
+        idf = eppy.modeleditor.IDF(fname, epw=epw)
         return idf
     # the rest of the code runs if idd=None
     if isinstance(fname, (IOBase, StringIO)):
