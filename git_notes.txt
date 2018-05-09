@@ -17,3 +17,8 @@ remove a remote branch
 - git push origin --delete <branchName>
 Deleting a local remote-tracking branch:
 - git branch --delete --remotes <remote>/<branch>
+
+
+git tags
+- git tag <tagname>
+- git push origin <tag>
