@@ -21,6 +21,10 @@ import argparse
 
 import sys
 import itertools
+try:
+    from itertools import zip_longest as zip_longest
+except:
+    from itertools import izip_longest as zip_longest
 from bs4 import BeautifulSoup, Tag
 
 pathnameto_eplusscripting = "../../"
@@ -107,7 +111,7 @@ def idfdiffs(idf1, idf2):
                           if getobjname(item) == name]
             n_idfobjs2 = [item for item in idfobjs2
                           if getobjname(item) == name]
-            for idfobj1, idfobj2 in itertools.zip_longest(n_idfobjs1,
+            for idfobj1, idfobj2 in zip_longest(n_idfobjs1,
                                                            n_idfobjs2):
                 if idfobj1 == None:
                     thediffs[(idfobj2.key.upper(), 

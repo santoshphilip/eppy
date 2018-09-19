@@ -7,6 +7,10 @@ issue #55
 branch i55_idfdiff
 - reveiw the error or recreate it.
 
+on review:
+- idfdiffs.idfdiffs(idf1, idf2) -> works corrrectly
+    - error happens on conversion to csvs
+
 2018-04-30
 ----------
 
