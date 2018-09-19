@@ -1,5 +1,12 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2018-09-18
+----------
+
+issue #55
+branch i55_idfdiff
+- reveiw the error or recreate it.
+
 2018-04-30
 ----------
 
