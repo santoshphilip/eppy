@@ -1,3 +1,4 @@
+import pprint
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 iddfile = "./eppy/resources/iddfiles/Energy+V7_2_0.idd"
@@ -7,4 +8,5 @@ IDF.setiddname(iddfile)
 idf1 = IDF(f1)
 idf2 = IDF(f2)
 from eppy.useful_scripts import idfdiff
-idfdiff.idfdiffs(idf1, idf2)
+thediff = idfdiff.idfdiffs(idf1, idf2)
+pprint.pprint(thediff)

@@ -8,8 +8,7 @@ branch i55_idfdiff
 - reveiw the error or recreate it.
 
 on review:
-- idfdiffs.idfdiffs(idf1, idf2) -> works corrrectly
-    - error happens on conversion to csvs
+- idfdiffs.idfdiffs(idf1, idf2) -> gives the wrong output in missing object.
 
 2018-04-30
 ----------
