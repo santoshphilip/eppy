@@ -105,6 +105,7 @@ def idfdiffs(idf1, idf2):
         idfobjs2 = idf2.idfobjects[akey]
         names = set([getobjname(i) for i in idfobjs1] +
                     [getobjname(i) for i in idfobjs2])
+        names = sorted(names)
         idfobjs1 = sorted(idfobjs1, key=lambda idfobj: idfobj['obj'])
         idfobjs2 = sorted(idfobjs2, key=lambda idfobj: idfobj['obj'])
         for name in names:
