@@ -9,7 +9,8 @@ branch i55_idfdiff
 
 on review:
 - idfdiffs.idfdiffs(idf1, idf2) -> gives the wrong output in missing object.
-
+- FIXED 
+ 
 2018-04-30
 ----------
 
