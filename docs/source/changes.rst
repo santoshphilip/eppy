@@ -4,6 +4,11 @@ Changes
 next release
 ~~~~~~~~~~~~
 
+2018-09-25
+----------
+
+- fixed bug in useful_scripts/idfdiff.py
+
 2018-04-23
 ----------
 
