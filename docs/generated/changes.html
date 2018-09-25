@@ -51,8 +51,8 @@
             
   <div class="section" id="changes">
 <h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="next-release">
-<h2>next release<a class="headerlink" href="#next-release" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="next-release-r0-5-47">
+<h2>next release r0.5.47<a class="headerlink" href="#next-release-r0-5-47" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>2018-09-25<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -98,14 +98,12 @@
 <h2>release r0.5.45<a class="headerlink" href="#release-r0-5-45" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id7">
 <h3>2017-10-01<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first">fixed a bug in the setup.py (It was not installing some required folders)</p>
-</li>
-<li><p class="first">updated documentation to include how to run Energyplus from eppy</p>
-</li>
+<ul class="simple">
+<li>fixed a bug in the setup.py (It was not installing some required folders)</li>
+<li>updated documentation to include how to run Energyplus from eppy</li>
 <li><dl class="first docutils">
 <dt>format of the table file was changed in E+ 8.7.</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>readhtml is updated to be able to read the new format (it still reads the older versions)</li>
 </ul>
 </dd>
@@ -118,10 +116,10 @@
 <h2>release r0.5.44<a class="headerlink" href="#release-r0-5-44" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id8">
 <h3>2017-05-23<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt>IDF.run() works with E+ version &gt;= 8.3</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>This will run the idf file</li>
 <li>documentation updated to reflect this</li>
 </ul>
@@ -130,7 +128,7 @@
 </li>
 <li><dl class="first docutils">
 <dt>Some changes made to support eppy working on grasshopper</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>more work needs to be done on this</li>
 </ul>
 </dd>
@@ -244,12 +242,11 @@ fixed a bug in modeleditor.newidfobject</p>
 </div>
 <div class="section" id="id22">
 <h3>2015-05-30<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first">bugfix in ./eppy/Air:useful_scripts/idfdiff.py</p>
-</li>
+<ul class="simple">
+<li>bugfix in ./eppy/Air:useful_scripts/idfdiff.py</li>
 <li><dl class="first docutils">
 <dt>added in ./eppy/Air:useful_scripts/idfdiff_missing.py</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>this displays only the missing objects in either file</li>
 </ul>
 </dd>
@@ -259,17 +256,16 @@ fixed a bug in modeleditor.newidfobject</p>
 </div>
 <div class="section" id="id23">
 <h3>2015-05-27<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt>idf.saveas(newname) changes the idf.idfname to newname</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>so the next idf.save() will save to newname</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">to retain the original idf.idfname use idf.savecopy(copyname)</p>
-</li>
+<li>to retain the original idf.idfname use idf.savecopy(copyname)</li>
 </ul>
 </div>
 <div class="section" id="id24">
@@ -277,10 +273,10 @@ fixed a bug in modeleditor.newidfobject</p>
 <p>updated the following:
 - idf.save(lineendings=&#8217;default&#8217;)
 - idf.saveas(fname, lineendings=&#8217;default&#8217;)</p>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt>optional argument lineendings</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>if lineendings=&#8217;default&#8217;, uses the line endings of the platform</li>
 <li>if lineendings=&#8217;windows&#8217;, forces windows line endings</li>
 <li>if lineendings=&#8217;unix&#8217;, forces unix line endings</li>
@@ -351,10 +347,10 @@ optional arguments:
 <h2>release r0.462<a class="headerlink" href="#release-r0-462" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id30">
 <h3>2014-08-19<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt>added a script that can compare two idf files. It is documented in &#8220;Useful Scripts&#8221;. The script is in</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>eppy/usefull_scripts/idfdiff.py</li>
 </ul>
 </dd>
@@ -362,15 +358,14 @@ optional arguments:
 </li>
 <li><dl class="first docutils">
 <dt>added two scripts that test if eppy works when new versions of energyplus are released. Documentation for this is not yet done. The scripts are</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>eppy/usefull_scripts/eppyreadtest_file.py</li>
 <li>eppy/usefull_scripts/eppyreadtest_folder.py</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><p class="first">fixed a bug where eppy would not read backslashes in a path name. Some idf objects have fields that are path names. On dos/windows machines these path names have backslashes</p>
-</li>
+<li>fixed a bug where eppy would not read backslashes in a path name. Some idf objects have fields that are path names. On dos/windows machines these path names have backslashes</li>
 </ul>
 </div>
 </div>
@@ -385,7 +380,7 @@ optional arguments:
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changes</a><ul>
-<li><a class="reference internal" href="#next-release">next release</a><ul>
+<li><a class="reference internal" href="#next-release-r0-5-47">next release r0.5.47</a><ul>
 <li><a class="reference internal" href="#id1">2018-09-25</a></li>
 <li><a class="reference internal" href="#id2">2018-04-23</a></li>
 <li><a class="reference internal" href="#id3">2018-03-24</a></li>
