@@ -22,7 +22,6 @@ from six import string_types
 from eppy import modeleditor
 from eppy.bunch_subclass import Bunch
 from eppy.iddcurrent import iddcurrent
-import eppy.idfreader as idfreader
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 import eppy.snippet as snippet
