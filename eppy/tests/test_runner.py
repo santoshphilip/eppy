@@ -201,7 +201,6 @@ class TestRunFunction(object):
             out, _err = capfd.readouterr()
             assert "ERROR: Could not find input data file:" in out
 
-
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
 class TestIDFRunner(object):
@@ -470,6 +469,17 @@ class TestIDFRunner(object):
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) == 0
+
+    def test_reset_cwd_on_failure(self, capfd):
+        cwd = os.getcwd()
+        self.idf.idfobjects['RUNPERIOD'][0].Begin_Month = "Spamuary"
+        try:
+            self.idf.run()
+            assert False, "Expected error not raised"
+        except CalledProcessError:
+            out, _err = capfd.readouterr()
+            assert "FATAL" in out
+        assert os.getcwd() == cwd
 
 
 @pytest.mark.skipif(
