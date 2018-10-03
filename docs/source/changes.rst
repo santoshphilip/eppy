@@ -1,6 +1,12 @@
 Changes
 =======
 
+2018-10-03
+----------
+
+- fixed bug in idf.run()
+    - the bug resulted in the working directory changing if the run was done with an invalid idf
+
 release r0.5.47
 ~~~~~~~~~~~~~~~
 
