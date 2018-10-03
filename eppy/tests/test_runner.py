@@ -48,11 +48,11 @@ IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
 try:
     VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
 except KeyError:
-    VERSION = '8-7-0'  # current default for integration tests on local system
+    VERSION = '8-9-0'  # current default for integration tests on local system
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
 TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
 TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
-TEST_OLD_IDD = 'Energy+V8_1_0.idd'
+TEST_OLD_IDD = 'Energy+V7_2_0.idd'
 
 eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_IDD))
 
@@ -113,7 +113,6 @@ class TestEnvironment(object):
         """Test the test EPW file is where we expect it to be.
         """
         f = os.path.join(eplus_weather, TEST_EPW)
-        print(f)
         assert os.path.isfile(f)
 
     def test_idf_exists(self):
@@ -201,7 +200,6 @@ class TestRunFunction(object):
         except CalledProcessError:
             out, _err = capfd.readouterr()
             assert "ERROR: Could not find input data file:" in out
-
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
@@ -401,6 +399,7 @@ class TestIDFRunner(object):
         files = os.listdir('run_outputs')
         assert set(files) == set(self.expected_files_suffix_D)
 
+    @pytest.mark.skipif(versiontuple(VERSION) >= (8, 9, 0), reason="Only compiled IDD is used from v8.9.0")
     def test_run_IDD(self):
         """
         End to end test of idf.run function with a different IDD set.
@@ -470,6 +469,17 @@ class TestIDFRunner(object):
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) == 0
+
+    def test_reset_cwd_on_failure(self, capfd):
+        cwd = os.getcwd()
+        self.idf.idfobjects['RUNPERIOD'][0].Begin_Month = "Spamuary"
+        try:
+            self.idf.run()
+            assert False, "Expected error not raised"
+        except CalledProcessError:
+            out, _err = capfd.readouterr()
+            assert "FATAL" in out
+        assert os.getcwd() == cwd
 
 
 @pytest.mark.skipif(

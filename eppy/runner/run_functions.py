@@ -316,8 +316,9 @@ def run(idf=None, weather=None, output_directory='', annual=False,
             check_call(cmd)
         elif verbose == 'q':
             check_call(cmd, stdout=open(os.devnull, 'w'))
-        os.chdir(cwd)
     except CalledProcessError:
         # potentially catch contents of std out and put it in the error
         raise
+    finally:
+        os.chdir(cwd)
     return 'OK'
