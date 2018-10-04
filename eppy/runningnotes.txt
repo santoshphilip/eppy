@@ -1,5 +1,39 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2018-10-03
+----------
+
+use cookiecutter:
+
+- make cookiecutter in a different folder (turn pytest on)
+    - use eppy as project name here.
+- move Makefile to the real envars
+- merge requirements_dev.txt into the one in the real envars
+    - run pip install -r requirements_dev.txt
+- merge the .gitignore
+- merge setup.cfg
+    - update current version on setup.cfg
+    - version should be string in setup.py
+- merge envars/__init__.py
+
+What we have:
+
+- We have no docs
+    - so make docs does not work
+- make test works
+    - no matter where the tests folder is
+
+other things that work    
+- make clean
+- make lint
+    - flake8.sh -> useful with textmate
+- make coverage
+- make dist
+- make release
+
+
+
+
 2018-09-18
 ----------
 
