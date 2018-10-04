@@ -3,6 +3,12 @@ rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line
 2018-10-03
 ----------
 
+- see <https://cookiecutter-pypackage.readthedocs.io/en/latest/pypi_release_checklist.html> before release
+
+
+2018-10-03
+----------
+
 use cookiecutter:
 
 - make cookiecutter in a different folder (turn pytest on)
@@ -28,6 +34,10 @@ things that work
 
 Does not work:
 - make docs
+    - now using:
+        - cd docs
+        - make html
+    
 
 
 

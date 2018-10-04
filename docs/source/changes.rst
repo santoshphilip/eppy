@@ -1,6 +1,14 @@
 Changes
 =======
 
+release r0.5.48
+~~~~~~~~~~~~~~~
+
+2018-10-03
+----------
+
+- using cookiecuter <https://github.com/audreyr/cookiecutter-pypackage> in eppy
+
 release r0.5.47
 ~~~~~~~~~~~~~~~
 
