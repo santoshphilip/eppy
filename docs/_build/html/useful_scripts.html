@@ -1,0 +1,351 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Useful Scripts &#8212; eppy 0.5.46 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Eppy Functions" href="eppyfunctions.html" />
+    <link rel="prev" title="Running EnergyPlus from Eppy" href="runningeplus.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="useful-scripts">
+<h1>Useful Scripts<a class="headerlink" href="#useful-scripts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="location-of-the-scripts">
+<h2>Location of the scripts<a class="headerlink" href="#location-of-the-scripts" title="Permalink to this headline">¶</a></h2>
+<p>Here are some scripts that you may find useful. They are in the folder
+“./eppy/useful_scripts”</p>
+<p>And now for some housekeeping before we start off</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../eppy/useful_scripts&quot;</span><span class="p">)</span>
+<span class="c1"># changes directory, so we are where the scripts are located</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># you would normaly install eppy by doing</span>
+<span class="c1"># python setup.py install</span>
+<span class="c1"># or</span>
+<span class="c1"># pip install eppy</span>
+<span class="c1"># or</span>
+<span class="c1"># easy_install eppy</span>
+
+<span class="c1"># if you have not done so, the following three lines are needed</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you look in the folder “./eppy/useful_scripts”, you fill find the
+following scripts</p>
+<p>The scripts are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">eppy_version</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">eppyreadtest_folder</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span> <span class="n">eppyreadtest_file</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="eppy-version-py">
+<h2>eppy_version.py<a class="headerlink" href="#eppy-version-py" title="Permalink to this headline">¶</a></h2>
+<p>Many scripts will print out some help information, if you use the –help
+option. Let us try that</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># ignore the line above. It simply lets me run a command line from ipython notebook</span>
+<span class="n">python</span> <span class="n">eppy_version</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: eppy_version.py [-h]
+
+I print the current version of eppy. Being polite, I also say hello !
+
+optional arguments:
+  -h, --help  show this help message and exit
+</pre></div>
+</div>
+<p>That was useful !</p>
+<p>Now let us try running the program</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># ignore the line above. It simply lets me run a command line from ipython notebook</span>
+<span class="n">python</span> <span class="n">eppy_version</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Hello! I am  eppy version 0.4.6.4a
+</pre></div>
+</div>
+</div>
+<div class="section" id="redirecting-output-to-a-file">
+<h2>Redirecting output to a file<a class="headerlink" href="#redirecting-output-to-a-file" title="Permalink to this headline">¶</a></h2>
+<p>Most scripts will print the output to a terminal. Sometimes we want to
+send the output to a file, so that we can save it for posterity. We can
+do that py using “&gt;” with the filename after that. For eppy_version.py,
+it will look like this:</p>
+<p>python eppy_version.py &gt; save_output.txt</p>
+<p>Some of the following scripts will generate csv or html outputs. We can
+direct the output to a file with .html extension and open it in a
+browser</p>
+</div>
+<div class="section" id="compare-two-idf-files-idfdiff-py">
+<h2>Compare two idf files - idfdiff.py<a class="headerlink" href="#compare-two-idf-files-idfdiff-py" title="Permalink to this headline">¶</a></h2>
+<p>This script will compare two idf files. The results will be displayed
+printed in “csv” format or in “html” format.</p>
+<p>You would run the script from the command line. This would be the
+terminal on Mac or unix, and the dos prompt on windows. Let us look at
+the help for this script, by typing:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># ignore the line above. It simply lets me run a command line from ipython notebook</span>
+<span class="n">python</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">(</span><span class="o">--</span><span class="n">csv</span> <span class="o">|</span> <span class="o">--</span><span class="n">html</span><span class="p">)</span> <span class="n">idd</span> <span class="n">file1</span> <span class="n">file2</span>
+
+<span class="n">Do</span> <span class="n">a</span> <span class="n">diff</span> <span class="n">between</span> <span class="n">two</span> <span class="n">idf</span> <span class="n">files</span><span class="o">.</span> <span class="n">Prints</span> <span class="n">the</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">csv</span> <span class="ow">or</span> <span class="n">html</span> <span class="n">file</span> <span class="nb">format</span><span class="o">.</span>
+<span class="n">You</span> <span class="n">can</span> <span class="n">redirect</span> <span class="n">the</span> <span class="n">output</span> <span class="n">to</span> <span class="n">a</span> <span class="n">file</span> <span class="ow">and</span> <span class="nb">open</span> <span class="n">the</span> <span class="n">file</span> <span class="n">using</span> <span class="k">as</span> <span class="n">a</span> <span class="n">spreadsheet</span>
+<span class="ow">or</span> <span class="n">by</span> <span class="n">using</span> <span class="n">a</span> <span class="n">browser</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">idd</span>         <span class="n">location</span> <span class="n">of</span> <span class="n">idd</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">eplusv8</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mf">1.</span><span class="n">idd</span>
+  <span class="n">file1</span>       <span class="n">location</span> <span class="n">of</span> <span class="n">first</span> <span class="k">with</span> <span class="n">idf</span> <span class="n">files</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">f1</span><span class="o">.</span><span class="n">idf</span>
+  <span class="n">file2</span>       <span class="n">location</span> <span class="n">of</span> <span class="n">second</span> <span class="k">with</span> <span class="n">idf</span> <span class="n">files</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">f2</span><span class="o">.</span><span class="n">idf</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>  <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">csv</span>
+  <span class="o">--</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>Now let us try this with two “idf” files that are slightly different. If
+we open them in a file comparing software, it would look like this:</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="k">import</span> <span class="n">doc_images</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">doc_images</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">filemerge</span><span class="p">)</span> <span class="c1"># display the image below</span>
+</pre></div>
+</div>
+<img alt="useful_scripts_files/useful_scripts_21_0.png" src="useful_scripts_files/useful_scripts_21_0.png" />
+<p>There are 4 differences between the files. Let us see what idfdiff.py
+does with the two files. We will use the –html option to print out the
+diff in html format.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># python idfdiff.py idd file1 file2</span>
+<span class="n">python</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">html</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">iddfiles</span><span class="o">/</span><span class="n">Energy</span><span class="o">+</span><span class="n">V7_2_0</span><span class="o">.</span><span class="n">idd</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constructions</span><span class="o">.</span><span class="n">idf</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constructions_diff</span><span class="o">.</span><span class="n">idf</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">file1</span> <span class="o">=</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constructions</span><span class="o">.</span><span class="n">idf</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">file2</span> <span class="o">=</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constructions_diff</span><span class="o">.</span><span class="n">idf</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">table</span> <span class="n">border</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;&lt;</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="n">Object</span> <span class="n">Key</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;&lt;</span><span class="n">th</span><span class="o">&gt;</span> <span class="n">Object</span> <span class="n">Name</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;&lt;</span><span class="n">th</span><span class="o">&gt;</span> <span class="n">Field</span> <span class="n">Name</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;&lt;</span><span class="n">th</span><span class="o">&gt;</span> <span class="n">file1</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;&lt;</span><span class="n">th</span><span class="o">&gt;</span> <span class="n">file2</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;&lt;/</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">MATERIAL</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">F08</span> <span class="n">Metal</span> <span class="n">surface</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="ow">is</span> <span class="n">here</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="ow">not</span> <span class="n">here</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">MATERIAL</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">F08</span> <span class="n">Metal</span> <span class="n">surface</span> <span class="n">haha</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="ow">not</span> <span class="n">here</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="ow">is</span> <span class="n">here</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">MATERIAL</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">G05</span> <span class="mi">25</span><span class="n">mm</span> <span class="n">wood</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">Conductivity</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="mf">0.15</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="mf">0.155</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">tr</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">CONSTRUCTION</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">Exterior</span> <span class="n">Door</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">Outside</span> <span class="n">Layer</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">F08</span> <span class="n">Metal</span> <span class="n">surface</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="n">F08</span> <span class="n">Metal</span> <span class="n">surface</span> <span class="n">haha</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;&lt;/</span><span class="n">tr</span><span class="o">&gt;&lt;/</span><span class="n">table</span><span class="o">&gt;&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>reprinting the output again for clarity:</p>
+<p>&lt;html&gt;&lt;p&gt;file1 = ../resources/idffiles/V_7_2/constructions.idf&lt;/p&gt;&lt;p&gt;file2 = ../resources/idffiles/V_7_2/constructions_diff.idf&lt;/p&gt;&lt;table border=”1”&gt;&lt;tr&gt;&lt;th&gt;Object Key&lt;/th&gt;&lt;th&gt; Object Name&lt;/th&gt;&lt;th&gt; Field Name&lt;/th&gt;&lt;th&gt; file1&lt;/th&gt;&lt;th&gt; file2&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;is here&lt;/td&gt;&lt;td&gt;not here&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATERIAL&lt;/td&gt;&lt;td&gt;G05 25mm wood&lt;/td&gt;&lt;td&gt;Conductivity&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.155&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;CONSTRUCTION&lt;/td&gt;&lt;td&gt;Exterior Door&lt;/td&gt;&lt;td&gt;Outside Layer&lt;/td&gt;&lt;td&gt;F08 Metal surface&lt;/td&gt;&lt;td&gt;F08 Metal surface haha&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/html&gt;</p>
+<p>It does look like html :-). We need to redirect this output to a file
+and then open the file in a browser to see what it looks like. Displayed
+below is the html file</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="k">import</span> <span class="n">doc_images</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">doc_images</span><span class="o">.</span><span class="n">idfdiff_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="n">h</span>
+</pre></div>
+</div>
+<html><p>file1 = ../resources/idffiles/V_7_2/constr.idf</p><p>file2 = ../resources/idffiles/V_7_2/constr_diff.idf</p><table border="1"><tr><th>Object Key</th><th> Object Name</th><th> Field Name</th><th> file1</th><th> file2</th></tr><tr><td>CONSTRUCTION</td><td>CLNG-1</td><td>Outside Layer</td><td>MAT-CLNG-1</td><td>MAT-CLNG-8</td></tr><tr><td>CONSTRUCTION</td><td>GARAGE-SLAB-1</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-E</td><td></td><td>is here</td><td>not here</td></tr><tr><td>CONSTRUCTION</td><td>SB-U</td><td></td><td>not here</td><td>is here</td></tr><tr><td>OUTPUTCONTROL:TABLE:STYLE</td><td> </td><td>Column Separator</td><td>HTML</td><td>CSV</td></tr></table></html><p>Pretty straight forward. Scroll up and look at the origin text files,
+and see how idfdiff.py understands the difference</p>
+<p>Now let us try the same thin in csv format</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># python idfdiff.py idd file1 file2</span>
+<span class="n">python</span> <span class="n">idfdiff</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">csv</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">iddfiles</span><span class="o">/</span><span class="n">Energy</span><span class="o">+</span><span class="n">V7_2_0</span><span class="o">.</span><span class="n">idd</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constr</span><span class="o">.</span><span class="n">idf</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constr_diff</span><span class="o">.</span><span class="n">idf</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">file1</span> <span class="o">=</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constr</span><span class="o">.</span><span class="n">idf</span>
+<span class="n">file2</span> <span class="o">=</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">constr_diff</span><span class="o">.</span><span class="n">idf</span>
+
+<span class="n">Object</span> <span class="n">Key</span><span class="p">,</span> <span class="n">Object</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Field</span> <span class="n">Name</span><span class="p">,</span> <span class="n">file1</span><span class="p">,</span> <span class="n">file2</span>
+<span class="n">CONSTRUCTION</span><span class="p">,</span><span class="n">CLNG</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">Outside</span> <span class="n">Layer</span><span class="p">,</span><span class="n">MAT</span><span class="o">-</span><span class="n">CLNG</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">MAT</span><span class="o">-</span><span class="n">CLNG</span><span class="o">-</span><span class="mi">8</span>
+<span class="n">CONSTRUCTION</span><span class="p">,</span><span class="n">GARAGE</span><span class="o">-</span><span class="n">SLAB</span><span class="o">-</span><span class="mi">1</span><span class="p">,,</span><span class="ow">is</span> <span class="n">here</span><span class="p">,</span><span class="ow">not</span> <span class="n">here</span>
+<span class="n">CONSTRUCTION</span><span class="p">,</span><span class="n">SB</span><span class="o">-</span><span class="n">E</span><span class="p">,,</span><span class="ow">is</span> <span class="n">here</span><span class="p">,</span><span class="ow">not</span> <span class="n">here</span>
+<span class="n">CONSTRUCTION</span><span class="p">,</span><span class="n">SB</span><span class="o">-</span><span class="n">U</span><span class="p">,,</span><span class="ow">not</span> <span class="n">here</span><span class="p">,</span><span class="ow">is</span> <span class="n">here</span>
+<span class="n">OUTPUTCONTROL</span><span class="p">:</span><span class="n">TABLE</span><span class="p">:</span><span class="n">STYLE</span><span class="p">,</span> <span class="p">,</span><span class="n">Column</span> <span class="n">Separator</span><span class="p">,</span><span class="n">HTML</span><span class="p">,</span><span class="n">CSV</span>
+</pre></div>
+</div>
+<p>We see the same output, but now in csv format. You can redirect it to a
+“.csv” file and open it up as a spreadsheet</p>
+</div>
+<div class="section" id="loopdiagram-py">
+<h2>loopdiagram.py<a class="headerlink" href="#loopdiagram-py" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="diagrams-of-hvac-loops">
+<h3>Diagrams of HVAC loops<a class="headerlink" href="#diagrams-of-hvac-loops" title="Permalink to this headline">¶</a></h3>
+<p>This script will draw all the loops in an idf file. It is a bit of a
+hack. So it will work on most files, but sometimes it will not :-(. But
+it is pretty useful when it works.</p>
+<p>If it does not work, send us the idf file and we’ll try to fix the code</p>
+<p>Make sure <a class="reference external" href="http://www.research.att.com/sw/tools/graphviz/">grapphviz</a>
+is installed for this script to work</p>
+<p>Again, we’ll have to run the script from the terminal. Let us look at
+the help for this script</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># ignore the line above. It simply lets me run a command line from ipython notebook</span>
+<span class="n">python</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="n">idd</span> <span class="n">file</span>
+
+<span class="n">draw</span> <span class="nb">all</span> <span class="n">the</span>  <span class="n">loops</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span>
+<span class="n">There</span> <span class="n">are</span> <span class="n">two</span> <span class="n">output</span> <span class="n">files</span> <span class="n">saved</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">location</span> <span class="k">as</span> <span class="n">the</span> <span class="n">idf</span> <span class="n">file</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">dot</span>
+<span class="o">-</span> <span class="n">idf_file_location</span><span class="o">/</span><span class="n">idf_filename</span><span class="o">.</span><span class="n">png</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">idd</span>         <span class="n">location</span> <span class="n">of</span> <span class="n">idd</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">eplusv8</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mf">1.</span><span class="n">idd</span>
+  <span class="n">file</span>        <span class="n">location</span> <span class="n">of</span> <span class="n">idf</span> <span class="n">file</span> <span class="o">=</span> <span class="o">./</span><span class="n">somewhere</span><span class="o">/</span><span class="n">f1</span><span class="o">.</span><span class="n">idf</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>  <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+</pre></div>
+</div>
+<p>Pretty straightforward. Simply open png file and you will see the loop
+diagram. (ignore the dot file for now. it will be documented later)</p>
+<p>So let us try this out with and simple example file. We have a very
+simple plant loop in “../resources/idffiles/V_7_2/plantloop.idf”</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">bash</span>
+<span class="c1"># ignore the line above. It simply lets me run a command line from ipython notebook</span>
+<span class="n">python</span> <span class="n">loopdiagram</span><span class="o">.</span><span class="n">py</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">iddfiles</span><span class="o">/</span><span class="n">Energy</span><span class="o">+</span><span class="n">V7_2_0</span><span class="o">.</span><span class="n">idd</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">plantloop</span><span class="o">.</span><span class="n">idf</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">constructing</span> <span class="n">the</span> <span class="n">loops</span>
+<span class="n">cleaning</span> <span class="n">edges</span>
+<span class="n">making</span> <span class="n">the</span> <span class="n">diagram</span>
+<span class="n">saved</span> <span class="n">file</span><span class="p">:</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">plantloop</span><span class="o">.</span><span class="n">dot</span>
+<span class="n">saved</span> <span class="n">file</span><span class="p">:</span> <span class="o">../</span><span class="n">resources</span><span class="o">/</span><span class="n">idffiles</span><span class="o">/</span><span class="n">V_7_2</span><span class="o">/</span><span class="n">plantloop</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+<p>The script prints out it’s progress. On larger files, this might take a
+few seconds. If we open this file, it will look like the diagram below</p>
+<p><em>Note: the supply and demnd sides are not connected in the diagram, but
+shown seperately for clarity</em></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.useful_scripts</span> <span class="k">import</span> <span class="n">doc_images</span> <span class="c1">#no need to know this code, it just shows the image below</span>
+<span class="n">for_images</span> <span class="o">=</span> <span class="n">doc_images</span>
+<span class="n">for_images</span><span class="o">.</span><span class="n">display_png</span><span class="p">(</span><span class="n">for_images</span><span class="o">.</span><span class="n">plantloop</span><span class="p">)</span> <span class="c1"># display the image below</span>
+</pre></div>
+</div>
+<img alt="useful_scripts_files/useful_scripts_38_0.png" src="useful_scripts_files/useful_scripts_38_0.png" />
+<p>That diagram is not a real system. Does this script really work ?</p>
+<p>Try it yourself. Draw the daigram for
+“../resources/idffiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlow.idf”</p>
+</div>
+<div class="section" id="names-in-loopdiagrams">
+<h3>Names in loopdiagrams<a class="headerlink" href="#names-in-loopdiagrams" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://www.designbuilder.co.uk">Designbuilder</a> is an energyplus
+editor autogenerates object names like “MyHouse:SAPZone1”</li>
+<li>Note the “:” in the name.</li>
+<li>Unfortunatley “:” is a reserved character when making a loop
+diagrams. (eppy uses pydot and grapphviz which has this constraint)</li>
+<li>to work around this, loopdiagram will replace all “:” with a “__”</li>
+<li>So the names in the diagram will not match the names in your file,
+but you can make out what is going on</li>
+</ul>
+</div>
+</div>
+<div class="section" id="eppyreadtest-folder-py">
+<h2>eppyreadtest_folder.py<a class="headerlink" href="#eppyreadtest-folder-py" title="Permalink to this headline">¶</a></h2>
+<p>Not yet documented</p>
+</div>
+<div class="section" id="eppyreadtest-file-py">
+<h2>eppyreadtest_file.py<a class="headerlink" href="#eppyreadtest-file-py" title="Permalink to this headline">¶</a></h2>
+<p>Not yet documented</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Useful Scripts</a><ul>
+<li><a class="reference internal" href="#location-of-the-scripts">Location of the scripts</a></li>
+<li><a class="reference internal" href="#eppy-version-py">eppy_version.py</a></li>
+<li><a class="reference internal" href="#redirecting-output-to-a-file">Redirecting output to a file</a></li>
+<li><a class="reference internal" href="#compare-two-idf-files-idfdiff-py">Compare two idf files - idfdiff.py</a></li>
+<li><a class="reference internal" href="#loopdiagram-py">loopdiagram.py</a><ul>
+<li><a class="reference internal" href="#diagrams-of-hvac-loops">Diagrams of HVAC loops</a></li>
+<li><a class="reference internal" href="#names-in-loopdiagrams">Names in loopdiagrams</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#eppyreadtest-folder-py">eppyreadtest_folder.py</a></li>
+<li><a class="reference internal" href="#eppyreadtest-file-py">eppyreadtest_file.py</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="runningeplus.html" title="previous chapter">Running EnergyPlus from Eppy</a></li>
+      <li>Next: <a href="eppyfunctions.html" title="next chapter">Eppy Functions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/useful_scripts.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Santosh Philip.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/useful_scripts.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,548 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>EpBunch &#8212; eppy 0.5.46 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Idf_MSequence - Syntactic Sugar work" href="idf_msequence.html" />
+    <link rel="prev" title="Underlying Data Structure of eppy" href="data_eppy.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="epbunch">
+<h1>EpBunch<a class="headerlink" href="#epbunch" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Santosh Philip.</td>
+</tr>
+</tbody>
+</table>
+<p>EpBunch is at the heart of what makes eppy easy to use. Specifically
+Epbunch is what allows us to use the syntax <code class="docutils literal notranslate"><span class="pre">building.Name</span></code> and
+<code class="docutils literal notranslate"><span class="pre">building.North_Axis</span></code>. Some advanced coding had to be done to make
+this happen. Coding that would be easy for professional programmers, but
+not for us ordinary folk :-(</p>
+<p>Most of us who are going to be coding eppy are not professional
+programmers. I was completely out of my depth when I did this coding. I
+had the code reviewed by programmers who do this for a living (at python
+meetups in the Bay Area). In their opinion, I was not doing anything
+fundamentally wrong.</p>
+<p>Below is a fairly long explanation, to ease you into the code. Read
+through the whole thing without trying to understand every detail, just
+getting a birds eye veiw of the explanation. Then read it again, you
+will start to grok some of the details. All the code here is working
+code, so you can experiment with it.</p>
+<div class="section" id="magic-methods-dunders-of-python">
+<h2>Magic Methods (Dunders) of Python<a class="headerlink" href="#magic-methods-dunders-of-python" title="Permalink to this headline">¶</a></h2>
+<p>To understand how EpBunch or Bunch is coded, one has to have an
+understanding of the magic methods of Python. (For a background on magic
+methods, take a look at <a class="reference external" href="http://www.rafekettler.com/magicmethods.html">http://www.rafekettler.com/magicmethods.html</a>)
+Let us dive straight into this with some examples</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span> <span class="c1"># create a dictionary</span>
+<span class="nb">print</span> <span class="n">adict</span>
+<span class="nb">print</span> <span class="n">adict</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="nb">print</span> <span class="n">adict</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+<span class="mi">10</span>
+<span class="mi">20</span>
+</pre></div>
+</div>
+<p>What happens when we say d[‘a’] ?</p>
+<p>This is where the magic methods come in. Magic methods are methods that
+work behind the scenes and do some magic. So when we say d[‘a’], The
+dict is calling the method <code class="docutils literal notranslate"><span class="pre">__getitem__('a')</span></code>.</p>
+<p>Magic methods have a <em>double underscore</em> “<code class="docutils literal notranslate"><span class="pre">__</span></code>”, called <strong>dunder</strong>
+methods for short</p>
+<p>Let us override that method and see what happens.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># we are subclassing dict here</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Funnydict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;key = </span><span class="si">%s</span><span class="s2">, value = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="n">funny</span> <span class="o">=</span> <span class="n">Funnydict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<span class="nb">print</span> <span class="n">funny</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The print worked as expected. Now let us try to print the values</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">funny</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>
+<span class="nb">print</span> <span class="n">funny</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">key</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<p>Now that worked very differently from a dict</p>
+<p>So it is true, funny[‘a’] does call <code class="docutils literal notranslate"><span class="pre">__getitem__()</span></code> that we just wrote</p>
+<p>Let us go back to the variable <strong>adict</strong></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># to jog our memory</span>
+<span class="nb">print</span> <span class="n">adict</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># this should not work</span>
+<span class="nb">print</span> <span class="n">adict</span><span class="o">.</span><span class="n">a</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span>                            <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">8</span><span class="n">aa7211fcb66</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+      <span class="mi">1</span> <span class="c1"># this should not work</span>
+<span class="o">----&gt;</span> <span class="mi">2</span> <span class="nb">print</span> <span class="n">adict</span><span class="o">.</span><span class="n">a</span>
+
+
+<span class="ne">AttributeError</span><span class="p">:</span> <span class="s1">&#39;dict&#39;</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s1">&#39;a&#39;</span>
+</pre></div>
+</div>
+<p>What method gets called when we say <strong>adict.a</strong> ?</p>
+<p>The magic method here is <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>() and <code class="docutils literal notranslate"><span class="pre">__setattr__()</span></code>.
+Shall we override them and see if we can get the dot notation to work ?</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Like_bunch</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+<span class="n">lbunch</span> <span class="o">=</span> <span class="n">Like_bunch</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<span class="nb">print</span> <span class="n">lbunch</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Works like a dict so far. How about <strong>lbunch.a</strong> ?</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">lbunch</span><span class="o">.</span><span class="n">a</span>
+<span class="nb">print</span> <span class="n">lbunch</span><span class="o">.</span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">10</span>
+<span class="mi">20</span>
+</pre></div>
+</div>
+<p>Yipeee !!! I works</p>
+<p>How about <code class="docutils literal notranslate"><span class="pre">lbunch.nota</span> <span class="pre">=</span> <span class="pre">100</span></code></p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lbunch</span><span class="o">.</span><span class="n">anot</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="nb">print</span> <span class="n">lbunch</span><span class="o">.</span><span class="n">anot</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">100</span>
+</pre></div>
+</div>
+<p>All good here. But don’t trust the code above too much. It was simply
+done as a demonstration of <strong>dunder</strong> methods and is not fully tested.</p>
+<p>Eppy uses the bunch library to do something similar. You can read more
+about the bunch library in the previous section.</p>
+</div>
+<div class="section" id="open-an-idf-file">
+<h2>Open an IDF file<a class="headerlink" href="#open-an-idf-file" title="Permalink to this headline">¶</a></h2>
+<p>Once again let us open a small idf file to test.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># you would normaly install eppy by doing</span>
+<span class="c1"># python setup.py install</span>
+<span class="c1"># or</span>
+<span class="c1"># pip install eppy</span>
+<span class="c1"># or</span>
+<span class="c1"># easy_install eppy</span>
+
+<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../../../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/iddfiles/Energy+V7_2_0.idd&quot;</span>
+<span class="n">fname1</span> <span class="o">=</span> <span class="s2">&quot;../../../eppy/resources/idffiles/V_7_2/dev1.idf&quot;</span>
+
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="n">idf1</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+<span class="n">idf1</span><span class="o">.</span><span class="n">printidf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>VERSION,
+    7.3;                      !- Version Identifier
+
+SIMULATIONCONTROL,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    Yes;                      !- Run Simulation for Weather File Run Periods
+
+BUILDING,
+    Empire State Building,    !- Name
+    30.0,                     !- North Axis
+    City,                     !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullExterior,             !- Solar Distribution
+    25,                       !- Maximum Number of Warmup Days
+    6;                        !- Minimum Number of Warmup Days
+
+SITE:LOCATION,
+    CHICAGO_IL_USA TMY2-94846,    !- Name
+    41.78,                    !- Latitude
+    -87.75,                   !- Longitude
+    -6.0,                     !- Time Zone
+    190.0;                    !- Elevation
+
+MATERIAL:AIRGAP,
+    F04 Wall air space resistance,    !- Name
+    0.15;                     !- Thermal Resistance
+
+MATERIAL:AIRGAP,
+    F05 Ceiling air space resistance,    !- Name
+    0.18;                     !- Thermal Resistance
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dtls</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dtls</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span>
+<span class="n">idd_info</span> <span class="o">=</span> <span class="n">idf1</span><span class="o">.</span><span class="n">idd_info</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">],</span>
+ <span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F05 Ceiling air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj_i</span> <span class="o">=</span> <span class="n">dtls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">)</span>
+<span class="n">obj_idd</span> <span class="o">=</span> <span class="n">idd_info</span><span class="p">[</span><span class="n">obj_i</span><span class="p">]</span>
+<span class="n">obj_idd</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[{</span><span class="s1">&#39;memo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Air Space in Opaque Construction&#39;</span><span class="p">],</span> <span class="s1">&#39;min-fields&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">]},</span>
+ <span class="p">{</span><span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;reference&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MaterialName&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;required-field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]},</span>
+ <span class="p">{</span><span class="s1">&#39;field&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Thermal Resistance&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;minimum&gt;&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;real&#39;</span><span class="p">],</span>
+  <span class="s1">&#39;units&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;m2-K/W&#39;</span><span class="p">]}]</span>
+</pre></div>
+</div>
+<p>For the rest of this section let us look at only one airgap object</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">airgap</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">airgap</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subclassing-of-bunch">
+<h2>Subclassing of Bunch<a class="headerlink" href="#subclassing-of-bunch" title="Permalink to this headline">¶</a></h2>
+<p>Let us review our knowledge of bunch</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bunch</span> <span class="k">import</span> <span class="n">Bunch</span>
+<span class="n">adict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">bunchdict</span> <span class="o">=</span> <span class="n">Bunch</span><span class="p">(</span><span class="n">adict</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">bunchdict</span>
+<span class="nb">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">a</span>
+<span class="nb">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">b</span>
+<span class="nb">print</span> <span class="n">bunchdict</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Bunch</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<p>Bunch lets us use dot notation on the keys of a dictionary. We need to
+find a way of making <code class="docutils literal notranslate"><span class="pre">airgap.Name</span></code> work. This is not straightforward
+because, airgap is <strong>list</strong> and Bunch works on <strong>dicts</strong>. It would be
+easy if airgap was in the form
+<code class="docutils literal notranslate"><span class="pre">{'Name'</span> <span class="pre">:</span> <span class="pre">'F04</span> <span class="pre">Wall</span> <span class="pre">air</span> <span class="pre">space</span> <span class="pre">resistance',</span> <span class="pre">'Thermal</span> <span class="pre">Resistance'</span> <span class="pre">:</span> <span class="pre">0.15}</span></code>.</p>
+<p>The rest of this section is a simplified version of how EpBunch works.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EpBunch</span><span class="p">(</span><span class="n">Bunch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objls</span><span class="p">,</span> <span class="n">objidd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objls</span> <span class="o">=</span> <span class="n">objls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objidd</span> <span class="o">=</span> <span class="n">objidd</span>
+</pre></div>
+</div>
+<p>The above code shows how EpBunch is initialized. Three variables are
+passed to EpBunch to initialize it. They are <code class="docutils literal notranslate"><span class="pre">obj,</span> <span class="pre">objls,</span> <span class="pre">objidd</span></code>.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">airgap</span>
+<span class="n">objls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Thermal_Resistance&#39;</span><span class="p">]</span> <span class="c1"># a function extracts this from idf1.idd_info</span>
+<span class="n">objidd</span> <span class="o">=</span> <span class="n">obj_idd</span>
+<span class="c1">#</span>
+<span class="nb">print</span> <span class="n">obj</span>
+<span class="nb">print</span> <span class="n">objls</span>
+<span class="c1"># let us ignore objidd for now</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Thermal_Resistance&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now we override <code class="docutils literal notranslate"><span class="pre">__setattr__()</span></code> and <code class="docutils literal notranslate"><span class="pre">__getattr__()</span></code> in the following
+way</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EpBunch</span><span class="p">(</span><span class="n">Bunch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objls</span><span class="p">,</span> <span class="n">objidd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objls</span> <span class="o">=</span> <span class="n">objls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objidd</span> <span class="o">=</span> <span class="n">objidd</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;objls&#39;</span><span class="p">,</span> <span class="s1">&#39;objidd&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;obj&#39;</span><span class="p">,</span> <span class="s1">&#39;objls&#39;</span><span class="p">,</span> <span class="s1">&#39;objidd&#39;</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">EpBunch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objls</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let us create a EpBunch object</span>
+<span class="n">bunch_airgap</span> <span class="o">=</span> <span class="n">EpBunch</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">objls</span><span class="p">,</span> <span class="n">objidd</span><span class="p">)</span>
+<span class="c1"># Use this table to see how __setattr__ and __getattr__ work in EpBunch</span>
+
+<span class="n">obj</span>   <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span>                <span class="p">]</span>
+<span class="n">objls</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">,</span>             <span class="s1">&#39;Name&#39;</span><span class="p">,</span>                         <span class="s1">&#39;Thermal_Resistance&#39;</span><span class="p">]</span>
+<span class="n">i</span>     <span class="o">=</span>   <span class="mi">0</span>                  <span class="mi">1</span>                               <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span>
+<span class="nb">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Thermal_Resistance</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">F04</span> <span class="n">Wall</span> <span class="n">air</span> <span class="n">space</span> <span class="n">resistance</span>
+<span class="mf">0.15</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">obj</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;F04 Wall air space resistance&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Let us change some values using the dot notation</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="s1">&#39;Argon in gap&#39;</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">Name</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Argon</span> <span class="ow">in</span> <span class="n">gap</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="n">bunch_airgap</span><span class="o">.</span><span class="n">obj</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Using the dot notation the value is changed in the list</p>
+<p>Let us make sure it actually has done that.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idf1</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">dt</span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;MATERIAL:AIRGAP&#39;</span><span class="p">,</span> <span class="s1">&#39;Argon in gap&#39;</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch</span></code> acts as a wrapper around
+<code class="docutils literal notranslate"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></code></p>
+<p>In other words <code class="docutils literal notranslate"><span class="pre">EpBunch</span></code> is just <strong>Syntactic Sugar</strong> for
+<code class="docutils literal notranslate"><span class="pre">idf1.model.dt['MATERIAL:AIRGAP'][0]</span></code></p>
+</div>
+<div class="section" id="variables-and-names-in-python">
+<h2>Variables and Names in Python<a class="headerlink" href="#variables-and-names-in-python" title="Permalink to this headline">¶</a></h2>
+<p>At this point your reaction may, “I don’t see how all those values in
+<code class="docutils literal notranslate"><span class="pre">idf1.model.dt</span></code> changed”. If such question arises in your mind, you
+need to read the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#other-languages-have-variables">Other languages have
+‘variables’</a></li>
+<li><a class="reference external" href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html#python-has-names">Python has
+‘names’</a></li>
+<li>Also see <a class="reference external" href="http://nedbatchelder.com/text/names.html">Facts and myths about Python names and
+values</a></li>
+</ul>
+<p>This is especially important if you are experienced in other languages,
+and you expect the behavior to be a little different. Actually follow
+and read those links in any case.</p>
+</div>
+<div class="section" id="continuing-with-epbunch">
+<h2>Continuing with EpBunch<a class="headerlink" href="#continuing-with-epbunch" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="epbunch-1">
+<h3>EpBunch_1<a class="headerlink" href="#epbunch-1" title="Permalink to this headline">¶</a></h3>
+<p>The code for EpBunch in the earlier section will work, but has been
+simplified for clarity. In file <code class="docutils literal notranslate"><span class="pre">bunch_subclass.py</span></code> take a look at the
+class <strong>EpBunch_1</strong> . This class does the first override of
+<code class="docutils literal notranslate"><span class="pre">__setattr__</span></code> and <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>. You will see that the code is a
+little more involved, dealing with edge conditions and catching
+exceptions.</p>
+<p><strong>EpBunch_1</strong> also defines <code class="docutils literal notranslate"><span class="pre">__repr__</span></code>. This lets you print EpBunch in
+a human readable format. Further research indicates that <code class="docutils literal notranslate"><span class="pre">__str__</span></code>
+should have been used to do this, not <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> :-(</p>
+</div>
+<div class="section" id="epbunch-2">
+<h3>EpBunch_2<a class="headerlink" href="#epbunch-2" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_2</span></code> is subclassed from <code class="docutils literal notranslate"><span class="pre">EpBunch_1</span></code>.</p>
+<p>It overrides <code class="docutils literal notranslate"><span class="pre">__setattr__</span></code> and <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code> to add a small
+functionality that has not been documented or used. The idea was to give
+the ability to shorten field names with alias. So
+<code class="docutils literal notranslate"><span class="pre">building.Maximum_Number_of_Warmup_Days</span></code> could be made into
+<code class="docutils literal notranslate"><span class="pre">building.warmupdays</span></code>.</p>
+<p>I seemed like a good idea when I wrote it. Ignore it for now, although
+it may make a comeback :-)</p>
+</div>
+<div class="section" id="epbunch-3">
+<h3>EpBunch_3<a class="headerlink" href="#epbunch-3" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_3</span></code> is subclassed from <code class="docutils literal notranslate"><span class="pre">EpBunch_2</span></code>.</p>
+<p>EpBunch_3 adds the ability to add functions to EpBunch objects. This
+would allow the object to make calculations using data within the
+object. So <code class="docutils literal notranslate"><span class="pre">BuildingSurface:Detailed</span></code> object has all the geometry data
+of the object. The function ‘area’ will let us calculate the are of the
+object even though area is not a field in <code class="docutils literal notranslate"><span class="pre">BuildingSurface:Detailed</span></code>.</p>
+<p>So you can call <code class="docutils literal notranslate"><span class="pre">idf1.idfobjects[&quot;BuildingSurface:Detailed&quot;][0].area</span></code>
+and get the area of the surface.</p>
+<p>At the moment, the functions can use only data within the object for
+it’s calculation. We need to extend this functionality so that
+calculations can be done using data outside the object. This would be
+useful in calculating the volume of a Zone. Such a calculation would
+need data from the surfaces that the aone refers to.</p>
+</div>
+<div class="section" id="epbunch-4">
+<h3>EpBunch_4<a class="headerlink" href="#epbunch-4" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_4</span></code> is subclassed from <code class="docutils literal notranslate"><span class="pre">EpBunch_3</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_4</span></code> overrides <code class="docutils literal notranslate"><span class="pre">_setitem__</span></code> and <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>. Right now
+<code class="docutils literal notranslate"><span class="pre">airgap.Name</span></code> works. This update allows <code class="docutils literal notranslate"><span class="pre">airgap[&quot;Name&quot;]</span></code> to work
+correctly too</p>
+</div>
+<div class="section" id="epbunch-5">
+<h3>EpBunch_5<a class="headerlink" href="#epbunch-5" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_5</span></code> is subclassed from <code class="docutils literal notranslate"><span class="pre">EpBunch_4</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch_5</span></code> adds functions that allows you to call functions
+<code class="docutils literal notranslate"><span class="pre">getrange</span></code> and <code class="docutils literal notranslate"><span class="pre">checkrange</span></code> for a field</p>
+</div>
+<div class="section" id="finally-epbunch">
+<h3>Finally EpBunch<a class="headerlink" href="#finally-epbunch" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">EpBunch</span> <span class="pre">=</span> <span class="pre">EpBunch_5</span></code></p>
+<p>Finally <code class="docutils literal notranslate"><span class="pre">EpBunch_5</span></code> is named as EpBunch. So the rest of the code uses
+EpBunch and in effect it uses <code class="docutils literal notranslate"><span class="pre">Epbunch_5</span></code></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">EpBunch</a><ul>
+<li><a class="reference internal" href="#magic-methods-dunders-of-python">Magic Methods (Dunders) of Python</a></li>
+<li><a class="reference internal" href="#open-an-idf-file">Open an IDF file</a></li>
+<li><a class="reference internal" href="#subclassing-of-bunch">Subclassing of Bunch</a></li>
+<li><a class="reference internal" href="#variables-and-names-in-python">Variables and Names in Python</a></li>
+<li><a class="reference internal" href="#continuing-with-epbunch">Continuing with EpBunch</a><ul>
+<li><a class="reference internal" href="#epbunch-1">EpBunch_1</a></li>
+<li><a class="reference internal" href="#epbunch-2">EpBunch_2</a></li>
+<li><a class="reference internal" href="#epbunch-3">EpBunch_3</a></li>
+<li><a class="reference internal" href="#epbunch-4">EpBunch_4</a></li>
+<li><a class="reference internal" href="#epbunch-5">EpBunch_5</a></li>
+<li><a class="reference internal" href="#finally-epbunch">Finally EpBunch</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Developer Documentation for eppy</a><ul>
+      <li>Previous: <a href="data_eppy.html" title="previous chapter">Underlying Data Structure of eppy</a></li>
+      <li>Next: <a href="idf_msequence.html" title="next chapter">Idf_MSequence - Syntactic Sugar work</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/dev_docs/epbunch.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Santosh Philip.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/dev_docs/epbunch.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

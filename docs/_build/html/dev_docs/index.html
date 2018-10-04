@@ -1,0 +1,159 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Developer Documentation for eppy &#8212; eppy 0.5.46 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Philosophy of Eppy" href="phil_eppy.html" />
+    <link rel="prev" title="Changes" href="../changes.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="developer-documentation-for-eppy">
+<h1>Developer Documentation for eppy<a class="headerlink" href="#developer-documentation-for-eppy" title="Permalink to this headline">¶</a></h1>
+<p>The documentation you have read so far is written for <em>Users of eppy</em>. Users of eppy will simply install eppy and use it. They may be writing a lot of code using eppy, but they will not be changing any code within eppy itself.</p>
+<p>This section of the documentation is for people who want to contribute to the development of eppy. In contrast to <em>eppy users</em> people who contribute code to eppy will be changing and adding code to eppy. To change code within eppy, developers will need to have a good sense of how eppy is written and structured. This section hopes to give clarity to such issues. It is assumed that most developers of eppy will not be professional programmers and may come from a rage of programming abilities. So this documentation is slanted to such an audience.</p>
+<p>If you look at the table of contents below, You will notice sections on the <em>history</em> and <em>philosophy</em> of eppy. Eppy was built off an earlier program, and a lot of the data structure and program design, will become clear when you see the history behind eppy. The philosophy of eppy alludes to the Unix philosophy of <em>Do one thing, and do it well</em>.</p>
+<div class="section" id="topics">
+<h2>Topics<a class="headerlink" href="#topics" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="phil_eppy.html">Philosophy of Eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="phil_eppy.html#purpose-of-eppy">Purpose of Eppy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phil_eppy.html#idd-file-and-eppy">Idd file and eppy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phil_eppy.html#appendix-unix-philosophy">Appendix: Unix Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hist_eppy.html">History of Eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hist_eppy.html#eplusinterface">EPlusInterface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="future_eppy.html">The Future of eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="future_eppy.html#longterm-todos-for-eppy">Longterm TODOs for eppy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_eppy.html">Underlying Data Structure of eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_eppy.html#original-data-structure-in-eplusinterface">Original Data Structure in EPlusInterface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_eppy.html#syntactic-sugar">Syntactic Sugar</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="epbunch.html">EpBunch</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="epbunch.html#magic-methods-dunders-of-python">Magic Methods (Dunders) of Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epbunch.html#open-an-idf-file">Open an IDF file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epbunch.html#subclassing-of-bunch">Subclassing of Bunch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epbunch.html#variables-and-names-in-python">Variables and Names in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="epbunch.html#continuing-with-epbunch">Continuing with EpBunch</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="idf_msequence.html">Idf_MSequence - Syntactic Sugar work</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="idf_msequence.html#underlying-data-structure-of-again">Underlying Data structure of again</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modeleditor.html">IDF in modeleditor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modeleditor.html#class-idf">Class IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeleditor.html#class-idf0">Class IDF0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modeleditor.html#other-idf-methods">Other IDF methods</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pytest_eppy.html">Unit Testing Eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pytest_eppy.html#pytest-for-eppy">Pytest for eppy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="doc_eppy.html">Documenting eppy</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc_eppy.html#restructured-text">Restructured text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc_eppy.html#ipython-notebook">Ipython notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doc_eppy.html#sphinx">Sphinx</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developer Documentation for eppy</a><ul>
+<li><a class="reference internal" href="#topics">Topics</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../changes.html" title="previous chapter">Changes</a></li>
+      <li>Next: <a href="phil_eppy.html" title="next chapter">Philosophy of Eppy</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/dev_docs/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Santosh Philip.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/dev_docs/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

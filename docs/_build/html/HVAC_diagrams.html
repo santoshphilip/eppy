@@ -1,0 +1,145 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>&lt;no title&gt; &#8212; eppy 0.5.46 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;HVAC diagrams&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;HVAC diagrams&#39;</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># you would normaly install eppy by doing</span>
+<span class="c1"># python setup.py install</span>
+<span class="c1"># or</span>
+<span class="c1"># pip install eppy</span>
+<span class="c1"># or</span>
+<span class="c1"># easy_install eppy</span>
+
+<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy</span> <span class="k">import</span> <span class="n">modeleditor</span>
+<span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/iddfiles/Energy+V8_0_0.idd&quot;</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;../eppy/resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># idf.model</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.EPlusInterfaceFunctions</span> <span class="k">import</span> <span class="n">readidf</span>
+<span class="kn">from</span> <span class="nn">eppy.ex_loopdiagram</span> <span class="k">import</span> <span class="n">makeairplantloop</span><span class="p">,</span> <span class="n">makediagram</span>
+
+<span class="nb">print</span> <span class="s2">&quot;readingfile&quot;</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">commdct</span> <span class="o">=</span> <span class="n">readidf</span><span class="o">.</span><span class="n">readdatacommdct</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">iddfile</span><span class="o">=</span><span class="n">iddfile</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;constructing the loops&quot;</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">makeairplantloop</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">commdct</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;making the diagram&quot;</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">makediagram</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">dotname</span> <span class="o">=</span> <span class="s2">&quot;a.dot&quot;</span>
+<span class="n">pngname</span> <span class="o">=</span> <span class="s2">&quot;a.png&quot;</span>
+<span class="c1"># dotname = &#39;%s.dot&#39; % (os.path.splitext(fname)[0])</span>
+<span class="c1"># pngname = &#39;%s.png&#39; % (os.path.splitext(fname)[0])</span>
+<span class="n">g</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dotname</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="n">pngname</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">readingfile</span>
+<span class="n">constructing</span> <span class="n">the</span> <span class="n">loops</span>
+<span class="n">making</span> <span class="n">the</span> <span class="n">diagram</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kc">True</span>
+</pre></div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/HVAC_diagrams.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Santosh Philip.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/HVAC_diagrams.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

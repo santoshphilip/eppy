@@ -1,9 +1,0 @@
-Eppy functions
-==============
-
-This Document is a work in progress
-
-The most commonly used eppy functions are gathered here.
-
-
-

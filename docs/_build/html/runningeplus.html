@@ -1,0 +1,257 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Running EnergyPlus from Eppy &#8212; eppy 0.5.46 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Useful Scripts" href="useful_scripts.html" />
+    <link rel="prev" title="New functions" href="newfunctions.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="running-energyplus-from-eppy">
+<h1>Running EnergyPlus from Eppy<a class="headerlink" href="#running-energyplus-from-eppy" title="Permalink to this headline">¶</a></h1>
+<p>It would be great if we could run EnergyPlus directly from our IDF
+wouldn’t it?</p>
+<p>Well here’s how we can.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># you would normaly install eppy by doing</span>
+<span class="c1"># python setup.py install</span>
+<span class="c1"># or</span>
+<span class="c1"># pip install eppy</span>
+<span class="c1"># or</span>
+<span class="c1"># easy_install eppy</span>
+
+<span class="c1"># if you have not done so, uncomment the following three lines</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># pathnameto_eppy = &#39;c:/eppy&#39;</span>
+<span class="n">pathnameto_eppy</span> <span class="o">=</span> <span class="s1">&#39;../&#39;</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pathnameto_eppy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eppy.modeleditor</span> <span class="k">import</span> <span class="n">IDF</span>
+
+<span class="n">iddfile</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/Energy+.idd&quot;</span>
+<span class="n">IDF</span><span class="o">.</span><span class="n">setiddname</span><span class="p">(</span><span class="n">iddfile</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idfname</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/ExampleFiles/BasicsFiles/Exercise1A.idf&quot;</span>
+<span class="n">epwfile</span> <span class="o">=</span> <span class="s2">&quot;/Applications/EnergyPlus-8-3-0/WeatherData/USA_IL_Chicago-OHare.Intl.AP.725300_TMY3.epw&quot;</span>
+
+<span class="n">idf</span> <span class="o">=</span> <span class="n">IDF</span><span class="p">(</span><span class="n">idfname</span><span class="p">,</span> <span class="n">epwfile</span><span class="p">)</span>
+<span class="n">idf</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>if you are in a terminal, you will see something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Processing</span> <span class="n">Data</span> <span class="n">Dictionary</span>
+<span class="n">Processing</span> <span class="n">Input</span> <span class="n">File</span>
+<span class="n">Initializing</span> <span class="n">Simulation</span>
+<span class="n">Reporting</span> <span class="n">Surfaces</span>
+<span class="n">Beginning</span> <span class="n">Primary</span> <span class="n">Simulation</span>
+<span class="n">Initializing</span> <span class="n">New</span> <span class="n">Environment</span> <span class="n">Parameters</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">2</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">4</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">5</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">6</span><span class="p">}</span>
+<span class="n">Starting</span> <span class="n">Simulation</span> <span class="n">at</span> <span class="mi">07</span><span class="o">/</span><span class="mi">21</span> <span class="k">for</span> <span class="n">CHICAGO_IL_USA</span> <span class="n">COOLING</span> <span class="o">.</span><span class="mi">4</span><span class="o">%</span> <span class="n">CONDITIONS</span> <span class="n">DB</span><span class="o">=&gt;</span><span class="n">MWB</span>
+<span class="n">Initializing</span> <span class="n">New</span> <span class="n">Environment</span> <span class="n">Parameters</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">2</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">3</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">4</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">5</span><span class="p">}</span>
+<span class="n">Warming</span> <span class="n">up</span> <span class="p">{</span><span class="mi">6</span><span class="p">}</span>
+<span class="n">Starting</span> <span class="n">Simulation</span> <span class="n">at</span> <span class="mi">01</span><span class="o">/</span><span class="mi">21</span> <span class="k">for</span> <span class="n">CHICAGO_IL_USA</span> <span class="n">HEATING</span> <span class="mf">99.6</span><span class="o">%</span> <span class="n">CONDITIONS</span>
+<span class="n">Writing</span> <span class="n">final</span> <span class="n">SQL</span> <span class="n">reports</span>
+<span class="n">EnergyPlus</span> <span class="n">Run</span> <span class="n">Time</span><span class="o">=</span><span class="mi">00</span><span class="n">hr</span> <span class="mi">00</span><span class="nb">min</span>  <span class="mf">0.24</span><span class="n">sec</span>
+</pre></div>
+</div>
+<p>It’s as simple as that to run using the EnergyPlus defaults, but all the
+EnergyPlus command line interface options are also supported.</p>
+<p>To get a description of the options available, as well as the defaults
+you can call the Python built-in help function on the IDF.run method and
+it will print a full description of the options to the console.</p>
+<div class="code python highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">idf</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Help</span> <span class="n">on</span> <span class="n">method</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">eppy</span><span class="o">.</span><span class="n">modeleditor</span><span class="p">:</span>
+
+<span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="n">method</span> <span class="n">of</span> <span class="n">eppy</span><span class="o">.</span><span class="n">modeleditor</span><span class="o">.</span><span class="n">IDF</span> <span class="n">instance</span>
+    <span class="n">This</span> <span class="n">method</span> <span class="n">wraps</span> <span class="n">the</span> <span class="n">following</span> <span class="n">method</span><span class="p">:</span>
+
+    <span class="n">run</span><span class="p">(</span><span class="n">idf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weather</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">annual</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">design_day</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">idd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">epmacro</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">expandobjects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">readvars</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_suffix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="n">ep_version</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">Wrapper</span> <span class="n">around</span> <span class="n">the</span> <span class="n">EnergyPlus</span> <span class="n">command</span> <span class="n">line</span> <span class="n">interface</span><span class="o">.</span>
+
+        <span class="n">Parameters</span>
+        <span class="o">----------</span>
+        <span class="n">idf</span> <span class="p">:</span> <span class="nb">str</span>
+            <span class="n">Full</span> <span class="ow">or</span> <span class="n">relative</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">IDF</span> <span class="n">file</span> <span class="n">to</span> <span class="n">be</span> <span class="n">run</span><span class="p">,</span> <span class="ow">or</span> <span class="n">an</span> <span class="n">IDF</span> <span class="nb">object</span><span class="o">.</span>
+
+        <span class="n">weather</span> <span class="p">:</span> <span class="nb">str</span>
+            <span class="n">Full</span> <span class="ow">or</span> <span class="n">relative</span> <span class="n">path</span> <span class="n">to</span> <span class="n">the</span> <span class="n">weather</span> <span class="n">file</span><span class="o">.</span>
+
+        <span class="n">output_directory</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Full</span> <span class="ow">or</span> <span class="n">relative</span> <span class="n">path</span> <span class="n">to</span> <span class="n">an</span> <span class="n">output</span> <span class="n">directory</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="s1">&#39;run_outputs)</span>
+
+        <span class="n">annual</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">If</span> <span class="kc">True</span> <span class="n">then</span> <span class="n">force</span> <span class="n">annual</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">design_day</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Force</span> <span class="n">design</span><span class="o">-</span><span class="n">day</span><span class="o">-</span><span class="n">only</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">idd</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Input</span> <span class="n">data</span> <span class="n">dictionary</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">Energy</span><span class="o">+.</span><span class="n">idd</span> <span class="ow">in</span> <span class="n">EnergyPlus</span> <span class="n">directory</span><span class="p">)</span>
+
+        <span class="n">epmacro</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Run</span> <span class="n">EPMacro</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span>
+
+        <span class="n">expandobjects</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Run</span> <span class="n">ExpandObjects</span> <span class="n">prior</span> <span class="n">to</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">readvars</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Run</span> <span class="n">ReadVarsESO</span> <span class="n">after</span> <span class="n">simulation</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">output_prefix</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Prefix</span> <span class="k">for</span> <span class="n">output</span> <span class="n">file</span> <span class="n">names</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">eplus</span><span class="p">)</span>
+
+        <span class="n">output_suffix</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Suffix</span> <span class="n">style</span> <span class="k">for</span> <span class="n">output</span> <span class="n">file</span> <span class="n">names</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">L</span><span class="p">)</span>
+                <span class="n">L</span><span class="p">:</span> <span class="n">Legacy</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">eplustbl</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
+                <span class="n">C</span><span class="p">:</span> <span class="n">Capital</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">eplusTable</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
+                <span class="n">D</span><span class="p">:</span> <span class="n">Dash</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">eplus</span><span class="o">-</span><span class="n">table</span><span class="o">.</span><span class="n">csv</span><span class="p">)</span>
+
+        <span class="n">version</span> <span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">optional</span>
+            <span class="n">Display</span> <span class="n">version</span> <span class="n">information</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">str</span>
+            <span class="n">Set</span> <span class="n">verbosity</span> <span class="n">of</span> <span class="n">runtime</span> <span class="n">messages</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">v</span><span class="p">)</span>
+                <span class="n">v</span><span class="p">:</span> <span class="n">verbose</span>
+                <span class="n">q</span><span class="p">:</span> <span class="n">quiet</span>
+
+        <span class="n">ep_version</span><span class="p">:</span> <span class="nb">str</span>
+            <span class="n">EnergyPlus</span> <span class="n">version</span><span class="p">,</span> <span class="n">used</span> <span class="n">to</span> <span class="n">find</span> <span class="n">install</span> <span class="n">directory</span><span class="o">.</span> <span class="n">Required</span> <span class="k">if</span> <span class="n">run</span><span class="p">()</span> <span class="ow">is</span>
+            <span class="n">called</span> <span class="k">with</span> <span class="n">an</span> <span class="n">IDF</span> <span class="n">file</span> <span class="n">path</span> <span class="n">rather</span> <span class="n">than</span> <span class="n">an</span> <span class="n">IDF</span> <span class="nb">object</span><span class="o">.</span>
+
+        <span class="n">Returns</span>
+        <span class="o">-------</span>
+        <span class="nb">str</span> <span class="p">:</span> <span class="n">status</span>
+
+        <span class="n">Raises</span>
+        <span class="o">------</span>
+        <span class="n">CalledProcessError</span>
+
+        <span class="ne">AttributeError</span>
+            <span class="n">If</span> <span class="n">no</span> <span class="n">ep_version</span> <span class="n">parameter</span> <span class="ow">is</span> <span class="n">passed</span> <span class="n">when</span> <span class="n">calling</span> <span class="k">with</span> <span class="n">an</span> <span class="n">IDF</span> <span class="n">file</span> <span class="n">path</span>
+            <span class="n">rather</span> <span class="n">than</span> <span class="n">an</span> <span class="n">IDF</span> <span class="nb">object</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><em>Note 1:</em> idf.run() works for E+ version &gt;= 8.3
+<em>Note 2:</em> idf.run(readvars=True) has been tested only for E+ version &gt;= 8.9. It may work with earlier versions</p>
+<div class="section" id="running-in-parallel-processes">
+<h2>Running in parallel processes<a class="headerlink" href="#running-in-parallel-processes" title="Permalink to this headline">¶</a></h2>
+<p>One of the great things about Eppy is that it allows you to set up a lot
+of jobs really easily. However, it can be slow running a lot of
+EnergyPlus simulations, so it’s pretty important that we can make the
+most of the processing power you have available by running on multiple
+CPUs.</p>
+<p>Again this is as simple as you’d hope it would be.</p>
+<p>You first need to create your jobs as a list of lists in the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="o">&lt;</span><span class="n">IDF</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="nb">dict</span> <span class="n">of</span> <span class="n">command</span> <span class="n">line</span> <span class="n">parameters</span><span class="o">&gt;</span><span class="p">],</span> <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The example here just creates 4 identical jobs apart from the
+output_directory the results are saved in, but you would obviously want
+to make each job different.</p>
+<p>Then run the jobs on the required number of CPUs using runIDFs…</p>
+<p>… and your results will all be in the output_directory you specified.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running EnergyPlus from Eppy</a><ul>
+<li><a class="reference internal" href="#running-in-parallel-processes">Running in parallel processes</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="newfunctions.html" title="previous chapter">New functions</a></li>
+      <li>Next: <a href="useful_scripts.html" title="next chapter">Useful Scripts</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/runningeplus.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Santosh Philip.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="_sources/runningeplus.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
