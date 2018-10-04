@@ -10,26 +10,26 @@ for:
         PYTHONVERSION: 2.7
         ARCHITECTURE: "i386"
         MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "8.8.0"
-        ENERGYPLUS_SHA: "7c3bbe4830"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
       - PYTHON: "C:\\Python27-x64"
         PYTHONVERSION: 2.7
         ARCHITECTURE: "x86_64"
         MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "8.8.0"
-        ENERGYPLUS_SHA: "7c3bbe4830"
-      - PYTHON: "C:\\Python36"
-        PYTHONVERSION: 3.6
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
+      - PYTHON: "C:\\Python37"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda36"
-        ENERGYPLUS_VERSION: "8.8.0"
-        ENERGYPLUS_SHA: "7c3bbe4830"
-      - PYTHON: "C:\\Python36-x64"
-        PYTHONVERSION: 3.6
+        MINICONDA: "C:\\Miniconda37"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
+      - PYTHON: "C:\\Python37-x64"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda36-x64"
-        ENERGYPLUS_VERSION: "8.8.0"
-        ENERGYPLUS_SHA: "7c3bbe4830"
+        MINICONDA: "C:\\Miniconda37-x64"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
 
 -
   branches:
@@ -41,51 +41,39 @@ for:
         PYTHONVERSION: 2.7
         ARCHITECTURE: "i386"
         MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
       - PYTHON: "C:\\Python27-x64"
         PYTHONVERSION: 2.7
         ARCHITECTURE: "x86_64"
         MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
-      - PYTHON: "C:\\Python36"
-        PYTHONVERSION: 3.6
-        ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda36"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
-      - PYTHON: "C:\\Python36-x64"
-        PYTHONVERSION: 3.6
-        ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda36-x64"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
 
-      - PYTHON: "C:\\Python35"
-        PYTHONVERSION: 3.5
+      - PYTHON: "C:\\Python37"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda35"
+        MINICONDA: "C:\\Miniconda37"
         ENERGYPLUS_VERSION: "8.8.0"
         ENERGYPLUS_SHA: "7c3bbe4830"
-      - PYTHON: "C:\\Python35-x64"
-        PYTHONVERSION: 3.5
+      - PYTHON: "C:\\Python37-x64"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda35-x64"
+        MINICONDA: "C:\\Miniconda37-x64"
         ENERGYPLUS_VERSION: "8.8.0"
         ENERGYPLUS_SHA: "7c3bbe4830"
-      - PYTHON: "C:\\Python35"
-        PYTHONVERSION: 3.5
+      - PYTHON: "C:\\Python37"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda35"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
-      - PYTHON: "C:\\Python35-x64"
-        PYTHONVERSION: 3.5
+        MINICONDA: "C:\\Miniconda37"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
+      - PYTHON: "C:\\Python37-x64"
+        PYTHONVERSION: 3.7
         ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda35-x64"
-        ENERGYPLUS_VERSION: "8.7.0"
-        ENERGYPLUS_SHA: "78a111df4a"
+        MINICONDA: "C:\\Miniconda37-x64"
+        ENERGYPLUS_VERSION: "8.9.0"
+        ENERGYPLUS_SHA: "40101eaafd"
 
 install:
   # set up Miniconda test environment
