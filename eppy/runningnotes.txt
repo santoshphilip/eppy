@@ -16,20 +16,18 @@ use cookiecutter:
     - version should be string in setup.py
 - merge envars/__init__.py
 
-What we have:
 
-- We have no docs
-    - so make docs does not work
-- make test works
-    - no matter where the tests folder is
-
-other things that work    
+things that work
+- make test    
 - make clean
 - make lint
     - flake8.sh -> useful with textmate
 - make coverage
 - make dist
 - make release
+
+Does not work:
+- make docs
 
 
 
