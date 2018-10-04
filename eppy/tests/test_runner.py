@@ -572,3 +572,28 @@ class TestMultiprocessing(object):
 
         num_CPUs = -1
         runIDFs(runs, num_CPUs)
+
+    def test_multiprocess_run_IDF_from_generator(self):
+        """
+        Test that we can run a sequence passed as a generator of runs using
+        the signature:
+            runIDFs(([IDF, kwargs],...), num_CPUs)
+        Fails if expected output files are not in the expected output
+        directories.
+
+        """
+        iddfile = os.path.join(IDD_FILES, TEST_IDD)
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        modeleditor.IDF.setiddname(open(iddfile, 'r'), testing=True)
+        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        assert ep_version == VERSION
+        runs = (
+            (modeleditor.IDF(open(fname1, 'r'), TEST_EPW),
+             {'output_directory': 'results_%i' % i, 'ep_version': ep_version})
+            for i in range(4)
+        )
+        num_CPUs = 2
+        runIDFs(runs, num_CPUs)
+
+        num_CPUs = -1
+        runIDFs(runs, num_CPUs)
