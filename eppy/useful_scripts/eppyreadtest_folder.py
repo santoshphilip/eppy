@@ -4,8 +4,8 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""script to test idf reads.
-Use this to test all the files in the example folder when a new version is released"""
+"""script to test idf reads. Use this to test all the files
+in the example folder when a new version is released"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -13,28 +13,27 @@ from __future__ import unicode_literals
 
 import argparse
 
+import os
 import sys
+import eppy.simpleread as simpleread
 # pathnameto_eppy = 'c:/eppy'
 pathnameto_eppy = '../../'
 sys.path.append(pathnameto_eppy)
 
-import os
 from eppy.modeleditor import IDF
-import eppy.simpleread as simpleread
 
 # iddfile = '/Applications/EnergyPlus-8-1-0/Energy+.idd'
 # folder = '/Applications/EnergyPlus-8-1-0/ExampleFiles'
 # python eppyreadtest_folder.py '/Applications/EnergyPlus-8-1-0/Energy+.idd'
 # '/Applications/EnergyPlus-8-1-0/ExampleFiles'
 
+
 def doreadtest(iddfile, folder, silent=False):
     """print out all the readtest results"""
     lst = os.listdir(folder)
     lst = [l for l in lst if l.endswith('.idf')]
-
-
     iddhandle = open(iddfile, 'r')
-    for i, fname in enumerate(lst[355:359]): # lst[6:7]
+    for i, fname in enumerate(lst[355:359]):  # lst[6:7]
                                     # if you want to test a specific file
         fname1 = "%s/%s" % (folder, fname)
         idfhandle1 = open(fname1, 'rb')
