@@ -16,6 +16,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import contextlib
 from glob import glob
 import multiprocessing
 import os
@@ -247,6 +248,11 @@ class TestIDFRunner(object):
         shutil.rmtree('run_outputs', ignore_errors=True)
         shutil.rmtree('other_run_outputs', ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
+        for f in {"eplusout.end", "eplusout.err", "in.idf"}:
+            try:
+                os.remove(os.path.join(THIS_DIR, f))
+            except OSError:  # file was not generated on this run
+                pass
 
     def num_rows_in_csv(self, results='./run_outputs'):
         """Check readvars outputs the expected number of rows.
