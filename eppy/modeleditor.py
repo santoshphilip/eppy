@@ -1010,10 +1010,10 @@ class IDF(object):
         # if `idd` is not passed explicitly, use the IDF.iddname
         idd = kwargs.pop('idd', self.iddname)
         epw = kwargs.pop('weather', self.epw)
-        # run EnergyPlus
-        run(self, weather=epw, idd=idd, **kwargs)
-        # remove in.idf
-        os.remove('in.idf')
+        try:
+            run(self, weather=epw, idd=idd, **kwargs)
+        finally:
+            os.remove('in.idf')
 
     def getiddgroupdict(self):
         """Return a idd group dictionary
