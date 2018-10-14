@@ -179,3 +179,39 @@ to make each job different.
 Then run the jobs on the required number of CPUs using runIDFs...
 
 ... and your results will all be in the output\_directory you specified.
+
+Debugging and reporting problems
+--------------------------------
+
+Debugging issues with `IDF.run()` used to be difficult, since you needed to
+go and hunt for the `eplusout.err` file, and the error message returned was
+not at all helpful.
+
+Now the output from EnergyPlus is returned in the error message, as well as
+the location and contents of `eplusout.err`.
+
+For example, this is the error message produced when running an IDF which contains an
+"HVACTemplate:Thermostat" object without passing `expand_objects=True` to
+`idf.run()`::
+
+
+    E           eppy.runner.run_functions.EnergyPlusRunError:
+    E           Program terminated: EnergyPlus Terminated--Error(s) Detected.
+    E
+    E           Contents of EnergyPlus error file at C:\Users\jamiebull1\git\eppy\eppy\tests\test_dir\eplusout.err
+    E           Program Version,EnergyPlus, Version 8.9.0-40101eaafd, YMD=2018.10.14 20:49,
+    E              ** Severe  ** Line: 107 You must run the ExpandObjects program for "HVACTemplate:Thermostat"
+    E              **  Fatal  ** Errors occurred on processing input file. Preceding condition(s) cause termination.
+    E              ...Summary of Errors that led to program termination:
+    E              ..... Reference severe error count=1
+    E              ..... Last severe error=Line: 107 You must run the ExpandObjects program for "HVACTemplate:Thermostat"
+    E              ************* Warning:  Node connection errors not checked - most system input has not been read (see previous warning).
+    E              ************* Fatal error -- final processing.  Program exited before simulations began.  See previous error messages.
+    E              ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
+    E              ************* EnergyPlus Sizing Error Summary. During Sizing: 0 Warning; 0 Severe Errors.
+    E              ************* EnergyPlus Terminated--Fatal Error Detected. 0 Warning; 1 Severe Errors; Elapsed Time=00hr 00min  0.16sec
+
+
+When reporting any issues related to `IDF.run()`, please include the error message
+as well as the code used to call the function. Also, it may help to include an IDF
+and EPW which display the problem so that we can try to reproduce it.
