@@ -16,8 +16,8 @@ import os
 import platform
 import pydoc
 import shutil
-from subprocess import CalledProcessError
-from subprocess import check_call
+from subprocess import CalledProcessError, check_call
+import sys
 import tempfile
 
 try:
@@ -273,6 +273,8 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     verbose = args.pop('verbose')
     idf = args.pop('idf')
     iddname = args.get('idd')
+    if not isinstance(iddname, str):
+        args.pop('idd')
     try:
         idf_path = os.path.abspath(idf.idfname)
     except AttributeError:
@@ -299,7 +301,8 @@ def run(idf=None, weather=None, output_directory='', annual=False,
         args['weather'] = os.path.abspath(args['weather'])
     else:
         args['weather'] = os.path.join(eplus_weather_path, args['weather'])
-    args['output_directory'] = os.path.abspath(args['output_directory'])
+    output_dir = os.path.abspath(args['output_directory'])
+    args['output_directory'] = output_dir
 
     # store the directory we start in
     cwd = os.getcwd()
@@ -319,12 +322,35 @@ def run(idf=None, weather=None, output_directory='', annual=False,
 
     try:
         if verbose == 'v':
+            print("\r\n" + " ".join(cmd) + "\r\n")
             check_call(cmd)
         elif verbose == 'q':
             check_call(cmd, stdout=open(os.devnull, 'w'))
     except CalledProcessError:
-        # potentially catch contents of std out and put it in the error
-        raise
+        message = parse_error(output_dir)
+        raise EnergyPlusRunError(message)
     finally:
         os.chdir(cwd)
     return 'OK'
+
+
+def parse_error(output_dir):
+    """Add contents of stderr and eplusout.err and put it in the exception message.
+
+    :param output_dir: str
+    :return: str
+    """
+    sys.stderr.seek(0)
+    std_err = sys.stderr.read().decode('utf-8')
+    err_file = os.path.join(output_dir, "eplusout.err")
+    if os.path.isfile(err_file):
+        with open(err_file, "r") as f:
+            ep_err = f.read()
+    else:
+        ep_err = "<File not found>"
+    message = "\r\n{std_err}\r\nContents of EnergyPlus error file at {err_file}\r\n{ep_err}".format(**locals())
+    return message
+
+
+class EnergyPlusRunError(Exception):
+    pass
