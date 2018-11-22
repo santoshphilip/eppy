@@ -1,6 +1,11 @@
 Changes
 =======
 
+2018-11-22
+----------
+
+- idf.copyidfobject() returns the copied object
+
 release r0.5.48
 ~~~~~~~~~~~~~~~
 
