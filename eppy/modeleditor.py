@@ -793,7 +793,7 @@ class IDF(object):
             or it can be used to copy within this idf file.
 
         """
-        addthisbunch(self.idfobjects,
+        return addthisbunch(self.idfobjects,
                      self.model,
                      self.idd_info,
                      idfobject, self)
