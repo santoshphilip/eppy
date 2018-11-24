@@ -5,7 +5,6 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
-# along with Eppy.  If not, see <http://www.gnu.org/licenses/>.
 
 """
 Do a diff between two idf files.

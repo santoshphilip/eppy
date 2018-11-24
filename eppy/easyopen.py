@@ -5,6 +5,13 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
+Need a better error message when easyopen cannot find the IDD file
+**Problem:** Right now if easyopen cannot find the the idd file, the error message looks like this: 
+- IOError: [Errno 2] No such file or directory: u'/Applications/EnergyPlus-9-0-0/Energy+.idd'
+
+**Solution:** The error message should look like this: 
+- input idf file says E+ version 9.0, I cannot find the corresponding idd file '/Applications/EnergyPlus-9-0-0/Energy+.idd'
+
 
 """home of easyopen - to easily open an idf file"""
 
@@ -26,6 +33,8 @@ import eppy.modeleditor
 import eppy.EPlusInterfaceFunctions.parse_idd
 import eppy.runner.run_functions
 
+class MissingIDDException(Exception):
+    pass
 
 def cleanupversion(ver):
     """massage the version number so it matches the format of install folder"""
@@ -103,13 +112,20 @@ def easyopen(fname, idd=None, epw=None):
     
     # - get the E+ folder based on version number
     iddfile = getiddfile(versionid)
-    
-    # - set IDD and open IDF.
-    eppy.modeleditor.IDF.setiddname(iddfile)
-    if isinstance(fname, (IOBase, StringIO)):
-        fhandle.seek(0)
-        idf = eppy.modeleditor.IDF(fhandle, epw=epw)
-    else:
-        idf = eppy.modeleditor.IDF(fname, epw=epw)
-    return idf
+    if os.path.exists(iddfile):
+    # if True:
+        # - set IDD and open IDF.
+        eppy.modeleditor.IDF.setiddname(iddfile)
+        if isinstance(fname, (IOBase, StringIO)):
+            fhandle.seek(0)
+            idf = eppy.modeleditor.IDF(fhandle, epw=epw)
+        else:
+            idf = eppy.modeleditor.IDF(fname, epw=epw)
+        return idf
 
+    else:
+        
+        # - can't find IDD -> throw an exception
+        astr = "input idf file says E+ version {}. easyopen() cannot find the corresponding idd file '{}'"
+        astr = astr.format(versionid, iddfile)
+        raise MissingIDDException(astr)
