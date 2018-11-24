@@ -5,6 +5,9 @@ Changes
 ----------
 
 - idf.copyidfobject() returns the copied object
+    - issue # 223
+- easyopen.easyopen gives more explicit error message when idd file is not found
+     - issue # 224
 
 release r0.5.48
 ~~~~~~~~~~~~~~~
