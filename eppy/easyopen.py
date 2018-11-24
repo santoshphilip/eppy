@@ -5,13 +5,6 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
-Need a better error message when easyopen cannot find the IDD file
-**Problem:** Right now if easyopen cannot find the the idd file, the error message looks like this: 
-- IOError: [Errno 2] No such file or directory: u'/Applications/EnergyPlus-9-0-0/Energy+.idd'
-
-**Solution:** The error message should look like this: 
-- input idf file says E+ version 9.0, I cannot find the corresponding idd file '/Applications/EnergyPlus-9-0-0/Energy+.idd'
-
 
 """home of easyopen - to easily open an idf file"""
 
