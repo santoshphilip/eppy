@@ -118,19 +118,17 @@ the help for this script, by typing:
 
 .. parsed-literal::
 
-    usage: idfdiff.py [-h] (--csv | --html) idd file1 file2
-    
     Do a diff between two idf files. Prints the diff in csv or html file format.
     You can redirect the output to a file and open the file using as a spreadsheet
     or by using a browser
-    
+
     positional arguments:
-      idd         location of idd file = ./somewhere/eplusv8-0-1.idd
       file1       location of first with idf files = ./somewhere/f1.idf
       file2       location of second with idf files = ./somewhere/f2.idf
-    
+
     optional arguments:
       -h, --help  show this help message and exit
+      --idd IDD   location of idd file = ./somewhere/eplusv8-0-1.idd
       --csv
       --html
 
@@ -156,8 +154,8 @@ diff in html format.
 .. code:: python
 
     %%bash
-    # python idfdiff.py idd file1 file2
-    python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf 
+    # python idfdiff.py --idd IDD file1 file2
+    python idfdiff.py --html --idd ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf 
 
 
 .. parsed-literal::
@@ -199,8 +197,8 @@ Now let us try the same thin in csv format
 .. code:: python
 
     %%bash
-    # python idfdiff.py idd file1 file2
-    python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+    # python idfdiff.py --idd IDD file1 file2
+    python idfdiff.py --csv --idd ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
 
 
 .. parsed-literal::

@@ -55,6 +55,20 @@ def getiddfile(versionid):
     iddfile = '{}/Energy+.idd'.format(eplusfolder, )
     return iddfile
 
+def getoldiddfile(versionid):
+    """find the IDD file of the E+ installation
+    E+ version 7 and earlier have the idd in /EnergyPlus-7-2-0/bin/Energy+.idd """
+    vlist = versionid.split('.')
+    if len(vlist) == 1:
+        vlist = vlist + ['0', '0']
+    elif len(vlist) == 2:
+        vlist = vlist + ['0']
+    ver_str =  '-'.join(vlist)
+    eplus_exe, _  = eppy.runner.run_functions.install_paths(ver_str)
+    eplusfolder = os.path.dirname(eplus_exe)
+    iddfile = '{}/bin/Energy+.idd'.format(eplusfolder, )
+    return iddfile
+
 def easyopen(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
@@ -105,6 +119,11 @@ def easyopen(fname, idd=None, epw=None):
     
     # - get the E+ folder based on version number
     iddfile = getiddfile(versionid)
+    if os.path.exists(iddfile):
+        pass
+        # might be an old version of E+
+    else:
+        iddfile = getoldiddfile(versionid)
     if os.path.exists(iddfile):
     # if True:
         # - set IDD and open IDF.

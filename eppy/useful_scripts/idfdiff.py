@@ -32,13 +32,15 @@ sys.path.append(pathnameto_eplusscripting)
 
 from eppy.bunch_subclass import BadEPFieldError
 from eppy.modeleditor import IDF
-
-
+from eppy.easyopen import easyopen
+from eppy.modeleditor import IDDAlreadySetError
 
 help_message = '''
 The help message goes here.
 '''
 
+class IDDMismatchError(Exception):
+    pass
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -182,14 +184,16 @@ if __name__ == '__main__':
     # do the argparse stuff
     parser = argparse.ArgumentParser(usage=None, description=__doc__)
     parser.add_argument(
-        'idd', action='store',
-        help='location of idd file = ./somewhere/eplusv8-0-1.idd')
-    parser.add_argument(
         'file1', action='store',
         help='location of first with idf files = ./somewhere/f1.idf')
     parser.add_argument(
         'file2', action='store',
         help='location of second with idf files = ./somewhere/f2.idf')
+    parser.add_argument("--idd", action='store',
+                    help='location of idd file = ./somewhere/eplusv8-0-1.idd')
+    # parser.add_argument(
+    #     'idd', action='store',
+    #     help='location of idd file = ./somewhere/eplusv8-0-1.idd')
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--csv', action='store_true')
     group.add_argument('--html', action='store_true')
@@ -197,9 +201,16 @@ if __name__ == '__main__':
     fname1 = nspace.file1
     fname2 = nspace.file2
     iddfile = nspace.idd
-    IDF.setiddname(iddfile)
-    idf1 = IDF(fname1)
-    idf2 = IDF(fname2)
+    print(iddfile, fname1, fname2)
+    # IDF.setiddname(iddfile)
+    idf1 = easyopen(fname1, idd=iddfile)
+    try:
+        idf2 = easyopen(fname2, idd=iddfile)
+    except IDDAlreadySetError as e:
+        astr = "The two files have different version numners"
+        raise IDDMismatchError(astr)
+    
+    # TODO What id they have different idd files ?
     dtls = idf1.model.dtls # undocumented variable
     thediffs = idfdiffs(idf1, idf2)
     csvdiffs = makecsvdiffs(thediffs, dtls, idf1.idfname, idf2.idfname)
@@ -209,6 +220,8 @@ if __name__ == '__main__':
         printhtml(csvdiffs)
 
 
-# python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
-# python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
-# python idfdiff2.py --html ../resources/iddfiles/Energy+V8_0_0.idd ../resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf ../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf
+# python idfdiff.py --csv --idd ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+# python idfdiff.py --html --idd ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+# python idfdiff2.py --html --idd ../resources/iddfiles/Energy+V8_0_0.idd ../resources/idffiles/V8_0_0/5ZoneSupRetPlenRAB.idf ../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf
+# python idfdiff.py --csv  ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf
+# python idfdiff.py --csv  ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff_bad.idf

@@ -1,4 +1,4 @@
-version, 7.2;
+version, 8.1;
 Construction,
     CLNG-1,                  !- Name
     MAT-CLNG-8;              !- Outside Layer
