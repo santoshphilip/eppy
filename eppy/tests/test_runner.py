@@ -16,13 +16,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import contextlib
 from glob import glob
 import multiprocessing
 import os
 import re
 import shutil
-import sys
 
 import pytest
 from six.moves import reload_module as reload
@@ -476,7 +474,7 @@ class TestIDFRunner(object):
         test_idf.newidfobject("HVACTemplate:Thermostat".upper(), Name='Thermostat')
         with pytest.raises(EnergyPlusRunError) as exc_info:
             test_idf.run(output_directory='run_outputs')
-        assert "You must run the ExpandObjects program for \"HVACTemplate:Thermostat\"" in str(exc_info.value)
+        assert "ExpandObjects program" in str(exc_info.value)
 
 
 @pytest.mark.skipif(
