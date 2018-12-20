@@ -26,7 +26,7 @@ if IDF.getiddname() == None:
 
 
 def test_pascal2inh2o():
-    """py.test for pascal2inh2o"""
+    """py.test for pascal2inh2o and inh2o2pascal"""
     data = (
     (1, 0.00401865), # pascal, expected
     (186.816675, 0.7507501808391), # pascal, expected
@@ -34,15 +34,29 @@ def test_pascal2inh2o():
     for pascal, expected in data:
         result = fanpower.pascal2inh2o(pascal)
         assert almostequal(result, expected, places=5)
+    data = (
+    (1, 0.00401865), # expected, inh20
+    (186.816675, 0.7507501808391), # expected, inh20
+    )
+    for expected, inh20 in data:
+        result = fanpower.inh2o2pascal(inh20)
+        assert almostequal(result, expected, places=3)
         
 def test_m3s2cfm():
-    """py.test for m3s2cfm"""
+    """py.test for m3s2cfm and cfm2m3s"""
     data = (
     (1, 2118.880003), # m3s, expected
     (1.28442384, 2721.539989952472), # m3s, expected
     ) 
     for m3s, expected in data:
         result = fanpower.m3s2cfm(m3s)
+        assert result == expected
+    data = (
+    (1, 2118.880003), # expected, cfm
+    (1.28442384, 2721.539989952472), # expected, cfm
+    ) 
+    for expected, cfm in data:
+        result = fanpower.cfm2m3s(cfm)
         assert result == expected
         
 def test_fan_bhp():
@@ -56,13 +70,20 @@ def test_fan_bhp():
         assert almostequal(result, expected)
         
 def test_bhp2watts():
-    """py.test for bhp2watts"""
+    """py.test for bhp2watts and watts2bhp"""
     data = (
     (0.939940898974, 700.9139283649118), # bhp, expected
     (5.31400249068, 3962.6516573000763), # bhp, expected
     )
     for bhp, expected in data:
         result = fanpower.bhp2watts(bhp)
+        assert result == expected
+    data = (
+    (0.939940898974, 700.9139283649118), # expected, watts
+    (5.31400249068, 3962.6516573000763), # expected, watts
+    )
+    for expected, watts in data:
+        result = fanpower.watts2bhp(watts)
         assert result == expected
         
 def test_fan_watts():
@@ -130,3 +151,23 @@ def test_fan_maxcfm():
     thefan.Maximum_Flow_Rate = 'autosize'
     watts = thefan.f_fanpower_watts
     assert watts == 'autosize'
+
+def test_bhp2pascal():
+    """py.test for bhp2pascal"""
+    bhp = 10.182489271962908
+    cfm = 74999.99998975938
+    fan_tot_eff = 0.58
+    exp_pascal, exp_m3s = (124.544455, 35.39605824)
+    result_pascal, result_m3s = fanpower.bhp2pascal(bhp, cfm, fan_tot_eff)
+    assert almostequal(result_pascal, exp_pascal)
+    assert almostequal(result_m3s, exp_m3s)
+
+def test_watts2pascal():
+    """py.test for watts2pascal"""
+    watts = 7593.0822501027405
+    cfm = 74999.99998975938
+    fan_tot_eff = 0.58
+    exp_pascal, exp_m3s = (124.544455, 35.39605824)
+    result_pascal, result_m3s = fanpower.watts2pascal(watts, cfm, fan_tot_eff)
+    assert almostequal(result_pascal, exp_pascal)
+    assert almostequal(result_m3s, exp_m3s)
