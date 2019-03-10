@@ -1357,8 +1357,8 @@ internet, you can change an idf file by sending it a JSON over the
 internet. This is very useful if you ever need it. If you don't need it,
 you shouldn't care :-)
 
-Open a file quickly¶
---------------------
+Easy Functions: Open a file quickly
+-----------------------------------
 
 It is rather cumbersome to open an IDF file in eppy. From the tutorial,
 the steps look like this:
@@ -1414,6 +1414,19 @@ If you pass the epw argument::
      
 will work. To know more about idf.run() see  `here 
 <./runningeplus.html>`_.
+
+
+More Easy Functions
+-------------------
+
+Try this::
+
+    import eppy
+    idf.newidf(version="8.9")
+    
+This will open a new idf file of version "8.9". The function is fragile. It will fail if that version of EnergyPlus is not installed or if eppy is unable to find the installation.
+
+
 
 Other miscellaneous functions¶
 ------------------------------
