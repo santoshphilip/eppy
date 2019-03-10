@@ -43,3 +43,8 @@ def newidf(version=None):
     idfstring = "  Version,{};".format(str(version))
     fhandle = StringIO(idfstring)
     return easyopen.easyopen(fhandle)
+    
+def openidf(fname, idd=None, epw=None):
+    """open an idf file"""
+    import eppy.easyopen as easyopen
+    return easyopen.easyopen(fname, idd=None, epw=None)

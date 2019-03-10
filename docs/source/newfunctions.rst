@@ -1426,7 +1426,14 @@ Try this::
     
 This will open a new idf file of version "8.9". The function is fragile. It will fail if that version of EnergyPlus is not installed or if eppy is unable to find the installation.
 
+Also try::
 
+    import eppy
+    fname = './eppy/resources/idffiles/V8_8/smallfile.idf'
+    idf.openidf(fname)
+    
+this actually calles the function easyopen(fname) shown above. 
+    
 
 Other miscellaneous functions¶
 ------------------------------
