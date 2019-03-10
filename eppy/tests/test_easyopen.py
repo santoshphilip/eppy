@@ -5,7 +5,7 @@
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
 
-"""py.test for idf_helpers.easyopen"""
+"""py.test for easyopen"""
 
 from __future__ import absolute_import
 from __future__ import division

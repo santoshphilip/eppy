@@ -32,9 +32,8 @@ to skip do:
 - unset EPPY_INTEGRATION
 
 python 3:
-export VIRTUALENV_PYTHON=/usr/local/bin/python3.5
-pyvenv ~/venvs/eppy3
-source ~/venvs/eppy3/bin/activate
+python3 -m venv ~/venvs/eppy3  # first time
+source ~/venvs/eppy3/bin/activate # all other times
 
 2016-05-29
 ----------
