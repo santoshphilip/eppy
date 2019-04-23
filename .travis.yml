@@ -2,6 +2,7 @@ language: generic
 dist: trusty
 sudo: required
 
+
 matrix:
   include:
   # Linux, not on master
@@ -24,7 +25,14 @@ matrix:
   - if: branch = master
     os: linux
     env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
-  # OSX, only on master
+  # OSX, not on master
+  - if: branch != master
+    os: osx
+    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+  - if: branch != master
+    os: osx
+    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+  #   OSX, on master
   - if: branch = master
     os: osx
     env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
@@ -48,29 +56,30 @@ before_install:
   - curl -SLO $ENERGYPLUS_DOWNLOAD_URL
 
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-        sudo hdiutil attach $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
-        sudo installer -pkg /Volumes/$ENERGYPLUS_DOWNLOAD_FILENAME/$ENERGYPLUS_DOWNLOAD_FILENAME.pkg -target /;
+    sudo hdiutil attach $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
+    sudo installer -pkg /Volumes/$ENERGYPLUS_DOWNLOAD_FILENAME/$ENERGYPLUS_DOWNLOAD_FILENAME.pkg -target /;
     fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-        sudo chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
-        echo "y\r" | sudo ./$ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
+    sudo chmod +x $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
+    echo "y\r" | sudo ./$ENERGYPLUS_DOWNLOAD_FILENAME.$EXT;
     fi
   - sudo rm $ENERGYPLUS_DOWNLOAD_FILENAME.$EXT
 
-  # install python
+  # install python for OSX
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-        brew update;
-        brew outdated pyenv || brew upgrade pyenv;
-        brew install pyenv-virtualenv;
-        pyenv install $PYTHON;
-        export PYENV_VERSION=$PYTHON;
-        export PATH="/Users/travis/.pyenv/shims:${PATH}";
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh;
+    bash ~/miniconda.sh -b -p $HOME/miniconda;
+    export PATH="$HOME/miniconda/bin:$PATH";
+    conda update --yes conda;
+    conda create --yes -n venv python=$PYTHON;
     fi
 
-  # actiate venv
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then pyenv-virtualenv venv; fi
-  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then virtualenv venv; fi
-  - source venv/bin/activate;
+  # activate environment
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then source activate venv; fi
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+    virtualenv venv;
+    source venv/bin/activate;
+    fi
   - python --version;
 
   # coverage and testing requirements
@@ -87,9 +96,9 @@ install:
 script: py.test ./eppy/tests --cov=./ -v
 
 after_success:
-  # coverage reporting on CodeCov 
+  # coverage reporting on CodeCov
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]] &&
-       [[ $PYTHON == 3* ]] &&
-       [[ $EPPY_INTEGRATION == True ]] &&
-       [[ $NUMPY == numpy ]]; then codecov; fi
-    
+    [[ $PYTHON == 3* ]] &&
+    [[ $EPPY_INTEGRATION == True ]] &&
+    [[ $NUMPY == numpy ]]; then codecov; fi
+
