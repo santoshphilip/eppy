@@ -1,5 +1,13 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2019-05-20
+----------
+
+Scratch notes
+- IDF.read()
+    - idfreader.idfreader1()
+        - idfreader.makebunches_alter()
+            - idfreader.makeabunch()
 2018-10-03
 ----------
 
