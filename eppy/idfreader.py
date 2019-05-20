@@ -19,6 +19,8 @@ import eppy.iddgaps as iddgaps
 import eppy.function_helpers as fh
 from eppy.idf_msequence import Idf_MSequence
 
+class NoIDDFieldsError(Exception):
+    pass    
 
 def iddversiontuple(afile):
     """given the idd file or filehandle, return the version handle"""
@@ -49,6 +51,14 @@ def makeabunch(commdct, obj, obj_i):
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
     bobj = EpBunch(obj, obj_fields, objidd)
+    print(obj[0], len(obj), len(obj_fields))
+    # TODO : test for len(obj) > len(obj_fields)
+    # that will be missing fields in idd file
+    # do we throw an exception here ????? YES !!!!!
+    if len(obj) > len(obj_fields):
+        errortext = "idfobject key '{}' & first field '{}' has {} fields while the idd has only {} fields for '{}' ".format(obj[0], obj[1], len(obj)-1, len(obj_fields)-1, obj[0])
+        # "the idfobject of key TIMELINE & first field 'gumy' has 3 fields while the idd shows 2 fields"
+        raise NoIDDFieldsError(errortext)
     return bobj
 
 
