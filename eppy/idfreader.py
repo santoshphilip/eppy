@@ -43,7 +43,7 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
-def makeabunch(commdct, obj, obj_i):
+def makeabunch(commdct, obj, obj_i, debugidd=False):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get('field') for comm in commdct[obj_i]]
@@ -55,10 +55,11 @@ def makeabunch(commdct, obj, obj_i):
     # TODO : test for len(obj) > len(obj_fields)
     # that will be missing fields in idd file
     # do we throw an exception here ????? YES !!!!!
-    if len(obj) > len(obj_fields):
-        errortext = "idfobject key '{}' & first field '{}' has {} fields while the idd has only {} fields for '{}' ".format(obj[0], obj[1], len(obj)-1, len(obj_fields)-1, obj[0])
-        # "the idfobject of key TIMELINE & first field 'gumy' has 3 fields while the idd shows 2 fields"
-        raise NoIDDFieldsError(errortext)
+    if debugidd:
+        if len(obj) > len(obj_fields):
+            errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields' ".format(obj[0].upper(), obj[1], len(obj)-1, obj[0].upper(), len(obj_fields)-1)
+            # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields"
+            raise NoIDDFieldsError(errortext)
     return bobj
 
 
