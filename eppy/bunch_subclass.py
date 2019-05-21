@@ -351,7 +351,18 @@ class EpBunch(Bunch):
 
     def __repr__(self):
         """print this as an idf snippet"""
-        lines = [str(val) for val in self.obj]
+        # lines = [str(val) for val in self.obj]
+        # replace the above line with code that will print an integer without decimals
+        lines = []
+        for val in self.obj:
+            try:
+                value = int(val)
+                if value != val:
+                    value = val
+            except ValueError as e:
+                value = val
+            lines.append(value)
+        # ------------
         comments = [comm.replace('_', ' ') for comm in self.objls]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
