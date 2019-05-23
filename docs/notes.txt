@@ -12,6 +12,10 @@ uploading using twine:
 
 pre-steps
 - change docs link on Readme.md - DONE
+- change version in 
+    - eppy/__init__.py
+    - docs/source.conf.py
+    - setup.py
 
 uploading using twine:
 - python setup.py sdist
