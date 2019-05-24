@@ -43,7 +43,7 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
-def makeabunch(commdct, obj, obj_i, debugidd=False):
+def makeabunch(commdct, obj, obj_i, debugidd=True):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get('field') for comm in commdct[obj_i]]
@@ -51,7 +51,7 @@ def makeabunch(commdct, obj, obj_i, debugidd=False):
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
     bobj = EpBunch(obj, obj_fields, objidd)
-    print(obj[0], len(obj), len(obj_fields))
+    # print(obj[0], len(obj), len(obj_fields))
     # TODO : test for len(obj) > len(obj_fields)
     # that will be missing fields in idd file
     # do we throw an exception here ????? YES !!!!!
