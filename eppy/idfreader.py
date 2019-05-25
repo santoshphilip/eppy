@@ -43,7 +43,7 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
-def makeabunch(commdct, obj, obj_i, debugidd=True):
+def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get('field') for comm in commdct[obj_i]]
@@ -59,7 +59,9 @@ def makeabunch(commdct, obj, obj_i, debugidd=True):
         if len(obj) > len(obj_fields):
             errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields' ".format(obj[0].upper(), obj[1], len(obj)-1, obj[0].upper(), len(obj_fields)-1)
             # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields"
-            raise NoIDDFieldsError(errortext)
+            # print(block[obj_i])
+            print(errortext)
+            # raise NoIDDFieldsError(errortext)
     return bobj
 
 
@@ -77,7 +79,7 @@ def makebunches(data, commdct):
     return bunchdt
 
 
-def makebunches_alter(data, commdct, theidf):
+def makebunches_alter(data, commdct, theidf, block=None):
     """make bunches with data"""
     bunchdt = {}
     dt, dtls = data.dt, data.dtls
@@ -86,7 +88,7 @@ def makebunches_alter(data, commdct, theidf):
         objs = dt[key]
         list1 = []
         for obj in objs:
-            bobj = makeabunch(commdct, obj, obj_i)
+            bobj = makeabunch(commdct, obj, obj_i, block=block)
             list1.append(bobj)
         bunchdt[key] = Idf_MSequence(list1, objs, theidf)
     return bunchdt
@@ -282,5 +284,5 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
         skiplist=skiplist)
     iddgaps.missingkeys_nonstandard(block, commdct, dtls, nofirstfields)
     # bunchdt = makebunches(data, commdct)
-    bunchdt = makebunches_alter(data, commdct, theidf)
+    bunchdt = makebunches_alter(data, commdct, theidf, block)
     return bunchdt, block, data, commdct, idd_index, versiontuple
