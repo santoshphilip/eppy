@@ -11,6 +11,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+from itertools import chain
+
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
 from eppy.bunch_subclass import EpBunch
@@ -286,3 +288,51 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct, theidf, block)
     return bunchdt, block, data, commdct, idd_index, versiontuple
+
+def getextensible(objidd):
+    """return the extensible from the idd"""
+    keys = objidd[0].keys()
+    extkey = [key  for key in keys if key.startswith('extensible')]
+    if extkey:
+        extens = extkey[0].split(":")[-1]
+        return int(extens)
+    else:
+        return None
+        
+def endof_extensible(extensible, thisblock):
+    """get the vars from where extension happens"""
+    return thisblock[-extensible:]        
+    
+def extension_of_extensible(objidd, objblock, n):
+    """generate the list of new vars needed to extend by n"""
+    ext = getextensible(objidd)
+    lastvars = endof_extensible(ext, objblock)
+    alpha_lastvars = [i[0] for i in lastvars]
+    int_lastvars = [int(i[1:]) for i in lastvars]
+    lst = []
+    for a, i in zip(alpha_lastvars, int_lastvars):
+        lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
+    return list(chain(*zip(*lst)))
+
+# working code - working on it now.    
+# lastvars = ["N3", "M5", "A6"]
+#
+# alpha_lastvars = [i[0] for i in lastvars]
+# int_lastvars = [int(i[1:]) for i in lastvars]
+#
+# # alpha_lastvars = ['N', 'M', 'A']
+# # int_lastvars = [3, 5, 6]
+#
+# a = 'N'
+# i = 3
+#
+# a = 'N'
+# i = 3
+# n = 2
+#
+# from itertools import chain
+# lst = []
+# for a, i in zip(alpha_lastvars, int_lastvars):
+#     lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
+# c = list(chain(*zip(*lst)))
+    

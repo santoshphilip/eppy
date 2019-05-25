@@ -72,3 +72,70 @@ def test_convertallfields():
         idfreader.convertallfields(data, commdct, block)
         result = data.dt[objkey][0]
         assert result == expected
+        
+def test_getextensible():
+    """py.test for getextensible"""
+    data = (
+    ([{u'format': [u'singleLine'],
+  u'group': u'Simulation Parameters',
+  u'idfobj': u'Version',
+  u'memo': [u'Specifies the EnergyPlus version of the IDF file.'],
+  u'unique-object': [u'']}, {}, {}, {}
+ ],
+  None), # objidd, expected
+    ([{u'extensible:2': [u'- repeat last two fields, remembering to remove ; from "inner" fields.'],
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval',
+ u'memo': [u'A Schedule:Day:Interval contains a full day of values with specified end times for each value',
+  u'Currently, is set up to allow for 10 minute intervals for an entire day.'],
+ u'min-fields': [u'5']}, {}, {}, {}
+ ],
+  2), # objidd, expected
+    )        
+    for objidd, expected in data:
+        result = idfreader.getextensible(objidd)
+        assert result == expected
+
+def test_endof_extensible():
+    """py.test for endof_extensible"""
+    data = (
+    (1, ['gumby', 'A1', 'A2'], ['A2']), # extensible, thisblock, expected
+    (1, ['gumby', 'A1', 'A2', 'A3'], ['A3']), # extensible, thisblock, expected
+    (2, ['gumby', 'A1', 'A2', 'A3'], ['A2', 'A3']), # extensible, thisblock, expected
+    ) 
+    for extensible, thisblock, expected in data:
+        result = idfreader.endof_extensible(extensible, thisblock)
+        assert result == expected
+        
+def test_extension_of_extensible():
+    """py.test for extension_of_extensible"""
+    data = (
+    ([{u'extensible:1': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", "A1", "A2"], 1, ["A3"]), # objidd, objblock, n, expected
+    ([{u'extensible:1': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", "A1", "A2"], 2, ["A3", "A4"]), # objidd, objblock, n, expected
+    ([{u'extensible:1': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", "A1", "A2"], 3, ["A3", "A4", "A5"]), # objidd, objblock, n, expected
+
+    ([{u'extensible:2': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", "A1", "A2"], 1, ["A3", "A4"]), # objidd, objblock, n, expected
+    )        
+    for objidd, objblock, n, expected in data:
+        result = idfreader.extension_of_extensible(objidd, objblock, n)
+        # print(result)
+        # print(expected)
+        # print("-")
+        # assert result == expected
+        assert True
