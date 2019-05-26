@@ -131,6 +131,18 @@ def test_extension_of_extensible():
  u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
  ],
  ["Gumby", "A1", "A2"], 1, ["A3", "A4"]), # objidd, objblock, n, expected
+
+    ([{u'extensible:4': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", 'N3', 'A4', 'M8', 'A5'], 1, ['N4', 'A6', 'M9', 'A7']), # objidd, objblock, n, expected
+
+    ([{u'extensible:4': None,
+ u'group': u'Schedules',
+ u'idfobj': u'Schedule:Day:Interval'}, {}, {}, {}
+ ],
+ ["Gumby", 'N3', 'A4', 'M8', 'A5'], 3, ['N4', 'A6', 'M9', 'A7', 'N5', 'A8', 'M10', 'A9', 'N6', 'A10', 'M11', 'A11']), # objidd, objblock, n, expected
     )        
     for objidd, objblock, n, expected in data:
         result = idfreader.extension_of_extensible(objidd, objblock, n)

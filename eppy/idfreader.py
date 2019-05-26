@@ -305,34 +305,65 @@ def endof_extensible(extensible, thisblock):
     
 def extension_of_extensible(objidd, objblock, n):
     """generate the list of new vars needed to extend by n"""
+    # ext = getextensible(objidd)
+    # lastvars = endof_extensible(ext, objblock)
+    # alpha_lastvars = [i[0] for i in lastvars]
+    # int_lastvars = [int(i[1:]) for i in lastvars]
+    # lst = []
+    # for a, i in zip(alpha_lastvars, int_lastvars):
+    #     lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
+    # return list(chain(*zip(*lst)))
+
     ext = getextensible(objidd)
     lastvars = endof_extensible(ext, objblock)
     alpha_lastvars = [i[0] for i in lastvars]
     int_lastvars = [int(i[1:]) for i in lastvars]
     lst = []
-    for a, i in zip(alpha_lastvars, int_lastvars):
-        lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
+    for alpha, start in zip(alpha_lastvars, int_lastvars):
+        step = alpha_lastvars.count(alpha)
+        rng = range(start +1, start + 1 + n * step, step)
+        lst.append(["{}{}".format(alpha, item) for item in rng])
+
+    from itertools import chain
     return list(chain(*zip(*lst)))
 
 # working code - working on it now.    
-# lastvars = ["N3", "M5", "A6"]
+# N3, A4, M8, A5
 #
+# N3, A4, M8, A5
+# N4, A6, M9, A7
+# N5, A8, M10, A9
+# N6, A10, M11, A11
+
+
+# ref = idf1.newidfobject("Refrigeration:WalkIn".upper())
+# lastvars = ["N3", "A4", "M8", "A5"]
+# lastvars = [u'A18',
+#  u'N29',
+#  u'N30',
+#  u'N31',
+#  u'N32',
+#  u'N33',
+#  u'A19',
+#  u'N34',
+#  u'N35',
+#  u'N36',
+#  u'A20',
+#  u'A21']
 # alpha_lastvars = [i[0] for i in lastvars]
 # int_lastvars = [int(i[1:]) for i in lastvars]
 #
-# # alpha_lastvars = ['N', 'M', 'A']
-# # int_lastvars = [3, 5, 6]
 #
-# a = 'N'
-# i = 3
 #
-# a = 'N'
-# i = 3
 # n = 2
 #
-# from itertools import chain
 # lst = []
-# for a, i in zip(alpha_lastvars, int_lastvars):
-#     lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
+# for alpha, start in zip(alpha_lastvars, int_lastvars):
+#     step = alpha_lastvars.count(alpha)
+#     rng = range(start +1, start + 1 + n * step, step)
+#     lst.append(["{}{}".format(alpha, item) for item in rng])
+#
+# from itertools import chain
 # c = list(chain(*zip(*lst)))
-    
+#
+#
