@@ -59,11 +59,14 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     # do we throw an exception here ????? YES !!!!!
     if debugidd:
         if len(obj) > len(obj_fields):
+            n = len(obj) - len(obj_fields)
+            extlst = extension_of_extensible(commdct[obj_i], block[obj_i], n)
             errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields' ".format(obj[0].upper(), obj[1], len(obj)-1, obj[0].upper(), len(obj_fields)-1)
             # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields"
             # print(block[obj_i])
-            print(errortext)
-            # raise NoIDDFieldsError(errortext)
+            # print(errortext)
+            print(extlst)
+            raise NoIDDFieldsError(errortext)
     return bobj
 
 
@@ -305,23 +308,19 @@ def endof_extensible(extensible, thisblock):
     
 def extension_of_extensible(objidd, objblock, n):
     """generate the list of new vars needed to extend by n"""
-    # ext = getextensible(objidd)
-    # lastvars = endof_extensible(ext, objblock)
-    # alpha_lastvars = [i[0] for i in lastvars]
-    # int_lastvars = [int(i[1:]) for i in lastvars]
-    # lst = []
-    # for a, i in zip(alpha_lastvars, int_lastvars):
-    #     lst.append(["{}{}".format(a, item) for item in range(i+1, i+n+1)])
-    # return list(chain(*zip(*lst)))
-
     ext = getextensible(objidd)
+    print(n, type(n), ext, type(ext))
+    # n = int(n / ext)
+    n = n // ext
+    print(n, type(n))
     lastvars = endof_extensible(ext, objblock)
+    print("ext, lastvars", ext, lastvars)
     alpha_lastvars = [i[0] for i in lastvars]
     int_lastvars = [int(i[1:]) for i in lastvars]
     lst = []
     for alpha, start in zip(alpha_lastvars, int_lastvars):
         step = alpha_lastvars.count(alpha)
-        rng = range(start +1, start + 1 + n * step, step)
+        rng = range(start + step, start + 1 + n * step, step)
         lst.append(["{}{}".format(alpha, item) for item in rng])
 
     from itertools import chain
