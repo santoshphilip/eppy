@@ -327,6 +327,7 @@ def extension_of_extensible(objidd, objblock, n):
     from itertools import chain
     return list(chain(*zip(*lst)))
 
+# complete -- remove this junk below
 # working code - working on it now.    
 # N3, A4, M8, A5
 #
