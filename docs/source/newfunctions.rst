@@ -1466,9 +1466,9 @@ The sample code would look like this:
 
     thefans = idf.idfobjects['Fan:VariableVolume'.upper()]
     thefan = thefans[0]
-    bhp = thefan.fanpower_bhp
-    watts = thefan.fanpower_watts
-    cfm = thefan.fan_maxcfm
+    bhp = thefan.f_fanpower_bhp
+    watts = thefan.f_fanpower_watts
+    cfm = thefan.f_fan_maxcfm
 
 *Note: This code was hacked together quickly. Needs peer review in
 ../eppy/fanpower.py*
