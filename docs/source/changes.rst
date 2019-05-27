@@ -1,9 +1,27 @@
 Changes
 =======
 
+release r0.5.49
+~~~~~~~~~~~~~~~
+
+2019-05-23
+----------
+
+- idf = eppy.openidf(fname) will set idd and open the file
+    - issue # 231
+- idf = eppy.newidf(version="8.5") will open a blank idf file
+    - issue # 231
+    
 2018-11-22
 ----------
 
+
+- fanpower.bhp2pascal(bhp, cfm, fan_tot_eff)
+    - issue # 228
+- fanpower.watts2pascal(watts, cfm, fan_tot_eff)
+    - issue # 228
+- updated useful_scripts/idfdiff.py to make the IDD file optional
+    - issue # 225
 - idf.copyidfobject() returns the copied object
     - issue # 223
 - easyopen.easyopen gives more explicit error message when idd file is not found
