@@ -1435,6 +1435,38 @@ Also try::
 this actually calles the function easyopen(fname) shown above. 
     
 
+Extremely large IDF files
+-------------------------
+
+Sometimes users make extremely large Energyplus input files that can take hours to run. When the Energyplus files are very large some issues can occur with reading the IDF files. This error will occur with preinstalled "Energyplus Editor" as well as with eppy.
+
+The IDD files defines all the fields that can be in the IDF file. Some objects have extensible fields. On installation of Energplus, the IDD file will have a fixed number of fields. 
+
+From the documentation in the IDD file::
+
+    !  \extensible:<#>  This object is dynamically extensible -- meaning, if you
+    !           change the IDD appropriately (if the object has a simple list
+    !           structure -- just add items to the list arguments (i.e. BRANCH
+    !           LIST). These will be automatically redimensioned and used during
+    !           the simulation. <#> should be entered by the developer to signify
+    !           how many of the last fields are needed to be extended (and EnergyPlus
+    !           will attempt to auto-extend the object).  The first field of the first
+    !           instance of the extensible field set is marked with \begin-extensible.
+    !
+
+Eppy will throw an exception if the you don't have enough fields in the IDD file. The exception message will give you enough information to be able to update the IDD file. 
+
+A Sample error message is shown here::
+
+    NoIDDFieldsError: idfobject with key 'CONTROLLER:MECHANICALVENTILATION' & first 
+    field 'BaseSys6 OACtrl-7 Mech Vent Controller' has 194 fields while the idd for 
+    'CONTROLLER:MECHANICALVENTILATION' has only 155 fields. Add the following 
+    fields to the object 'CONTROLLER:MECHANICALVENTILATION' in file Energy+.idd 
+    'A155, A156, A157, A158, A159, A160, A161, A162, A163, A164, A165, A166, A167, 
+    A168, A169, A170, A171, A172, A173, A174, A175, A176, A177, A178, A179, A180, 
+    A181, A182, A183, A184, A185, A186, A187, A188, A189, A190, A191, A192, A193;'
+
+
 Other miscellaneous functions¶
 ------------------------------
 
@@ -1472,3 +1504,4 @@ The sample code would look like this:
 
 *Note: This code was hacked together quickly. Needs peer review in
 ../eppy/fanpower.py*
+
