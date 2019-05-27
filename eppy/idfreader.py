@@ -53,7 +53,6 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
     bobj = EpBunch(obj, obj_fields, objidd)
-    # print(obj[0], len(obj), len(obj_fields))
     # TODO : test for len(obj) > len(obj_fields)
     # that will be missing fields in idd file
     # do we throw an exception here ????? YES !!!!!
@@ -61,8 +60,8 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
         if len(obj) > len(obj_fields):
             n = len(obj) - len(obj_fields)
             extlst = extension_of_extensible(commdct[obj_i], block[obj_i], n)
-            errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields' ".format(obj[0].upper(), obj[1], len(obj)-1, obj[0].upper(), len(obj_fields)-1)
-            # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields"
+            errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields. Add the following fields to the object '{}' in file Energy+.idd '{};'".format(obj[0].upper(), obj[1], len(obj)-1, obj[0].upper(), len(obj_fields)-1, obj[0].upper(), ", ".join(extlst))
+            # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields. Add the following fields to object 'TIMESTEP' in file Energy+.idd A5, A6;'"
             # print(block[obj_i])
             # print(errortext)
             print(extlst)
