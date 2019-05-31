@@ -384,7 +384,7 @@ class EpBunch(Bunch):
 
     def __dir__(self):
         fnames = self.fieldnames
-        func_names = self['__functions'].keys()
+        func_names = list(self['__functions'].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
 
 
