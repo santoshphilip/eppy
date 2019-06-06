@@ -1,6 +1,14 @@
 Changes
 =======
 
+2019-06-02
+----------
+
+- Fixes the TypeError
+    - `TypeError: can only concatenate list (not "dict_keys") to list`is fixed
+    - issue # 113
+    
+
 2019-05-27
 ----------
 
