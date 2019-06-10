@@ -15,6 +15,7 @@ from itertools import chain
 
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunchhelpers as bunchhelpers
+from eppy.EPlusInterfaceFunctions.structures import CaseInsensitiveDict
 from eppy.bunch_subclass import EpBunch
 # from eppy.bunch_subclass import fieldnames, fieldvalues
 import eppy.iddgaps as iddgaps
@@ -71,7 +72,7 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
 
 def makebunches(data, commdct):
     """make bunches with data"""
-    bunchdt = {}
+    bunchdt = CaseInsensitiveDict()
     ddtt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
@@ -85,7 +86,7 @@ def makebunches(data, commdct):
 
 def makebunches_alter(data, commdct, theidf, block=None):
     """make bunches with data"""
-    bunchdt = {}
+    bunchdt = CaseInsensitiveDict()
     dt, dtls = data.dt, data.dtls
     for obj_i, key in enumerate(dtls):
         key = key.upper()
