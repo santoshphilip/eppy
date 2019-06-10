@@ -35,6 +35,7 @@ def test_idf():
         assert ep_version == versiontuple(VERSION)
     except AttributeError:
         raise
+    return idf
 
 
 @pytest.fixture()
