@@ -36,6 +36,7 @@ def test_idf():
     except AttributeError:
         raise
 
+
 @pytest.fixture()
 def base_idf():
     iddsnippet = iddcurrent.iddtxt
