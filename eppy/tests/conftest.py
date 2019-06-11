@@ -1,7 +1,10 @@
 import os
 
 import pytest
+from six import StringIO
 
+from eppy.modeleditor import IDF
+from eppy.iddcurrent import iddcurrent
 from eppy import modeleditor
 from eppy.tests.test_runner import versiontuple
 
@@ -32,4 +35,16 @@ def test_idf():
         assert ep_version == versiontuple(VERSION)
     except AttributeError:
         raise
+    return idf
+
+
+@pytest.fixture()
+def base_idf():
+    iddsnippet = iddcurrent.iddtxt
+    iddfhandle = StringIO(iddsnippet)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+    idftxt = ""
+    idfhandle = StringIO(idftxt)
+    idf = IDF(idfhandle)
     return idf
