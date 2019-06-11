@@ -199,7 +199,7 @@ def test_newrawobject():
     """py.test for newrawobject"""
     thedata = (
         (
-            'zone'.upper(),
+            'zone',
             [
                 'ZONE', '', 0., 0., 0., 0., 1, 1, 'autocalculate',
                 'autocalculate', 'autocalculate', '', '', 'Yes'
