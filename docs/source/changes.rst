@@ -15,7 +15,7 @@ Changes
 2019-05-27
 ----------
 
-- eppy throws an exception `NoIDDFieldsError` while reading an IDF file when there are insufficient fields in the IDD file
+- eppy throws an exception 'NoIDDFieldsError' while reading an IDF file when there are insufficient fields in the IDD file
     - issue # 238
 
 release r0.5.49
