@@ -6,7 +6,7 @@ import codecs
 import os
 import sys
 
-import eppy
+# import eppy
 
 here = os.path.abspath(os.path.dirname(__file__))
 
