@@ -52,7 +52,7 @@ def test_easyopen_idfopen():
     reload(easyopen)
     idf1, idf2 = easyopen.easyopen(fhandle1), eppy.openidf(fhandle2)
     for idf in [idf1, idf2]:
-        versions = idf.idfobjects['version'.upper()]
+        versions = idf.idfobjects['version']
         version = versions[0]
         ver = version.Version_Identifier
         assert result == ver
@@ -78,7 +78,7 @@ def test_easyopen_withidd():
     reload(easyopen)
     idf1, idf2 = easyopen.easyopen(fhandle1, idd=iddfile), eppy.openidf(fhandle2, idd=iddfile)
     for idf in [idf1, idf2]:
-        versions = idf.idfobjects['version'.upper()]
+        versions = idf.idfobjects['version']
         version = versions[0]
         ver = version.Version_Identifier
         assert result == ver

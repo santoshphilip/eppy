@@ -42,7 +42,7 @@ def test_readwrite():
 
 def test_pythonic():
     """py.test for ex_pythonic.py"""
-    zones = bunchdt['zone'.upper()] # all the zones
+    zones = bunchdt['zone'] # all the zones
     zone0 = zones[0]
     # -
     printout = "PLENUM-1"
@@ -85,7 +85,7 @@ def test_pythonic():
 
 def test_addobject():
     """py.test for ex_addobject.py"""
-    zones = bunchdt['zone'.upper()] # all the zones
+    zones = bunchdt['zone'] # all the zones
     assert len(zones) == 7
     modeleditor.addobject(
         bunchdt, data,
@@ -97,7 +97,7 @@ def test_addobject():
 
 def test_functions():
     """py.test for ex_functions.py"""
-    surfaces = bunchdt['BuildingSurface:Detailed'.upper()] # all the surfaces
+    surfaces = bunchdt['BuildingSurface:Detailed'] # all the surfaces
     assert len(surfaces) == 1
     surface = surfaces[0]
     assert surface.Name == "WALL-1PF"

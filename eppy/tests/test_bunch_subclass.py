@@ -834,7 +834,7 @@ class TestEpBunch(object):
         for idftxt, zname, surfnamelst in thedata:
             # import pdb; pdb.set_trace()
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone'.upper(), zname)
+            zone = idf.getobject('zone', zname)
             kwargs = {}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
@@ -843,7 +843,7 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone'.upper(), zname)
+            zone = idf.getobject('zone', zname)
             kwargs = {'iddgroups':[u'Thermal Zones and Surfaces', ]}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
@@ -852,7 +852,7 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone'.upper(), zname)
+            zone = idf.getobject('zone', zname)
             kwargs = {'fields':[u'Zone_Name', ], }
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
@@ -861,7 +861,7 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone'.upper(), zname)
+            zone = idf.getobject('zone', zname)
             kwargs = {'fields':[u'Zone_Name', ],
                 'iddgroups':[u'Thermal Zones and Surfaces', ]}
             result = zone.getreferingobjs(**kwargs)
@@ -874,7 +874,7 @@ class TestEpBunch(object):
             idf = IDF(StringIO(idftxt))
             wname = 'EWall1'
             windownamelist = ['Window1', ]
-            wall = idf.getobject('BUILDINGSURFACE:DETAILED'.upper(), wname)
+            wall = idf.getobject('BUILDINGSURFACE:DETAILED', wname)
             kwargs = {'fields':[u'Building_Surface_Name', ],
                 'iddgroups':[u'Thermal Zones and Surfaces', ]}
             result = wall.getreferingobjs(**kwargs)

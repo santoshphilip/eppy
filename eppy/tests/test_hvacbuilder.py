@@ -343,9 +343,9 @@ def test_connectcomponents():
         ),
         # components_thisnodes, inlets, outlets, fluid
         (
-            [(idf.newidfobject("Coil:Cooling:Water".upper(), Name="pipe1"),
+            [(idf.newidfobject("Coil:Cooling:Water", Name="pipe1"),
               'Water_'),
-             (idf.newidfobject("Coil:Cooling:Water".upper(), Name="pipe2"),
+             (idf.newidfobject("Coil:Cooling:Water", Name="pipe2"),
               'Water_')],
             ['pipe1_Water_Inlet_Node_Name', '',
              'pipe2_Water_Inlet_Node_Name',
@@ -356,8 +356,8 @@ def test_connectcomponents():
         ),
         # components_thisnodes, inlets, outlets, fluid
         (
-            [(idf.newidfobject("PIPE:ADIABATIC".upper(), Name="pipe1"), None),
-             (idf.newidfobject("Coil:Cooling:Water".upper(), Name="pipe2"),
+            [(idf.newidfobject("PIPE:ADIABATIC", Name="pipe1"), None),
+             (idf.newidfobject("Coil:Cooling:Water", Name="pipe2"),
               'Water_')],
             ["pipe1_Inlet_Node_Name", "pipe2_Water_Inlet_Node_Name",
              ['pipe2_Air_Inlet_Node_Name', 'pipe1_pipe2_node']],
@@ -410,7 +410,7 @@ def test_initinletoutlet():
         ),
         # idfobjectkey, idfobjname, thisnode, force, inlets, outlets
         (
-            'Coil:Cooling:Water'.upper(),
+            'Coil:Cooling:Water',
             'acoil',
             'Water_',
             True,
@@ -512,7 +512,7 @@ def test_replacebranch():
             ['db0', ['db1', 'db2', 'db3'], 'db4'],
             'sb0',
             [
-                ("Chiller:Electric".upper(), 'Central_Chiller',
+                ("Chiller:Electric", 'Central_Chiller',
                  'Chilled_Water_'),
                 ("PIPE:ADIABATIC", 'np1', None),
                 ("PIPE:ADIABATIC", 'np2', None)

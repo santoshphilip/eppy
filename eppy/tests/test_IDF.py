@@ -51,7 +51,7 @@ class TestIDF(object):
         idf.newidfobject(key, Name="Building1")
         idf.newidfobject(key, Name="Building_remove")
         idf.newidfobject(key, Name="Building2")
-        buildings = idf.idfobjects["building".upper()]
+        buildings = idf.idfobjects["building"]
         removethis = buildings[-2]
         idf.removeidfobject(removethis)
         assert buildings[2].Name == "Building2"
@@ -66,7 +66,7 @@ class TestIDF(object):
         idf.newidfobject(key, Name="Building1")
         idf.newidfobject(key, Name="Building_remove")
         idf.newidfobject(key, Name="Building2")
-        buildings = idf.idfobjects["building".upper()]
+        buildings = idf.idfobjects["building"]
         removethis = buildings[-2]
         idf.popidfobject(key, 2)
         assert buildings[2].Name == "Building2"

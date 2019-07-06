@@ -131,4 +131,4 @@ def test_updateidf():
         idfhandle = StringIO(idftxt)
         idf = IDF(idfhandle)
         json_functions.updateidf(idf, dct)
-        assert idf.idfobjects[key.upper()][0][field] ==fieldval
+        assert idf.idfobjects[key][0][field] ==fieldval

@@ -471,7 +471,7 @@ class TestIDFRunner(object):
         assert os.getcwd() == cwd
 
     def test_exception_message(self, test_idf):
-        test_idf.newidfobject("HVACTemplate:Thermostat".upper(), Name='Thermostat')
+        test_idf.newidfobject("HVACTemplate:Thermostat", Name='Thermostat')
         with pytest.raises(EnergyPlusRunError) as exc_info:
             test_idf.run(output_directory='run_outputs')
         assert "ExpandObjects program" in str(exc_info.value)
