@@ -6,8 +6,6 @@ import codecs
 import os
 import sys
 
-# import eppy
-
 here = os.path.abspath(os.path.dirname(__file__))
 
 def read(*filenames, **kwargs):
