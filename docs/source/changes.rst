@@ -4,19 +4,43 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.50
+~~~~~~~~~~~~~~~
+
+2019-07-06
+----------
+
+- Fixed an installation bug
+    - issue # 247
+
+2019-06-11
+----------
+
+- Allows mixed cases for specifying objects:
+    - issue # 242
+- the code now works in the following way::    
+
+    # you can use:
+    objs = idf.idfobjects['ElectricEquipment']
+    # instead of 
+    objs = idf.idfobjects['ElectricEquipment'.upper()]
+    
 2019-06-02
 ----------
 
 - Fixes the TypeError
     - 'TypeError: can only concatenate list (not "dict_keys") to list' is fixed
-    - issue # 113
+    - issue # 113, # 239
     
 
 2019-05-27
 ----------
 
-- eppy throws an exception 'NoIDDFieldsError' while reading an IDF file when there are insufficient fields in the IDD file
-    - issue # 238
+- fixed issue # 238
+    - **Problem:** if the IDF object has more fileds than that in the IDD file, eppy will truncate the object and will give no warning.
+    - **Solution:** eppy should throw an exception to warn the user that the IDF file is not readable without changing the IDD file. 
+    - The exception message will the text that has to be added to the IDD file, so that it works correctly.
+     
 
 release r0.5.49
 ~~~~~~~~~~~~~~~
