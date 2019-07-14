@@ -4,6 +4,14 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.51
+~~~~~~~~~~~~~~~
+
+2019-07-14
+----------
+
+- updated version number in setup.py
+
 release r0.5.50
 ~~~~~~~~~~~~~~~
 
