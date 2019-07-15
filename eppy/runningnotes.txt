@@ -1,5 +1,13 @@
 rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
 
+2019-07-15
+----------
+
+updated newfunctions.ipynb to remove upper.
+
+- it has saved
+- it is not generating the rst file
+
 2019-05-20
 ----------
 
