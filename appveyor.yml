@@ -69,6 +69,7 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda info -a
   - conda update -q conda
+  - activate
   - "conda create -n test-env python=%PYTHONVERSION% pytest lxml"
   - "activate test-env"
 
