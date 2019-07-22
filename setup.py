@@ -49,7 +49,6 @@ setup(
     install_requires = [
         "munch>=2.0.2",
         "beautifulsoup4>=4.2.1",
-        "pytest>=3.2.1",
         "tinynumpy>=1.2.1",
         "six>=1.10.0",
         "decorator>=4.0.10",
