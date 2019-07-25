@@ -455,7 +455,10 @@ def test_EpBunch():
     assert bwall.Constr == data.dt[wallkey][0][3]
 
     # add functions
-    bwall._EpBunch__functions = {'svalues': bunch_subclass.somevalues}
+    @bunch_subclass.register_epbunch_function('svalues', keys=None)
+    @property
+    def func(abunch):
+        return bunch_subclass.somevalues(abunch)
     assert 'svalues' in bwall.__functions
 
     # print bwall.svalues

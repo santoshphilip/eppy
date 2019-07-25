@@ -31,7 +31,7 @@ class TestRegisterFunction():
     def test_register_function_area(self, idf):
         """Add a function that comes default with eppy"""
 
-        @register_epbunch_function('area', keys=[
+        @register_epbunch_function('new_area', keys=[
             "BuildingSurface:Detailed",
             "Wall:Detailed",
             "RoofCeiling:Detailed",
