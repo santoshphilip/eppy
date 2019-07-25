@@ -210,7 +210,6 @@ class EpBunch(Bunch):
         self.theidf = None  # pointer to the idf this epbunch belongs to
         # This is None if there is no idf - a standalone epbunch
         # This will be set by Idf_MSequence
-        addfunctions(self)
 
     @property
     def fieldnames(self):
@@ -331,7 +330,7 @@ class EpBunch(Bunch):
             func = self._EpBunch__functions[name]
             return func[0](self)
         except TypeError:
-            return func(self)
+            return getattr(type(self), name).__get__(self, type(self))
         except KeyError:
             pass
 
