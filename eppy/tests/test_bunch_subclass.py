@@ -14,15 +14,15 @@ from __future__ import unicode_literals
 import pytest
 from six import StringIO
 
-from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunch_subclass as bunch_subclass
 import eppy.bunchhelpers as bunchhelpers
-from eppy.iddcurrent import iddcurrent
 import eppy.idfreader as idfreader
+from eppy.EPlusInterfaceFunctions import readidf
+from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 
-
-# This test is ugly because I have to send file names and not able to send file handles
+# This test is ugly because I have to send file names and not able to send
+# file handles
 EpBunch = bunch_subclass.EpBunch
 
 iddtxt = iddcurrent.iddtxt
@@ -34,7 +34,8 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-# This test is ugly because I have to send file names and not able to send file handles
+# This test is ugly because I have to send file names and not able to send
+# file handles
 idftxt = """Version,
     6.0;
 
@@ -379,6 +380,21 @@ BuildingSurface:Detailed,
     CLEAR 3MM,               !- Outside Layer
     AIR 13MM,                !- Layer 2
     CLEAR 3MM;               !- Layer 3
+    
+Zone,
+    West Zone,                !- Name
+    0,                        !- Direction of Relative North
+    0,                        !- X Origin
+    0,                        !- Y Origin
+    0,                        !- Z Origin
+    ,                         !- Type
+    ,                         !- Multiplier
+    ,                         !- Ceiling Height
+    ,                         !- Volume
+    ,                         !- Floor Area
+    ,                         !- Zone Inside Convection Algorithm
+    ,                         !- Zone Outside Convection Algorithm
+    Yes;                      !- Part of Total Floor Area
 """
 
 
@@ -388,7 +404,7 @@ def test_EpBunch():
     iddfile = StringIO(iddtxt)
     fname = StringIO(idftxt)
     block, data, commdct, idd_index = readidf.readdatacommdct1(fname,
-                iddfile=iddfile)
+                                                               iddfile=iddfile)
 
     # setup code walls - can be generic for any object
     ddtt = data.dt
@@ -399,7 +415,6 @@ def test_EpBunch():
 
     dwalls = ddtt[wallkey]
     dwall = dwalls[0]
-
 
     wallfields = [comm.get('field') for comm in commdct[wall_i]]
     wallfields[0] = ['key']
@@ -414,7 +429,6 @@ def test_EpBunch():
         'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate',
         'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
 
-
     bwall = EpBunch(dwall, wall_fields, wallidd)
 
     # print bwall.Name
@@ -427,7 +441,7 @@ def test_EpBunch():
     assert bwall.Name == data.dt[wallkey][0][1]
 
     # set aliases
-    bwall.__aliases = {'Constr':'Construction_Name'}
+    bwall.__aliases = {'Constr': 'Construction_Name'}
 
     # print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
     # print "wall.Constr = %s" % (bwall.Constr, )
@@ -441,7 +455,7 @@ def test_EpBunch():
     assert bwall.Constr == data.dt[wallkey][0][3]
 
     # add functions
-    bwall.__functions = {'svalues':bunch_subclass.somevalues}
+    bwall._EpBunch__functions = {'svalues': bunch_subclass.somevalues}
     assert 'svalues' in bwall.__functions
 
     # print bwall.svalues
@@ -492,7 +506,8 @@ def test_EpBunch():
     constrfields = [comm.get('field') for comm in commdct[constr_i]]
     constrfields[0] = ['key']
     constrfields = [field[0] for field in constrfields]
-    constr_fields = [bunchhelpers.makefieldname(field) for field in constrfields]
+    constr_fields = [bunchhelpers.makefieldname(field) for field in
+                     constrfields]
     bconstr = EpBunch(dconstr, constr_fields, constridd)
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"
@@ -512,6 +527,7 @@ def test_EpBunch():
     assert bconstr.Layer_10 == ''
     assert bconstr["Layer_10"] == ''
 
+
 def test_extendlist():
     """py.test for extendlist"""
     data = (
@@ -524,12 +540,14 @@ def test_extendlist():
         bunch_subclass.extendlist(lst, i, value=value)
         assert lst == nlst
 
+
 class TestEpBunch(object):
     """
     py.test for EpBunch.getrange, EpBunch.checkrange, EpBunch.fieldnames,
     EpBunch.fieldvalues, EpBunch.getidd.
 
     """
+
     def initdata(self):
         obj, objls, objidd = (
             [
@@ -565,7 +583,10 @@ class TestEpBunch(object):
                 {u'default': [u'Suburbs'],
                  u'field': [u'Terrain'],
                  u'key': [u'Country', u'Suburbs', u'City', u'Ocean', u'Urban'],
-                 u'note': [u'Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest'],
+                 u'note': [
+                     u'Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs '
+                     u'| City=CityCenter | Ocean=body of water (5km) | '
+                     u'Urban=Urban-Industrial-Forest'],
                  u'type': [u'choice']},
 
                 {
@@ -581,15 +602,15 @@ class TestEpBunch(object):
                 {'type': ['choice']},
 
                 {
-                    'maximum':None, 'minimum':None, 'maximum<':['5'],
-                    'minimum>':['-3'],
+                    'maximum': None, 'minimum': None, 'maximum<': ['5'],
+                    'minimum>': ['-3'],
                     'type': ['integer']},
 
                 {
-                    'maximum':['5'], 'minimum':['-3'], 'maximum<':None,
-                    'minimum>':None,
+                    'maximum': ['5'], 'minimum': ['-3'], 'maximum<': None,
+                    'minimum>': None,
                     'type': ['real']},
-                ])
+            ])
         return obj, objls, objidd
 
     def test_fieldnames(self):
@@ -614,19 +635,19 @@ class TestEpBunch(object):
         for fv_item, objls_item in zip(idfobject.fieldvalues, idfobject.obj):
             assert fv_item == objls_item
 
-
     def test_getrange(self):
         data = (
             (
                 "Loads_Convergence_Tolerance_Value",
                 {
-                    'maximum': .5, 'minimum>': 0.0, 'maximum<':None,
-                    'minimum':None, 'type': 'real'},),  # fieldname, theranges
+                    'maximum': .5, 'minimum>': 0.0, 'maximum<': None,
+                    'minimum': None, 'type': 'real'},),  # fieldname, theranges
             (
                 "Maximum_Number_of_Warmup_Days",
                 {
-                    'maximum': None, 'minimum>':-3, 'maximum<':5,
-                    'minimum':None, 'type': 'integer'},),  # fieldname, theranges
+                    'maximum': None, 'minimum>': -3, 'maximum<': 5,
+                    'minimum': None, 'type': 'integer'},),
+        # fieldname, theranges
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
@@ -755,81 +776,89 @@ class TestEpBunch(object):
     def test_getreferingobjs(self):
         """py.test for getreferingobjs"""
         thedata = ((
-        """  Zone,
-        Box,  !- Name
-        0.0,  !- Direction of Relative North {deg}
-        0.288184,  !- X Origin {m}
-        0.756604,  !- Y Origin {m}
-        0.0,  !- Z Origin {m}
-        ,  !- Type
-        1;  !- Multiplier
-
-      BuildingSurface:Detailed,
-        N_Wall,  !- Name
-        Wall,  !- Surface Type
-        Exterior Wall,  !- Construction Name
-        Box,  !- Zone Name
-        Outdoors,  !- Outside Boundary Condition
-        ,  !- Outside Boundary Condition Object
-        SunExposed,  !- Sun Exposure
-        WindExposed,  !- Wind Exposure
-        ,  !- View Factor to Ground
-        1,  !- Number of Vertices
-        5.000000000000,  !- Vertex 1 X-coordinate {m}
-        6.000000000000,  !- Vertex 1 Y-coordinate {m}
-        3.000000000000;  !- Vertex 1 Z-coordinate {m}
-
-      WALL:EXTERIOR,
-          WallExterior,                    !- Name
-          ,                         !- Construction Name
-          Box,                         !- Zone Name
-          ,                         !- Azimuth Angle
-          90;                       !- Tilt Angle
-
-        BUILDINGSURFACE:DETAILED,
-            EWall,                    !- Name
-            ,                         !- Surface Type
-            ,                         !- Construction Name
-            BOX,                         !- Zone Name
-            OtherBox,                         !- Outside Boundary Condition
-            ,                         !- Outside Boundary Condition Object
-            SunExposed,               !- Sun Exposure
-            WindExposed,              !- Wind Exposure
-            autocalculate,            !- View Factor to Ground
-            autocalculate;            !- Number of Vertices
-
-        BUILDINGSURFACE:DETAILED,
-            EWall1,                    !- Name
-            ,                         !- Surface Type
-            ,                         !- Construction Name
-            BOX_other,                         !- Zone Name
-            OtherBox,                         !- Outside Boundary Condition
-            ,                         !- Outside Boundary Condition Object
-            SunExposed,               !- Sun Exposure
-            WindExposed,              !- Wind Exposure
-            autocalculate,            !- View Factor to Ground
-            autocalculate;            !- Number of Vertices
-      HVACTemplate:Thermostat,
-        Constant Setpoint Thermostat,  !- Name
-        ,                        !- Heating Setpoint Schedule Name
-        20,                      !- Constant Heating Setpoint {C}
-        ,                        !- Cooling Setpoint Schedule Name
-        25;                      !- Constant Cooling Setpoint {C}
-
-    FENESTRATIONSURFACE:DETAILED,
-        Window1,                  !- Name
-        ,                         !- Surface Type
-        ,                         !- Construction Name
-        EWall1,                         !- Building Surface Name
-        ,                         !- Outside Boundary Condition Object
-        autocalculate,            !- View Factor to Ground
-        ,                         !- Shading Control Name
-        ,                         !- Frame and Divider Name
-        1.0,                      !- Multiplier
-        autocalculate;            !- Number of Vertices
-      """,
-        'Box',
-        ['N_Wall', 'EWall', 'WallExterior']),  # idftxt, zname, surfnamelst
+                       """  Zone,
+                       Box,  !- Name
+                       0.0,  !- Direction of Relative North {deg}
+                       0.288184,  !- X Origin {m}
+                       0.756604,  !- Y Origin {m}
+                       0.0,  !- Z Origin {m}
+                       ,  !- Type
+                       1;  !- Multiplier
+               
+                     BuildingSurface:Detailed,
+                       N_Wall,  !- Name
+                       Wall,  !- Surface Type
+                       Exterior Wall,  !- Construction Name
+                       Box,  !- Zone Name
+                       Outdoors,  !- Outside Boundary Condition
+                       ,  !- Outside Boundary Condition Object
+                       SunExposed,  !- Sun Exposure
+                       WindExposed,  !- Wind Exposure
+                       ,  !- View Factor to Ground
+                       1,  !- Number of Vertices
+                       5.000000000000,  !- Vertex 1 X-coordinate {m}
+                       6.000000000000,  !- Vertex 1 Y-coordinate {m}
+                       3.000000000000;  !- Vertex 1 Z-coordinate {m}
+               
+                     WALL:EXTERIOR,
+                         WallExterior,                    !- Name
+                         ,                         !- Construction Name
+                         Box,                         !- Zone Name
+                         ,                         !- Azimuth Angle
+                         90;                       !- Tilt Angle
+               
+                       BUILDINGSURFACE:DETAILED,
+                           EWall,                    !- Name
+                           ,                         !- Surface Type
+                           ,                         !- Construction Name
+                           BOX,                         !- Zone Name
+                           OtherBox,                         !- Outside 
+                           Boundary Condition
+                           ,                         !- Outside Boundary 
+                           Condition Object
+                           SunExposed,               !- Sun Exposure
+                           WindExposed,              !- Wind Exposure
+                           autocalculate,            !- View Factor to Ground
+                           autocalculate;            !- Number of Vertices
+               
+                       BUILDINGSURFACE:DETAILED,
+                           EWall1,                    !- Name
+                           ,                         !- Surface Type
+                           ,                         !- Construction Name
+                           BOX_other,                         !- Zone Name
+                           OtherBox,                         !- Outside 
+                           Boundary Condition
+                           ,                         !- Outside Boundary 
+                           Condition Object
+                           SunExposed,               !- Sun Exposure
+                           WindExposed,              !- Wind Exposure
+                           autocalculate,            !- View Factor to Ground
+                           autocalculate;            !- Number of Vertices
+                     HVACTemplate:Thermostat,
+                       Constant Setpoint Thermostat,  !- Name
+                       ,                        !- Heating Setpoint Schedule 
+                       Name
+                       20,                      !- Constant Heating Setpoint {C}
+                       ,                        !- Cooling Setpoint Schedule 
+                       Name
+                       25;                      !- Constant Cooling Setpoint {C}
+               
+                   FENESTRATIONSURFACE:DETAILED,
+                       Window1,                  !- Name
+                       ,                         !- Surface Type
+                       ,                         !- Construction Name
+                       EWall1,                         !- Building Surface Name
+                       ,                         !- Outside Boundary 
+                       Condition Object
+                       autocalculate,            !- View Factor to Ground
+                       ,                         !- Shading Control Name
+                       ,                         !- Frame and Divider Name
+                       1.0,                      !- Multiplier
+                       autocalculate;            !- Number of Vertices
+                     """,
+                       'Box',
+                       ['N_Wall', 'EWall', 'WallExterior']),
+        # idftxt, zname, surfnamelst
         )
         for idftxt, zname, surfnamelst in thedata:
             # import pdb; pdb.set_trace()
@@ -844,7 +873,7 @@ class TestEpBunch(object):
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
             zone = idf.getobject('zone', zname)
-            kwargs = {'iddgroups':[u'Thermal Zones and Surfaces', ]}
+            kwargs = {'iddgroups': [u'Thermal Zones and Surfaces', ]}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -853,7 +882,7 @@ class TestEpBunch(object):
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
             zone = idf.getobject('zone', zname)
-            kwargs = {'fields':[u'Zone_Name', ], }
+            kwargs = {'fields': [u'Zone_Name', ], }
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -862,8 +891,8 @@ class TestEpBunch(object):
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
             zone = idf.getobject('zone', zname)
-            kwargs = {'fields':[u'Zone_Name', ],
-                'iddgroups':[u'Thermal Zones and Surfaces', ]}
+            kwargs = {'fields': [u'Zone_Name', ],
+                      'iddgroups': [u'Thermal Zones and Surfaces', ]}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -875,8 +904,8 @@ class TestEpBunch(object):
             wname = 'EWall1'
             windownamelist = ['Window1', ]
             wall = idf.getobject('BUILDINGSURFACE:DETAILED', wname)
-            kwargs = {'fields':[u'Building_Surface_Name', ],
-                'iddgroups':[u'Thermal Zones and Surfaces', ]}
+            kwargs = {'fields': [u'Building_Surface_Name', ],
+                      'iddgroups': [u'Thermal Zones and Surfaces', ]}
             result = wall.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -907,7 +936,8 @@ class TestEpBunch(object):
         glazing_group.Window_Material_Glazing_Name_1 = 'TestWindowMaterial'
 
         expected = idf.newidfobject(
-            'WINDOWMATERIAL:GLAZING', Name='TestWindowMaterial')  # has several \references
+            'WINDOWMATERIAL:GLAZING',
+            Name='TestWindowMaterial')  # has several \references
 
         fetched = idf.getobject('WINDOWMATERIAL:GLAZING', 'TestWindowMaterial')
         assert fetched == expected
@@ -947,6 +977,8 @@ BuildingSurface:Detailed,
   6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
   6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 """
+
+
 # test_EpBunch1()
 # import idfreader
 
@@ -955,7 +987,7 @@ def test_EpBunch1():
     iddfile = StringIO(iddtxt)
     idffile = StringIO(bldfidf)
     block, data, commdct, idd_index = readidf.readdatacommdct1(idffile,
-            iddfile=iddfile)
+                                                               iddfile=iddfile)
     key = "BUILDING"
     objs = data.dt[key]
     obj = objs[0]
