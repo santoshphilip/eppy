@@ -25,8 +25,9 @@ from __future__ import unicode_literals
 import argparse
 
 import sys
+
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../../'
+pathnameto_eppy = "../../"
 sys.path.append(pathnameto_eppy)
 
 import os
@@ -45,20 +46,19 @@ import eppy.simpleread as simpleread
 def doreadtest(iddfile, folder, silent=False):
     """print out all the readtest results"""
 
-
-    iddhandle = open(iddfile, 'r')
+    iddhandle = open(iddfile, "r")
     fname1 = thefile
-    idfhandle1 = open(fname1, 'rb')
-    idfhandle2 = open(fname1, 'rb')
+    idfhandle1 = open(fname1, "rb")
+    idfhandle2 = open(fname1, "rb")
     verbose = not silent
     result = simpleread.idfreadtest(
-        iddhandle, idfhandle1, idfhandle2,
-        verbose=verbose, save=False)
+        iddhandle, idfhandle1, idfhandle2, verbose=verbose, save=False
+    )
     # print result,   fname
     if result == False and (not silent):
         print("first mismatch at the above line numbers")
         print("full filepath of file that failed the read test ->")
-        print("    %s" % (fname1, ))
+        print("    %s" % (fname1,))
         print()
         print("compare files 'simpleread.idf' vs 'eppyread.idf'")
         print()
@@ -68,15 +68,18 @@ def doreadtest(iddfile, folder, silent=False):
     idfhandle2.close()
     iddhandle.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # do the argparse stuff
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument(
-        'idd', action='store',
-        help='location of idd file. ./somewhere/eplusv8-0-1.idd')
+        "idd", action="store", help="location of idd file. ./somewhere/eplusv8-0-1.idd"
+    )
     parser.add_argument(
-        'thefile', action='store',
-        help='location the idf file. ./somewhere/examples/thisfile.idf')
+        "thefile",
+        action="store",
+        help="location the idf file. ./somewhere/examples/thisfile.idf",
+    )
     nspace = parser.parse_args()
     thefile = nspace.thefile
     iddfile = nspace.idd

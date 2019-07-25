@@ -13,7 +13,8 @@ from __future__ import unicode_literals
 import eppy.modeleditor as modeleditor
 from eppy.modeleditor import IDF
 
-def nocomment(astr, com='!'):
+
+def nocomment(astr, com="!"):
     """
     just like the comment in python.
     removes any text after the phrase 'com'
@@ -24,7 +25,7 @@ def nocomment(astr, com='!'):
         pnt = element.find(com)
         if pnt != -1:
             alist[i] = element[:pnt]
-    return '\n'.join(alist)
+    return "\n".join(alist)
 
 
 def _tofloat(num):
@@ -34,11 +35,12 @@ def _tofloat(num):
     except ValueError:
         return num
 
+
 def idf2txt(txt):
     """convert the idf text to a simple text"""
     astr = nocomment(txt)
-    objs = astr.split(';')
-    objs = [obj.split(',') for obj in objs]
+    objs = astr.split(";")
+    objs = [obj.split(",") for obj in objs]
     objs = [[line.strip() for line in obj] for obj in objs]
     objs = [[_tofloat(line) for line in obj] for obj in objs]
     objs = [tuple(obj) for obj in objs]
@@ -47,10 +49,10 @@ def idf2txt(txt):
     lst = []
     for obj in objs:
         for field in obj[:-1]:
-            lst.append('%s,' % (field, ))
-        lst.append('%s;\n' % (obj[-1], ))
+            lst.append("%s," % (field,))
+        lst.append("%s;\n" % (obj[-1],))
 
-    return '\n'.join(lst)
+    return "\n".join(lst)
 
 
 def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
@@ -68,14 +70,14 @@ def idfreadtest(iddhandle, idfhandle1, idfhandle2, verbose=False, save=False):
     # do a simple read
     simpletxt = idfhandle2.read()
     try:
-        simpletxt = simpletxt.decode('ISO-8859-2')
+        simpletxt = simpletxt.decode("ISO-8859-2")
     except AttributeError:
         pass
     simpletxt = idf2txt(simpletxt)
     # -
     if save:
-        open('simpleread.idf', 'w').write(idfstr)
-        open('eppyread.idf', 'w').write(simpletxt)
+        open("simpleread.idf", "w").write(idfstr)
+        open("eppyread.idf", "w").write(simpletxt)
     # do the compare
     lines1 = idfstr.splitlines()
     lines2 = simpletxt.splitlines()

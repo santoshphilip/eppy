@@ -29,6 +29,7 @@ def test_IDF():
     assert IDF.iddname == "gumby"
     IDF.iddname = stored_idd
 
+
 iddsnippet = iddcurrent.iddtxt
 iddfhandle = StringIO(iddsnippet)
 

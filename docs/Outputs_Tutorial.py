@@ -11,9 +11,10 @@
 # if you have not installed epp, and only downloaded it
 # you will need the following lines
 import sys
+
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../'
-sys.path.append(pathnameto_eppy) 
+pathnameto_eppy = "../"
+sys.path.append(pathnameto_eppy)
 
 # <headingcell level=2>
 
@@ -23,40 +24,44 @@ sys.path.append(pathnameto_eppy)
 
 # So far we have been making changes to the IDF input file.
 # How about looking at the outputs.
-# 
+#
 # Energyplus makes nice htmlout files that look like this.
 
 # <codecell>
 
-from eppy import ex_inits #no need to know this code, it just shows the image below
+from eppy import ex_inits  # no need to know this code, it just shows the image below
+
 for_images = ex_inits
-for_images.display_png(for_images.html_snippet1) #display the image below
+for_images.display_png(for_images.html_snippet1)  # display the image below
 
 # <markdowncell>
 
 # If you look at the clipping of the html file above, you see tables with data in them. Eppy has functions that let you access of these tables and get the data from any of it's cells.
-# 
-# Let us say you want to find the "Net Site Energy".  
-# 
-# This is in table "Site and Source Energy".  
-# 
+#
+# Let us say you want to find the "Net Site Energy".
+#
+# This is in table "Site and Source Energy".
+#
 # The number you want is in the third row, second column and it's value is "47694.47"
-# 
+#
 # Let us use eppy to extract this number
 
 # <codecell>
 
-from eppy import readhtml # the eppy module with functions to read the html
-fname = "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html" # the html file you want to read
-filehandle = open(fname, 'r').read() # get a file handle to the html file
+from eppy import readhtml  # the eppy module with functions to read the html
+
+fname = (
+    "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html"
+)  # the html file you want to read
+filehandle = open(fname, "r").read()  # get a file handle to the html file
 
 
-htables = readhtml.titletable(filehandle) # reads the tables with their titles
+htables = readhtml.titletable(filehandle)  # reads the tables with their titles
 
 # <markdowncell>
 
 # If you open the python file readhtml.py and look at the function titletable, you can see the function documentation.
-# 
+#
 # It says the following
 
 # <rawcell>
@@ -64,7 +69,7 @@ htables = readhtml.titletable(filehandle) # reads the tables with their titles
 #     """return a list of [(title, table), .....]
 #     title = previous item with a <b> tag
 #     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]"""
-#     
+#
 
 # <markdowncell>
 
@@ -79,12 +84,13 @@ print(firstitem)
 
 # <markdowncell>
 
-# Ughh !!! that is ugly. Hard to see what it is.  
+# Ughh !!! that is ugly. Hard to see what it is.
 # Let us use a python module to print it pretty
 
 # <codecell>
 
 import pprint
+
 pp = pprint.PrettyPrinter()
 pp.pprint(firstitem)
 
@@ -104,14 +110,14 @@ pp.pprint(firstitem_table)
 
 # <markdowncell>
 
-# How do we get to value of "Net Site Energy".  
-# We know it is in the third row, second column of the table.  
-# 
+# How do we get to value of "Net Site Energy".
+# We know it is in the third row, second column of the table.
+#
 # Easy.
 
 # <codecell>
 
-thirdrow = firstitem_table[2] # we start counting with 0. So 0, 1, 2 is third row
+thirdrow = firstitem_table[2]  # we start counting with 0. So 0, 1, 2 is third row
 print(thirdrow)
 
 # <codecell>
@@ -121,9 +127,9 @@ thirdrow_secondcolumn
 
 # <markdowncell>
 
-# the text from the html table is in unicode.  
-# That is why you see that weird 'u' letter.  
-# 
+# the text from the html table is in unicode.
+# That is why you see that weird 'u' letter.
+#
 # Let us convert it to a floating point number
 
 # <codecell>
@@ -133,8 +139,8 @@ net_site_energy
 
 # <markdowncell>
 
-# Let us have a little fun with the tables.  
-# 
+# Let us have a little fun with the tables.
+#
 # Get the titles of all the tables
 
 # <codecell>
@@ -153,8 +159,8 @@ alltitles
 
 # <markdowncell>
 
-# Let us leave readtables for now. 
-# 
+# Let us leave readtables for now.
+#
 # It gives us the basic functionality to read any of the tables in the html output file.
 
 # <headingcell level=2>
@@ -167,9 +173,10 @@ alltitles
 
 # <codecell>
 
-from eppy import ex_inits #no need to know this code, it just shows the image below
+from eppy import ex_inits  # no need to know this code, it just shows the image below
+
 for_images = ex_inits
-for_images.display_png(for_images.html_snippet2) # display the image below
+for_images.display_png(for_images.html_snippet2)  # display the image below
 
 # <markdowncell>
 
@@ -177,12 +184,13 @@ for_images.display_png(for_images.html_snippet2) # display the image below
 
 # <codecell>
 
-from eppy import readhtml # the eppy module with functions to read the html
-fname = "../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html" # the html file you want to read
-filehandle = open(fname, 'r').read() # get a file handle to the html file
+from eppy import readhtml  # the eppy module with functions to read the html
+
+fname = "../eppy/resources/outputfiles/V_8_1/ASHRAE30pct.PI.Final11_OfficeMedium_STD2010_Chicago-baseTable.html"  # the html file you want to read
+filehandle = open(fname, "r").read()  # get a file handle to the html file
 
 
-ltables = readhtml.lines_table(filehandle) # reads the tables with their titles
+ltables = readhtml.lines_table(filehandle)  # reads the tables with their titles
 
 # <markdowncell>
 
@@ -191,6 +199,7 @@ ltables = readhtml.lines_table(filehandle) # reads the tables with their titles
 # <codecell>
 
 import pprint
+
 pp = pprint.PrettyPrinter()
 pp.pprint(ltables[-1])
 
@@ -209,14 +218,14 @@ pp.pprint(lines_before_table)
 # <markdowncell>
 
 # We found this table the easy way this time, because we knew it was the last one. How do we find it if we don't know where it is in the file ? Python comes to our rescue :-) Let assume that we want to find the table that has the following two lines before it.
-# 
+#
 # - Report: FANGER DURING COOLING AND ADAPTIVE COMFORT
 # - For: PERIMETER_MID_ZN_4
 
 # <codecell>
 
-line1 = 'Report: FANGER DURING COOLING AND ADAPTIVE COMFORT'
-line2 = 'For: PERIMETER_MID_ZN_4'
+line1 = "Report: FANGER DURING COOLING AND ADAPTIVE COMFORT"
+line2 = "For: PERIMETER_MID_ZN_4"
 #
 # check if those two lines are before the table
 line1 in lines_before_table and line2 in lines_before_table
@@ -224,13 +233,12 @@ line1 in lines_before_table and line2 in lines_before_table
 # <codecell>
 
 # find all the tables where those two lines are before the table
-[ltable for ltable in ltables 
-    if line1 in ltable[0] and line2 in ltable[0]]
+[ltable for ltable in ltables if line1 in ltable[0] and line2 in ltable[0]]
 
 # <markdowncell>
 
 # That worked !
-# 
+#
 # What if you want to find the words "FANGER"  and "PERIMETER_MID_ZN_4" before the table. The following code will do it.
 
 # <codecell>
@@ -241,7 +249,7 @@ lines_before_table = last_ltable[0]
 table_itself = last_ltable[-1]
 
 # join lines_before_table into a paragraph of text
-justtext = '\n'.join(lines_before_table)
+justtext = "\n".join(lines_before_table)
 print(justtext)
 
 # <codecell>
@@ -251,8 +259,11 @@ print(justtext)
 # <codecell>
 
 # Let us combine the this trick to find the table
-[ltable for ltable in ltables 
-    if "FANGER" in '\n'.join(ltable[0]) and "PERIMETER_MID_ZN_4" in '\n'.join(ltable[0])]
+[
+    ltable
+    for ltable in ltables
+    if "FANGER" in "\n".join(ltable[0]) and "PERIMETER_MID_ZN_4" in "\n".join(ltable[0])
+]
 
 # <headingcell level=2>
 
@@ -266,6 +277,7 @@ print(justtext)
 
 # ignore the following three lines. I am using them to construct the table below
 from IPython.display import HTML
+
 atablestring = '<TABLE cellpadding="4" style="border: 1px solid #000000; border-collapse: collapse;" border="1">\n <TR>\n  <TD>&nbsp;</TD>\n  <TD>a b</TD>\n  <TD>b c</TD>\n  <TD>c d</TD>\n </TR>\n <TR>\n  <TD>x y</TD>\n  <TD>1</TD>\n  <TD>2</TD>\n  <TD>3</TD>\n </TR>\n <TR>\n  <TD>y z</TD>\n  <TD>4</TD>\n  <TD>5</TD>\n  <TD>6</TD>\n </TR>\n <TR>\n  <TD>z z</TD>\n  <TD>7</TD>\n  <TD>8</TD>\n  <TD>9</TD>\n </TR>\n</TABLE>'
 HTML(atablestring)
 
@@ -275,10 +287,12 @@ HTML(atablestring)
 
 # <codecell>
 
-atable = [["",  "a b", "b c", "c d"],
-     ["x y", 1,     2,     3 ],
-     ["y z", 4,     5,     6 ],
-     ["z z", 7,     8,     9 ],]
+atable = [
+    ["", "a b", "b c", "c d"],
+    ["x y", 1, 2, 3],
+    ["y z", 4, 5, 6],
+    ["z z", 7, 8, 9],
+]
 
 # <markdowncell>
 
@@ -299,6 +313,7 @@ print(atable[1][3])
 # <codecell>
 
 from eppy import readhtml
+
 h_table = readhtml.named_grid_h(atable)
 
 # <codecell>
@@ -390,7 +405,7 @@ v_table.a_b
 
 values_in_first_column = [cell for cell in v_table.a_b]
 print(values_in_first_column)
-print(sum(values_in_first_column)) # sum is a builtin function that will sum a list
+print(sum(values_in_first_column))  # sum is a builtin function that will sum a list
 
 # <markdowncell>
 
@@ -403,5 +418,3 @@ print(values_in_first_row)
 print(sum(values_in_first_row))
 
 # <codecell>
-
-

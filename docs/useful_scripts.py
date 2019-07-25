@@ -1,5 +1,5 @@
 from subprocess import call
-import os   
+import os
 
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
@@ -23,6 +23,7 @@ import os
 # <codecell>
 
 import os
+
 os.chdir("../eppy/useful_scripts")
 # changes directory, so we are where the scripts are located
 
@@ -37,22 +38,23 @@ os.chdir("../eppy/useful_scripts")
 
 # if you have not done so, the following three lines are needed
 import sys
+
 # pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../../'
-sys.path.append(pathnameto_eppy) 
+pathnameto_eppy = "../../"
+sys.path.append(pathnameto_eppy)
 
 # <markdowncell>
 
 # If you look in the folder "./eppy/useful_scripts", you fill find the following scripts
-# 
+#
 # The scripts are:
-# 
+#
 #     - eppy_version.py
 #     - idfdiff.py
 #     - loopdiagram.py
 #     - eppyreadtest_folder.py
 #     - eppyreadtest_file.py
-#         
+#
 
 # <headingcell level=2>
 
@@ -120,9 +122,12 @@ os.system("python idfdiff.py -h")
 
 # <codecell>
 
-from eppy.useful_scripts import doc_images #no need to know this code, it just shows the image below
+from eppy.useful_scripts import (
+    doc_images,
+)  # no need to know this code, it just shows the image below
+
 for_images = doc_images
-for_images.display_png(for_images.filemerge) # display the image below
+for_images.display_png(for_images.filemerge)  # display the image below
 
 # <markdowncell>
 
@@ -132,7 +137,9 @@ for_images.display_png(for_images.filemerge) # display the image below
 
 # %%bash
 # python idfdiff.py idd file1 file2
-os.system("python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf")
+os.system(
+    "python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constructions.idf ../resources/idffiles/V_7_2/constructions_diff.idf"
+)
 
 # <rawcell>
 
@@ -146,9 +153,12 @@ os.system("python idfdiff.py --html ../resources/iddfiles/Energy+V7_2_0.idd ../r
 
 # <codecell>
 
-from eppy.useful_scripts import doc_images #no need to know this code, it just shows the image below
+from eppy.useful_scripts import (
+    doc_images,
+)  # no need to know this code, it just shows the image below
 from IPython.display import HTML
-h = HTML(open(doc_images.idfdiff_path, 'r').read())
+
+h = HTML(open(doc_images.idfdiff_path, "r").read())
 h
 
 # <markdowncell>
@@ -163,7 +173,9 @@ h
 
 # %%bash
 # python idfdiff.py idd file1 file2
-os.system("python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf")
+os.system(
+    "python idfdiff.py --csv ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/constr.idf ../resources/idffiles/V_7_2/constr_diff.idf"
+)
 
 # <markdowncell>
 
@@ -199,7 +211,9 @@ os.system("python loopdiagram.py --help")
 
 # %%bash
 # ignore the line above. It simply lets me run a command line from ipython notebook
-os.system("python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf")
+os.system(
+    "python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../resources/idffiles/V_7_2/plantloop.idf"
+)
 
 # <markdowncell>
 
@@ -209,9 +223,12 @@ os.system("python loopdiagram.py ../resources/iddfiles/Energy+V7_2_0.idd ../reso
 
 # <codecell>
 
-from eppy.useful_scripts import doc_images #no need to know this code, it just shows the image below
+from eppy.useful_scripts import (
+    doc_images,
+)  # no need to know this code, it just shows the image below
+
 for_images = doc_images
-for_images.display_png(for_images.plantloop) # display the image below
+for_images.display_png(for_images.plantloop)  # display the image below
 
 # <markdowncell>
 

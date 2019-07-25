@@ -342,5 +342,5 @@ BuildingSurface:Detailed,
 idf = IDF()
 idf.initreadtxt(idftxt)
 
-idf.outputtype = 'compressed'
+idf.outputtype = "compressed"
 idf.printidf()

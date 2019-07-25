@@ -19,88 +19,99 @@ from eppy.pytest_helpers import almostequal
 import eppy.idf_helpers as idf_helpers
 
 iddfhandle = StringIO(iddcurrent.iddtxt)
-  
+
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
+
 def test_idfobjectkeys():
     """py.test for idfobjectkeys"""
-    expected = [u'LEAD INPUT',
-            u'SIMULATION DATA',
-            u'VERSION',
-            u'SIMULATIONCONTROL',
-            u'BUILDING']
+    expected = [
+        "LEAD INPUT",
+        "SIMULATION DATA",
+        "VERSION",
+        "SIMULATIONCONTROL",
+        "BUILDING",
+    ]
     idf = IDF(StringIO(""))
     result = idf_helpers.idfobjectkeys(idf)
     assert result[:5] == expected
-    
-    
+
+
 def test_getanymentions():
     """py.test for getanymentions"""
     idf = IDF(StringIO(""))
-    mat = idf.newidfobject('MATERIAL', Name='mat')
-    aconst = idf.newidfobject('CONSTRUCTION', Name='const')
+    mat = idf.newidfobject("MATERIAL", Name="mat")
+    aconst = idf.newidfobject("CONSTRUCTION", Name="const")
     foundobjs = idf_helpers.getanymentions(idf, mat)
     assert len(foundobjs) == 1
     assert foundobjs[0] == mat
-    
+
+
 def test_getobject_use_prevfield():
     """py.test for getobject_use_prevfield"""
     idf = IDF(StringIO(""))
-    branch = idf.newidfobject('BRANCH', 
-                    Name='CW Pump Branch',
-                    Component_1_Object_Type='Pump:VariableSpeed',
-                    Component_1_Name='CW Circ Pump')    
-    pump = idf.newidfobject('PUMP:VARIABLESPEED', 
-                    Name='CW Circ Pump')
-    foundobject = idf_helpers.getobject_use_prevfield(idf, 
-                                branch, 'Component_1_Name')
+    branch = idf.newidfobject(
+        "BRANCH",
+        Name="CW Pump Branch",
+        Component_1_Object_Type="Pump:VariableSpeed",
+        Component_1_Name="CW Circ Pump",
+    )
+    pump = idf.newidfobject("PUMP:VARIABLESPEED", Name="CW Circ Pump")
+    foundobject = idf_helpers.getobject_use_prevfield(idf, branch, "Component_1_Name")
     assert foundobject == pump
     # test for all times it should return None
-    foundobject = idf_helpers.getobject_use_prevfield(idf, 
-                                branch, 'Name')
-    foundobject = None # prev field not end with Object_Type
-    foundobject = idf_helpers.getobject_use_prevfield(idf, 
-                                branch, u'Component_11_Object_Type')
-    foundobject = None# field does not end with "Name"
-    foundobject = idf_helpers.getobject_use_prevfield(idf, 
-                                branch,  u'Component_3_Name')
-    foundobject = None # bad idfobject key
+    foundobject = idf_helpers.getobject_use_prevfield(idf, branch, "Name")
+    foundobject = None  # prev field not end with Object_Type
+    foundobject = idf_helpers.getobject_use_prevfield(
+        idf, branch, "Component_11_Object_Type"
+    )
+    foundobject = None  # field does not end with "Name"
+    foundobject = idf_helpers.getobject_use_prevfield(idf, branch, "Component_3_Name")
+    foundobject = None  # bad idfobject key
 
 
 def test_getidfkeyswithnodes():
     """py.test for getidfkeyswithnodes"""
     nodekeys = idf_helpers.getidfkeyswithnodes()
     # print(len(nodekeys))
-    assert 'PLANTLOOP' in nodekeys
-    assert 'ZONE' not in nodekeys
+    assert "PLANTLOOP" in nodekeys
+    assert "ZONE" not in nodekeys
+
 
 # def test_a():
 #     assert 1== 2
-        
+
+
 def test_getobjectswithnode():
     """py.test for getobjectswithnode"""
     idf = IDF(StringIO(""))
-    nodekeys = idf_helpers.getidfkeyswithnodes() 
-    plantloop = idf.newidfobject('PlantLoop', 
-                    Name='Chilled Water Loop',
-                    Plant_Side_Inlet_Node_Name='CW Supply Inlet Node')
-    branch = idf.newidfobject('Branch', 
-                    Name='CW Pump Branch',
-                    Component_1_Inlet_Node_Name='CW Supply Inlet Node')
-    pump = idf.newidfobject('Pump:VariableSpeed', 
-                    Name='CW Circ Pump',
-                    Inlet_Node_Name='CW Supply Inlet Node')
-    zone = idf.newidfobject('zone')
-    foundobjs = idf_helpers.getobjectswithnode(idf, nodekeys, 
-                                        'CW Supply Inlet Node')
-    expected = [plantloop, branch, pump] 
+    nodekeys = idf_helpers.getidfkeyswithnodes()
+    plantloop = idf.newidfobject(
+        "PlantLoop",
+        Name="Chilled Water Loop",
+        Plant_Side_Inlet_Node_Name="CW Supply Inlet Node",
+    )
+    branch = idf.newidfobject(
+        "Branch",
+        Name="CW Pump Branch",
+        Component_1_Inlet_Node_Name="CW Supply Inlet Node",
+    )
+    pump = idf.newidfobject(
+        "Pump:VariableSpeed",
+        Name="CW Circ Pump",
+        Inlet_Node_Name="CW Supply Inlet Node",
+    )
+    zone = idf.newidfobject("zone")
+    foundobjs = idf_helpers.getobjectswithnode(idf, nodekeys, "CW Supply Inlet Node")
+    expected = [plantloop, branch, pump]
     expectedset = set([item.key for item in expected])
-    resultset = set([item.key for item in foundobjs]) 
-    assert  resultset ==  expectedset
+    resultset = set([item.key for item in foundobjs])
+    assert resultset == expectedset
     expectedset = set([item.Name for item in expected])
-    resultset = set([item.Name for item in foundobjs]) 
-    assert  resultset ==  expectedset
+    resultset = set([item.Name for item in foundobjs])
+    assert resultset == expectedset
+
 
 def test_name2idfobject():
     """py.test for name2idfobject"""
@@ -109,17 +120,19 @@ def test_name2idfobject():
     branchname = "branchname"
     pumpname = "pumpname"
     zonename = "zonename"
-    plantloop = idf.newidfobject('PlantLoop', 
-                    Name=plantloopname,
-                    Plant_Side_Inlet_Node_Name='CW Supply Inlet Node')
-    branch = idf.newidfobject('Branch', 
-                    Name=branchname,
-                    Component_1_Inlet_Node_Name='CW Supply Inlet Node')
-    pump = idf.newidfobject('Pump:VariableSpeed', 
-                    Name=pumpname,
-                    Inlet_Node_Name='CW Supply Inlet Node')
-    zone = idf.newidfobject('zone', Name=zonename)
-    simulation = idf.newidfobject('SimulationControl') 
+    plantloop = idf.newidfobject(
+        "PlantLoop",
+        Name=plantloopname,
+        Plant_Side_Inlet_Node_Name="CW Supply Inlet Node",
+    )
+    branch = idf.newidfobject(
+        "Branch", Name=branchname, Component_1_Inlet_Node_Name="CW Supply Inlet Node"
+    )
+    pump = idf.newidfobject(
+        "Pump:VariableSpeed", Name=pumpname, Inlet_Node_Name="CW Supply Inlet Node"
+    )
+    zone = idf.newidfobject("zone", Name=zonename)
+    simulation = idf.newidfobject("SimulationControl")
     # - test
     names = [plantloopname, branchname, pumpname, zonename]
     idfobjs = [plantloop, branch, pump, zone]
@@ -127,12 +140,11 @@ def test_name2idfobject():
         result = idf_helpers.name2idfobject(idf, Name=name)
         assert result == idfobj
     # test when objkeys!=None
-    objkey = 'ZoneHVAC:EquipmentConnections'
-    equipconnections = idf.newidfobject(objkey,
-                        Zone_Name=zonename)
-    result = idf_helpers.name2idfobject(idf, Zone_Name=zonename, 
-                    objkeys=[objkey, ])
+    objkey = "ZoneHVAC:EquipmentConnections"
+    equipconnections = idf.newidfobject(objkey, Zone_Name=zonename)
+    result = idf_helpers.name2idfobject(idf, Zone_Name=zonename, objkeys=[objkey])
     assert result == equipconnections
+
 
 def test_getidfobjectlist():
     """py.test for getidfobjectlist"""
@@ -145,7 +157,8 @@ def test_getidfobjectlist():
     idf.newidfobject("ScheduleTypeLimits", Name="e")
     result = idf_helpers.getidfobjectlist(idf)
     assert [res.Name for res in result] == names
-    
+
+
 def test_copyidfintoidf():
     """py.test for copyidfintoidf"""
     tonames = ["a", "b", "c"]

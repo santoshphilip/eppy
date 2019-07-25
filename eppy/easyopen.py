@@ -26,48 +26,53 @@ import eppy.modeleditor
 import eppy.EPlusInterfaceFunctions.parse_idd
 import eppy.runner.run_functions
 
+
 class MissingIDDException(Exception):
     pass
+
 
 def cleanupversion(ver):
     """massage the version number so it matches the format of install folder"""
     lst = ver.split(".")
     if len(lst) == 1:
-        lst.extend(['0', '0'])
+        lst.extend(["0", "0"])
     elif len(lst) == 2:
-        lst.extend(['0'])
+        lst.extend(["0"])
     elif len(lst) > 2:
         lst = lst[:3]
-    lst[2] = '0' # ensure the 3rd number is 0    
-    cleanver = '.'.join(lst)
+    lst[2] = "0"  # ensure the 3rd number is 0
+    cleanver = ".".join(lst)
     return cleanver
+
 
 def getiddfile(versionid):
     """find the IDD file of the E+ installation"""
-    vlist = versionid.split('.')
+    vlist = versionid.split(".")
     if len(vlist) == 1:
-        vlist = vlist + ['0', '0']
+        vlist = vlist + ["0", "0"]
     elif len(vlist) == 2:
-        vlist = vlist + ['0']
-    ver_str =  '-'.join(vlist)
-    eplus_exe, _  = eppy.runner.run_functions.install_paths(ver_str)
+        vlist = vlist + ["0"]
+    ver_str = "-".join(vlist)
+    eplus_exe, _ = eppy.runner.run_functions.install_paths(ver_str)
     eplusfolder = os.path.dirname(eplus_exe)
-    iddfile = '{}/Energy+.idd'.format(eplusfolder, )
+    iddfile = "{}/Energy+.idd".format(eplusfolder)
     return iddfile
+
 
 def getoldiddfile(versionid):
     """find the IDD file of the E+ installation
     E+ version 7 and earlier have the idd in /EnergyPlus-7-2-0/bin/Energy+.idd """
-    vlist = versionid.split('.')
+    vlist = versionid.split(".")
     if len(vlist) == 1:
-        vlist = vlist + ['0', '0']
+        vlist = vlist + ["0", "0"]
     elif len(vlist) == 2:
-        vlist = vlist + ['0']
-    ver_str =  '-'.join(vlist)
-    eplus_exe, _  = eppy.runner.run_functions.install_paths(ver_str)
+        vlist = vlist + ["0"]
+    ver_str = "-".join(vlist)
+    eplus_exe, _ = eppy.runner.run_functions.install_paths(ver_str)
     eplusfolder = os.path.dirname(eplus_exe)
-    iddfile = '{}/bin/Energy+.idd'.format(eplusfolder, )
+    iddfile = "{}/bin/Energy+.idd".format(eplusfolder)
     return iddfile
+
 
 def easyopen(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
@@ -99,7 +104,9 @@ def easyopen(fname, idd=None, epw=None):
     if isinstance(fname, (IOBase, StringIO)):
         fhandle = fname
     else:
-        fhandle = io.open(fname, 'r', encoding='latin-1') # latin-1 seems to read most things
+        fhandle = io.open(
+            fname, "r", encoding="latin-1"
+        )  # latin-1 seems to read most things
 
     # - get the version number from the idf file
     txt = fhandle.read()
@@ -107,16 +114,15 @@ def easyopen(fname, idd=None, epw=None):
     #     txt = txt.decode('latin-1') # latin-1 seems to read most things
     # except AttributeError:
     #     pass
-    ntxt = eppy.EPlusInterfaceFunctions.parse_idd.nocomment(txt, '!')
-    blocks = ntxt.split(';')
-    blocks = [block.strip()for block in blocks]
-    bblocks = [block.split(',') for block in blocks]
+    ntxt = eppy.EPlusInterfaceFunctions.parse_idd.nocomment(txt, "!")
+    blocks = ntxt.split(";")
+    blocks = [block.strip() for block in blocks]
+    bblocks = [block.split(",") for block in blocks]
     bblocks1 = [[item.strip() for item in block] for block in bblocks]
-    ver_blocks = [block for block in bblocks1 
-                    if block[0].upper() == 'VERSION']
+    ver_blocks = [block for block in bblocks1 if block[0].upper() == "VERSION"]
     ver_block = ver_blocks[0]
     versionid = ver_block[1]
-    
+
     # - get the E+ folder based on version number
     iddfile = getiddfile(versionid)
     if os.path.exists(iddfile):
@@ -125,7 +131,7 @@ def easyopen(fname, idd=None, epw=None):
     else:
         iddfile = getoldiddfile(versionid)
     if os.path.exists(iddfile):
-    # if True:
+        # if True:
         # - set IDD and open IDF.
         eppy.modeleditor.IDF.setiddname(iddfile)
         if isinstance(fname, (IOBase, StringIO)):
@@ -136,7 +142,7 @@ def easyopen(fname, idd=None, epw=None):
         return idf
 
     else:
-        
+
         # - can't find IDD -> throw an exception
         astr = "input idf file says E+ version {}. easyopen() cannot find the corresponding idd file '{}'"
         astr = astr.format(versionid, iddfile)

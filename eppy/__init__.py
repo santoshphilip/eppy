@@ -14,8 +14,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 __author__ = """Santosh Philip"""
-__email__ = 'santosh@noemail.com'
-__version__ = '0.5.51'
+__email__ = "santosh@noemail.com"
+__version__ = "0.5.51"
 
 
 from six import StringIO
@@ -40,10 +40,12 @@ def newidf(version=None):
     if not version:
         version = "8.9"
     import eppy.easyopen as easyopen
+
     idfstring = "  Version,{};".format(str(version))
     fhandle = StringIO(idfstring)
     return easyopen.easyopen(fhandle)
-    
+
+
 def openidf(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
@@ -67,4 +69,5 @@ def openidf(fname, idd=None, epw=None):
         path name to the weather file. This arg is needed to run EneryPlus from eppy.
     """
     import eppy.easyopen as easyopen
+
     return easyopen.easyopen(fname, idd=idd, epw=epw)

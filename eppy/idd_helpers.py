@@ -17,20 +17,22 @@ import eppy.runner.run_functions as run_functions
 
 def latestidd():
     """extract the latest idd installed"""
-    pth, _ = run_functions.install_paths(version='8.8.0') # works with any value in version
+    pth, _ = run_functions.install_paths(
+        version="8.8.0"
+    )  # works with any value in version
     dirpth = os.path.dirname(pth)
     dirpth = os.path.dirname(dirpth)
     alldirs = os.listdir(dirpth)
-    eplusdirs = [dir for dir in alldirs if dir.startswith('EnergyPlus')]
+    eplusdirs = [dir for dir in alldirs if dir.startswith("EnergyPlus")]
     maxapp = max(eplusdirs)
     ver = folder2ver(maxapp)
     return ver
-    
+
+
 def folder2ver(folder):
     """get the version number from the E+ install folder"""
-    ver = folder.split('EnergyPlus')[-1]
+    ver = folder.split("EnergyPlus")[-1]
     ver = ver[1:]
-    splitapp = ver.split('-')
-    ver = '.'.join(splitapp)
+    splitapp = ver.split("-")
+    ver = ".".join(splitapp)
     return ver
-    
