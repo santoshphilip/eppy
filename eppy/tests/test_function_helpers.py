@@ -45,7 +45,7 @@ class TestRegisterFunction():
             return fh.area(abunch)
 
         surf = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-        print(surf.area)
+        assert surf.area
 
     def test_register_function_conditioned_area(self, idf):
         """Add a new custom function that does not come default with eppy"""
@@ -67,4 +67,4 @@ class TestRegisterFunction():
 
         zone = idf.idfobjects['Zone'.upper()][0]
         assert dir(zone)
-        print(zone.conditioned_area)
+        assert zone.conditioned_area
