@@ -91,9 +91,11 @@ install:
   # we wait to install test dependencies after installing eppy, so as to catch any missing dependencies during setup.py
   - pip install pytest-cov==2.7.1
   - pip install codecov
+  - pip install black || true
 
 script:
   - py.test ./eppy/tests --cov=./ -v
+  - if [[ "$PYTHON" == "3.7" ]]; then black --check .; fi
 
 after_success:
   # coverage reporting on CodeCov
