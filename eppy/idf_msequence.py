@@ -26,6 +26,7 @@ from eppy.bunch_subclass import EpBunch
 
 class Idf_MSequence(collections.MutableSequence):
     """Used to keep IDF.idfobjects in sync with IDF.model.dt."""
+
     def __init__(self, list1, list2, theidf):
         """Initialise the object.
 

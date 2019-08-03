@@ -45,18 +45,9 @@ if IDF.getiddname() == None:
 def test_poptrailing():
     """py.test for poptrailing"""
     tdata = (
-        (
-            [1, 2, 3, '', 56, '', '', '', ''],
-            [1, 2, 3, '', 56]
-        ),  # lst, popped
-        (
-            [1, 2, 3, '', 56],
-            [1, 2, 3, '', 56]
-        ),  # lst, popped
-        (
-            [1, 2, 3, 56],
-            [1, 2, 3, 56]
-        ),  # lst, popped
+        ([1, 2, 3, "", 56, "", "", "", ""], [1, 2, 3, "", 56]),  # lst, popped
+        ([1, 2, 3, "", 56], [1, 2, 3, "", 56]),  # lst, popped
+        ([1, 2, 3, 56], [1, 2, 3, 56]),  # lst, popped
     )
     for before, after in iter(tdata):
         assert modeleditor.poptrailing(before) == after
@@ -78,14 +69,8 @@ def test_extendlist():
 def test_namebunch():
     """py.test for namebunch"""
     thedata = (
-        (
-            Bunch(dict(Name="", a=5)),
-            "yay", "yay"
-        ),  # abunch, aname, thename
-        (
-            Bunch(dict(Name=None, a=5)),
-            "yay", None
-        ),  # abunch, aname, thename
+        (Bunch(dict(Name="", a=5)), "yay", "yay"),  # abunch, aname, thename
+        (Bunch(dict(Name=None, a=5)), "yay", None),  # abunch, aname, thename
     )
     for abunch, aname, thename in thedata:
         result = modeleditor.namebunch(abunch, aname)
@@ -105,17 +90,19 @@ def test_getrefnames():
     """py.test for getrefnames"""
     tdata = (
         (
-            'ZONE',
+            "ZONE",
             [
-                'ZoneNames', 'OutFaceEnvNames', 'ZoneAndZoneListNames',
-                'AirflowNetworkNodeAndZoneNames'
-            ]
+                "ZoneNames",
+                "OutFaceEnvNames",
+                "ZoneAndZoneListNames",
+                "AirflowNetworkNodeAndZoneNames",
+            ],
         ),  # objkey, therefs
         (
-            'FluidProperties:Name'.upper(),
-            ['FluidNames', 'FluidAndGlycolNames']
+            "FluidProperties:Name".upper(),
+            ["FluidNames", "FluidAndGlycolNames"],
         ),  # objkey, therefs
-        ('Building'.upper(), []),  # objkey, therefs
+        ("Building".upper(), []),  # objkey, therefs
     )
     for objkey, therefs in tdata:
         fhandle = StringIO("")
@@ -128,14 +115,8 @@ def test_getallobjlists():
     """py.test for getallobjlists"""
     tdata = (
         (
-            'TransformerNames',
-            [
-                (
-                    'ElectricLoadCenter:Distribution'.upper(),
-                    'TransformerNames',
-                    [10, ]
-                ),
-            ],
+            "TransformerNames",
+            [("ElectricLoadCenter:Distribution".upper(), "TransformerNames", [10])],
         ),  # refname, objlists
     )
     for refname, objlists in tdata:
@@ -192,12 +173,11 @@ def test_rename():
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
     result = modeleditor.rename(
-        idf,
-        'Material'.upper(),
-        'G01a 19mm gypsum board', 'peanut butter')
-    assert result.Name == 'peanut butter'
-    assert idf.idfobjects['CONSTRUCTION'][0].Outside_Layer == 'peanut butter'
-    assert idf.idfobjects['CONSTRUCTION'][0].Layer_3 == 'peanut butter'
+        idf, "Material".upper(), "G01a 19mm gypsum board", "peanut butter"
+    )
+    assert result.Name == "peanut butter"
+    assert idf.idfobjects["CONSTRUCTION"][0].Outside_Layer == "peanut butter"
+    assert idf.idfobjects["CONSTRUCTION"][0].Layer_3 == "peanut butter"
 
 
 def test_zonearea_zonevolume():
@@ -246,54 +226,54 @@ def test_zonearea_zonevolume():
         2.23, 2.52548139464, 1.49, 2.23, 2.52548139464, 0.0, 2.23, 2.56,
         0.0, 2.23, 2.56, 1.49;  """
     idf = IDF(StringIO(idftxt))
-    result = modeleditor.zonearea(idf, '473222')
+    result = modeleditor.zonearea(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zonearea_floor(idf, '473222')
+    result = modeleditor.zonearea_floor(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    result = modeleditor.zonearea_roofceiling(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zone_floor2roofheight(idf, '473222')
+    result = modeleditor.zone_floor2roofheight(idf, "473222")
     assert almostequal(result, 1.49)
-    result = modeleditor.zoneheight(idf, '473222')
+    result = modeleditor.zoneheight(idf, "473222")
     assert almostequal(result, 1.49)
-    result = modeleditor.zone_floor2roofheight(idf, '473222')
+    result = modeleditor.zone_floor2roofheight(idf, "473222")
     assert almostequal(result, 1.49)
-    result = modeleditor.zonevolume(idf, '473222')
+    result = modeleditor.zonevolume(idf, "473222")
     assert almostequal(result, 10.718762)
     # remove floor
-    zone = idf.getobject('ZONE', '473222')
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", "473222")
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
     for floor in floors:
         idf.removeidfobject(floor)
-    result = modeleditor.zonearea_floor(idf, '473222')
+    result = modeleditor.zonearea_floor(idf, "473222")
     assert almostequal(result, 0)
-    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    result = modeleditor.zonearea_roofceiling(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zonearea(idf, '473222')
+    result = modeleditor.zonearea(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zoneheight(idf, '473222')
+    result = modeleditor.zoneheight(idf, "473222")
     assert almostequal(result, 1.49)
-    result = modeleditor.zonevolume(idf, '473222')
+    result = modeleditor.zonevolume(idf, "473222")
     assert almostequal(result, 10.718762)
     # reload idf and remove roof/ceiling
     idf = IDF(StringIO(idftxt))
-    zone = idf.getobject('ZONE', '473222')
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", "473222")
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
-    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == "ROOF"]
+    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == "CEILING"]
     topsurfaces = roofs + ceilings
     for surf in topsurfaces:
         idf.removeidfobject(surf)
-    result = modeleditor.zonearea_roofceiling(idf, '473222')
+    result = modeleditor.zonearea_roofceiling(idf, "473222")
     assert almostequal(result, 0)
-    result = modeleditor.zonearea(idf, '473222')
+    result = modeleditor.zonearea(idf, "473222")
     assert almostequal(result, 7.1938)
-    result = modeleditor.zoneheight(idf, '473222')
+    result = modeleditor.zoneheight(idf, "473222")
     assert almostequal(result, 1.49)
-    result = modeleditor.zonevolume(idf, '473222')
+    result = modeleditor.zonevolume(idf, "473222")
     assert almostequal(result, 10.718762)
 
 
@@ -302,8 +282,8 @@ def test_new():
     idf = IDF()
     idf.new()
     # assert idf.idfobjects['building'.upper()] == Idf_MSequence()
-    assert idf.idfobjects['building'.upper()].list1 == []
-    assert idf.idfobjects['building'.upper()].list2 == []
+    assert idf.idfobjects["building".upper()].list1 == []
+    assert idf.idfobjects["building".upper()].list2 == []
 
 
 def test_newidfobject():
@@ -312,40 +292,43 @@ def test_newidfobject():
     # make a function for this and then continue.
     idf = IDF()
     idf.new()
-    objtype = 'material:airgap'.upper()
-    obj = idf.newidfobject(objtype, Name='Argon')
-    obj = idf.newidfobject(objtype, Name='Krypton')
-    obj = idf.newidfobject(objtype, Name='Xenon')
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
-                                     ['MATERIAL:AIRGAP', 'Krypton'],
-                                     ['MATERIAL:AIRGAP', 'Xenon'],
-                                     ]
+    objtype = "material:airgap".upper()
+    obj = idf.newidfobject(objtype, Name="Argon")
+    obj = idf.newidfobject(objtype, Name="Krypton")
+    obj = idf.newidfobject(objtype, Name="Xenon")
+    assert idf.model.dt[objtype] == [
+        ["MATERIAL:AIRGAP", "Argon"],
+        ["MATERIAL:AIRGAP", "Krypton"],
+        ["MATERIAL:AIRGAP", "Xenon"],
+    ]
     # remove an object
     idf.popidfobject(objtype, 1)
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
-                                     ['MATERIAL:AIRGAP', 'Xenon'],
-                                     ]
+    assert idf.model.dt[objtype] == [
+        ["MATERIAL:AIRGAP", "Argon"],
+        ["MATERIAL:AIRGAP", "Xenon"],
+    ]
     lastobject = idf.idfobjects[objtype][-1]
     idf.removeidfobject(lastobject)
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'], ]
+    assert idf.model.dt[objtype] == [["MATERIAL:AIRGAP", "Argon"]]
     # copyidfobject
     onlyobject = idf.idfobjects[objtype][0]
     idf.copyidfobject(onlyobject)
 
-    assert idf.model.dt[objtype] == [['MATERIAL:AIRGAP', 'Argon'],
-                                     ['MATERIAL:AIRGAP', 'Argon'],
-                                     ]
+    assert idf.model.dt[objtype] == [
+        ["MATERIAL:AIRGAP", "Argon"],
+        ["MATERIAL:AIRGAP", "Argon"],
+    ]
     # test some functions
-    objtype = 'FENESTRATIONSURFACE:DETAILED'
-    obj = idf.newidfobject(objtype, Name='A Wall')
+    objtype = "FENESTRATIONSURFACE:DETAILED"
+    obj = idf.newidfobject(objtype, Name="A Wall")
     assert obj.coords == []
-    assert obj.fieldvalues[1] == 'A Wall'
-    
+    assert obj.fieldvalues[1] == "A Wall"
+
     # test defaultvalues=True and defaultvalues=False
-    sim_deftrue = idf.newidfobject('SimulationControl'.upper(), defaultvalues=True)
-    assert sim_deftrue.Do_Zone_Sizing_Calculation == 'No'
-    sim_deffalse = idf.newidfobject('SimulationControl'.upper(), defaultvalues=False)
-    assert sim_deffalse.Do_Zone_Sizing_Calculation == ''
+    sim_deftrue = idf.newidfobject("SimulationControl".upper(), defaultvalues=True)
+    assert sim_deftrue.Do_Zone_Sizing_Calculation == "No"
+    sim_deffalse = idf.newidfobject("SimulationControl".upper(), defaultvalues=False)
+    assert sim_deffalse.Do_Zone_Sizing_Calculation == ""
 
 
 def test_newidfobject_warning():
@@ -358,7 +341,7 @@ def test_newidfobject_warning():
     # make a function for this and then continue.
     idf = IDF()
     idf.new()
-    objtype = 'material:airgap'.upper()
+    objtype = "material:airgap".upper()
     # expect warnings here
     with pytest.warns(UserWarning):
         idf.newidfobject(objtype, aname="Krypton")
@@ -369,6 +352,7 @@ def test_newidfobject_warning():
     with pytest.warns(None) as captured_warnings:
         idf.newidfobject(objtype, Name="Krypton")
     assert len(captured_warnings) == 0
+
 
 def test_save():
     """
@@ -394,19 +378,19 @@ def test_save_with_lineendings_and_encodings():
     """
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
-    lineendings = ('windows', 'unix', 'default')
-    encodings = ('ascii', 'latin-1', 'UTF-8')
+    lineendings = ("windows", "unix", "default")
+    encodings = ("ascii", "latin-1", "UTF-8")
 
     for le, enc in product(lineendings, encodings):
         file_handle = StringIO()
         idf.save(file_handle, encoding=enc, lineendings=le)
         file_handle.seek(0)
         result = file_handle.read().encode(enc)
-        if le == 'windows':
-            assert b'\r\n' in result
-        elif le == 'unix':
-            assert b'\r\n' not in result
-        elif le == 'default':
+        if le == "windows":
+            assert b"\r\n" in result
+        elif le == "unix":
+            assert b"\r\n" not in result
+        elif le == "default":
             assert os.linesep.encode(enc) in result
 
 
@@ -415,7 +399,7 @@ def test_saveas():
     """
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
-    idf.idfname = 'test.idf'
+    idf.idfname = "test.idf"
 
     try:
         idf.saveas()  # this should raise an error as no filename is passed
@@ -431,7 +415,7 @@ def test_saveas():
     assert expected in result
 
     # test the idfname attribute has been changed
-    assert idf.idfname != 'test.idf'
+    assert idf.idfname != "test.idf"
 
 
 def test_savecopy():
@@ -439,7 +423,7 @@ def test_savecopy():
     """
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
-    idf.idfname = 'test.idf'
+    idf.idfname = "test.idf"
 
     try:
         idf.savecopy()  # this should raise an error as no filename is passed
@@ -455,7 +439,7 @@ def test_savecopy():
     assert expected in result
 
     # test the idfname attribute has not been changed
-    assert idf.idfname == 'test.idf'
+    assert idf.idfname == "test.idf"
 
 
 def test_initread():
@@ -464,21 +448,21 @@ def test_initread():
     # setup
     idf = IDF()
     idf.initreadtxt(idfsnippet)
-    idf.saveas('tmp.idf')
+    idf.saveas("tmp.idf")
 
     # test fname as unicode
-    fname = 'tmp.idf'
+    fname = "tmp.idf"
     assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
-    assert idf.getobject('BUILDING', 'Building')
+    assert idf.getobject("BUILDING", "Building")
 
     # test fname as str
-    fname = str('tmp.idf')
+    fname = str("tmp.idf")
     assert isinstance(fname, string_types)
     idf = IDF()
     idf.initread(fname)
-    assert idf.getobject('BUILDING', 'Building')
+    assert idf.getobject("BUILDING", "Building")
 
     # test that a nonexistent file raises an IOError
     fname = "notarealfilename.notreal"
@@ -490,7 +474,7 @@ def test_initread():
         pass
 
     # teardown
-    os.remove('tmp.idf')
+    os.remove("tmp.idf")
 
 
 def test_initreadtxt():
@@ -513,7 +497,7 @@ def test_initreadtxt():
         """
     idf = IDF()
     idf.initreadtxt(idftxt)
-    assert idf.getobject('MATERIAL', 'G01a 19mm gypsum board')
+    assert idf.getobject("MATERIAL", "G01a 19mm gypsum board")
 
 
 def test_idfstr():
@@ -521,41 +505,41 @@ def test_idfstr():
     """
     idf = IDF()
     idf.initreadtxt(idfsnippet)
-    assert idf.outputtype == 'standard'  # start with the default
+    assert idf.outputtype == "standard"  # start with the default
     original = idf.idfstr()
     assert "!-" in original  # has comment
     assert "\n" in original  # has line break
     assert "\n\n" in original  # has empty line
 
-    idf.outputtype = 'standard'
+    idf.outputtype = "standard"
     s = idf.idfstr()
     assert "!-" in s  # has comment
     assert "\n" in s  # has line break
     assert "\n\n" in s  # has empty line
     assert s == original  # is unchanged
 
-    idf.outputtype = 'nocomment'
+    idf.outputtype = "nocomment"
     s = idf.idfstr()
     assert "!-" not in s  # has no comments
     assert "\n" in s  # has line break
     assert "\n\n" in s  # has empty line
     assert s != original  # is changed
 
-    idf.outputtype = 'nocomment1'
+    idf.outputtype = "nocomment1"
     s = idf.idfstr()
     assert "!-" not in s  # has no comments
     assert "\n" in s  # has line break
     assert "\n\n" in s  # has empty lines
     assert s != original  # is changed
 
-    idf.outputtype = 'nocomment2'
+    idf.outputtype = "nocomment2"
     s = idf.idfstr()
     assert "!-" not in s  # has no comments
     assert "\n" in s  # has line break
     assert "\n\n" not in s  # has no empty lines
     assert s != original  # is changed
 
-    idf.outputtype = 'compressed'
+    idf.outputtype = "compressed"
     s = idf.idfstr()
     assert "!-" not in s  # has no comments
     assert "\n" not in s  # has no line breaks
@@ -567,14 +551,17 @@ def test_refname2key():
     """py.test for refname2key"""
     tdata = (
         (
-            'TransformerNames',
-            ['ElectricLoadCenter:Distribution'.upper(), ],
+            "TransformerNames",
+            ["ElectricLoadCenter:Distribution".upper()],
         ),  # refname, key
         (
-            'AllCurves',
-            [u'PUMP:VARIABLESPEED',
-            u'PUMP:CONSTANTSPEED', u'BOILER:HOTWATER',
-            u'ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE'],
+            "AllCurves",
+            [
+                "PUMP:VARIABLESPEED",
+                "PUMP:CONSTANTSPEED",
+                "BOILER:HOTWATER",
+                "ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE",
+            ],
         ),  # refname, key
     )
     for refname, key in tdata:
@@ -583,34 +570,31 @@ def test_refname2key():
         result = modeleditor.refname2key(idf, refname)
         assert result == key
 
+
 def test_getiddgroupdict():
     """py.test for IDF.getiddgroupdict()"""
-    data = ((
-    {
-        None: ['Lead Input', 'Simulation Data']
-    },
-    ),  # gdict,
-    )
-    for gdict, in data:
+    data = (({None: ["Lead Input", "Simulation Data"]},),)  # gdict,
+    for (gdict,) in data:
         fhandle = StringIO("")
         idf = IDF(fhandle)
         result = idf.getiddgroupdict()
         assert result[None] == gdict[None]
+
 
 def test_idfinmsequence():
     """py.test for setting of theidf in Idf_MSequence"""
     idftxt = """Version, 6.0;"""
     # theidf set in Idf_MSequence.__init__
     idf = IDF(StringIO(idftxt))
-    versions = idf.idfobjects['version'.upper()]
+    versions = idf.idfobjects["version".upper()]
     assert versions.theidf == idf
     assert versions[0].theidf == idf
     # theidf set in Idf_MSequence.insert()
-    material = idf.newidfobject('material'.upper())
+    material = idf.newidfobject("material".upper())
     assert material.theidf == idf
     # theidf set when you pop an item
-    newmaterial = idf.newidfobject('material'.upper())
-    materials = idf.idfobjects['material'.upper()]
+    newmaterial = idf.newidfobject("material".upper())
+    materials = idf.idfobjects["material".upper()]
     material = materials.pop(0)
     assert material.theidf == None
     assert materials[0].theidf == idf

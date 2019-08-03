@@ -10,18 +10,18 @@ from eppy.tests.test_runner import versiontuple
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
+RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "resources")
 
-IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
-IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
+IDD_FILES = os.path.join(RESOURCES_DIR, "iddfiles")
+IDF_FILES = os.path.join(RESOURCES_DIR, "idffiles")
 try:
     VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
 except KeyError:
-    VERSION = '8-9-0'  # current default for integration tests on local system
-TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
-TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
-TEST_OLD_IDD = 'Energy+V7_2_0.idd'
+    VERSION = "8-9-0"  # current default for integration tests on local system
+TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace("-", "_"))
+TEST_EPW = "USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw"
+TEST_IDD = "Energy+V{}.idd".format(VERSION.replace("-", "_"))
+TEST_OLD_IDD = "Energy+V7_2_0.idd"
 
 
 @pytest.fixture()

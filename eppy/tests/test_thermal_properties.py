@@ -23,7 +23,7 @@ from eppy.pytest_helpers import almostequal
 
 
 iddfhandle = StringIO(iddcurrent.iddtxt)
-  
+
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
@@ -43,7 +43,7 @@ single_layer = """
     0.6,                     !- Solar Absorptance
     0.6;                     !- Visible Absorptance
     """
-  
+
 expected_failure = """
   Construction,
     TestConstruction,                       !- Name
@@ -60,7 +60,7 @@ expected_failure = """
     0.6,                     !- Solar Absorptance
     0.6;                     !- Visible Absorptance
     """
-  
+
 double_layer = """
   Construction,
     TestConstruction,        !- Name
@@ -78,7 +78,7 @@ double_layer = """
     0.6,                     !- Solar Absorptance
     0.6;                     !- Visible Absorptance
     """
-  
+
 air_gap = """
   Construction,
     TestConstruction,        !- Name
@@ -100,7 +100,7 @@ air_gap = """
     AirGap,
     0.1;                     !- Thermal Resistance
     """
-  
+
 infrared_transparent = """
   Construction,
     TestConstruction,        !- Name
@@ -121,7 +121,7 @@ infrared_transparent = """
   Material:InfraredTransparent,
     InfraredTransparent;     !- Name
     """
-  
+
 no_mass = """
   Construction,
     TestConstruction,        !- Name
@@ -147,7 +147,7 @@ no_mass = """
     ,                        ! Solar Absorptance
     ;                        ! Visible Absorptance
     """
-  
+
 roof_vegetation = """
   Construction,
     TestConstruction,        !- Name
@@ -174,165 +174,177 @@ roof_vegetation = """
     ,                        !- Initial Volumetric Moisture Content of the Soil Layer
     ;                        !- Moisture Diffusion Calculation Method
     """
-  
+
+
 class Test_ThermalProperties(object):
-    
     def setup_method(self, test_method):
         self.idf = IDF()
-        
+
     def test_rvalue_1_layer_construction(self):
         self.idf.initreadtxt(single_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = INSIDE_FILM_R + m.Thickness / m.Conductivity + OUTSIDE_FILM_R
         assert c.rvalue == expected
         assert c.rvalue == 0.35
-    
+
     def test_rvalue_fails(self):
         self.idf.initreadtxt(expected_failure)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         try:
             c.rvalue
             assert False
         except AttributeError as e:
             assert str(e) == "Skyhooks material not found in IDF"
-                
+
     def test_rvalue_2_layer_construction(self):
         self.idf.initreadtxt(double_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity +
-                    m.Thickness / m.Conductivity +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert c.rvalue == expected
         assert c.rvalue == 0.55
-    
+
     def test_rvalue_airgap_construction(self):
         self.idf.initreadtxt(air_gap)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        a = self.idf.getobject('MATERIAL:AIRGAP', 'AirGap')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity +
-                    a.Thermal_Resistance +
-                    m.Thickness / m.Conductivity +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        a = self.idf.getobject("MATERIAL:AIRGAP", "AirGap")
+        expected = (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + a.Thermal_Resistance
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.rvalue, expected, places=2)
         assert almostequal(c.rvalue, 0.65, places=2)
-    
+
     def test_rvalue_infraredtransparent_construction(self):
         self.idf.initreadtxt(infrared_transparent)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity +
-                    m.Thickness / m.Conductivity +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.rvalue, expected, places=2)
         assert almostequal(c.rvalue, 0.55, places=2)
-    
+
     def test_rvalue_nomass_construction(self):
         self.idf.initreadtxt(no_mass)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        n = self.idf.getobject('MATERIAL:NOMASS', 'NoMass')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity +
-                    n.Thermal_Resistance +
-                    m.Thickness / m.Conductivity +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        n = self.idf.getobject("MATERIAL:NOMASS", "NoMass")
+        expected = (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + n.Thermal_Resistance
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.rvalue, expected, places=2)
         assert almostequal(c.rvalue, 0.65, places=2)
-    
+
     def test_rvalue_roofvegetation_construction(self):
         self.idf.initreadtxt(roof_vegetation)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL:ROOFVEGETATION', 'RoofVegetation')
-        expected = (INSIDE_FILM_R +
-                    m.Thickness / m.Conductivity_of_Dry_Soil +
-                    OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
+        expected = (
+            INSIDE_FILM_R + m.Thickness / m.Conductivity_of_Dry_Soil + OUTSIDE_FILM_R
+        )
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             assert c.rvalue == expected
             assert c.rvalue == 0.35
             # check that a UserWarning is raised
             assert issubclass(w[-1].category, UserWarning)
-    
+
     def test_rvalue_material(self):
         self.idf.initreadtxt(single_layer)
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness / m.Conductivity
         assert m.rvalue == expected
         assert m.rvalue == 0.2
-          
+
     def test_ufactor_1_layer_construction(self):
         self.idf.initreadtxt(single_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = 1 / (INSIDE_FILM_R +
-                        m.Thickness / m.Conductivity + 
-                        OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = 1 / (INSIDE_FILM_R + m.Thickness / m.Conductivity + OUTSIDE_FILM_R)
         assert c.ufactor == expected
         assert c.ufactor == 1 / 0.35
-      
+
     def test_ufactor_2_layer_construction(self):
         self.idf.initreadtxt(double_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = 1 / (INSIDE_FILM_R +
-                        m.Thickness / m.Conductivity + 
-                        m.Thickness / m.Conductivity + 
-                        OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = 1 / (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert c.ufactor == expected
         assert c.ufactor == 1 / 0.55
-      
+
     def test_ufactor_airgap_construction(self):
         self.idf.initreadtxt(air_gap)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        a = self.idf.getobject('MATERIAL:AIRGAP', 'AirGap')
-        expected = 1 /(INSIDE_FILM_R +
-                       m.Thickness / m.Conductivity +
-                       a.Thermal_Resistance +
-                       m.Thickness / m.Conductivity +
-                       OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        a = self.idf.getobject("MATERIAL:AIRGAP", "AirGap")
+        expected = 1 / (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + a.Thermal_Resistance
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.ufactor, expected, places=2)
         assert almostequal(c.ufactor, 1 / 0.65, places=2)
-    
+
     def test_ufactor_infraredtransparent_construction(self):
         self.idf.initreadtxt(infrared_transparent)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = 1 /(INSIDE_FILM_R +
-                       m.Thickness / m.Conductivity +
-                       m.Thickness / m.Conductivity +
-                       OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = 1 / (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.ufactor, expected, places=2)
         assert almostequal(c.ufactor, 1 / 0.55, places=2)
-    
+
     def test_ufactor_nomass_construction(self):
         self.idf.initreadtxt(no_mass)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        n = self.idf.getobject('MATERIAL:NOMASS', 'NoMass')
-        expected = 1 / (INSIDE_FILM_R +
-                        m.Thickness / m.Conductivity +
-                        n.Thermal_Resistance +
-                        m.Thickness / m.Conductivity +
-                        OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        n = self.idf.getobject("MATERIAL:NOMASS", "NoMass")
+        expected = 1 / (
+            INSIDE_FILM_R
+            + m.Thickness / m.Conductivity
+            + n.Thermal_Resistance
+            + m.Thickness / m.Conductivity
+            + OUTSIDE_FILM_R
+        )
         assert almostequal(c.ufactor, expected, places=2)
         assert almostequal(c.ufactor, 1 / 0.65, places=2)
-    
+
     def test_ufactor_roofvegetation_construction(self):
         self.idf.initreadtxt(roof_vegetation)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL:ROOFVEGETATION', 'RoofVegetation')
-        expected = 1 / (INSIDE_FILM_R +
-                        m.Thickness / m.Conductivity_of_Dry_Soil +
-                        OUTSIDE_FILM_R)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
+        expected = 1 / (
+            INSIDE_FILM_R + m.Thickness / m.Conductivity_of_Dry_Soil + OUTSIDE_FILM_R
+        )
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             assert c.ufactor == expected
@@ -342,72 +354,71 @@ class Test_ThermalProperties(object):
 
     def test_ufactor_material(self):
         self.idf.initreadtxt(single_layer)
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = 1 / (m.Thickness / m.Conductivity)
         assert m.ufactor == expected
         assert m.ufactor == 1 / 0.2
-              
+
     def test_heatcapacity_1_layer_construction(self):
         self.idf.initreadtxt(single_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001
         assert c.heatcapacity == expected
         assert c.heatcapacity == 120
-      
+
     def test_heatcapacity_2_layer_construction(self):
         self.idf.initreadtxt(double_layer)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
         assert c.heatcapacity == expected
         assert c.heatcapacity == 240
-      
+
     def test_heatcapacity_airgap_construction(self):
         self.idf.initreadtxt(air_gap)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
         assert almostequal(c.heatcapacity, expected, places=2)
         assert almostequal(c.heatcapacity, 240, places=2)
-    
+
     def test_heatcapacity_infraredtransparent_construction(self):
         self.idf.initreadtxt(infrared_transparent)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
         assert almostequal(c.heatcapacity, expected, places=2)
         assert almostequal(c.heatcapacity, 240, places=2)
-    
+
     def test_heatcapacity_nomass_construction(self):
         self.idf.initreadtxt(no_mass)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             assert almostequal(c.heatcapacity, expected, places=2)
             assert almostequal(c.heatcapacity, 240, places=2)
             assert issubclass(w[-1].category, UserWarning)
-    
+
     def test_heatcapacity_roofvegetation_construction(self):
         self.idf.initreadtxt(roof_vegetation)
-        c = self.idf.getobject('CONSTRUCTION', 'TestConstruction')
-        m = self.idf.getobject('MATERIAL:ROOFVEGETATION', 'RoofVegetation')
-        expected = (m.Thickness * 
-                    m.Specific_Heat_of_Dry_Soil * 
-                    m.Density_of_Dry_Soil * 
-                    0.001)
+        c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
+        m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
+        expected = (
+            m.Thickness * m.Specific_Heat_of_Dry_Soil * m.Density_of_Dry_Soil * 0.001
+        )
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             # check that a UserWarning is raised
             assert almostequal(c.heatcapacity, expected, places=2)
             assert almostequal(c.heatcapacity, 120, places=2)
             assert issubclass(w[-1].category, UserWarning)
-    
+
     def test_heatcapacity_material(self):
         self.idf.initreadtxt(single_layer)
-        m = self.idf.getobject('MATERIAL', 'TestMaterial')
-        expected = (m.Thickness * m.Specific_Heat * m.Density * 0.001)
+        m = self.idf.getobject("MATERIAL", "TestMaterial")
+        expected = m.Thickness * m.Specific_Heat * m.Density * 0.001
         assert m.heatcapacity == expected
         assert m.heatcapacity == 120

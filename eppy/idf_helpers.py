@@ -16,17 +16,19 @@ from __future__ import unicode_literals
 import itertools
 from six import iteritems
 from six import StringIO
-from past.builtins import basestring    # pip install future
+from past.builtins import basestring  # pip install future
 
 from eppy.modeleditor import IDF
 from eppy.bunch_subclass import BadEPFieldError
+
 
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
     it is an ordered list of idf.idfobjects.keys() 
     keys of a dict are unordered, so idf.idfobjects.keys() will not work for this purpose"""
     return idf.model.dtls
-    
+
+
 def getanymentions(idf, anidfobject):
     """Find out if idjobject is mentioned an any object anywhere"""
     name = anidfobject.obj[1]
@@ -35,12 +37,13 @@ def getanymentions(idf, anidfobject):
     idfkeyobjects = [idf.idfobjects[key.upper()] for key in keys]
     for idfobjects in idfkeyobjects:
         for idfobject in idfobjects:
-            if name.upper() in [item.upper() 
-                                    for item in idfobject.obj 
-                                        if isinstance(item, basestring)]:
+            if name.upper() in [
+                item.upper() for item in idfobject.obj if isinstance(item, basestring)
+            ]:
                 foundobjs.append(idfobject)
-    return foundobjs 
-    
+    return foundobjs
+
+
 def getobject_use_prevfield(idf, idfobject, fieldname):
     """field=object_name, prev_field=object_type. Return the object"""
     if not fieldname.endswith("Name"):
@@ -58,39 +61,41 @@ def getobject_use_prevfield(idf, idfobject, fieldname):
     except KeyError as e:
         return None
     return foundobj
-    
+
+
 def getidfkeyswithnodes():
     """return a list of keys of idfobjects that hve 'None Name' fields"""
     idf = IDF(StringIO(""))
     keys = idfobjectkeys(idf)
-    keysfieldnames = ((key, idf.newidfobject(key.upper()).fieldnames) 
-                for key in keys)
-    keysnodefdnames = ((key,  (name for name in fdnames 
-                                if (name.endswith('Node_Name')))) 
-                            for key, fdnames in keysfieldnames)
+    keysfieldnames = ((key, idf.newidfobject(key.upper()).fieldnames) for key in keys)
+    keysnodefdnames = (
+        (key, (name for name in fdnames if (name.endswith("Node_Name"))))
+        for key, fdnames in keysfieldnames
+    )
     nodekeys = [key for key, fdnames in keysnodefdnames if list(fdnames)]
     return nodekeys
+
 
 def getobjectswithnode(idf, nodekeys, nodename):
     """return all objects that mention this node name"""
     keys = nodekeys
     # TODO getidfkeyswithnodes needs to be done only once. take out of here
-    listofidfobjects = (idf.idfobjects[key.upper()] 
-                for key in keys if idf.idfobjects[key.upper()])
-    idfobjects = [idfobj 
-                    for idfobjs in listofidfobjects 
-                        for idfobj in idfobjs]
+    listofidfobjects = (
+        idf.idfobjects[key.upper()] for key in keys if idf.idfobjects[key.upper()]
+    )
+    idfobjects = [idfobj for idfobjs in listofidfobjects for idfobj in idfobjs]
     objwithnodes = []
     for obj in idfobjects:
         values = obj.fieldvalues
         fdnames = obj.fieldnames
         for value, fdname in zip(values, fdnames):
-            if fdname.endswith('Node_Name'):
+            if fdname.endswith("Node_Name"):
                 if value == nodename:
                     objwithnodes.append(obj)
                     break
     return objwithnodes
-    
+
+
 def name2idfobject(idf, groupnamess=None, objkeys=None, **kwargs):
     """return the object, if the Name or some other field is known.
     send filed in **kwargs as Name='a name', Roughness='smooth'
@@ -110,17 +115,19 @@ def name2idfobject(idf, groupnamess=None, objkeys=None, **kwargs):
                 except BadEPFieldError as e:
                     continue
 
+
 def getidfobjectlist(idf):
     """return a list of all idfobjects in idf"""
-    idfobjects = idf.idfobjects  
+    idfobjects = idf.idfobjects
     # idfobjlst = [idfobjects[key] for key in idfobjects if idfobjects[key]]
     idfobjlst = [idfobjects[key] for key in idf.model.dtls if idfobjects[key]]
-        # `for key in idf.model.dtls` maintains the order
-        # `for key in idfobjects` does not have order
+    # `for key in idf.model.dtls` maintains the order
+    # `for key in idfobjects` does not have order
     idfobjlst = itertools.chain.from_iterable(idfobjlst)
     idfobjlst = list(idfobjlst)
     return idfobjlst
-    
+
+
 def copyidfintoidf(toidf, fromidf):
     """copy fromidf completely into toidf"""
     idfobjlst = getidfobjectlist(fromidf)

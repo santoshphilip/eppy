@@ -24,79 +24,97 @@ def grouper(num, iterable, fillvalue=None):
     args = [iter(iterable)] * num
     return zip_longest(fillvalue=fillvalue, *args)
 
+
 def getcoords(ddtt):
     """return the coordinates of the surface"""
-    n_vertices_index = ddtt.objls.index('Number_of_Vertices')
-    first_x = n_vertices_index + 1 # X of first coordinate
+    n_vertices_index = ddtt.objls.index("Number_of_Vertices")
+    first_x = n_vertices_index + 1  # X of first coordinate
     pts = ddtt.obj[first_x:]
     return list(grouper(3, pts))
+
 
 def area(ddtt):
     """area of the surface"""
     coords = getcoords(ddtt)
     return g_surface.area(coords)
 
+
 def height(ddtt):
     """height of the surface"""
     coords = getcoords(ddtt)
     return g_surface.height(coords)
+
 
 def width(ddtt):
     """width of the surface"""
     coords = getcoords(ddtt)
     return g_surface.width(coords)
 
+
 def azimuth(ddtt):
     """azimuth of the surface"""
     coords = getcoords(ddtt)
     return g_surface.azimuth(coords)
+
 
 def tilt(ddtt):
     """tilt of the surface"""
     coords = getcoords(ddtt)
     return g_surface.tilt(coords)
 
+
 def buildingname(ddtt):
     """return building name"""
     idf = ddtt.theidf
-    building = idf.idfobjects['building'.upper()][0]
+    building = idf.idfobjects["building".upper()][0]
     return building.Name
-    
+
+
 def zonesurfaces(ddtt):
     """return al list of surfaces that belong to the zone"""
-    kwargs = {'fields':[u'Zone_Name', ],
-        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    kwargs = {"fields": ["Zone_Name"], "iddgroups": ["Thermal Zones and Surfaces"]}
     return ddtt.getreferingobjs(**kwargs)
-    
+
+
 def subsurfaces(ddtt):
     """return al list of surfaces that belong to the zone"""
-    kwargs = {'fields':[u'Building_Surface_Name', ],
-        'iddgroups':[u'Thermal Zones and Surfaces', ]}
+    kwargs = {
+        "fields": ["Building_Surface_Name"],
+        "iddgroups": ["Thermal Zones and Surfaces"],
+    }
     return ddtt.getreferingobjs(**kwargs)
-    
+
+
 def rvalue(ddtt):
     return thermal_properties.rvalue(ddtt)
+
 
 def ufactor(ddtt):
     return thermal_properties.ufactor(ddtt)
 
+
 def ufactor_ip(ddtt):
     return thermal_properties.ufactor_ip(ddtt)
+
 
 def rvalue_ip(ddtt):
     return thermal_properties.rvalue_ip(ddtt)
 
+
 def heatcapacity(ddtt):
     return thermal_properties.heatcapacity(ddtt)
+
 
 def fanpower_bhp(ddtt):
     """return fanpower in bhp"""
     return eppy.fanpower.fanpower_bhp(ddtt)
-    
+
+
 def fanpower_watts(ddtt):
     """return fanpower in watts"""
     return eppy.fanpower.fanpower_watts(ddtt)
-    
+
+
 def fan_maxcfm(ddtt):
     """return the Maximum_Flow_Rate in cfm"""
-    return eppy.fanpower.fan_maxcfm(ddtt)   
+    return eppy.fanpower.fan_maxcfm(ddtt)

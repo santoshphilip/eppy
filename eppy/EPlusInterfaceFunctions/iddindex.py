@@ -48,20 +48,22 @@ from __future__ import unicode_literals
 
 from eppy.bunch_subclass import getfieldidd_item
 
+
 def makename2refdct(commdct):
     """make the name2refs dict in the idd_index"""
     refdct = {}
-    for comm in commdct: # commdct is a list of dict
+    for comm in commdct:  # commdct is a list of dict
         try:
-            idfobj = comm[0]['idfobj'].upper()
+            idfobj = comm[0]["idfobj"].upper()
             field1 = comm[1]
-            if 'Name' in field1['field']:
-                references = field1['reference']
+            if "Name" in field1["field"]:
+                references = field1["reference"]
                 refdct[idfobj] = references
         except (KeyError, IndexError) as e:
-            continue # not the expected pattern for reference
+            continue  # not the expected pattern for reference
     return refdct
-    
+
+
 def makeref2namesdct(name2refdct):
     """make the ref2namesdct in the idd_index"""
     ref2namesdct = {}
@@ -69,16 +71,16 @@ def makeref2namesdct(name2refdct):
         for value in values:
             ref2namesdct.setdefault(value, set()).add(key)
     return ref2namesdct
-    
+
+
 def ref2names2commdct(ref2names, commdct):
     """embed ref2names into commdct"""
     for comm in commdct:
         for cdct in comm:
             try:
-                refs = cdct['object-list'][0]
+                refs = cdct["object-list"][0]
                 validobjects = ref2names[refs]
-                cdct.update({'validobjects':validobjects})
+                cdct.update({"validobjects": validobjects})
             except KeyError as e:
                 continue
     return commdct
-                

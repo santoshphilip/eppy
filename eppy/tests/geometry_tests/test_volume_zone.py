@@ -17,21 +17,20 @@ import eppy.geometry.volume_zone as volume_zone
 from eppy.pytest_helpers import almostequal
 
 
-
 def test_volume():
     """py.test for volume"""
     data = (
         (
             [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)],
-            [(0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1)]
-            , 1
-        ), # poly1, poly2, answer
+            [(0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1)],
+            1,
+        ),  # poly1, poly2, answer
         (
             [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)],
-            [(0, 0, 0), (1, 0, 0), (1, 1, 2), (0, 1, 2)]
-            , 1
-        ), # poly1, poly2, answer
-        )
+            [(0, 0, 0), (1, 0, 0), (1, 1, 2), (0, 1, 2)],
+            1,
+        ),  # poly1, poly2, answer
+    )
     for poly1, poly2, answer in data:
         result = volume_zone.vol(poly1, poly2)
         assert almostequal(answer, result, places=4) == True

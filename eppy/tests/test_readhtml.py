@@ -31,14 +31,15 @@ def test_table2matrix():
                     <td>4</td>
                 </tr>
             </table>""",
-            [['1', '2'], ['3', '4']]
-        ), # tabletxt, rows
+            [["1", "2"], ["3", "4"]],
+        ),  # tabletxt, rows
     )
     for tabletxt, rows in thedata:
         soup = BeautifulSoup(tabletxt, "lxml")
-        table = soup.find('table')
+        table = soup.find("table")
         result = readhtml.table2matrix(table)
         assert result == rows
+
 
 def test_table2val_matrix():
     """py.test for table2val_matrix"""
@@ -54,8 +55,8 @@ def test_table2val_matrix():
                 <td>4</td>
             </tr>
             </table>""",
-            [["b", 2], [3, 4]]
-        ), # tabletxt, rows
+            [["b", 2], [3, 4]],
+        ),  # tabletxt, rows
         # the following test data has a <br> in the <td></td>
         # it will test if tdbr2EOL works correctly
         (
@@ -69,56 +70,37 @@ def test_table2val_matrix():
                 <td>4</td>
             </tr>
             </table>""",
-            [["b \n b", 2], [3, 4]]
-        ), # tabletxt, rows
+            [["b \n b", 2], [3, 4]],
+        ),  # tabletxt, rows
     )
     for tabletxt, rows in thedata:
         soup = BeautifulSoup(tabletxt, "lxml")
-        table = soup.find('table')
+        table = soup.find("table")
         result = readhtml.table2val_matrix(table)
         assert result == rows
+
 
 def test_gettables():
     """py.test for gettables"""
     thedata = (
         (
             [
-                (
-                    'Site and Source Energy',
-                    [['a', '2'], ['3', '4']]
-                ),
-                (
-                    'Site to Source Energy Conversion Factors',
-                    [['b', '6'], ['7', '8']]
-                ),
-                (
-                    'Custom Monthly Report',
-                    [['c', '16'], ['17', '18']]
-                ),
-                (
-                    'Custom Monthly Report',
-                    [['d', '26'], ['27', '28']]
-                )
-            ], False), # titlerows, tofloat
+                ("Site and Source Energy", [["a", "2"], ["3", "4"]]),
+                ("Site to Source Energy Conversion Factors", [["b", "6"], ["7", "8"]]),
+                ("Custom Monthly Report", [["c", "16"], ["17", "18"]]),
+                ("Custom Monthly Report", [["d", "26"], ["27", "28"]]),
+            ],
+            False,
+        ),  # titlerows, tofloat
         (
             [
-                (
-                    'Site and Source Energy',
-                    [['a', 2], [3, 4]]
-                ),
-                (
-                    'Site to Source Energy Conversion Factors',
-                    [['b', 6], [7, 8]]
-                ),
-                (
-                    'Custom Monthly Report',
-                    [['c', 16], [17, 18]]
-                ),
-                (
-                    'Custom Monthly Report',
-                    [['d', 26], [27, 28]]
-                )
-            ], True), # titlerows, tofloat
+                ("Site and Source Energy", [["a", 2], [3, 4]]),
+                ("Site to Source Energy Conversion Factors", [["b", 6], [7, 8]]),
+                ("Custom Monthly Report", [["c", 16], [17, 18]]),
+                ("Custom Monthly Report", [["d", 26], [27, 28]]),
+            ],
+            True,
+        ),  # titlerows, tofloat
     )
     for titlerows, tofloat in thedata:
         result = readhtml.titletable(SAMPLE_HTML, tofloat=tofloat)
@@ -126,6 +108,7 @@ def test_gettables():
             assert title1 == title2
             assert rows1 == rows2
         assert result == titlerows
+
 
 def test_has_name():
     """py.test for has_name"""
@@ -139,6 +122,7 @@ def test_has_name():
     # soup.b.contents[0] = u'EnergyPlus-Windows-OMP-32 7.2.0.006, YMD=2013.01.28 16:38'
     assert readhtml._has_name(soup.b.contents[0]) is False
 
+
 def test_lines_table():
     """py.test for lines_table"""
     # soup = BeautifulSoup(SAMPLE_HTML)
@@ -146,48 +130,50 @@ def test_lines_table():
     assert result == [
         [
             [
-                'Table of Contents',
-                'Report: Annual Building Utility Performance Summary',
-                'For: Entire Facility',
-                'Timestamp: 2014-01-13\n    16:47:19',
-                'Values gathered over      8760.00 hours',
-                'Site and Source Energy'
+                "Table of Contents",
+                "Report: Annual Building Utility Performance Summary",
+                "For: Entire Facility",
+                "Timestamp: 2014-01-13\n    16:47:19",
+                "Values gathered over      8760.00 hours",
+                "Site and Source Energy",
             ],
-            [['a', '2'], ['3', '4']]
+            [["a", "2"], ["3", "4"]],
         ],
+        [["Site to Source Energy Conversion Factors"], [["b", "6"], ["7", "8"]]],
         [
-            ['Site to Source Energy Conversion Factors'],
-            [['b', '6'], ['7', '8']]
+            [
+                "Report: COMPONENTS OF PEAK ELECTRICAL DEMAND",
+                "For: Meter",
+                "Timestamp: 2014-01-13\n    16:47:19",
+                "Custom Monthly Report",
+            ],
+            [["c", "16"], ["17", "18"]],
         ],
         [
             [
-                'Report: COMPONENTS OF PEAK ELECTRICAL DEMAND',
-                'For: Meter',
-                'Timestamp: 2014-01-13\n    16:47:19',
-                'Custom Monthly Report'
+                "Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND",
+                "For: Meter",
+                "Timestamp: 2014-01-13\n    16:47:19",
+                "Custom Monthly Report",
             ],
-            [['c', '16'], ['17', '18']]],
-        [
-            [
-                'Report: COMPONENTS OF PEAK NET ELECTRICAL DEMAND',
-                'For: Meter',
-                'Timestamp: 2014-01-13\n    16:47:19',
-                'Custom Monthly Report'
-            ],
-            [['d', '26'], ['27', '28']]
-        ]]
+            [["d", "26"], ["27", "28"]],
+        ],
+    ]
+
 
 def test_make_ntgrid():
     """py.test make_ntgrid"""
     grid = [
-    ["",  "a b", "b c", "c d"],
-    ["x y", 1,     2,     3 ],
-    ["y z", 4,     5,     6 ],
-    ["z z", 7,     8,     9 ],]
+        ["", "a b", "b c", "c d"],
+        ["x y", 1, 2, 3],
+        ["y z", 4, 5, 6],
+        ["z z", 7, 8, 9],
+    ]
     result = readhtml._make_ntgrid(grid)
-    ntcol = collections.namedtuple('ntcol', "x_y y_z z_z")
-    ntrow = collections.namedtuple('ntrow', "a_b b_c c_d")
+    ntcol = collections.namedtuple("ntcol", "x_y y_z z_z")
+    ntrow = collections.namedtuple("ntrow", "a_b b_c c_d")
     assert result == ntcol(
         x_y=ntrow(a_b=1, b_c=2, c_d=3),
         y_z=ntrow(a_b=4, b_c=5, c_d=6),
-        z_z=ntrow(a_b=7, b_c=8, c_d=9))
+        z_z=ntrow(a_b=7, b_c=8, c_d=9),
+    )

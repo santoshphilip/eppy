@@ -8,6 +8,7 @@ from __future__ import unicode_literals
 import sys, os, stat
 from bsdopendirtype import opendir
 
+
 def clean(path):
     global count
     try:
@@ -18,19 +19,24 @@ def clean(path):
     for filename, smode in content:
         if stat.S_ISDIR(smode):
             clean(filename)
-            if filename.endswith('/__pycache__'):
+            if filename.endswith("/__pycache__"):
                 try:
                     os.rmdir(filename)
                 except OSError:
                     pass
-        elif (filename.endswith('.pyc') or filename.endswith('.pyo') or
-              filename.endswith('.pyc~') or filename.endswith('.pyo~')):
+        elif (
+            filename.endswith(".pyc")
+            or filename.endswith(".pyo")
+            or filename.endswith(".pyc~")
+            or filename.endswith(".pyo~")
+        ):
             os.unlink(filename)
             count += 1
 
+
 count = 0
 
-for arg in sys.argv[1:] or ['.']:
+for arg in sys.argv[1:] or ["."]:
     print("cleaning path", arg, "of .pyc/.pyo/__pycache__ files")
     clean(arg)
 

@@ -71,197 +71,415 @@ VersionG2,
 
 """
 
-idd_commlst = [[[]],
- [[]],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']],
- [[u'unique-object', u'format singleLine'],
-  [u'field Version Identifier', u'required-field', u'default 7.0']]]
+idd_commlst = [
+    [[]],
+    [[]],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+    [
+        ["unique-object", "format singleLine"],
+        ["field Version Identifier", "required-field", "default 7.0"],
+    ],
+]
 
-idf_commdct = [[{}],
- [{}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}],
- [{u'format': [u'singleLine'], u'unique-object': [u'']},
-  {u'default': [u'7.0'],
-   u'field': [u'Version Identifier'],
-   u'required-field': [u'']}]]
+idf_commdct = [
+    [{}],
+    [{}],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+    [
+        {"format": ["singleLine"], "unique-object": [""]},
+        {"default": ["7.0"], "field": ["Version Identifier"], "required-field": [""]},
+    ],
+]
+
 
 def test_idd2groups():
     """py.test for idd2groups"""
-    data = ((
-        {
-            'G2': ['VersionG', 'VersionG1', 'VersionG2'],
-            'G1': ['Version', 'Version1', 'Version2'],
-            None: ['Lead Input', 'Simulation Data']
-        },
-    ), # gdict
-  )
-    for gdict, in data:
+    data = (
+        (
+            {
+                "G2": ["VersionG", "VersionG1", "VersionG2"],
+                "G1": ["Version", "Version1", "Version2"],
+                None: ["Lead Input", "Simulation Data"],
+            },
+        ),  # gdict
+    )
+    for (gdict,) in data:
         result = iddgroups.iddtxt2groups(iddtxt)
         assert result == gdict
 
+
 def test_idd2group():
     """py.test for idd2group"""
-    data = ((
-        {
-            'G2': ['VersionG', 'VersionG1', 'VersionG2'],
-            'G1': ['Version', 'Version1', 'Version2'],
-            None: ['Lead Input', 'Simulation Data']
-        },
-    ), # gdict
-  )
-    for gdict, in data:
+    data = (
+        (
+            {
+                "G2": ["VersionG", "VersionG1", "VersionG2"],
+                "G1": ["Version", "Version1", "Version2"],
+                None: ["Lead Input", "Simulation Data"],
+            },
+        ),  # gdict
+    )
+    for (gdict,) in data:
         fhandle = StringIO(iddtxt)
         result = iddgroups.idd2group(fhandle)
         assert result == gdict
 
+
 def test_iddtxt2grouplist():
     """py.test for iddtxt2grouplist"""
-    data = (([(None, 'Lead Input'), (None, 'Simulation Data'), ('G1', 'Version'), ('G1', 'Version1'), ('G1', 'Version2'), ('G2', 'VersionG'), ('G2', 'VersionG1'), ('G2', 'VersionG2')], ), # glist
-    ) 
-    for glist, in data:
+    data = (
+        (
+            [
+                (None, "Lead Input"),
+                (None, "Simulation Data"),
+                ("G1", "Version"),
+                ("G1", "Version1"),
+                ("G1", "Version2"),
+                ("G2", "VersionG"),
+                ("G2", "VersionG1"),
+                ("G2", "VersionG2"),
+            ],
+        ),  # glist
+    )
+    for (glist,) in data:
         result = iddgroups.iddtxt2grouplist(iddtxt)
         assert result == glist
-        
+
+
 def test_idd2grouplist():
     """py.test idd2grouplist"""
-    data = (([(None, 'Lead Input'), (None, 'Simulation Data'), ('G1', 'Version'), ('G1', 'Version1'), ('G1', 'Version2'), ('G2', 'VersionG'), ('G2', 'VersionG1'), ('G2', 'VersionG2')], ), # glist
+    data = (
+        (
+            [
+                (None, "Lead Input"),
+                (None, "Simulation Data"),
+                ("G1", "Version"),
+                ("G1", "Version1"),
+                ("G1", "Version2"),
+                ("G2", "VersionG"),
+                ("G2", "VersionG1"),
+                ("G2", "VersionG2"),
+            ],
+        ),  # glist
     )
-    for glist, in data:
+    for (glist,) in data:
         fhandle = StringIO(iddtxt)
         result = iddgroups.idd2grouplist(fhandle)
         assert result == glist
 
+
 def test_group2commlst():
     """py.test for group2commlst"""
-    data = ((
-    [
-     [['group None', 'idfobj Lead Input']],
-     [['group None', 'idfobj Simulation Data']],
-     [['group G1', 'idfobj Version', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']],
-     [['group G1', 'idfobj Version1', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']],
-     [['group G1', 'idfobj Version2', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']],
-     [['group G2', 'idfobj VersionG', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']],
-     [['group G2', 'idfobj VersionG1', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']],
-     [['group G2', 'idfobj VersionG2', u'unique-object', u'format singleLine'],
-      [u'field Version Identifier', u'required-field', u'default 7.0']]
-  ],
-    ), # groupcommlst
+    data = (
+        (
+            [
+                [["group None", "idfobj Lead Input"]],
+                [["group None", "idfobj Simulation Data"]],
+                [
+                    [
+                        "group G1",
+                        "idfobj Version",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+                [
+                    [
+                        "group G1",
+                        "idfobj Version1",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+                [
+                    [
+                        "group G1",
+                        "idfobj Version2",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+                [
+                    [
+                        "group G2",
+                        "idfobj VersionG",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+                [
+                    [
+                        "group G2",
+                        "idfobj VersionG1",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+                [
+                    [
+                        "group G2",
+                        "idfobj VersionG2",
+                        "unique-object",
+                        "format singleLine",
+                    ],
+                    ["field Version Identifier", "required-field", "default 7.0"],
+                ],
+            ],
+        ),  # groupcommlst
     )
-    for groupcommlst, in data:
+    for (groupcommlst,) in data:
         glist = iddgroups.iddtxt2grouplist(iddtxt)
         result = iddgroups.group2commlst(idd_commlst, glist)
         assert result == groupcommlst
 
-(([(None, 'Lead Input'), (None, 'Simulation Data'), ('G1', 'Version'), ('G1', 'Version1'), ('G1', 'Version2'), ('G2', 'VersionG'), ('G2', 'VersionG1'), ('G2', 'VersionG2')], ), # glist
-    ) 
+
+(
+    (
+        [
+            (None, "Lead Input"),
+            (None, "Simulation Data"),
+            ("G1", "Version"),
+            ("G1", "Version1"),
+            ("G1", "Version2"),
+            ("G2", "VersionG"),
+            ("G2", "VersionG1"),
+            ("G2", "VersionG2"),
+        ],
+    ),  # glist
+)
+
+
 def test_group2commdct():
     """py.test for group2commdct"""
-    data = ((
-    [
-     [{'group':None, 'idfobj':'Lead Input'}],
-     [{'group':None, 'idfobj':'Simulation Data'}],
-     [{'group':'G1', 'idfobj':'Version', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G1', 'idfobj':'Version1', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G1', 'idfobj':'Version2', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG1', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG2', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}]],
-       ), # groupcommdct
+    data = (
+        (
+            [
+                [{"group": None, "idfobj": "Lead Input"}],
+                [{"group": None, "idfobj": "Simulation Data"}],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version1",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version2",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG1",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG2",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+            ],
+        ),  # groupcommdct
     )
-    for groupcommdct, in data:
+    for (groupcommdct,) in data:
         glist = iddgroups.iddtxt2grouplist(iddtxt)
         result = iddgroups.group2commdct(idf_commdct, glist)
         # assert result == groupcommdct
         for r, g in zip(result, groupcommdct):
             assert r == g
 
+
 def test_commdct2grouplist():
     """py.test for commdct2grouplist"""
-    data = ((
-    [
-     [{'group':None, 'idfobj':'Lead Input'}],
-     [{'group':None, 'idfobj':'Simulation Data'}],
-     [{'group':'G1', 'idfobj':'Version', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G1', 'idfobj':'Version1', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G1', 'idfobj':'Version2', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG1', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}],
-     [{'group':'G2', 'idfobj':'VersionG2', u'format': [u'singleLine'], u'unique-object': [u'']},
-      {u'default': [u'7.0'],
-       u'field': [u'Version Identifier'],
-       u'required-field': [u'']}]],
-    {
-        'G2': ['VersionG', 'VersionG1', 'VersionG2'],
-        'G1': ['Version', 'Version1', 'Version2'],
-        None: ['Lead Input', 'Simulation Data']
-    },
-    ), # gcommdct, gdict
+    data = (
+        (
+            [
+                [{"group": None, "idfobj": "Lead Input"}],
+                [{"group": None, "idfobj": "Simulation Data"}],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version1",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G1",
+                        "idfobj": "Version2",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG1",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+                [
+                    {
+                        "group": "G2",
+                        "idfobj": "VersionG2",
+                        "format": ["singleLine"],
+                        "unique-object": [""],
+                    },
+                    {
+                        "default": ["7.0"],
+                        "field": ["Version Identifier"],
+                        "required-field": [""],
+                    },
+                ],
+            ],
+            {
+                "G2": ["VersionG", "VersionG1", "VersionG2"],
+                "G1": ["Version", "Version1", "Version2"],
+                None: ["Lead Input", "Simulation Data"],
+            },
+        ),  # gcommdct, gdict
     )
     for gcommdct, gdict in data:
         result = iddgroups.commdct2grouplist(gcommdct)

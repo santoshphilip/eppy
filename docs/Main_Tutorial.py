@@ -12,21 +12,21 @@
 # <markdowncell>
 
 # Eppy is a scripting language for E+ idf files, and E+ output files. Eppy is written in the programming language Python. As a result it takes full advantage of the rich data structure and idioms that are avaliable in python. You can programmatically navigate, search, and modify E+ idf files using eppy. The power of using a scripting language allows you to do the following:
-# 
+#
 # - Make a large number of changes in an idf file with a few lines of eppy code.
 # - Use conditions and filters when making changes to an idf file
 # - Make changes to multiple idf files.
 # - Read data from the output files of a E+ simulation run.
 # - Based to the results of a E+ simulation run, generate the input file for the next simulation run.
-# 
+#
 # So what does this matter? Here are some of the things you can do with eppy:
-# 
+#
 # - Change construction for all north facing walls.
 # - Change the glass type for all windows larger than 2 square meters.
 # - Change the number of people in all the interior zones.
-# - Change the lighting power in all south facing zones. 
+# - Change the lighting power in all south facing zones.
 # - Change the efficiency and fan power of all rooftop units.
-# - Find the energy use of all the models in a folder (or of models that were run after a certain date) 
+# - Find the energy use of all the models in a folder (or of models that were run after a certain date)
 # - If a model is using more energy than expected, keep increasing the R-value of the roof until you get to the expected energy use.
 
 # <headingcell level=2>
@@ -41,14 +41,14 @@
 
 #     VERSION,
 #         7.2;                     !- Version Identifier
-#     
+#
 #     SIMULATIONCONTROL,
 #         Yes,                     !- Do Zone Sizing Calculation
 #         Yes,                     !- Do System Sizing Calculation
 #         Yes,                     !- Do Plant Sizing Calculation
 #         No,                      !- Run Simulation for Sizing Periods
 #         Yes;                     !- Run Simulation for Weather File Run Periods
-#     
+#
 #     BUILDING,
 #         White House,             !- Name
 #         30.,                     !- North Axis {deg}
@@ -58,7 +58,7 @@
 #         FullExterior,            !- Solar Distribution
 #         25,                      !- Maximum Number of Warmup Days
 #         6;                       !- Minimum Number of Warmup Days
-#     
+#
 #     SITE:LOCATION,
 #         CHICAGO_IL_USA TMY2-94846,  !- Name
 #         41.78,                   !- Latitude {deg}
@@ -81,12 +81,14 @@
 
 # if you have not done so, uncomment the following three lines
 import sys
-# pathnameto_eppy = 'c:/eppy'
-pathnameto_eppy = '../'
-sys.path.append(pathnameto_eppy) 
 
-from eppy import modeleditor 
+# pathnameto_eppy = 'c:/eppy'
+pathnameto_eppy = "../"
+sys.path.append(pathnameto_eppy)
+
+from eppy import modeleditor
 from eppy.modeleditor import IDF
+
 iddfile = "../eppy/resources/iddfiles/Energy+V7_2_0.idd"
 fname1 = "../eppy/resources/idffiles/V_7_2/smallfile.idf"
 
@@ -97,9 +99,9 @@ idf1 = IDF(fname1)
 
 # <markdowncell>
 
-# idf1 now holds all the data to your in you idf file.  
-# 
-# Now that the behind-the-scenes work is done, we can print this file. 
+# idf1 now holds all the data to your in you idf file.
+#
+# Now that the behind-the-scenes work is done, we can print this file.
 
 # <codecell>
 
@@ -112,7 +114,7 @@ idf1.printidf()
 # <markdowncell>
 
 # As you can see, this file has four objects:
-# 
+#
 # - VERSION
 # - SIMULATIONCONTROL
 # - BUILDING
@@ -129,19 +131,21 @@ idf1.printidf()
 
 # <codecell>
 
-print(idf1.idfobjects['BUILDING'])  # put the name of the object you'd like to look at in brackets
+print(
+    idf1.idfobjects["BUILDING"]
+)  # put the name of the object you'd like to look at in brackets
 
 # <markdowncell>
 
 # We can also zoom in on the object and look just at its individual parts.
-# 
+#
 # For example, let us look at the name of the building.
-# 
+#
 # To do this, we have to do some more behind-the-scenes work, which we'll explain later.
 
 # <codecell>
 
-building = idf1.idfobjects['BUILDING'][0]
+building = idf1.idfobjects["BUILDING"][0]
 
 # <markdowncell>
 
@@ -185,7 +189,7 @@ idf1.printidf()
 
 # <markdowncell>
 
-# As you might have guessed, changing an IDF field follows this structure:: 
+# As you might have guessed, changing an IDF field follows this structure::
 
 # <rawcell>
 
@@ -202,6 +206,7 @@ building.Name = "Empire State Building"
 # <codecell>
 
 import eppy
+
 # import eppy.ex_inits
 # reload(eppy.ex_inits)
 import eppy.ex_inits
@@ -209,27 +214,28 @@ import eppy.ex_inits
 # <markdowncell>
 
 # But how did we know that "Name" is one of the fields in the object "building"?
-# 
+#
 # Are there other fields?
-# 
+#
 # What are they called?
-# 
+#
 # Let's take a look at the IDF editor:
 
 # <codecell>
 
-from eppy import ex_inits #no need to know this code, it just shows the image below
+from eppy import ex_inits  # no need to know this code, it just shows the image below
+
 for_images = ex_inits
-for_images.display_png(for_images.idfeditor) 
+for_images.display_png(for_images.idfeditor)
 
 # <markdowncell>
 
 # In the IDF Editor, the building object is selected.
-# 
+#
 # We can see all the fields of the object "BUILDING".
-# 
+#
 # They are:
-# 
+#
 # - Name
 # - North Axis
 # - Terrain
@@ -238,7 +244,7 @@ for_images.display_png(for_images.idfeditor)
 # - Solar Distribution
 # - Maximum Number of Warmup Days
 # - Minimum Number of Warmup Days
-# 
+#
 # Let us try to access the other fields.
 
 # <codecell>
@@ -248,13 +254,13 @@ print(building.Terrain)
 # <markdowncell>
 
 # How about the field "North Axis" ?
-# 
+#
 # It is not a single word, but two words.
-# 
+#
 # In a programming language, a variable has to be a single word without any spaces.
-# 
+#
 # To solve this problem, put an underscore where there is a space.
-# 
+#
 # So "North Axis" becomes "North_Axis".
 
 # <codecell>
@@ -279,11 +285,11 @@ print(building.Minimum_Number_of_Warmup_Days)
 # <markdowncell>
 
 # Where else can we find the field names?
-# 
+#
 # The IDF Editor saves the idf file with the field name commented next to field.
-# 
+#
 # Eppy also does this.
-# 
+#
 # Let us take a look at the "BUILDING" object in the text file that the IDF Editor saves ::
 
 # <rawcell>
@@ -301,15 +307,15 @@ print(building.Minimum_Number_of_Warmup_Days)
 # <markdowncell>
 
 # This a good place to find the field names too.
-# 
+#
 # It is easy to copy and paste from here. You can't do that from the IDF Editor.
 
 # <markdowncell>
 
 # We know that in an E+ model, there will be only ONE "BUILDING" object. This will be the first and only item in the list "buildings".
-# 
+#
 # But E+ models are made up of objects such as "BUILDING", "SITE:LOCATION", "ZONE", "PEOPLE", "LIGHTS".   There can be a number of "ZONE" objects, a number of "PEOPLE" objects and a number of "LIGHTS" objects.
-# 
+#
 # So how do you know if you're looking at the first "ZONE" object or the second one? Or the tenth one?  To answer this, we need to learn about how lists work in python.
 
 # <headingcell level=2>
@@ -318,25 +324,25 @@ print(building.Minimum_Number_of_Warmup_Days)
 
 # <markdowncell>
 
-# Eppy holds these objects in a python structure called list. Let us take a look at how lists work in python. 
+# Eppy holds these objects in a python structure called list. Let us take a look at how lists work in python.
 
 # <codecell>
 
-fruits = ["apple", "orange", "bannana"] 
+fruits = ["apple", "orange", "bannana"]
 # fruits is a list with three items in it.
 
 # <markdowncell>
 
-# To get the first item in fruits we say: 
+# To get the first item in fruits we say:
 
 # <codecell>
 
-fruits[0]  
+fruits[0]
 
 # <markdowncell>
 
 # Why "0" ?
-# 
+#
 # Because, unlike us, python starts counting from zero in a list. So, to get the third item in the list we'd need to input 2, like this:
 
 # <codecell>
@@ -368,7 +374,7 @@ print(fruits[0])
 
 # <markdowncell>
 
-#  As you see, we can call that item in the list whatever we want.  
+#  As you see, we can call that item in the list whatever we want.
 
 # <headingcell level=4>
 
@@ -377,7 +383,7 @@ print(fruits[0])
 # <markdowncell>
 
 # To know how many items are in a list, we ask for the length of the list.
-# 
+#
 # The function 'len' will do this for us.
 
 # <codecell>
@@ -406,7 +412,7 @@ idf1.save()
 
 # <codecell>
 
-idf1.saveas('something.idf')
+idf1.saveas("something.idf")
 
 # <headingcell level=2>
 
@@ -414,8 +420,8 @@ idf1.saveas('something.idf')
 
 # <markdowncell>
 
-# Let us open a small idf file that has only "CONSTRUCTION" and "MATERIAL" objects in it. You can go into "../idffiles/V_7_2/constructions.idf" and take a look at the file. We are not printing it here because it is too big.  
-# 
+# Let us open a small idf file that has only "CONSTRUCTION" and "MATERIAL" objects in it. You can go into "../idffiles/V_7_2/constructions.idf" and take a look at the file. We are not printing it here because it is too big.
+#
 # So let us open it using the idfreader -
 
 # <codecell>
@@ -444,10 +450,10 @@ print(materials)
 # <markdowncell>
 
 # As you can see, there are many material objects in this idf file.
-# 
+#
 # The variable "materials" now contains a list of "MATERIAL" objects.
-# 
-# You already know a little about lists, so let us take a look at the items in this list.  
+#
+# You already know a little about lists, so let us take a look at the items in this list.
 
 # <codecell>
 
@@ -469,7 +475,7 @@ print(secondmaterial)
 # <markdowncell>
 
 # This is awesome!! Why?
-# 
+#
 # To understand what you can do with your objects organized as lists, you'll have to learn a little more about lists.
 
 # <headingcell level=2>
@@ -483,15 +489,20 @@ print(secondmaterial)
 # <markdowncell>
 
 # You should remember that you can access any item in a list by passing in its index.
-# 
+#
 # The tricky part is that python starts counting at 0, so you need to input 0 in order to get the first item in a list.
-# 
+#
 # Following the same logic, you need to input 3 in order to get the fourth item on the list. Like so:
 
 # <codecell>
 
-bad_architects = ["Donald Trump", "Mick Jagger", 
-        "Steve Jobs", "Lady Gaga", "Santa Clause"]
+bad_architects = [
+    "Donald Trump",
+    "Mick Jagger",
+    "Steve Jobs",
+    "Lady Gaga",
+    "Santa Clause",
+]
 print(bad_architects[3])
 
 # <markdowncell>
@@ -517,12 +528,12 @@ print(bad_architects[-2])
 
 # <codecell>
 
-print(bad_architects[1:3]) # slices at 1 and 3
+print(bad_architects[1:3])  # slices at 1 and 3
 
 # <markdowncell>
 
 # How do I make sense of this?
-# 
+#
 # To understand this you need to see the list in the following manner::
 
 # <rawcell>
@@ -535,7 +546,7 @@ print(bad_architects[1:3]) # slices at 1 and 3
 # <markdowncell>
 
 # The slice operation bad_architects[1:3] slices right where the numbers are.
-# 
+#
 # Does that make sense?
 
 # <markdowncell>
@@ -544,8 +555,8 @@ print(bad_architects[1:3]) # slices at 1 and 3
 
 # <codecell>
 
-print(bad_architects[2:-1]) # slices at 2 and -1
-print(bad_architects[-3:-1]) # slices at -3 and -1
+print(bad_architects[2:-1])  # slices at 2 and -1
+print(bad_architects[-3:-1])  # slices at -3 and -1
 
 # <markdowncell>
 
@@ -553,10 +564,10 @@ print(bad_architects[-3:-1]) # slices at -3 and -1
 
 # <codecell>
 
-print(bad_architects[3:]) 
-print(bad_architects[:2]) 
-print(bad_architects[-3:]) 
-print(bad_architects[:-2]) 
+print(bad_architects[3:])
+print(bad_architects[:2])
+print(bad_architects[-3:])
+print(bad_architects[:-2])
 
 # <markdowncell>
 
@@ -569,7 +580,7 @@ print(bad_architects[:-2])
 # <markdowncell>
 
 # This is simple: the append function adds an item to the end of the list.
-# 
+#
 # The following command will add 'something' to the end of the list called listname::
 
 # <rawcell>
@@ -587,11 +598,11 @@ print(bad_architects)
 
 # <markdowncell>
 
-# There are two ways to do this, based on the information you have.  If you have the value of the object, you'll want to use the remove function.  It looks like this:  
+# There are two ways to do this, based on the information you have.  If you have the value of the object, you'll want to use the remove function.  It looks like this:
 
 # <rawcell>
 
-# listname.remove(value) 
+# listname.remove(value)
 
 # <markdowncell>
 
@@ -605,9 +616,9 @@ print(bad_architects)
 # <markdowncell>
 
 # What if you know the index of the item you want to remove?
-# 
+#
 # What if you appended an item by mistake and just want to remove the last item in the list?
-# 
+#
 # You should use the pop function. It looks like this:
 
 # <rawcell>
@@ -621,14 +632,16 @@ print(what_i_ate_today)
 
 # <codecell>
 
-what_i_ate_today.append("vegetables") # adds vegetables to the end of the list
+what_i_ate_today.append("vegetables")  # adds vegetables to the end of the list
 # but I don't like vegetables
 print(what_i_ate_today)
 
 # <codecell>
 
 # since I don't like vegetables
-what_i_ate_today.pop(-1) # use index of -1, since vegetables is the last item in the list
+what_i_ate_today.pop(
+    -1
+)  # use index of -1, since vegetables is the last item in the list
 print(what_i_ate_today)
 
 # <markdowncell>
@@ -642,23 +655,23 @@ what_i_ate_today.pop(1)
 # <markdowncell>
 
 # Notice the 'bacon' in the line above.
-# 
-# pop actually 'pops' the value (the one you just removed from the list) back to you.  
-# 
+#
+# pop actually 'pops' the value (the one you just removed from the list) back to you.
+#
 # Let us pop the first item.
 
 # <codecell>
 
 was_first_item = what_i_ate_today.pop(0)
-print('was_first_item =', was_first_item)
-print('what_i_ate_today = ', what_i_ate_today)
+print("was_first_item =", was_first_item)
+print("what_i_ate_today = ", what_i_ate_today)
 
 # <markdowncell>
 
 # what_i_ate_today is just 'eggs'?
-# 
-# That is not much of a breakfast!  
-# 
+#
+# That is not much of a breakfast!
+#
 # Let us get back to eppy.
 
 # <headingcell level=2>
@@ -676,7 +689,7 @@ materials = idf1.idfobjects["MATERIAL"]
 # <markdowncell>
 
 # With our newfound knowledge of lists, we can do a lot of things.
-# 
+#
 # Let us get the last material:
 
 # <codecell>
@@ -730,7 +743,7 @@ print(len(materials))
 # <markdowncell>
 
 # The last material used to be:
-# 
+#
 # 'G05 25mm wood'
 
 # <codecell>
@@ -740,7 +753,7 @@ print(materials[-1])
 # <markdowncell>
 
 # Now the last material in the list is:
-# 
+#
 # 'M15 200mm heavyweight concrete'
 
 # <headingcell level=4>
@@ -782,9 +795,9 @@ print(materials[-1])
 # <markdowncell>
 
 # So far we have been working only with materials that were already in the list.
-# 
+#
 # What if we want to make new material?
-# 
+#
 # Obviously we would use the function 'newidfobject'.
 
 # <codecell>
@@ -798,7 +811,7 @@ len(materials)
 # <markdowncell>
 
 # We have 11 items in the materials list.
-# 
+#
 # Let us take a look at the last material in the list, where this fancy new material was added
 
 # <codecell>
@@ -807,18 +820,18 @@ print(materials[-1])
 
 # <markdowncell>
 
-# Looks a little different from the other materials. It does have the name we gave it. 
-# 
-# Why do some fields have values and others are blank ?  
-# 
-# "addobject" puts in all the default values, and leaves the others blank. It is up to us to put values in the the new fields. 
-# 
-# Let's do it now.  
+# Looks a little different from the other materials. It does have the name we gave it.
+#
+# Why do some fields have values and others are blank ?
+#
+# "addobject" puts in all the default values, and leaves the others blank. It is up to us to put values in the the new fields.
+#
+# Let's do it now.
 
 # <codecell>
 
-materials[-1].Name = 'Peanut Butter'
-materials[-1].Roughness = 'MediumSmooth'
+materials[-1].Name = "Peanut Butter"
+materials[-1].Roughness = "MediumSmooth"
 materials[-1].Thickness = 0.03
 materials[-1].Conductivity = 0.16
 materials[-1].Density = 600
@@ -846,23 +859,23 @@ materials[-1]
 
 # <markdowncell>
 
-# I'm tired of doing all this work, it's time to make python do some heavy lifting for us!  
+# I'm tired of doing all this work, it's time to make python do some heavy lifting for us!
 
 # <markdowncell>
 
 # Python can go through each item in a list and perform an operation on any (or every) item in the list.
-# 
+#
 # This is called looping through the list.
-# 
+#
 # Here's how to tell python to step through each item in a list, and then do something to every single item.
-# 
+#
 # We'll use a 'for' loop to do this. ::
 
 # <rawcell>
 
 #     for <variable> in <listname>:
 #         <do something>
-#             
+#
 
 # <markdowncell>
 
@@ -870,30 +883,30 @@ materials[-1]
 
 # <rawcell>
 
-#     in python, indentations are used    
-#     to determine the grouping of statements  
-#            some languages use symbols to mark 
-#            where the function code starts and stops   
-#            but python uses indentation to tell you this  
+#     in python, indentations are used
+#     to determine the grouping of statements
+#            some languages use symbols to mark
+#            where the function code starts and stops
+#            but python uses indentation to tell you this
 #                     i'm using indentation to
 #                     show the beginning and end of a sentence
 #            this is a very simple explanation
 #            of indentation in python
 #      if you'd like to know more, there is plenty of information
 #      about indentation in python on the web
-#     
+#
 
 # <markdowncell>
 
 # It's elegant, but it means that the indentation of the code holds meaning.
-# 
+#
 # So make sure to indent the second (and third and forth) lines of your loops!
-# 
-# Now let's make some fruit loops.  
+#
+# Now let's make some fruit loops.
 
 # <codecell>
 
-fruits = ["apple", "orange", "bannana"] 
+fruits = ["apple", "orange", "bannana"]
 
 # <markdowncell>
 
@@ -902,22 +915,22 @@ fruits = ["apple", "orange", "bannana"]
 # <codecell>
 
 for fruit in fruits:
-   print(fruit)
-    
+    print(fruit)
+
 
 # <markdowncell>
 
-# That was easy! But it can get complicated pretty quickly... 
-# 
-# Let's make it do something more complicated than just print the fruits.  
-# 
-# Let's have python add some words to each fruit. 
+# That was easy! But it can get complicated pretty quickly...
+#
+# Let's make it do something more complicated than just print the fruits.
+#
+# Let's have python add some words to each fruit.
 
 # <codecell>
 
 for fruit in fruits:
     print("I am a fruit said the", fruit)
-    
+
 
 # <markdowncell>
 
@@ -925,11 +938,13 @@ for fruit in fruits:
 
 # <codecell>
 
-rottenfruits = [] # makes a blank list called rottenfruits
-for fruit in fruits: # steps through every item in fruits
-    rottenfruit = "rotten " + fruit # changes each item to "rotten _____"
-    rottenfruits.append(rottenfruit) # adds each changed item to the formerly empty list
-    
+rottenfruits = []  # makes a blank list called rottenfruits
+for fruit in fruits:  # steps through every item in fruits
+    rottenfruit = "rotten " + fruit  # changes each item to "rotten _____"
+    rottenfruits.append(
+        rottenfruit
+    )  # adds each changed item to the formerly empty list
+
 
 # <codecell>
 
@@ -943,7 +958,7 @@ rottenfruits = ["rotten " + fruit for fruit in fruits]
 # <markdowncell>
 
 # Did you follow all that??
-# 
+#
 # Just in case you didn't, let's review that last one::
 
 # <rawcell>
@@ -952,12 +967,12 @@ rottenfruits = ["rotten " + fruit for fruit in fruits]
 #                        -------------------
 #                        This is the "for loop"
 #                        it steps through each fruit in fruits
-#     
+#
 #     ["rotten " + fruit for fruit in fruits]
 #      -----------------
 #      add "rotten " to the fruit at each step
 #      this is your "do something"
-#      
+#
 #     ["rotten " + fruit for fruit in fruits]
 #     ---------------------------------------
 #     give a new list that is a result of the "do something"
@@ -973,9 +988,9 @@ print(rottenfruits)
 # <markdowncell>
 
 # But what if you don't want to change *every* item in a list?
-# 
-# We can use an 'if' statement to operate on only some items in the list.  
-# 
+#
+# We can use an 'if' statement to operate on only some items in the list.
+#
 # Indentation is also important in 'if' statements, as you'll see::
 
 # <rawcell>
@@ -983,34 +998,48 @@ print(rottenfruits)
 #     if <someconstraint>:
 #         <if the first line is true, do this>
 #     <but if it's false, do this>
-#                
+#
 
 # <codecell>
 
-fruits = ["apple", "orange", "pear", "berry", "mango", "plum", "peach", "melon", "bannana"]
+fruits = [
+    "apple",
+    "orange",
+    "pear",
+    "berry",
+    "mango",
+    "plum",
+    "peach",
+    "melon",
+    "bannana",
+]
 
 # <codecell>
 
-for fruit in fruits:               # steps through every fruit in fruits
-    if len(fruit) > 5:             # checks to see if the length of the word is more than 5
-        print(fruit)                # if true, print the fruit
-                                   # if false, python goes back to the 'for' loop 
-                                      # and checks the next item in the list
-                
+for fruit in fruits:  # steps through every fruit in fruits
+    if len(fruit) > 5:  # checks to see if the length of the word is more than 5
+        print(fruit)  # if true, print the fruit
+        # if false, python goes back to the 'for' loop
+        # and checks the next item in the list
+
 
 # <markdowncell>
 
-# Let's say we want to pick only the fruits that start with the letter 'p'. 
+# Let's say we want to pick only the fruits that start with the letter 'p'.
 
 # <codecell>
 
-p_fruits = []                      # creates an empty list called p_fruits
-for fruit in fruits:               # steps through every fruit in fruits
-    if fruit.startswith("p"):      # checks to see if the first letter is 'p', using a built-in function
-        p_fruits.append(fruit)     # if the first letter is 'p', the item is added to p_fruits
-                                   # if the first letter is not 'p', python goes back to the 'for' loop
-                                      # and checks the next item in the list
-                
+p_fruits = []  # creates an empty list called p_fruits
+for fruit in fruits:  # steps through every fruit in fruits
+    if fruit.startswith(
+        "p"
+    ):  # checks to see if the first letter is 'p', using a built-in function
+        p_fruits.append(
+            fruit
+        )  # if the first letter is 'p', the item is added to p_fruits
+        # if the first letter is not 'p', python goes back to the 'for' loop
+        # and checks the next item in the list
+
 
 # <codecell>
 
@@ -1030,19 +1059,19 @@ p_fruits = [fruit for fruit in fruits if fruit.startswith("p")]
 #     [fruit for fruit in fruits if fruit.startswith("p")]
 #            -------------------
 #            for loop
-#     
+#
 #     [fruit for fruit in fruits if fruit.startswith("p")]
 #                                ------------------------
 #                                pick only some of the fruits
-#     
+#
 #     [fruit for fruit in fruits if fruit.startswith("p")]
 #      -----
 #      give me the variable fruit as it appears in the list, don't change it
-#      
+#
 #     [fruit for fruit in fruits if fruit.startswith("p")]
 #     ----------------------------------------------------
 #     a fresh new list with those fruits
-#     
+#
 
 # <codecell>
 
@@ -1059,18 +1088,18 @@ print(p_fruits)
 # <markdowncell>
 
 # Python's built-in function range() makes a list of numbers within a range that you specify.
-# 
+#
 # This is useful because you can use these lists inside of loops.
 
 # <codecell>
 
-list(range(4)) # makes a list
+list(range(4))  # makes a list
 
 # <codecell>
 
 for i in range(4):
     print(i)
-    
+
 
 # <codecell>
 
@@ -1080,31 +1109,31 @@ len(p_fruits)
 
 for i in range(len(p_fruits)):
     print(i)
-    
+
 
 # <codecell>
 
 for i in range(len(p_fruits)):
     print(p_fruits[i])
-    
+
 
 # <codecell>
 
 for i in range(len(p_fruits)):
-    print(i,  p_fruits[i])
-    
+    print(i, p_fruits[i])
+
 
 # <codecell>
 
 for item_from_enumerate in enumerate(p_fruits):
     print(item_from_enumerate)
-    
+
 
 # <codecell>
 
 for i, fruit in enumerate(p_fruits):
     print(i, fruit)
-    
+
 
 # <headingcell level=2>
 
@@ -1113,20 +1142,20 @@ for i, fruit in enumerate(p_fruits):
 # <markdowncell>
 
 # If you have read the python explanation of loops, you are now masters of using loops.
-# 
+#
 # Let us use the loops with E+ objects.
-# 
+#
 # We'll continue to work with the materials list.
 
 # <codecell>
 
 for material in materials:
-    print(material.Name) 
-    
+    print(material.Name)
+
 
 # <codecell>
 
-[material.Name for material in materials] 
+[material.Name for material in materials]
 
 # <codecell>
 
@@ -1157,7 +1186,7 @@ thick_materials
 # change the names of the thick materials
 for material in thick_materials:
     material.Name = "THICK " + material.Name
-    
+
 
 # <codecell>
 
@@ -1166,14 +1195,14 @@ thick_materials
 # <markdowncell>
 
 # So now we're working with two different lists: materials and thick_materials.
-# 
+#
 # But even though the items can be separated into two lists, we're still working with the same items.
-# 
+#
 # Here's a helpful illustration:
 
 # <codecell>
 
-for_images.display_png(for_images.material_lists) # display the image below
+for_images.display_png(for_images.material_lists)  # display the image below
 
 # <codecell>
 
@@ -1188,16 +1217,16 @@ for_images.display_png(for_images.material_lists) # display the image below
 
 # <markdowncell>
 
-# Sometimes, we want information about the E+ object that is not in the fields. For example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects *do* have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.  
-# 
-# Pyeplus has some functions that will do the calculations.  
-# 
+# Sometimes, we want information about the E+ object that is not in the fields. For example, it would be useful to know the areas and orientations of the surfaces. These attributes of the surfaces are not in the fields of surfaces, but surface objects *do* have fields that have the coordinates of the surface. The areas and orientations can be calculated from these coordinates.
+#
+# Pyeplus has some functions that will do the calculations.
+#
 # In the present version, pyeplus will calculate:
-# 
+#
 # - surface azimuth
 # - surface tilt
 # - surface area
-# 
+#
 # Let us explore these functions
 
 # <codecell>
@@ -1207,7 +1236,7 @@ for_images.display_png(for_images.material_lists) # display the image below
 
 # iddfile = "../iddfiles/Energy+V7_0_0_036.idd"
 # fname = "../idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
- 
+
 # model, to_print, idd_info = idfreader(fname, iddfile)
 # surfaces = model['BUILDINGSURFACE:DETAILED'] # all the surfaces
 
@@ -1225,13 +1254,13 @@ except modeleditor.IDDAlreadySetError as e:
 
 fname1 = "../eppy/resources/idffiles/V_7_0/5ZoneSupRetPlenRAB.idf"
 idf1 = IDF(fname1)
-surfaces = idf1.idfobjects['BUILDINGSURFACE:DETAILED']
+surfaces = idf1.idfobjects["BUILDINGSURFACE:DETAILED"]
 
 # <codecell>
 
 # Let us look at the first surface
 asurface = surfaces[0]
-print("surface azimuth =",  asurface.azimuth, "degrees")
+print("surface azimuth =", asurface.azimuth, "degrees")
 print("surface tilt =", asurface.tilt, "degrees")
 print("surface area =", asurface.area, "m2")
 
@@ -1239,36 +1268,36 @@ print("surface area =", asurface.area, "m2")
 
 # all the surface names
 s_names = [surface.Name for surface in surfaces]
-print(s_names[:5]) # print five of them
+print(s_names[:5])  # print five of them
 
 # <codecell>
 
 # surface names and azimuths
 s_names_azm = [(sf.Name, sf.azimuth) for sf in surfaces]
-print(s_names_azm[:5]) # print five of them
+print(s_names_azm[:5])  # print five of them
 
 # <codecell>
 
 # or to do that in pretty printing
-for name, azimuth in s_names_azm[:5]: # just five of them
+for name, azimuth in s_names_azm[:5]:  # just five of them
     print(name, azimuth)
-    
+
 
 # <codecell>
 
 # surface names and tilt
 s_names_tilt = [(sf.Name, sf.tilt) for sf in surfaces]
-for name, tilt in s_names_tilt[:5]: # just five of them
+for name, tilt in s_names_tilt[:5]:  # just five of them
     print(name, tilt)
-    
+
 
 # <codecell>
 
 # surface names and areas
 s_names_area = [(sf.Name, sf.area) for sf in surfaces]
-for name, area in s_names_area[:5]: # just five of them
+for name, area in s_names_area[:5]:  # just five of them
     print(name, area, "m2")
-    
+
 
 # <markdowncell>
 
@@ -1289,7 +1318,9 @@ print([sf.Name for sf in north_walls])
 # <codecell>
 
 # north facing exterior walls
-exterior_nwall = [sf for sf in north_walls if sf.Outside_Boundary_Condition == "Outdoors"]
+exterior_nwall = [
+    sf for sf in north_walls if sf.Outside_Boundary_Condition == "Outdoors"
+]
 print([sf.Name for sf in exterior_nwall])
 
 # <codecell>
@@ -1298,14 +1329,16 @@ print([sf.Name for sf in exterior_nwall])
 north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
 for name, azimuth, construction in north_wall_info:
     print(name, azimuth, construction)
-    
+
 
 # <codecell>
 
 # change the construction in the exterior north walls
 for wall in exterior_nwall:
-    wall.Construction_Name = "NORTHERN-WALL" # make sure such a construction exists in the model
-    
+    wall.Construction_Name = (
+        "NORTHERN-WALL"
+    )  # make sure such a construction exists in the model
+
 
 # <codecell>
 
@@ -1313,18 +1346,17 @@ for wall in exterior_nwall:
 north_wall_info = [(sf.Name, sf.azimuth, sf.Construction_Name) for sf in exterior_nwall]
 for name, azimuth, construction in north_wall_info:
     print(name, azimuth, construction)
-    
+
 
 # <codecell>
 
 # see this in all surfaces
 for sf in surfaces:
     print(sf.Name, sf.azimuth, sf.Construction_Name)
-    
+
 
 # <markdowncell>
 
 # You can see the "NORTHERN-WALL" in the print out above.
-# 
-# This shows that very sophisticated modification can be made to the model rather quickly. 
-
+#
+# This shows that very sophisticated modification can be made to the model rather quickly.

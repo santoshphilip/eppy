@@ -12,10 +12,12 @@ from __future__ import unicode_literals
 from six import StringIO
 import eppy.simpleread as simpleread
 
+
 def test_idf2txt():
     """py.test for idf2txt"""
-    data = ((
-        """
+    data = (
+        (
+            """
         VERSION,
             7.3;                      !- Version Identifier
 
@@ -43,7 +45,7 @@ def test_idf2txt():
             -6.0,                     !- Time Zone
             190.0;                    !- Elevation
         """,
-        """;
+            """;
 
 BUILDING,
 Empire State Building,
@@ -71,15 +73,19 @@ CHICAGO_IL_USA TMY2-94846,
 
 VERSION,
 7.3;
-"""), # intxt, outtxt
-           )
+""",
+        ),  # intxt, outtxt
+    )
     for intxt, outtxt in data:
         result = simpleread.idf2txt(intxt)
         assert result == outtxt
 
+
 def test_idfreadtest():
     """py.test for idfreadtest"""
-    data = (("""!IDD_Version 7.2.0.006
+    data = (
+        (
+            """!IDD_Version 7.2.0.006
 Version,
       \\unique-object
       \\format singleLine
@@ -113,7 +119,7 @@ Site:Location,
   N4 ; \\field Elevation
 
 """,
-             """
+            """
 VERSION,
     7.3;                      !- Version Identifier
 
@@ -140,13 +146,12 @@ SITE:LOCATION,
     -87.75,                   !- Longitude
     -6.0,                     !- Time Zone
     190.0;                    !- Elevation
-"""
-            ), # iddtxt, idftxt
-           )
+""",
+        ),  # iddtxt, idftxt
+    )
     for iddtxt, idftxt in data:
         iddhandle = StringIO(iddtxt)
         idfhandle1 = StringIO(idftxt)
         idfhandle2 = StringIO(idftxt)
         result = simpleread.idfreadtest(iddhandle, idfhandle1, idfhandle2)
         assert result == True
-    

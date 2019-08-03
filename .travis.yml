@@ -2,49 +2,86 @@ language: generic
 dist: trusty
 sudo: required
 
+env:
+  global:
+    - EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
 
 matrix:
   include:
   # Linux, not on master
   - if: branch != master
     os: linux
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch != master
     os: linux
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
+    dist: xenial
+    language: python
+    python: 3.7
+    install:
+      - pip install --upgrade setuptools
+      - pip install --upgrade pip
+      - python setup.py install
+      - pip install numpy
+      - pip uninstall tinynumpy -y
+      # we wait to install test dependencies after installing eppy, so as to catch any missing dependencies during setup.py
+      - pip install pytest-cov codecov black
+    script:
+      - black --check --exclude venv .
+      - py.test ./eppy/tests --cov=./ -v
+    after_success:
+      # coverage reporting on CodeCov
+      - codecov
   # Linux, on master
   - if: branch = master
     os: linux
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
+    env: TRAVIS_PYTHON_VERSION=2.7
   - if: branch = master
     os: linux
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
+    env: TRAVIS_PYTHON_VERSION=3.7
   - if: branch = master
     os: linux
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch = master
     os: linux
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
+    dist: xenial
+    language: python
+    python: 3.7
+    install:
+      - pip install --upgrade setuptools
+      - pip install --upgrade pip
+      - python setup.py install
+      - pip install numpy
+      - pip uninstall tinynumpy -y
+      # we wait to install test dependencies after installing eppy, so as to catch any missing dependencies during setup.py
+      - pip install pytest-cov codecov black
+    script:
+      - black --check --exclude venv .
+      - py.test ./eppy/tests --cov=./ -v
+    after_success:
+      # coverage reporting on CodeCov
+      - codecov
   # OSX, not on master
   - if: branch != master
     os: osx
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch != master
     os: osx
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
   #   OSX, on master
   - if: branch = master
     os: osx
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
+    env: TRAVIS_PYTHON_VERSION=2.7
   - if: branch = master
     os: osx
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1
+    env: TRAVIS_PYTHON_VERSION=3.7
   - if: branch = master
     os: osx
-    env: PYTHON=2.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch = master
     os: osx
-    env: PYTHON=3.7 EPPY_INTEGRATION=True ENERGYPLUS_VERSION=9.0.1 ENERGYPLUS_SHA=bb7ca4f0da ENERGYPLUS_INSTALL_VERSION=9-0-1 NUMPY=True
+    env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
 
 before_install:
   # install EnergyPlus
@@ -71,7 +108,7 @@ before_install:
     bash ~/miniconda.sh -b -p $HOME/miniconda;
     export PATH="$HOME/miniconda/bin:$PATH";
     conda update --yes conda;
-    conda create --yes -n venv python=$PYTHON;
+    conda create --yes -n venv python=$TRAVIS_PYTHON_VERSION;
     fi
 
   # activate environment
@@ -88,17 +125,7 @@ install:
   - python setup.py install
   # install numpy and remove tinynumpy if testing with numpy
   - if [[ $NUMPY == numpy ]]; then pip install numpy; pip uninstall tinynumpy -y; fi
-  # we wait to install test dependencies after installing eppy, so as to catch any missing dependencies during setup.py
-  - pip install pytest-cov==2.7.1
-  - pip install codecov
+  - pip install pytest
 
 script:
-  - py.test ./eppy/tests --cov=./ -v
-
-after_success:
-  # coverage reporting on CodeCov
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]] &&
-    [[ $PYTHON == 3* ]] &&
-    [[ $EPPY_INTEGRATION == True ]] &&
-    [[ $NUMPY == numpy ]]; then codecov; fi
-
+  - py.test ./eppy/tests

@@ -31,13 +31,13 @@ import math
 
 def area(poly):
     """Area of a polygon poly"""
-    if len(poly) < 3: # not a plane - no area
+    if len(poly) < 3:  # not a plane - no area
         return 0
     total = [0, 0, 0]
     num = len(poly)
     for i in range(num):
         vi1 = poly[i]
-        vi2 = poly[(i+1) % num]
+        vi2 = poly[(i + 1) % num]
         prod = np.cross(vi1, vi2)
         total[0] += prod[0]
         total[1] += prod[1]
@@ -45,24 +45,36 @@ def area(poly):
     if total == [0, 0, 0]:  # points are in a straight line - no area
         return 0
     result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
-    return abs(result/2)
+    return abs(result / 2)
+
 
 def unit_normal(pt_a, pt_b, pt_c):
     """unit normal vector of plane defined by points pt_a, pt_b, and pt_c"""
-    x_val = np.linalg.det([[1, pt_a[1], pt_a[2]], [1, pt_b[1], pt_b[2]], [1, pt_c[1], pt_c[2]]])
-    y_val = np.linalg.det([[pt_a[0], 1, pt_a[2]], [pt_b[0], 1, pt_b[2]], [pt_c[0], 1, pt_c[2]]])
-    z_val = np.linalg.det([[pt_a[0], pt_a[1], 1], [pt_b[0], pt_b[1], 1], [pt_c[0], pt_c[1], 1]])
-    magnitude = (x_val**2 + y_val**2 + z_val**2)**.5
-    mag = (x_val/magnitude, y_val/magnitude, z_val/magnitude)
+    x_val = np.linalg.det(
+        [[1, pt_a[1], pt_a[2]], [1, pt_b[1], pt_b[2]], [1, pt_c[1], pt_c[2]]]
+    )
+    y_val = np.linalg.det(
+        [[pt_a[0], 1, pt_a[2]], [pt_b[0], 1, pt_b[2]], [pt_c[0], 1, pt_c[2]]]
+    )
+    z_val = np.linalg.det(
+        [[pt_a[0], pt_a[1], 1], [pt_b[0], pt_b[1], 1], [pt_c[0], pt_c[1], 1]]
+    )
+    magnitude = (x_val ** 2 + y_val ** 2 + z_val ** 2) ** 0.5
+    mag = (x_val / magnitude, y_val / magnitude, z_val / magnitude)
     if magnitude < 0.00000001:
         mag = (0, 0, 0)
     return mag
+
+
 ## end of http://code.activestate.com/recipes/578276/ }}}
 
 # distance between two points
 def dist(pt1, pt2):
     """Distance between two points"""
-    return ((pt2[0] - pt1[0])**2 + (pt2[1] - pt1[1])**2 + (pt2[2] - pt1[2])**2)**0.5
+    return (
+        (pt2[0] - pt1[0]) ** 2 + (pt2[1] - pt1[1]) ** 2 + (pt2[2] - pt1[2]) ** 2
+    ) ** 0.5
+
 
 # width of a rectangular polygon
 def width(poly):
@@ -72,7 +84,9 @@ def width(poly):
         return dist(poly[num], poly[0])
     elif abs(poly[num][2] - poly[0][2]) > abs(poly[1][2] - poly[0][2]):
         return dist(poly[1], poly[0])
-    else: return max(dist(poly[num], poly[0]), dist(poly[1], poly[0]))
+    else:
+        return max(dist(poly[num], poly[0]), dist(poly[1], poly[0]))
+
 
 # height of a polygon poly
 def height(poly):
@@ -94,8 +108,10 @@ def angle2vecs(vec1, vec2):
     vec2_modulus = np.sqrt(np.multiply(vec2, vec2).sum())
     if (vec1_modulus * vec2_modulus) == 0:
         cos_angle = 1
-    else: cos_angle = dot / (vec1_modulus * vec2_modulus)
+    else:
+        cos_angle = dot / (vec1_modulus * vec2_modulus)
     return math.degrees(acos(cos_angle))
+
 
 # orienation of a polygon poly
 def azimuth(poly):
@@ -113,6 +129,7 @@ def azimuth(poly):
         return 360 - angle2vecs(vec_azi, vec_n)
     else:
         return angle2vecs(vec_azi, vec_n)
+
 
 def tilt(poly):
     """Tilt of a polygon poly"""

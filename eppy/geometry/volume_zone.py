@@ -21,23 +21,30 @@ try:
 except ImportError as err:
     from tinynumpy import tinynumpy as np
 
+
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
     p_a = np.array(poly[0])
     p_b = np.array(poly[1])
     p_c = np.array(poly[2])
     p_d = np.array(poly[3])
-    return abs(np.dot(
-        np.subtract(p_a, p_d),
-        np.cross(
-            np.subtract(p_b, p_d),
-            np.subtract(p_c, p_d))) / 6)
+    return abs(
+        np.dot(
+            np.subtract(p_a, p_d),
+            np.cross(np.subtract(p_b, p_d), np.subtract(p_c, p_d)),
+        )
+        / 6
+    )
+
 
 def central_p(poly1, poly2):
     central_point = np.array([0.0, 0.0, 0.0])
     for i in range(len(poly1)):
-        central_point = np.add(central_point, np.add(np.array(poly1[i]), np.array(poly2[i])))
+        central_point = np.add(
+            central_point, np.add(np.array(poly1[i]), np.array(poly2[i]))
+        )
     return np.divide(np.divide(central_point, (len(poly1))), 2)
+
 
 def vol(poly1, poly2):
     """"volume of a zone defined by two polygon bases """
@@ -49,15 +56,15 @@ def vol(poly1, poly2):
     poly2.append(poly2[0])
     for i in range(num - 2):
         # the upper part
-        tehrahedron = [c_point, poly1[0], poly1[i+1], poly1[i+2]]
+        tehrahedron = [c_point, poly1[0], poly1[i + 1], poly1[i + 2]]
         vol_therah += vol_tehrahedron(tehrahedron)
         # the bottom part
-        tehrahedron = [c_point, poly2[0], poly2[i+1], poly2[i+2]]
+        tehrahedron = [c_point, poly2[0], poly2[i + 1], poly2[i + 2]]
         vol_therah += vol_tehrahedron(tehrahedron)
     # the middle part
     for i in range(num):
-        tehrahedron = [c_point, poly1[i], poly2[i], poly2[i+1]]
+        tehrahedron = [c_point, poly1[i], poly2[i], poly2[i + 1]]
         vol_therah += vol_tehrahedron(tehrahedron)
-        tehrahedron = [c_point, poly1[i], poly1[i+1], poly2[i]]
+        tehrahedron = [c_point, poly1[i], poly1[i + 1], poly2[i]]
         vol_therah += vol_tehrahedron(tehrahedron)
     return vol_therah
