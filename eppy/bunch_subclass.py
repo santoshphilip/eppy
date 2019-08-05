@@ -321,7 +321,13 @@ class EpBunch(Bunch):
             try:
                 return self.fieldvalues[i]
             except IndexError:
-                return ""
+                # try to return the default value if defined in IDD.
+                if 'default' in self.getfieldidd(name).keys():
+                    _type = _parse_idd_type(self, name)
+                    default_ = next(iter(self.getfieldidd(name)['default']), None)
+                    return _type(default_)
+                else:
+                    return ""
         else:
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
@@ -392,6 +398,18 @@ class EpBunch(Bunch):
         fnames = self.fieldnames
         func_names = list(self["__functions"].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
+
+
+def _parse_idd_type(epbunch, name):
+    """parse the fieldvalue type into a python type. eg.: 'real' returns
+    'float'"""
+    _type = next(iter(epbunch.getfieldidd(name)['type']), None)
+    if _type == 'real':
+        return float
+    elif _type == 'alpha':
+        return str
+    else:
+        return str
 
 
 def getrange(bch, fieldname):
