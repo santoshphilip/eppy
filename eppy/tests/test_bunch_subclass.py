@@ -468,11 +468,12 @@ def test_EpBunch():
     assert bwall.Constr == data.dt[wallkey][0][3]
 
     # add functions
-    @bunch_subclass.register_epbunch_function('svalues', keys=None)
+    @bunch_subclass.register_epbunch_function("svalues", keys=None)
     @property
     def func(abunch):
         return bunch_subclass.somevalues(abunch)
-    assert 'svalues' in bwall.__functions
+
+    assert "svalues" in bwall.__functions
 
     # print bwall.svalues
     assert bwall.svalues == (
@@ -566,8 +567,7 @@ def test_EpBunch():
     constrfields = [comm.get("field") for comm in commdct[constr_i]]
     constrfields[0] = ["key"]
     constrfields = [field[0] for field in constrfields]
-    constr_fields = [bunchhelpers.makefieldname(field) for field in
-                     constrfields]
+    constr_fields = [bunchhelpers.makefieldname(field) for field in constrfields]
     bconstr = EpBunch(dconstr, constr_fields, constridd)
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"

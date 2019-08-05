@@ -117,12 +117,12 @@ def addfunctions(abunch):
     ]
     snames = [sname.upper() for sname in snames]
     func_dict = {
-        'area': (fh.area, snames),
-        'height': (fh.height, snames),  # not working correctly
-        'width': (fh.width, snames),  # not working correctly
-        'azimuth': (fh.azimuth, snames),
-        'tilt': (fh.tilt, snames),
-        'coords': (fh.getcoords, snames),  # needed for debugging
+        "area": (fh.area, snames),
+        "height": (fh.height, snames),  # not working correctly
+        "width": (fh.width, snames),  # not working correctly
+        "azimuth": (fh.azimuth, snames),
+        "tilt": (fh.tilt, snames),
+        "coords": (fh.getcoords, snames),  # needed for debugging
     }
     abunch._EpBunch__functions.update(func_dict)
 
@@ -147,35 +147,35 @@ def addfunctions(abunch):
         "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM",
     ]
     func_dict = {
-        'rvalue': (fh.rvalue, names),
-        'ufactor': (fh.ufactor, names),
-        'rvalue_ip': (fh.rvalue_ip, names),
+        "rvalue": (fh.rvalue, names),
+        "ufactor": (fh.ufactor, names),
+        "rvalue_ip": (fh.rvalue_ip, names),
         # quick fix for Santosh. Needs to thought thru
-        'ufactor_ip': (fh.ufactor_ip, names),
+        "ufactor_ip": (fh.ufactor_ip, names),
         # quick fix for Santosh. Needs to thought thru
-        'heatcapacity': (fh.heatcapacity, names),
+        "heatcapacity": (fh.heatcapacity, names),
     }
     abunch._EpBunch__functions.update(func_dict)
 
     names = [
-        'FAN:CONSTANTVOLUME',
-        'FAN:VARIABLEVOLUME',
-        'FAN:ONOFF',
-        'FAN:ZONEEXHAUST',
-        'FANPERFORMANCE:NIGHTVENTILATION',
+        "FAN:CONSTANTVOLUME",
+        "FAN:VARIABLEVOLUME",
+        "FAN:ONOFF",
+        "FAN:ZONEEXHAUST",
+        "FANPERFORMANCE:NIGHTVENTILATION",
     ]
     func_dict = {
-        'f_fanpower_bhp': (fh.fanpower_bhp, names),
-        'f_fanpower_watts': (fh.fanpower_watts, names),
-        'f_fan_maxcfm': (fh.fan_maxcfm, names),
+        "f_fanpower_bhp": (fh.fanpower_bhp, names),
+        "f_fanpower_watts": (fh.fanpower_watts, names),
+        "f_fan_maxcfm": (fh.fan_maxcfm, names),
     }
     abunch._EpBunch__functions.update(func_dict)
     # =====
     # code for references
     # -----------------
     # add function zonesurfaces
-    if key == 'ZONE':
-        func_dict = {'zonesurfaces': (fh.zonesurfaces, ['ZONE'])}
+    if key == "ZONE":
+        func_dict = {"zonesurfaces": (fh.zonesurfaces, ["ZONE"])}
         abunch._EpBunch__functions.update(func_dict)
 
     # -----------------
@@ -185,11 +185,17 @@ def addfunctions(abunch):
     # and is in group u'Thermal Zones and Surfaces'
     # then it is likely to be a surface attached to a zone
     fields = abunch.fieldnames
-    names = ['BuildingSurface:Detailed', 'Wall:Detailed',
-             'RoofCeiling:Detailed', 'Floor:Detailed',
-             'FenestrationSurface:Detailed', 'Shading:Site:Detailed',
-             'Shading:Building:Detailed', 'Shading:Zone:Detailed']
-    func_dict = {'subsurfaces': (fh.subsurfaces, names)}
+    names = [
+        "BuildingSurface:Detailed",
+        "Wall:Detailed",
+        "RoofCeiling:Detailed",
+        "Floor:Detailed",
+        "FenestrationSurface:Detailed",
+        "Shading:Site:Detailed",
+        "Shading:Building:Detailed",
+        "Shading:Zone:Detailed",
+    ]
+    func_dict = {"subsurfaces": (fh.subsurfaces, names)}
     abunch._EpBunch__functions.update(func_dict)
 
     return abunch
@@ -202,6 +208,7 @@ class EpBunch(Bunch):
     fields as attributes as well as by keys.
 
     """
+
     __functions = {}
 
     def __init__(self, obj, objls, objidd, *args, **kwargs):
@@ -228,12 +235,13 @@ class EpBunch(Bunch):
     @property
     def functions(self):
         try:
-            return {key: value[0] for key, value in
-                    self._EpBunch__functions.items()
-                    if self.key in value[1]}
+            return {
+                key: value[0]
+                for key, value in self._EpBunch__functions.items()
+                if self.key in value[1]
+            }
         except TypeError:
-            return {key: value for key, value in
-                    self._EpBunch__functions.items()}
+            return {key: value for key, value in self._EpBunch__functions.items()}
 
     def checkrange(self, fieldname):
         """Check if the value for a field is within the allowed range.
@@ -301,16 +309,14 @@ class EpBunch(Bunch):
 
     def __setattr__(self, name, value):
         try:
-            name = self['__aliases'][name]  # get original name of the alias
+            name = self["__aliases"][name]  # get original name of the alias
         except KeyError:
             pass
 
-        if name in (
-                '_EpBunch__functions', '__aliases'):  # just set the new value
+        if name in ("_EpBunch__functions", "__aliases"):  # just set the new value
             super(EpBunch, self).__setattr__(name, value)
             return None
-        elif name in (
-                'obj', 'objls', 'objidd', 'theidf'):  # let Bunch handle it
+        elif name in ("obj", "objls", "objidd", "theidf"):  # let Bunch handle it
             super(EpBunch, self).__setattr__(name, value)
             return None
         elif name in self.fieldnames:  # set the value, extending if needed
@@ -341,9 +347,9 @@ class EpBunch(Bunch):
         except KeyError:
             pass
 
-        if name == '__functions':
+        if name == "__functions":
             return self._EpBunch__functions
-        elif name in ('__aliases', 'obj', 'objls', 'objidd', 'theidf'):
+        elif name in ("__aliases", "obj", "objls", "objidd", "theidf"):
             # unit test
             return super(EpBunch, self).__getattr__(name)
         elif name in self.fieldnames:

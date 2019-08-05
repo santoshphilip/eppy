@@ -26,17 +26,17 @@ def grouper(num, iterable, fillvalue=None):
     return zip_longest(fillvalue=fillvalue, *args)
 
 
-@register_epbunch_function('coords', keys=None)
+@register_epbunch_function("coords", keys=None)
 @property
 def getcoords(ddtt):
     """return the coordinates of the surface"""
-    n_vertices_index = ddtt.objls.index('Number_of_Vertices')
+    n_vertices_index = ddtt.objls.index("Number_of_Vertices")
     first_x = n_vertices_index + 1  # X of first coordinate
     pts = ddtt.obj[first_x:]
     return list(grouper(3, pts))
 
 
-@register_epbunch_function('area', keys=None)
+@register_epbunch_function("area", keys=None)
 @property
 def area(ddtt):
     """area of the surface"""
@@ -44,7 +44,7 @@ def area(ddtt):
     return g_surface.area(coords)
 
 
-@register_epbunch_function('height', keys=None)
+@register_epbunch_function("height", keys=None)
 @property
 def height(ddtt):
     """height of the surface"""
@@ -52,7 +52,7 @@ def height(ddtt):
     return g_surface.height(coords)
 
 
-@register_epbunch_function('width', keys=None)
+@register_epbunch_function("width", keys=None)
 @property
 def width(ddtt):
     """width of the surface"""
@@ -60,7 +60,7 @@ def width(ddtt):
     return g_surface.width(coords)
 
 
-@register_epbunch_function('azimuth', keys=None)
+@register_epbunch_function("azimuth", keys=None)
 @property
 def azimuth(ddtt):
     """azimuth of the surface"""
@@ -68,7 +68,7 @@ def azimuth(ddtt):
     return g_surface.azimuth(coords)
 
 
-@register_epbunch_function('tilt', keys=None)
+@register_epbunch_function("tilt", keys=None)
 @property
 def tilt(ddtt):
     """tilt of the surface"""
@@ -76,7 +76,7 @@ def tilt(ddtt):
     return g_surface.tilt(coords)
 
 
-@register_epbunch_function('buildingname', keys=None)
+@register_epbunch_function("buildingname", keys=None)
 @property
 def buildingname(ddtt):
     """return building name"""
@@ -85,69 +85,70 @@ def buildingname(ddtt):
     return building.Name
 
 
-@register_epbunch_function('zonesurfaces', keys=['ZONE'])
+@register_epbunch_function("zonesurfaces", keys=["ZONE"])
 @property
 def zonesurfaces(ddtt):
     """return al list of surfaces that belong to the zone"""
-    kwargs = {'fields': [u'Zone_Name', ],
-              'iddgroups': [u'Thermal Zones and Surfaces', ]}
+    kwargs = {"fields": ["Zone_Name"], "iddgroups": ["Thermal Zones and Surfaces"]}
     return ddtt.getreferingobjs(**kwargs)
 
 
-@register_epbunch_function('subsurfaces', keys=None)
+@register_epbunch_function("subsurfaces", keys=None)
 @property
 def subsurfaces(ddtt):
     """return al list of surfaces that belong to the zone"""
-    kwargs = {'fields': [u'Building_Surface_Name', ],
-              'iddgroups': [u'Thermal Zones and Surfaces', ]}
+    kwargs = {
+        "fields": ["Building_Surface_Name"],
+        "iddgroups": ["Thermal Zones and Surfaces"],
+    }
     return ddtt.getreferingobjs(**kwargs)
 
 
-@register_epbunch_function('rvalue', keys=None)
+@register_epbunch_function("rvalue", keys=None)
 @property
 def rvalue(ddtt):
     return thermal_properties.rvalue(ddtt)
 
 
-@register_epbunch_function('ufactor', keys=None)
+@register_epbunch_function("ufactor", keys=None)
 @property
 def ufactor(ddtt):
     return thermal_properties.ufactor(ddtt)
 
 
-@register_epbunch_function('ufactor_ip', keys=None)
+@register_epbunch_function("ufactor_ip", keys=None)
 @property
 def ufactor_ip(ddtt):
     return thermal_properties.ufactor_ip(ddtt)
 
 
-@register_epbunch_function('rvalue_ip', keys=None)
+@register_epbunch_function("rvalue_ip", keys=None)
 @property
 def rvalue_ip(ddtt):
     return thermal_properties.rvalue_ip(ddtt)
 
 
-@register_epbunch_function('heatcapacity', keys=None)
+@register_epbunch_function("heatcapacity", keys=None)
 @property
 def heatcapacity(ddtt):
     return thermal_properties.heatcapacity(ddtt)
 
 
-@register_epbunch_function('f_fanpower_bhp', keys=None)
+@register_epbunch_function("f_fanpower_bhp", keys=None)
 @property
 def fanpower_bhp(ddtt):
     """return fanpower in bhp"""
     return eppy.fanpower.fanpower_bhp(ddtt)
 
 
-@register_epbunch_function('f_fanpower_watts', keys=None)
+@register_epbunch_function("f_fanpower_watts", keys=None)
 @property
 def fanpower_watts(ddtt):
     """return fanpower in watts"""
     return eppy.fanpower.fanpower_watts(ddtt)
 
 
-@register_epbunch_function('f_fan_maxcfm', keys=None)
+@register_epbunch_function("f_fan_maxcfm", keys=None)
 @property
 def fan_maxcfm(ddtt):
     """return the Maximum_Flow_Rate in cfm"""
