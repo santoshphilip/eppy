@@ -35,7 +35,7 @@ def removecomment(astr, cphrase):
         alist[i] = alist1[0]
 
     # return string.join(alist, linesep)
-    return '\n'.join(alist)
+    return "\n".join(alist)
 
 
 class Idd(object):
@@ -64,12 +64,12 @@ class Idd(object):
     def initdict(self, fname):
         """initdict"""
         astr = mylib2.readfile(fname)
-        nocom = removecomment(astr, '!')
+        nocom = removecomment(astr, "!")
         idfst = nocom
-        alist = idfst.split(';')
+        alist = idfst.split(";")
         lss = []
         for element in alist:
-            lst = element.split(',')
+            lst = element.split(",")
             lss.append(lst)
 
         for i in range(0, len(lss)):
@@ -79,7 +79,7 @@ class Idd(object):
         dt = {}
         dtls = []
         for element in lss:
-            if element[0] == '':
+            if element[0] == "":
                 continue
             dt[element[0].upper()] = []
             dtls.append(element[0].upper())
@@ -100,26 +100,23 @@ class Eplusdata(object):
         if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
         if isinstance(fname, str) and isinstance(dictfile, str):
-            fnamefobject = open(fname, 'rb')
+            fnamefobject = open(fname, "rb")
             self.makedict(dictfile, fnamefobject)
         if isinstance(fname, str) and isinstance(dictfile, Idd):
-            fnamefobject = open(fname, 'rb')
+            fnamefobject = open(fname, "rb")
             self.makedict(dictfile, fnamefobject)
         try:
             # will fail in python3 because of file
-            if (isinstance(fname, (file, StringIO)) and
-                    isinstance(dictfile, str)):
+            if isinstance(fname, (file, StringIO)) and isinstance(dictfile, str):
                 self.makedict(dictfile, fname)
-            if (isinstance(fname, (file, StringIO)) and
-                    isinstance(dictfile, Idd)):
+            if isinstance(fname, (file, StringIO)) and isinstance(dictfile, Idd):
                 self.makedict(dictfile, fname)
         except NameError:
             from io import IOBase
-            if (isinstance(fname, (IOBase, StringIO)) and
-                    isinstance(dictfile, str)):
+
+            if isinstance(fname, (IOBase, StringIO)) and isinstance(dictfile, str):
                 self.makedict(dictfile, fname)
-            if (isinstance(fname, (IOBase, StringIO)) and
-                    isinstance(dictfile, Idd)):
+            if isinstance(fname, (IOBase, StringIO)) and isinstance(dictfile, Idd):
                 self.makedict(dictfile, fname)
 
     def __repr__(self):
@@ -127,22 +124,22 @@ class Eplusdata(object):
         dt = self.dt
         dtls = self.dtls
         UNIXSEP = "\n"
-        DOSSEP = UNIXSEP # using a unix EOL
-        astr = ''
+        DOSSEP = UNIXSEP  # using a unix EOL
+        astr = ""
         for node in dtls:
             nodedata = dt[node.upper()]
             for block in nodedata:
                 for i in range(len(block)):
-                    fformat = '     %s,' + DOSSEP
+                    fformat = "     %s," + DOSSEP
                     if i == 0:
-                        fformat = '%s,' + DOSSEP
+                        fformat = "%s," + DOSSEP
                     if i == len(block) - 1:
-                        fformat = '     %s;' + DOSSEP * 2
+                        fformat = "     %s;" + DOSSEP * 2
                     astr = astr + fformat % block[i]
 
         return astr
 
-    #------------------------------------------
+    # ------------------------------------------
     def initdict(self, fname):
         """create a blank dictionary"""
         if isinstance(fname, Idd):
@@ -150,12 +147,12 @@ class Eplusdata(object):
             return self.dt, self.dtls
 
         astr = mylib2.readfile(fname)
-        nocom = removecomment(astr, '!')
+        nocom = removecomment(astr, "!")
         idfst = nocom
-        alist = idfst.split(';')
+        alist = idfst.split(";")
         lss = []
         for element in alist:
-            lst = element.split(',')
+            lst = element.split(",")
             lss.append(lst)
 
         for i in range(0, len(lss)):
@@ -165,7 +162,7 @@ class Eplusdata(object):
         dt = {}
         dtls = []
         for element in lss:
-            if element[0] == '':
+            if element[0] == "":
                 continue
             dt[element[0].upper()] = []
             dtls.append(element[0].upper())
@@ -173,11 +170,11 @@ class Eplusdata(object):
         self.dt, self.dtls = dt, dtls
         return dt, dtls
 
-    #------------------------------------------
+    # ------------------------------------------
     def makedict(self, dictfile, fnamefobject):
         """stuff file data into the blank dictionary"""
-        #fname = './exapmlefiles/5ZoneDD.idf'
-        #fname = './1ZoneUncontrolled.idf'
+        # fname = './exapmlefiles/5ZoneDD.idf'
+        # fname = './1ZoneUncontrolled.idf'
         if isinstance(dictfile, Idd):
             localidd = copy.deepcopy(dictfile)
             dt, dtls = localidd.dt, localidd.dtls
@@ -186,18 +183,18 @@ class Eplusdata(object):
         # astr = mylib2.readfile(fname)
         astr = fnamefobject.read()
         try:
-            astr = astr.decode('ISO-8859-2')
+            astr = astr.decode("ISO-8859-2")
         except AttributeError:
             pass
         fnamefobject.close()
-        nocom = removecomment(astr, '!')
+        nocom = removecomment(astr, "!")
         idfst = nocom
         # alist = string.split(idfst, ';')
-        alist = idfst.split(';')
+        alist = idfst.split(";")
         lss = []
         for element in alist:
             # lst = string.split(element, ',')
-            lst = element.split(',')
+            lst = element.split(",")
             lss.append(lst)
 
         for i in range(0, len(lss)):
@@ -211,10 +208,9 @@ class Eplusdata(object):
                 dt[node.upper()].append(element)
             else:
                 # scream
-                if node == '':
+                if node == "":
                     continue
-                print('this node -%s-is not present in base dictionary' %
-                      (node))
+                print("this node -%s-is not present in base dictionary" % (node))
 
         self.dt, self.dtls = dt, dtls
         return dt, dtls
@@ -228,8 +224,7 @@ class Eplusdata(object):
         """add the node here with the node from othereplus
         this will potentially have duplicates"""
         node = node.upper()
-        self.dt[node.upper()] = self.dt[node.upper()] + \
-            othereplus.dt[node.upper()]
+        self.dt[node.upper()] = self.dt[node.upper()] + othereplus.dt[node.upper()]
 
     def addinnode(self, otherplus, node, objectname):
         """add an item to the node.
@@ -252,4 +247,4 @@ class Eplusdata(object):
         return alist
 
 
-#------------------------------------------
+# ------------------------------------------

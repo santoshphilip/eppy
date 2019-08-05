@@ -403,52 +403,65 @@ def test_EpBunch():
 
     iddfile = StringIO(iddtxt)
     fname = StringIO(idftxt)
-    block, data, commdct, idd_index = readidf.readdatacommdct1(fname,
-                                                               iddfile=iddfile)
+    block, data, commdct, idd_index = readidf.readdatacommdct1(fname, iddfile=iddfile)
 
     # setup code walls - can be generic for any object
     ddtt = data.dt
     dtls = data.dtls
-    wall_i = dtls.index('BuildingSurface:Detailed'.upper())
-    wallkey = 'BuildingSurface:Detailed'.upper()
+    wall_i = dtls.index("BuildingSurface:Detailed".upper())
+    wallkey = "BuildingSurface:Detailed".upper()
     wallidd = commdct[wall_i]
 
     dwalls = ddtt[wallkey]
     dwall = dwalls[0]
 
-    wallfields = [comm.get('field') for comm in commdct[wall_i]]
-    wallfields[0] = ['key']
+    wallfields = [comm.get("field") for comm in commdct[wall_i]]
+    wallfields[0] = ["key"]
     wallfields = [field[0] for field in wallfields]
     wall_fields = [bunchhelpers.makefieldname(field) for field in wallfields]
     assert wall_fields[:20] == [
-        'key', 'Name', 'Surface_Type',
-        'Construction_Name', 'Zone_Name', 'Outside_Boundary_Condition',
-        'Outside_Boundary_Condition_Object', 'Sun_Exposure', 'Wind_Exposure',
-        'View_Factor_to_Ground', 'Number_of_Vertices', 'Vertex_1_Xcoordinate',
-        'Vertex_1_Ycoordinate', 'Vertex_1_Zcoordinate', 'Vertex_2_Xcoordinate',
-        'Vertex_2_Ycoordinate', 'Vertex_2_Zcoordinate', 'Vertex_3_Xcoordinate',
-        'Vertex_3_Ycoordinate', 'Vertex_3_Zcoordinate']
+        "key",
+        "Name",
+        "Surface_Type",
+        "Construction_Name",
+        "Zone_Name",
+        "Outside_Boundary_Condition",
+        "Outside_Boundary_Condition_Object",
+        "Sun_Exposure",
+        "Wind_Exposure",
+        "View_Factor_to_Ground",
+        "Number_of_Vertices",
+        "Vertex_1_Xcoordinate",
+        "Vertex_1_Ycoordinate",
+        "Vertex_1_Zcoordinate",
+        "Vertex_2_Xcoordinate",
+        "Vertex_2_Ycoordinate",
+        "Vertex_2_Zcoordinate",
+        "Vertex_3_Xcoordinate",
+        "Vertex_3_Ycoordinate",
+        "Vertex_3_Zcoordinate",
+    ]
 
     bwall = EpBunch(dwall, wall_fields, wallidd)
 
     # print bwall.Name
     # print data.dt[wallkey][0][1]
     assert bwall.Name == data.dt[wallkey][0][1]
-    bwall.Name = 'Gumby'
+    bwall.Name = "Gumby"
     # print bwall.Name
     # print data.dt[wallkey][0][1]
     # print
     assert bwall.Name == data.dt[wallkey][0][1]
 
     # set aliases
-    bwall.__aliases = {'Constr': 'Construction_Name'}
+    bwall.__aliases = {"Constr": "Construction_Name"}
 
     # print "wall.Construction_Name = %s" % (bwall.Construction_Name, )
     # print "wall.Constr = %s" % (bwall.Constr, )
     # print
     assert bwall.Construction_Name == bwall.Constr
     # print "change wall.Constr"
-    bwall.Constr = 'AnewConstr'
+    bwall.Constr = "AnewConstr"
     # print "wall.Constr = %s" % (bwall.Constr, )
     # print "wall.Constr = %s" % (data.dt[wallkey][0][3], )
     # print
@@ -463,12 +476,34 @@ def test_EpBunch():
 
     # print bwall.svalues
     assert bwall.svalues == (
-        'Gumby', 'AnewConstr',
+        "Gumby",
+        "AnewConstr",
         [
-            'BuildingSurface:Detailed', 'Gumby', 'Wall', 'AnewConstr',
-            'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed',
-            '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000',
-            '0', '0', '6.096000', '0', '3.048000'])
+            "BuildingSurface:Detailed",
+            "Gumby",
+            "Wall",
+            "AnewConstr",
+            "West Zone",
+            "Outdoors",
+            "",
+            "SunExposed",
+            "WindExposed",
+            "0.5000000",
+            "4",
+            "0",
+            "0",
+            "3.048000",
+            "0",
+            "0",
+            "0",
+            "6.096000",
+            "0",
+            "0",
+            "6.096000",
+            "0",
+            "3.048000",
+        ],
+    )
 
     # print bwall.__functions
 
@@ -483,12 +518,34 @@ def test_EpBunch():
     # test functions and alias again
     assert bwall.Constr == data.dt[wallkey][0][3]
     assert bwall.svalues == (
-        newname, 'AnewConstr',
+        newname,
+        "AnewConstr",
         [
-            'BuildingSurface:Detailed', newname, 'Wall', 'AnewConstr',
-            'West Zone', 'Outdoors', '', 'SunExposed', 'WindExposed',
-            '0.5000000', '4', '0', '0', '3.048000', '0', '0', '0', '6.096000',
-            '0', '0', '6.096000', '0', '3.048000'])
+            "BuildingSurface:Detailed",
+            newname,
+            "Wall",
+            "AnewConstr",
+            "West Zone",
+            "Outdoors",
+            "",
+            "SunExposed",
+            "WindExposed",
+            "0.5000000",
+            "4",
+            "0",
+            "0",
+            "3.048000",
+            "0",
+            "0",
+            "0",
+            "6.096000",
+            "0",
+            "0",
+            "6.096000",
+            "0",
+            "3.048000",
+        ],
+    )
     # test bunch_subclass.BadEPFieldError
     with pytest.raises(bunch_subclass.BadEPFieldError):
         bwall.Name_atypo = "newname"
@@ -501,13 +558,13 @@ def test_EpBunch():
 
     # test where constr["obj"] has to be extended
     # more items are added to an extendible field
-    constr_i = dtls.index('Construction'.upper())
-    constrkey = 'Construction'.upper()
+    constr_i = dtls.index("Construction".upper())
+    constrkey = "Construction".upper()
     constridd = commdct[constr_i]
     dconstrs = ddtt[constrkey]
     dconstr = dconstrs[0]
-    constrfields = [comm.get('field') for comm in commdct[constr_i]]
-    constrfields[0] = ['key']
+    constrfields = [comm.get("field") for comm in commdct[constr_i]]
+    constrfields[0] = ["key"]
     constrfields = [field[0] for field in constrfields]
     constr_fields = [bunchhelpers.makefieldname(field) for field in
                      constrfields]
@@ -515,20 +572,42 @@ def test_EpBunch():
     assert bconstr.Name == "Dbl Clr 3mm/13mm Air"
     bconstr.Layer_4 = "butter"
     assert bconstr.obj == [
-        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
-        'CLEAR 3MM', 'butter']
+        "Construction",
+        "Dbl Clr 3mm/13mm Air",
+        "CLEAR 3MM",
+        "AIR 13MM",
+        "CLEAR 3MM",
+        "butter",
+    ]
     bconstr.Layer_7 = "cheese"
     assert bconstr.obj == [
-        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
-        'CLEAR 3MM', 'butter', '', '', 'cheese']
+        "Construction",
+        "Dbl Clr 3mm/13mm Air",
+        "CLEAR 3MM",
+        "AIR 13MM",
+        "CLEAR 3MM",
+        "butter",
+        "",
+        "",
+        "cheese",
+    ]
     bconstr["Layer_8"] = "jam"
     assert bconstr.obj == [
-        'Construction', 'Dbl Clr 3mm/13mm Air', 'CLEAR 3MM', 'AIR 13MM',
-        'CLEAR 3MM', 'butter', '', '', 'cheese', 'jam']
+        "Construction",
+        "Dbl Clr 3mm/13mm Air",
+        "CLEAR 3MM",
+        "AIR 13MM",
+        "CLEAR 3MM",
+        "butter",
+        "",
+        "",
+        "cheese",
+        "jam",
+    ]
 
     # retrieve a valid field that has no value
-    assert bconstr.Layer_10 == ''
-    assert bconstr["Layer_10"] == ''
+    assert bconstr.Layer_10 == ""
+    assert bconstr["Layer_10"] == ""
 
 
 def test_extendlist():
@@ -554,66 +633,65 @@ class TestEpBunch(object):
     def initdata(self):
         obj, objls, objidd = (
             [
-                'BUILDING',
-                'Empire State Building',
+                "BUILDING",
+                "Empire State Building",
                 30.0,
-                'City',
+                "City",
                 0.04,
                 0.4,
-                'FullExterior',
+                "FullExterior",
                 25,
-                6],  # obj
-
+                6,
+            ],  # obj
             [
-                'key',
-                'Name',
-                'North_Axis',
-                'Terrain',
-                'Loads_Convergence_Tolerance_Value',
-                'Temperature_Convergence_Tolerance_Value',
-                'Solar_Distribution',
-                'Maximum_Number_of_Warmup_Days',
-                'Minimum_Number_of_Warmup_Days'],
-
+                "key",
+                "Name",
+                "North_Axis",
+                "Terrain",
+                "Loads_Convergence_Tolerance_Value",
+                "Temperature_Convergence_Tolerance_Value",
+                "Solar_Distribution",
+                "Maximum_Number_of_Warmup_Days",
+                "Minimum_Number_of_Warmup_Days",
+            ],
             # the following objidd are made up
             [
                 {},
-                {u'default': [u'NONE'],
-                 u'field': [u'Name'],
-                 u'required-field': [u''],
-                 u'retaincase': [u'']},
-                {'type': ['real']},
-                {u'default': [u'Suburbs'],
-                 u'field': [u'Terrain'],
-                 u'key': [u'Country', u'Suburbs', u'City', u'Ocean', u'Urban'],
-                 u'note': [
-                     u'Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs '
-                     u'| City=CityCenter | Ocean=body of water (5km) | '
-                     u'Urban=Urban-Industrial-Forest'],
-                 u'type': [u'choice']},
-
                 {
-                    'maximum': ['.5'],
-                    'minimum>': ['0.0'],
-                    'type': ['real']},
-
+                    "default": ["NONE"],
+                    "field": ["Name"],
+                    "required-field": [""],
+                    "retaincase": [""],
+                },
+                {"type": ["real"]},
                 {
-                    'maximum': ['.5'],
-                    'minimum>': ['0.0'],
-                    'type': ['real']},
-
-                {'type': ['choice']},
-
+                    "default": ["Suburbs"],
+                    "field": ["Terrain"],
+                    "key": ["Country", "Suburbs", "City", "Ocean", "Urban"],
+                    "note": [
+                        "Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest"
+                    ],
+                    "type": ["choice"],
+                },
+                {"maximum": [".5"], "minimum>": ["0.0"], "type": ["real"]},
+                {"maximum": [".5"], "minimum>": ["0.0"], "type": ["real"]},
+                {"type": ["choice"]},
                 {
-                    'maximum': None, 'minimum': None, 'maximum<': ['5'],
-                    'minimum>': ['-3'],
-                    'type': ['integer']},
-
+                    "maximum": None,
+                    "minimum": None,
+                    "maximum<": ["5"],
+                    "minimum>": ["-3"],
+                    "type": ["integer"],
+                },
                 {
-                    'maximum': ['5'], 'minimum': ['-3'], 'maximum<': None,
-                    'minimum>': None,
-                    'type': ['real']},
-            ])
+                    "maximum": ["5"],
+                    "minimum": ["-3"],
+                    "maximum<": None,
+                    "minimum>": None,
+                    "type": ["real"],
+                },
+            ],
+        )
         return obj, objls, objidd
 
     def test_fieldnames(self):
@@ -643,14 +721,23 @@ class TestEpBunch(object):
             (
                 "Loads_Convergence_Tolerance_Value",
                 {
-                    'maximum': .5, 'minimum>': 0.0, 'maximum<': None,
-                    'minimum': None, 'type': 'real'},),  # fieldname, theranges
+                    "maximum": 0.5,
+                    "minimum>": 0.0,
+                    "maximum<": None,
+                    "minimum": None,
+                    "type": "real",
+                },
+            ),  # fieldname, theranges
             (
                 "Maximum_Number_of_Warmup_Days",
                 {
-                    'maximum': None, 'minimum>': -3, 'maximum<': 5,
-                    'minimum': None, 'type': 'integer'},),
-        # fieldname, theranges
+                    "maximum": None,
+                    "minimum>": -3,
+                    "maximum<": 5,
+                    "minimum": None,
+                    "type": "integer",
+                },
+            ),  # fieldname, theranges
         )
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
@@ -660,46 +747,38 @@ class TestEpBunch(object):
 
     def test_checkrange(self):
         data = (
-            ("Minimum_Number_of_Warmup_Days",
-             4, False, None),
+            ("Minimum_Number_of_Warmup_Days", 4, False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("Minimum_Number_of_Warmup_Days",
-             6, True, bunch_subclass.RangeError),
+            ("Minimum_Number_of_Warmup_Days", 6, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
-            ("Minimum_Number_of_Warmup_Days",
-             5, False, None),
+            ("Minimum_Number_of_Warmup_Days", 5, False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("Minimum_Number_of_Warmup_Days",
-             - 3, False, None),
+            ("Minimum_Number_of_Warmup_Days", -3, False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("Minimum_Number_of_Warmup_Days",
-             - 4, True, bunch_subclass.RangeError),
+            ("Minimum_Number_of_Warmup_Days", -4, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
             # -
-            ("Maximum_Number_of_Warmup_Days",
-             4, False, None),
+            ("Maximum_Number_of_Warmup_Days", 4, False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("Maximum_Number_of_Warmup_Days",
-             5, True, bunch_subclass.RangeError),
+            ("Maximum_Number_of_Warmup_Days", 5, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
-            ("Maximum_Number_of_Warmup_Days",
-             - 3, True, bunch_subclass.RangeError),
+            ("Maximum_Number_of_Warmup_Days", -3, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
-            ("Loads_Convergence_Tolerance_Value",
-             0.3, False, bunch_subclass.RangeError),
+            (
+                "Loads_Convergence_Tolerance_Value",
+                0.3,
+                False,
+                bunch_subclass.RangeError,
+            ),
             # fieldname, fieldvalue, isexception, theexception
-            ("Loads_Convergence_Tolerance_Value",
-             0, True, bunch_subclass.RangeError),
+            ("Loads_Convergence_Tolerance_Value", 0, True, bunch_subclass.RangeError),
             # fieldname, fieldvalue, isexception, theexception
             # -
-            ("North_Axis",
-             0, False, None),
+            ("North_Axis", 0, False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("Name",
-             'Empire State Building', False, None),
+            ("Name", "Empire State Building", False, None),
             # fieldname, fieldvalue, isexception, theexception
-            ("key",
-             'BUILDING', False, None),
+            ("key", "BUILDING", False, None),
             # fieldname, fieldvalue, isexception, theexception
         )
         obj, objls, objidd = self.initdata()
@@ -717,29 +796,29 @@ class TestEpBunch(object):
         """py.test for getfieldidd"""
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
-        result = idfobject.getfieldidd('North_Axis')
-        assert result == {'type': ['real']}
-        result = idfobject.getfieldidd('No_such_field')
+        result = idfobject.getfieldidd("North_Axis")
+        assert result == {"type": ["real"]}
+        result = idfobject.getfieldidd("No_such_field")
         assert result == {}
 
     def test_getfieldidd_item(self):
         """py.test for test_getfieldidd_item"""
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
-        result = idfobject.getfieldidd_item('North_Axis', 'type')
-        assert result == ['real']
-        result = idfobject.getfieldidd_item('North_Axis', 'no_such_key')
+        result = idfobject.getfieldidd_item("North_Axis", "type")
+        assert result == ["real"]
+        result = idfobject.getfieldidd_item("North_Axis", "no_such_key")
         assert result == []
-        result = idfobject.getfieldidd_item('no_such_field', 'type')
+        result = idfobject.getfieldidd_item("no_such_field", "type")
         assert result == []
 
     def test_get_retaincase(self):
         """py.test for get_retaincase"""
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
-        result = idfobject.get_retaincase('Name')
+        result = idfobject.get_retaincase("Name")
         assert result == True
-        result = idfobject.get_retaincase('Terrain')
+        result = idfobject.get_retaincase("Terrain")
         assert result == False
 
     def test_isequal(self):
@@ -747,126 +826,120 @@ class TestEpBunch(object):
         obj, objls, objidd = self.initdata()
         idfobject = EpBunch(obj, objls, objidd)
         # test Terrain -> Alphanumeric, no retaincase
-        result = idfobject.isequal('Terrain', 'City')
+        result = idfobject.isequal("Terrain", "City")
         assert result == True
-        result = idfobject.isequal('Terrain', 'Rural')
+        result = idfobject.isequal("Terrain", "Rural")
         assert result == False
-        result = idfobject.isequal('Terrain', 'CITY')
+        result = idfobject.isequal("Terrain", "CITY")
         assert result == True
         # test Name -> Alphanumeric, retaincase
-        result = idfobject.isequal('Name', 'Empire State Building')
+        result = idfobject.isequal("Name", "Empire State Building")
         assert result == True
-        result = idfobject.isequal('Name', 'Empire State Building'.upper())
+        result = idfobject.isequal("Name", "Empire State Building".upper())
         assert result == False
         # test North_Axis -> real
-        result = idfobject.isequal('North_Axis', 30)
+        result = idfobject.isequal("North_Axis", 30)
         assert result == True
-        result = idfobject.isequal('North_Axis', '30')
+        result = idfobject.isequal("North_Axis", "30")
         assert result == True
         # test North_Axis -> real
-        result = idfobject.isequal('North_Axis', 30.02)
+        result = idfobject.isequal("North_Axis", 30.02)
         assert result == False
-        result = idfobject.isequal('North_Axis', 30.02, places=1)
+        result = idfobject.isequal("North_Axis", 30.02, places=1)
         assert result == True
         # test Maximum_Number_of_Warmup_Days -> integer
-        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25)
+        result = idfobject.isequal("Maximum_Number_of_Warmup_Days", 25)
         assert result == True
-        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25.0000)
+        result = idfobject.isequal("Maximum_Number_of_Warmup_Days", 25.0000)
         assert result == True
-        result = idfobject.isequal('Maximum_Number_of_Warmup_Days', 25.00001)
+        result = idfobject.isequal("Maximum_Number_of_Warmup_Days", 25.00001)
         assert result == False
 
     def test_getreferingobjs(self):
         """py.test for getreferingobjs"""
-        thedata = ((
-                       """  Zone,
-                       Box,  !- Name
-                       0.0,  !- Direction of Relative North {deg}
-                       0.288184,  !- X Origin {m}
-                       0.756604,  !- Y Origin {m}
-                       0.0,  !- Z Origin {m}
-                       ,  !- Type
-                       1;  !- Multiplier
-               
-                     BuildingSurface:Detailed,
-                       N_Wall,  !- Name
-                       Wall,  !- Surface Type
-                       Exterior Wall,  !- Construction Name
-                       Box,  !- Zone Name
-                       Outdoors,  !- Outside Boundary Condition
-                       ,  !- Outside Boundary Condition Object
-                       SunExposed,  !- Sun Exposure
-                       WindExposed,  !- Wind Exposure
-                       ,  !- View Factor to Ground
-                       1,  !- Number of Vertices
-                       5.000000000000,  !- Vertex 1 X-coordinate {m}
-                       6.000000000000,  !- Vertex 1 Y-coordinate {m}
-                       3.000000000000;  !- Vertex 1 Z-coordinate {m}
-               
-                     WALL:EXTERIOR,
-                         WallExterior,                    !- Name
-                         ,                         !- Construction Name
-                         Box,                         !- Zone Name
-                         ,                         !- Azimuth Angle
-                         90;                       !- Tilt Angle
-               
-                       BUILDINGSURFACE:DETAILED,
-                           EWall,                    !- Name
-                           ,                         !- Surface Type
-                           ,                         !- Construction Name
-                           BOX,                         !- Zone Name
-                           OtherBox,                         !- Outside 
-                           Boundary Condition
-                           ,                         !- Outside Boundary 
-                           Condition Object
-                           SunExposed,               !- Sun Exposure
-                           WindExposed,              !- Wind Exposure
-                           autocalculate,            !- View Factor to Ground
-                           autocalculate;            !- Number of Vertices
-               
-                       BUILDINGSURFACE:DETAILED,
-                           EWall1,                    !- Name
-                           ,                         !- Surface Type
-                           ,                         !- Construction Name
-                           BOX_other,                         !- Zone Name
-                           OtherBox,                         !- Outside 
-                           Boundary Condition
-                           ,                         !- Outside Boundary 
-                           Condition Object
-                           SunExposed,               !- Sun Exposure
-                           WindExposed,              !- Wind Exposure
-                           autocalculate,            !- View Factor to Ground
-                           autocalculate;            !- Number of Vertices
-                     HVACTemplate:Thermostat,
-                       Constant Setpoint Thermostat,  !- Name
-                       ,                        !- Heating Setpoint Schedule 
-                       Name
-                       20,                      !- Constant Heating Setpoint {C}
-                       ,                        !- Cooling Setpoint Schedule 
-                       Name
-                       25;                      !- Constant Cooling Setpoint {C}
-               
-                   FENESTRATIONSURFACE:DETAILED,
-                       Window1,                  !- Name
-                       ,                         !- Surface Type
-                       ,                         !- Construction Name
-                       EWall1,                         !- Building Surface Name
-                       ,                         !- Outside Boundary 
-                       Condition Object
-                       autocalculate,            !- View Factor to Ground
-                       ,                         !- Shading Control Name
-                       ,                         !- Frame and Divider Name
-                       1.0,                      !- Multiplier
-                       autocalculate;            !- Number of Vertices
-                     """,
-                       'Box',
-                       ['N_Wall', 'EWall', 'WallExterior']),
-        # idftxt, zname, surfnamelst
+        thedata = (
+            (
+                """  Zone,
+        Box,  !- Name
+        0.0,  !- Direction of Relative North {deg}
+        0.288184,  !- X Origin {m}
+        0.756604,  !- Y Origin {m}
+        0.0,  !- Z Origin {m}
+        ,  !- Type
+        1;  !- Multiplier
+
+      BuildingSurface:Detailed,
+        N_Wall,  !- Name
+        Wall,  !- Surface Type
+        Exterior Wall,  !- Construction Name
+        Box,  !- Zone Name
+        Outdoors,  !- Outside Boundary Condition
+        ,  !- Outside Boundary Condition Object
+        SunExposed,  !- Sun Exposure
+        WindExposed,  !- Wind Exposure
+        ,  !- View Factor to Ground
+        1,  !- Number of Vertices
+        5.000000000000,  !- Vertex 1 X-coordinate {m}
+        6.000000000000,  !- Vertex 1 Y-coordinate {m}
+        3.000000000000;  !- Vertex 1 Z-coordinate {m}
+
+      WALL:EXTERIOR,
+          WallExterior,                    !- Name
+          ,                         !- Construction Name
+          Box,                         !- Zone Name
+          ,                         !- Azimuth Angle
+          90;                       !- Tilt Angle
+
+        BUILDINGSURFACE:DETAILED,
+            EWall,                    !- Name
+            ,                         !- Surface Type
+            ,                         !- Construction Name
+            BOX,                         !- Zone Name
+            OtherBox,                         !- Outside Boundary Condition
+            ,                         !- Outside Boundary Condition Object
+            SunExposed,               !- Sun Exposure
+            WindExposed,              !- Wind Exposure
+            autocalculate,            !- View Factor to Ground
+            autocalculate;            !- Number of Vertices
+
+        BUILDINGSURFACE:DETAILED,
+            EWall1,                    !- Name
+            ,                         !- Surface Type
+            ,                         !- Construction Name
+            BOX_other,                         !- Zone Name
+            OtherBox,                         !- Outside Boundary Condition
+            ,                         !- Outside Boundary Condition Object
+            SunExposed,               !- Sun Exposure
+            WindExposed,              !- Wind Exposure
+            autocalculate,            !- View Factor to Ground
+            autocalculate;            !- Number of Vertices
+      HVACTemplate:Thermostat,
+        Constant Setpoint Thermostat,  !- Name
+        ,                        !- Heating Setpoint Schedule Name
+        20,                      !- Constant Heating Setpoint {C}
+        ,                        !- Cooling Setpoint Schedule Name
+        25;                      !- Constant Cooling Setpoint {C}
+
+    FENESTRATIONSURFACE:DETAILED,
+        Window1,                  !- Name
+        ,                         !- Surface Type
+        ,                         !- Construction Name
+        EWall1,                         !- Building Surface Name
+        ,                         !- Outside Boundary Condition Object
+        autocalculate,            !- View Factor to Ground
+        ,                         !- Shading Control Name
+        ,                         !- Frame and Divider Name
+        1.0,                      !- Multiplier
+        autocalculate;            !- Number of Vertices
+      """,
+                "Box",
+                ["N_Wall", "EWall", "WallExterior"],
+            ),  # idftxt, zname, surfnamelst
         )
         for idftxt, zname, surfnamelst in thedata:
             # import pdb; pdb.set_trace()
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone', zname)
+            zone = idf.getobject("zone", zname)
             kwargs = {}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
@@ -875,8 +948,8 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone', zname)
-            kwargs = {'iddgroups': [u'Thermal Zones and Surfaces', ]}
+            zone = idf.getobject("zone", zname)
+            kwargs = {"iddgroups": ["Thermal Zones and Surfaces"]}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -884,8 +957,8 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone', zname)
-            kwargs = {'fields': [u'Zone_Name', ], }
+            zone = idf.getobject("zone", zname)
+            kwargs = {"fields": ["Zone_Name"]}
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -893,9 +966,11 @@ class TestEpBunch(object):
             assert rnames == surfnamelst
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            zone = idf.getobject('zone', zname)
-            kwargs = {'fields': [u'Zone_Name', ],
-                      'iddgroups': [u'Thermal Zones and Surfaces', ]}
+            zone = idf.getobject("zone", zname)
+            kwargs = {
+                "fields": ["Zone_Name"],
+                "iddgroups": ["Thermal Zones and Surfaces"],
+            }
             result = zone.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -904,11 +979,13 @@ class TestEpBunch(object):
         # use the above idftxt and try other to get other references.
         for idftxt, zname, surfnamelst in thedata:
             idf = IDF(StringIO(idftxt))
-            wname = 'EWall1'
-            windownamelist = ['Window1', ]
-            wall = idf.getobject('BUILDINGSURFACE:DETAILED', wname)
-            kwargs = {'fields': [u'Building_Surface_Name', ],
-                      'iddgroups': [u'Thermal Zones and Surfaces', ]}
+            wname = "EWall1"
+            windownamelist = ["Window1"]
+            wall = idf.getobject("BUILDINGSURFACE:DETAILED", wname)
+            kwargs = {
+                "fields": ["Building_Surface_Name"],
+                "iddgroups": ["Thermal Zones and Surfaces"],
+            }
             result = wall.getreferingobjs(**kwargs)
             rnames = [item.Name for item in result]
             rnames.sort()
@@ -918,35 +995,35 @@ class TestEpBunch(object):
     def test_get_referenced_object(self):
         """py.test for get_referenced_object"""
         idf = IDF()
-        idf.initnew('test.idf')
-        idf.newidfobject('VERSION')  # does not have a field "Name"
+        idf.initnew("test.idf")
+        idf.newidfobject("VERSION")  # does not have a field "Name"
 
         # construction material
-        construction = idf.newidfobject('CONSTRUCTION', Name='construction')
-        construction.Outside_Layer = 'TestMaterial'
+        construction = idf.newidfobject("CONSTRUCTION", Name="construction")
+        construction.Outside_Layer = "TestMaterial"
 
-        expected = idf.newidfobject('MATERIAL', Name='TestMaterial')
+        expected = idf.newidfobject("MATERIAL", Name="TestMaterial")
 
-        fetched = idf.getobject('MATERIAL', 'TestMaterial')
+        fetched = idf.getobject("MATERIAL", "TestMaterial")
         assert fetched == expected
 
-        material = construction.get_referenced_object('Outside_Layer')
+        material = construction.get_referenced_object("Outside_Layer")
         assert material == expected
 
         # window material
         glazing_group = idf.newidfobject(
-            'WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC', Name='glazing_group')
-        glazing_group.Window_Material_Glazing_Name_1 = 'TestWindowMaterial'
+            "WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC", Name="glazing_group"
+        )
+        glazing_group.Window_Material_Glazing_Name_1 = "TestWindowMaterial"
 
         expected = idf.newidfobject(
-            'WINDOWMATERIAL:GLAZING',
-            Name='TestWindowMaterial')  # has several \references
+            "WINDOWMATERIAL:GLAZING", Name="TestWindowMaterial"
+        )  # has several \references
 
-        fetched = idf.getobject('WINDOWMATERIAL:GLAZING', 'TestWindowMaterial')
+        fetched = idf.getobject("WINDOWMATERIAL:GLAZING", "TestWindowMaterial")
         assert fetched == expected
 
-        material = glazing_group.get_referenced_object(
-            'Window_Material_Glazing_Name_1')
+        material = glazing_group.get_referenced_object("Window_Material_Glazing_Name_1")
         assert material == expected
 
 
@@ -985,12 +1062,12 @@ BuildingSurface:Detailed,
 # test_EpBunch1()
 # import idfreader
 
+
 def test_EpBunch1():
     """py.test for EpBunch1"""
     iddfile = StringIO(iddtxt)
     idffile = StringIO(bldfidf)
-    block, data, commdct, idd_index = readidf.readdatacommdct1(idffile,
-                                                               iddfile=iddfile)
+    block, data, commdct, idd_index = readidf.readdatacommdct1(idffile, iddfile=iddfile)
     key = "BUILDING"
     objs = data.dt[key]
     obj = objs[0]

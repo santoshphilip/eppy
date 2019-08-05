@@ -52,7 +52,7 @@ def install_paths(version=None, iddname=None):
         eplus_exe, eplus_home = paths_from_iddname(iddname)
     except (AttributeError, TypeError, ValueError):
         eplus_exe, eplus_home = paths_from_version(version)
-    eplus_weather = os.path.join(eplus_home, 'WeatherData')
+    eplus_weather = os.path.join(eplus_home, "WeatherData")
 
     return eplus_exe, eplus_weather
 
@@ -81,12 +81,12 @@ def paths_from_iddname(iddname):
 
     """
     eplus_home = os.path.abspath(os.path.dirname(iddname))
-    if platform.system() == 'Windows':
-        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+    if platform.system() == "Windows":
+        eplus_exe = os.path.join(eplus_home, "energyplus.exe")
     elif platform.system() == "Linux":
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
+        eplus_exe = os.path.join(eplus_home, "energyplus")
     else:
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
+        eplus_exe = os.path.join(eplus_home, "energyplus")
     if not os.path.isfile(eplus_exe):
         raise ValueError
     return eplus_exe, eplus_home
@@ -108,21 +108,22 @@ def paths_from_version(version):
         Full path to the EnergyPlus install directory.
 
     """
-    if platform.system() == 'Windows':
+    if platform.system() == "Windows":
         eplus_home = "C:/EnergyPlusV{version}".format(version=version)
-        eplus_exe = os.path.join(eplus_home, 'energyplus.exe')
+        eplus_exe = os.path.join(eplus_home, "energyplus.exe")
     elif platform.system() == "Linux":
         eplus_home = "/usr/local/EnergyPlus-{version}".format(version=version)
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
+        eplus_exe = os.path.join(eplus_home, "energyplus")
     else:
         eplus_home = "/Applications/EnergyPlus-{version}".format(version=version)
-        eplus_exe = os.path.join(eplus_home, 'energyplus')
+        eplus_exe = os.path.join(eplus_home, "energyplus")
     return eplus_exe, eplus_home
 
 
 def wrapped_help_text(wrapped_func):
     """Decorator to pass through the documentation from a wrapped function.
     """
+
     def decorator(wrapper_func):
         """The decorator.
 
@@ -132,9 +133,12 @@ def wrapped_help_text(wrapped_func):
             The wrapped function.
 
         """
-        wrapper_func.__doc__ = ('This method wraps the following method:\n\n' +
-                                pydoc.text.document(wrapped_func))
+        wrapper_func.__doc__ = (
+            "This method wraps the following method:\n\n"
+            + pydoc.text.document(wrapped_func)
+        )
         return wrapper_func
+
     return decorator
 
 
@@ -157,7 +161,9 @@ def runIDFs(jobs, processors=1):
     shutil.rmtree("multi_runs", ignore_errors=True)
     os.mkdir("multi_runs")
 
-    prepared_runs = (prepare_run(run_id, run_data) for run_id, run_data in enumerate(jobs))
+    prepared_runs = (
+        prepare_run(run_id, run_data) for run_id, run_data in enumerate(jobs)
+    )
     try:
         pool = mp.Pool(processors)
         pool.map(multirunner, prepared_runs)
@@ -178,9 +184,9 @@ def prepare_run(run_id, run_data):
     """
     idf, kwargs = run_data
     epw = idf.epw
-    idf_dir = os.path.join('multi_runs', 'idf_%i' % run_id)
+    idf_dir = os.path.join("multi_runs", "idf_%i" % run_id)
     os.mkdir(idf_dir)
-    idf_path = os.path.join(idf_dir, 'in.idf')
+    idf_path = os.path.join(idf_dir, "in.idf")
     idf.saveas(idf_path)
     return (idf_path, epw), kwargs
 
@@ -197,10 +203,22 @@ def multirunner(args):
     run(*args[0], **args[1])
 
 
-def run(idf=None, weather=None, output_directory='', annual=False,
-        design_day=False, idd=None, epmacro=False, expandobjects=False,
-        readvars=False, output_prefix=None, output_suffix=None, version=False,
-        verbose='v', ep_version=None):
+def run(
+    idf=None,
+    weather=None,
+    output_directory="",
+    annual=False,
+    design_day=False,
+    idd=None,
+    epmacro=False,
+    expandobjects=False,
+    readvars=False,
+    output_prefix=None,
+    output_suffix=None,
+    version=False,
+    verbose="v",
+    ep_version=None,
+):
     """
     Wrapper around the EnergyPlus command line interface.
 
@@ -270,39 +288,40 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     """
     args = locals().copy()
     # get unneeded params out of args ready to pass the rest to energyplus.exe
-    verbose = args.pop('verbose')
-    idf = args.pop('idf')
-    iddname = args.get('idd')
+    verbose = args.pop("verbose")
+    idf = args.pop("idf")
+    iddname = args.get("idd")
     if not isinstance(iddname, str):
-        args.pop('idd')
+        args.pop("idd")
     try:
         idf_path = os.path.abspath(idf.idfname)
     except AttributeError:
         idf_path = os.path.abspath(idf)
-    ep_version = args.pop('ep_version')
+    ep_version = args.pop("ep_version")
     # get version from IDF object or by parsing the IDF file for it
     if not ep_version:
         try:
-            ep_version = '-'.join(str(x) for x in idf.idd_version[:3])
+            ep_version = "-".join(str(x) for x in idf.idd_version[:3])
         except AttributeError:
             raise AttributeError(
                 "The ep_version must be set when passing an IDF path. \
-                Alternatively, use IDF.run()")
+                Alternatively, use IDF.run()"
+            )
 
     eplus_exe_path, eplus_weather_path = install_paths(ep_version, iddname)
     if version:
         # just get EnergyPlus version number and return
-        cmd = [eplus_exe_path, '--version']
+        cmd = [eplus_exe_path, "--version"]
         check_call(cmd)
         return
 
     # convert paths to absolute paths if required
-    if os.path.isfile(args['weather']):
-        args['weather'] = os.path.abspath(args['weather'])
+    if os.path.isfile(args["weather"]):
+        args["weather"] = os.path.abspath(args["weather"])
     else:
-        args['weather'] = os.path.join(eplus_weather_path, args['weather'])
-    output_dir = os.path.abspath(args['output_directory'])
-    args['output_directory'] = output_dir
+        args["weather"] = os.path.join(eplus_weather_path, args["weather"])
+    output_dir = os.path.abspath(args["output_directory"])
+    args["output_directory"] = output_dir
 
     # store the directory we start in
     cwd = os.getcwd()
@@ -314,24 +333,24 @@ def run(idf=None, weather=None, output_directory='', annual=False,
     for arg in args:
         if args[arg]:
             if isinstance(args[arg], bool):
-                args[arg] = ''
-            cmd.extend(['--{}'.format(arg.replace('_', '-'))])
+                args[arg] = ""
+            cmd.extend(["--{}".format(arg.replace("_", "-"))])
             if args[arg] != "":
                 cmd.extend([args[arg]])
     cmd.extend([idf_path])
 
     try:
-        if verbose == 'v':
+        if verbose == "v":
             print("\r\n" + " ".join(cmd) + "\r\n")
             check_call(cmd)
-        elif verbose == 'q':
-            check_call(cmd, stdout=open(os.devnull, 'w'))
+        elif verbose == "q":
+            check_call(cmd, stdout=open(os.devnull, "w"))
     except CalledProcessError:
         message = parse_error(output_dir)
         raise EnergyPlusRunError(message)
     finally:
         os.chdir(cwd)
-    return 'OK'
+    return "OK"
 
 
 def parse_error(output_dir):
@@ -341,14 +360,16 @@ def parse_error(output_dir):
     :return: str
     """
     sys.stderr.seek(0)
-    std_err = sys.stderr.read().decode('utf-8')
+    std_err = sys.stderr.read().decode("utf-8")
     err_file = os.path.join(output_dir, "eplusout.err")
     if os.path.isfile(err_file):
         with open(err_file, "r") as f:
             ep_err = f.read()
     else:
         ep_err = "<File not found>"
-    message = "\r\n{std_err}\r\nContents of EnergyPlus error file at {err_file}\r\n{ep_err}".format(**locals())
+    message = "\r\n{std_err}\r\nContents of EnergyPlus error file at {err_file}\r\n{ep_err}".format(
+        **locals()
+    )
     return message
 
 

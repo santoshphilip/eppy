@@ -39,11 +39,8 @@ from __future__ import unicode_literals
 # generate all the repeating fields for all variables
 
 
-
-
-
-
 import eppy.bunchhelpers as bunchhelpers
+
 
 def cleaniddfield(acomm):
     """make all the keys lower case"""
@@ -56,27 +53,31 @@ def cleaniddfield(acomm):
             acomm.pop(key)
     return acomm
 
+
 def cleancommdct(commdct):
     """make all keys in commdct lower case"""
     return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
+
 
 def getfields(comm):
     """get all the fields that have the key 'field' """
     fields = []
     for field in comm:
-        if 'field' in field:
+        if "field" in field:
             fields.append(field)
     return fields
 
+
 def repeatingfieldsnames(fields):
     """get the names of the repeating fields"""
-    fnames = [field['field'][0] for field in fields]
+    fnames = [field["field"][0] for field in fields]
     fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
     fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
     dct = dict(fnames)
-    repnames = fnames[:len(list(dct.keys()))]
+    repnames = fnames[: len(list(dct.keys()))]
     return repnames
+
 
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
 def missingkeys_standard(commdct, dtls, skiplist=None):
@@ -97,8 +98,6 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         key_i = dtls.index(key_txt.upper())
         comm = commdct[key_i]
 
-
-
         # get all fields
         fields = getfields(comm)
 
@@ -106,26 +105,28 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         repnames = repeatingfieldsnames(fields)
 
         try:
-            first = repnames[0][0] % (1, )
+            first = repnames[0][0] % (1,)
         except IndexError:
             nofirstfields.append(key_txt)
             continue
         # print first
 
         # get all comments of the first repeating field names
-        firstnames = [repname[0] % (1, ) for repname in repnames]
-        fcomments = [field for field in fields
-                     if bunchhelpers.onlylegalchar(field['field'][0])
-                     in firstnames]
+        firstnames = [repname[0] % (1,) for repname in repnames]
+        fcomments = [
+            field
+            for field in fields
+            if bunchhelpers.onlylegalchar(field["field"][0]) in firstnames
+        ]
         fcomments = [dict(fcomment) for fcomment in fcomments]
         for cmt in fcomments:
-            fld = cmt['field'][0]
+            fld = cmt["field"][0]
             fld = bunchhelpers.onlylegalchar(fld)
             fld = bunchhelpers.replaceint(fld)
-            cmt['field'] = [fld]
+            cmt["field"] = [fld]
 
         for i, cmt in enumerate(comm[1:]):
-            thefield = cmt['field'][0]
+            thefield = cmt["field"][0]
             thefield = bunchhelpers.onlylegalchar(thefield)
             if thefield == first:
                 break
@@ -135,9 +136,9 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         for i in range(1, len(comm[first_i:]) // len(repnames) + 1):
             for fcomment in fcomments:
                 nfcomment = dict(fcomment)
-                fld = nfcomment['field'][0]
-                fld = fld % (i, )
-                nfcomment['field'] = [fld]
+                fld = nfcomment["field"][0]
+                fld = fld % (i,)
+                nfcomment["field"] = [fld]
                 newfields.append(nfcomment)
 
         for i, cmt in enumerate(comm):
@@ -149,10 +150,11 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
         commdct[key_i] = comm
     return nofirstfields
 
-def missingkeys_nonstandard(block, commdct, dtls, objectlist, afield='afiled %s'):
+
+def missingkeys_nonstandard(block, commdct, dtls, objectlist, afield="afiled %s"):
     """This is an object list where thre is no first field name
     to give a hint of what the first field name should be"""
-    afield = 'afield %s'
+    afield = "afield %s"
     for key_txt in objectlist:
         key_i = dtls.index(key_txt.upper())
         comm = commdct[key_i]
@@ -165,6 +167,6 @@ def missingkeys_nonstandard(block, commdct, dtls, objectlist, afield='afiled %s'
         for i, cmt in enumerate(comm):
             if i >= first_i:
                 if block:
-                    comm[i]['field'] = ['%s' % (blk[i])]
+                    comm[i]["field"] = ["%s" % (blk[i])]
                 else:
-                    comm[i]['field'] = [afield % (i - first_i + 1,),]
+                    comm[i]["field"] = [afield % (i - first_i + 1,)]

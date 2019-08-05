@@ -11,6 +11,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+
 def key2elements(key):
     """split key to elements"""
     # words = key.split('.')
@@ -24,22 +25,22 @@ def key2elements(key):
     #     nameword = nameword[1:-1]
     # elements = words[:-2] + [nameword, fieldword, ]
     # return elements
-    words = key.split('.')
+    words = key.split(".")
     first2words = words[:2]
     lastword = words[-1]
     namewords = words[2:-1]
-    namephrase = '.'.join(namewords)
+    namephrase = ".".join(namewords)
     if namephrase.startswith("'") and namephrase.endswith("'"):
         namephrase = namephrase[1:-1]
     return first2words + [namephrase] + [lastword]
-    
-    
+
+
 def updateidf(idf, dct):
     """update idf using dct"""
     for key in list(dct.keys()):
-        if key.startswith('idf.'):
+        if key.startswith("idf."):
             idftag, objkey, objname, field = key2elements(key)
-            if objname == '':
+            if objname == "":
                 try:
                     idfobj = idf.idfobjects[objkey.upper()][0]
                 except IndexError as e:

@@ -34,24 +34,28 @@ from eppy.runner.run_functions import wrapped_help_text
 class NoObjectError(Exception):
 
     """Exception Object"""
+
     pass
 
 
 class NotSameObjectError(Exception):
 
     """Exception Object"""
+
     pass
 
 
 class IDDNotSetError(Exception):
 
     """Exception Object"""
+
     pass
 
 
 class IDDAlreadySetError(Exception):
 
     """Exception Object"""
+
     pass
 
 
@@ -77,19 +81,19 @@ def almostequal(first, second, places=7, printit=True):
 def poptrailing(lst):
     """Remove trailing blank items from lst.
     """
-    while lst and lst[-1] == '':
+    while lst and lst[-1] == "":
         lst.pop()
     return lst
 
 
-def extendlist(lst, i, value=''):
+def extendlist(lst, i, value=""):
     """extend the list so that you have i-th value"""
     if i == None:
         pass
     elif i < len(lst):
         pass
     else:
-        lst.extend([value, ] * (i - len(lst) + 1))
+        lst.extend([value] * (i - len(lst) + 1))
 
 
 def newrawobject(data, commdct, key, block=None, defaultvalues=True):
@@ -117,11 +121,11 @@ def newrawobject(data, commdct, key, block=None, defaultvalues=True):
     key_comm = commdct[key_i]
     # set default values
     if defaultvalues:
-        obj = [comm.get('default', [''])[0] for comm in key_comm]
+        obj = [comm.get("default", [""])[0] for comm in key_comm]
     else:
-        obj = ['' for comm in key_comm]
+        obj = ["" for comm in key_comm]
     if not block:
-        inblock = ['does not start with N'] * len(obj)
+        inblock = ["does not start with N"] * len(obj)
     else:
         inblock = block[key_i]
     for i, (f_comm, f_val, f_iddname) in enumerate(zip(key_comm, obj, inblock)):
@@ -208,8 +212,9 @@ def getobject(bunchdt, key, name):
     if idfobjects:
         # second item in list is a unique ID
         unique_id = idfobjects[0].objls[1]
-    theobjs = [idfobj for idfobj in idfobjects if
-               idfobj[unique_id].upper() == name.upper()]
+    theobjs = [
+        idfobj for idfobj in idfobjects if idfobj[unique_id].upper() == name.upper()
+    ]
     try:
         return theobjs[0]
     except IndexError:
@@ -220,8 +225,8 @@ def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
     """test if the idf object has the field values in kwargs"""
     for key, value in list(kwargs.items()):
         if not isfieldvalue(
-                bunchdt, data, commdct,
-                idfobject, key, value, places=places):
+            bunchdt, data, commdct, idfobject, key, value, places=places
+        ):
             return False
     return True
 
@@ -231,9 +236,7 @@ def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
     idfobjects = bunchdt[key]
     allobjs = []
     for obj in idfobjects:
-        if __objecthasfields(
-                bunchdt, data, commdct,
-                obj, places=places, **kwargs):
+        if __objecthasfields(bunchdt, data, commdct, obj, places=places, **kwargs):
             allobjs.append(obj)
     return allobjs
 
@@ -251,8 +254,7 @@ def getextensibleindex(bunchdt, data, commdct, key, objname):
     if theobject == None:
         return None
     theidd = iddofobject(data, commdct, key)
-    extensible_i = [
-        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
+    extensible_i = [i for i in range(len(theidd)) if "begin-extensible" in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -265,8 +267,7 @@ def removeextensibles(bunchdt, data, commdct, key, objname):
     if theobject == None:
         return theobject
     theidd = iddofobject(data, commdct, key)
-    extensible_i = [
-        i for i in range(len(theidd)) if 'begin-extensible' in theidd[i]]
+    extensible_i = [i for i in range(len(theidd)) if "begin-extensible" in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
@@ -291,7 +292,7 @@ def getfieldcomm(bunchdt, data, commdct, idfobject, fieldname):
 def is_retaincase(bunchdt, data, commdct, idfobject, fieldname):
     """test if case has to be retained for that field"""
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobject, fieldname)
-    return 'retaincase' in thiscommdct
+    return "retaincase" in thiscommdct
 
 
 def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
@@ -301,12 +302,12 @@ def isfieldvalue(bunchdt, data, commdct, idfobj, fieldname, value, places=7):
     # return False # takes care of autocalculate and real
     # check float
     thiscommdct = getfieldcomm(bunchdt, data, commdct, idfobj, fieldname)
-    if 'type' in thiscommdct:
-        if thiscommdct['type'][0] in ('real', 'integer'):
+    if "type" in thiscommdct:
+        if thiscommdct["type"][0] in ("real", "integer"):
             # test for autocalculate
             try:
-                if idfobj[fieldname].upper() == 'AUTOCALCULATE':
-                    if value.upper() == 'AUTOCALCULATE':
+                if idfobj[fieldname].upper() == "AUTOCALCULATE":
+                    if value.upper() == "AUTOCALCULATE":
                         return True
             except AttributeError:
                 pass
@@ -328,9 +329,7 @@ def equalfield(bunchdt, data, commdct, idfobj1, idfobj2, fieldname, places=7):
     if key1 != key2:
         raise NotSameObjectError
     vee2 = idfobj2[fieldname]
-    return isfieldvalue(
-        bunchdt, data, commdct,
-        idfobj1, fieldname, vee2, places=places)
+    return isfieldvalue(bunchdt, data, commdct, idfobj1, fieldname, vee2, places=places)
 
 
 def getrefnames(idf, objname):
@@ -340,10 +339,10 @@ def getrefnames(idf, objname):
     index = dtls.index(objname)
     fieldidds = iddinfo[index]
     for fieldidd in fieldidds:
-        if 'field' in fieldidd:
-            if fieldidd['field'][0].endswith('Name'):
-                if 'reference' in fieldidd:
-                    return fieldidd['reference']
+        if "field" in fieldidd:
+            if fieldidd["field"][0].endswith("Name"):
+                if "reference" in fieldidd:
+                    return fieldidd["reference"]
                 else:
                     return []
 
@@ -359,8 +358,8 @@ def getallobjlists(idf, refname):
     for i, fieldidds in enumerate(idf.idd_info):
         indexlist = []
         for j, fieldidd in enumerate(fieldidds):
-            if 'object-list' in fieldidd:
-                if fieldidd['object-list'][0].upper() == refname.upper():
+            if "object-list" in fieldidd:
+                if fieldidd["object-list"][0].upper() == refname.upper():
                     indexlist.append(j)
         if indexlist != []:
             objkey = dtls[i]
@@ -375,8 +374,8 @@ def rename(idf, objkey, objname, newname):
         objlists = getallobjlists(idf, refname)
         # [('OBJKEY', refname, fieldindexlist), ...]
         for refname in refnames:
-        # TODO : there seems to be a duplication in this loop. Check.
-        # refname appears in both loops
+            # TODO : there seems to be a duplication in this loop. Check.
+            # refname appears in both loops
             for robjkey, refname, fieldindexlist in objlists:
                 idfobjects = idf.idfobjects[robjkey]
                 for idfobject in idfobjects:
@@ -384,17 +383,17 @@ def rename(idf, objkey, objname, newname):
                         if idfobject[idfobject.objls[findex]] == objname:
                             idfobject[idfobject.objls[findex]] = newname
     theobject = idf.getobject(objkey, objname)
-    fieldname = [item for item in theobject.objls if item.endswith('Name')][0]
+    fieldname = [item for item in theobject.objls if item.endswith("Name")][0]
     theobject[fieldname] = newname
     return theobject
 
 
 def zonearea(idf, zonename, debug=False):
     """zone area"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
     if debug:
         print(len(floors))
         print([floor.area for floor in floors])
@@ -408,10 +407,10 @@ def zonearea(idf, zonename, debug=False):
 
 def zonearea_floor(idf, zonename, debug=False):
     """zone area - floor"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
     if debug:
         print(len(floors))
         print([floor.area for floor in floors])
@@ -421,11 +420,10 @@ def zonearea_floor(idf, zonename, debug=False):
 
 def zonearea_roofceiling(idf, zonename, debug=False):
     """zone area - roof, ceiling"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs
-              if s.Surface_Type.upper() in ['ROOF', 'CEILING']]
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() in ["ROOF", "CEILING"]]
     if debug:
         print(len(floors))
         print([floor.area for floor in floors])
@@ -435,8 +433,8 @@ def zonearea_roofceiling(idf, zonename, debug=False):
 
 def zone_height_min2max(idf, zonename, debug=False):
     """zone height = max-min"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
     surf_xyzs = [s.coords for s in zone_surfs]
     surf_xyzs = list(itertools.chain(*surf_xyzs))
@@ -449,11 +447,11 @@ def zone_height_min2max(idf, zonename, debug=False):
 
 def zoneheight(idf, zonename, debug=False):
     """zone height"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
-    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == "ROOF"]
     if floors == [] or roofs == []:
         height = zone_height_min2max(idf, zonename)
     else:
@@ -463,12 +461,12 @@ def zoneheight(idf, zonename, debug=False):
 
 def zone_floor2roofheight(idf, zonename, debug=False):
     """zone floor to roof height"""
-    zone = idf.getobject('ZONE', zonename)
-    surfs = idf.idfobjects['BuildingSurface:Detailed'.upper()]
+    zone = idf.getobject("ZONE", zonename)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
     zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
-    floors = [s for s in zone_surfs if s.Surface_Type.upper() == 'FLOOR']
-    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == 'ROOF']
-    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == 'CEILING']
+    floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
+    roofs = [s for s in zone_surfs if s.Surface_Type.upper() == "ROOF"]
+    ceilings = [s for s in zone_surfs if s.Surface_Type.upper() == "CEILING"]
     topsurfaces = roofs + ceilings
 
     topz = []
@@ -494,6 +492,7 @@ def zonevolume(idf, zonename):
     volume = area * height
 
     return volume
+
 
 def refname2key(idf, refname):
     """return all keys that have the reference name"""
@@ -530,6 +529,7 @@ class IDF(object):
         'nocomment2', and 'compressed'.
 
     """
+
     iddname = None
     idd_info = None
     block = None
@@ -553,6 +553,7 @@ class IDF(object):
         self.outputtype = "standard"
 
     """ Methods to set up the IDD."""
+
     @classmethod
     def setiddname(cls, iddname, testing=False):
         """
@@ -624,7 +625,7 @@ class IDF(object):
             Path to an IDF file.
 
         """
-        with open(idfname, 'r') as _:
+        with open(idfname, "r") as _:
             # raise nonexistent file error early if idfname doesn't exist
             pass
         iddfhandle = StringIO(iddcurrent.iddtxt)
@@ -665,14 +666,15 @@ class IDF(object):
 
         """
         if self.getiddname() == None:
-            errortxt = ("IDD file needed to read the idf file. "
-                        "Set it using IDF.setiddname(iddfile)")
+            errortxt = (
+                "IDD file needed to read the idf file. "
+                "Set it using IDF.setiddname(iddfile)"
+            )
             raise IDDNotSetError(errortxt)
         readout = idfreader1(
-            self.idfname, self.iddname, self,
-            commdct=self.idd_info, block=self.block)
-        (self.idfobjects, block, self.model,
-            idd_info, idd_index, idd_version) = readout
+            self.idfname, self.iddname, self, commdct=self.idd_info, block=self.block
+        )
+        (self.idfobjects, block, self.model, idd_info, idd_index, idd_version) = readout
         self.__class__.setidd(idd_info, idd_index, block, idd_version)
 
     """Methods to do with creating a new blank IDF object."""
@@ -702,7 +704,7 @@ class IDF(object):
         iddfhandle = StringIO(iddcurrent.iddtxt)
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
-        idfhandle = StringIO('')
+        idfhandle = StringIO("")
         self.idfname = idfhandle
         self.read()
         if fname:
@@ -710,7 +712,7 @@ class IDF(object):
 
     """Methods to do with manipulating the objects in an IDF object."""
 
-    def newidfobject(self, key, aname='', defaultvalues=True, **kwargs):
+    def newidfobject(self, key, aname="", defaultvalues=True, **kwargs):
         """
         Add a new idfobject to the model. If you don't specify a value for a
         field, the default value will be set.
@@ -742,9 +744,14 @@ class IDF(object):
         EpBunch object
 
         """
-        
-        obj = newrawobject(self.model, self.idd_info, 
-                    key, block=self.block, defaultvalues=defaultvalues)
+
+        obj = newrawobject(
+            self.model,
+            self.idd_info,
+            key,
+            block=self.block,
+            defaultvalues=defaultvalues,
+        )
         abunch = obj2bunch(self.model, self.idd_info, obj)
         if aname:
             warnings.warn("The aname parameter should no longer be used.", UserWarning)
@@ -793,10 +800,7 @@ class IDF(object):
             or it can be used to copy within this idf file.
 
         """
-        return addthisbunch(self.idfobjects,
-                     self.model,
-                     self.idd_info,
-                     idfobject, self)
+        return addthisbunch(self.idfobjects, self.model, self.idd_info, idfobject, self)
 
     def getobject(self, key, name):
         """Fetch an IDF object given key and name.
@@ -833,9 +837,7 @@ class IDF(object):
         int
 
         """
-        return getextensibleindex(
-            self.idfobjects, self.model, self.idd_info,
-            key, name)
+        return getextensibleindex(self.idfobjects, self.model, self.idd_info, key, name)
 
     def removeextensibles(self, key, name):
         """
@@ -855,9 +857,7 @@ class IDF(object):
         EpBunch object
 
         """
-        return removeextensibles(
-            self.idfobjects, self.model, self.idd_info,
-            key, name)
+        return removeextensibles(self.idfobjects, self.model, self.idd_info, key, name)
 
     """Methods to do with outputting an IDF."""
 
@@ -874,37 +874,37 @@ class IDF(object):
         str
 
         """
-        if self.outputtype == 'standard':
-            astr = ''
+        if self.outputtype == "standard":
+            astr = ""
         else:
             astr = self.model.__repr__()
 
-        if self.outputtype == 'standard':
-            astr = ''
+        if self.outputtype == "standard":
+            astr = ""
             dtls = self.model.dtls
             for objname in dtls:
                 for obj in self.idfobjects[objname]:
                     astr = astr + obj.__repr__()
-        elif self.outputtype == 'nocomment':
+        elif self.outputtype == "nocomment":
             return astr
-        elif self.outputtype == 'nocomment1':
-            slist = astr.split('\n')
+        elif self.outputtype == "nocomment1":
+            slist = astr.split("\n")
             slist = [item.strip() for item in slist]
-            astr = '\n'.join(slist)
-        elif self.outputtype == 'nocomment2':
-            slist = astr.split('\n')
+            astr = "\n".join(slist)
+        elif self.outputtype == "nocomment2":
+            slist = astr.split("\n")
             slist = [item.strip() for item in slist]
-            slist = [item for item in slist if item != '']
-            astr = '\n'.join(slist)
-        elif self.outputtype == 'compressed':
-            slist = astr.split('\n')
+            slist = [item for item in slist if item != ""]
+            astr = "\n".join(slist)
+        elif self.outputtype == "compressed":
+            slist = astr.split("\n")
             slist = [item.strip() for item in slist]
-            astr = ' '.join(slist)
+            astr = " ".join(slist)
         else:
             raise ValueError("%s is not a valid outputtype" % self.outputtype)
         return astr
 
-    def save(self, filename=None, lineendings='default', encoding='latin-1'):
+    def save(self, filename=None, lineendings="default", encoding="latin-1"):
         """
         Save the IDF as a text file with the optional filename passed, or with
         the current idfname of the IDF.
@@ -928,23 +928,23 @@ class IDF(object):
         if filename is None:
             filename = self.idfname
         s = self.idfstr()
-        if lineendings == 'default':
+        if lineendings == "default":
             system = platform.system()
-            s = '!- {} Line endings \n'.format(system) + s
+            s = "!- {} Line endings \n".format(system) + s
             slines = s.splitlines()
             s = os.linesep.join(slines)
-        elif lineendings == 'windows':
-            s = '!- Windows Line endings \n' + s
+        elif lineendings == "windows":
+            s = "!- Windows Line endings \n" + s
             slines = s.splitlines()
-            s = '\r\n'.join(slines)
-        elif lineendings == 'unix':
-            s = '!- Unix Line endings \n' + s
+            s = "\r\n".join(slines)
+        elif lineendings == "unix":
+            s = "!- Unix Line endings \n" + s
             slines = s.splitlines()
-            s = '\n'.join(slines)
+            s = "\n".join(slines)
 
         s = s.encode(encoding)
         try:
-            with open(filename, 'wb') as idf_out:
+            with open(filename, "wb") as idf_out:
                 idf_out.write(s)
         except TypeError:  # in the case that filename is a file handle
             try:
@@ -952,7 +952,7 @@ class IDF(object):
             except TypeError:
                 filename.write(s.decode(encoding))
 
-    def saveas(self, filename, lineendings='default', encoding='latin-1'):
+    def saveas(self, filename, lineendings="default", encoding="latin-1"):
         """ Save the IDF as a text file with the filename passed.
 
         Parameters
@@ -973,7 +973,7 @@ class IDF(object):
         self.idfname = filename
         self.save(filename, lineendings, encoding)
 
-    def savecopy(self, filename, lineendings='default', encoding='latin-1'):
+    def savecopy(self, filename, lineendings="default", encoding="latin-1"):
         """Save a copy of the file with the filename passed.
 
         Parameters
@@ -1006,14 +1006,14 @@ class IDF(object):
 
         """
         # write the IDF to the current directory
-        self.saveas('in.idf')
+        self.saveas("in.idf")
         # if `idd` is not passed explicitly, use the IDF.iddname
-        idd = kwargs.pop('idd', self.iddname)
-        epw = kwargs.pop('weather', self.epw)
+        idd = kwargs.pop("idd", self.iddname)
+        epw = kwargs.pop("weather", self.epw)
         try:
             run(self, weather=epw, idd=idd, **kwargs)
         finally:
-            os.remove('in.idf')
+            os.remove("in.idf")
 
     def getiddgroupdict(self):
         """Return a idd group dictionary

@@ -23,11 +23,13 @@ import eppy.function_helpers as fh
 
 class BadEPFieldError(AttributeError):
     """An Exception"""
+
     pass
 
 
 class RangeError(ValueError):
     """An Exception"""
+
     pass
 
 
@@ -55,12 +57,12 @@ def somevalues(ddtt):
     return ddtt.Name, ddtt.Construction_Name, ddtt.obj
 
 
-def extendlist(lst, i, value=''):
+def extendlist(lst, i, value=""):
     """extend the list so that you have i-th value"""
     if i < len(lst):
         pass
     else:
-        lst.extend([value, ] * (i - len(lst) + 1))
+        lst.extend([value] * (i - len(lst) + 1))
 
 
 def return42(self, *args, **kwargs):
@@ -111,8 +113,8 @@ def addfunctions(abunch):
         "FenestrationSurface:Detailed",
         "Shading:Site:Detailed",
         "Shading:Building:Detailed",
-        "Shading:Zone:Detailed", ]
-
+        "Shading:Zone:Detailed",
+    ]
     snames = [sname.upper() for sname in snames]
     func_dict = {
         'area': (fh.area, snames),
@@ -335,7 +337,7 @@ class EpBunch(Bunch):
             pass
 
         try:
-            name = self['__aliases'][name]
+            name = self["__aliases"][name]
         except KeyError:
             pass
 
@@ -349,27 +351,26 @@ class EpBunch(Bunch):
             try:
                 return self.fieldvalues[i]
             except IndexError:
-                return ''
+                return ""
         else:
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
 
     def __getitem__(self, key):
-        if key in ('obj', 'objls', 'objidd',
-                   '__functions', '__aliases', 'theidf'):
+        if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
             return super(EpBunch, self).__getitem__(key)
         elif key in self.fieldnames:
             i = self.fieldnames.index(key)
             try:
                 return self.fieldvalues[i]
             except IndexError:
-                return ''
+                return ""
         else:
             astr = "unknown field %s" % (key,)
             raise BadEPFieldError(astr)
 
     def __setitem__(self, key, value):
-        if key in ('obj', 'objls', 'objidd', '__aliases', 'theidf'):
+        if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
             super(EpBunch, self).__setitem__(key, value)
             return None
         elif key in self.fieldnames:
@@ -398,20 +399,19 @@ class EpBunch(Bunch):
                 value = val
             lines.append(value)
         # ------------
-        comments = [comm.replace('_', ' ') for comm in self.objls]
+        comments = [comm.replace("_", " ") for comm in self.objls]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
-            lines[i + 1] = '    %s,' % (line,)  # indent and comma
-        lines[-1] = '    %s;' % (lines[-1],)  # ';' after last line
-        lines = lines[:1] + [line.ljust(26) for line in
-                             lines[1:]]  # ljsut the lines
-        filler = '%s    !- %s'
-        nlines = [filler % (line, comm) for line,
-                                            comm in
-                  zip(lines[1:], comments[1:])]  # adds comments to line
+            lines[i + 1] = "    %s," % (line,)  # indent and comma
+        lines[-1] = "    %s;" % (lines[-1],)  # ';' after last line
+        lines = lines[:1] + [line.ljust(26) for line in lines[1:]]  # ljsut the lines
+        filler = "%s    !- %s"
+        nlines = [
+            filler % (line, comm) for line, comm in zip(lines[1:], comments[1:])
+        ]  # adds comments to line
         nlines.insert(0, lines[0])  # first line without comment
-        astr = '\n'.join(nlines)
-        return '\n%s\n' % (astr,)
+        astr = "\n".join(nlines)
+        return "\n%s\n" % (astr,)
 
     def __str__(self):
         """same as __repr__"""
@@ -427,20 +427,20 @@ class EpBunch(Bunch):
 
 def getrange(bch, fieldname):
     """get the ranges for this field"""
-    keys = ['maximum', 'minimum', 'maximum<', 'minimum>', 'type']
+    keys = ["maximum", "minimum", "maximum<", "minimum>", "type"]
     index = bch.objls.index(fieldname)
     fielddct_orig = bch.objidd[index]
     fielddct = copy.deepcopy(fielddct_orig)
     therange = {}
     for key in keys:
         therange[key] = fielddct.setdefault(key, None)
-    if therange['type']:
-        therange['type'] = therange['type'][0]
-    if therange['type'] == 'real':
+    if therange["type"]:
+        therange["type"] = therange["type"][0]
+    if therange["type"] == "real":
         for key in keys[:-1]:
             if therange[key]:
                 therange[key] = float(therange[key][0])
-    if therange['type'] == 'integer':
+    if therange["type"] == "integer":
         for key in keys[:-1]:
             if therange[key]:
                 therange[key] = int(therange[key][0])
@@ -451,25 +451,25 @@ def checkrange(bch, fieldname):
     """throw exception if the out of range"""
     fieldvalue = bch[fieldname]
     therange = bch.getrange(fieldname)
-    if therange['maximum'] != None:
-        if fieldvalue > therange['maximum']:
+    if therange["maximum"] != None:
+        if fieldvalue > therange["maximum"]:
             astr = "Value %s is not less or equal to the 'maximum' of %s"
-            astr = astr % (fieldvalue, therange['maximum'])
+            astr = astr % (fieldvalue, therange["maximum"])
             raise RangeError(astr)
-    if therange['minimum'] != None:
-        if fieldvalue < therange['minimum']:
+    if therange["minimum"] != None:
+        if fieldvalue < therange["minimum"]:
             astr = "Value %s is not greater or equal to the 'minimum' of %s"
-            astr = astr % (fieldvalue, therange['minimum'])
+            astr = astr % (fieldvalue, therange["minimum"])
             raise RangeError(astr)
-    if therange['maximum<'] != None:
-        if fieldvalue >= therange['maximum<']:
+    if therange["maximum<"] != None:
+        if fieldvalue >= therange["maximum<"]:
             astr = "Value %s is not less than the 'maximum<' of %s"
-            astr = astr % (fieldvalue, therange['maximum<'])
+            astr = astr % (fieldvalue, therange["maximum<"])
             raise RangeError(astr)
-    if therange['minimum>'] != None:
-        if fieldvalue <= therange['minimum>']:
+    if therange["minimum>"] != None:
+        if fieldvalue <= therange["minimum>"]:
             astr = "Value %s is not greater than the 'minimum>' of %s"
-            astr = astr % (fieldvalue, therange['minimum>'])
+            astr = astr % (fieldvalue, therange["minimum>"])
             raise RangeError(astr)
     return fieldvalue
     """get the idd dict for this field
@@ -503,7 +503,7 @@ def getfieldidd_item(bch, fieldname, iddkey):
 def get_retaincase(bch, fieldname):
     """Check if the field should retain case"""
     fieldidd = bch.getfieldidd(fieldname)
-    return 'retaincase' in fieldidd
+    return "retaincase" in fieldidd
 
 
 def isequal(bch, fieldname, value, places=7):
@@ -517,8 +517,8 @@ def isequal(bch, fieldname, value, places=7):
 
     fieldidd = bch.getfieldidd(fieldname)
     try:
-        ftype = fieldidd['type'][0]
-        if ftype in ['real', 'integer']:
+        ftype = fieldidd["type"][0]
+        if ftype in ["real", "integer"]:
             return almostequal(bch[fieldname], float(value), places=places)
         else:
             return equalalphanumeric(bch, fieldname, value)
@@ -544,14 +544,15 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
     idf = referedobj.theidf
     referedidd = referedobj.getfieldidd("Name")
     try:
-        references = referedidd['reference']
+        references = referedidd["reference"]
     except KeyError as e:
         return referringobjs
     idfobjs = idf.idfobjects.values()
     idfobjs = list(itertools.chain.from_iterable(idfobjs))  # flatten list
     if iddgroups:  # optional filter
-        idfobjs = [anobj for anobj in idfobjs
-                   if anobj.getfieldidd('key')['group'] in iddgroups]
+        idfobjs = [
+            anobj for anobj in idfobjs if anobj.getfieldidd("key")["group"] in iddgroups
+        ]
     for anobj in idfobjs:
         if not fields:
             thefields = anobj.objls
@@ -562,10 +563,10 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
                 itsidd = anobj.getfieldidd(field)
             except ValueError as e:
                 continue
-            if 'object-list' in itsidd:
-                refname = itsidd['object-list'][0]
+            if "object-list" in itsidd:
+                refname = itsidd["object-list"][0]
                 if refname in references:
-                    if referedobj.isequal('Name', anobj[field]):
+                    if referedobj.isequal("Name", anobj[field]):
                         referringobjs.append(anobj)
     return referringobjs
 
@@ -595,10 +596,10 @@ def get_referenced_object(referring_object, fieldname):
 
     """
     idf = referring_object.theidf
-    object_list = referring_object.getfieldidd_item(fieldname, u'object-list')
+    object_list = referring_object.getfieldidd_item(fieldname, "object-list")
     for obj_type in idf.idfobjects:
         for obj in idf.idfobjects[obj_type]:
-            valid_object_lists = obj.getfieldidd_item("Name", u'reference')
+            valid_object_lists = obj.getfieldidd_item("Name", "reference")
             if set(object_list).intersection(set(valid_object_lists)):
                 referenced_obj_name = referring_object[fieldname]
                 if obj.Name == referenced_obj_name:

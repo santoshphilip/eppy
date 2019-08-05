@@ -81,7 +81,7 @@ def tilt(ddtt):
 def buildingname(ddtt):
     """return building name"""
     idf = ddtt.theidf
-    building = idf.idfobjects['building'.upper()][0]
+    building = idf.idfobjects["building".upper()][0]
     return building.Name
 
 

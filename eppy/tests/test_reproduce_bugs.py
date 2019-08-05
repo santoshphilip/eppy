@@ -9,10 +9,10 @@ from eppy.runner.run_functions import paths_from_version, EnergyPlusRunError
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
+RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "resources")
 
-IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
-IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
+IDD_FILES = os.path.join(RESOURCES_DIR, "iddfiles")
+IDF_FILES = os.path.join(RESOURCES_DIR, "idffiles")
 
 
 @pytest.mark.xfail

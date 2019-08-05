@@ -40,29 +40,29 @@ def versiontuple(vers):
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, 'resources')
+RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "resources")
 
-IDD_FILES = os.path.join(RESOURCES_DIR, 'iddfiles')
-IDF_FILES = os.path.join(RESOURCES_DIR, 'idffiles')
+IDD_FILES = os.path.join(RESOURCES_DIR, "iddfiles")
+IDF_FILES = os.path.join(RESOURCES_DIR, "idffiles")
 try:
     VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
 except KeyError:
-    VERSION = '8-9-0'  # current default for integration tests on local system
-TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace('-', '_'))
-TEST_EPW = 'USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw'
-TEST_IDD = "Energy+V{}.idd".format(VERSION.replace('-', '_'))
-TEST_OLD_IDD = 'Energy+V7_2_0.idd'
+    VERSION = "8-9-0"  # current default for integration tests on local system
+TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace("-", "_"))
+TEST_EPW = "USA_CA_San.Francisco.Intl.AP.724940_TMY3.epw"
+TEST_IDD = "Energy+V{}.idd".format(VERSION.replace("-", "_"))
+TEST_OLD_IDD = "Energy+V7_2_0.idd"
 
 eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_IDD))
 
 
-def has_severe_errors(results='run_outputs'):
+def has_severe_errors(results="run_outputs"):
     """Check for severe errors in the eplusout.end file.
     """
-    end_filename = glob('{}/*.end'.format(results))[0]
-    with open(os.path.join(end_filename), 'r') as end_file:
+    end_filename = glob("{}/*.end".format(results))[0]
+    with open(os.path.join(end_filename), "r") as end_file:
         end_txt = end_file.read()
-    num_severe = int(re.findall(r' (\d*) Severe Error', end_txt)[0])
+    num_severe = int(re.findall(r" (\d*) Severe Error", end_txt)[0])
     return num_severe > 0
 
 
@@ -84,7 +84,8 @@ def test_version_reader():
 
 
 @pytest.mark.skipif(
-    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
+)
 class TestEnvironment(object):
 
     """
@@ -134,7 +135,8 @@ class TestEnvironment(object):
 
 
 @pytest.mark.skipif(
-    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
+)
 class TestRunFunction(object):
 
     """Tests for simple running of EnergyPlus from Eppy.
@@ -161,12 +163,11 @@ class TestRunFunction(object):
 
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        epw = os.path.join(
-            eplus_weather, TEST_EPW)
+        epw = os.path.join(eplus_weather, TEST_EPW)
         run(fname1, epw, output_directory="test_results", ep_version=VERSION)
-        assert len(os.listdir('test_results')) > 0
-        for f in os.listdir('test_results'):
-            assert os.path.isfile(os.path.join('test_results', f))
+        assert len(os.listdir("test_results")) > 0
+        for f in os.listdir("test_results"):
+            assert os.path.isfile(os.path.join("test_results", f))
 
     def test_run_weather_name_only(self):
         """
@@ -176,12 +177,10 @@ class TestRunFunction(object):
 
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        run(fname1, TEST_EPW,
-            output_directory="test_results",
-            ep_version=VERSION)
-        assert len(os.listdir('test_results')) > 0
-        for f in os.listdir('test_results'):
-            assert os.path.isfile(os.path.join('test_results', f))
+        run(fname1, TEST_EPW, output_directory="test_results", ep_version=VERSION)
+        assert len(os.listdir("test_results")) > 0
+        for f in os.listdir("test_results"):
+            assert os.path.isfile(os.path.join("test_results", f))
 
     def test_run_missing_file_raises_error(self, capfd):
         """
@@ -192,14 +191,14 @@ class TestRunFunction(object):
         """
         fname1 = os.path.join(IDF_FILES, "XXXXXXX_fake_file.idf")
         with pytest.raises(EnergyPlusRunError):
-            run(fname1, TEST_EPW,
-                output_directory="test_results",
-                ep_version=VERSION)
+            run(fname1, TEST_EPW, output_directory="test_results", ep_version=VERSION)
             out, _err = capfd.readouterr()
             assert "ERROR: Could not find input data file:" in out
 
+
 @pytest.mark.skipif(
-    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
+)
 class TestIDFRunner(object):
 
     """Tests for running EnergyPlus from an IDF object.
@@ -208,30 +207,57 @@ class TestIDFRunner(object):
     def setup(self):
         """Tidy up anything left from previous runs. Get an IDF object to run.
         """
-        shutil.rmtree(os.path.join(THIS_DIR, 'run_outputs'), ignore_errors=True)
+        shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
         self.expected_files = [
-            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
-            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
-            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err', ]
+            "eplusout.audit",
+            "eplusout.bnd",
+            "eplusout.eio",
+            "eplusout.end",
+            "eplusout.err",
+            "eplusout.eso",
+            "eplusout.mdd",
+            "eplusout.mtd",
+            "eplusout.rdd",
+            "eplusout.shd",
+            "eplustbl.htm",
+            "sqlite.err",
+        ]
         self.expected_files_suffix_C = [
-            u'eplus.audit', u'eplus.mdd', u'eplus.err',
-            u'eplusSqlite.err', u'eplus.eio', u'eplusTable.htm', u'eplus.shd',
-            u'eplus.mtd', u'eplus.bnd', u'eplus.eso', u'eplus.rdd',
-            u'eplus.end']
+            "eplus.audit",
+            "eplus.mdd",
+            "eplus.err",
+            "eplusSqlite.err",
+            "eplus.eio",
+            "eplusTable.htm",
+            "eplus.shd",
+            "eplus.mtd",
+            "eplus.bnd",
+            "eplus.eso",
+            "eplus.rdd",
+            "eplus.end",
+        ]
         self.expected_files_suffix_D = [
-            u'eplus.audit', u'eplus.mdd', u'eplus-sqlite.err',
-            u'eplus-table.htm', u'eplus.err', u'eplus.eio', u'eplus.bnd',
-            u'eplus.shd', u'eplus.mtd', u'eplus.end', u'eplus.eso',
-            u'eplus.rdd']
+            "eplus.audit",
+            "eplus.mdd",
+            "eplus-sqlite.err",
+            "eplus-table.htm",
+            "eplus.err",
+            "eplus.eio",
+            "eplus.bnd",
+            "eplus.shd",
+            "eplus.mtd",
+            "eplus.end",
+            "eplus.eso",
+            "eplus.rdd",
+        ]
 
     def teardown(self):
         """Destroy temp dir, reset working directory, destroy outputs.
         """
         os.chdir(THIS_DIR)
-        shutil.rmtree('run_outputs', ignore_errors=True)
-        shutil.rmtree('other_run_outputs', ignore_errors=True)
+        shutil.rmtree("run_outputs", ignore_errors=True)
+        shutil.rmtree("other_run_outputs", ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
         for f in {"eplusout.end", "eplusout.err", "in.idf"}:
             try:
@@ -239,10 +265,10 @@ class TestIDFRunner(object):
             except OSError:  # file was not generated on this run
                 pass
 
-    def num_rows_in_csv(self, results='./run_outputs'):
+    def num_rows_in_csv(self, results="./run_outputs"):
         """Check readvars outputs the expected number of rows.
         """
-        with open(os.path.join(results, 'eplusout.csv'), 'r') as csv_file:
+        with open(os.path.join(results, "eplusout.csv"), "r") as csv_file:
             return len(csv_file.readlines())
 
     def test_run(self, test_idf):
@@ -251,9 +277,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_directory='run_outputs')
+        test_idf.run(output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files)
 
     def test_run_readvars(self, test_idf):
@@ -262,10 +288,10 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(readvars=True, output_directory='run_outputs')
+        test_idf.run(readvars=True, output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.rvaudit", "eplusout.csv"])
         assert set(files) == set(self.expected_files)
 
     def test_run_annual(self, test_idf):
@@ -275,12 +301,11 @@ class TestIDFRunner(object):
         unexpected/missing output files.
 
         """
-        test_idf.idfobjects['RUNPERIOD'][0].End_Month = 1
-        test_idf.run(
-            annual=True, readvars=True, output_directory='run_outputs')
+        test_idf.idfobjects["RUNPERIOD"][0].End_Month = 1
+        test_idf.run(annual=True, readvars=True, output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.rvaudit", "eplusout.csv"])
         assert set(files) == set(self.expected_files)
         assert self.num_rows_in_csv() == 35041  # 24 * 365 * 4 + 1 header row
 
@@ -290,9 +315,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_directory='other_run_outputs')
-        assert not has_severe_errors('other_run_outputs')
-        files = os.listdir('other_run_outputs')
+        test_idf.run(output_directory="other_run_outputs")
+        assert not has_severe_errors("other_run_outputs")
+        files = os.listdir("other_run_outputs")
         self.expected_files.extend([])
         assert set(files) == set(self.expected_files)
 
@@ -303,11 +328,10 @@ class TestIDFRunner(object):
         unexpected/missing output files.
 
         """
-        test_idf.run(
-            design_day=True, readvars=True, output_directory='run_outputs')
+        test_idf.run(design_day=True, readvars=True, output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        self.expected_files.extend([u'eplusout.rvaudit', u'eplusout.csv'])
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.rvaudit", "eplusout.csv"])
         assert set(files) == set(self.expected_files)
         assert self.num_rows_in_csv() == 193  # 24 * 8 + 1 header row
 
@@ -317,10 +341,10 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(epmacro=True, output_directory='run_outputs')
+        test_idf.run(epmacro=True, output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        self.expected_files.extend([u'eplusout.epmdet', u'eplusout.epmidf'])
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.epmdet", "eplusout.epmidf"])
         assert set(files) == set(self.expected_files)
 
     def test_run_expandobjects(self, test_idf):
@@ -331,17 +355,17 @@ class TestIDFRunner(object):
 
         """
         test_idf.newidfobject(
-            'HVACTEMPLATE:THERMOSTAT',
+            "HVACTEMPLATE:THERMOSTAT",
             Name="TestThermostat",
             Cooling_Setpoint_Schedule_Name="",
             Heating_Setpoint_Schedule_Name="",
             Constant_Cooling_Setpoint=25,
             Constant_Heating_Setpoint=21,
         )
-        test_idf.run(expandobjects=True, output_directory='run_outputs')
+        test_idf.run(expandobjects=True, output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        self.expected_files.extend([u'eplusout.expidf'])
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.expidf"])
         assert set(files) == set(self.expected_files)
 
     def test_run_output_prefix(self, test_idf):
@@ -350,11 +374,10 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_prefix='test', output_directory='run_outputs')
+        test_idf.run(output_prefix="test", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
-        prefixed_files = [f.replace('eplus', 'test')
-                          for f in self.expected_files]
+        files = os.listdir("run_outputs")
+        prefixed_files = [f.replace("eplus", "test") for f in self.expected_files]
         assert set(files) == set(prefixed_files)
 
     def test_run_output_suffix_L(self, test_idf):
@@ -363,9 +386,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix='L', output_directory='run_outputs')
+        test_idf.run(output_suffix="L", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files)
 
     def test_run_output_suffix_C(self, test_idf):
@@ -374,9 +397,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix='C', output_directory='run_outputs')
+        test_idf.run(output_suffix="C", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files_suffix_C)
 
     def test_run_output_suffix_D(self, test_idf):
@@ -385,12 +408,15 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix='D', output_directory='run_outputs')
+        test_idf.run(output_suffix="D", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files_suffix_D)
 
-    @pytest.mark.skipif(versiontuple(VERSION) >= (8, 9, 0), reason="Only compiled IDD is used from v8.9.0")
+    @pytest.mark.skipif(
+        versiontuple(VERSION) >= (8, 9, 0),
+        reason="Only compiled IDD is used from v8.9.0",
+    )
     def test_run_IDD(self, test_idf):
         """
         End to end test of idf.run function with a different IDD set.
@@ -401,8 +427,8 @@ class TestIDFRunner(object):
 
         """
         other_idd = os.path.join(IDD_FILES, TEST_OLD_IDD)
-        test_idf.run(idd=other_idd, output_directory='run_outputs')
-        with open('run_outputs/eplusout.err', 'r') as errors:
+        test_idf.run(idd=other_idd, output_directory="run_outputs")
+        with open("run_outputs/eplusout.err", "r") as errors:
             assert "IDD_Version 8.1.0.009" in errors.readline()
 
     def test_version(self, capfd, test_idf):
@@ -414,7 +440,7 @@ class TestIDFRunner(object):
         test_idf.run(version=True)
         out, _err = capfd.readouterr()
 
-        expected_version = VERSION.replace('-', '.')
+        expected_version = VERSION.replace("-", ".")
         version_string = "EnergyPlus, Version {}".format(expected_version)
 
         assert out.strip().startswith(version_string)
@@ -438,9 +464,9 @@ class TestIDFRunner(object):
         Fails if no output received from EnergyPlus.
 
         """
-        test_idf.run(verbose='v', output_directory='run_outputs')
+        test_idf.run(verbose="v", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         self.expected_files.extend([])
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
@@ -453,9 +479,9 @@ class TestIDFRunner(object):
         Fails if output received from EnergyPlus.
 
         """
-        test_idf.run(verbose='q', output_directory='run_outputs')
+        test_idf.run(verbose="q", output_directory="run_outputs")
         assert not has_severe_errors()
-        files = os.listdir('run_outputs')
+        files = os.listdir("run_outputs")
         self.expected_files.extend([])
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
@@ -463,22 +489,23 @@ class TestIDFRunner(object):
 
     def test_reset_cwd_on_failure(self, capfd, test_idf):
         cwd = os.getcwd()
-        test_idf.idfobjects['RUNPERIOD'][0].Begin_Month = "Spamuary"
+        test_idf.idfobjects["RUNPERIOD"][0].Begin_Month = "Spamuary"
         with pytest.raises(EnergyPlusRunError):
-            test_idf.run(output_directory='run_outputs')
+            test_idf.run(output_directory="run_outputs")
         out, _err = capfd.readouterr()
         assert "FATAL" in out
         assert os.getcwd() == cwd
 
     def test_exception_message(self, test_idf):
-        test_idf.newidfobject("HVACTemplate:Thermostat", Name='Thermostat')
+        test_idf.newidfobject("HVACTemplate:Thermostat", Name="Thermostat")
         with pytest.raises(EnergyPlusRunError) as exc_info:
-            test_idf.run(output_directory='run_outputs')
+            test_idf.run(output_directory="run_outputs")
         assert "ExpandObjects program" in str(exc_info.value)
 
 
 @pytest.mark.skipif(
-    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set")
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
+)
 class TestMultiprocessing(object):
 
     """Tests for running multiple EnergyPlus jobs simultaneously.
@@ -490,15 +517,24 @@ class TestMultiprocessing(object):
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
         self.expected_files = [
-            u'eplusout.audit', u'eplusout.bnd', u'eplusout.eio',
-            u'eplusout.end', u'eplusout.err', u'eplusout.eso',
-            u'eplusout.mdd', u'eplusout.mtd', u'eplusout.rdd',
-            u'eplusout.shd', u'eplustbl.htm', u'sqlite.err']
+            "eplusout.audit",
+            "eplusout.bnd",
+            "eplusout.eio",
+            "eplusout.end",
+            "eplusout.err",
+            "eplusout.eso",
+            "eplusout.mdd",
+            "eplusout.mtd",
+            "eplusout.rdd",
+            "eplusout.shd",
+            "eplustbl.htm",
+            "sqlite.err",
+        ]
 
     def teardown(self):
         """Remove the multiprocessing results folders.
         """
-        for results_dir in glob('results_*'):
+        for results_dir in glob("results_*"):
             shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -514,12 +550,11 @@ class TestMultiprocessing(object):
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
         for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i,
-                      'ep_version': VERSION}
+            kwargs = {"output_directory": "results_%s" % i, "ep_version": VERSION}
             runs.append([[fname1, TEST_EPW], kwargs])
         for r in runs:
             run(*r[0], **r[1])
-        for results_dir in glob('results_*'):
+        for results_dir in glob("results_*"):
             assert not has_severe_errors(results_dir)
             files = os.listdir(results_dir)
             assert set(files) == set(self.expected_files)
@@ -534,11 +569,10 @@ class TestMultiprocessing(object):
         """
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
         runs = []
-        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        ep_version = "-".join(str(x) for x in modeleditor.IDF.idd_version[:3])
         assert ep_version == VERSION
         for i in range(2):
-            kwargs = {'output_directory': 'results_%s' % i,
-                      'ep_version': ep_version}
+            kwargs = {"output_directory": "results_%s" % i, "ep_version": ep_version}
             runs.append([[fname1, TEST_EPW], kwargs])
         pool = multiprocessing.Pool(2)
         pool.map(multirunner, runs)
@@ -554,14 +588,17 @@ class TestMultiprocessing(object):
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        modeleditor.IDF.setiddname(open(iddfile, 'r'), testing=True)
-        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        modeleditor.IDF.setiddname(open(iddfile, "r"), testing=True)
+        ep_version = "-".join(str(x) for x in modeleditor.IDF.idd_version[:3])
         assert ep_version == VERSION
         runs = []
         for i in range(4):
-            runs.append([modeleditor.IDF(open(fname1, 'r'), TEST_EPW),
-                         {'output_directory': 'results_%i' % i,
-                          'ep_version': ep_version}])
+            runs.append(
+                [
+                    modeleditor.IDF(open(fname1, "r"), TEST_EPW),
+                    {"output_directory": "results_%i" % i, "ep_version": ep_version},
+                ]
+            )
         num_CPUs = 2
         runIDFs(runs, num_CPUs)
 
@@ -579,12 +616,14 @@ class TestMultiprocessing(object):
         """
         iddfile = os.path.join(IDD_FILES, TEST_IDD)
         fname1 = os.path.join(IDF_FILES, TEST_IDF)
-        modeleditor.IDF.setiddname(open(iddfile, 'r'), testing=True)
-        ep_version = '-'.join(str(x) for x in modeleditor.IDF.idd_version[:3])
+        modeleditor.IDF.setiddname(open(iddfile, "r"), testing=True)
+        ep_version = "-".join(str(x) for x in modeleditor.IDF.idd_version[:3])
         assert ep_version == VERSION
         runs = (
-            (modeleditor.IDF(open(fname1, 'r'), TEST_EPW),
-             {'output_directory': 'results_%i' % i, 'ep_version': ep_version})
+            (
+                modeleditor.IDF(open(fname1, "r"), TEST_EPW),
+                {"output_directory": "results_%i" % i, "ep_version": ep_version},
+            )
             for i in range(4)
         )
         num_CPUs = 2

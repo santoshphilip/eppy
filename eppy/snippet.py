@@ -140,4 +140,3 @@ ZoneHVAC:EquipmentConnections,
     AZoneAirNode,               !- Zone Air Node Name
     AZoneReturnAirNode;         !- Zone Return Air Node Name
 """
-

@@ -16,6 +16,7 @@ from __future__ import unicode_literals
 # import area_surface as surf
 import eppy.geometry.surface as surface
 
+
 def area(poly):
     """Calculation of zone area"""
     poly_xy = []
