@@ -885,6 +885,29 @@ class TestEpBunch(object):
         assert idfobject.Thermal_Absorptance == 0.9
         assert idfobject.Visible_Absorptance == 0.7
 
+    def test_get_default_choice(self, test_idf):
+        """py.test for __getattr__ when a value is not defined in the idf file.
+        We create a new MATERIAL object that does not define the
+        Solar_Absorptance, Thermal_Absorptance and Visible_Absorptance fields
+        and assert that their default value is returned
+        """
+        surf_1 = test_idf.newidfobject(
+            "BuildingSurface:Detailed", Name="surface 1", defaultvalues=False
+        )
+
+        # even though default values is set to false, Sun_Exposure and
+        # Number_of_Vertices should assert to True since they have default values in
+        # the idd
+        assert surf_1.Sun_Exposure == "SunExposed"
+        assert surf_1.Number_of_Vertices == "autocalculate"
+
+        surf_2 = test_idf.newidfobject(
+            "BuildingSurface:Detailed", Name="surface 2", defaultvalues=True
+        )
+
+        assert surf_2.Sun_Exposure == "SunExposed"
+        assert surf_2.Number_of_Vertices == "autocalculate"
+
     def test_isequal(self, initdata):
         """py.test for isequal
         """
