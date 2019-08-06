@@ -223,33 +223,65 @@ class TestIDFRunner(object):
             "eplustbl.htm",
             "sqlite.err",
         ]
+        self.expected_files_prefix = [
+            "sqlite.err",
+            "testout.audit",
+            "testout.bnd",
+            "testout.eio",
+            "testout.end",
+            "testout.err",
+            "testout.eso",
+            "testout.expidf",
+            "testout.mdd",
+            "testout.mtd",
+            "testout.rdd",
+            "testout.shd",
+            "testtbl.htm",
+        ]
         self.expected_files_suffix_C = [
             "eplus.audit",
-            "eplus.mdd",
-            "eplus.err",
-            "eplusSqlite.err",
-            "eplus.eio",
-            "eplusTable.htm",
-            "eplus.shd",
-            "eplus.mtd",
             "eplus.bnd",
-            "eplus.eso",
-            "eplus.rdd",
+            "eplus.eio",
             "eplus.end",
+            "eplus.err",
+            "eplus.eso",
+            "eplus.expidf",
+            "eplus.mdd",
+            "eplus.mtd",
+            "eplus.rdd",
+            "eplus.shd",
+            "eplusSqlite.err",
+            "eplusTable.htm",
         ]
         self.expected_files_suffix_D = [
-            "eplus.audit",
-            "eplus.mdd",
             "eplus-sqlite.err",
             "eplus-table.htm",
-            "eplus.err",
-            "eplus.eio",
+            "eplus.audit",
             "eplus.bnd",
-            "eplus.shd",
-            "eplus.mtd",
+            "eplus.eio",
             "eplus.end",
+            "eplus.err",
             "eplus.eso",
+            "eplus.expidf",
+            "eplus.mdd",
+            "eplus.mtd",
             "eplus.rdd",
+            "eplus.shd",
+        ]
+        self.expected_files_suffix_L = [
+            "eplusout.audit",
+            "eplusout.bnd",
+            "eplusout.eio",
+            "eplusout.end",
+            "eplusout.err",
+            "eplusout.eso",
+            "eplusout.expidf",
+            "eplusout.mdd",
+            "eplusout.mtd",
+            "eplusout.rdd",
+            "eplusout.shd",
+            "eplustbl.htm",
+            "sqlite.err",
         ]
 
     def teardown(self):
@@ -302,7 +334,12 @@ class TestIDFRunner(object):
 
         """
         test_idf.idfobjects["RUNPERIOD"][0].End_Month = 1
-        test_idf.run(annual=True, readvars=True, output_directory="run_outputs")
+        test_idf.run(
+            annual=True,
+            readvars=True,
+            output_directory="run_outputs",
+            expandobjects=True,
+        )
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
         self.expected_files.extend(["eplusout.rvaudit", "eplusout.csv"])
@@ -374,11 +411,12 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_prefix="test", output_directory="run_outputs")
+        test_idf.run(
+            output_prefix="test", output_directory="run_outputs", expandobjects=True
+        )
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
-        prefixed_files = [f.replace("eplus", "test") for f in self.expected_files]
-        assert set(files) == set(prefixed_files)
+        assert set(files) == set(self.expected_files_prefix)
 
     def test_run_output_suffix_L(self, test_idf):
         """
@@ -386,10 +424,12 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix="L", output_directory="run_outputs")
+        test_idf.run(
+            output_suffix="L", output_directory="run_outputs", expandobjects=True
+        )
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
-        assert set(files) == set(self.expected_files)
+        assert set(files) == set(self.expected_files_suffix_L)
 
     def test_run_output_suffix_C(self, test_idf):
         """
@@ -397,7 +437,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix="C", output_directory="run_outputs")
+        test_idf.run(
+            output_suffix="C", output_directory="run_outputs", expandobjects=True
+        )
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files_suffix_C)
@@ -408,7 +450,9 @@ class TestIDFRunner(object):
         Fails on severe errors or unexpected/missing output files.
 
         """
-        test_idf.run(output_suffix="D", output_directory="run_outputs")
+        test_idf.run(
+            output_suffix="D", output_directory="run_outputs", expandobjects=True
+        )
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files_suffix_D)
@@ -464,10 +508,10 @@ class TestIDFRunner(object):
         Fails if no output received from EnergyPlus.
 
         """
-        test_idf.run(verbose="v", output_directory="run_outputs")
+        test_idf.run(verbose="v", output_directory="run_outputs", expandobjects=True)
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
-        self.expected_files.extend([])
+        self.expected_files.extend(["eplusout.expidf"])
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) > 0
@@ -479,10 +523,10 @@ class TestIDFRunner(object):
         Fails if output received from EnergyPlus.
 
         """
-        test_idf.run(verbose="q", output_directory="run_outputs")
+        test_idf.run(verbose="q", output_directory="run_outputs", expandobjects=True)
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
-        self.expected_files.extend([])
+        self.expected_files.extend(["eplusout.expidf"])
         assert set(files) == set(self.expected_files)
         out, _err = capfd.readouterr()
         assert len(out) == 0
