@@ -322,9 +322,9 @@ class EpBunch(Bunch):
                 return self.fieldvalues[i]
             except IndexError:
                 # try to return the default value if defined in IDD.
-                if 'default' in self.getfieldidd(name).keys():
+                if "default" in self.getfieldidd(name).keys():
                     _type = _parse_idd_type(self, name)
-                    default_ = next(iter(self.getfieldidd(name)['default']), None)
+                    default_ = next(iter(self.getfieldidd(name)["default"]), None)
                     return _type(default_)
                 else:
                     return ""
@@ -403,10 +403,10 @@ class EpBunch(Bunch):
 def _parse_idd_type(epbunch, name):
     """parse the fieldvalue type into a python type. eg.: 'real' returns
     'float'"""
-    _type = next(iter(epbunch.getfieldidd(name)['type']), None)
-    if _type == 'real':
+    _type = next(iter(epbunch.getfieldidd(name)["type"]), None)
+    if _type == "real":
         return float
-    elif _type == 'alpha':
+    elif _type == "alpha":
         return str
     else:
         return str
