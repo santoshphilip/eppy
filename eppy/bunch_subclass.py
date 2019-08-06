@@ -402,12 +402,24 @@ class EpBunch(Bunch):
 
 def _parse_idd_type(epbunch, name):
     """parse the fieldvalue type into a python type. eg.: 'real' returns
-    'float'"""
-    _type = next(iter(epbunch.getfieldidd(name)["type"]), None)
+    'float'.
+
+    Possible types are:
+        - integer -> int
+        - real -> float
+        - alpha -> str          (arbitrary string),
+        - choice -> str         (alpha with specific list of choices, see \key)
+        - object-list -> str    (link to a list of objects defined elsewhere, see \object-list and \reference)
+        - external-list -> str  (uses a special list from an external source, see \external-list)
+        - node -> str           (name used in connecting HVAC components)
+    """
+    _type = next(iter(epbunch.getfieldidd(name)["type"]), "").lower()
     if _type == "real":
         return float
     elif _type == "alpha":
         return str
+    elif _type == "integer":
+        return int
     else:
         return str
 
