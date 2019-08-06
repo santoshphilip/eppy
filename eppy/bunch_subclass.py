@@ -319,18 +319,25 @@ class EpBunch(Bunch):
         elif name in self.fieldnames:
             i = self.fieldnames.index(name)
             try:
-                return self.fieldvalues[i]
+                i_ = self.fieldvalues[i]
+                if i_ == "":
+                    return self.get_default(name)
+                else:
+                    return i_
             except IndexError:
                 # try to return the default value if defined in IDD.
-                if "default" in self.getfieldidd(name).keys():
-                    _type = _parse_idd_type(self, name)
-                    default_ = next(iter(self.getfieldidd(name)["default"]), None)
-                    return _type(default_)
-                else:
-                    return ""
+                return self.get_default(name)
         else:
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
+
+    def get_default(self, name):
+        if "default" in self.getfieldidd(name).keys():
+            _type = _parse_idd_type(self, name)
+            default_ = next(iter(self.getfieldidd_item(name, "default")), None)
+            return _type(default_)
+        else:
+            return ""
 
     def __getitem__(self, key):
         if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
@@ -413,7 +420,7 @@ def _parse_idd_type(epbunch, name):
         - external-list -> str  (uses a special list from an external source, see \external-list)
         - node -> str           (name used in connecting HVAC components)
     """
-    _type = next(iter(epbunch.getfieldidd(name)["type"]), "").lower()
+    _type = next(iter(epbunch.getfieldidd_item(name, "type")), "").lower()
     if _type == "real":
         return float
     elif _type == "alpha":
