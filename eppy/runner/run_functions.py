@@ -12,6 +12,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import glob
 import os
 import platform
 import pydoc
@@ -361,7 +362,8 @@ def parse_error(output_dir):
     """
     sys.stderr.seek(0)
     std_err = sys.stderr.read().decode("utf-8")
-    err_file = os.path.join(output_dir, "eplusout.err")
+    err_file = os.path.join(output_dir, "*out.err")
+    err_file = next(iter(glob.glob(err_file)), None)
     if os.path.isfile(err_file):
         with open(err_file, "r") as f:
             ep_err = f.read()
