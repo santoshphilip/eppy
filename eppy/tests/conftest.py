@@ -24,18 +24,20 @@ TEST_IDD = "Energy+V{}.idd".format(VERSION.replace("-", "_"))
 TEST_OLD_IDD = "Energy+V7_2_0.idd"
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def test_idf():
     idd_file = os.path.join(IDD_FILES, TEST_IDD)
     idf_file = os.path.join(IDF_FILES, TEST_IDF)
-    modeleditor.IDF.setiddname(idd_file, testing=True)
+    modeleditor.IDF.iddname = idd_file
     idf = modeleditor.IDF(idf_file, TEST_EPW)
     try:
         ep_version = idf.idd_version
         assert ep_version == versiontuple(VERSION)
     except AttributeError:
         raise
-    return idf
+    yield idf
+
+    del idf
 
 
 @pytest.fixture()
@@ -47,4 +49,6 @@ def base_idf():
     idftxt = ""
     idfhandle = StringIO(idftxt)
     idf = IDF(idfhandle)
-    return idf
+    yield idf
+
+    del idf
