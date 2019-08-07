@@ -368,6 +368,26 @@ class TestIDFRunner(object):
         self.expected_files.extend(["eplusout.expidf"])
         assert set(files) == set(self.expected_files)
 
+    def test_run_expandobjects_no_flag(self, test_idf):
+        """
+        End to end test of idf.run function with expandobjects flag unset.
+        Fails on severe errors or unexpected/missing output files.
+
+        """
+        test_idf.newidfobject(
+            "HVACTEMPLATE:THERMOSTAT",
+            Name="TestThermostat",
+            Cooling_Setpoint_Schedule_Name="",
+            Heating_Setpoint_Schedule_Name="",
+            Constant_Cooling_Setpoint=25,
+            Constant_Heating_Setpoint=21,
+        )
+        test_idf.run(output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        self.expected_files.extend(["eplusout.expidf"])
+        assert set(files) == set(self.expected_files)
+
     def test_run_output_prefix(self, test_idf):
         """
         End to end test of idf.run function with output prefix set.
