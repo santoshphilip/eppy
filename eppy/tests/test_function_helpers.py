@@ -60,10 +60,10 @@ class TestRegisterFunction:
             area = 0
             for surface in zone.zonesurfaces:
                 if surface.tilt == 180.0:
-                    part_of = int(zone.Part_of_Total_Floor_Area.upper() != "NO")
+                    is_part_of = zone.Part_of_Total_Floor_Area.upper() != "NO"
                     multiplier = float(zone.Multiplier if zone.Multiplier != "" else 1)
 
-                    area += surface.area * multiplier * part_of
+                    area += surface.area * multiplier * is_part_of
             return area
 
         zone = idf.idfobjects["Zone".upper()][0]
