@@ -50,7 +50,7 @@ def base_idf():
     return idf
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture()
 def building():
     """A building fixture created from test_bunch_subclass and which adds a Zone
     object"""
