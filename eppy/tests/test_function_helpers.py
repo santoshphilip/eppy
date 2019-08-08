@@ -3,35 +3,18 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import pytest
-from six import StringIO
-
 import eppy.function_helpers as fh
 from eppy.bunch_subclass import register_epbunch_function
-from eppy.iddcurrent import iddcurrent
-from eppy.modeleditor import IDF
-from eppy.tests.test_bunch_subclass import idftxt
 
 
 class TestRegisterFunction:
-    @pytest.fixture()
-    def IDF(self):
-        iddfhandle = StringIO(iddcurrent.iddtxt)
+    """Testing function registering"""
 
-        if IDF.getiddname() == None:
-            IDF.setiddname(iddfhandle)
-        yield IDF
-
-    @pytest.fixture()
-    def idf(self, IDF):
-        idfhandle = StringIO(idftxt)
-        yield IDF(idfhandle)
-
-    def test_register_function_area(self, idf):
-        """Add a function that comes default with eppy"""
+    def test_register_function_area(self, building):
+        """Add a function that uses other default epbunch functions"""
 
         @register_epbunch_function(
-            "new_area",
+            "twice_area",
             keys=[
                 "BuildingSurface:Detailed",
                 "Wall:Detailed",
@@ -44,13 +27,14 @@ class TestRegisterFunction:
             ],
         )
         @property
-        def area(abunch):
-            return fh.area(abunch)
+        def twice_area(abunch):
+            """simply return twice the area"""
+            return abunch.area * 2
 
-        surf = idf.idfobjects["BuildingSurface:Detailed".upper()][0]
-        assert surf.area
+        surf = building.idfobjects["BuildingSurface:Detailed".upper()][0]
+        assert surf.twice_area == surf.area * 2
 
-    def test_register_function_conditioned_area(self, idf):
+    def test_register_function_conditioned_area(self, building):
         """Add a new custom function that does not come default with eppy"""
 
         @register_epbunch_function("conditioned_area", keys=["Zone"])
@@ -66,6 +50,6 @@ class TestRegisterFunction:
                     area += surface.area * multiplier * is_part_of
             return area
 
-        zone = idf.idfobjects["Zone".upper()][0]
+        zone = building.idfobjects["Zone".upper()][0]
         assert dir(zone)
         assert zone.conditioned_area

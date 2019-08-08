@@ -380,21 +380,6 @@ BuildingSurface:Detailed,
     CLEAR 3MM,               !- Outside Layer
     AIR 13MM,                !- Layer 2
     CLEAR 3MM;               !- Layer 3
-    
-Zone,
-    West Zone,                !- Name
-    0,                        !- Direction of Relative North
-    0,                        !- X Origin
-    0,                        !- Y Origin
-    0,                        !- Z Origin
-    ,                         !- Type
-    ,                         !- Multiplier
-    ,                         !- Ceiling Height
-    ,                         !- Volume
-    ,                         !- Floor Area
-    ,                         !- Zone Inside Convection Algorithm
-    ,                         !- Zone Outside Convection Algorithm
-    Yes;                      !- Part of Total Floor Area
 """
 
 

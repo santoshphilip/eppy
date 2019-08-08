@@ -48,3 +48,17 @@ def base_idf():
     idfhandle = StringIO(idftxt)
     idf = IDF(idfhandle)
     return idf
+
+
+@pytest.fixture(scope="session")
+def building():
+    """A building fixture created from test_bunch_subclass and which adds a Zone
+    object"""
+    from eppy.tests.test_bunch_subclass import idftxt
+
+    idd_file = os.path.join(IDD_FILES, TEST_IDD)
+    modeleditor.IDF.setiddname(idd_file, testing=True)
+    idfhandle = StringIO(idftxt)
+    idf = modeleditor.IDF(idfhandle)
+    idf.newidfobject("Zone".upper(), Name="West Zone", defaultvalues=True)
+    yield idf
