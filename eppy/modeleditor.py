@@ -534,6 +534,8 @@ class IDF(object):
     idd_info = None
     block = None
 
+    __functions = {}
+
     def __init__(self, idfname=None, epw=None):
         """
         Parameters
@@ -553,6 +555,12 @@ class IDF(object):
         self.outputtype = "standard"
 
     """ Methods to set up the IDD."""
+
+    @property
+    def functions(self):
+        """Returns a dict of function names and functions registered for this IDF
+        object."""
+        return {key: value for key, value in self._IDF__functions.items()}
 
     @classmethod
     def setiddname(cls, iddname, testing=False):
@@ -1030,3 +1038,25 @@ class IDF(object):
         dict
         """
         return iddgroups.commdct2grouplist(self.idd_info)
+
+
+def _register_function(name, cls):
+    def decorator(function):
+        if hasattr(cls, name):
+            warnings.warn(
+                "registration of function {!r} under name {!r} for type "
+                "{!r} is overriding a preexisting attribute with the same "
+                "name.".format(function, name, cls),
+                UserWarning,
+                stacklevel=2,
+            )
+        setattr(cls, name, function)
+        cls._IDF__functions.update({name: function})
+        return function
+
+    return decorator
+
+
+def register_idf_function(name):
+    """adds a function to the IDF object"""
+    return _register_function(name, IDF)
