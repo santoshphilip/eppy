@@ -50,6 +50,6 @@ class TestRegisterFunction:
                     area += surface.area * multiplier * is_part_of
             return area
 
-        zone = building.idfobjects["Zone".upper()][0]
+        zone = building.getobject("ZONE", "West Zone")
         assert dir(zone)
         assert zone.conditioned_area

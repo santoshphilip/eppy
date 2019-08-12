@@ -51,14 +51,30 @@ def base_idf():
 
 
 @pytest.fixture()
-def building():
-    """A building fixture created from test_bunch_subclass and which adds a Zone
-    object"""
-    from eppy.tests.test_bunch_subclass import idftxt
+def building(base_idf):
+    """A building fixture created from base_idf and which adds a Zone, and a
+    BuildingSurface:Detailed object
 
-    idd_file = os.path.join(IDD_FILES, TEST_IDD)
-    modeleditor.IDF.setiddname(idd_file, testing=True)
-    idfhandle = StringIO(idftxt)
-    idf = modeleditor.IDF(idfhandle)
-    idf.newidfobject("Zone".upper(), Name="West Zone", defaultvalues=True)
-    yield idf
+    Args:
+        base_idf (IDF): The Base IDF created by the :func:`base_idf` fixture.
+    """
+    base_idf.newidfobject("Zone".upper(), Name="West Zone", defaultvalues=True)
+    base_idf.newidfobject(
+        "BuildingSurface:Detailed",
+        Name="West Floor",
+        Zone_Name="West Zone",
+        Surface_Type="Floor",
+        Vertex_1_Xcoordinate=0,
+        Vertex_1_Ycoordinate=0,
+        Vertex_1_Zcoordinate=0,
+        Vertex_2_Xcoordinate=0,
+        Vertex_2_Ycoordinate=10,
+        Vertex_2_Zcoordinate=0,
+        Vertex_3_Xcoordinate=10,
+        Vertex_3_Ycoordinate=10,
+        Vertex_3_Zcoordinate=0,
+        Vertex_4_Xcoordinate=10,
+        Vertex_4_Ycoordinate=0,
+        Vertex_4_Zcoordinate=0,
+    )
+    yield base_idf
