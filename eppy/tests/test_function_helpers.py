@@ -3,7 +3,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import eppy.function_helpers as fh
+from math import isclose
+
 from eppy.bunch_subclass import register_epbunch_function
 
 
@@ -43,7 +44,7 @@ class TestRegisterFunction:
             zone = abunch
             area = 0
             for surface in zone.zonesurfaces:
-                if surface.tilt == 180.0:
+                if isclose(surface.tilt, 180):
                     is_part_of = zone.Part_of_Total_Floor_Area.upper() != "NO"
                     multiplier = float(zone.Multiplier if zone.Multiplier != "" else 1)
 
