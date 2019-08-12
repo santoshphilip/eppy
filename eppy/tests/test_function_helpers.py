@@ -7,6 +7,7 @@ from math import isclose
 
 from eppy.bunch_subclass import register_epbunch_function
 from eppy.modeleditor import register_idf_function
+from eppy.pytest_helpers import almostequal
 
 
 class TestRegisterFunction:
@@ -45,7 +46,7 @@ class TestRegisterFunction:
             zone = abunch
             area = 0
             for surface in zone.zonesurfaces:
-                if isclose(surface.tilt, 180):
+                if almostequal(surface.tilt, 180):
                     is_part_of = zone.Part_of_Total_Floor_Area.upper() != "NO"
                     multiplier = float(zone.Multiplier if zone.Multiplier != "" else 1)
 
@@ -66,7 +67,7 @@ class TestRegisterFunction:
             zone = abunch
             area = 0
             for surface in zone.zonesurfaces:
-                if isclose(surface.tilt, 180):
+                if almostequal(surface.tilt, 180):
                     is_part_of = zone.Part_of_Total_Floor_Area.upper() != "NO"
                     multiplier = float(zone.Multiplier if zone.Multiplier != "" else 1)
 
