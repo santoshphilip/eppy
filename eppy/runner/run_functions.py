@@ -297,6 +297,13 @@ def run(
         idf_path = os.path.abspath(idf.idfname)
     except AttributeError:
         idf_path = os.path.abspath(idf)
+    if not os.path.isfile(idf_path):
+        raise EnergyPlusRunError(
+            "ERROR: Could not find input data file: {}".format(idf_path)
+        )
+    if not expandobjects:
+        with open(idf_path, "r") as f:
+            args["expandobjects"] = "HVACTEMPLATE:" in f.read().upper()
     ep_version = args.pop("ep_version")
     # get version from IDF object or by parsing the IDF file for it
     if not ep_version:
