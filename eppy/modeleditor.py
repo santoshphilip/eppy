@@ -29,6 +29,8 @@ from eppy.idfreader import convertafield
 from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
+import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
+import re
 
 
 class NoObjectError(Exception):
