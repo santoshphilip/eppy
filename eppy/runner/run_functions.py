@@ -20,6 +20,8 @@ from subprocess import CalledProcessError, check_call
 import sys
 import tempfile
 
+from six import StringIO
+
 try:
     import multiprocessing as mp
 except ImportError:
@@ -346,6 +348,9 @@ def run(
                 cmd.extend([args[arg]])
     cmd.extend([idf_path])
 
+    # send stdout to tmp filehandle to avoid issue #245
+    tmp_err = StringIO()
+    sys.stderr = tmp_err
     try:
         if verbose == "v":
             print("\r\n" + " ".join(cmd) + "\r\n")
@@ -353,21 +358,22 @@ def run(
         elif verbose == "q":
             check_call(cmd, stdout=open(os.devnull, "w"))
     except CalledProcessError:
-        message = parse_error(output_dir)
+        message = parse_error(tmp_err, output_dir)
         raise EnergyPlusRunError(message)
     finally:
+        sys.stderr = sys.__stderr__
         os.chdir(cwd)
     return "OK"
 
 
-def parse_error(output_dir):
+def parse_error(tmp_err, output_dir):
     """Add contents of stderr and eplusout.err and put it in the exception message.
 
+    :param tmp_err: file-like
     :param output_dir: str
     :return: str
     """
-    sys.stderr.seek(0)
-    std_err = sys.stderr.read().decode("utf-8")
+    std_err = tmp_err.getvalue()
     err_file = os.path.join(output_dir, "eplusout.err")
     if os.path.isfile(err_file):
         with open(err_file, "r") as f:
