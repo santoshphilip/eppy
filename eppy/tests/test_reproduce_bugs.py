@@ -45,3 +45,19 @@ def test_reproduce_run_issue():
         raise
     finally:
         shutil.rmtree("test_dir", ignore_errors=True)
+
+
+@pytest.mark.xfail
+@pytest.mark.parametrize(["people"], [["0.753473729169681"], [0.753473729169681]])
+def test_linux_rounding(base_idf, people):
+    assert str(people) == "0.753473729169681"
+    obj = base_idf.newidfobject(
+        "People",
+        Name="Test People",
+        Number_of_People_Calculation_Method="People/Area",
+        People_per_Zone_Floor_Area=people,
+    )
+    assert obj.People_per_Zone_Floor_Area == people
+    idf = IDF()
+    idf.initreadtxt(base_idf.idfstr())
+    assert idf.idfstr() == base_idf.idfstr()
