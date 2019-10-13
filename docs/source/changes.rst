@@ -4,6 +4,29 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.52
+~~~~~~~~~~~~~~~
+
+2019-09-14
+----------
+
+- fixed issue #245 
+    - Error handling errors in python 3
+    
+2019-08-17
+----------
+
+- fixed issue #254 
+   - when running a simulation:
+       - Add expandobjects flag if any HVACTemplate objects are present in IDF
+    
+2019-08-03
+----------
+
+- fixed issue #251
+    - Run black on the whole codebase.
+    - Added black --check . to the Travis config for Python 3.7 on linux for master and non-master branches, to fail if formatting inconsistencies are found.
+
 release r0.5.51
 ~~~~~~~~~~~~~~~
 

@@ -11,15 +11,19 @@ uploading using twine:
 
 
 pre-steps
-- change docs link on Readme.md - DONE
 - change version in 
     - eppy/__init__.py
     - docs/source.conf.py
     - setup.py
+- update git tag
+    - push to github
+    - git tag r0.5.46
+    - git push origin r0.5.46
+    - make a release on github with a new tag = release number
+        - copy and paste from changes.rst (translate to markdown)
+- see 2015-01-13 for  how to do documentation updates
+    - make changes to changes.rst
 
-uploading using twine:
-- python setup.py sdist
-- twine upload dist/*
 
 2015-01-13
 ----------
