@@ -11,18 +11,21 @@ uploading using twine:
 
 
 pre-steps
+- see 2015-01-13 for  how to do documentation updates
+    - make changes to changes.rst
 - change version in 
     - eppy/__init__.py
     - docs/source.conf.py
     - setup.py
 - update git tag
-    - push to github
-    - git tag r0.5.46
-    - git push origin r0.5.46
+    # - push to github
+    - git tag r0.5.52
+    - git push origin r0.5.52
     - make a release on github with a new tag = release number
         - copy and paste from changes.rst (translate to markdown)
-- see 2015-01-13 for  how to do documentation updates
-    - make changes to changes.rst
+- to remove a tag is you made a mistake
+    - git push --delete origin r0.5.52
+    - git tag -d r0.5.52        
 
 
 2015-01-13
