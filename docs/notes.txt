@@ -4,6 +4,9 @@ now upload docs to RTD (Read the docs)
 - goto https://readthedocs.org/projects/eppy/
 - login as santoshphilip 
 - click on build -> it will build from the master in github
+    - the build is happening from develop
+    - so merge master into develop and push
+    
 
 uploading using twine:
 - python setup.py sdist
