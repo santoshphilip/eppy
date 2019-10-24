@@ -14,15 +14,15 @@ from __future__ import unicode_literals
 import pytest
 from six import StringIO
 
-from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunch_subclass as bunch_subclass
 import eppy.bunchhelpers as bunchhelpers
-from eppy.iddcurrent import iddcurrent
 import eppy.idfreader as idfreader
+from eppy.EPlusInterfaceFunctions import readidf
+from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 
-
-# This test is ugly because I have to send file names and not able to send file handles
+# This test is ugly because I have to send file names and not able to send
+# file handles
 EpBunch = bunch_subclass.EpBunch
 
 iddtxt = iddcurrent.iddtxt
@@ -34,7 +34,8 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-# This test is ugly because I have to send file names and not able to send file handles
+# This test is ugly because I have to send file names and not able to send
+# file handles
 idftxt = """Version,
     6.0;
 
@@ -452,7 +453,11 @@ def test_EpBunch():
     assert bwall.Constr == data.dt[wallkey][0][3]
 
     # add functions
-    bwall.__functions = {"svalues": bunch_subclass.somevalues}
+    @bunch_subclass.register_epbunch_function("svalues", keys=None)
+    @property
+    def func(abunch):
+        return bunch_subclass.somevalues(abunch)
+
     assert "svalues" in bwall.__functions
 
     # print bwall.svalues
@@ -1037,6 +1042,8 @@ BuildingSurface:Detailed,
   6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
   6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 """
+
+
 # test_EpBunch1()
 # import idfreader
 

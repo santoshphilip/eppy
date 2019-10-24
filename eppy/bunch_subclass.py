@@ -14,11 +14,9 @@ from __future__ import unicode_literals
 
 import copy
 import itertools
+import warnings
 
 from munch import Munch as Bunch
-
-from eppy.bunchhelpers import matchfieldnames
-import eppy.function_helpers as fh
 
 
 class BadEPFieldError(AttributeError):
@@ -70,110 +68,26 @@ def return42(self, *args, **kwargs):
     return 42
 
 
-def addfunctions(abunch):
-    """add functions to epbunch"""
+def _register_function(name, cls, keys):
+    def decorator(function):
+        if hasattr(cls, name):
+            warnings.warn(
+                "registration of function {!r} under name {!r} for type "
+                "{!r} is overriding a preexisting attribute with the same "
+                "name.".format(function, name, cls),
+                UserWarning,
+                stacklevel=2,
+            )
+        setattr(cls, name, function)
+        cls._EpBunch__functions.update({name: (function, keys)})
+        return function
 
-    key = abunch.obj[0].upper()
+    return decorator
 
-    # -----------------
-    # TODO : alternate strategy to avoid listing the objkeys in snames
-    # check if epbunch has field "Zone_Name" or "Building_Surface_Name"
-    # and is in group u'Thermal Zones and Surfaces'
-    # then it is likely to be a surface.
-    # of course we need to recode for surfaces that do not have coordinates :-(
-    # or we can filter those out since they do not have
-    # the field "Number_of_Vertices"
-    snames = [
-        "BuildingSurface:Detailed",
-        "Wall:Detailed",
-        "RoofCeiling:Detailed",
-        "Floor:Detailed",
-        "FenestrationSurface:Detailed",
-        "Shading:Site:Detailed",
-        "Shading:Building:Detailed",
-        "Shading:Zone:Detailed",
-    ]
-    snames = [sname.upper() for sname in snames]
-    if key in snames:
-        func_dict = {
-            "area": fh.area,
-            "height": fh.height,  # not working correctly
-            "width": fh.width,  # not working correctly
-            "azimuth": fh.azimuth,
-            "tilt": fh.tilt,
-            "coords": fh.getcoords,  # needed for debugging
-        }
-        abunch.__functions.update(func_dict)
 
-    # -----------------
-    # print(abunch.getfieldidd )
-    names = [
-        "CONSTRUCTION",
-        "MATERIAL",
-        "MATERIAL:AIRGAP",
-        "MATERIAL:INFRAREDTRANSPARENT",
-        "MATERIAL:NOMASS",
-        "MATERIAL:ROOFVEGETATION",
-        "WINDOWMATERIAL:BLIND",
-        "WINDOWMATERIAL:GLAZING",
-        "WINDOWMATERIAL:GLAZING:REFRACTIONEXTINCTIONMETHOD",
-        "WINDOWMATERIAL:GAP",
-        "WINDOWMATERIAL:GAS",
-        "WINDOWMATERIAL:GASMIXTURE",
-        "WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC",
-        "WINDOWMATERIAL:SCREEN",
-        "WINDOWMATERIAL:SHADE",
-        "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM",
-    ]
-    if key in names:
-        func_dict = {
-            "rvalue": fh.rvalue,
-            "ufactor": fh.ufactor,
-            "rvalue_ip": fh.rvalue_ip,  # quick fix for Santosh. Needs to thought thru
-            "ufactor_ip": fh.ufactor_ip,  # quick fix for Santosh. Needs to thought thru
-            "heatcapacity": fh.heatcapacity,
-        }
-        abunch.__functions.update(func_dict)
-
-    names = [
-        "FAN:CONSTANTVOLUME",
-        "FAN:VARIABLEVOLUME",
-        "FAN:ONOFF",
-        "FAN:ZONEEXHAUST",
-        "FANPERFORMANCE:NIGHTVENTILATION",
-    ]
-    if key in names:
-        func_dict = {
-            "f_fanpower_bhp": fh.fanpower_bhp,
-            "f_fanpower_watts": fh.fanpower_watts,
-            "f_fan_maxcfm": fh.fan_maxcfm,
-        }
-        abunch.__functions.update(func_dict)
-    # =====
-    # code for references
-    # -----------------
-    # add function zonesurfaces
-    if key == "ZONE":
-        func_dict = {"zonesurfaces": fh.zonesurfaces}
-        abunch.__functions.update(func_dict)
-
-    # -----------------
-    # add function subsurfaces
-    # going to cheat here a bit
-    # check if epbunch has field "Zone_Name"
-    # and is in group u'Thermal Zones and Surfaces'
-    # then it is likely to be a surface attached to a zone
-    fields = abunch.fieldnames
-    try:
-        group = abunch.getfieldidd("key")["group"]
-    except KeyError as e:  # some pytests don't have group
-        group = None
-    if group == "Thermal Zones and Surfaces":
-        if "Zone_Name" in fields:
-            func_dict = {"subsurfaces": fh.subsurfaces}
-            abunch.__functions.update(func_dict)
-
-    return abunch
+def register_epbunch_function(name, keys):
+    """adds a function to the epbunch object"""
+    return _register_function(name, EpBunch, keys)
 
 
 class EpBunch(Bunch):
@@ -184,6 +98,8 @@ class EpBunch(Bunch):
 
     """
 
+    __functions = {}
+
     def __init__(self, obj, objls, objidd, *args, **kwargs):
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj  # field names
@@ -192,8 +108,6 @@ class EpBunch(Bunch):
         self.theidf = None  # pointer to the idf this epbunch belongs to
         # This is None if there is no idf - a standalone epbunch
         # This will be set by Idf_MSequence
-        self["__functions"] = {}  # initialize the functions
-        addfunctions(self)
 
     @property
     def fieldnames(self):
@@ -206,6 +120,17 @@ class EpBunch(Bunch):
         """Friendly name for obj.
         """
         return self.obj
+
+    @property
+    def functions(self):
+        try:
+            return {
+                key: value[0]
+                for key, value in self._EpBunch__functions.items()
+                if self.key in value[1]
+            }
+        except TypeError:
+            return {key: value for key, value in self._EpBunch__functions.items()}
 
     def checkrange(self, fieldname):
         """Check if the value for a field is within the allowed range.
@@ -247,11 +172,13 @@ class EpBunch(Bunch):
         """
         Get an object referred to by a field in another object.
 
-        For example an object of type Construction has fields for each layer, each
+        For example an object of type Construction has fields for each layer,
+        each
         of which refers to a Material. This functions allows the object
         representing a Material to be fetched using the name of the layer.
 
-        Returns the first item found since if there is more than one matching item,
+        Returns the first item found since if there is more than one matching
+        item,
         it is a malformed IDF.
 
         Parameters
@@ -271,19 +198,12 @@ class EpBunch(Bunch):
 
     def __setattr__(self, name, value):
         try:
-            origname = self["__functions"][name]
-            # TODO: unit test never hits here so what is it for?
-            self[origname] = value
-        except KeyError:
-            pass
-
-        try:
             name = self["__aliases"][name]  # get original name of the alias
         except KeyError:
             pass
 
-        if name in ("__functions", "__aliases"):  # just set the new value
-            self[name] = value
+        if name in ("_EpBunch__functions", "__aliases"):  # just set the new value
+            super(EpBunch, self).__setattr__(name, value)
             return None
         elif name in ("obj", "objls", "objidd", "theidf"):  # let Bunch handle it
             super(EpBunch, self).__setattr__(name, value)
@@ -295,14 +215,19 @@ class EpBunch(Bunch):
             except IndexError:
                 extendlist(self.fieldvalues, i)
                 self.fieldvalues[i] = value
+        elif name in self.functions:
+            super(EpBunch, self).__setattr__(name, value[0])
+            return None
         else:
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)  # TODO: could raise AttributeError
 
     def __getattr__(self, name):
         try:
-            func = self["__functions"][name]
-            return func(self)
+            func = self._EpBunch__functions[name]
+            return func[0](self)
+        except TypeError:
+            return getattr(type(self), name).__get__(self, type(self))
         except KeyError:
             pass
 
@@ -312,7 +237,7 @@ class EpBunch(Bunch):
             pass
 
         if name == "__functions":
-            return self["__functions"]
+            return self._EpBunch__functions
         elif name in ("__aliases", "obj", "objls", "objidd", "theidf"):
             # unit test
             return super(EpBunch, self).__getattr__(name)
@@ -357,7 +282,8 @@ class EpBunch(Bunch):
     def __repr__(self):
         """print this as an idf snippet"""
         # lines = [str(val) for val in self.obj]
-        # replace the above line with code that will print an integer without decimals
+        # replace the above line with code that will print an integer without
+        # decimals
         lines = []
         for val in self.obj:
             try:
@@ -390,7 +316,7 @@ class EpBunch(Bunch):
 
     def __dir__(self):
         fnames = self.fieldnames
-        func_names = list(self["__functions"].keys())
+        func_names = list(self.functions.keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
 
 

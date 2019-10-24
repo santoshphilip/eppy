@@ -48,3 +48,33 @@ def base_idf():
     idfhandle = StringIO(idftxt)
     idf = IDF(idfhandle)
     return idf
+
+
+@pytest.fixture()
+def building(base_idf):
+    """A building fixture created from base_idf and which adds a Zone, and a
+    BuildingSurface:Detailed object
+
+    Args:
+        base_idf (IDF): The Base IDF created by the :func:`base_idf` fixture.
+    """
+    base_idf.newidfobject("Zone".upper(), Name="West Zone", defaultvalues=True)
+    base_idf.newidfobject(
+        "BuildingSurface:Detailed",
+        Name="West Floor",
+        Zone_Name="West Zone",
+        Surface_Type="Floor",
+        Vertex_1_Xcoordinate=0,
+        Vertex_1_Ycoordinate=0,
+        Vertex_1_Zcoordinate=0,
+        Vertex_2_Xcoordinate=0,
+        Vertex_2_Ycoordinate=10,
+        Vertex_2_Zcoordinate=0,
+        Vertex_3_Xcoordinate=10,
+        Vertex_3_Ycoordinate=10,
+        Vertex_3_Zcoordinate=0,
+        Vertex_4_Xcoordinate=10,
+        Vertex_4_Ycoordinate=0,
+        Vertex_4_Zcoordinate=0,
+    )
+    yield base_idf
