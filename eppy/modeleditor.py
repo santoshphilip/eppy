@@ -709,6 +709,8 @@ class IDF(object):
         self.read()
         if fname:
             self.idfname = fname
+        else:
+            self.idfname = None
 
     """Methods to do with manipulating the objects in an IDF object."""
 
