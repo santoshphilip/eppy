@@ -106,6 +106,19 @@ def test_azimuth():
         assert almostequal(answer, result, places=3) == True
 
 
+def test_true_azimuth():
+    """test the true azimuth of a polygon poly"""
+    data = (
+        ("", 180, 180),
+        # building_north_axis, surface_azimuth, answer,
+        (20, 0, 20),
+        (240, 180, 60),
+    )
+    for building_north_axis, surface_azimuth, answer in data:
+        result = surface.true_azimuth(building_north_axis, surface_azimuth)
+        assert almostequal(answer, result, places=3) == True
+
+
 def test_tilt():
     """test the tilt of a polygon poly"""
     data = (

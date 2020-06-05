@@ -100,6 +100,7 @@ def addfunctions(abunch):
             "height": fh.height,  # not working correctly
             "width": fh.width,  # not working correctly
             "azimuth": fh.azimuth,
+            "true_azimuth": fh.true_azimuth,
             "tilt": fh.tilt,
             "coords": fh.getcoords,  # needed for debugging
         }
