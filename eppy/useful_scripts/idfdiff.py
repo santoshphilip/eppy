@@ -80,6 +80,7 @@ def makecsvdiffs(thediffs, idf1, idf2):
     dtls = idf1.model.dtls  # undocumented variable
     return makecsvdiffs_raw(thediffs, dtls, idf1.idfname, idf2.idfname)
 
+
 def makecsvdiffs_raw(thediffs, dtls, n1, n2):
     """return the csv to be displayed - the args here are tricky
     This function is called by makecsvdiffs. 
@@ -158,7 +159,8 @@ def makecsv(csvdiffs):
     for row in csvdiffs:
         line = ",".join([str(cell) for cell in row])
         lines.append(line)
-    return '\n'.join(lines)
+    return "\n".join(lines)
+
 
 def printcsv(csvdiffs):
     """print the csv"""
@@ -184,7 +186,7 @@ def row2table(soup, table, row):
         td = Tag(soup, name="td")
         tr.append(td)
         td.append(attr)
-        
+
 
 def makehtmlsoup(csvdiffs):
     """make the html soup"""
@@ -213,12 +215,14 @@ def printhtml(csvdiffs):
     """print the html"""
     soup = makehtmlsoup(csvdiffs)
     print(soup)
-    
+
+
 def htmlinnotebook(soup):
     """display the html in jupyter notebook"""
     from IPython.core.display import display, HTML
+
     soupstr = str(soup)
-    display(HTML(soupstr))    
+    display(HTML(soupstr))
 
 
 if __name__ == "__main__":

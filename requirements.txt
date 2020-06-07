@@ -1,6 +1,6 @@
 munch>=2.0.2
 soupsieve==1.9.6
-beautifulsoup4>=4.4.1
+beautifulsoup4<=4.8.0
 pydot==1.0.29; python_version <= '2.7'
 pydot3k; python_version >= '3.0'
 pyparsing==1.5.7; python_version <= '2.7'

@@ -269,7 +269,6 @@ class TestIDFRunner(object):
                 os.remove(os.path.join(THIS_DIR, f))
             except OSError:  # file was not generated on this run
                 pass
-        
 
     def num_rows_in_csv(self, results="./run_outputs"):
         """Check readvars outputs the expected number of rows.
