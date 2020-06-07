@@ -57,6 +57,15 @@ def azimuth(ddtt):
     return g_surface.azimuth(coords)
 
 
+def true_azimuth(ddtt):
+    """azimuth of the surface"""
+    idf = ddtt.theidf
+    building_north_axis = idf.idfobjects["building".upper()][0].North_Axis
+    coords = getcoords(ddtt)
+    surface_azimuth = g_surface.azimuth(coords)
+    return g_surface.true_azimuth(building_north_axis, surface_azimuth)
+
+
 def tilt(ddtt):
     """tilt of the surface"""
     coords = getcoords(ddtt)
