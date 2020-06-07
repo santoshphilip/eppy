@@ -1,9 +1,11 @@
 import os
 import shutil
 import sys
+from six.moves import reload_module as reload
 
 from six import StringIO
 
+from eppy import modeleditor
 from eppy.runner.run_functions import parse_error, EnergyPlusRunError
 
 
@@ -32,3 +34,4 @@ def test_capture_real_error(test_idf):
         assert "invalid Heating Setpoint Temperature Schedule" in str(e)
     finally:
         shutil.rmtree(rundir)
+        reload(modeleditor)

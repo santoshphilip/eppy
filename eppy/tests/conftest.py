@@ -2,6 +2,7 @@ import os
 
 import pytest
 from six import StringIO
+from six.moves import reload_module as reload
 
 from eppy.modeleditor import IDF
 from eppy.iddcurrent import iddcurrent
@@ -28,6 +29,7 @@ TEST_OLD_IDD = "Energy+V7_2_0.idd"
 def test_idf():
     idd_file = os.path.join(IDD_FILES, TEST_IDD)
     idf_file = os.path.join(IDF_FILES, TEST_IDF)
+    reload(modeleditor)
     modeleditor.IDF.setiddname(idd_file, testing=True)
     idf = modeleditor.IDF(idf_file, TEST_EPW)
     try:
