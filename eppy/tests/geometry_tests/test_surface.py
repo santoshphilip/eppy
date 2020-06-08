@@ -109,13 +109,15 @@ def test_azimuth():
 def test_true_azimuth():
     """test the true azimuth of a polygon poly"""
     data = (
-        ("", 180, 180),
-        # building_north_axis, surface_azimuth, answer,
-        (20, 0, 20),
-        (240, 180, 60),
+        (45, 30, 0, 75),
+        # building_north_axis, zone_direction_of_relative_north, surface_azimuth, answer,
+        ("", 0, 180, 180),
+        (20, "", 20, 40),
+        (240, 90, 180, 150),
     )
-    for building_north_axis, surface_azimuth, answer in data:
-        result = surface.true_azimuth(building_north_axis, surface_azimuth)
+    for building_north_axis, zone_direction_of_relative_north, surface_azimuth, answer in data:
+        result = surface.true_azimuth(
+            building_north_axis, zone_direction_of_relative_north, surface_azimuth)
         assert almostequal(answer, result, places=3) == True
 
 

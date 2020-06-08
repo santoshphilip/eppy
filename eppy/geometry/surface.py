@@ -131,10 +131,11 @@ def azimuth(poly):
         return angle2vecs(vec_azi, vec_n)
 
 
-def true_azimuth(building_north_axis, surface_azimuth):
+def true_azimuth(building_north_axis, zone_direction_of_relative_north, surface_azimuth):
     """True azimuth of a polygon poly"""
     building_north_axis = 0 if building_north_axis == "" else building_north_axis
-    return (building_north_axis + surface_azimuth) % 360
+    zone_direction_of_relative_north = 0 if zone_direction_of_relative_north == "" else zone_direction_of_relative_north
+    return (building_north_axis + zone_direction_of_relative_north + surface_azimuth) % 360
 
 
 def tilt(poly):
