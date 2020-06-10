@@ -81,6 +81,7 @@ def test_version_reader():
     assert ep_version == versiontuple(VERSION)
     ep_version = modeleditor.IDF.idd_version
     assert ep_version == versiontuple(VERSION)
+    # reload(modeleditor)
 
 
 @pytest.mark.skipif(
@@ -145,6 +146,7 @@ class TestRunFunction(object):
     def setup(self):
         """Tidy up just in case anything is left from previous test runs.
         """
+        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -155,6 +157,7 @@ class TestRunFunction(object):
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
+        # reload(modeleditor)
 
     def test_run_abs_paths(self):
         """
@@ -207,6 +210,7 @@ class TestIDFRunner(object):
     def setup(self):
         """Tidy up anything left from previous runs. Get an IDF object to run.
         """
+        # reload(modeleditor)
         shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
         self.expected_files = [
@@ -259,6 +263,7 @@ class TestIDFRunner(object):
         shutil.rmtree("run_outputs", ignore_errors=True)
         shutil.rmtree("other_run_outputs", ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
+        # reload(modeleditor)
         for f in {"eplusout.end", "eplusout.err", "in.idf"}:
             try:
                 os.remove(os.path.join(THIS_DIR, f))
@@ -534,6 +539,7 @@ class TestMultiprocessing(object):
     def setup(self):
         """Clear out any results from previous tests.
         """
+        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
         self.expected_files = [
@@ -558,6 +564,7 @@ class TestMultiprocessing(object):
             shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
+        # reload(modeleditor)
 
     def test_sequential_run(self):
         """

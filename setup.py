@@ -59,7 +59,7 @@ setup(
     test_suite="eppy.test.test_eppy",  # TODO make test_eppy
     install_requires=[
         "munch>=2.0.2",
-        "beautifulsoup4>=4.2.1",
+        "beautifulsoup4<=4.8.0",
         "tinynumpy>=1.2.1",
         "six>=1.10.0",
         "decorator>=4.0.10",
@@ -78,8 +78,12 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     extras_require={
-        ':python_version<="2.7.2"': ["pydot>1.0", "pyparsing>=2.1.4"],
-        ':python_version>="3.0"': ["pydot3k"],
+        ':python_version<="2.7.2"': [
+            "pydot==1.0.29",
+            "pyparsing==1.5.7",
+            "soupsieve==1.9.6",
+        ],
+        ':python_version>="3.0"': ["pydot3k", "pyparsing>=2.4.7"],
         "testing": ["pytest"],
     },
 )

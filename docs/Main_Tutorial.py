@@ -1336,8 +1336,8 @@ for name, azimuth, construction in north_wall_info:
 # change the construction in the exterior north walls
 for wall in exterior_nwall:
     wall.Construction_Name = (
-        "NORTHERN-WALL"
-    )  # make sure such a construction exists in the model
+        "NORTHERN-WALL"  # make sure such a construction exists in the model
+    )
 
 
 # <codecell>

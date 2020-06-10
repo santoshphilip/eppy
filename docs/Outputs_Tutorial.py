@@ -50,9 +50,7 @@ for_images.display_png(for_images.html_snippet1)  # display the image below
 
 from eppy import readhtml  # the eppy module with functions to read the html
 
-fname = (
-    "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html"
-)  # the html file you want to read
+fname = "../eppy/resources/outputfiles/V_7_2/5ZoneCAVtoVAVWarmestTempFlowTable_ABUPS.html"  # the html file you want to read
 filehandle = open(fname, "r").read()  # get a file handle to the html file
 
 
