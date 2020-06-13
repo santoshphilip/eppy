@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2020 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
 # =======================================================================
 #  Distributed under the MIT License.
@@ -17,7 +17,7 @@ import itertools
 
 from munch import Munch as Bunch
 
-from eppy.bunchhelpers import matchfieldnames
+from eppy.bunchhelpers import matchfieldnames, scientificnotation
 import eppy.function_helpers as fh
 
 
@@ -372,6 +372,7 @@ class EpBunch(Bunch):
         comments = [comm.replace("_", " ") for comm in self.objls]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
+            line = scientificnotation(line, width=18) # E+ cannot read wide numbers, convert to 1e+3
             lines[i + 1] = "    %s," % (line,)  # indent and comma
         lines[-1] = "    %s;" % (lines[-1],)  # ';' after last line
         lines = lines[:1] + [line.ljust(26) for line in lines[1:]]  # ljsut the lines
