@@ -85,15 +85,15 @@ def cleancommdct(commdct):
     """make all keys in commdct lower case"""
     return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
 
+
 def scientificnotation(val, width=19):
     """return val in scientific notation if it is wider than 'width' chars
     otherwise return val with no change"""
-    vtxt = '%s' % (val)
+    vtxt = "%s" % (val)
     if len(vtxt) > width:
         try:
-            stxt = '%e' % (val, )
+            stxt = "%e" % (val,)
             return stxt
         except TypeError as e:
             return val
     return val
-    

@@ -1072,6 +1072,7 @@ BUILDING,
     # print bunchobj.objidd
     # assert 1 == 0
 
+
 def test_scientificnotation():
     """py.test to check if __repr__ for epbunch is printing scientific notation"""
     idftxt = """ScheduleTypeLimits,
@@ -1089,6 +1090,6 @@ ScheduleTypeLimits,
 """
     idffile = StringIO(idftxt)
     idf = IDF(idffile)
-    sch = idf.idfobjects['ScheduleTypeLimits'][0]
+    sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected

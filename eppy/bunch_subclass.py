@@ -372,7 +372,9 @@ class EpBunch(Bunch):
         comments = [comm.replace("_", " ") for comm in self.objls]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
-            line = scientificnotation(line, width=18) # E+ cannot read wide numbers, convert to 1e+3
+            line = scientificnotation(
+                line, width=18
+            )  # E+ cannot read wide numbers, convert to 1e+3
             lines[i + 1] = "    %s," % (line,)  # indent and comma
         lines[-1] = "    %s;" % (lines[-1],)  # ';' after last line
         lines = lines[:1] + [line.ljust(26) for line in lines[1:]]  # ljsut the lines
