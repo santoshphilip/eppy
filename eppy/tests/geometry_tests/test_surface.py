@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Tuan Tran
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -115,9 +116,15 @@ def test_true_azimuth():
         (20, "", 20, 40),
         (240, 90, 180, 150),
     )
-    for building_north_axis, zone_direction_of_relative_north, surface_azimuth, answer in data:
+    for (
+        building_north_axis,
+        zone_direction_of_relative_north,
+        surface_azimuth,
+        answer,
+    ) in data:
         result = surface.true_azimuth(
-            building_north_axis, zone_direction_of_relative_north, surface_azimuth)
+            building_north_axis, zone_direction_of_relative_north, surface_azimuth
+        )
         assert almostequal(answer, result, places=3) == True
 
 
