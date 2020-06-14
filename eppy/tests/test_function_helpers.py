@@ -79,6 +79,5 @@ def test_true_azimuth():
     for bldg_north, zone_rel_north, expected in data:
         building.North_Axis = bldg_north
         zone.Direction_of_Relative_North = zone_rel_north
-        result = fh.true_azimuth(surface)
         result = surface.true_azimuth
         assert almostequal(expected, result, places=3) == True
