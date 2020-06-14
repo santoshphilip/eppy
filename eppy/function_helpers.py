@@ -62,15 +62,10 @@ def true_azimuth(ddtt):
     """true azimuth of the surface"""
     idf = ddtt.theidf
     zone_name = ddtt.Zone_Name
-
-    building_north_axis = idf.idfobjects["building"][0].North_Axis
-    zone_direction_of_relative_north = idf.getobject(
-        "zone", zone_name
-    ).Direction_of_Relative_North
-    surface_azimuth = azimuth(ddtt)
-    return g_surface.true_azimuth(
-        building_north_axis, zone_direction_of_relative_north, surface_azimuth
-    )
+    bldg_north = idf.idfobjects["building"][0].North_Axis
+    zone_rel_north = idf.getobject("zone", zone_name).Direction_of_Relative_North
+    surf_azimuth = azimuth(ddtt)
+    return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
 
 
 def tilt(ddtt):

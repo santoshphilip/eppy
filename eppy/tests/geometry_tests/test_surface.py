@@ -22,7 +22,7 @@ def test_area():
     """test the area of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 1),
-        # polygon, answer,
+        # polygon, expected,
         ([(0, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)], 1),
         ([(0, 0, 0), (0, 1, 0), (0, 1, 1), (0, 0, 1)], 1),
         ([(0, 0, 0), (0, 1, 0), (0, 2, 0), (0, 3, 0)], 0),
@@ -36,16 +36,16 @@ def test_area():
             25,
         ),
     )
-    for poly, answer in data:
+    for poly, expected in data:
         result = surface.area(poly)
-        assert almostequal(answer, result, places=4) == True
+        assert almostequal(expected, result, places=4) == True
 
 
 def test_height():
     """test the height of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 1),
-        # polygon, answer,
+        # polygon, expected,
         ([(0, 0, 0), (8, 0, 0), (11, 0, 4), (3, 0, 4)], 5),
         ([(0, 0, 0), (10, 0, 0), (10, 9, 0), (0, 9, 0)], 9),
         (
@@ -59,16 +59,16 @@ def test_height():
         ),
         ([(0.0, 0.0, 3.0), (0.0, 0.0, 2.4), (30.5, 0.0, 2.4), (30.5, 0.0, 3.0)], 0.6),
     )
-    for poly, answer in data:
+    for poly, expected in data:
         result = surface.height(poly)
-        assert almostequal(answer, result, places=5) == True
+        assert almostequal(expected, result, places=5) == True
 
 
 def test_width():
     """test the width of a polygon poly """
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 1),
-        # polygon, answer,
+        # polygon, expected,
         ([(0, 0, 0), (8, 0, 0), (11, 0, 4), (3, 0, 4)], 8),
         ([(0, 0, 0), (10, 0, 0), (10, 9, 0), (0, 9, 0)], 10),
         (
@@ -81,16 +81,16 @@ def test_width():
             8,
         ),
     )
-    for poly, answer in data:
+    for poly, expected in data:
         result = surface.width(poly)
-        assert almostequal(answer, result, places=4) == True
+        assert almostequal(expected, result, places=4) == True
 
 
 def test_azimuth():
     """test the azimuth of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 1), (0, 1, 1)], 180),
-        # polygon, answer,
+        # polygon, expected,
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 0),
         (
             [
@@ -102,37 +102,30 @@ def test_azimuth():
             360 - 23.546134,
         ),
     )
-    for poly, answer in data:
+    for poly, expected in data:
         result = surface.azimuth(poly)
-        assert almostequal(answer, result, places=3) == True
+        assert almostequal(expected, result, places=3) == True
 
 
 def test_true_azimuth():
     """test the true azimuth of a polygon poly"""
     data = (
         (45, 30, 0, 75),
-        # building_north_axis, zone_direction_of_relative_north, surface_azimuth, answer,
+        # bldg_north, zone_rel_north, surf_azimuth, expected,
         ("", 0, 180, 180),
         (20, "", 20, 40),
         (240, 90, 180, 150),
     )
-    for (
-        building_north_axis,
-        zone_direction_of_relative_north,
-        surface_azimuth,
-        answer,
-    ) in data:
-        result = surface.true_azimuth(
-            building_north_axis, zone_direction_of_relative_north, surface_azimuth
-        )
-        assert almostequal(answer, result, places=3) == True
+    for (bldg_north, zone_rel_north, surf_azimuth, expected,) in data:
+        result = surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
+        assert almostequal(expected, result, places=3) == True
 
 
 def test_tilt():
     """test the tilt of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 0),
-        # polygon, answer,
+        # polygon, expected,
         ([(0, 0, 0), (5, 0, 0), (5, 0, 8), (0, 0, 8)], 90),
         ([(0, 0, 0), (1, 0, 0), (1, 1, 1), (0, 1, 1)], 45),
         (
@@ -145,6 +138,6 @@ def test_tilt():
             90 - 72.693912,
         ),
     )
-    for poly, answer in data:
+    for poly, expected in data:
         result = surface.tilt(poly)
-        assert almostequal(answer, result, places=3) == True
+        assert almostequal(expected, result, places=3) == True
