@@ -993,6 +993,35 @@ class IDF(object):
         """
         self.save(filename, lineendings, encoding)
 
+    def shallowcopy(self):
+        """Make a shallow copy of the IDF.
+
+        This will remain connected to the original IDF, so that changes made to
+        either of the IDFs will be reflected in the other one.
+
+        Returns
+        --------
+        IDF object
+
+        """
+        return copy.copy(self)
+
+    def deepcopy(self):
+        """Make a deep copy of the IDF.
+
+        This will not remain connected to the original IDF, and so changes made
+        to the two IDFs will be independent of each other.
+
+        Returns
+        --------
+        IDF object
+
+        """
+        newidf = IDF()
+        newidf.initreadtxt(self.idfstr())
+        return newidf
+
+
     @wrapped_help_text(run)
     def run(self, **kwargs):
         """
