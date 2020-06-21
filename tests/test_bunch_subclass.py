@@ -1,4 +1,5 @@
 # Copyright (c) 2012, 2020 Santosh Philip
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -20,6 +21,7 @@ import eppy.bunchhelpers as bunchhelpers
 from eppy.iddcurrent import iddcurrent
 import eppy.idfreader as idfreader
 from eppy.modeleditor import IDF
+from eppy.pytest_helpers import almostequal
 
 
 # This test is ugly because I have to send file names and not able to send file handles
@@ -35,350 +37,364 @@ if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
 # This test is ugly because I have to send file names and not able to send file handles
-idftxt = """Version,
-    6.0;
+idftxt = """Version,6.0;
 
-BuildingSurface:Detailed,
-  Zn001:Wall001,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  West Zone,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,0,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    Building,
+        building,                !- Name
+        45;                      !- North Axis {deg} 
 
-FenestrationSurface:Detailed,
-  Zn001:Wall001:Win001,    !- Name
-  Window,                  !- Surface Type
-  WIN-CON-LIGHT,           !- Construction Name
-  Zn001:Wall001,           !- Building Surface Name
-  ,                        !- Outside Boundary Condition Object
-  0.5000000,               !- View Factor to Ground
-  ,                        !- Shading Control Name
-  ,                        !- Frame and Divider Name
-  1.0,                     !- Multiplier
-  4,                       !- Number of Vertices
-  0.548000,0,2.5000,  !- X,Y,Z ==> Vertex 1 {m}
-  0.548000,0,0.5000,  !- X,Y,Z ==> Vertex 2 {m}
-  5.548000,0,0.5000,  !- X,Y,Z ==> Vertex 3 {m}
-  5.548000,0,2.5000;  !- X,Y,Z ==> Vertex 4 {m}
+    Zone,
+        West Zone,               !- Name
+        30,                      !- Direction of Relative North {deg}
+        0, 0, 0;                            !- X,Y,Z  {m}
 
-BuildingSurface:Detailed,
-  Zn001:Wall002,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  West Zone,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  0,0,0,  !- X,Y,Z ==> Vertex 3 {m}
-  0,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    GlobalGeometryRules,
+        UpperLeftCorner,         !- Starting Vertex Position
+        CounterClockWise,        !- Vertex Entry Direction
+        Relative;                !- Coordinate System
 
-BuildingSurface:Detailed,
-  Zn001:Wall003,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  West Zone,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn003:Wall004,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  0,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Wall001,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        West Zone,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,0,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn001:Wall004,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  West Zone,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn002:Wall004,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,0,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    FenestrationSurface:Detailed,
+        Zn001:Wall001:Win001,    !- Name
+        Window,                  !- Surface Type
+        WIN-CON-LIGHT,           !- Construction Name
+        Zn001:Wall001,           !- Building Surface Name
+        ,                        !- Outside Boundary Condition Object
+        0.5000000,               !- View Factor to Ground
+        ,                        !- Shading Control Name
+        ,                        !- Frame and Divider Name
+        1.0,                     !- Multiplier
+        4,                       !- Number of Vertices
+        0.548000,0,2.5000,  !- X,Y,Z ==> Vertex 1 {m}
+        0.548000,0,0.5000,  !- X,Y,Z ==> Vertex 2 {m}
+        5.548000,0,0.5000,  !- X,Y,Z ==> Vertex 3 {m}
+        5.548000,0,2.5000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn001:Flr001,            !- Name
-  Floor,                   !- Surface Type
-  FLOOR SLAB 8 IN,         !- Construction Name
-  West Zone,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn001:Flr001,            !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  1.000000,                !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,0,0,  !- X,Y,Z ==> Vertex 1 {m}
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,0,0;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Wall002,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        West Zone,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        0,0,0,  !- X,Y,Z ==> Vertex 3 {m}
+        0,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn001:Roof001,           !- Name
-  Roof,                    !- Surface Type
-  ROOF34,                  !- Construction Name
-  West Zone,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0,                       !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,0,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Wall003,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        West Zone,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn003:Wall004,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        0,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Wall001,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  12.19200,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  9.144000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Wall004,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        West Zone,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn002:Wall004,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,0,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Wall002,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,0,0,  !- X,Y,Z ==> Vertex 2 {m}
-  12.19200,0,0,  !- X,Y,Z ==> Vertex 3 {m}
-  12.19200,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Flr001,            !- Name
+        Floor,                   !- Surface Type
+        FLOOR SLAB 8 IN,         !- Construction Name
+        West Zone,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn001:Flr001,            !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        1.000000,                !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,0,0,  !- X,Y,Z ==> Vertex 1 {m}
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,0,0;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Wall003,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  12.19200,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  12.19200,0,0,  !- X,Y,Z ==> Vertex 2 {m}
-  12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  12.19200,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn001:Roof001,           !- Name
+        Roof,                    !- Surface Type
+        ROOF34,                  !- Construction Name
+        West Zone,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0,                       !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,0,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Wall004,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn001:Wall004,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Wall001,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        12.19200,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        9.144000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Wall005,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn003:Wall005,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Wall002,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,0,0,  !- X,Y,Z ==> Vertex 2 {m}
+        12.19200,0,0,  !- X,Y,Z ==> Vertex 3 {m}
+        12.19200,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Flr001,            !- Name
-  Floor,                   !- Surface Type
-  FLOOR SLAB 8 IN,         !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn002:Flr001,            !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  1.000000,                !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,0,0,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  12.19200,0,0;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Wall003,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        12.19200,0,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        12.19200,0,0,  !- X,Y,Z ==> Vertex 2 {m}
+        12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        12.19200,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn002:Roof001,           !- Name
-  Roof,                    !- Surface Type
-  ROOF34,                  !- Construction Name
-  EAST ZONE,               !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0,                       !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
-  12.19200,0,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
-  12.19200,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Wall004,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn001:Wall004,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,0,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,0,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Wall001,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  0,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Wall005,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn003:Wall005,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Wall002,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  9.144000,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
-  0,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
-  0,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Flr001,            !- Name
+        Floor,                   !- Surface Type
+        FLOOR SLAB 8 IN,         !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn002:Flr001,            !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        1.000000,                !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,0,0,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        12.19200,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        12.19200,0,0;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Wall003,           !- Name
-  Wall,                    !- Surface Type
-  EXTWALL80,               !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
-  9.144000,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn002:Roof001,           !- Name
+        Roof,                    !- Surface Type
+        ROOF34,                  !- Construction Name
+        EAST ZONE,               !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0,                       !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,0,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
+        12.19200,0,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
+        12.19200,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Wall004,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn001:Wall003,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn003:Wall001,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        0,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Wall005,           !- Name
-  Wall,                    !- Surface Type
-  PARTITION06,             !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn002:Wall005,           !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  0.5000000,               !- View Factor to Ground
-  4,                       !- Number of Vertices
-  6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
-  9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
-  9.144000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn003:Wall002,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        9.144000,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
+        0,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
+        0,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Flr001,            !- Name
-  Floor,                   !- Surface Type
-  FLOOR SLAB 8 IN,         !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Surface,                 !- Outside Boundary Condition
-  Zn003:Flr001,            !- Outside Boundary Condition Object
-  NoSun,                   !- Sun Exposure
-  NoWind,                  !- Wind Exposure
-  1.000000,                !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,6.096000,0,  !- X,Y,Z ==> Vertex 1 {m}
-  0,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
-  9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
-  9.144000,6.096000,0;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn003:Wall003,           !- Name
+        Wall,                    !- Surface Type
+        EXTWALL80,               !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
+        9.144000,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-BuildingSurface:Detailed,
-  Zn003:Roof001,           !- Name
-  Roof,                    !- Surface Type
-  ROOF34,                  !- Construction Name
-  NORTH ZONE,              !- Zone Name
-  Outdoors,                !- Outside Boundary Condition
-  ,                        !- Outside Boundary Condition Object
-  SunExposed,              !- Sun Exposure
-  WindExposed,             !- Wind Exposure
-  0,                       !- View Factor to Ground
-  4,                       !- Number of Vertices
-  0,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
-  0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
-  9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
-  9.144000,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+    BuildingSurface:Detailed,
+        Zn003:Wall004,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn001:Wall003,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        6.096000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
 
-  Construction,
-    Dbl Clr 3mm/13mm Air,    !- Name
-    CLEAR 3MM,               !- Outside Layer
-    AIR 13MM,                !- Layer 2
-    CLEAR 3MM;               !- Layer 3
+    BuildingSurface:Detailed,
+        Zn003:Wall005,           !- Name
+        Wall,                    !- Surface Type
+        PARTITION06,             !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn002:Wall005,           !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        0.5000000,               !- View Factor to Ground
+        4,                       !- Number of Vertices
+        6.096000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        6.096000,6.096000,0,  !- X,Y,Z ==> Vertex 2 {m}
+        9.144000,6.096000,0,  !- X,Y,Z ==> Vertex 3 {m}
+        9.144000,6.096000,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+
+    BuildingSurface:Detailed,
+        Zn003:Flr001,            !- Name
+        Floor,                   !- Surface Type
+        FLOOR SLAB 8 IN,         !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Surface,                 !- Outside Boundary Condition
+        Zn003:Flr001,            !- Outside Boundary Condition Object
+        NoSun,                   !- Sun Exposure
+        NoWind,                  !- Wind Exposure
+        1.000000,                !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,6.096000,0,  !- X,Y,Z ==> Vertex 1 {m}
+        0,12.19200,0,  !- X,Y,Z ==> Vertex 2 {m}
+        9.144000,12.19200,0,  !- X,Y,Z ==> Vertex 3 {m}
+        9.144000,6.096000,0;  !- X,Y,Z ==> Vertex 4 {m}
+
+    BuildingSurface:Detailed,
+        Zn003:Roof001,           !- Name
+        Roof,                    !- Surface Type
+        ROOF34,                  !- Construction Name
+        NORTH ZONE,              !- Zone Name
+        Outdoors,                !- Outside Boundary Condition
+        ,                        !- Outside Boundary Condition Object
+        SunExposed,              !- Sun Exposure
+        WindExposed,             !- Wind Exposure
+        0,                       !- View Factor to Ground
+        4,                       !- Number of Vertices
+        0,12.19200,3.048000,  !- X,Y,Z ==> Vertex 1 {m}
+        0,6.096000,3.048000,  !- X,Y,Z ==> Vertex 2 {m}
+        9.144000,6.096000,3.048000,  !- X,Y,Z ==> Vertex 3 {m}
+        9.144000,12.19200,3.048000;  !- X,Y,Z ==> Vertex 4 {m}
+
+    Construction,
+        Dbl Clr 3mm/13mm Air,    !- Name
+        CLEAR 3MM,               !- Outside Layer
+        AIR 13MM,                !- Layer 2
+        CLEAR 3MM;               !- Layer 3
+
 """
 
 
@@ -1093,3 +1109,15 @@ ScheduleTypeLimits,
     sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected
+
+
+def test_surface_function():
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    surface = idf.idfobjects["BuildingSurface:Detailed"][0]
+
+    # test the azimuth
+    assert almostequal(surface.azimuth, 180, places=3) == True
+
+    # test the true azimuth
+    assert almostequal(surface.true_azimuth, 255, places=3) == True
