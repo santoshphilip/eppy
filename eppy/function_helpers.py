@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -58,12 +59,13 @@ def azimuth(ddtt):
 
 
 def true_azimuth(ddtt):
-    """azimuth of the surface"""
+    """true azimuth of the surface"""
     idf = ddtt.theidf
-    building_north_axis = idf.idfobjects["building".upper()][0].North_Axis
-    coords = getcoords(ddtt)
-    surface_azimuth = g_surface.azimuth(coords)
-    return g_surface.true_azimuth(building_north_axis, surface_azimuth)
+    zone_name = ddtt.Zone_Name
+    bldg_north = idf.idfobjects["building"][0].North_Axis
+    zone_rel_north = idf.getobject("zone", zone_name).Direction_of_Relative_North
+    surf_azimuth = azimuth(ddtt)
+    return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
 
 
 def tilt(ddtt):

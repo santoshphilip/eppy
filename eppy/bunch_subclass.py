@@ -1,5 +1,6 @@
 # Copyright (c) 2012, 2020 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
