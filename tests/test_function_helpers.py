@@ -13,6 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from six import StringIO
+import pytest
 
 import eppy.function_helpers as fh
 from eppy.iddcurrent import iddcurrent
@@ -67,6 +68,14 @@ def test_true_azimuth():
         ("Relative", "", 0, 180 + 0),
         ("World", 45, "", 180),
         ("Relative", 240, 90, 180 + 330 - 360),
+        (
+            "Absolute",
+            0,
+            0,
+            ValueError(
+                "{:s} is no valid value for Coordinate System".format("Absolute")
+            ),
+        ),
     )
 
     fhandle = StringIO(idftxt)
@@ -76,9 +85,18 @@ def test_true_azimuth():
     zone = idf.idfobjects["Zone"][0]
     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 
-    for coord_system, bldg_north, zone_rel_north, expected in data:
+    def assert_result(coord_system, bldg_north, zone_rel_north, expected):
         geom_rules.Coordinate_System = coord_system
         building.North_Axis = bldg_north
         zone.Direction_of_Relative_North = zone_rel_north
         result = fh.true_azimuth(surface)
         assert almostequal(expected, result, places=3) == True
+
+    for item in data:
+        if isinstance(item[-1], (int, str)):
+            assert_result(*item)
+        else:
+            with pytest.raises(
+                item[-1].__class__, match=item[-1].args[0],
+            ):
+                assert_result(*item)
