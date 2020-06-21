@@ -24,8 +24,7 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-idftxt = """
-    Version,8.0;
+idftxt = """Version,8.0;
 
     Building,
         Simple One Zone,         !- Name
@@ -63,21 +62,23 @@ idftxt = """
 def test_true_azimuth():
     """py.test for true_azimuth"""
     data = (
-        (45, 30, 255),
-        # bldg_north, zone_rel_north, expected,
-        ("", 0, 180),
-        (20, "", 200),
-        (240, 90, 150),
+        ("Relative", 45, 30, 180 + 75),
+        # coord_system, bldg_north, zone_rel_north, expected,
+        ("Relative", "", 0, 180 + 0),
+        ("World", 45, "", 180),
+        ("Relative", 240, 90, 180 + 330 - 360),
     )
 
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
+    geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
     building = idf.idfobjects["Building"][0]
     zone = idf.idfobjects["Zone"][0]
     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 
-    for bldg_north, zone_rel_north, expected in data:
+    for coord_system, bldg_north, zone_rel_north, expected in data:
+        geom_rules.Coordinate_System = coord_system
         building.North_Axis = bldg_north
         zone.Direction_of_Relative_North = zone_rel_north
-        result = surface.true_azimuth
+        result = fh.true_azimuth(surface)
         assert almostequal(expected, result, places=3) == True

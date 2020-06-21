@@ -61,11 +61,19 @@ def azimuth(ddtt):
 def true_azimuth(ddtt):
     """true azimuth of the surface"""
     idf = ddtt.theidf
-    zone_name = ddtt.Zone_Name
-    bldg_north = idf.idfobjects["building"][0].North_Axis
-    zone_rel_north = idf.getobject("zone", zone_name).Direction_of_Relative_North
-    surf_azimuth = azimuth(ddtt)
-    return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
+    coord_system = idf.idfobjects["GlobalGeometryRules"][0].Coordinate_System
+    if coord_system.lower() == "relative":
+        zone_name = ddtt.Zone_Name
+        bldg_north = idf.idfobjects["Building"][0].North_Axis
+        zone_rel_north = idf.getobject("Zone", zone_name).Direction_of_Relative_North
+        surf_azimuth = azimuth(ddtt)
+        return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
+    elif coord_system.lower() == "world":
+        return azimuth(ddtt)
+    else:
+        raise ValueError(
+            "{:s} is no valid value for Coordinate System".format(coord_system)
+        )
 
 
 def tilt(ddtt):
