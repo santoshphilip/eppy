@@ -68,11 +68,12 @@ def true_azimuth(ddtt):
         zone_rel_north = idf.getobject("Zone", zone_name).Direction_of_Relative_North
         surf_azimuth = azimuth(ddtt)
         return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
-    elif coord_system.lower() == "world":
+    elif coord_system.lower() in ("world", "absolute"):
+        # NOTE: "absolute" is not supported in v9.3.0
         return azimuth(ddtt)
     else:
         raise ValueError(
-            "{:s} is no valid value for Coordinate System".format(coord_system)
+            "'{:s}' is no valid value for 'Coordinate System'".format(coord_system)
         )
 
 

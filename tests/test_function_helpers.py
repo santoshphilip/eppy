@@ -69,11 +69,11 @@ def test_true_azimuth():
         ("World", 45, "", 180),
         ("Relative", 240, 90, 180 + 330 - 360),
         (
-            "Absolute",
+            "Global",
             0,
             0,
             ValueError(
-                "{:s} is no valid value for Coordinate System".format("Absolute")
+                "'{:s}' is no valid value for 'Coordinate System'".format("Global")
             ),
         ),
     )
