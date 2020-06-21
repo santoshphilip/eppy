@@ -28,7 +28,7 @@ matrix:
       - pip install pytest-cov codecov black
     script:
       - black --check --exclude venv .
-      - py.test ./eppy/tests --cov=./ -v
+      - py.test ./tests --cov=./ -v
     after_success:
       # coverage reporting on CodeCov
       - codecov
@@ -58,7 +58,7 @@ matrix:
       - pip install pytest-cov codecov black
     script:
       - black --check --exclude venv .
-      - py.test ./eppy/tests --cov=./ -v
+      - py.test ./tests --cov=./ -v
     after_success:
       # coverage reporting on CodeCov
       - codecov
@@ -128,4 +128,4 @@ install:
   - pip install pytest
 
 script:
-  - py.test ./eppy/tests
+  - py.test ./tests
