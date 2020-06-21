@@ -6,8 +6,12 @@ Subpackages
 
 .. toctree::
 
+    eppy.EPlusInterfaceFunctions
+    eppy.constructions
+    eppy.geometry
     eppy.results
     eppy.runner
+    eppy.useful_scripts
 
 Submodules
 ----------
@@ -36,10 +40,10 @@ eppy.easyopen module
     :undoc-members:
     :show-inheritance:
 
-eppy.ex\_inits module
----------------------
+eppy.eppy module
+----------------
 
-.. automodule:: eppy.ex_inits
+.. automodule:: eppy.eppy
     :members:
     :undoc-members:
     :show-inheritance:
@@ -64,6 +68,14 @@ eppy.hvacbuilder module
 -----------------------
 
 .. automodule:: eppy.hvacbuilder
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+eppy.idd\_helpers module
+------------------------
+
+.. automodule:: eppy.idd_helpers
     :members:
     :undoc-members:
     :show-inheritance:

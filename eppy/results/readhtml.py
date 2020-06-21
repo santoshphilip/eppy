@@ -130,8 +130,9 @@ def lines_table(html_doc, tofloat=True):
     """return a list of [(lines, table), .....]
 
     lines = all the significant lines before the table.
-        These are lines between this table and
-        the previous table or 'hr' tag
+    These are lines between this table and
+    the previous table or 'hr' tag
+    
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]
 
     The lines act as a description for what is in the table

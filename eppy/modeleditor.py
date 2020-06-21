@@ -232,7 +232,7 @@ def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
 
 
 def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
-    """get all the objects of key that matches the fields in **kwargs"""
+    """get all the objects of key that matches the fields in ``**kwargs``"""
     idfobjects = bunchdt[key]
     allobjs = []
     for obj in idfobjects:
@@ -504,8 +504,8 @@ class IDF(object):
     """
     The IDF class holds all the information about an EnergyPlus IDF.
 
-    Class attributes
-    ---------------
+    Attributes
+    ----------
     iddname : str
         Name of the IDD currently being used by eppy. As a class attribute, this
         is set for all IDFs which are currently being processed and cannot be
@@ -515,8 +515,8 @@ class IDF(object):
     block : list
         Field names in the IDD.
 
-    Instance attributes
-    -------------------
+  
+ 
     idfname : str
         Path to the IDF file.
     idfobjects : list
@@ -995,13 +995,12 @@ class IDF(object):
 
     @wrapped_help_text(run)
     def run(self, **kwargs):
-        """
-        Run an IDF file with a given EnergyPlus weather file. This is a
+        """Run an IDF file with a given EnergyPlus weather file. This is a
         wrapper for the EnergyPlus command line interface.
 
         Parameters
         ----------
-        **kwargs
+        kwargs : 
             See eppy.runner.functions.run()
 
         """
@@ -1018,11 +1017,11 @@ class IDF(object):
     def getiddgroupdict(self):
         """Return a idd group dictionary
         sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
-         'Compliance Objects': ['Compliance:Building'], 'Controllers':
-         ['Controller:WaterCoil',
-          'Controller:OutdoorAir',
-          'Controller:MechanicalVentilation',
-          'AirLoopHVAC:ControllerList'],
+        'Compliance Objects': ['Compliance:Building'], 'Controllers':
+        ['Controller:WaterCoil',
+        'Controller:OutdoorAir',
+        'Controller:MechanicalVentilation',
+        'AirLoopHVAC:ControllerList'],
         ...}
 
         Returns

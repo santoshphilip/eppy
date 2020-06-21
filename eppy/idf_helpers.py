@@ -98,7 +98,7 @@ def getobjectswithnode(idf, nodekeys, nodename):
 
 def name2idfobject(idf, groupnamess=None, objkeys=None, **kwargs):
     """return the object, if the Name or some other field is known.
-    send filed in **kwargs as Name='a name', Roughness='smooth'
+    send field in ``**kwargs`` as Name='a name', Roughness='smooth'
     Returns the first find (field search is unordered)
     objkeys -> if objkeys=['ZONE', 'Material'], search only those
     groupnames -> not yet coded"""

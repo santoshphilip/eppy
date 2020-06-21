@@ -60,6 +60,14 @@ eppy.EPlusInterfaceFunctions.readidf module
     :undoc-members:
     :show-inheritance:
 
+eppy.EPlusInterfaceFunctions.structures module
+----------------------------------------------
+
+.. automodule:: eppy.EPlusInterfaceFunctions.structures
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
