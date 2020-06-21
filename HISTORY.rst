@@ -5,6 +5,55 @@ History
 Changes
 ~~~~~~~
 
+
+
+2020-06-20
+----------
+
+- fixed issue #291
+    - used cookiecutter template for eppy
+    - from https://github.com/cookiecutter/cookiecutter
+- eases development, because the following commands are available from ``make``::
+    
+    clean                remove all build, test, coverage and Python artifacts
+    clean-build          remove build artifacts
+    clean-pyc            remove Python file artifacts
+    clean-test           remove test and coverage artifacts
+    lint                 check style with flake8
+    test                 run tests quickly with the default Python
+    test-all             run tests on every Python version with tox
+    coverage             check code coverage quickly with the default Python
+    docs                 generate Sphinx HTML documentation, including API docs
+    servedocs            compile the docs watching for changes
+    release              package and upload a release
+    dist                 builds source and wheel package
+    install              install the package to the active Python's site-packages
+    
+
+2020-06-13
+----------
+
+- fixed issue #289    
+    - Problem: E+ is unable to read numbers that are wider than 19 digits
+    - Solution: format these numbers in scientific notation
+
+2020-06-07
+----------
+
+- fixed issue #281
+    - Problem: pytest failing in python 2
+    - Solution: Set the correct version numbers in the requirements.txt file
+
+2020-06-05
+----------
+
+- fixed issue # 283
+    - surface.azimuth calculates the azimuth from the surface coordinates
+    - surface.true_azimuth also include the effecto building azimuth ans zone azimuth
+    
+
+
+
 release r0.5.52
 ~~~~~~~~~~~~~~~
 
