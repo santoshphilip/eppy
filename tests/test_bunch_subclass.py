@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2020 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -1071,3 +1071,25 @@ BUILDING,
     assert prnt == result
     # print bunchobj.objidd
     # assert 1 == 0
+
+
+def test_scientificnotation():
+    """py.test to check if __repr__ for epbunch is printing scientific notation"""
+    idftxt = """ScheduleTypeLimits,
+    AnyValue,                !- Name
+    -1e+019,                 !- Lower Limit Value
+    1e+019,                  !- Upper Limit Value
+    Continuous;              !- Numeric Type
+"""
+    expected = """
+ScheduleTypeLimits,
+    AnyValue,                 !- Name
+    -1.000000e+19,            !- Lower Limit Value
+    1.000000e+19,             !- Upper Limit Value
+    Continuous;               !- Numeric Type
+"""
+    idffile = StringIO(idftxt)
+    idf = IDF(idffile)
+    sch = idf.idfobjects["ScheduleTypeLimits"][0]
+    result = sch.__repr__()
+    assert result == expected

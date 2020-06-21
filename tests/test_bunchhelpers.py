@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2020 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -60,3 +60,15 @@ def test_replaceint():
     for fname, newname in data:
         result = bunchhelpers.replaceint(fname)
         assert result == newname
+
+
+def test_scientificnotation():
+    """py.test for scientificnotation"""
+    data = (
+        (100000, 3, "1.000000e+05"),  # val, width, expected
+        (10, 3, 10),  # val, width, expected
+        ("gumby", 3, "gumby"),  # val, width, expected
+    )
+    for val, width, expected in data:
+        result = bunchhelpers.scientificnotation(val, width)
+        assert result == expected
