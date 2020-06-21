@@ -97,4 +97,4 @@ install:
 
 test_script:
   # Test command.
-  - "python -m pytest eppy -v"
+  - "python -m pytest ./ -v"
