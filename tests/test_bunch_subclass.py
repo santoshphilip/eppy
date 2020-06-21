@@ -1,5 +1,4 @@
 # Copyright (c) 2012, 2020 Santosh Philip
-# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -1109,15 +1108,3 @@ ScheduleTypeLimits,
     sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected
-
-
-def test_surface_function():
-    fhandle = StringIO(idftxt)
-    idf = IDF(fhandle)
-    surface = idf.idfobjects["BuildingSurface:Detailed"][0]
-
-    # test the azimuth
-    assert almostequal(surface.azimuth, 180, places=3) == True
-
-    # test the true azimuth
-    assert almostequal(surface.true_azimuth, 255, places=3) == True
