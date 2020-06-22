@@ -60,23 +60,62 @@ idftxt = """Version,8.0;
 """
 
 
-def test_true_azimuth():
+# original test_true_azimuth() - done using a loop
+# def test_true_azimuth():
+#     """py.test for true_azimuth"""
+#     data = (
+#         ("Relative", 45, 30, 180 + 75),
+#         # coord_system, bldg_north, zone_rel_north, expected,
+#         ("Relative", "", 0, 180 + 0),
+#         ("World", 45, "", 180),
+#         ("Relative", 240, 90, 180 + 330 - 360),
+#     )
+#
+#     fhandle = StringIO(idftxt)
+#     idf = IDF(fhandle)
+#     geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
+#     building = idf.idfobjects["Building"][0]
+#     zone = idf.idfobjects["Zone"][0]
+#     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
+#
+#     for coord_system, bldg_north, zone_rel_north, expected in data:
+#         geom_rules.Coordinate_System = coord_system
+#         building.North_Axis = bldg_north
+#         zone.Direction_of_Relative_North = zone_rel_north
+#         result = fh.true_azimuth(surface)
+#         assert almostequal(expected, result, places=3) == True
+
+# test_true_azimuth() - done using @pytest.mark.parametrize
+# see https://docs.pytest.org/en/stable/parametrize.html
+@pytest.mark.parametrize('coord_system, bldg_north, zone_rel_north, expected', [
+    ("Relative", 45, 30, 180 + 75),
+    # coord_system, bldg_north, zone_rel_north, expected,
+    ("Relative", "", 0, 180 + 0),
+    ("World", 45, "", 180),
+    ("Relative", 240, 90, 180 + 330 - 360),
+])
+def test_true_azimuth(coord_system, bldg_north, zone_rel_north, expected):
     """py.test for true_azimuth"""
-    data = (
-        ("Relative", 45, 30, 180 + 75),
-        # coord_system, bldg_north, zone_rel_north, expected,
-        ("Relative", "", 0, 180 + 0),
-        ("World", 45, "", 180),
-        ("Relative", 240, 90, 180 + 330 - 360),
-        (
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
+    building = idf.idfobjects["Building"][0]
+    zone = idf.idfobjects["Zone"][0]
+    surface = idf.idfobjects["BuildingSurface:Detailed"][0]
+
+    geom_rules.Coordinate_System = coord_system
+    building.North_Axis = bldg_north
+    zone.Direction_of_Relative_North = zone_rel_north
+    result = fh.true_azimuth(surface)
+    assert almostequal(expected, result, places=3) == True
+
+def test_true_azimuth_exception():
+    """py.test for true_azimuth exception"""
+    coord_system, bldg_north, zone_rel_north =     (
             "Global",
             0,
             0,
-            ValueError(
-                "'{:s}' is no valid value for 'Coordinate System'".format("Global")
-            ),
-        ),
-    )
+            )
 
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
@@ -85,18 +124,10 @@ def test_true_azimuth():
     zone = idf.idfobjects["Zone"][0]
     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 
-    def assert_result(coord_system, bldg_north, zone_rel_north, expected):
-        geom_rules.Coordinate_System = coord_system
-        building.North_Axis = bldg_north
-        zone.Direction_of_Relative_North = zone_rel_north
+    geom_rules.Coordinate_System = coord_system
+    building.North_Axis = bldg_north
+    zone.Direction_of_Relative_North = zone_rel_north
+    
+    with pytest.raises(ValueError):
         result = fh.true_azimuth(surface)
-        assert almostequal(expected, result, places=3) == True
-
-    for item in data:
-        if isinstance(item[-1], (int, str)):
-            assert_result(*item)
-        else:
-            with pytest.raises(
-                item[-1].__class__, match=item[-1].args[0],
-            ):
-                assert_result(*item)
+    
