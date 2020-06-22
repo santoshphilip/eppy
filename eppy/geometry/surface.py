@@ -133,7 +133,7 @@ def azimuth(poly):
 
 
 def true_azimuth(bldg_north, zone_rel_north, surf_azimuth):
-    """True azimuth of a polygon poly"""
+    """True azimuth of a building surface"""
     bldg_north = 0 if bldg_north == "" else bldg_north
     zone_rel_north = 0 if zone_rel_north == "" else zone_rel_north
     return (bldg_north + zone_rel_north + surf_azimuth) % 360
