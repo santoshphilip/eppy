@@ -13,6 +13,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from six import StringIO
+import pytest
 
 import eppy.function_helpers as fh
 from eppy.iddcurrent import iddcurrent
@@ -24,8 +25,7 @@ iddfhandle = StringIO(iddcurrent.iddtxt)
 if IDF.getiddname() == None:
     IDF.setiddname(iddfhandle)
 
-idftxt = """
-    Version,8.0;
+idftxt = """Version,8.0;
 
     Building,
         Simple One Zone,         !- Name
@@ -63,21 +63,40 @@ idftxt = """
 def test_true_azimuth():
     """py.test for true_azimuth"""
     data = (
-        (45, 30, 255),
-        # bldg_north, zone_rel_north, expected,
-        ("", 0, 180),
-        (20, "", 200),
-        (240, 90, 150),
+        ("Relative", 45, 30, 180 + 75),
+        # coord_system, bldg_north, zone_rel_north, expected,
+        ("Relative", "", 0, 180 + 0),
+        ("World", 45, "", 180),
+        ("Relative", 240, 90, 180 + 330 - 360),
+        (
+            "Global",
+            0,
+            0,
+            ValueError(
+                "'{:s}' is no valid value for 'Coordinate System'".format("Global")
+            ),
+        ),
     )
 
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
+    geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
     building = idf.idfobjects["Building"][0]
     zone = idf.idfobjects["Zone"][0]
     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 
-    for bldg_north, zone_rel_north, expected in data:
+    def assert_result(coord_system, bldg_north, zone_rel_north, expected):
+        geom_rules.Coordinate_System = coord_system
         building.North_Axis = bldg_north
         zone.Direction_of_Relative_North = zone_rel_north
-        result = surface.true_azimuth
+        result = fh.true_azimuth(surface)
         assert almostequal(expected, result, places=3) == True
+
+    for item in data:
+        if isinstance(item[-1], (int, str)):
+            assert_result(*item)
+        else:
+            with pytest.raises(
+                item[-1].__class__, match=item[-1].args[0],
+            ):
+                assert_result(*item)
