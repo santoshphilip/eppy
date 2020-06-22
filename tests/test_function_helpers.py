@@ -87,13 +87,16 @@ idftxt = """Version,8.0;
 
 # test_true_azimuth() - done using @pytest.mark.parametrize
 # see https://docs.pytest.org/en/stable/parametrize.html
-@pytest.mark.parametrize('coord_system, bldg_north, zone_rel_north, expected', [
-    ("Relative", 45, 30, 180 + 75),
-    # coord_system, bldg_north, zone_rel_north, expected,
-    ("Relative", "", 0, 180 + 0),
-    ("World", 45, "", 180),
-    ("Relative", 240, 90, 180 + 330 - 360),
-])
+@pytest.mark.parametrize(
+    "coord_system, bldg_north, zone_rel_north, expected",
+    [
+        ("Relative", 45, 30, 180 + 75),
+        # coord_system, bldg_north, zone_rel_north, expected,
+        ("Relative", "", 0, 180 + 0),
+        ("World", 45, "", 180),
+        ("Relative", 240, 90, 180 + 330 - 360),
+    ],
+)
 def test_true_azimuth(coord_system, bldg_north, zone_rel_north, expected):
     """py.test for true_azimuth"""
     fhandle = StringIO(idftxt)
@@ -109,13 +112,14 @@ def test_true_azimuth(coord_system, bldg_north, zone_rel_north, expected):
     result = fh.true_azimuth(surface)
     assert almostequal(expected, result, places=3) == True
 
+
 def test_true_azimuth_exception():
     """py.test for true_azimuth exception"""
-    coord_system, bldg_north, zone_rel_north =     (
-            "Global",
-            0,
-            0,
-            )
+    coord_system, bldg_north, zone_rel_north = (
+        "Global",
+        0,
+        0,
+    )
 
     fhandle = StringIO(idftxt)
     idf = IDF(fhandle)
@@ -127,7 +131,6 @@ def test_true_azimuth_exception():
     geom_rules.Coordinate_System = coord_system
     building.North_Axis = bldg_north
     zone.Direction_of_Relative_North = zone_rel_north
-    
+
     with pytest.raises(ValueError):
         result = fh.true_azimuth(surface)
-    
