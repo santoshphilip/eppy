@@ -23,7 +23,7 @@ from eppy.bunch_subclass import BadEPFieldError
 
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
-    it is an ordered list of idf.idfobjects.keys() 
+    it is an ordered list of idf.idfobjects.keys()
     keys of a dict are unordered, so idf.idfobjects.keys() will not work for this purpose"""
     return idf.model.dtls
 

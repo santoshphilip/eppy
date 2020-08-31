@@ -61,7 +61,7 @@ def getiddfile(versionid):
 
 def getoldiddfile(versionid):
     """find the IDD file of the E+ installation
-    E+ version 7 and earlier have the idd in /EnergyPlus-7-2-0/bin/Energy+.idd """
+    E+ version 7 and earlier have the idd in /EnergyPlus-7-2-0/bin/Energy+.idd"""
     vlist = versionid.split(".")
     if len(vlist) == 1:
         vlist = vlist + ["0", "0"]
@@ -77,7 +77,7 @@ def getoldiddfile(versionid):
 def easyopen(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
-    
+
     - the IDF file should have the VERSION object.
     - Needs  the version of EnergyPlus installed that matches the IDF version.
     - Energyplus should be installed in the default location.

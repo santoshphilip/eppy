@@ -78,8 +78,7 @@ def almostequal(first, second, places=7, printit=True):
 
 
 def poptrailing(lst):
-    """Remove trailing blank items from lst.
-    """
+    """Remove trailing blank items from lst."""
     while lst and lst[-1] == "":
         lst.pop()
     return lst
@@ -514,8 +513,8 @@ class IDF(object):
     block : list
         Field names in the IDD.
 
-  
- 
+
+
     idfname : str
         Path to the IDF file.
     idfobjects : list
@@ -732,7 +731,7 @@ class IDF(object):
             This parameter is not used. It is left there for backward
             compatibility.
         defaultvalues: boolean
-            default is True. If True default values WILL be set. 
+            default is True. If True default values WILL be set.
             If False, default values WILL NOT be set
         **kwargs
             Keyword arguments in the format `field=value` used to set the value
@@ -861,8 +860,7 @@ class IDF(object):
     """Methods to do with outputting an IDF."""
 
     def printidf(self):
-        """Print the IDF.
-        """
+        """Print the IDF."""
         print(self.idfstr())
 
     def idfstr(self):
@@ -952,7 +950,7 @@ class IDF(object):
                 filename.write(s.decode(encoding))
 
     def saveas(self, filename, lineendings="default", encoding="latin-1"):
-        """ Save the IDF as a text file with the filename passed.
+        """Save the IDF as a text file with the filename passed.
 
         Parameters
         ----------
@@ -999,7 +997,7 @@ class IDF(object):
 
         Parameters
         ----------
-        kwargs : 
+        kwargs :
             See eppy.runner.functions.run()
 
         """

@@ -123,8 +123,7 @@ def paths_from_version(version):
 
 
 def wrapped_help_text(wrapped_func):
-    """Decorator to pass through the documentation from a wrapped function.
-    """
+    """Decorator to pass through the documentation from a wrapped function."""
 
     def decorator(wrapper_func):
         """The decorator.

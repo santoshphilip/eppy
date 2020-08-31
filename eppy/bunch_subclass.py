@@ -199,24 +199,20 @@ class EpBunch(Bunch):
 
     @property
     def fieldnames(self):
-        """Friendly name for objls.
-        """
+        """Friendly name for objls."""
         return self.objls
 
     @property
     def fieldvalues(self):
-        """Friendly name for obj.
-        """
+        """Friendly name for obj."""
         return self.obj
 
     def checkrange(self, fieldname):
-        """Check if the value for a field is within the allowed range.
-        """
+        """Check if the value for a field is within the allowed range."""
         return checkrange(self, fieldname)
 
     def getrange(self, fieldname):
-        """Get the allowed range of values for a field.
-        """
+        """Get the allowed range of values for a field."""
         return getrange(self, fieldname)
 
     def getfieldidd(self, fieldname):

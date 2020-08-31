@@ -237,7 +237,7 @@ def connectcomponents(idf, components, fluid=None):
 
 def initinletoutlet(idf, idfobject, thisnode, force=False):
     """initialze values for all the inlet outlet nodes for the object.
-    if force == False, it willl init only if field = '' """
+    if force == False, it willl init only if field = ''"""
 
     def blankfield(fieldvalue):
         """test for blank field"""

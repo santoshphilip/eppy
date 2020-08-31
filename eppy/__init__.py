@@ -24,13 +24,13 @@ import eppy
 
 def newidf(version=None):
     """open a new idf file
-    
-    easy way to open a new idf file for particular version. Works only id Energyplus of that version is installed. 
-    
+
+    easy way to open a new idf file for particular version. Works only id Energyplus of that version is installed.
+
     Parameters
     ----------
     version: string
-        version of the new file you want to create. Will work only if this version of Energyplus has been installed. 
+        version of the new file you want to create. Will work only if this version of Energyplus has been installed.
 
     Returns
     -------
@@ -49,7 +49,7 @@ def newidf(version=None):
 def openidf(fname, idd=None, epw=None):
     """automatically set idd and open idf file. Uses version from idf to set correct idd
     It will work under the following circumstances:
-    
+
     - the IDF file should have the VERSION object.
     - Needs  the version of EnergyPlus installed that matches the IDF version.
     - Energyplus should be installed in the default location.

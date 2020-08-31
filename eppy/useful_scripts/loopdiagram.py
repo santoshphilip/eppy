@@ -157,16 +157,16 @@ def makediagram(edges):
 
 def transpose2d(mtx):
     """Transpose a 2d matrix
-       [
-            [1,2,3],
-            [4,5,6]
-            ]
-        becomes
-        [
-            [1,4],
-            [2,5],
-            [3,6]
-            ]
+    [
+         [1,2,3],
+         [4,5,6]
+         ]
+     becomes
+     [
+         [1,4],
+         [2,5],
+         [3,6]
+         ]
     """
     return zip(*mtx)
 
