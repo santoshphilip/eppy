@@ -1,13 +1,11 @@
-munch>=2.0.2
-soupsieve==1.9.6
-beautifulsoup4<=4.8.0
-pydot==1.0.29; python_version <= '2.7'
-pydot3k; python_version >= '3.0'
-pyparsing==1.5.7; python_version <= '2.7'
-pyparsing==2.4.7; python_version >= '3.0'
-pytest>=3.2.1
-tinynumpy>=1.2.1
-six>=1.10.0
-decorator>=4.0.10
-lxml>=3.8.0
+munch
+soupsieve
+beautifulsoup4
+pydot
+pyparsing
+pytest
+tinynumpy
+six
+decorator
+lxml
 future

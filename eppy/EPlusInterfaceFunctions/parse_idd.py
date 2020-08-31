@@ -13,7 +13,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six import StringIO
+from io import StringIO
 from io import FileIO
 from decorator import decorator
 

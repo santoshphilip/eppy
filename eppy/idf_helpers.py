@@ -14,8 +14,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import itertools
-from six import iteritems
-from six import StringIO
+from io import StringIO
 from past.builtins import basestring  # pip install future
 
 from eppy.modeleditor import IDF

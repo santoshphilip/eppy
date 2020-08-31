@@ -18,8 +18,7 @@ import os
 import platform
 import warnings
 
-from six import StringIO
-from six import iteritems
+from io import StringIO
 
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 import eppy.function_helpers
@@ -198,7 +197,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
-    for kkey, value in iteritems(kwargs):
+    for kkey, value in kwargs.items():
         abunch[kkey] = value
     return abunch
 

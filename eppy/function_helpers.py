@@ -12,8 +12,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six.moves import zip_longest
 import itertools
+from itertools import zip_longest
 from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
 import eppy.fanpower

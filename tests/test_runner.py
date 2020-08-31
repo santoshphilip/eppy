@@ -23,7 +23,7 @@ import re
 import shutil
 
 import pytest
-from six.moves import reload_module as reload
+from importlib import reload
 
 from eppy import modeleditor
 from eppy.pytest_helpers import do_integration_tests

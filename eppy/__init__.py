@@ -18,7 +18,7 @@ __email__ = "santosh@noemail.com"
 __version__ = "0.5.52"
 
 
-from six import StringIO
+from io import StringIO
 import eppy
 
 

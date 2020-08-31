@@ -13,7 +13,7 @@ from __future__ import unicode_literals
 
 import warnings
 
-from six import StringIO
+from io import StringIO
 
 from eppy.constructions.thermal_properties import INSIDE_FILM_R
 from eppy.constructions.thermal_properties import OUTSIDE_FILM_R

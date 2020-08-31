@@ -29,11 +29,8 @@ import eppy
 import eppy.EPlusInterfaceFunctions
 from eppy.EPlusInterfaceFunctions import readidf
 
-try:
-    import pydot
-except ImportError:
-    import pydot3k as pydot
-from six import string_types
+# import pydot3k as pydot
+import pydot
 
 import eppy.loops as loops
 
@@ -512,7 +509,7 @@ def replace_colon(s, replacewith="__"):
 
 
 def clean_edges(arg):
-    if isinstance(arg, string_types):
+    if isinstance(arg, str):
         return replace_colon(arg)
     try:
         return tuple(clean_edges(x) for x in arg)

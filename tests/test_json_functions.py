@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 
 from eppy import modeleditor
 from eppy.modeleditor import IDF
-from six import StringIO
+from io import StringIO
 
 from eppy.iddcurrent import iddcurrent
 

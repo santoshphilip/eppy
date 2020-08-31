@@ -20,7 +20,7 @@ from subprocess import CalledProcessError, check_call
 import sys
 import tempfile
 
-from six import StringIO
+from io import StringIO
 
 try:
     import multiprocessing as mp

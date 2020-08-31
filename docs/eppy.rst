@@ -6,12 +6,8 @@ Subpackages
 
 .. toctree::
 
-    eppy.EPlusInterfaceFunctions
-    eppy.constructions
-    eppy.geometry
     eppy.results
     eppy.runner
-    eppy.useful_scripts
 
 Submodules
 ----------

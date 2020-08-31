@@ -20,7 +20,7 @@ from __future__ import unicode_literals
 import os
 import io
 from io import IOBase
-from six import StringIO
+from io import StringIO
 import eppy
 import eppy.modeleditor
 import eppy.EPlusInterfaceFunctions.parse_idd
