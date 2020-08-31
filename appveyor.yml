@@ -6,18 +6,6 @@ for:
       - /.*/
   environment:
     matrix:
-      - PYTHON: "C:\\Python27"
-        PYTHONVERSION: 2.7
-        ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "9.0.1"
-        ENERGYPLUS_SHA: "bb7ca4f0da"
-      - PYTHON: "C:\\Python27-x64"
-        PYTHONVERSION: 2.7
-        ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "9.0.1"
-        ENERGYPLUS_SHA: "bb7ca4f0da"
       - PYTHON: "C:\\Python37"
         PYTHONVERSION: 3.7
         ARCHITECTURE: "i386"
@@ -37,19 +25,6 @@ for:
       - master
   environment:
     matrix:
-      - PYTHON: "C:\\Python27"
-        PYTHONVERSION: 2.7
-        ARCHITECTURE: "i386"
-        MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "9.0.1"
-        ENERGYPLUS_SHA: "bb7ca4f0da"
-      - PYTHON: "C:\\Python27-x64"
-        PYTHONVERSION: 2.7
-        ARCHITECTURE: "x86_64"
-        MINICONDA: "C:\\Miniconda"
-        ENERGYPLUS_VERSION: "9.0.1"
-        ENERGYPLUS_SHA: "bb7ca4f0da"
-
       - PYTHON: "C:\\Python37"
         PYTHONVERSION: 3.7
         ARCHITECTURE: "i386"
