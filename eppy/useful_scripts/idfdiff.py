@@ -83,7 +83,7 @@ def makecsvdiffs(thediffs, idf1, idf2):
 
 def makecsvdiffs_raw(thediffs, dtls, n1, n2):
     """return the csv to be displayed - the args here are tricky
-    This function is called by makecsvdiffs. 
+    This function is called by makecsvdiffs.
     Best not to call directly"""
 
     def ishere(val):

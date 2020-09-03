@@ -23,7 +23,7 @@ import re
 import shutil
 
 import pytest
-from six.moves import reload_module as reload
+from importlib import reload
 
 from eppy import modeleditor
 from eppy.pytest_helpers import do_integration_tests
@@ -57,8 +57,7 @@ eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_I
 
 
 def has_severe_errors(results="run_outputs"):
-    """Check for severe errors in the eplusout.end file.
-    """
+    """Check for severe errors in the eplusout.end file."""
     end_filename = glob("{}/*.end".format(results))[0]
     with open(os.path.join(end_filename), "r") as end_file:
         end_txt = end_file.read()
@@ -67,8 +66,7 @@ def has_severe_errors(results="run_outputs"):
 
 
 def test_version_reader():
-    """Test that get the expected idd_version when reading an IDF/IDD.
-    """
+    """Test that get the expected idd_version when reading an IDF/IDD."""
     # We need to reload modeleditor since the IDF class may have had an IDD
     # which causes problems.
     # https://stackoverflow.com/questions/437589/how-do-i-unload-reload-a-python-module
@@ -96,41 +94,34 @@ class TestEnvironment(object):
     """
 
     def test_thisdir_exists(self):
-        """Make sure we are starting from the correct path.
-        """
+        """Make sure we are starting from the correct path."""
         assert os.path.isdir(THIS_DIR)
 
     def test_iddfiles_exists(self):
-        """Test the IDD files are where we expect them.
-        """
+        """Test the IDD files are where we expect them."""
         assert os.path.isdir(IDD_FILES)
 
     def test_idffiles_exists(self):
-        """Test the test IDF files are where we expect them.
-        """
+        """Test the test IDF files are where we expect them."""
         assert os.path.isdir(IDF_FILES)
 
     def test_epw_exists(self):
-        """Test the test EPW file is where we expect it to be.
-        """
+        """Test the test EPW file is where we expect it to be."""
         f = os.path.join(eplus_weather, TEST_EPW)
         assert os.path.isfile(f)
 
     def test_idf_exists(self):
-        """Test the test IDF file is where we expect it to be.
-        """
+        """Test the test IDF file is where we expect it to be."""
         f = os.path.join(IDF_FILES, TEST_IDF)
         assert os.path.isfile(f)
 
     def test_idd_exists(self):
-        """Test the test IDD file is where we expect it to be.
-        """
+        """Test the test IDD file is where we expect it to be."""
         f = os.path.join(IDD_FILES, TEST_IDD)
         assert os.path.isfile(f)
 
     def test_old_idd_exists(self):
-        """Test the test old IDD file is where we expect it to be.
-        """
+        """Test the test old IDD file is where we expect it to be."""
         f = os.path.join(IDD_FILES, TEST_OLD_IDD)
         assert os.path.isfile(f)
 
@@ -140,20 +131,17 @@ class TestEnvironment(object):
 )
 class TestRunFunction(object):
 
-    """Tests for simple running of EnergyPlus from Eppy.
-    """
+    """Tests for simple running of EnergyPlus from Eppy."""
 
     def setup(self):
-        """Tidy up just in case anything is left from previous test runs.
-        """
+        """Tidy up just in case anything is left from previous test runs."""
         # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
 
     def teardown(self):
-        """Tidy up after tests.
-        """
+        """Tidy up after tests."""
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -204,12 +192,10 @@ class TestRunFunction(object):
 )
 class TestIDFRunner(object):
 
-    """Tests for running EnergyPlus from an IDF object.
-    """
+    """Tests for running EnergyPlus from an IDF object."""
 
     def setup(self):
-        """Tidy up anything left from previous runs. Get an IDF object to run.
-        """
+        """Tidy up anything left from previous runs. Get an IDF object to run."""
         # reload(modeleditor)
         shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
@@ -257,8 +243,7 @@ class TestIDFRunner(object):
         ]
 
     def teardown(self):
-        """Destroy temp dir, reset working directory, destroy outputs.
-        """
+        """Destroy temp dir, reset working directory, destroy outputs."""
         os.chdir(THIS_DIR)
         shutil.rmtree("run_outputs", ignore_errors=True)
         shutil.rmtree("other_run_outputs", ignore_errors=True)
@@ -271,8 +256,7 @@ class TestIDFRunner(object):
                 pass
 
     def num_rows_in_csv(self, results="./run_outputs"):
-        """Check readvars outputs the expected number of rows.
-        """
+        """Check readvars outputs the expected number of rows."""
         with open(os.path.join(results, "eplusout.csv"), "r") as csv_file:
             return len(csv_file.readlines())
 
@@ -533,12 +517,10 @@ class TestIDFRunner(object):
 )
 class TestMultiprocessing(object):
 
-    """Tests for running multiple EnergyPlus jobs simultaneously.
-    """
+    """Tests for running multiple EnergyPlus jobs simultaneously."""
 
     def setup(self):
-        """Clear out any results from previous tests.
-        """
+        """Clear out any results from previous tests."""
         # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
@@ -558,8 +540,7 @@ class TestMultiprocessing(object):
         ]
 
     def teardown(self):
-        """Remove the multiprocessing results folders.
-        """
+        """Remove the multiprocessing results folders."""
         for results_dir in glob("results_*"):
             shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)

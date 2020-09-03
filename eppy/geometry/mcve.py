@@ -1,6 +1,6 @@
 from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
-from six import StringIO
+from io import StringIO
 
 
 iddsnippet = iddcurrent.iddtxt

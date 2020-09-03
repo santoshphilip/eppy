@@ -395,8 +395,7 @@ def test_save_with_lineendings_and_encodings():
 
 
 def test_saveas():
-    """Test the IDF.saveas() function.
-    """
+    """Test the IDF.saveas() function."""
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
     idf.idfname = "test.idf"
@@ -419,8 +418,7 @@ def test_saveas():
 
 
 def test_savecopy():
-    """Test the IDF.savecopy() function.
-    """
+    """Test the IDF.savecopy() function."""
     file_text = "Material,TestMaterial,  !- Name"
     idf = IDF(StringIO(file_text))
     idf.idfname = "test.idf"
@@ -443,8 +441,7 @@ def test_savecopy():
 
 
 def test_initread():
-    """Test for IDF.initread() with filename in unicode and as python str.
-    """
+    """Test for IDF.initread() with filename in unicode and as python str."""
     # setup
     idf = IDF()
     idf.initreadtxt(idfsnippet)
@@ -478,8 +475,7 @@ def test_initread():
 
 
 def test_initreadtxt():
-    """Test for IDF.initreadtxt().
-    """
+    """Test for IDF.initreadtxt()."""
     idftxt = """
         Material,
           G01a 19mm gypsum board,  !- Name
@@ -501,8 +497,7 @@ def test_initreadtxt():
 
 
 def test_idfstr():
-    """Test all outputtype options in IDF.idfstr().
-    """
+    """Test all outputtype options in IDF.idfstr()."""
     idf = IDF()
     idf.initreadtxt(idfsnippet)
     assert idf.outputtype == "standard"  # start with the default

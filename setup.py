@@ -67,7 +67,6 @@ setup(
         "future",
     ],
     classifiers=[
-        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         "Development Status :: 4 - Beta",
         "Natural Language :: English",
@@ -78,11 +77,6 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     extras_require={
-        ':python_version<="2.7.2"': [
-            "pydot==1.0.29",
-            "pyparsing==1.5.7",
-            "soupsieve==1.9.6",
-        ],
         ':python_version>="3.0"': ["pydot3k", "pyparsing>=2.4.7"],
         "testing": ["pytest"],
     },

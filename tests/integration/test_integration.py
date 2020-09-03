@@ -44,8 +44,7 @@ def setversion(idf, newversion):
 )
 class TestModeleditorIntegration:
     def setup(self):
-        """Set the IDD and file paths, and make a copy of the original file.
-        """
+        """Set the IDD and file paths, and make a copy of the original file."""
         iddfile = os.path.join(IDD_FILES, "Energy+V7_2_0.idd")
         IDF.setiddname(iddfile, testing=True)
 
@@ -60,8 +59,7 @@ class TestModeleditorIntegration:
         shutil.copy(self.origfile, self.startfile)
 
     def teardown(self):
-        """Clear up temp files so we don't accidentally check against them.
-        """
+        """Clear up temp files so we don't accidentally check against them."""
         tempfiles = [self.startfile, self.saveasfile, self.copyfile]
         for f in tempfiles:
             try:
@@ -71,9 +69,9 @@ class TestModeleditorIntegration:
 
     def test_version_number(self):
         """Test opening an IDF file and checking version number.
-        
+
         Fails if the version number is not the expected starting version number.
-        
+
         """
         idf = IDF(self.startfile)
 
@@ -84,9 +82,9 @@ class TestModeleditorIntegration:
 
     def test_save(self):
         """Test save with a changed version number.
-        
+
         Fails if the version number has not been changed.
-        
+
         """
         idf = IDF(self.startfile)
         setversion(idf, "7.4")
@@ -101,10 +99,10 @@ class TestModeleditorIntegration:
 
     def test_save_as(self):
         """Test saveas with a changed filename.
-        
-        IDF.saveas(fname) changes the filename. The next save should save with 
+
+        IDF.saveas(fname) changes the filename. The next save should save with
         new name.
-        
+
         Fails if the filename isn't changed on the file with the new name.
         """
         idf = IDF(self.startfile)
@@ -123,7 +121,7 @@ class TestModeleditorIntegration:
 
         IDF.savecopy(fname) doesn't change the filename. The next save should
         save with the original name.
-        
+
         Fails if on a following save, the copy is changed.
 
         """
@@ -145,8 +143,7 @@ class TestModeleditorIntegration:
         assert result == expected
 
     def test_lineendings(self):
-        """Test lineendings are set correctly on each platform.
-        """
+        """Test lineendings are set correctly on each platform."""
         idf = IDF(self.startfile)
         idf.save(lineendings="windows")
         with open(self.startfile, "rb") as sf:
@@ -164,9 +161,9 @@ class TestModeleditorIntegration:
 
     def test_save_with_lineendings_and_encodings(self):
         """
-        Test the IDF.save() function with combinations of encodings and line 
+        Test the IDF.save() function with combinations of encodings and line
         endings.
-    
+
         """
         idf = IDF(self.startfile)
         lineendings = ("windows", "unix", "default")

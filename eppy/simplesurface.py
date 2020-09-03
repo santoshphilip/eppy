@@ -93,7 +93,7 @@ def fsdorigin(fsdobject, setto000=False):
 
 
 def wallexterior(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an wall:exterior object if the  (buildingsurface:detailed) is 
+    """return an wall:exterior object if the  (buildingsurface:detailed) is
     an exterior wall"""
     # ('WALL:EXTERIOR', Wall, Outdoors)
     # test if it is an exterior wall
@@ -120,7 +120,7 @@ def wallexterior(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def walladiabatic(idf, bsdobject, deletebsd=True, setto000=False):
-    """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an 
+    """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an
     adibatic wall"""
     # ('WALL:ADIABATIC',Wall, Adiabatic)
     # test if it is an adiabatic wall
@@ -147,7 +147,7 @@ def walladiabatic(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def wallunderground(idf, bsdobject, deletebsd=True, setto000=False):
-    """return a wall:underground if bsdobject (buildingsurface:detailed) is an 
+    """return a wall:underground if bsdobject (buildingsurface:detailed) is an
     underground wall"""
     # ('WALL:UNDERGROUND', Wall, s.startswith('Ground'))
     # test if it is an underground wall
@@ -174,7 +174,7 @@ def wallunderground(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def wallinterzone(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an wall:interzone object if the bsd (buildingsurface:detailed) 
+    """return an wall:interzone object if the bsd (buildingsurface:detailed)
     is an interaone wall"""
     # ('WALL:INTERZONE', Wall, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
@@ -205,7 +205,7 @@ def wallinterzone(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def roof(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an roof object if the bsd (buildingsurface:detailed) is 
+    """return an roof object if the bsd (buildingsurface:detailed) is
     a roof"""
     # ('ROOF', Roof, None or Outdoor)
     # test if it is aroof
@@ -233,7 +233,7 @@ def roof(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def ceilingadiabatic(idf, bsdobject, deletebsd=True, setto000=False):
-    """return a ceiling:adiabatic if bsdobject (buildingsurface:detailed) is an 
+    """return a ceiling:adiabatic if bsdobject (buildingsurface:detailed) is an
     adiabatic ceiling"""
     # ('CEILING:ADIABATIC', Ceiling, Adiabatic)
     # test if it is an adiabatic ceiling
@@ -261,7 +261,7 @@ def ceilingadiabatic(idf, bsdobject, deletebsd=True, setto000=False):
 
 # ('CEILING:INTERZONE', Ceiling, Surface OR Zone)
 def ceilinginterzone(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an ceiling:interzone object if the bsd (buildingsurface:detailed) 
+    """return an ceiling:interzone object if the bsd (buildingsurface:detailed)
     is an interzone ceiling"""
     # ('WALL:INTERZONE', Wall, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
@@ -292,7 +292,7 @@ def ceilinginterzone(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def floorgroundcontact(idf, bsdobject, deletebsd=True, setto000=False):
-    """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an 
+    """return a wall:adiabatic if bsdobject (buildingsurface:detailed) is an
     adibatic wall"""
     # ('FLOOR:GROUNDCONTACT', Floor, s.startswith('Ground'))
     # test if it is an underground wall
@@ -319,7 +319,7 @@ def floorgroundcontact(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def flooradiabatic(idf, bsdobject, deletebsd=True, setto000=False):
-    """return a floor:adiabatic if bsdobject (buildingsurface:detailed) is an 
+    """return a floor:adiabatic if bsdobject (buildingsurface:detailed) is an
     adibatic floor"""
     # ('FLOOR:ADIABATIC', Floor, Adiabatic)
     # test if it is an adiabatic wall
@@ -346,7 +346,7 @@ def flooradiabatic(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def floorinterzone(idf, bsdobject, deletebsd=True, setto000=False):
-    """return an floor:interzone object if the bsd (buildingsurface:detailed) 
+    """return an floor:interzone object if the bsd (buildingsurface:detailed)
     is an interaone floor"""
     # ('FLOOR:INTERZONE', Floor, Surface OR Zone OR OtherSideCoefficients)
     # test if it is an exterior wall
@@ -377,7 +377,7 @@ def floorinterzone(idf, bsdobject, deletebsd=True, setto000=False):
 
 
 def window(idf, fsdobject, deletebsd=True, setto000=False):
-    """return an window object if the fsd (fenestrationsurface:detailed) is 
+    """return an window object if the fsd (fenestrationsurface:detailed) is
     a window"""
     # ('WINDOW',  Window, None)
     if fsdobject.Surface_Type.upper() == "WINDOW":  # Surface_Type == w
@@ -400,7 +400,7 @@ def window(idf, fsdobject, deletebsd=True, setto000=False):
 
 
 def door(idf, fsdobject, deletebsd=True, setto000=False):
-    """return an door object if the fsd (fenestrationsurface:detailed) is 
+    """return an door object if the fsd (fenestrationsurface:detailed) is
     a door"""
     # ('DOOR', Door, None)
     # test if it is aroof
@@ -422,7 +422,7 @@ def door(idf, fsdobject, deletebsd=True, setto000=False):
 
 
 def glazeddoor(idf, fsdobject, deletebsd=True, setto000=False):
-    """return an glazeddoor object if the fsd (fenestrationsurface:detailed) is 
+    """return an glazeddoor object if the fsd (fenestrationsurface:detailed) is
     a glassdoor"""
     # ('WINDOW',  glassdoor, None)
     # test if it is glassdoor
@@ -467,7 +467,7 @@ def simplesurface(idf, bsd, deletebsd=True, setto000=False):
 
 
 def simplefenestration(idf, fsd, deletebsd=True, setto000=False):
-    """convert a bsd (fenestrationsurface:detailed) into a simple 
+    """convert a bsd (fenestrationsurface:detailed) into a simple
     fenestrations"""
     funcs = (window, door, glazeddoor)
     for func in funcs:

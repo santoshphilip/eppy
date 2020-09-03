@@ -23,7 +23,7 @@ import eppy.idd_helpers as idd_helpers
 
 
 from six import StringIO
-from six.moves import reload_module as reload
+from importlib import reload
 
 
 def test_cleanupversion():

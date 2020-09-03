@@ -1,8 +1,8 @@
 import os
 
 import pytest
-from six import StringIO
-from six.moves import reload_module as reload
+from io import StringIO
+from importlib import reload
 
 from eppy.modeleditor import IDF
 from eppy.iddcurrent import iddcurrent

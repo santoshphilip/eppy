@@ -12,7 +12,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import pytest
-from six import StringIO
+from io import StringIO
 
 from eppy.EPlusInterfaceFunctions import readidf
 import eppy.bunch_subclass as bunch_subclass

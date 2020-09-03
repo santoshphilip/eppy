@@ -13,7 +13,6 @@ from __future__ import unicode_literals
 
 import string
 import collections
-import six
 from bs4 import BeautifulSoup, NavigableString, Tag
 
 
@@ -27,7 +26,7 @@ def tdbr2EOL(td):
     """convert the <br/> in <td> block into line ending (EOL = \n)"""
     for br in td.find_all("br"):
         br.replace_with("\n")
-    txt = six.text_type(td)  # make it back into test
+    txt = str(td)  # make it back into test
     # would be unicode(id) in python2
     soup = BeautifulSoup(txt, "lxml")  # read it as a BeautifulSoup
     ntxt = soup.find("td")  # BeautifulSoup has lot of other html junk.
@@ -132,7 +131,7 @@ def lines_table(html_doc, tofloat=True):
     lines = all the significant lines before the table.
     These are lines between this table and
     the previous table or 'hr' tag
-    
+
     table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]
 
     The lines act as a description for what is in the table

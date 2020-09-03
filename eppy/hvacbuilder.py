@@ -16,7 +16,6 @@ import copy
 import eppy.bunch_subclass as bunch_subclass
 from eppy.modeleditor import IDF
 import eppy.modeleditor as modeleditor
-from six.moves import xrange
 
 
 class WhichLoopError(Exception):
@@ -238,7 +237,7 @@ def connectcomponents(idf, components, fluid=None):
 
 def initinletoutlet(idf, idfobject, thisnode, force=False):
     """initialze values for all the inlet outlet nodes for the object.
-    if force == False, it willl init only if field = '' """
+    if force == False, it willl init only if field = ''"""
 
     def blankfield(fieldvalue):
         """test for blank field"""
@@ -1198,7 +1197,7 @@ def replacebranch(
 
 def main():
     """the main routine"""
-    from six import StringIO
+    from io import StringIO
     import eppy.iddv7 as iddv7
 
     IDF.setiddname(StringIO(iddv7.iddtxt))

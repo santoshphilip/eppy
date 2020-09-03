@@ -1,7 +1,7 @@
 import os
 import shutil
 import sys
-from six.moves import reload_module as reload
+from importlib import reload
 
 from six import StringIO
 

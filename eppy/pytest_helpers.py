@@ -26,11 +26,11 @@ def do_integration_tests():
     """
     Check whether the 'EPPY_INTEGRATION' environment variable has been set to do
     integration tests.
-    
+
     Returns
     -------
     bool
-    
+
     """
     return os.getenv("EPPY_INTEGRATION", False)
 
