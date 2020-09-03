@@ -373,15 +373,16 @@ def extractidddata(fname, debug=False):
     # commlst = group2commlst(commlst, glist)
     # commdct = group2commdct(commdct, glist)
 
-    # Make IDD Index
-    name2refs = iddindex.makename2refdct(commdct)
-    ref2namesdct = iddindex.makeref2namesdct(name2refs)
-    idd_index = dict(name2refs=name2refs, ref2names=ref2namesdct)
-
     # add group information to commlst and commdct
     glist = iddgroups.iddtxt2grouplist(astr)
     commlst = iddgroups.group2commlst(commlst, glist)
     commdct = iddgroups.group2commdct(commdct, glist)
+
+    # Make IDD Index
+    name2refs = iddindex.makename2refdct(commdct)
+    ref2namesdct = iddindex.makeref2namesdct(name2refs)
+    idd_index = dict(name2refs=name2refs, ref2names=ref2namesdct)
+    commdct = iddindex.ref2names2commdct(ref2namesdct, commdct)
 
     return blocklst, commlst, commdct, idd_index
     # give blocklst a better name :-(
