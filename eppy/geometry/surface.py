@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Tuan Tran
+# Copyright (c) 2020 Cheng Cui
 
 # This file is part of eppy.
 # =======================================================================
@@ -131,11 +132,17 @@ def azimuth(poly):
         return angle2vecs(vec_azi, vec_n)
 
 
+def true_azimuth(bldg_north, zone_rel_north, surf_azimuth):
+    """True azimuth of a building surface"""
+    bldg_north = 0 if bldg_north == "" else bldg_north
+    zone_rel_north = 0 if zone_rel_north == "" else zone_rel_north
+    return (bldg_north + zone_rel_north + surf_azimuth) % 360
+
+
 def tilt(poly):
     """Tilt of a polygon poly"""
     num = len(poly) - 1
     vec = unit_normal(poly[0], poly[1], poly[num])
     vec_alt = np.array([vec[0], vec[1], vec[2]])
     vec_z = np.array([0, 0, 1])
-    # return (90 - angle2vecs(vec_alt, vec_z)) # update by Santosh
     return angle2vecs(vec_alt, vec_z)

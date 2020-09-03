@@ -18,7 +18,7 @@ def read(*filenames, **kwargs):
     return sep.join(buf)
 
 
-long_description = read("README.txt")
+long_description = read("README.rst")
 
 
 class PyTest(TestCommand):
@@ -36,7 +36,7 @@ class PyTest(TestCommand):
 
 setup(
     name="eppy",
-    version="0.5.51",
+    version="0.5.52",
     url="https://github.com/santoshphilip/eppy",
     license="MIT License",
     author="Santosh Philip",
@@ -59,7 +59,7 @@ setup(
     test_suite="eppy.test.test_eppy",  # TODO make test_eppy
     install_requires=[
         "munch>=2.0.2",
-        "beautifulsoup4>=4.2.1",
+        "beautifulsoup4<=4.8.0",
         "tinynumpy>=1.2.1",
         "six>=1.10.0",
         "decorator>=4.0.10",
@@ -67,7 +67,6 @@ setup(
         "future",
     ],
     classifiers=[
-        "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         "Development Status :: 4 - Beta",
         "Natural Language :: English",
@@ -78,8 +77,7 @@ setup(
         "Topic :: Scientific/Engineering",
     ],
     extras_require={
-        ':python_version<="2.7.2"': ["pydot>1.0", "pyparsing>=2.1.4"],
-        ':python_version>="3.0"': ["pydot3k"],
+        ':python_version>="3.0"': ["pydot3k", "pyparsing>=2.4.7"],
         "testing": ["pytest"],
     },
 )

@@ -29,16 +29,16 @@ def makefieldname(namefromidd):
 
 def matchfieldnames(field_a, field_b):
     """Check match between two strings, ignoring case and spaces/underscores.
-    
+
     Parameters
     ----------
     a : str
     b : str
-    
+
     Returns
     -------
     bool
-    
+
     """
     normalised_a = field_a.replace(" ", "_").lower()
     normalised_b = field_b.replace(" ", "_").lower()
@@ -84,3 +84,16 @@ def cleaniddfield(acomm):
 def cleancommdct(commdct):
     """make all keys in commdct lower case"""
     return [[cleaniddfield(fcomm) for fcomm in comm] for comm in commdct]
+
+
+def scientificnotation(val, width=19):
+    """return val in scientific notation if it is wider than 'width' chars
+    otherwise return val with no change"""
+    vtxt = "%s" % (val)
+    if len(vtxt) > width:
+        try:
+            stxt = "%e" % (val,)
+            return stxt
+        except TypeError as e:
+            return val
+    return val

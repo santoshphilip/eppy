@@ -1,11 +1,10 @@
 """Implements a case-insensitive dict, based on https://stackoverflow.com/a/32888599/1706564"""
-from six import string_types
 
 
 class CaseInsensitiveDict(dict):
     @classmethod
     def _k(cls, key):
-        return key.upper() if isinstance(key, string_types) else key
+        return key.upper() if isinstance(key, str) else key
 
     def __init__(self, *args, **kwargs):
         super(CaseInsensitiveDict, self).__init__(*args, **kwargs)

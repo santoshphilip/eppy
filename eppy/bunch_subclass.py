@@ -1,5 +1,6 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2020 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -17,7 +18,7 @@ import itertools
 
 from munch import Munch as Bunch
 
-from eppy.bunchhelpers import matchfieldnames
+from eppy.bunchhelpers import matchfieldnames, scientificnotation
 import eppy.function_helpers as fh
 
 
@@ -100,6 +101,7 @@ def addfunctions(abunch):
             "height": fh.height,  # not working correctly
             "width": fh.width,  # not working correctly
             "azimuth": fh.azimuth,
+            "true_azimuth": fh.true_azimuth,
             "tilt": fh.tilt,
             "coords": fh.getcoords,  # needed for debugging
         }
@@ -197,24 +199,20 @@ class EpBunch(Bunch):
 
     @property
     def fieldnames(self):
-        """Friendly name for objls.
-        """
+        """Friendly name for objls."""
         return self.objls
 
     @property
     def fieldvalues(self):
-        """Friendly name for obj.
-        """
+        """Friendly name for obj."""
         return self.obj
 
     def checkrange(self, fieldname):
-        """Check if the value for a field is within the allowed range.
-        """
+        """Check if the value for a field is within the allowed range."""
         return checkrange(self, fieldname)
 
     def getrange(self, fieldname):
-        """Get the allowed range of values for a field.
-        """
+        """Get the allowed range of values for a field."""
         return getrange(self, fieldname)
 
     def getfieldidd(self, fieldname):
@@ -384,6 +382,9 @@ class EpBunch(Bunch):
         comments = [comm.replace("_", " ") for comm in self.objls]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
+            line = scientificnotation(
+                line, width=18
+            )  # E+ cannot read wide numbers, convert to 1e+3
             lines[i + 1] = "    %s," % (line,)  # indent and comma
         lines[-1] = "    %s;" % (lines[-1],)  # ';' after last line
         lines = lines[:1] + [line.ljust(26) for line in lines[1:]]  # ljsut the lines

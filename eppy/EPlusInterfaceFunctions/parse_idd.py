@@ -13,7 +13,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six import StringIO
+from io import StringIO
 from io import FileIO
 from decorator import decorator
 
@@ -80,7 +80,7 @@ def removeblanklines(astr):
 
 
 def _readfname(fname):
-    """copied from extractidddata below. 
+    """copied from extractidddata below.
     It deals with all the types of fnames"""
     try:
         if isinstance(fname, (file, StringIO)):
@@ -151,7 +151,7 @@ def extractidddata(fname, debug=False):
     -
     this code is from 2004.
     it works.
-    I am trying not to change it (until I rewrite the whole thing) 
+    I am trying not to change it (until I rewrite the whole thing)
     to add functionality to it, I am using decorators
     So if
     Does not integrate group data into the results (@embedgroupdata does it)

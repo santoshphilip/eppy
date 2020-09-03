@@ -1,17 +1,18 @@
+!- Darwin Line endings 
 
-VERSION,                  
+VERSION,
     7.3;                      !- Version Identifier
 
-SIMULATIONCONTROL,        
+SIMULATIONCONTROL,
     Yes,                      !- Do Zone Sizing Calculation
     Yes,                      !- Do System Sizing Calculation
     Yes,                      !- Do Plant Sizing Calculation
     No,                       !- Run Simulation for Sizing Periods
     Yes;                      !- Run Simulation for Weather File Run Periods
 
-BUILDING,                 
+BUILDING,
     Empire State Building,    !- Name
-    30.0,                     !- North Axis
+    30,                       !- North Axis
     City,                     !- Terrain
     0.04,                     !- Loads Convergence Tolerance Value
     0.4,                      !- Temperature Convergence Tolerance Value
@@ -19,9 +20,9 @@ BUILDING,
     25,                       !- Maximum Number of Warmup Days
     6;                        !- Minimum Number of Warmup Days
 
-SITE:LOCATION,            
+SITE:LOCATION,
     CHICAGO_IL_USA TMY2-94846,    !- Name
     41.78,                    !- Latitude
     -87.75,                   !- Longitude
-    -6.0,                     !- Time Zone
-    190.0;                    !- Elevation
+    -6,                       !- Time Zone
+    190;                      !- Elevation

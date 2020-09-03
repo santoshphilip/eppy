@@ -14,8 +14,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import itertools
-from six import iteritems
-from six import StringIO
+from io import StringIO
 from past.builtins import basestring  # pip install future
 
 from eppy.modeleditor import IDF
@@ -24,7 +23,7 @@ from eppy.bunch_subclass import BadEPFieldError
 
 def idfobjectkeys(idf):
     """returns the object keys in the order they were in the IDD file
-    it is an ordered list of idf.idfobjects.keys() 
+    it is an ordered list of idf.idfobjects.keys()
     keys of a dict are unordered, so idf.idfobjects.keys() will not work for this purpose"""
     return idf.model.dtls
 
@@ -98,7 +97,7 @@ def getobjectswithnode(idf, nodekeys, nodename):
 
 def name2idfobject(idf, groupnamess=None, objkeys=None, **kwargs):
     """return the object, if the Name or some other field is known.
-    send filed in **kwargs as Name='a name', Roughness='smooth'
+    send field in ``**kwargs`` as Name='a name', Roughness='smooth'
     Returns the first find (field search is unordered)
     objkeys -> if objkeys=['ZONE', 'Material'], search only those
     groupnames -> not yet coded"""

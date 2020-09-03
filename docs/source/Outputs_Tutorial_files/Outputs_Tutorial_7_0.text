@@ -1,1 +1,0 @@
-'return a list of [(title, table), .....]\ntitle = previous item with a <b> tag\ntable = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]'

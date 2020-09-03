@@ -18,8 +18,7 @@ import os
 import platform
 import warnings
 
-from six import StringIO
-from six import iteritems
+from io import StringIO
 
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 import eppy.function_helpers
@@ -79,8 +78,7 @@ def almostequal(first, second, places=7, printit=True):
 
 
 def poptrailing(lst):
-    """Remove trailing blank items from lst.
-    """
+    """Remove trailing blank items from lst."""
     while lst and lst[-1] == "":
         lst.pop()
     return lst
@@ -198,7 +196,7 @@ def addobject1(bunchdt, data, commdct, key, **kwargs):
     data.dt[key].append(obj)
     bunchdt[key].append(abunch)
     # adict = getnamedargs(*args, **kwargs)
-    for kkey, value in iteritems(kwargs):
+    for kkey, value in kwargs.items():
         abunch[kkey] = value
     return abunch
 
@@ -232,7 +230,7 @@ def __objecthasfields(bunchdt, data, commdct, idfobject, places=7, **kwargs):
 
 
 def getobjects(bunchdt, data, commdct, key, places=7, **kwargs):
-    """get all the objects of key that matches the fields in **kwargs"""
+    """get all the objects of key that matches the fields in ``**kwargs``"""
     idfobjects = bunchdt[key]
     allobjs = []
     for obj in idfobjects:
@@ -504,8 +502,8 @@ class IDF(object):
     """
     The IDF class holds all the information about an EnergyPlus IDF.
 
-    Class attributes
-    ---------------
+    Attributes
+    ----------
     iddname : str
         Name of the IDD currently being used by eppy. As a class attribute, this
         is set for all IDFs which are currently being processed and cannot be
@@ -515,8 +513,8 @@ class IDF(object):
     block : list
         Field names in the IDD.
 
-    Instance attributes
-    -------------------
+
+
     idfname : str
         Path to the IDF file.
     idfobjects : list
@@ -733,7 +731,7 @@ class IDF(object):
             This parameter is not used. It is left there for backward
             compatibility.
         defaultvalues: boolean
-            default is True. If True default values WILL be set. 
+            default is True. If True default values WILL be set.
             If False, default values WILL NOT be set
         **kwargs
             Keyword arguments in the format `field=value` used to set the value
@@ -862,8 +860,7 @@ class IDF(object):
     """Methods to do with outputting an IDF."""
 
     def printidf(self):
-        """Print the IDF.
-        """
+        """Print the IDF."""
         print(self.idfstr())
 
     def idfstr(self):
@@ -953,7 +950,7 @@ class IDF(object):
                 filename.write(s.decode(encoding))
 
     def saveas(self, filename, lineendings="default", encoding="latin-1"):
-        """ Save the IDF as a text file with the filename passed.
+        """Save the IDF as a text file with the filename passed.
 
         Parameters
         ----------
@@ -995,13 +992,12 @@ class IDF(object):
 
     @wrapped_help_text(run)
     def run(self, **kwargs):
-        """
-        Run an IDF file with a given EnergyPlus weather file. This is a
+        """Run an IDF file with a given EnergyPlus weather file. This is a
         wrapper for the EnergyPlus command line interface.
 
         Parameters
         ----------
-        **kwargs
+        kwargs :
             See eppy.runner.functions.run()
 
         """
@@ -1018,11 +1014,11 @@ class IDF(object):
     def getiddgroupdict(self):
         """Return a idd group dictionary
         sample: {'Plant-Condenser Loops': ['PlantLoop', 'CondenserLoop'],
-         'Compliance Objects': ['Compliance:Building'], 'Controllers':
-         ['Controller:WaterCoil',
-          'Controller:OutdoorAir',
-          'Controller:MechanicalVentilation',
-          'AirLoopHVAC:ControllerList'],
+        'Compliance Objects': ['Compliance:Building'], 'Controllers':
+        ['Controller:WaterCoil',
+        'Controller:OutdoorAir',
+        'Controller:MechanicalVentilation',
+        'AirLoopHVAC:ControllerList'],
         ...}
 
         Returns

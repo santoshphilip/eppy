@@ -141,7 +141,7 @@ def repeatingfields(theidd, commdct, objkey, flds):
     """return a list of repeating fields
     fld is in format 'Component %s Name'
     so flds = [fld % (i, ) for i in range(n)]
-    does not work for 'fields as indicated' """
+    does not work for 'fields as indicated'"""
     # TODO : make it work for 'fields as indicated'
     if type(flds) != list:
         flds = [flds]  # for backward compatability

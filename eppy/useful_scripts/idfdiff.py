@@ -75,8 +75,16 @@ class DtlsSorter(object):
         return self.dtlsorder[item[0]]  # item[0] is the object key
 
 
-def makecsvdiffs(thediffs, dtls, n1, n2):
+def makecsvdiffs(thediffs, idf1, idf2):
     """return the csv to be displayed"""
+    dtls = idf1.model.dtls  # undocumented variable
+    return makecsvdiffs_raw(thediffs, dtls, idf1.idfname, idf2.idfname)
+
+
+def makecsvdiffs_raw(thediffs, dtls, n1, n2):
+    """return the csv to be displayed - the args here are tricky
+    This function is called by makecsvdiffs.
+    Best not to call directly"""
 
     def ishere(val):
         if val == None:
@@ -145,6 +153,15 @@ def idfdiffs(idf1, idf2):
     return thediffs
 
 
+def makecsv(csvdiffs):
+    """retun the csv of the diffs"""
+    lines = []
+    for row in csvdiffs:
+        line = ",".join([str(cell) for cell in row])
+        lines.append(line)
+    return "\n".join(lines)
+
+
 def printcsv(csvdiffs):
     """print the csv"""
     for row in csvdiffs:
@@ -171,8 +188,8 @@ def row2table(soup, table, row):
         td.append(attr)
 
 
-def printhtml(csvdiffs):
-    """print the html"""
+def makehtmlsoup(csvdiffs):
+    """make the html soup"""
     soup = BeautifulSoup()
     html = Tag(soup, name="html")
     para1 = Tag(soup, name="p")
@@ -191,7 +208,21 @@ def printhtml(csvdiffs):
         row = [str(cell) for cell in row]
         row2table(soup, table, row)
     # print soup.prettify()
+    return soup
+
+
+def printhtml(csvdiffs):
+    """print the html"""
+    soup = makehtmlsoup(csvdiffs)
     print(soup)
+
+
+def htmlinnotebook(soup):
+    """display the html in jupyter notebook"""
+    from IPython.core.display import display, HTML
+
+    soupstr = str(soup)
+    display(HTML(soupstr))
 
 
 if __name__ == "__main__":
@@ -232,9 +263,8 @@ if __name__ == "__main__":
         raise IDDMismatchError(astr)
 
     # TODO What id they have different idd files ?
-    dtls = idf1.model.dtls  # undocumented variable
     thediffs = idfdiffs(idf1, idf2)
-    csvdiffs = makecsvdiffs(thediffs, dtls, idf1.idfname, idf2.idfname)
+    csvdiffs = makecsvdiffs(thediffs, idf1, idf2)
     if nspace.csv:
         printcsv(csvdiffs)
     elif nspace.html:

@@ -1,3 +1,4 @@
+!- Darwin Line endings 
 
 AIRTERMINAL:SINGLEDUCT:UNCONTROLLED,
     zone1DirectAir,           !- Name
@@ -17,21 +18,21 @@ AIRTERMINAL:SINGLEDUCT:UNCONTROLLED,
     zone3 Inlet Node,         !- Zone Supply Air Node Name
     autosize;                 !- Maximum Air Flow Rate
 
-ZONEHVAC:EQUIPMENTLIST,   
+ZONEHVAC:EQUIPMENTLIST,
     zone1 equip list,         !- Name
     AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
     zone1DirectAir,           !- Zone Equipment 1 Name
     1,                        !- Zone Equipment 1 Cooling Sequence
     1;                        !- Zone Equipment 1 Heating or NoLoad Sequence
 
-ZONEHVAC:EQUIPMENTLIST,   
+ZONEHVAC:EQUIPMENTLIST,
     zone2 equip list,         !- Name
     AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
     zone2DirectAir,           !- Zone Equipment 1 Name
     1,                        !- Zone Equipment 1 Cooling Sequence
     1;                        !- Zone Equipment 1 Heating or NoLoad Sequence
 
-ZONEHVAC:EQUIPMENTLIST,   
+ZONEHVAC:EQUIPMENTLIST,
     zone3 equip list,         !- Name
     AirTerminal:SingleDuct:Uncontrolled,    !- Zone Equipment 1 Object Type
     zone3DirectAir,           !- Zone Equipment 1 Name
@@ -62,7 +63,7 @@ ZONEHVAC:EQUIPMENTCONNECTIONS,
     zone3 Node,               !- Zone Air Node Name
     zone3 Outlet Node;        !- Zone Return Air Node Name
 
-AIRLOOPHVAC,              
+AIRLOOPHVAC,
     a_loop,                   !- Name
     ,                         !- Controller List Name
     ,                         !- Availability Manager List Name
@@ -74,33 +75,33 @@ AIRLOOPHVAC,
     a_loop Demand Inlet,      !- Demand Side Inlet Node Names
     a_loop Supply Outlet;     !- Supply Side Outlet Node Names
 
-AIRLOOPHVAC:ZONESPLITTER, 
+AIRLOOPHVAC:ZONESPLITTER,
     a_loop Demand Side Splitter,    !- Name
     a_loop Demand Inlet,      !- Inlet Node Name
     zone1 Inlet Node,         !- Outlet 1 Node Name
     zone2 Inlet Node,         !- Outlet 2 Node Name
     zone3 Inlet Node;         !- Outlet 3 Node Name
 
-AIRLOOPHVAC:SUPPLYPATH,   
+AIRLOOPHVAC:SUPPLYPATH,
     a_loopSupplyPath,         !- Name
     a_loop Demand Inlet,      !- Supply Air Path Inlet Node Name
     AirLoopHVAC:ZoneSplitter,    !- Component 1 Object Type
     a_loop Demand Side Splitter;    !- Component 1 Name
 
-AIRLOOPHVAC:ZONEMIXER,    
+AIRLOOPHVAC:ZONEMIXER,
     a_loop Demand Side Mixer,    !- Name
     a_loop Demand Outlet,     !- Outlet Node Name
     zone1 Outlet Node,        !- Inlet 1 Node Name
     zone2 Outlet Node,        !- Inlet 2 Node Name
     zone3 Outlet Node;        !- Inlet 3 Node Name
 
-AIRLOOPHVAC:RETURNPATH,   
+AIRLOOPHVAC:RETURNPATH,
     a_loopReturnPath,         !- Name
     a_loop Demand Outlet,     !- Return Air Path Outlet Node Name
     AirLoopHVAC:ZoneMixer,    !- Component 1 Object Type
     a_loop Demand Side Mixer;    !- Component 1 Name
 
-BRANCH,                   
+BRANCH,
     sb0,                      !- Name
     0,                        !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
@@ -110,7 +111,7 @@ BRANCH,
     sb0_duct_outlet,          !- Component 1 Outlet Node Name
     Bypass;                   !- Component 1 Branch Control Type
 
-BRANCH,                   
+BRANCH,
     sb1,                      !- Name
     0,                        !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
@@ -120,7 +121,7 @@ BRANCH,
     sb1_duct_outlet,          !- Component 1 Outlet Node Name
     Bypass;                   !- Component 1 Branch Control Type
 
-BRANCH,                   
+BRANCH,
     sb2,                      !- Name
     0,                        !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
@@ -130,7 +131,7 @@ BRANCH,
     sb2_duct_outlet,          !- Component 1 Outlet Node Name
     Bypass;                   !- Component 1 Branch Control Type
 
-BRANCH,                   
+BRANCH,
     sb3,                      !- Name
     0,                        !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
@@ -140,7 +141,7 @@ BRANCH,
     sb3_duct_outlet,          !- Component 1 Outlet Node Name
     Bypass;                   !- Component 1 Branch Control Type
 
-BRANCH,                   
+BRANCH,
     sb4,                      !- Name
     0,                        !- Maximum Flow Rate
     ,                         !- Pressure Drop Curve Name
@@ -150,7 +151,7 @@ BRANCH,
     a_loop Supply Outlet,     !- Component 1 Outlet Node Name
     Bypass;                   !- Component 1 Branch Control Type
 
-BRANCHLIST,               
+BRANCHLIST,
     a_loop Branches,          !- Name
     sb0,                      !- Branch 1 Name
     sb1,                      !- Branch 2 Name
@@ -158,48 +159,48 @@ BRANCHLIST,
     sb3,                      !- Branch 4 Name
     sb4;                      !- Branch 5 Name
 
-CONNECTOR:SPLITTER,       
+CONNECTOR:SPLITTER,
     a_loop_supply_splitter,    !- Name
     sb0,                      !- Inlet Branch Name
     sb1,                      !- Outlet Branch 1 Name
     sb2,                      !- Outlet Branch 2 Name
     sb3;                      !- Outlet Branch 3 Name
 
-CONNECTOR:MIXER,          
+CONNECTOR:MIXER,
     a_loop_supply_mixer,      !- Name
     sb4,                      !- Outlet Branch Name
     sb1,                      !- Inlet Branch 1 Name
     sb2,                      !- Inlet Branch 2 Name
     sb3;                      !- Inlet Branch 3 Name
 
-CONNECTORLIST,            
+CONNECTORLIST,
     a_loop Connectors,        !- Name
     Connector:Splitter,       !- Connector 1 Object Type
     a_loop_supply_splitter,    !- Connector 1 Name
     Connector:Mixer,          !- Connector 2 Object Type
     a_loop_supply_mixer;      !- Connector 2 Name
 
-DUCT,                     
+DUCT,
     sb0_duct,                 !- Name
     a_loop Supply Inlet,      !- Inlet Node Name
     sb0_duct_outlet;          !- Outlet Node Name
 
-DUCT,                     
+DUCT,
     sb1_duct,                 !- Name
     sb1_duct_inlet,           !- Inlet Node Name
     sb1_duct_outlet;          !- Outlet Node Name
 
-DUCT,                     
+DUCT,
     sb2_duct,                 !- Name
     sb2_duct_inlet,           !- Inlet Node Name
     sb2_duct_outlet;          !- Outlet Node Name
 
-DUCT,                     
+DUCT,
     sb3_duct,                 !- Name
     sb3_duct_inlet,           !- Inlet Node Name
     sb3_duct_outlet;          !- Outlet Node Name
 
-DUCT,                     
+DUCT,
     sb4_duct,                 !- Name
     sb4_duct_inlet,           !- Inlet Node Name
     a_loop Supply Outlet;     !- Outlet Node Name

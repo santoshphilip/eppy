@@ -1,3 +1,13 @@
+2020-08-30
+----------
+
+for only python3 version
+
+python3 -m venv ~/venvs/eppy3_1  # first time
+source ~/venvs/eppy3_1/bin/activate # all other times
+
+removed six
+
 2018-03-21
 ----------
 On windows pip is giving a windowserror

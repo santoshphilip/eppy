@@ -11,9 +11,6 @@ matrix:
   # Linux, not on master
   - if: branch != master
     os: linux
-    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
-  - if: branch != master
-    os: linux
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
     dist: xenial
     language: python
@@ -28,20 +25,14 @@ matrix:
       - pip install pytest-cov codecov black
     script:
       - black --check --exclude venv .
-      - py.test ./eppy/tests --cov=./ -v
+      - py.test ./tests --cov=./ -v
     after_success:
       # coverage reporting on CodeCov
       - codecov
   # Linux, on master
   - if: branch = master
     os: linux
-    env: TRAVIS_PYTHON_VERSION=2.7
-  - if: branch = master
-    os: linux
     env: TRAVIS_PYTHON_VERSION=3.7
-  - if: branch = master
-    os: linux
-    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch = master
     os: linux
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
@@ -58,27 +49,18 @@ matrix:
       - pip install pytest-cov codecov black
     script:
       - black --check --exclude venv .
-      - py.test ./eppy/tests --cov=./ -v
+      - py.test ./tests --cov=./ -v
     after_success:
       # coverage reporting on CodeCov
       - codecov
   # OSX, not on master
   - if: branch != master
     os: osx
-    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
-  - if: branch != master
-    os: osx
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
   #   OSX, on master
   - if: branch = master
     os: osx
-    env: TRAVIS_PYTHON_VERSION=2.7
-  - if: branch = master
-    os: osx
     env: TRAVIS_PYTHON_VERSION=3.7
-  - if: branch = master
-    os: osx
-    env: TRAVIS_PYTHON_VERSION=2.7 NUMPY=True
   - if: branch = master
     os: osx
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
@@ -128,4 +110,4 @@ install:
   - pip install pytest
 
 script:
-  - py.test ./eppy/tests
+  - py.test ./tests

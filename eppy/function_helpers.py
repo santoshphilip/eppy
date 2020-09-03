@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2020 Cheng Cui
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -11,8 +12,8 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from six.moves import zip_longest
 import itertools
+from itertools import zip_longest
 from eppy.constructions import thermal_properties
 from eppy.geometry import surface as g_surface
 import eppy.fanpower
@@ -55,6 +56,25 @@ def azimuth(ddtt):
     """azimuth of the surface"""
     coords = getcoords(ddtt)
     return g_surface.azimuth(coords)
+
+
+def true_azimuth(ddtt):
+    """true azimuth of the surface"""
+    idf = ddtt.theidf
+    coord_system = idf.idfobjects["GlobalGeometryRules"][0].Coordinate_System
+    if coord_system.lower() == "relative":
+        zone_name = ddtt.Zone_Name
+        bldg_north = idf.idfobjects["Building"][0].North_Axis
+        zone_rel_north = idf.getobject("Zone", zone_name).Direction_of_Relative_North
+        surf_azimuth = azimuth(ddtt)
+        return g_surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
+    elif coord_system.lower() in ("world", "absolute"):
+        # NOTE: "absolute" is not supported in v9.3.0
+        return azimuth(ddtt)
+    else:
+        raise ValueError(
+            "'{:s}' is no valid value for 'Coordinate System'".format(coord_system)
+        )
 
 
 def tilt(ddtt):
