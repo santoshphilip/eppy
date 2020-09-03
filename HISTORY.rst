@@ -5,6 +5,13 @@ History
 Changes
 ~~~~~~~
 
+2020-09-03
+----------
+
+- Partial fix for #287 (deprecate python2)
+    - removed six in most places
+    - removed python2 in .travis.yml
+    - removed python2 in appveyor.yml
 
 
 2020-06-20
