@@ -14,10 +14,9 @@ from __future__ import unicode_literals
 from string import ascii_letters, digits
 
 
-def onlylegalchar(name):
+def onlylegalchar(name: str):
     """return only legal chars"""
-    legalchar = ascii_letters + digits + " "
-    return "".join([s for s in name[:] if s in legalchar])
+    return name.encode('ascii', 'ignore').decode()
 
 
 def makefieldname(namefromidd):
