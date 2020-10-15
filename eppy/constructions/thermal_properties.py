@@ -23,7 +23,7 @@ OUTSIDE_FILM_R = 0.03
 
 def rvalue(ddtt):
     """
-    R value (W/K) of a construction or material.
+    R value (m2-K/W) of a construction or material.
     thickness (m) / conductivity (W/m-K)
     """
     object_type = ddtt.obj[0]
