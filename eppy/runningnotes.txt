@@ -1,4 +1,43 @@
-rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
+2020-09-21
+----------
+
+Now fixing issue #307
+
+Done in branch i306_run
+
+
+
+2020-09-21
+----------
+
+issue # 306.
+
+::
+
+    import sys
+
+    pathnameto_eppy = 'C:/ProgramData/Anaconda3/envs/tf/lib/site-packages/eppy'
+    sys.path.append(pathnameto_eppy)
+
+    #import eppy
+    from eppy import modeleditor
+    from eppy.modeleditor import IDF
+
+    try:
+    	IDF.setiddname('Energy+.idd')
+    except modeleditor.IDDAlreadySetError as e:
+    	pass
+
+    idfname = r"pyEp/Ref/1ZoneEvapCooler.idf"
+    epwname = 'C:/EnergyPlusV8-5-0\WeatherData/ITA_Rome.162420_IWEC.epw'
+
+    idf = IDF(idfname, epw = epwname)
+
+    idf.run(expandobjects = True, verbose="v", output_directory = r"pyEp/Ref/", readvars = True, output_suffix = 'C')
+    
+    
+Looks like ``r"pyEp/Ref/"``    does not exist.
+
 
 2019-07-15
 ----------
