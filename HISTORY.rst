@@ -5,6 +5,15 @@ History
 Changes
 ~~~~~~~
 
+2020-10-25
+----------
+
+- fixed issue #302
+    - Problem: no documentation for multiprocessing runs
+    - Solution: added documentation for multiprocessing runs in ./docs/runningeplus.ipynb
+
+
+
 2020-09-03
 ----------
 
