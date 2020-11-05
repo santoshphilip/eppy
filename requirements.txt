@@ -9,3 +9,6 @@ six
 decorator
 lxml
 future
+
+# needed for readthedocs
+nbsphinx
