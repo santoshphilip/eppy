@@ -1,3 +1,29 @@
+2020-11-05
+----------
+
+notes on releasing
+
+Add release number to HISTORY.rst
+
+# version number in eppy/__init__.py and setupp.py
+# has to be in single quotes before running bumpversion
+# black makes it double quotes
+bumpversion patch # major or minor or patch
+git log
+git tag r0.5.53
+git push origin r0.5.53
+
+make release in github
+# look at previous release to see what to do
+
+publish latest docs in readthedocs
+
+
+# ----------------
+
+Read the docs can do latest and stable
+give links to latest and stable in README.rst
+
 2020-08-30
 ----------
 
