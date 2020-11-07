@@ -3,7 +3,7 @@ Welcome to eppy's documentation!
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: The Contents:
 
    readme
    installation
