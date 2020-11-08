@@ -39,7 +39,10 @@ Here are some of the things you can do with eppy:
 You can install from :
 <https://pypi.python.org/pypi/eppy/>
 
-The documentation is at:
+The documentation *stable* version is at:
+<http://eppy.readthedocs.io/en/master/>
+
+The documentation *latest* version is at:
 <http://eppy.readthedocs.io/en/latest/>
 
 to get a quick sense of how it feels to use eppy, take a look at
