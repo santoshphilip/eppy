@@ -8,8 +8,8 @@ env:
 
 matrix:
   include:
-  # Linux, not on master
-  - if: branch != master
+  # Linux, not on i314_travis
+  - if: branch != i314_travis
     os: linux
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
     dist: xenial
@@ -29,11 +29,11 @@ matrix:
     after_success:
       # coverage reporting on CodeCov
       - codecov
-  # Linux, on master
-  - if: branch = master
+  # Linux, on i314_travis
+  - if: branch = i314_travis
     os: linux
     env: TRAVIS_PYTHON_VERSION=3.7
-  - if: branch = master
+  - if: branch = i314_travis
     os: linux
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
     dist: xenial
@@ -53,15 +53,15 @@ matrix:
     after_success:
       # coverage reporting on CodeCov
       - codecov
-  # OSX, not on master
-  - if: branch != master
+  # OSX, not on i314_travis
+  - if: branch != i314_travis
     os: osx
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
-  #   OSX, on master
-  - if: branch = master
+  #   OSX, on i314_travis
+  - if: branch = i314_travis
     os: osx
     env: TRAVIS_PYTHON_VERSION=3.7
-  - if: branch = master
+  - if: branch = i314_travis
     os: osx
     env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
 
