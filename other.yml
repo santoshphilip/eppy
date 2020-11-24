@@ -1,0 +1,21 @@
+  # Linux, not on i314_travis
+  - if: branch != i314_travis
+    os: linux
+    env: TRAVIS_PYTHON_VERSION=3.7 NUMPY=True
+    dist: xenial
+    language: python
+    python: 3.7
+    install:
+      - pip install --upgrade setuptools
+      - pip install --upgrade pip
+      - python setup.py install
+      - pip install numpy
+      - pip uninstall tinynumpy -y
+      # we wait to install test dependencies after installing eppy, so as to catch any missing dependencies during setup.py
+      - pip install pytest-cov codecov black
+    script:
+      - black --check --exclude venv .
+      - py.test ./tests --cov=./ -v
+    after_success:
+      # coverage reporting on CodeCov
+      - codecov
