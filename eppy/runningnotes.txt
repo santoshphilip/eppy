@@ -1,4 +1,13 @@
-rsync -av --exclude=".*" eplusinterface_diagrams/ ./eppy_0_4_0 # leave this line at top
+2021-01-02
+----------
+
+rename with better name.
+
+- ahtmltable -> get table using tableindex
+    - tablebyindex __getitem__
+
+- htmlonetable -> get table using tablename
+    - tablebyname __getattr__
 
 2019-07-15
 ----------
