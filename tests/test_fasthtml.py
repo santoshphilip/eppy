@@ -860,91 +860,59 @@ Note 1: An asterisk (*) indicates that the feature is not yet implemented.<br>
 """
 
 
-def test_sniphtml():
-    """py.test for sniphtml"""
-    data = (
-        (
-            """<!DOCTYPE html>
-<html>
-<body>
-
-<h1>My First Heading</h1>
-<p><b>Table of Contents</b></p>
-<p>My first paragraph.</p>
-
-</body>
-</html>
-""",
-            None,
-            """<!DOCTYPE html>
-<html>
-<body>
-
-<h1>My First Heading</h1>
-</body>
-</html>
-""",
-        ),  # html, theline, expected
-    )
-    for html, theline, expected in data:
-        fhandle = StringIO(html)
-        result = fasthtml.sniphtml(fhandle)
-        assert result == expected
-
-
-def test_gets2sconversions():
-    """py.test fro gets2sconversions"""
-    data = (
-        (
-            SampleHtml().html,
-            {
-                "Coal": 1.05,
-                "Diesel": 1.05,
-                "District Cooling": 1.056,
-                "District Heating": 3.613,
-                "Electricity": 3.167,
-                "Fuel Oil #1": 1.05,
-                "Fuel Oil #2": 1.05,
-                "Gasoline": 1.05,
-                "Natural Gas": 1.084,
-                "Other Fuel 1": 1.0,
-                "Other Fuel 2": 1.0,
-                "Propane": 1.05,
-                "Steam": 0.3,
-            },
-        ),  # html, expected
-    )
-    for html, expected in data:
-        htables = readhtml.titletable(StringIO(html))
-        result = fasthtml.gets2sconversions(htables)
-        assert result == expected
-
-
-def test_getthetable():
-    """py.test for getthetable"""
-    data = (
-        (
-            SampleHtml().html,
-            "Site and Source Energy",
-            [
-                [
-                    "",
-                    "Total Energy [kBtu]",
-                    "Energy Per Total Building Area [kBtu/ft2]",
-                    "Energy Per Conditioned Building Area [kBtu/ft2]",
-                ],
-                ["Total Site Energy", 12372300.67, 27.07, 28.11],
-                ["Net Site Energy", 12372300.67, 27.07, 28.11],
-                ["Total Source Energy", 31924186.59, 69.85, 72.53],
-                ["Net Source Energy", 31924186.59, 69.85, 72.53],
-            ],
-        ),  # html, header, expected
-    )
-    for html, header, expected in data:
-        htables = readhtml.titletable(StringIO(html))
-        result = fasthtml.getthetable(htables, header)
-        assert result == expected
-
+# def test_gets2sconversions():
+#     """py.test fro gets2sconversions"""
+#     data = (
+#         (
+#             SampleHtml().html,
+#             {
+#                 "Coal": 1.05,
+#                 "Diesel": 1.05,
+#                 "District Cooling": 1.056,
+#                 "District Heating": 3.613,
+#                 "Electricity": 3.167,
+#                 "Fuel Oil #1": 1.05,
+#                 "Fuel Oil #2": 1.05,
+#                 "Gasoline": 1.05,
+#                 "Natural Gas": 1.084,
+#                 "Other Fuel 1": 1.0,
+#                 "Other Fuel 2": 1.0,
+#                 "Propane": 1.05,
+#                 "Steam": 0.3,
+#             },
+#         ),  # html, expected
+#     )
+#     for html, expected in data:
+#         htables = readhtml.titletable(StringIO(html))
+#         result = fasthtml.gets2sconversions(htables)
+#         assert result == expected
+#
+#
+# def test_getthetable():
+#     """py.test for getthetable"""
+#     data = (
+#         (
+#             SampleHtml().html,
+#             "Site and Source Energy",
+#             [
+#                 [
+#                     "",
+#                     "Total Energy [kBtu]",
+#                     "Energy Per Total Building Area [kBtu/ft2]",
+#                     "Energy Per Conditioned Building Area [kBtu/ft2]",
+#                 ],
+#                 ["Total Site Energy", 12372300.67, 27.07, 28.11],
+#                 ["Net Site Energy", 12372300.67, 27.07, 28.11],
+#                 ["Total Source Energy", 31924186.59, 69.85, 72.53],
+#                 ["Net Source Energy", 31924186.59, 69.85, 72.53],
+#             ],
+#         ),  # html, header, expected
+#     )
+#     for html, header, expected in data:
+#         htables = readhtml.titletable(StringIO(html))
+#         result = fasthtml.getthetable(htables, header)
+#         assert result == expected
+#
 
 def test_getnexttable():
     """py.test for getnexttable"""
