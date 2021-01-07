@@ -14,14 +14,31 @@ from io import StringIO
 from eppy.results import readhtml
 
 
-# TODO this code looks fragile. Maybe use stardard libraty HTML parse to deal with encoding?
-def decodeline(line, encoding="utf-8"):
+def _decodeline(line, encoding="utf-8"):
+    """decodes bytes to string, if line is not bytes, line is returned
+    
+    It will first attempt to decode line with value of `encoding`. If that fails, it will try with encoding="ISO-8859-2". If that fails, it will return line.
+    
+    Why is it trying encoding="ISO-8859-2". Looks like E+ uses this encoding in some example files and which is then output in the HTML file
+    
+    # TODO this code looks fragile. Maybe use standard library HTML parse to deal with encoding?    
+
+    Parameters
+    ----------
+    line : str, bytes
+    encoding : str
+
+    Returns
+    -------
+    line : str
+        decoded line
+    """
     try:
         return line.decode(encoding)
     except (AttributeError, UnicodeDecodeError) as e:
         if e.__class__ == UnicodeDecodeError:
             # encoding could be ISO-8859-2 in e+ html
-            return decodeline(line, encoding="ISO-8859-2")
+            return _decodeline(line, encoding="ISO-8859-2")
         else:
             return line
 
@@ -31,12 +48,12 @@ def getnexttable(fhandle):
     lines = fhandle
     tablelines = []
     for line in lines:
-        line = decodeline(line)
+        line = _decodeline(line)
         if line.strip().startswith("<table"):
             tablelines.append(line)
             break
     for line in lines:
-        line = decodeline(line)
+        line = _decodeline(line)
         tablelines.append(line)
         if line.strip().startswith("</table"):
             break
@@ -49,7 +66,7 @@ def tablebyname(filehandle, header):
 
     with filehandle:
         for line in filehandle:
-            line = decodeline(line)
+            line = _decodeline(line)
             if line.strip() == htmlheader:
                 justtable = getnexttable(filehandle)
                 thetable = f"{htmlheader}\n{justtable}"
@@ -69,7 +86,7 @@ def get_upto_nexttable(fhandle):
     lines = fhandle
     tablelines = []
     for line in lines:
-        line = decodeline(line)
+        line = _decodeline(line)
         tablelines.append(line)
         if line.strip().startswith("</table"):
             break
