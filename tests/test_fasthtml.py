@@ -914,6 +914,7 @@ Note 1: An asterisk (*) indicates that the feature is not yet implemented.<br>
 #         assert result == expected
 #
 
+
 def test_getnexttable():
     """py.test for getnexttable"""
     data = (
