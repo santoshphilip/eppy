@@ -16,12 +16,12 @@ from eppy.results import readhtml
 
 def _decodeline(line, encoding="utf-8"):
     """decodes bytes to string, if line is not bytes, line is returned
-    
+
     It will first attempt to decode line with value of `encoding`. If that fails, it will try with encoding="ISO-8859-2". If that fails, it will return line.
-    
+
     Why is it trying encoding="ISO-8859-2". Looks like E+ uses this encoding in some example files and which is then output in the HTML file
-    
-    # TODO this code looks fragile. Maybe use standard library HTML parse to deal with encoding?    
+
+    # TODO this code looks fragile. Maybe use standard library HTML parse to deal with encoding?
 
     Parameters
     ----------
@@ -45,9 +45,9 @@ def _decodeline(line, encoding="utf-8"):
 
 def getnexttable(fhandle):
     """get the next table in the html file
-    
+
     Continues to read the file line by line and collects lines from the start of the next table until the end of the table
-    
+
     Parameters
     ----------
     fhandle : file like object
@@ -75,11 +75,11 @@ def getnexttable(fhandle):
 
 def tablebyname(filehandle, header):
     """fast extraction of the table using the header to identify the table
-    
-    This function reads only one table from the HTML file. This is in contrast to `results.readhtml.titletable` that will read all the tables into memory and allows you to interactively look thru them. The function `results.readhtml.titletable` can be very slow on large HTML files. 
-    
+
+    This function reads only one table from the HTML file. This is in contrast to `results.readhtml.titletable` that will read all the tables into memory and allows you to interactively look thru them. The function `results.readhtml.titletable` can be very slow on large HTML files.
+
     This function is useful when you know which file you are looking for. It looks for the title line that is in bold just before the table. Some tables don't have such a title in bold. This function will not work for tables that don't have a title in bold
-    
+
     Parameters
     ----------
     fhandle : file like object
@@ -112,9 +112,9 @@ def tablebyname(filehandle, header):
 
 def get_upto_nexttable(fhandle):
     """get all lines from the present location in fhandle to the end of the next table
-    
+
     This function is used by `tablebyindex` to find the title for the table, which is in the lines before the table. Then it can return the title and the table
-    
+
     Parameters
     ----------
     fhandle : file like object
@@ -137,11 +137,11 @@ def get_upto_nexttable(fhandle):
 
 def tablebyindex(filehandle, index):
     """fast extraction of the table using the index to identify the table
-    
-    This function reads only one table from the HTML file. This is in contrast to `results.readhtml.titletable` that will read all the tables into memory and allows you to interactively look thru them. The function `results.readhtml.titletable` can be very slow on large HTML files. 
-    
+
+    This function reads only one table from the HTML file. This is in contrast to `results.readhtml.titletable` that will read all the tables into memory and allows you to interactively look thru them. The function `results.readhtml.titletable` can be very slow on large HTML files.
+
     This function is useful when you know which file you are looking for. It does not work with negative indices, like you can in a list. If you know a way to make negative indices work, do a pull request :-)
-    
+
     Parameters
     ----------
     fhandle : file like object
