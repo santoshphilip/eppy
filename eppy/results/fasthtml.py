@@ -89,8 +89,10 @@ def tablebyname(filehandle, header):
 
     Returns
     -------
-    titleandtable : (str, str)
-        `Title` and `table in HTML format`
+    titleandtable : (str, list)
+        - (title, table)
+            - title = previous item with a <b> tag
+            - table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]
     """
     htmlheader = f"<b>{header}</b><br><br>"
 
@@ -151,8 +153,10 @@ def tablebyindex(filehandle, index):
 
     Returns
     -------
-    titleandtable : (str, str)
-        `Title` and `table in HTML format`
+    titleandtable : (str, list)
+        - (title, table)
+            - title = previous item with a <b> tag
+            - table = rows -> [[cell1, cell2, ..], [cell1, cell2, ..], ..]
     """
     with filehandle:
         tableindex = 0
