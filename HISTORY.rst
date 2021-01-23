@@ -5,12 +5,15 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.54
+~~~~~~~~~~~~~~~
+
 2021-01-10
 ----------
 
 - fixed issue #320
     - Problem: eppy.results.readhtml is very slow. Write similar function using generators
-    - Solution: functions in eppy.fasthtml use lazy evaluation to get the tables quickly. This has been documented in user documentation
+    - Solution: functions in eppy.fasthtml use lazy evaluation to get the tables quickly. This has been documented in user documentation in "Reading outputs from E+" and in "New functions"
 
 
 release r0.5.53
