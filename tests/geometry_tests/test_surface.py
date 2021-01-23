@@ -116,12 +116,7 @@ def test_true_azimuth():
         (20, "", 20, 40),
         (240, 90, 180, 150),
     )
-    for (
-        bldg_north,
-        zone_rel_north,
-        surf_azimuth,
-        expected,
-    ) in data:
+    for (bldg_north, zone_rel_north, surf_azimuth, expected,) in data:
         result = surface.true_azimuth(bldg_north, zone_rel_north, surf_azimuth)
         assert almostequal(expected, result, places=3) == True
 
