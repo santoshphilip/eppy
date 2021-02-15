@@ -72,7 +72,6 @@ def test_table2val_matrix():
             </table>""",
             [["b", 2], [3, 4]],
         ),  # tabletxt, rows
-        
         # the following test data has a <br> in the <td></td>
         # it will test if tdbr2EOL works correctly
         (
@@ -88,7 +87,6 @@ def test_table2val_matrix():
             </table>""",
             [["b \n b", 2], [3, 4]],
         ),  # tabletxt, rows
-        
         # has a tag in a cell
         (
             """<table border="1" cellspacing="0" cellpadding="4">
@@ -209,21 +207,34 @@ def test_make_ntgrid():
         z_z=ntrow(a_b=7, b_c=8, c_d=9),
     )
 
+
 # cell2txt
-@pytest.mark.parametrize("tdtxt, expected",
-[
-    ('<td align="right">cell text</td>', "cell text"), # tdtxt, expected
-    ('<td align="right">cell text<aaa> </aaa></td>', "cell text"), # tdtxt, expected
-    ('<td align="right">cell text<aaa> </aaa> more text</td>', 
-    "cell text more text"), # tdtxt, expected
-    ('<td align="right">cell text<aaa> something here</aaa> more text</td>', 
-    "cell text more text"), # tdtxt, expected
-    ('<td align="right"><aaa> </aaa>cell text</td>', "cell text"), # tdtxt, expected
-    ('<td align="right"></td>', ""), # tdtxt, expected
-])
+@pytest.mark.parametrize(
+    "tdtxt, expected",
+    [
+        ('<td align="right">cell text</td>', "cell text"),  # tdtxt, expected
+        (
+            '<td align="right">cell text<aaa> </aaa></td>',
+            "cell text",
+        ),  # tdtxt, expected
+        (
+            '<td align="right">cell text<aaa> </aaa> more text</td>',
+            "cell text more text",
+        ),  # tdtxt, expected
+        (
+            '<td align="right">cell text<aaa> something here</aaa> more text</td>',
+            "cell text more text",
+        ),  # tdtxt, expected
+        (
+            '<td align="right"><aaa> </aaa>cell text</td>',
+            "cell text",
+        ),  # tdtxt, expected
+        ('<td align="right"></td>', ""),  # tdtxt, expected
+    ],
+)
 def test_cell2txt(tdtxt, expected):
     """py.test for cell2txt"""
-    soup = BeautifulSoup(tdtxt, 'html.parser')
+    soup = BeautifulSoup(tdtxt, "html.parser")
     td = soup.td
     result = readhtml.cell2txt(td)
     assert result == expected
