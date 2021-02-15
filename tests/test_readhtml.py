@@ -11,6 +11,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import pytest
 import collections
 from bs4 import BeautifulSoup
 import eppy.results.readhtml as readhtml
@@ -24,6 +25,20 @@ def test_table2matrix():
             """<table border="1" cellspacing="0" cellpadding="4">
                 <tr>
                     <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+            </table>""",
+            [["1", "2"], ["3", "4"]],
+        ),  # tabletxt, rows
+        # test when there is crud in the cell of the table
+        (
+            """<table border="1" cellspacing="0" cellpadding="4">
+                <tr>
+                    <td>1<aaa>something</aaa></td>
                     <td>2</td>
                 </tr>
                 <tr>
@@ -57,6 +72,7 @@ def test_table2val_matrix():
             </table>""",
             [["b", 2], [3, 4]],
         ),  # tabletxt, rows
+        
         # the following test data has a <br> in the <td></td>
         # it will test if tdbr2EOL works correctly
         (
@@ -71,6 +87,21 @@ def test_table2val_matrix():
             </tr>
             </table>""",
             [["b \n b", 2], [3, 4]],
+        ),  # tabletxt, rows
+        
+        # has a tag in a cell
+        (
+            """<table border="1" cellspacing="0" cellpadding="4">
+            <tr>
+                <td>b<sometag> stuff </sometag></td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            </table>""",
+            [["b", 2], [3, 4]],
         ),  # tabletxt, rows
     )
     for tabletxt, rows in thedata:
@@ -177,3 +208,22 @@ def test_make_ntgrid():
         y_z=ntrow(a_b=4, b_c=5, c_d=6),
         z_z=ntrow(a_b=7, b_c=8, c_d=9),
     )
+
+# cell2txt
+@pytest.mark.parametrize("tdtxt, expected",
+[
+    ('<td align="right">cell text</td>', "cell text"), # tdtxt, expected
+    ('<td align="right">cell text<aaa> </aaa></td>', "cell text"), # tdtxt, expected
+    ('<td align="right">cell text<aaa> </aaa> more text</td>', 
+    "cell text more text"), # tdtxt, expected
+    ('<td align="right">cell text<aaa> something here</aaa> more text</td>', 
+    "cell text more text"), # tdtxt, expected
+    ('<td align="right"><aaa> </aaa>cell text</td>', "cell text"), # tdtxt, expected
+    ('<td align="right"></td>', ""), # tdtxt, expected
+])
+def test_cell2txt(tdtxt, expected):
+    """py.test for cell2txt"""
+    soup = BeautifulSoup(tdtxt, 'html.parser')
+    td = soup.td
+    result = readhtml.cell2txt(td)
+    assert result == expected

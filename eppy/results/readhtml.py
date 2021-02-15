@@ -48,12 +48,35 @@ def is_simpletable(table):
                 return False
     return True
 
+def table_withcelltag_2matrix(table):
+    """convert a table to a list of lists - a 2D matrix
+    but ignores tags within a cell"""
+    # an idf object has a name like "glass <thicknessis 3mm>"
+    # the "<thicknessis 3mm>" will be changed by soup into
+    # "<thicknessis 3mm><</thicknessis 3mm>"
+    # which is a tag inside the cell - so it is not a simpletable
+    # this function will ignore the tag inside the cell
+    rows = []
+    for tr in table("tr"):
+        row = []
+        for td in tr("td"):
+            td = tdbr2EOL(td)  # convert any '<br>' in the td to line ending
+            row.append(cell2txt(td))
+        rows.append(row)
+    return rows
+    
 
 def table2matrix(table):
     """convert a table to a list of lists - a 2D matrix"""
 
     if not is_simpletable(table):
-        raise NotSimpleTable("Not able read a cell in the table as a string")
+        # if it is not a simple table, it is because an idf object has a name
+        # like "glass <thicknessis 3mm>"
+        # the "<thicknessis 3mm>" will be changed by soup into
+        # "<thicknessis 3mm><</thicknessis 3mm>"
+        # which is a tag inside the cell - so it is not a simpletable
+        # so we need another function
+        return table_withcelltag_2matrix(table)
     rows = []
     for tr in table("tr"):
         row = []
@@ -67,11 +90,43 @@ def table2matrix(table):
     return rows
 
 
+def table_withcelltag_2val_matrix(table):
+    """convert a table to a list of lists - a 2D matrix
+    Converts numbers to float
+    but ignores tags within a cell"""
+    # an idf object has a name like "glass <thicknessis 3mm>"
+    # the "<thicknessis 3mm>" will be changed by soup into
+    # "<thicknessis 3mm><</thicknessis 3mm>"
+    # which is a tag inside the cell - so it is not a simpletable
+    # this function will ignore the tag inside the cell
+    rows = []
+    for tr in table("tr"):
+        row = []
+        for td in tr("td"):
+            td = tdbr2EOL(td)
+            val = cell2txt(td)
+            try:
+                val = float(val)
+                row.append(val)
+            except ValueError:
+                row.append(val)
+        rows.append(row)
+    return rows
+    
+
 def table2val_matrix(table):
     """convert a table to a list of lists - a 2D matrix
     Converts numbers to float"""
     if not is_simpletable(table):
-        raise NotSimpleTable("Not able read a cell in the table as a string")
+        # raise NotSimpleTable("Not able read a cell in the table as a string")
+        # run a different function for nonsimple table
+        # if it is not a simple table, it is because an idf object has a name
+        # like "glass <thicknessis 3mm>"
+        # the "<thicknessis 3mm>" will be changed by soup into
+        # "<thicknessis 3mm><</thicknessis 3mm>"
+        # which is a tag inside the cell - so it is not a simpletable
+        # so we need another function
+        return table_withcelltag_2val_matrix(table)
     rows = []
     for tr in table("tr"):
         row = []
@@ -216,3 +271,16 @@ def named_grid_h(grid):
 def named_grid_v(grid):
     """make a vertical named grid"""
     return _make_ntgrid(_transpose(grid))
+
+
+def cell2txt(td):
+    """clean up the td and return text in it
+    It will ignore any tags within the td"""
+    td = tdbr2EOL(td)
+    lst = []
+    for txt in td.contents:
+        try:
+            a = txt.contents
+        except AttributeError as e:
+            lst.append(txt)
+    return ''.join(lst)

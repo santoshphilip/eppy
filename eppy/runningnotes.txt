@@ -1,3 +1,17 @@
+2021-02-13
+----------
+
+tag symbols in an object name are breaking html output. They break the cell in which the name appears. Browser and Beautiful soup mangle the cell trying to fix it
+
+fixes:
+    
+- parse the entire file and change the tags in a cell to 
+    - < becomes &lt;
+    - > becomes &gt;
+- get EnergyPlus to fix it 
+- remove any nostring elements from the cell
+    - This will still give a mangled name
+
 2021-01-02
 ----------
 

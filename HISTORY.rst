@@ -5,6 +5,28 @@ History
 Changes
 ~~~~~~~
 
+
+2021-02-15
+----------
+
+- fixed issue #324
+
+**Problem**
+
+- The EnergyPlus objects can have legal names in the following format `Special glass <thickness is 3mm>`
+-  Energyplus itself has no problems with such names
+- This name turns up in the HTML output file.
+    - In the HTML file the part name`<thickness is 3mm>` looks like an HTML tag.
+    - The browser tries to make sense of it and fix it so that something can be displayed
+    - This results in a mangled name in the HTML file as viewed in the browser
+
+**Solution**
+
+- Ideally this has to be fixed in Energyplus
+- eppy has a stop gap fix
+- eppy will ignore any tag within a cell of a table 
+
+
 release r0.5.54
 ~~~~~~~~~~~~~~~
 
