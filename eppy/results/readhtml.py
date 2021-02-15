@@ -48,6 +48,7 @@ def is_simpletable(table):
                 return False
     return True
 
+
 def table_withcelltag_2matrix(table):
     """convert a table to a list of lists - a 2D matrix
     but ignores tags within a cell"""
@@ -64,7 +65,7 @@ def table_withcelltag_2matrix(table):
             row.append(cell2txt(td))
         rows.append(row)
     return rows
-    
+
 
 def table2matrix(table):
     """convert a table to a list of lists - a 2D matrix"""
@@ -112,7 +113,7 @@ def table_withcelltag_2val_matrix(table):
                 row.append(val)
         rows.append(row)
     return rows
-    
+
 
 def table2val_matrix(table):
     """convert a table to a list of lists - a 2D matrix
@@ -283,4 +284,4 @@ def cell2txt(td):
             a = txt.contents
         except AttributeError as e:
             lst.append(txt)
-    return ''.join(lst)
+    return "".join(lst)
