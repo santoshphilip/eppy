@@ -1,3 +1,17 @@
+2021-02-15
+----------
+
+release
+
+- bump version
+    - in develop
+    - udate History
+    - push
+    - merge into master
+    - push
+- release in pypi
+- release in readthedocs
+
 2021-02-13
 ----------
 
