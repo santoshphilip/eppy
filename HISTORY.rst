@@ -6,7 +6,13 @@ Changes
 ~~~~~~~
 
 
-release r0.5.54
+release r0.5.56
+~~~~~~~~~~~~~~~
+
+fixed a typo in this file (HISTORY.rst)
+
+
+release r0.5.55
 ~~~~~~~~~~~~~~~
 
 2021-02-15
