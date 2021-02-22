@@ -686,8 +686,3 @@ def test_idd_index():
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
     assert idf.idd_index == {}
-
-
-def test_fname_is_Path():
-    """py.test to open as IDF(fname) when isinstance(fname, Path)"""
-    
