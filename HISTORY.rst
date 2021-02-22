@@ -5,9 +5,19 @@ History
 Changes
 ~~~~~~~
 
+2021-02-21
+----------
+
+fixed issue # 315
+
+:Problem: idf.save uses relative path. if the dir is changed, it can save in the wrong place
+:Solution: use absolute path in idf.save
 
 release r0.5.56
 ~~~~~~~~~~~~~~~
+
+2021-02-15
+----------
 
 fixed a typo in this file (HISTORY.rst)
 

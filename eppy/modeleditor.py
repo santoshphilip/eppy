@@ -545,6 +545,10 @@ class IDF(object):
         # import pdb; pdb.set_trace()
         if idfname != None:
             self.idfname = idfname
+            try:
+                self.idfabsname = os.path.abspath(self.idfname)
+            except TypeError as e:
+                pass  # it is file handle. the code can handle that
             self.read()
         if epw != None:
             self.epw = epw
@@ -630,6 +634,10 @@ class IDF(object):
         if self.getiddname() == None:
             self.setiddname(iddfhandle)
         self.idfname = idfname
+        try:
+            self.idfabsname = os.path.abspath(self.idfname)
+        except TypeError as e:
+            pass  # it is file handle. the code can handle that
         self.read()
 
     def initreadtxt(self, idftxt):
@@ -648,6 +656,10 @@ class IDF(object):
             self.setiddname(iddfhandle)
         idfhandle = StringIO(idftxt)
         self.idfname = idfhandle
+        try:
+            self.idfabsname = os.path.abspath(self.idfname)
+        except TypeError as e:
+            pass  # it is file handle. the code can handle that
         self.read()
 
     def read(self):
@@ -704,9 +716,17 @@ class IDF(object):
             self.setiddname(iddfhandle)
         idfhandle = StringIO("")
         self.idfname = idfhandle
+        try:
+            self.idfabsname = os.path.abspath(self.idfname)
+        except TypeError as e:
+            pass  # it is file handle. the code can handle that
         self.read()
         if fname:
             self.idfname = fname
+            try:
+                self.idfabsname = os.path.abspath(self.idfname)
+            except TypeError as e:
+                pass  # it is file handle. the code can handle that
 
     """Methods to do with manipulating the objects in an IDF object."""
 
@@ -923,7 +943,7 @@ class IDF(object):
 
         """
         if filename is None:
-            filename = self.idfname
+            filename = self.idfabsname
         s = self.idfstr()
         if lineendings == "default":
             system = platform.system()
@@ -968,6 +988,10 @@ class IDF(object):
 
         """
         self.idfname = filename
+        try:
+            self.idfabsname = os.path.abspath(self.idfname)
+        except TypeError as e:
+            pass  # it is file handle. the code can handle that
         self.save(filename, lineendings, encoding)
 
     def savecopy(self, filename, lineendings="default", encoding="latin-1"):

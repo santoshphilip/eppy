@@ -14,6 +14,8 @@ from __future__ import unicode_literals
 from itertools import product
 import os
 import warnings
+import os.path
+import shutil
 
 import pytest
 from six import StringIO
@@ -368,6 +370,106 @@ def test_save():
     result = file_handle.read()
     # minimal test that TestMaterial is being written to the file handle
     assert expected in result
+
+
+# Structure of a test:
+#
+# 1. Arrange -> pytest fixture
+# 2. Act
+# 3. Assert
+# 4. Cleanup -> pytest fixture
+
+
+@pytest.fixture
+def createidfinafolder():
+    """make a temp dir and save an idf in it
+
+    :Teardown: remove the temp dir and it'a contents"""
+    # make a temp dir
+    tdirname = "./atempdir1"
+    abspath = os.path.abspath(tdirname)
+    os.mkdir(tdirname)
+    # make blank file
+    idftxt = ""  # empty string
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    # put in some objects - building and version
+    building = idf.newidfobject("building")
+    building.Name = "Taj"
+    idf.newidfobject("version")
+    # save it in subdir1
+    fname = f"{tdirname}/a.idf"
+    idf.saveas(fname)
+
+    yield idf
+    # Teardown
+    # remove the temp dir
+    shutil.rmtree(abspath)
+    # abspath ensure removal from any dir
+
+
+@pytest.fixture
+def changedir():
+    """make a temp dir and change to that dir
+
+    :Teardown: return to original dir and delete this temp dir"""
+    # make a temp dir
+    origdir = os.path.abspath(os.path.curdir)
+    tdirname = "./atempdir2"
+    abspath = os.path.abspath(tdirname)
+    os.mkdir(tdirname)
+    # change to that directory
+    os.chdir(tdirname)
+    yield tdirname
+
+    # Teardown
+    # remove the temp dir
+    os.chdir(origdir)
+    shutil.rmtree(abspath)
+    # abspath ensure removal from any dir
+
+
+def test_save_with_dir_change(createidfinafolder, changedir):
+    """py.test of save when dir has been changed"""
+    change, expected = "Mahal", "Mahal"
+    # createidfinafolder creates the idf
+    idf = createidfinafolder
+    idfabs = idf.idfabsname
+    # changedir chnages dir
+    newdir = changedir
+    # make a change to the idf
+    building = idf.idfobjects["building"][0]
+    building.Name = change
+    # and save while in new dir
+    idf.save()  # should save in orig dir
+    # read the file again
+    idf1 = IDF(idfabs)
+    building1 = idf1.idfobjects["building"][0]
+    assert building1.Name == expected
+
+    # # # open the file again
+    # idf1 = IDF(str(fname))
+    # # -
+    # # now we are ready to test
+    # # make some changes
+    # building1 = idf1.idfobjects["building"][0]
+    # building1.Name = "Mahal"
+    # # change dir tmpdir2
+    # # use a try-finally to comeback to the orignal dir
+    # origdir = os.getcwd()
+    # print(os.getcwd())
+    # temp_folder2 = tmp_path / "subdir2"
+    # temp_folder2.mkdir()
+    # os.chdir(temp_folder2)
+    # print(os.getcwd())
+    # # save idf
+    # idf1.save()
+    # idf2 = IDF(str(fname)) # str() since IDF is not able to open Posix. open an issue to fix this.
+    # # open the idf agian
+    # idf2 = IDF(str(fname)) # str() since IDF is not able to open Posix
+    # # check the change
+    # building2 = idf2.idfobjects["building"][0]
+    # assert building2.Name == "Mahal"
 
 
 def test_save_with_lineendings_and_encodings():
