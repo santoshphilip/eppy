@@ -16,6 +16,8 @@ import os
 import warnings
 import os.path
 import shutil
+from pathlib import Path
+
 
 import pytest
 from six import StringIO
@@ -446,30 +448,12 @@ def test_save_with_dir_change(createidfinafolder, changedir):
     idf1 = IDF(idfabs)
     building1 = idf1.idfobjects["building"][0]
     assert building1.Name == expected
-
-    # # # open the file again
-    # idf1 = IDF(str(fname))
-    # # -
-    # # now we are ready to test
-    # # make some changes
-    # building1 = idf1.idfobjects["building"][0]
-    # building1.Name = "Mahal"
-    # # change dir tmpdir2
-    # # use a try-finally to comeback to the orignal dir
-    # origdir = os.getcwd()
-    # print(os.getcwd())
-    # temp_folder2 = tmp_path / "subdir2"
-    # temp_folder2.mkdir()
-    # os.chdir(temp_folder2)
-    # print(os.getcwd())
-    # # save idf
-    # idf1.save()
-    # idf2 = IDF(str(fname)) # str() since IDF is not able to open Posix. open an issue to fix this.
-    # # open the idf agian
-    # idf2 = IDF(str(fname)) # str() since IDF is not able to open Posix
-    # # check the change
-    # building2 = idf2.idfobjects["building"][0]
-    # assert building2.Name == "Mahal"
+    # test if it works with filepath.Path
+    fname_path = Path(idfabs)
+    assert isinstance(fname_path, Path)
+    idf2 = IDF(fname_path)
+    building2 = idf2.idfobjects["building"][0]
+    assert building2.Name == expected
 
 
 def test_save_with_lineendings_and_encodings():
@@ -702,3 +686,8 @@ def test_idd_index():
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
     assert idf.idd_index == {}
+
+
+def test_fname_is_Path():
+    """py.test to open as IDF(fname) when isinstance(fname, Path)"""
+    

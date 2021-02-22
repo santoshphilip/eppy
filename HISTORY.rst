@@ -8,7 +8,14 @@ Changes
 2021-02-21
 ----------
 
+fixed issue #326
+````````````````
+
+:Problem: idf = IDF(fname) will fail if isinstance(fname, filepath.Path)
+:Solution: update code to read filepath.Path
+
 fixed issue # 315
+``````````````````
 
 :Problem: idf.save uses relative path. if the dir is changed, it can save in the wrong place
 :Solution: use absolute path in idf.save
