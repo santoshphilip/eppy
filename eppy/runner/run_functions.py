@@ -349,6 +349,7 @@ def run(
 
     # send stdout to tmp filehandle to avoid issue #245
     tmp_err = StringIO()
+    old_err = sys.stderr
     sys.stderr = tmp_err
     try:
         if verbose == "v":
@@ -360,7 +361,7 @@ def run(
         message = parse_error(tmp_err, output_dir)
         raise EnergyPlusRunError(message)
     finally:
-        sys.stderr = sys.__stderr__
+        sys.stderr = old_err
         os.chdir(cwd)
     return "OK"
 
