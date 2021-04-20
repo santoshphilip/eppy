@@ -6,7 +6,7 @@ pyparsing
 pytest
 tinynumpy
 six
-decorator
+decorator==4.4.2
 lxml
 future
 
