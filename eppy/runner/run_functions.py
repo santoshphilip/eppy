@@ -25,7 +25,7 @@ from io import StringIO
 try:
     import multiprocessing as mp
 except ImportError:
-    pass
+    mp = None
 
 
 def install_paths(version=None, iddname=None):
@@ -156,7 +156,9 @@ def runIDFs(jobs, processors=1):
         the process will run on all CPUs, -1 means one less than all CPUs, etc.
 
     """
-    if processors <= 0:
+    if mp is None:
+        processors = 1
+    elif processors <= 0:
         processors = max(1, mp.cpu_count() - processors)
 
     shutil.rmtree("multi_runs", ignore_errors=True)
@@ -165,11 +167,11 @@ def runIDFs(jobs, processors=1):
     prepared_runs = (
         prepare_run(run_id, run_data) for run_id, run_data in enumerate(jobs)
     )
-    try:
+    if mp is not None:
         pool = mp.Pool(processors)
         pool.map(multirunner, prepared_runs)
         pool.close()
-    except NameError:
+    else:
         # multiprocessing not present so pass the jobs one at a time
         for job in prepared_runs:
             multirunner([job])
