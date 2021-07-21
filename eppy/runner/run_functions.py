@@ -336,6 +336,9 @@ def run(
     run_dir = os.path.abspath(tempfile.mkdtemp())
     os.chdir(run_dir)
 
+    # store the output prefix, as it influences the error file name
+    output_prefix = args.get("output_prefix")
+
     # build a list of command line arguments
     cmd = [eplus_exe_path]
     for arg in args:
@@ -357,7 +360,11 @@ def run(
         elif verbose == "q":
             check_call(cmd, stdout=open(os.devnull, "w"))
     except CalledProcessError:
-        message = parse_error(tmp_err, output_dir)
+        if output_prefix:
+            err_file = os.path.join(output_dir, output_prefix + ".err")
+        else:
+            err_file = os.path.join(output_dir, "eplusout.err")
+        message = parse_error(tmp_err, err_file)
         raise EnergyPlusRunError(message)
     finally:
         sys.stderr = sys.__stderr__
@@ -365,15 +372,14 @@ def run(
     return "OK"
 
 
-def parse_error(tmp_err, output_dir):
+def parse_error(tmp_err, err_file):
     """Add contents of stderr and eplusout.err and put it in the exception message.
 
     :param tmp_err: file-like
-    :param output_dir: str
+    :param err_file: str
     :return: str
     """
     std_err = tmp_err.getvalue()
-    err_file = os.path.join(output_dir, "eplusout.err")
     if os.path.isfile(err_file):
         with open(err_file, "r") as f:
             ep_err = f.read()
