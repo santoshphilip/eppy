@@ -1,3 +1,11 @@
+2021-04-17
+----------
+
+running debugger
+
+python -m pudb.run script.py
+
+
 2020-11-05
 ----------
 

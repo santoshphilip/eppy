@@ -26,7 +26,12 @@ def readfile(filename):
     fhandle = open(filename, "rb")
     data = fhandle.read()
     try:
-        data = data.decode("ISO-8859-2")
+        # lines = data.splitlines()
+        # for line in lines:
+        #     print(line)
+        #     line.decode("utf-8")
+        # data = data.decode("ISO-8859-2")
+        data = data.decode("utf-8")
     except AttributeError:
         pass
     fhandle.close()

@@ -105,7 +105,7 @@ def easyopen(fname, idd=None, epw=None):
         fhandle = fname
     else:
         fhandle = io.open(
-            fname, "r", encoding="latin-1"
+            fname, "r", encoding="utf-8"
         )  # latin-1 seems to read most things
 
     # - get the version number from the idf file

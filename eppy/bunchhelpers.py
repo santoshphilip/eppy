@@ -12,13 +12,23 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from string import ascii_letters, digits
+import unicodedata
 
+
+# def onlylegalchar(name):
+#     """return only legal chars"""
+#     legalchar = ascii_letters + digits + " "
+#     return "".join([s for s in name[:] if s in legalchar])
+#
 
 def onlylegalchar(name):
     """return only legal chars"""
+    name = unicodedata.normalize('NFKC', name)
+    allascii = {chr(i) for i in range(128)}
     legalchar = ascii_letters + digits + " "
-    return "".join([s for s in name[:] if s in legalchar])
-
+    legal = {s for s in legalchar}
+    illegalchar = allascii - legal
+    return "".join([s for s in name[:] if s not in illegalchar])
 
 def makefieldname(namefromidd):
     """made a field name that can be used by bunch"""

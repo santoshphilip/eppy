@@ -921,7 +921,7 @@ class IDF(object):
             raise ValueError("%s is not a valid outputtype" % self.outputtype)
         return astr
 
-    def save(self, filename=None, lineendings="default", encoding="latin-1"):
+    def save(self, filename=None, lineendings="default", encoding="utf-8"):
         """
         Save the IDF as a text file with the optional filename passed, or with
         the current idfname of the IDF.
@@ -938,8 +938,7 @@ class IDF(object):
             endings for the current system.
 
         encoding : str, optional
-            Encoding to use for the saved file. The default is 'latin-1' which
-            is compatible with the EnergyPlus IDFEditor.
+            Encoding to use for the saved file. The default is 'utf-8' 
 
         """
         if filename is None:
@@ -969,7 +968,7 @@ class IDF(object):
             except TypeError:
                 filename.write(s.decode(encoding))
 
-    def saveas(self, filename, lineendings="default", encoding="latin-1"):
+    def saveas(self, filename, lineendings="default", encoding="utf-8"):
         """Save the IDF as a text file with the filename passed.
 
         Parameters
@@ -983,8 +982,7 @@ class IDF(object):
             endings for the current system.
 
         encoding : str, optional
-            Encoding to use for the saved file. The default is 'latin-1' which
-            is compatible with the EnergyPlus IDFEditor.
+            Encoding to use for the saved file. The default is 'utf-8' 
 
         """
         self.idfname = filename
@@ -994,7 +992,7 @@ class IDF(object):
             pass  # it is file handle. the code can handle that
         self.save(filename, lineendings, encoding)
 
-    def savecopy(self, filename, lineendings="default", encoding="latin-1"):
+    def savecopy(self, filename, lineendings="default", encoding="utf-8"):
         """Save a copy of the file with the filename passed.
 
         Parameters
@@ -1008,8 +1006,7 @@ class IDF(object):
             endings for the current system.
 
         encoding : str, optional
-            Encoding to use for the saved file. The default is 'latin-1' which
-            is compatible with the EnergyPlus IDFEditor.
+            Encoding to use for the saved file. The default is 'utf-8' 
 
         """
         self.save(filename, lineendings, encoding)

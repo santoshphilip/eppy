@@ -182,10 +182,23 @@ class Eplusdata(object):
             dt, dtls = self.initdict(dictfile)
         # astr = mylib2.readfile(fname)
         astr = fnamefobject.read()
+        # try:
+        #     astr = astr.decode("ISO-8859-2")
+        # except AttributeError:
+        #     pass
         try:
-            astr = astr.decode("ISO-8859-2")
+            lines = astr.splitlines()
+            for line in lines:
+                # print(line)
+                line = line.decode("utf-8")
+            astr = astr.decode("utf-8")
         except AttributeError:
             pass
+        # except UnicodeDecodeError:
+        #     lines = astr.splitlines()
+        #     for line in lines:
+        #         line = line.decode("ISO-8859-2")
+        #     astr = astr.decode("ISO-8859-2")
         fnamefobject.close()
         nocom = removecomment(astr, "!")
         idfst = nocom
