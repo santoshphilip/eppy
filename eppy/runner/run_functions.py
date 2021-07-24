@@ -330,6 +330,8 @@ def run(
         args["weather"] = os.path.join(eplus_weather_path, args["weather"])
     output_dir = os.path.abspath(args["output_directory"])
     args["output_directory"] = output_dir
+    if iddname is not None:
+        args["idd"] = os.path.abspath(iddname)
 
     # store the directory we start in
     cwd = os.getcwd()
