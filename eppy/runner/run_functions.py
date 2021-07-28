@@ -167,7 +167,14 @@ def runIDFs(jobs, processors=1):
     )
     try:
         pool = mp.Pool(processors)
-        pool.map(multirunner, prepared_runs)
+        if not hasattr(jobs, '__len__'):
+            # This avoids materializing all of jobs as a list, potentially
+            # use a lot of memory. Since we don't care about the returned
+            # results we can use unordered, which is possibly more efficient.
+            for _ in pool.imap_unordered(multirunner, prepared_runs):
+                pass  # force the whole result to be generated
+        else:
+            pool.map(multirunner, prepared_runs)
         pool.close()
     except NameError:
         # multiprocessing not present so pass the jobs one at a time
