@@ -808,6 +808,18 @@ class IDF(object):
         key = idfobject.key.upper()
         self.idfobjects[key].remove(idfobject)
 
+    def removeallidfobjects(self, idfobject):
+        """Remove all IDF object of a certain type from the IDF.
+
+        Parameters
+        ----------
+        idfobject : EpBunch object
+            The IDF object to remove.
+
+        """
+        while len(self.idfobjects[idfobject]) > 0:
+            self.popidfobject(idfobject, 0)
+
     def copyidfobject(self, idfobject):
         """Add an IDF object to the IDF.
 
