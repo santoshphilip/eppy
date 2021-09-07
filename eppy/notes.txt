@@ -1,3 +1,8 @@
+2021-09-07
+----------
+
+testing the new github authentication
+
 2016-11-19
 ----------
 latest setuptools and pip need to be installed
