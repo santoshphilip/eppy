@@ -18,7 +18,7 @@ The GitHub Team
 Used github CLI to do this.
 https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials-in-git
 
-Steps 
+Steps to do the above 
 
 - brew install gh	
 - In the command line, enter gh auth login, then follow the prompts.
