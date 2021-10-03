@@ -1,3 +1,31 @@
+2021-09-07
+----------
+
+testing the new github authentication
+change 1
+change 2
+
+Hi @santoshphilip,
+
+You recently used a password to access the repository at santoshphilip/eppy with git using git/2.24.3 (Apple Git-128).
+
+Basic authentication using a password to Git is deprecated and will soon no longer work. Visit https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information around suggested workarounds and removal dates.
+
+Thanks,
+The GitHub Team
+
+
+Used github CLI to do this.
+https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials-in-git
+
+Steps to do the above 
+
+- brew install gh	
+- In the command line, enter gh auth login, then follow the prompts.
+    - When prompted for your preferred protocol for Git operations, select HTTPS.
+    - When asked if you would like to authenticate to Git with your GitHub credentials, enter Y.
+    
+    
 2020-11-05
 ----------
 
