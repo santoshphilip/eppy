@@ -268,6 +268,7 @@ def run(
         Set verbosity of runtime messages (default: v)
             v: verbose
             q: quiet
+            s: silent
 
     ep_version: str
         EnergyPlus version, used to find install directory. Required if run() is
@@ -289,7 +290,7 @@ def run(
     """
     args = locals().copy()
     # get unneeded params out of args ready to pass the rest to energyplus.exe
-    verbose = args.pop("verbose")
+    verbose = args.pop("verbose").lower()
     idf = args.pop("idf")
     iddname = args.get("idd")
     if not isinstance(iddname, str):
@@ -356,6 +357,12 @@ def run(
             check_call(cmd)
         elif verbose == "q":
             check_call(cmd, stdout=open(os.devnull, "w"))
+        elif verbose == "s":
+            with open(os.devnull, "w") as null:
+                # Null can be written to, so this is not expected to affect issue #245.
+                check_call(cmd, stdout=null, stderr=null)
+        else:
+            raise ValueError("Unknown verbose mode: {}".format(verbose))
     except CalledProcessError:
         message = parse_error(tmp_err, output_dir)
         raise EnergyPlusRunError(message)
