@@ -1,4 +1,5 @@
 # Copyright (c) 2016 Jamie Bull
+# Copyright (c) 2021 Dimitris Mantas
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
