@@ -322,6 +322,9 @@ def test_newidfobject():
         ["MATERIAL:AIRGAP", "Argon"],
         ["MATERIAL:AIRGAP", "Argon"],
     ]
+    # remove all objects
+    idf.removeallidfobjects(objtype)
+    assert len(idf.idfobjects[objtype]) == 0
     # test some functions
     objtype = "FENESTRATIONSURFACE:DETAILED"
     obj = idf.newidfobject(objtype, Name="A Wall")
