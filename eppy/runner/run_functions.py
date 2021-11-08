@@ -1,4 +1,5 @@
 # Copyright (c) 2016 Jamie Bull
+# Copyright (c) 2021 Johan Tibell
 # Copyright (c) 2021 Dimitris Mantas
 # =======================================================================
 #  Distributed under the MIT License.
@@ -26,7 +27,7 @@ from io import StringIO
 try:
     import multiprocessing as mp
 except ImportError:
-    pass
+    mp = None
 
 
 def install_paths(version=None, iddname=None):
@@ -157,7 +158,9 @@ def runIDFs(jobs, processors=1):
         the process will run on all CPUs, -1 means one less than all CPUs, etc.
 
     """
-    if processors <= 0:
+    if mp is None:
+        processors = 1
+    elif processors <= 0:
         processors = max(1, mp.cpu_count() - processors)
 
     shutil.rmtree("multi_runs", ignore_errors=True)
@@ -166,11 +169,18 @@ def runIDFs(jobs, processors=1):
     prepared_runs = (
         prepare_run(run_id, run_data) for run_id, run_data in enumerate(jobs)
     )
-    try:
+    if mp is not None:
         pool = mp.Pool(processors)
-        pool.map(multirunner, prepared_runs)
+        if not hasattr(jobs, '__len__'):
+            # This avoids materializing all of jobs as a list, potentially
+            # use a lot of memory. Since we don't care about the returned
+            # results we can use unordered, which is possibly more efficient.
+            for _ in pool.imap_unordered(multirunner, prepared_runs):
+                pass  # force the whole result to be generated
+        else:
+            pool.map(multirunner, prepared_runs)
         pool.close()
-    except NameError:
+    else:
         # multiprocessing not present so pass the jobs one at a time
         for job in prepared_runs:
             multirunner([job])
@@ -332,11 +342,16 @@ def run(
         args["weather"] = os.path.join(eplus_weather_path, args["weather"])
     output_dir = os.path.abspath(args["output_directory"])
     args["output_directory"] = output_dir
+    if iddname is not None:
+        args["idd"] = os.path.abspath(iddname)
 
     # store the directory we start in
     cwd = os.getcwd()
     run_dir = os.path.abspath(tempfile.mkdtemp())
     os.chdir(run_dir)
+
+    # store the output prefix, as it influences the error file name
+    output_prefix = args.get("output_prefix")
 
     # build a list of command line arguments
     cmd = [eplus_exe_path]
@@ -351,6 +366,7 @@ def run(
 
     # send stdout to tmp filehandle to avoid issue #245
     tmp_err = StringIO()
+    old_err = sys.stderr
     sys.stderr = tmp_err
     try:
         if verbose == "v":
@@ -365,23 +381,26 @@ def run(
         else:
             raise ValueError("Unknown verbose mode: {}".format(verbose))
     except CalledProcessError:
-        message = parse_error(tmp_err, output_dir)
+        if output_prefix:
+            err_file = os.path.join(output_dir, output_prefix + ".err")
+        else:
+            err_file = os.path.join(output_dir, "eplusout.err")
+        message = parse_error(tmp_err, err_file)
         raise EnergyPlusRunError(message)
     finally:
-        sys.stderr = sys.__stderr__
+        sys.stderr = old_err
         os.chdir(cwd)
     return "OK"
 
 
-def parse_error(tmp_err, output_dir):
+def parse_error(tmp_err, err_file):
     """Add contents of stderr and eplusout.err and put it in the exception message.
 
     :param tmp_err: file-like
-    :param output_dir: str
+    :param err_file: str
     :return: str
     """
     std_err = tmp_err.getvalue()
-    err_file = os.path.join(output_dir, "eplusout.err")
     if os.path.isfile(err_file):
         with open(err_file, "r") as f:
             ep_err = f.read()

@@ -16,6 +16,7 @@ from __future__ import unicode_literals
 
 import copy
 from io import StringIO
+from pathlib import Path
 
 import eppy.EPlusInterfaceFunctions.mylib2 as mylib2
 
@@ -94,14 +95,14 @@ class Eplusdata(object):
         # import pdb; pdb.set_trace()
         if fname == None and dictfile == None:
             self.dt, self.dtls = {}, []
-        if isinstance(dictfile, str) and fname == None:
+        if isinstance(dictfile, (str, Path)) and fname == None:
             self.initdict(dictfile)
         if isinstance(dictfile, Idd) and fname == None:
             self.initdict(dictfile)
-        if isinstance(fname, str) and isinstance(dictfile, str):
+        if isinstance(fname, (str, Path)) and isinstance(dictfile, (str, Path)):
             fnamefobject = open(fname, "rb")
             self.makedict(dictfile, fnamefobject)
-        if isinstance(fname, str) and isinstance(dictfile, Idd):
+        if isinstance(fname, (str, Path)) and isinstance(dictfile, Idd):
             fnamefobject = open(fname, "rb")
             self.makedict(dictfile, fnamefobject)
         try:

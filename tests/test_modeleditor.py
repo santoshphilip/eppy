@@ -14,6 +14,10 @@ from __future__ import unicode_literals
 from itertools import product
 import os
 import warnings
+import os.path
+import shutil
+from pathlib import Path
+
 
 import pytest
 from six import StringIO
@@ -318,6 +322,9 @@ def test_newidfobject():
         ["MATERIAL:AIRGAP", "Argon"],
         ["MATERIAL:AIRGAP", "Argon"],
     ]
+    # remove all objects
+    idf.removeallidfobjects(objtype)
+    assert len(idf.idfobjects[objtype]) == 0
     # test some functions
     objtype = "FENESTRATIONSURFACE:DETAILED"
     obj = idf.newidfobject(objtype, Name="A Wall")
@@ -368,6 +375,88 @@ def test_save():
     result = file_handle.read()
     # minimal test that TestMaterial is being written to the file handle
     assert expected in result
+
+
+# Structure of a test:
+#
+# 1. Arrange -> pytest fixture
+# 2. Act
+# 3. Assert
+# 4. Cleanup -> pytest fixture
+
+
+@pytest.fixture
+def createidfinafolder():
+    """make a temp dir and save an idf in it
+
+    :Teardown: remove the temp dir and it'a contents"""
+    # make a temp dir
+    tdirname = "./atempdir1"
+    abspath = os.path.abspath(tdirname)
+    os.mkdir(tdirname)
+    # make blank file
+    idftxt = ""  # empty string
+    fhandle = StringIO(idftxt)
+    idf = IDF(fhandle)
+    # put in some objects - building and version
+    building = idf.newidfobject("building")
+    building.Name = "Taj"
+    idf.newidfobject("version")
+    # save it in subdir1
+    fname = f"{tdirname}/a.idf"
+    idf.saveas(fname)
+
+    yield idf
+    # Teardown
+    # remove the temp dir
+    shutil.rmtree(abspath)
+    # abspath ensure removal from any dir
+
+
+@pytest.fixture
+def changedir():
+    """make a temp dir and change to that dir
+
+    :Teardown: return to original dir and delete this temp dir"""
+    # make a temp dir
+    origdir = os.path.abspath(os.path.curdir)
+    tdirname = "./atempdir2"
+    abspath = os.path.abspath(tdirname)
+    os.mkdir(tdirname)
+    # change to that directory
+    os.chdir(tdirname)
+    yield tdirname
+
+    # Teardown
+    # remove the temp dir
+    os.chdir(origdir)
+    shutil.rmtree(abspath)
+    # abspath ensure removal from any dir
+
+
+def test_save_with_dir_change(createidfinafolder, changedir):
+    """py.test of save when dir has been changed"""
+    change, expected = "Mahal", "Mahal"
+    # createidfinafolder creates the idf
+    idf = createidfinafolder
+    idfabs = idf.idfabsname
+    # changedir chnages dir
+    newdir = changedir
+    # make a change to the idf
+    building = idf.idfobjects["building"][0]
+    building.Name = change
+    # and save while in new dir
+    idf.save()  # should save in orig dir
+    # read the file again
+    idf1 = IDF(idfabs)
+    building1 = idf1.idfobjects["building"][0]
+    assert building1.Name == expected
+    # test if it works with filepath.Path
+    fname_path = Path(idfabs)
+    assert isinstance(fname_path, Path)
+    idf2 = IDF(fname_path)
+    building2 = idf2.idfobjects["building"][0]
+    assert building2.Name == expected
 
 
 def test_save_with_lineendings_and_encodings():
