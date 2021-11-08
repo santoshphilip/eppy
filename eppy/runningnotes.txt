@@ -1,3 +1,10 @@
+2021-02-17
+----------
+
+- do a save after changing directory.
+- It saves in the wrong place
+- set the path as abs path and save to abs path
+
 2021-02-15
 ----------
 
