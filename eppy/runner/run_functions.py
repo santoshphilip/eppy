@@ -157,7 +157,7 @@ def runIDFs(jobs, processors=1):
 
     """
     if processors <= 0:
-        processors = max(1, mp.cpu_count() - processors)
+        processors = max(1, mp.cpu_count() + processors)
 
     shutil.rmtree("multi_runs", ignore_errors=True)
     os.mkdir("multi_runs")
