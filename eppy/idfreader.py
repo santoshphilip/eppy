@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2021  Dimitris Mantas
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -40,6 +41,8 @@ def iddversiontuple(afile):
     except TypeError:
         fhandle = afile
     line1 = fhandle.readline()
+    if fhandle != afile:
+        fhandle.close()
     try:
         line1 = line1.decode("ISO-8859-2")
     except AttributeError:
