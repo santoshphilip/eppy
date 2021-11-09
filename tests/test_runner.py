@@ -481,6 +481,21 @@ class TestIDFRunner(object):
         out, _err = capfd.readouterr()
         assert len(out) > 0
 
+    def test_Verbose(self, capfd, test_idf):
+        """
+        End to end test of idf.run function with the version flag set True.
+        Fails on severe errors or unexpected/missing output files.
+        Fails if no output received from EnergyPlus.
+
+        """
+        test_idf.run(verbose="V", output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        self.expected_files.extend([])
+        assert set(files) == set(self.expected_files)
+        out, _err = capfd.readouterr()
+        assert len(out) > 0
+
     def test_quiet(self, capfd, test_idf):
         """
         End to end test of idf.run function with the version flag set True.
@@ -489,6 +504,49 @@ class TestIDFRunner(object):
 
         """
         test_idf.run(verbose="q", output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        self.expected_files.extend([])
+        assert set(files) == set(self.expected_files)
+        out, _err = capfd.readouterr()
+        assert len(out) == 0
+
+    def test_Quiet(self, capfd, test_idf):
+        """
+        End to end test of idf.run function with the version flag set True.
+        Fails on severe errors or unexpected/missing output files.
+        Fails if output received from EnergyPlus.
+
+        """
+        test_idf.run(verbose="Q", output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        self.expected_files.extend([])
+        assert set(files) == set(self.expected_files)
+        out, _err = capfd.readouterr()
+        assert len(out) == 0
+
+    def test_silent(self, capfd, test_idf):
+        """
+        End to end test of idf.run function with the version flag set True.
+        Fails on severe errors or unexpected/missing output files.
+        Fails if output received from EnergyPlus.
+        """
+        test_idf.run(verbose="s", output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        self.expected_files.extend([])
+        assert set(files) == set(self.expected_files)
+        out, _err = capfd.readouterr()
+        assert len(out) == 0
+
+    def test_Silent(self, capfd, test_idf):
+        """
+        End to end test of idf.run function with the version flag set True.
+        Fails on severe errors or unexpected/missing output files.
+        Fails if output received from EnergyPlus.
+        """
+        test_idf.run(verbose="S", output_directory="run_outputs")
         assert not has_severe_errors()
         files = os.listdir("run_outputs")
         self.expected_files.extend([])
