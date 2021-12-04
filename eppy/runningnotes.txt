@@ -1,3 +1,13 @@
+2021-12-04
+----------
+
+- do an emergency release. Needed to answer question in unmethours
+- merge develop into master
+- do a bumpversion patch
+- make a tag
+- release on pypi
+- update docs
+
 2021-02-17
 ----------
 
