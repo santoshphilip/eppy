@@ -18,6 +18,8 @@ import itertools
 import os
 import platform
 import warnings
+import logging
+logging.basicConfig(filename='example.log', level=logging.INFO)
 
 from io import StringIO
 
@@ -580,11 +582,13 @@ class IDF(object):
             cls.iddname = iddname
             cls.idd_info = None
             cls.block = None
+            logging.info("idd name is set")
         elif cls.iddname == iddname:
             pass
         else:
             if testing == False:
                 errortxt = "IDD file is set to: %s" % (cls.iddname,)
+                logging.info("raised IDDAlreadySetError")
                 raise IDDAlreadySetError(errortxt)
 
     @classmethod

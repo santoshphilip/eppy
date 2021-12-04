@@ -1,3 +1,14 @@
+2021-11-26
+----------
+
+https://betterprogramming.pub/understand-5-scopes-of-pytest-fixtures-1b607b5c19ed
+
+for fixtures, especially confstest.py
+
+Note: pixtures and @pytest.mark.parametrize don't work together. See <https://github.com/pytest-dev/pytest/issues/349>. Fixtures take priority. If there is a clash use a loop instead of @pytest.mark.parametrize.
+
+There should be a sample test for new people contributing to eppy
+
 2021-02-17
 ----------
 

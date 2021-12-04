@@ -1,4 +1,5 @@
 # Copyright (c) 2020 Cheng Cui
+# Copyright (c) 2021 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -17,13 +18,20 @@ import pytest
 
 import eppy.function_helpers as fh
 from eppy.iddcurrent import iddcurrent
-from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
+from eppy.modeleditor import IDDAlreadySetError
+from eppy.modeleditor import IDF
 
-iddtxt = iddcurrent.iddtxt
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+@pytest.fixture(scope="module")
+def makeIDFfortesting():
+    """make IDF for testing"""
+    iddtxt = iddcurrent.iddtxt
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    try:
+        IDF.setiddname(iddfhandle)
+    except IDDAlreadySetError as e:
+        pass
+    return IDF
 
 idftxt = """Version,8.0;
 
@@ -60,8 +68,8 @@ idftxt = """Version,8.0;
 """
 
 
-# original test_true_azimuth() - done using a loop
-# def test_true_azimuth():
+# # original test_true_azimuth() - done using a loop
+# def test_true_azimuth(makeIDFfortesting):
 #     """py.test for true_azimuth"""
 #     data = (
 #         ("Relative", 45, 30, 180 + 75),
@@ -71,14 +79,14 @@ idftxt = """Version,8.0;
 #         ("Relative", 240, 90, 180 + 330 - 360),
 #     )
 #
-#     fhandle = StringIO(idftxt)
-#     idf = IDF(fhandle)
-#     geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
-#     building = idf.idfobjects["Building"][0]
-#     zone = idf.idfobjects["Zone"][0]
-#     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
-#
 #     for coord_system, bldg_north, zone_rel_north, expected in data:
+#         fIDF = makeIDFfortesting
+#         fhandle = StringIO(idftxt)
+#         idf = fIDF(fhandle)
+#         geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
+#         building = idf.idfobjects["Building"][0]
+#         zone = idf.idfobjects["Zone"][0]
+#         surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 #         geom_rules.Coordinate_System = coord_system
 #         building.North_Axis = bldg_north
 #         zone.Direction_of_Relative_North = zone_rel_north
@@ -87,42 +95,88 @@ idftxt = """Version,8.0;
 
 # test_true_azimuth() - done using @pytest.mark.parametrize
 # see https://docs.pytest.org/en/stable/parametrize.html
-@pytest.mark.parametrize(
-    "coord_system, bldg_north, zone_rel_north, expected",
-    [
-        ("Relative", 45, 30, 180 + 75),
-        # coord_system, bldg_north, zone_rel_north, expected,
-        ("Relative", "", 0, 180 + 0),
-        ("World", 45, "", 180),
-        ("Relative", 240, 90, 180 + 330 - 360),
-    ],
-)
-def test_true_azimuth(coord_system, bldg_north, zone_rel_north, expected):
-    """py.test for true_azimuth"""
-    fhandle = StringIO(idftxt)
-    idf = IDF(fhandle)
-    geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
-    building = idf.idfobjects["Building"][0]
-    zone = idf.idfobjects["Zone"][0]
-    surface = idf.idfobjects["BuildingSurface:Detailed"][0]
-
-    geom_rules.Coordinate_System = coord_system
-    building.North_Axis = bldg_north
-    zone.Direction_of_Relative_North = zone_rel_north
-    result = fh.true_azimuth(surface)
-    assert almostequal(expected, result, places=3) == True
 
 
-def test_true_azimuth_exception():
+# @pytest.mark.parametrize(
+#     "makeIDFfortesting, coord_system, bldg_north, zone_rel_north, expected",
+#     [
+#         (0, "Relative", 45, 30, 180 + 75),
+#         # coord_system, bldg_north, zone_rel_north, expected,
+#         (0, "Relative", "", 0, 180 + 0),
+#         (0, "World", 45, "", 180),
+#         (0, "Relative", 240, 90, 180 + 330 - 360),
+#     ], indirect=["makeIDFfortesting"]
+# )
+# def test_true_azimuth(makeIDFfortesting, coord_system, bldg_north, zone_rel_north, expected):
+#     """py.test for true_azimuth"""
+#     fIDF = makeIDFfortesting
+#     fhandle = StringIO(idftxt)
+#     idf = fIDF(fhandle)
+#     geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
+#     building = idf.idfobjects["Building"][0]
+#     zone = idf.idfobjects["Zone"][0]
+#     surface = idf.idfobjects["BuildingSurface:Detailed"][0]
+#
+#     geom_rules.Coordinate_System = coord_system
+#     building.North_Axis = bldg_north
+#     zone.Direction_of_Relative_North = zone_rel_north
+#     result = fh.true_azimuth(surface)
+#     assert almostequal(expected, result, places=3) == True
+
+
+def test_true_azimuth_exception(makeIDFfortesting):
     """py.test for true_azimuth exception"""
-    coord_system, bldg_north, zone_rel_north = (
-        "Global",
+    data = (
+        ("Global",
         0,
+        0,), # coord_system, bldg_north, zone_rel_north
+        ("Global",
         0,
+        0,), # coord_system, bldg_north, zone_rel_north
     )
+    for coord_system, bldg_north, zone_rel_north in data:
+        print('ran it')
+        fIDF = makeIDFfortesting
+        fhandle = StringIO(idftxt)
+        idf = fIDF(fhandle)
+        geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
+        building = idf.idfobjects["Building"][0]
+        zone = idf.idfobjects["Zone"][0]
+        surface = idf.idfobjects["BuildingSurface:Detailed"][0]
 
+        geom_rules.Coordinate_System = coord_system
+        building.North_Axis = bldg_north
+        zone.Direction_of_Relative_North = zone_rel_north
+
+        with pytest.raises(ValueError):
+            result = fh.true_azimuth(surface)
+
+@pytest.mark.parametrize(
+"makeIDFfortesting, coord_system, bldg_north, zone_rel_north",
+[
+    (makeIDFfortesting, "Global",
+        0,
+        0,),
+    (makeIDFfortesting, "Global",
+        0,
+        0,),
+], 
+)
+def test_true_azimuth_exception1(makeIDFfortesting, coord_system, bldg_north, zone_rel_north):
+    """py.test for true_azimuth exception"""
+    # data = (
+    #     ("Global",
+    #     0,
+    #     0,), # coord_system, bldg_north, zone_rel_north
+    #     ("Global",
+    #     0,
+    #     0,), # coord_system, bldg_north, zone_rel_north
+    # )
+    # for coord_system, bldg_north, zone_rel_north in data:
+    print('ran it')
+    fIDF = makeIDFfortesting
     fhandle = StringIO(idftxt)
-    idf = IDF(fhandle)
+    idf = fIDF(fhandle)
     geom_rules = idf.idfobjects["GlobalGeometryRules"][0]
     building = idf.idfobjects["Building"][0]
     zone = idf.idfobjects["Zone"][0]
