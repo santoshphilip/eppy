@@ -6,6 +6,7 @@ Changes
 ~~~~~~~
 
 Date:   Thu Dec 9 22:33:17 2021 -0800
+-------------------------------------
 
     fixed issue #368
     
@@ -13,6 +14,7 @@ Date:   Thu Dec 9 22:33:17 2021 -0800
     :Solution: eppy no longer needs ALL_CAPS keys. Removed ALL_CAPS from docstrings
 
 Date:   Thu Dec 9 22:25:45 2021 -0800
+-------------------------------------
 
     fixed issue #361
     
@@ -20,84 +22,42 @@ Date:   Thu Dec 9 22:25:45 2021 -0800
     :Solution: import from 'collections.abc'
 
 Date:   Tue Nov 9 08:18:06 2021 -0800
-
-    Merge pull request #366 from DimitrisMantas/i364_verbose
+-------------------------------------
     
     Introduce Silent Verbose Mode (Issue #364)
 
 Date:   Sun Nov 7 05:58:16 2021 -0800
-
-    Merge pull request #357 from lymereJ/remove_all_idf_objects
+-------------------------------------
     
     Add function to remove all IDF object of a certain type
 
 Date:   Sun Oct 3 17:17:05 2021 -0700
-
-    Merge pull request #352 from tibbe/imap
+-------------------------------------
     
     Use imap when processing generator-created jobs in runIDFs
 
 
 Date:   Sun Oct 3 16:26:25 2021 -0700
-
-    Merge pull request #345 from tibbe/err_file_name
+-------------------------------------
     
     Use output_prefix to determine error filename
 
 
 Date:   Sun Oct 3 15:53:00 2021 -0700
+-------------------------------------
 
-    Merge pull request #331 from MaximilianAzendorf/330-idf-run-does-not-restore-sys-stderr-properly
-    
-    Fix santoshphilip#330
+    fixed problem: idf.run does not restore sys.stderr properly
 
 
 Date:   Sat Jul 24 06:56:54 2021 -0700
+--------------------------------------
 
-    Merge pull request #344 from tibbe/conditional_mp
-    
     Correctly check if multiprocessing is supported
 
-
 Date:   Sat Jul 24 06:08:47 2021 -0700
+--------------------------------------
 
-    Merge pull request #343 from tibbe/idd_path
-    
-    run: make idd path absolute, as we change cwd before running EP
-
-	
-	    run: make idd path absolute, as we change cwd before running EP
-    
-	    Otherwise if we start with run(idd='EnergyPlus-9.5.0/Energy+.idd')
-	    we end up looking for the IDD file in <RUN DIR>/EnergyPlus-9.5.0/Energy+.idd
-	    where <RUN DIR> is some temp directory.
-
-	commit a7a289e1fb1d8461d2ebb083caa21380bcb942ff
-	Author: Johan Tibell <johan.tibell@gmail.com>
-	Date:   Wed Jul 21 10:12:37 2021 +0200
-
-	    Use output_prefix to determine error filename
-    
-	    When output prefix is set the error filename is <OUTPUT_PREFIX>.err,
-	    not eplusout.err.
-
-	commit a6c1e5aca21ac17299b190d661b4b97e1ad2c65b
-	Author: Johan Tibell <johan.tibell@gmail.com>
-	Date:   Wed Jul 21 09:44:35 2021 +0200
-
-	    Correctly check if multiprocessing is supported
-    
-	    The fix in 0b0f0b925c69abb29328b169e57e782653062aa0 wouldn't work as
-	    mp was still used unconditionally in
-    
-	        if processors <= 0:
-	            processors = max(1, mp.cpu_count() - processors)
-    
-	    even though the mp import was conditional.
-    
-	    This also removes the bad practice of catching generic exceptions like
-	    NameError, which in this particular case would also catch any such
-	    exceptions raised by the user-provided jobs generator.
+    made idd path absolute
 	
 2021-02-21
 ----------
