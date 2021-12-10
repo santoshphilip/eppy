@@ -17,7 +17,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError as err:
+    import tinynumpy as np
+
 
 
 def vol_tehrahedron(poly):
