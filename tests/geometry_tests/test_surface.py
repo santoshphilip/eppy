@@ -65,7 +65,7 @@ def test_height():
 
 
 def test_width():
-    """test the width of a polygon poly """
+    """test the width of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 1),
         # polygon, expected,

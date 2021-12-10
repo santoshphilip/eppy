@@ -51,7 +51,7 @@ class Usage(Exception):
 
 
 def getobjname(item):
-    """return obj name or blank """
+    """return obj name or blank"""
     try:
         objname = item.Name
     except BadEPFieldError as e:

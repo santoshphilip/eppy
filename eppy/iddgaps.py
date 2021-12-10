@@ -60,7 +60,7 @@ def cleancommdct(commdct):
 
 
 def getfields(comm):
-    """get all the fields that have the key 'field' """
+    """get all the fields that have the key 'field'"""
     fields = []
     for field in comm:
         if "field" in field:

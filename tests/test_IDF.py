@@ -43,7 +43,7 @@ class TestIDF(object):
     """py.test for IDF function"""
 
     def test_removeidfobject(self):
-        """py.test for IDF.removeidfobject """
+        """py.test for IDF.removeidfobject"""
         idftxt = ""
         idfhandle = StringIO(idftxt)
         idf = IDF(idfhandle)
