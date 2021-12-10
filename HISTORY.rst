@@ -5,10 +5,13 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.57
+~~~~~~~~~~~~~~~
+
 Date:   Thu Dec 9 22:33:17 2021 -0800
 -------------------------------------
 
-    fixed issue #368
+fixed issue #368
     
     :Problem: docstrings in modeleditor.py ask for of ALL_CAPS.
     :Solution: eppy no longer needs ALL_CAPS keys. Removed ALL_CAPS from docstrings
@@ -16,10 +19,14 @@ Date:   Thu Dec 9 22:33:17 2021 -0800
 Date:   Thu Dec 9 22:25:45 2021 -0800
 -------------------------------------
 
-    fixed issue #361
+fixed issue #361
     
     :Problem: DeprecationWarning: Using or importing the ABCs from 'collections'
     :Solution: import from 'collections.abc'
+
+
+release r0.5.56
+~~~~~~~~~~~~~~~
 
 Date:   Tue Nov 9 08:18:06 2021 -0800
 -------------------------------------
