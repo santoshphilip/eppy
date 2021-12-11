@@ -226,14 +226,14 @@ def lines_table(html_doc, tofloat=True):
 
 
 def _asciidigits(s):
-    """if s is not ascii or digit, return an '_' """
+    """if s is not ascii or digit, return an '_'"""
     if s not in string.ascii_letters + string.digits:
         s = "_"
     return s
 
 
 def _nospace(s):
-    """replace all non-ascii, non_digit or space with '_' """
+    """replace all non-ascii, non_digit or space with '_'"""
     return "".join([_asciidigits(i) for i in s])
 
 

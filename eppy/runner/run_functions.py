@@ -171,7 +171,7 @@ def runIDFs(jobs, processors=1):
     )
     if mp is not None:
         pool = mp.Pool(processors)
-        if not hasattr(jobs, '__len__'):
+        if not hasattr(jobs, "__len__"):
             # This avoids materializing all of jobs as a list, potentially
             # use a lot of memory. Since we don't care about the returned
             # results we can use unordered, which is possibly more efficient.

@@ -1,3 +1,14 @@
+2021-12-10
+----------
+
+TODO :
+
+	- packaging and release steps
+	- clean up `make doca`
+	- follow up on with eppy issues
+	- revive eppy3000
+	- zonrg and functional
+
 2021-11-26
 ----------
 

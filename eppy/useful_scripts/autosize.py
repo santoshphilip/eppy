@@ -45,20 +45,24 @@ def autosize_fieldname(idfobject):
     ]
 
 
-iddfile = "../resources/iddfiles/Energy+V8_0_0.idd"
-fname1 = "../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf"
+def main():
+    iddfile = "../resources/iddfiles/Energy+V8_0_0.idd"
+    fname1 = "../resources/idffiles/V8_0_0/5ZoneWaterLoopHeatPump.idf"
 
-IDF.setiddname(iddfile)
-idf = IDF(fname1)
-idf.saveas("./a.idf")
+    IDF.setiddname(iddfile)
+    idf = IDF(fname1)
+    idf.saveas("./a.idf")
 
 
-allidfobjects = idf.idfobjects
-for objname in list(allidfobjects.keys()):
-    idfobjects = allidfobjects[objname]
-    for idfobject in idfobjects:
-        autofields = autosize_fieldname(idfobject)
-        for autofield in autofields:
-            idfobject[autofield] = "autosize"
+    allidfobjects = idf.idfobjects
+    for objname in list(allidfobjects.keys()):
+        idfobjects = allidfobjects[objname]
+        for idfobject in idfobjects:
+            autofields = autosize_fieldname(idfobject)
+            for autofield in autofields:
+                idfobject[autofield] = "autosize"
 
-idf.saveas("./b.idf")
+    idf.saveas("./b.idf")
+
+if __name__ == '__main__':
+    main()

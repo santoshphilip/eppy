@@ -17,7 +17,11 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError as err:
+    import tinynumpy as np
+
 
 
 def vol_tehrahedron(poly):
@@ -45,7 +49,7 @@ def central_p(poly1, poly2):
 
 
 def vol_zone(poly1, poly2):
-    """"volume of a zone defined by two polygon bases """
+    """ "volume of a zone defined by two polygon bases"""
     c_point = central_p(poly1, poly2)
     c_point = (c_point[0], c_point[1], c_point[2])
     vol_therah = 0

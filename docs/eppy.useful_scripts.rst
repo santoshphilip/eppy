@@ -4,14 +4,6 @@ eppy.useful\_scripts package
 Submodules
 ----------
 
-eppy.useful\_scripts.autosize module
-------------------------------------
-
-.. automodule:: eppy.useful_scripts.autosize
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 eppy.useful\_scripts.change\_edges module
 -----------------------------------------
 

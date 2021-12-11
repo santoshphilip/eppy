@@ -107,7 +107,7 @@ def newrawobject(data, commdct, key, block=None, defaultvalues=True):
     commdct : list of dicts
         Comments from the IDD file describing each item type in `data`.
     key : str
-        Object type of the object to add (in ALL_CAPS).
+        Object type of the object to add .
 
     Returns
     -------
@@ -751,7 +751,7 @@ class IDF(object):
         Parameters
         ----------
         key : str
-            The type of IDF object. This must be in ALL_CAPS.
+            The type of IDF object.
         aname : str, deprecated
             This parameter is not used. It is left there for backward
             compatibility.
@@ -790,7 +790,7 @@ class IDF(object):
         Parameters
         ----------
         key : str
-            The type of IDF object. This must be in ALL_CAPS.
+            The type of IDF object.
         index : int
             The index of the object to pop.
 
@@ -843,7 +843,7 @@ class IDF(object):
         Parameters
         ----------
         key : str
-            The type of IDF object. This must be in ALL_CAPS.
+            The type of IDF object.
         name : str
             The name of the object to fetch.
 
@@ -863,7 +863,7 @@ class IDF(object):
         Parameters
         ----------
         key : str
-            The type of IDF object. This must be in ALL_CAPS.
+            The type of IDF object.
         name : str
             The name of the object to fetch.
 
@@ -883,7 +883,7 @@ class IDF(object):
         Parameters
         ----------
         key : str
-            The type of IDF object. This must be in ALL_CAPS.
+            The type of IDF object.
         name : str
             The name of the object to fetch.
 

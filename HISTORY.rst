@@ -5,6 +5,67 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.57
+~~~~~~~~~~~~~~~
+
+Date:   Thu Dec 9 22:33:17 2021 -0800
+-------------------------------------
+
+fixed issue #368
+    
+    :Problem: docstrings in modeleditor.py ask for of ALL_CAPS.
+    :Solution: eppy no longer needs ALL_CAPS keys. Removed ALL_CAPS from docstrings
+
+Date:   Thu Dec 9 22:25:45 2021 -0800
+-------------------------------------
+
+fixed issue #361
+    
+    :Problem: DeprecationWarning: Using or importing the ABCs from 'collections'
+    :Solution: import from 'collections.abc'
+
+
+release r0.5.56
+~~~~~~~~~~~~~~~
+
+Date:   Tue Nov 9 08:18:06 2021 -0800
+-------------------------------------
+    
+    Introduce Silent Verbose Mode (Issue #364)
+
+Date:   Sun Nov 7 05:58:16 2021 -0800
+-------------------------------------
+    
+    Add function to remove all IDF object of a certain type
+
+Date:   Sun Oct 3 17:17:05 2021 -0700
+-------------------------------------
+    
+    Use imap when processing generator-created jobs in runIDFs
+
+
+Date:   Sun Oct 3 16:26:25 2021 -0700
+-------------------------------------
+    
+    Use output_prefix to determine error filename
+
+
+Date:   Sun Oct 3 15:53:00 2021 -0700
+-------------------------------------
+
+    fixed problem: idf.run does not restore sys.stderr properly
+
+
+Date:   Sat Jul 24 06:56:54 2021 -0700
+--------------------------------------
+
+    Correctly check if multiprocessing is supported
+
+Date:   Sat Jul 24 06:08:47 2021 -0700
+--------------------------------------
+
+    made idd path absolute
+	
 2021-02-21
 ----------
 

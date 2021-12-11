@@ -47,7 +47,7 @@ def central_p(poly1, poly2):
 
 
 def vol(poly1, poly2):
-    """"volume of a zone defined by two polygon bases """
+    """ "volume of a zone defined by two polygon bases"""
     c_point = central_p(poly1, poly2)
     c_point = (c_point[0], c_point[1], c_point[2])
     vol_therah = 0
