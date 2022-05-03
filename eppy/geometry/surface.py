@@ -46,39 +46,43 @@ def area(poly):
     if total == [0, 0, 0]:  # points are in a straight line - no area
         return 0
 
-    # try:
-    #     the_unitnormal = get_an_unit_normal(poly)
-    # except ZeroDivisionError as e:
-    #     return 0 # all the points in the poly are in a straight line
-    #
-    #
-    #
-    # result = np.dot(total, the_unitnormal)
-    result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
+    try:
+        the_unitnormal = get_an_unit_normal(poly)
+    except ZeroDivisionError as e:
+        return 0 # all the points in the poly are in a straight line
+
+
+
+    result = np.dot(total, the_unitnormal)
+    # result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
     return abs(result / 2)
 
-# def get_an_unit_normal(poly):
-#     for pol in poly:
-#         try:
-#             return unit_normal(...)
-#         except ZeroDivisionError as e:
-#             continue # these 3 points are in a striaght line. try next three
-#     raise ZeroDivisionError # all points are in a striaght line
+def vertex3tuple(vertices):
+    """return 3 points for each vertex of the polygon. This will include the vertex and the 2 points on both sides of the vertex::
 
-# def asvertex(l):
-#     asvertex_list = []
-#     for i in range(len(l)):
-#         try:
-#             asvertex_list.append((l[i-1], l[i], l[i+1]))
-#         except IndexError as e:
-#            asvertex_list.append((l[i-1], l[i], l[0]))
-#     return asvertex_list
-#
-#
-# l = [1,2,3,4,5]
-# ll = ['a', 'b', 'c', 'd', 'e']
+        polygon with vertices ABCD
+        Will return
+        DAB, ABC, BCD, CDA -> returns 3tuples
+        #A    B    C    D  -> of vertices
+    """
+    asvertex_list = []
+    for i in range(len(vertices)):
+        try:
+            asvertex_list.append((vertices[i-1], vertices[i], vertices[i+1]))
+        except IndexError as e:
+           asvertex_list.append((vertices[i-1], vertices[i], vertices[0]))
+    return asvertex_list
 
-print(asvertex(ll))
+def get_an_unit_normal(poly):
+    """try each vertex of the poly for a unit_normal. Return the unit_normal on sucess"""
+    for three_t in vertex3tuple(poly):
+        try:
+            return unit_normal(three_t[0], three_t[1], three_t[2])
+        except ZeroDivisionError as e:
+            continue # these 3 points are in a striaght line. try next three
+    raise ZeroDivisionError # all points are in a striaght line
+
+
 
 def unit_normal(pt_a, pt_b, pt_c):
     """unit normal vector of plane defined by points pt_a, pt_b, and pt_c"""
