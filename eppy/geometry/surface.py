@@ -45,9 +45,40 @@ def area(poly):
         total[2] += prod[2]
     if total == [0, 0, 0]:  # points are in a straight line - no area
         return 0
+
+    # try:
+    #     the_unitnormal = get_an_unit_normal(poly)
+    # except ZeroDivisionError as e:
+    #     return 0 # all the points in the poly are in a straight line
+    #
+    #
+    #
+    # result = np.dot(total, the_unitnormal)
     result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
     return abs(result / 2)
 
+# def get_an_unit_normal(poly):
+#     for pol in poly:
+#         try:
+#             return unit_normal(...)
+#         except ZeroDivisionError as e:
+#             continue # these 3 points are in a striaght line. try next three
+#     raise ZeroDivisionError # all points are in a striaght line
+
+# def asvertex(l):
+#     asvertex_list = []
+#     for i in range(len(l)):
+#         try:
+#             asvertex_list.append((l[i-1], l[i], l[i+1]))
+#         except IndexError as e:
+#            asvertex_list.append((l[i-1], l[i], l[0]))
+#     return asvertex_list
+#
+#
+# l = [1,2,3,4,5]
+# ll = ['a', 'b', 'c', 'd', 'e']
+
+print(asvertex(ll))
 
 def unit_normal(pt_a, pt_b, pt_c):
     """unit normal vector of plane defined by points pt_a, pt_b, and pt_c"""
