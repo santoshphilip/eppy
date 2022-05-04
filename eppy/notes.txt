@@ -50,15 +50,18 @@ notes on releasing
 
 
 # version number in eppy/__init__.py and setup.py
-# has to be in single quotes before running bumpversion
-# black makes it double quotes
-bumpversion patch # major or minor or patch
-git log
-git tag r0.5.53
-git push origin r0.5.53
+    # has to be in single quotes before running bumpversion
+    # black makes it double quotes
+# the comment about double quotes not true. latest version of bumpversion works with black
+- bumpversion patch # major or minor or patch
+- git log
+- git tag r0.5.53
+- git push origin r0.5.53
+- git push origin master
 
 make release in github
 # look at previous release to see what to do
+# copy release notes from HISTORY.rst. Use pandoc to convert from rst to md
 
 make release in pypi (use make)
 
