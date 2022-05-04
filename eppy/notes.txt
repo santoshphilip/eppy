@@ -46,6 +46,7 @@ notes on releasing
 - start with branch develop
 - merge develop into master
 - Add release number to HISTORY.rst
+- do a git commit
 
 
 # version number in eppy/__init__.py and setup.py
