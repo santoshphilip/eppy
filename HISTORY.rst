@@ -5,6 +5,16 @@ History
 Changes
 ~~~~~~~
 
+2022-05-04
+----------
+
+fixed issue #384
+````````````````
+
+:Problem: surface.area (for Building:Surface:Detailed) does not work when first 3 points are linear
+:Solution: Try the other points until you hit 3 non-linear points. Area will be calculated if any points are non-linear
+
+
 2021-02-21
 ----------
 

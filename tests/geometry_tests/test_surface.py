@@ -36,10 +36,14 @@ def test_area():
             ],
             25,
         ),
-        ([(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)], 
-        1), # 1st 3 points are linear
-        ([(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0)], 
-        0), # all points are linear
+        (
+            [(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)],
+            1,
+        ),  # 1st 3 points are linear
+        (
+            [(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0)],
+            0,
+        ),  # all points are linear
     )
     for poly, expected in data:
         result = surface.area(poly)
@@ -70,7 +74,7 @@ def test_height():
 
 
 def test_width():
-    """test the width of a polygon poly """
+    """test the width of a polygon poly"""
     data = (
         ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 1),
         # polygon, expected,
@@ -152,60 +156,64 @@ def test_tilt():
         result = surface.tilt(poly)
         assert almostequal(expected, result, places=3) == True
 
+
 @pytest.mark.parametrize(
     "vertices, expected",
     [
-        (['A', 'B', 'C', 'D'], 
-          [('D', 'A', 'B'),
-          ('A', 'B', 'C'),
-          ('B', 'C', 'D'),
-          ('C', 'D', 'A')]
-          )
-    ]
+        (
+            ["A", "B", "C", "D"],
+            [("D", "A", "B"), ("A", "B", "C"), ("B", "C", "D"), ("C", "D", "A")],
+        )
+    ],
 )
 def test_vertex3tuple(vertices, expected):
     """py.test for vertex3tuple"""
-    result = surface.vertex3tuple(vertices) 
+    result = surface.vertex3tuple(vertices)
     print(result)
     print(expected)
     assert result == expected
-    
+
+
 @pytest.mark.parametrize(
     "pta, ptb, ptc, expected",
     [
-        ((0, 0, 0), (1, 0, 0), (1, 1, 0), 
-        (0.0, 0.0, 1.0)),
-        ((1, 0, 0), (1, 1, 0), (0, 1, 0), 
-        (0.0, 0.0, 1.0)),
-        ((1, 1, 0), (0, 1, 0), (0, 0, 0), 
-        (0.0, 0.0, 1.0)),
-        ((0, 1, 0), (0, 0, 0), (1, 0, 0), 
-        (0.0, 0.0, 1.0)),
-    ]
+        ((0, 0, 0), (1, 0, 0), (1, 1, 0), (0.0, 0.0, 1.0)),
+        ((1, 0, 0), (1, 1, 0), (0, 1, 0), (0.0, 0.0, 1.0)),
+        ((1, 1, 0), (0, 1, 0), (0, 0, 0), (0.0, 0.0, 1.0)),
+        ((0, 1, 0), (0, 0, 0), (1, 0, 0), (0.0, 0.0, 1.0)),
+    ],
 )
 def test_unit_normal(pta, ptb, ptc, expected):
     """py.test for unit_normal"""
-    result = surface.unit_normal(pta, ptb, ptc)    
+    result = surface.unit_normal(pta, ptb, ptc)
     assert result == expected
-    
+
+
 @pytest.mark.parametrize(
     "poly, expected",
     [
-        ([(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 
-        (0.0, 0.0, 1.0)), # all non-linear
-        ([(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)], 
-        (0.0, 0.0, 1.0)), # 1st 3 points are linear
-        ([(0, 0, 0), (1, 0, 0), (1, 0.5, 0), (1, 1, 0), (0, 1, 0)], 
-        (0.0, 0.0, 1.0)), # all non-linear
+        (
+            [(0, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)],
+            (0.0, 0.0, 1.0),
+        ),  # all non-linear
+        (
+            [(0, 0, 0), (0.5, 0, 0), (1, 0, 0), (1, 1, 0), (0, 1, 0)],
+            (0.0, 0.0, 1.0),
+        ),  # 1st 3 points are linear
+        (
+            [(0, 0, 0), (1, 0, 0), (1, 0.5, 0), (1, 1, 0), (0, 1, 0)],
+            (0.0, 0.0, 1.0),
+        ),  # all non-linear
         # ([(0, 0, 0), (1, 0, 0), (2, 0, 0), (3, 0, 0)],
         # (0.0, 0.0, 1.0)), # all linear
-    ]
+    ],
 )
 def test_get_an_unit_normal(poly, expected):
     """py.test for get_an_unit_normal"""
-    result = surface.get_an_unit_normal(poly)    
+    result = surface.get_an_unit_normal(poly)
     assert result == expected
-    
+
+
 def test_get_an_unit_normal_ZeroDivisionError():
     """pytest for get_an_unit_normal ZeroDivisionError"""
     with pytest.raises(ZeroDivisionError):

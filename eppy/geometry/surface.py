@@ -1,5 +1,7 @@
 # Copyright (c) 2012 Tuan Tran
 # Copyright (c) 2020 Cheng Cui
+# Copyright (c) 2022 Santosh Philip
+
 
 # This file is part of eppy.
 # =======================================================================
@@ -47,41 +49,18 @@ def area(poly):
         return 0
 
     try:
-        the_unitnormal = get_an_unit_normal(poly)
+        result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
+        # modified to fix issue  #384
+        # Problem: area does not work when first 3 points are linear
+        # Solution: Try the other points. Area will be calculated if any 3 points are non-linear
     except ZeroDivisionError as e:
-        return 0 # all the points in the poly are in a straight line
-
-
-
-    result = np.dot(total, the_unitnormal)
-    # result = np.dot(total, unit_normal(poly[0], poly[1], poly[2]))
-    return abs(result / 2)
-
-def vertex3tuple(vertices):
-    """return 3 points for each vertex of the polygon. This will include the vertex and the 2 points on both sides of the vertex::
-
-        polygon with vertices ABCD
-        Will return
-        DAB, ABC, BCD, CDA -> returns 3tuples
-        #A    B    C    D  -> of vertices
-    """
-    asvertex_list = []
-    for i in range(len(vertices)):
         try:
-            asvertex_list.append((vertices[i-1], vertices[i], vertices[i+1]))
-        except IndexError as e:
-           asvertex_list.append((vertices[i-1], vertices[i], vertices[0]))
-    return asvertex_list
-
-def get_an_unit_normal(poly):
-    """try each vertex of the poly for a unit_normal. Return the unit_normal on sucess"""
-    for three_t in vertex3tuple(poly):
-        try:
-            return unit_normal(three_t[0], three_t[1], three_t[2])
+            the_unitnormal = get_an_unit_normal(poly)
         except ZeroDivisionError as e:
-            continue # these 3 points are in a striaght line. try next three
-    raise ZeroDivisionError # all points are in a striaght line
+            return 0  # all the points in the poly are in a straight line
+        result = np.dot(total, the_unitnormal)
 
+    return abs(result / 2)
 
 
 def unit_normal(pt_a, pt_b, pt_c):
@@ -103,6 +82,40 @@ def unit_normal(pt_a, pt_b, pt_c):
 
 
 ## end of http://code.activestate.com/recipes/578276/ }}}
+
+
+# helper programs for block of code copied from
+## http://code.activestate.com/recipes/578276/ }}}
+def vertex3tuple(vertices):
+    """return 3 points for each vertex of the polygon. This will include the vertex and the 2 points on both sides of the vertex::
+
+    polygon with vertices ABCD
+    Will return
+    DAB, ABC, BCD, CDA -> returns 3tuples
+    #A    B    C    D  -> of vertices
+    """
+    asvertex_list = []
+    for i in range(len(vertices)):
+        try:
+            asvertex_list.append((vertices[i - 1], vertices[i], vertices[i + 1]))
+        except IndexError as e:
+            asvertex_list.append((vertices[i - 1], vertices[i], vertices[0]))
+    return asvertex_list
+
+
+def get_an_unit_normal(poly):
+    """try each vertex of the poly for a unit_normal. Return the unit_normal on sucess"""
+    for three_t in vertex3tuple(poly):
+        try:
+            return unit_normal(three_t[0], three_t[1], three_t[2])
+        except ZeroDivisionError as e:
+            continue  # these 3 points are in a striaght line. try next three
+    raise ZeroDivisionError  # all points are in a striaght line
+
+
+# end of
+# helper programs for block of code copied from
+## http://code.activestate.com/recipes/578276/ }}}
 
 # distance between two points
 def dist(pt1, pt2):
