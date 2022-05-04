@@ -22,6 +22,15 @@ from IPython.display import (
     display_svg,
 )
 
-filemerge = Image(filename="../../docs/images/filemerge.png")
-plantloop = Image(filename="../../docs/images/plantloop.png")
-idfdiff_path = "../../docs/images/idfdiff.html"
+import os
+print('---***---', os.getcwd(), '---***---')
+try:
+    filemerge = Image(filename="../docs/images/filemerge.png")
+    plantloop = Image(filename="../docs/images/plantloop.png")
+    idfdiff_path = "../docs/images/idfdiff.html"
+except FileNotFoundError as e:
+    filemerge = Image(filename="../../docs/images/filemerge.png") # try block
+    plantloop = Image(filename="../../docs/images/plantloop.png")
+    idfdiff_path = "../../docs/images/idfdiff.html"
+
+
