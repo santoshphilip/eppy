@@ -336,7 +336,8 @@ def test_newidfobject():
     sim_deftrue = idf.newidfobject("SimulationControl".upper(), defaultvalues=True)
     assert sim_deftrue.Do_Zone_Sizing_Calculation == "No"
     sim_deffalse = idf.newidfobject("SimulationControl".upper(), defaultvalues=False)
-    assert sim_deffalse.Do_Zone_Sizing_Calculation == ""
+    assert sim_deffalse.Do_Zone_Sizing_Calculation == "No"
+    assert str(sim_deffalse) == "\n    SIMULATIONCONTROL,;\n"
 
 
 def test_newidfobject_warning():

@@ -11,13 +11,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from string import ascii_letters, digits
+import re
+pattern = re.compile(r"[^a-zA-Z0-9\s]+")
 
 
-def onlylegalchar(name):
+def onlylegalchar(name: str):
     """return only legal chars"""
-    legalchar = ascii_letters + digits + " "
-    return "".join([s for s in name[:] if s in legalchar])
+    return pattern.sub("", name)
 
 
 def makefieldname(namefromidd):

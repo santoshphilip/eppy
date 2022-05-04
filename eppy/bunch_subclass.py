@@ -317,12 +317,25 @@ class EpBunch(Bunch):
         elif name in self.fieldnames:
             i = self.fieldnames.index(name)
             try:
-                return self.fieldvalues[i]
+                i_ = self.fieldvalues[i]
+                if i_ == "":
+                    return self.get_default(name)
+                else:
+                    return i_
             except IndexError:
-                return ""
+                # try to return the default value if defined in IDD.
+                return self.get_default(name)
         else:
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
+
+    def get_default(self, name):
+        if "default" in self.getfieldidd(name).keys():
+            _type = _parse_idd_type(self, name)
+            default_ = next(iter(self.getfieldidd_item(name, "default")), None)
+            return _type(default_)
+        else:
+            return ""
 
     def __getitem__(self, key):
         if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
@@ -393,6 +406,30 @@ class EpBunch(Bunch):
         fnames = self.fieldnames
         func_names = list(self["__functions"].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
+
+
+def _parse_idd_type(epbunch, name):
+    """parse the fieldvalue type into a python type. eg.: 'real' returns
+    'float'.
+
+    Possible types are:
+        - integer -> int
+        - real -> float
+        - alpha -> str          (arbitrary string),
+        - choice -> str         (alpha with specific list of choices, see \key)
+        - object-list -> str    (link to a list of objects defined elsewhere, see \object-list and \reference)
+        - external-list -> str  (uses a special list from an external source, see \external-list)
+        - node -> str           (name used in connecting HVAC components)
+    """
+    _type = next(iter(epbunch.getfieldidd_item(name, "type")), "").lower()
+    if _type == "real":
+        return float
+    elif _type == "alpha":
+        return str
+    elif _type == "integer":
+        return int
+    else:
+        return str
 
 
 def getrange(bch, fieldname):
