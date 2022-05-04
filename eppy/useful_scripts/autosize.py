@@ -53,7 +53,6 @@ def main():
     idf = IDF(fname1)
     idf.saveas("./a.idf")
 
-
     allidfobjects = idf.idfobjects
     for objname in list(allidfobjects.keys()):
         idfobjects = allidfobjects[objname]
@@ -64,5 +63,6 @@ def main():
 
     idf.saveas("./b.idf")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

@@ -23,7 +23,6 @@ except ImportError as err:
     import tinynumpy as np
 
 
-
 def vol_tehrahedron(poly):
     """volume of a irregular tetrahedron"""
     a_pnt = np.array(poly[0])

@@ -23,14 +23,13 @@ from IPython.display import (
 )
 
 import os
-print('---***---', os.getcwd(), '---***---')
+
+print("---***---", os.getcwd(), "---***---")
 try:
     filemerge = Image(filename="../docs/images/filemerge.png")
     plantloop = Image(filename="../docs/images/plantloop.png")
     idfdiff_path = "../docs/images/idfdiff.html"
 except FileNotFoundError as e:
-    filemerge = Image(filename="../../docs/images/filemerge.png") # try block
+    filemerge = Image(filename="../../docs/images/filemerge.png")  # try block
     plantloop = Image(filename="../../docs/images/plantloop.png")
     idfdiff_path = "../../docs/images/idfdiff.html"
-
-
