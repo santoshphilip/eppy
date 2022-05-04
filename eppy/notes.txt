@@ -38,6 +38,7 @@ notes on fixing bugs
 - commit with fixed issue #xxx message
 - add commit message to HISTORY.rst
 - merge into branch develop
+- git push origin develop
 - delete branch ixxx_name
 
 notes on releasing
@@ -47,7 +48,7 @@ notes on releasing
 - Add release number to HISTORY.rst
 
 
-# version number in eppy/__init__.py and setupp.py
+# version number in eppy/__init__.py and setup.py
 # has to be in single quotes before running bumpversion
 # black makes it double quotes
 bumpversion patch # major or minor or patch
