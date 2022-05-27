@@ -5,6 +5,15 @@ History
 Changes
 ~~~~~~~
 
+2022-05-26
+----------
+
+Fixed issue # 386
+`````````````````
+
+:Problem: surface.area (for Building:Surface:Detailed) does not work when first 3 points are linear and numpy is installed.
+:Solution: This is because numpy does not throw a ZeroDivisionError but raises a RuntimeWarning. Ensure that a ZeroDivisionError is raised in geometry.surface.unit_normal
+
 release r0.5.58
 ~~~~~~~~~~~~~~~
 
