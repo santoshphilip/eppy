@@ -36,7 +36,7 @@ class PyTest(TestCommand):
 
 setup(
     name="eppy",
-    version="0.5.58",
+    version="0.5.59",
     url="https://github.com/santoshphilip/eppy",
     license="MIT License",
     author="Santosh Philip",
