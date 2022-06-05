@@ -12,6 +12,7 @@ Subpackages
    eppy.geometry
    eppy.results
    eppy.runner
+   eppy.samplescripts
    eppy.useful_scripts
 
 Submodules

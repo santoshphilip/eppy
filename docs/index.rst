@@ -13,6 +13,7 @@ Welcome to eppy's documentation!
    newfunctions
    runningeplus
    useful_scripts
+   sample_scripts
    modules
    contributing
    history
