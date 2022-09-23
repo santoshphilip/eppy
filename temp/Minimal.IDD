@@ -1,0 +1,3223 @@
+!IDD_Version 9.6.0
+!IDD_BUILD f420c06a69
+Version,
+      \memo Specifies the EnergyPlus version of the IDF file.
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \default 9.6
+
+SimulationControl,
+      \unique-object
+      \memo Note that the following 3 fields are related to the Sizing:Zone, Sizing:System,
+      \memo and Sizing:Plant objects. Having these fields set to Yes but no corresponding
+      \memo Sizing object will not cause the sizing to be done. However, having any of these
+      \memo fields set to No, the corresponding Sizing object is ignored.
+      \memo Note also, if you want to do system sizing, you must also do zone sizing in the same
+      \memo run or an error will result.
+      \min-fields 7
+  A1, \field Do Zone Sizing Calculation
+      \note If Yes, Zone sizing is accomplished from corresponding Sizing:Zone objects
+      \note and autosize fields.
+      \type choice
+      \key Yes
+      \key No
+      \default No
+  A2, \field Do System Sizing Calculation
+      \note If Yes, System sizing is accomplished from corresponding Sizing:System objects
+      \note and autosize fields.
+      \note If Yes, Zone sizing (previous field) must also be Yes.
+      \type choice
+      \key Yes
+      \key No
+      \default No
+  A3, \field Do Plant Sizing Calculation
+      \note If Yes, Plant sizing is accomplished from corresponding Sizing:Plant objects
+      \note and autosize fields.
+      \type choice
+      \key Yes
+      \key No
+      \default No
+  A4, \field Run Simulation for Sizing Periods
+      \note If Yes, SizingPeriod:* objects are executed and results from those may be displayed..
+      \type choice
+      \key Yes
+      \key No
+      \default Yes
+  A5, \field Run Simulation for Weather File Run Periods
+      \note If Yes, RunPeriod:* objects are executed and results from those may be displayed..
+      \type choice
+      \key Yes
+      \key No
+      \default Yes
+  A6, \field Do HVAC Sizing Simulation for Sizing Periods
+      \note If Yes, SizingPeriod:* objects are exectuted additional times for advanced sizing.
+      \note Currently limited to use with coincident plant sizing, see Sizing:Plant object
+      \type choice
+      \key Yes
+      \key No
+      \default No
+  N1; \field Maximum Number of HVAC Sizing Simulation Passes
+      \note the entire set of SizingPeriod:* objects may be repeated to fine tune size results
+      \note this input sets a limit on the number of passes that the sizing algorithms can repeate the set
+      \type integer
+      \minimum 1
+      \default 1
+
+Building,
+       \memo Describes parameters that are used during the simulation
+       \memo of the building. There are necessary correlations between the entries for
+       \memo this object and some entries in the Site:WeatherStation and
+       \memo Site:HeightVariation objects, specifically the Terrain field.
+       \unique-object
+       \required-object
+       \min-fields 8
+  A1 , \field Name
+       \retaincase
+       \default NONE
+  N1 , \field North Axis
+       \note degrees from true North
+       \units deg
+       \type real
+       \default 0.0
+  A2 , \field Terrain
+       \note  Country=FlatOpenCountry | Suburbs=CountryTownsSuburbs | City=CityCenter | Ocean=body of water (5km) | Urban=Urban-Industrial-Forest
+       \type choice
+       \key Country
+       \key Suburbs
+       \key City
+       \key Ocean
+       \key Urban
+       \default Suburbs
+  N2 , \field Loads Convergence Tolerance Value
+       \note Loads Convergence Tolerance Value is a change in load from one warmup day to the next
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .04
+       \units W
+  N3 , \field Temperature Convergence Tolerance Value
+       \units deltaC
+       \type real
+       \minimum> 0.0
+       \maximum .5
+       \default .4
+  A3 , \field Solar Distribution
+       \note  MinimalShadowing | FullExterior | FullInteriorAndExterior | FullExteriorWithReflections | FullInteriorAndExteriorWithReflections
+       \type choice
+       \key MinimalShadowing
+       \key FullExterior
+       \key FullInteriorAndExterior
+       \key FullExteriorWithReflections
+       \key FullInteriorAndExteriorWithReflections
+       \default FullExterior
+  N4 , \field Maximum Number of Warmup Days
+       \note EnergyPlus will only use as many warmup days as needed to reach convergence tolerance.
+       \note This field's value should NOT be set less than 25.
+       \type integer
+       \minimum> 0
+       \default 25
+  N5 ; \field Minimum Number of Warmup Days
+       \note The minimum number of warmup days that produce enough temperature and flux history
+       \note to start EnergyPlus simulation for all reference buildings was suggested to be 6.
+       \note However this can lead to excessive run times as warmup days can be repeated needlessly.
+       \note For faster execution rely on the convergence criteria to detect when warmup is complete.
+       \note When this field is greater than the maximum warmup days defined previous field
+       \note the maximum number of warmup days will be reset to the minimum value entered here.
+       \note Warmup days will be set to be the value you entered. The default is 1.
+       \type integer
+       \minimum> 0
+       \default 1
+
+
+Timestep,
+       \memo Specifies the "basic" timestep for the simulation. The
+       \memo value entered here is also known as the Zone Timestep. This is used in
+       \memo the Zone Heat Balance Model calculation as the driving timestep for heat
+       \memo transfer and load calculations.
+       \unique-object
+       \format singleLine
+  N1 ; \field Number of Timesteps per Hour
+       \note Number in hour: normal validity 4 to 60: 6 suggested
+       \note Must be evenly divisible into 60
+       \note Allowable values include 1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, and 60
+       \note Normal 6 is minimum as lower values may cause inaccuracies
+       \note A minimum value of 20 is suggested for both ConductionFiniteDifference
+       \note and CombinedHeatAndMoistureFiniteElement surface heat balance algorithms
+       \note A minimum of 12 is suggested for simulations involving a Vegetated Roof (Material:RoofVegetation).
+       \default 6
+       \type integer
+       \minimum 1
+       \maximum 60
+
+Site:Location,
+       \memo Specifies the building's location. Only one location is allowed.
+       \memo Weather data file location, if it exists, will override this object.
+       \unique-object
+       \min-fields 5
+  A1 , \field Name
+       \required-field
+       \type alpha
+  N1 , \field Latitude
+       \units deg
+       \minimum -90.0
+       \maximum +90.0
+       \default 0.0
+       \note + is North, - is South, degree minutes represented in decimal (i.e. 30 minutes is .5)
+       \type real
+  N2 , \field Longitude
+       \units deg
+       \minimum -180.0
+       \maximum +180.0
+       \default 0.0
+       \note - is West, + is East, degree minutes represented in decimal (i.e. 30 minutes is .5)
+       \type real
+  N3 , \field Time Zone
+       \note basic these limits on the WorldTimeZone Map (2003)
+       \units hr
+       \minimum -12.0
+       \maximum +14.0
+       \default 0.0
+       \note  Time relative to GMT. Decimal hours.
+       \type real
+  N4 ; \field Elevation
+       \units m
+       \minimum -300.0
+       \maximum< 8900.0
+       \default 0.0
+       \type real
+
+SizingPeriod:DesignDay,
+      \memo The design day object creates the parameters for the program to create
+      \memo the 24 hour weather profile that can be used for sizing as well as
+      \memo running to test the other simulation parameters. Parameters in this
+      \memo include a date (month and day), a day type (which uses the appropriate
+      \memo schedules for either sizing or simple tests), min/max temperatures,
+      \memo wind speeds, and solar radiation values.
+  A1, \field Name
+       \type alpha
+       \required-field
+       \reference RunPeriodsAndDesignDays
+  N1,  \field Month
+       \required-field
+       \minimum 1
+       \maximum 12
+       \type integer
+  N2,  \field Day of Month
+       \required-field
+       \minimum 1
+       \maximum 31
+       \type integer
+       \note must be valid for Month field
+  A2,  \field Day Type
+       \required-field
+       \note Day Type selects the schedules appropriate for this design day
+       \type choice
+       \key Sunday
+       \key Monday
+       \key Tuesday
+       \key Wednesday
+       \key Thursday
+       \key Friday
+       \key Saturday
+       \key Holiday
+       \key SummerDesignDay
+       \key WinterDesignDay
+       \key CustomDay1
+       \key CustomDay2
+  N3,  \field Maximum Dry-Bulb Temperature
+       \note This field is required when field "Dry-Bulb Temperature Range Modifier Type"
+       \note is not "TemperatureProfileSchedule".
+       \units C
+       \minimum -90
+       \maximum 70
+       \type real
+  N4,  \field Daily Dry-Bulb Temperature Range
+       \note Must still produce appropriate maximum dry-bulb (within range)
+       \note This field is not needed if Dry-Bulb Temperature Range Modifier Type
+       \note is "delta".
+       \units deltaC
+       \minimum 0
+       \default 0
+       \type real
+  A3,  \field Dry-Bulb Temperature Range Modifier Type
+       \note Type of modifier to the dry-bulb temperature calculated for the timestep
+       \type choice
+       \key MultiplierSchedule
+       \key DifferenceSchedule
+       \key TemperatureProfileSchedule
+       \key DefaultMultipliers
+       \default DefaultMultipliers
+  A4,  \field Dry-Bulb Temperature Range Modifier Day Schedule Name
+       \type object-list
+       \object-list DayScheduleNames
+       \note Only used when previous field is "MultiplierSchedule", "DifferenceSchedule" or
+       \note   "TemperatureProfileSchedule".
+       \note For type "MultiplierSchedule"  the hour/time interval values should specify
+       \note   the fraction (0-1) of the dry-bulb temperature range to be subtracted
+       \note   from the maximum dry-bulb temperature for each timestep in the day
+       \note For type "DifferenceSchedule" the values should specify a number to be subtracted
+       \note   from the maximum dry-bulb temperature for each timestep in the day.
+       \note Note that numbers in the difference schedule cannot be negative as that
+       \note   would result in a higher maximum than the maximum previously specified.
+       \note For type "TemperatureProfileSchedule" the values should specify the actual dry-bulb
+       \note   temperature for each timestep in the day.
+  A5,  \field Humidity Condition Type
+       \note values/schedules indicated here and in subsequent fields create the humidity
+       \note values in the 24 hour design day conditions profile.
+       \type choice
+       \key WetBulb
+       \key DewPoint
+       \key HumidityRatio
+       \key Enthalpy
+       \key RelativeHumiditySchedule
+       \key WetBulbProfileMultiplierSchedule
+       \key WetBulbProfileDifferenceSchedule
+       \key WetBulbProfileDefaultMultipliers
+       \default WetBulb
+  N5,  \field Wetbulb or DewPoint at Maximum Dry-Bulb
+       \note Wetbulb or dewpoint temperature coincident with the maximum temperature.
+       \note Required only if field Humidity Condition Type is "Wetbulb", "Dewpoint",
+       \note "WetBulbProfileMultiplierSchedule", "WetBulbProfileDifferenceSchedule",
+       \note or "WetBulbProfileDefaultMultipliers"
+       \type real
+       \units C
+  A6,  \field Humidity Condition Day Schedule Name
+       \type object-list
+       \object-list DayScheduleNames
+       \note Only used when Humidity Condition Type is "RelativeHumiditySchedule",
+       \note  "WetBulbProfileMultiplierSchedule", or "WetBulbProfileDifferenceSchedule"
+       \note For type "RelativeHumiditySchedule", the hour/time interval values should specify
+       \note   relative humidity (percent) from 0.0 to 100.0.
+       \note For type "WetBulbProfileMultiplierSchedule" the hour/time interval values should specify
+       \note   the fraction (0-1) of the wet-bulb temperature range to be subtracted from the
+       \note   maximum wet-bulb temperature for each timestep in the day (units = Fraction)
+       \note For type "WetBulbProfileDifferenceSchedule" the values should specify a number to be subtracted
+       \note   from the maximum wet-bulb temperature for each timestep in the day. (units = deltaC)
+  N6,  \field Humidity Ratio at Maximum Dry-Bulb
+       \note Humidity ratio coincident with the maximum temperature (constant humidity ratio throughout day).
+       \note Required only if field Humidity Condition Type is "HumidityRatio".
+       \type real
+       \units kgWater/kgDryAir
+  N7,  \field Enthalpy at Maximum Dry-Bulb
+       \note Enthalpy coincident with the maximum temperature.
+       \note Required only if field Humidity Condition Type is "Enthalpy".
+       \type real
+       \units J/kg
+  N8,  \field Daily Wet-Bulb Temperature Range
+       \units deltaC
+       \note Required only if Humidity Condition Type = "WetbulbProfileMultiplierSchedule" or
+       \note "WetBulbProfileDefaultMultipliers"
+  N9,  \field Barometric Pressure
+       \note This field's value is also checked against the calculated "standard barometric pressure"
+       \note for the location. If out of range (>10%) or blank, then is replaced by standard value.
+       \units Pa
+       \minimum 31000
+       \maximum 120000
+       \type real
+       \ip-units inHg
+  N10, \field Wind Speed
+       \required-field
+       \units m/s
+       \minimum 0
+       \maximum 40
+       \ip-units miles/hr
+       \type real
+  N11, \field Wind Direction
+       \required-field
+       \units deg
+       \minimum 0
+       \maximum 360
+       \note North=0.0 East=90.0
+       \note 0 and 360 are the same direction.
+       \type real
+  A7,  \field Rain Indicator
+       \note Yes is raining (all day), No is not raining
+       \type choice
+       \key Yes
+       \key No
+       \default No
+  A8,  \field Snow Indicator
+       \type choice
+       \key Yes
+       \key No
+       \default No
+       \note Yes is Snow on Ground, No is no Snow on Ground
+  A9,  \field Daylight Saving Time Indicator
+       \note Yes -- use schedules modified for Daylight Saving Time Schedules.
+       \note No - do not use schedules modified for Daylight Saving Time Schedules
+       \type choice
+       \key Yes
+       \key No
+       \default No
+  A10, \field Solar Model Indicator
+       \type choice
+       \key ASHRAEClearSky
+       \key ZhangHuang
+       \key Schedule
+       \key ASHRAETau
+       \key ASHRAETau2017
+       \default ASHRAEClearSky
+  A11, \field Beam Solar Day Schedule Name
+       \note if Solar Model Indicator = Schedule, then beam schedule name (for day)
+       \type object-list
+       \object-list DayScheduleNames
+  A12, \field Diffuse Solar Day Schedule Name
+       \note if Solar Model Indicator = Schedule, then diffuse schedule name (for day)
+       \type object-list
+       \object-list DayScheduleNames
+  N12, \field ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub)
+       \units dimensionless
+       \note Required if Solar Model Indicator = ASHRAETau or ASHRAETau2017
+       \note ASHRAETau2017 solar model can be used with 2013 and 2017 HOF matching taub
+       \minimum 0
+       \maximum 1.2
+       \default 0
+  N13, \field ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud)
+       \units dimensionless
+       \note Required if Solar Model Indicator = ASHRAETau or ASHRAETau2017
+       \note ASHRAETau2017 solar model can be used with 2013 and 2017 HOF matching taud
+       \minimum 0
+       \maximum 3
+       \default 0
+  N14, \field Sky Clearness
+       \note Used if Sky Model Indicator = ASHRAEClearSky or ZhangHuang
+       \minimum 0.0
+       \maximum 1.2
+       \default 0.0
+       \note 0.0 is totally unclear, 1.0 is totally clear
+       \type real
+  N15, \field Maximum Number Warmup Days
+       \note If used this design day will be run with a custom limit on the maximum number of days that are repeated for warmup.
+       \note Limiting the number of warmup days can improve run time.
+       \type integer
+  A13; \field Begin Environment Reset Mode
+       \note If used this can control if you want the thermal history to be reset at the beginning of the design day.
+       \note When using a series of similiar design days, this field can be used to retain warmup state from the previous design day.
+       \type choice
+       \key FullResetAtBeginEnvironment
+       \key SuppressAllBeginEnvironmentResets
+       \default FullResetAtBeginEnvironment
+
+
+RunPeriod,
+       \memo Specify a range of dates and other parameters for a simulation.
+       \memo Multiple run periods may be input, but they may not overlap.
+       \min-fields 7
+  A1 , \field Name
+       \required-field
+       \reference RunPeriodsAndDesignDays
+       \note descriptive name (used in reporting mainly)
+       \note Cannot be not blank and must be unique
+  N1 , \field Begin Month
+       \required-field
+       \minimum 1
+       \maximum 12
+       \type integer
+  N2 , \field Begin Day of Month
+       \required-field
+       \minimum 1
+       \maximum 31
+       \type integer
+  N3,  \field Begin Year
+       \note Start year of the simulation, if this field is specified it must agree with the Day of Week for Start Day
+       \note If this field is blank, the year will be selected to match the weekday, which is Sunday if not specified
+  N4 , \field End Month
+       \required-field
+       \minimum 1
+       \maximum 12
+       \type integer
+  N5 , \field End Day of Month
+       \required-field
+       \minimum 1
+       \maximum 31
+       \type integer
+  N6,  \field End Year
+       \note end year of simulation, if specified
+  A2 , \field Day of Week for Start Day
+       \note =[Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday];
+       \note If no year is input, this field will default to Sunday
+       \note If a year is input and this field is blank, the correct weekday is determined
+       \type choice
+       \key Sunday
+       \key Monday
+       \key Tuesday
+       \key Wednesday
+       \key Thursday
+       \key Friday
+       \key Saturday
+  A3,  \field Use Weather File Holidays and Special Days
+       \note If yes or blank, use holidays as specified on Weatherfile.
+       \note If no, do not use the holidays specified on the Weatherfile.
+       \note Note: You can still specify holidays/special days using the RunPeriodControl:SpecialDays object(s).
+       \type choice
+       \default Yes
+       \key Yes
+       \key No
+  A4,  \field Use Weather File Daylight Saving Period
+       \note If yes or blank, use daylight saving period as specified on Weatherfile.
+       \note If no, do not use the daylight saving period as specified on the Weatherfile.
+       \type choice
+       \default Yes
+       \key Yes
+       \key No
+  A5,  \field Apply Weekend Holiday Rule
+       \note if yes and single day holiday falls on weekend, "holiday" occurs on following Monday
+       \type choice
+       \key Yes
+       \key No
+       \default No
+  A6,  \field Use Weather File Rain Indicators
+       \type choice
+       \key Yes
+       \key No
+       \default Yes
+  A7,  \field Use Weather File Snow Indicators
+       \type choice
+       \key Yes
+       \key No
+       \default Yes
+  A8,  \field Treat Weather as Actual
+       \type choice
+       \key Yes
+       \key No
+       \default No
+  A9; \field First Hour Interpolation Starting Values
+       \note When the weather data timestep is longer than the simulation timestep, weather data is interpolated. For the first hour of the
+       \note simulation, this field specifies which values from the first day of the run period to use as the interpolation starting point.
+       \note This same interpolation will be used for repeated warmup days.
+       \type choice
+       \key Hour1
+       \key Hour24
+       \default Hour24
+
+GlobalGeometryRules,
+      \memo Specifies the geometric rules used to describe the input of surface vertices and
+      \memo daylighting reference points.
+      \required-object
+      \unique-object
+  A1, \field Starting Vertex Position
+      \required-field
+      \note Specified as entry for a 4 sided surface/rectangle
+      \note Surfaces are specified as viewed from outside the surface
+      \note Shading surfaces as viewed from behind. (towards what they are shading)
+      \type choice
+      \key UpperLeftCorner
+      \key LowerLeftCorner
+      \key UpperRightCorner
+      \key LowerRightCorner
+  A2, \field Vertex Entry Direction
+      \required-field
+      \type choice
+      \key Counterclockwise
+      \key Clockwise
+  A3, \field Coordinate System
+      \required-field
+      \note Relative -- coordinates are entered relative to zone origin
+      \note World -- all coordinates entered are "absolute" for this facility
+      \type choice
+      \key Relative
+      \key World
+  A4, \field Daylighting Reference Point Coordinate System
+      \type choice
+      \key Relative
+      \default Relative
+      \note Relative -- coordinates are entered relative to zone origin
+      \key World
+      \note World -- all coordinates entered are "absolute" for this facility
+  A5; \field Rectangular Surface Coordinate System
+      \type choice
+      \key Relative
+      \default Relative
+      \note Relative -- Starting corner is entered relative to zone origin
+      \key World
+      \note World -- Starting corner is entered in "absolute"
+
+Output:VariableDictionary,
+       \memo Produces a list summarizing the output variables and meters that are available for
+       \memo reporting for the model being simulated (rdd output file). The list varies depending
+       \memo on the types of objects present in the idf file. For example, variables related to
+       \memo lights will only appear if a Lights object is present. The IDF option generates
+       \memo complete Output:Variable objects to simplify adding the desired output to the idf file.
+       \min-fields 1
+  \format singleLine
+   A1, \field Key Field
+   \type choice
+   \key IDF
+   \key regular
+   \default regular
+   A2;  \field Sort Option
+   \type choice
+   \key Name
+   \key Unsorted
+
+Output:Table:SummaryReports,
+       \extensible:1
+       \memo This object allows the user to call report types that are predefined and will appear with the
+       \memo other tabular reports. These predefined reports are sensitive to the OutputControl:Table:Style object
+       \memo and appear in the same files as the tabular reports. The entries for this object is a list
+       \memo of the predefined reports that should appear in the tabular report output file.
+       \unique-object
+   A1, \field Report 1 Name
+       \begin-extensible
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A2, \field Report 2 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A3, \field Report 3 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A4, \field Report 4 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A5, \field Report 5 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A6, \field Report 6 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A7, \field Report 7 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A8, \field Report 8 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A9, \field Report 9 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A10,\field Report 10 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A11,\field Report 11 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A12, \field Report 12 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A13, \field Report 13 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A14, \field Report 14 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A15, \field Report 15 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A16, \field Report 16 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A17, \field Report 17 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A18, \field Report 18 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A19, \field Report 19 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A20, \field Report 20 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A21, \field Report 21 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A22, \field Report 22 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A23, \field Report 23 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A24, \field Report 24 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+   A25; \field Report 25 Name
+       \type choice
+       \key AllSummary
+       \key AllSummaryAndSizingPeriod
+       \key AllMonthly
+       \key AllSummaryAndMonthly
+       \key AllSummaryMonthlyAndSizingPeriod
+       \key AnnualBuildingUtilityPerformanceSummary
+       \key InputVerificationandResultsSummary
+       \key DemandEndUseComponentsSummary
+       \key SourceEnergyEndUseComponentsSummary
+       \key ClimaticDataSummary
+       \key EquipmentSummary
+       \key EnvelopeSummary
+       \key SurfaceShadowingSummary
+       \key ShadingSummary
+       \key LightingSummary
+       \key HVACSizingSummary
+       \key SystemSummary
+       \key ComponentSizingSummary
+       \key CoilSizingDetails
+       \key OutdoorAirSummary
+       \key OutdoorAirDetails
+       \key ObjectCountSummary
+       \key ComponentCostEconomicsSummary
+       \key AdaptiveComfortSummary
+       \key SensibleHeatGainSummary
+       \key ZoneComponentLoadSummary
+       \key AirLoopComponentLoadSummary
+       \key FacilityComponentLoadSummary
+       \key Standard62.1Summary
+       \key EnergyMeters
+       \key InitializationSummary
+       \key LEEDSummary
+       \key LifeCycleCostReport
+       \key TariffReport
+       \key EconomicResultSummary
+       \key ZoneCoolingSummaryMonthly
+       \key ZoneHeatingSummaryMonthly
+       \key ZoneElectricSummaryMonthly
+       \key SpaceGainsMonthly
+       \key PeakSpaceGainsMonthly
+       \key SpaceGainComponentsAtCoolingPeakMonthly
+       \key EnergyConsumptionElectricityNaturalGasMonthly
+       \key EnergyConsumptionElectricityGeneratedPropaneMonthly
+       \key EnergyConsumptionDieselFuelOilMonthly
+       \key EnergyConsumptionDistrictHeatingCoolingMonthly
+       \key EnergyConsumptionCoalGasolineMonthly
+       \key EnergyConsumptionOtherFuelsMonthly
+       \key EndUseEnergyConsumptionElectricityMonthly
+       \key EndUseEnergyConsumptionNaturalGasMonthly
+       \key EndUseEnergyConsumptionDieselMonthly
+       \key EndUseEnergyConsumptionFuelOilMonthly
+       \key EndUseEnergyConsumptionCoalMonthly
+       \key EndUseEnergyConsumptionPropaneMonthly
+       \key EndUseEnergyConsumptionGasolineMonthly
+       \key EndUseEnergyConsumptionOtherFuelsMonthly
+       \key PeakEnergyEndUseElectricityPart1Monthly
+       \key PeakEnergyEndUseElectricityPart2Monthly
+       \key ElectricComponentsOfPeakDemandMonthly
+       \key PeakEnergyEndUseNaturalGasMonthly
+       \key PeakEnergyEndUseDieselMonthly
+       \key PeakEnergyEndUseFuelOilMonthly
+       \key PeakEnergyEndUseCoalMonthly
+       \key PeakEnergyEndUsePropaneMonthly
+       \key PeakEnergyEndUseGasolineMonthly
+       \key PeakEnergyEndUseOtherFuelsMonthly
+       \key SetpointsNotMetWithTemperaturesMonthly
+       \key ComfortReportSimple55Monthly
+       \key UnglazedTranspiredSolarCollectorSummaryMonthly
+       \key OccupantComfortDataSummaryMonthly
+       \key ChillerReportMonthly
+       \key TowerReportMonthly
+       \key BoilerReportMonthly
+       \key DXReportMonthly
+       \key WindowReportMonthly
+       \key WindowEnergyReportMonthly
+       \key WindowZoneSummaryMonthly
+       \key WindowEnergyZoneSummaryMonthly
+       \key AverageOutdoorConditionsMonthly
+       \key OutdoorConditionsMaximumDryBulbMonthly
+       \key OutdoorConditionsMinimumDryBulbMonthly
+       \key OutdoorConditionsMaximumWetBulbMonthly
+       \key OutdoorConditionsMaximumDewPointMonthly
+       \key OutdoorGroundConditionsMonthly
+       \key WindowACReportMonthly
+       \key WaterHeaterReportMonthly
+       \key GeneratorReportMonthly
+       \key DaylightingReportMonthly
+       \key CoilReportMonthly
+       \key PlantLoopDemandReportMonthly
+       \key FanReportMonthly
+       \key PumpReportMonthly
+       \key CondLoopDemandReportMonthly
+       \key ZoneTemperatureOscillationReportMonthly
+       \key AirLoopSystemEnergyAndWaterUseMonthly
+       \key AirLoopSystemComponentLoadsMonthly
+       \key AirLoopSystemComponentEnergyUseMonthly
+       \key MechanicalVentilationLoadsMonthly
+       \key HeatEmissionsSummary
+       \key HeatEmissionsReportMonthly
+       \key ThermalResilienceSummary
+       \key CO2ResilienceSummary
+       \key VisualResilienceSummary
+
+OutputControl:Table:Style,
+       \memo default style for the OutputControl:Table:Style is comma -- this works well for
+       \memo importing into spreadsheet programs such as Excel(tm) but not so well for word
+       \memo processing programs -- there tab may be a better choice. fixed puts spaces between
+       \memo the "columns". HTML produces tables in HTML. XML produces an XML file.
+       \memo note - if no OutputControl:Table:Style is included, the defaults are comma and None.
+       \unique-object
+   A1, \field Column Separator
+       \type choice
+       \key Comma
+       \key Tab
+       \key Fixed
+       \key HTML
+       \key XML
+       \key CommaAndHTML
+       \key CommaAndXML
+       \key TabAndHTML
+       \key XMLandHTML
+       \key All
+       \default Comma
+   A2; \field Unit Conversion
+       \type choice
+       \key None
+       \key JtoKWH
+       \key JtoMJ
+       \key JtoGJ
+       \key InchPound
+       \default None
+
+Output:Variable,
+       \memo each Output:Variable command picks variables to be put onto the standard output file (.eso)
+       \memo some variables may not be reported for every simulation.
+       \memo a list of variables that can be reported are available after a run on
+       \memo the report dictionary file (.rdd) if the Output:VariableDictionary has been requested.
+       \format singleLine
+  A1 , \field Key Value
+       \retaincase
+       \default *
+       \note use '*' (without quotes) to apply this variable to all keys
+  A2 , \field Variable Name
+       \required-field
+       \type external-list
+       \external-list autoRDDvariable
+  A3 , \field Reporting Frequency
+       \type choice
+       \key Detailed
+       \note Detailed lists every instance (i.e. HVAC variable timesteps)
+       \key Timestep
+       \note Timestep refers to the zone Timestep/Number of Timesteps in hour value
+       \note RunPeriod and Environment are the same
+       \key Hourly
+       \key Daily
+       \key Monthly
+       \key RunPeriod
+       \key Environment
+       \key Annual
+       \default Hourly
+  A4 ; \field Schedule Name
+       \type object-list
+       \object-list ScheduleNames
+

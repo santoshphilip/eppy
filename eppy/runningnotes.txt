@@ -1,3 +1,15 @@
+2022-09-23
+----------
+
+issue #391
+
+- Make minimal IDD to correspond to Minimal.idf - DONE
+- mv.IDD and mv.idf with only version number
+- use the debugger to walk thru a read of this
+
+
+
+
 2021-12-10
 ----------
 

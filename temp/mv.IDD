@@ -1,0 +1,9 @@
+!IDD_Version 9.6.0
+!IDD_BUILD f420c06a69
+Version,
+      \memo Specifies the EnergyPlus version of the IDF file.
+      \unique-object
+      \format singleLine
+  A1 ; \field Version Identifier
+      \default 9.6
+
