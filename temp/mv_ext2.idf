@@ -1,0 +1,40 @@
+!- Darwin Line endings 
+
+Version,
+    9.6;                      !- Version Identifier
+
+WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC,
+    Gumby,                    !- Name
+    55,                       !- Optical Data Temperature 1
+    G1,                       !- Window Material Glazing Name 1
+    55,                       !- Optical Data Temperature 2
+    G1,                       !- Window Material Glazing Name 2
+    55,                       !- Optical Data Temperature 3
+    G1,                       !- Window Material Glazing Name 3
+    55,                       !- Optical Data Temperature 4
+    G1,                       !- Window Material Glazing Name 4
+    55,                       !- Optical Data Temperature 5
+    G1,                       !- Window Material Glazing Name 5
+    55,                       !- Optical Data Temperature 6
+    G1,                       !- Window Material Glazing Name 6
+    55,                       !- Optical Data Temperature 7
+    G1,                       !- Window Material Glazing Name 7
+    56,                       !- Optical Data Temperature 8
+    G2;                       !- Window Material Glazing Name 8
+
+ZoneList,
+    Main Zone,                !- Name
+    Living1,                  !- Zone 1 Name
+    Living2,                  !- Zone 2 Name
+    Living3,                  !- Zone 3 Name
+    Living4,                  !- Zone 4 Name
+    Living5,                  !- Zone 5 Name
+    Living6,                  !- Zone 6 Name
+    Living7,                  !- Zone 7 Name
+    Living8,                  !- Zone 8 Name
+    Living9,                  !- Zone 9 Name
+    Living10,                 !- Zone 10 Name
+    Living11,                 !- Zone 11 Name
+    Living12,                 !- Zone 12 Name
+    Living13,                 !- Zone 13 Name
+    Living14;                 !- Zone 14 Name

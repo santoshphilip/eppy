@@ -1,0 +1,4 @@
+Program Version,EnergyPlus, Version 9.6.0-f420c06a69, YMD=2022.10.04 15:23,
+Var Type (reported time step),Var Report Type,Variable Name [Units]
+Zone,Meter,Carbon Equivalent:Facility [kg]
+Zone,Meter,CarbonEquivalentEmissions:Carbon Equivalent [kg]
