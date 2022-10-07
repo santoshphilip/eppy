@@ -1,3 +1,32 @@
+
+2022-10-06
+----------
+
+- issue #391  has been fixed for reading a file
+    - need to unit test this
+    - generte a test string for "WindowMaterial:GlazingGroup:Thermochromic"
+    - have a huge number of extensible fields 
+    - read it
+    - do this as a script ant then make it a test - DONE
+    - clean up code after this 
+    - update copyright in files
+    - and do a release.
+    - no documentation needed. It just works
+
+- other ways issue #391 can fail
+    - idf.newidfobject (with extensible fields overshooting)
+    - adding anew field by doing obj.filedname
+    - adding a new field by obj['fieldname']
+    - other ways
+
+2022-10-05
+----------
+
+- debuging using pudb for issue #391
+- breakpoint at iddgaps.py  line 76
+- figuring out how the repeating fields are renamed
+
+
 2022-09-23
 ----------
 
@@ -7,6 +36,17 @@ issue #391
 - mv.IDD and mv.idf with only version number
 - use the debugger to walk thru a read of this
 
+    > /Users/santoshphilip/Documents/coolshadow/github/eppy/eppy/modeleditor.py(689)read()
+    -> self.__class__.setidd(idd_info, idd_index, block, idd_version)
+    display block: 
+        [['Version', 'A1']]
+    display idd_info: 
+        [[{'memo': ['Specifies the EnergyPlus version of the IDF file.'],
+       'unique-object': [''],
+       'format': ['singleLine'],
+       'group': None,
+       'idfobj': 'Version'},
+      {'field': ['Version Identifier'], 'default': ['9.6']}]]
 
 
 

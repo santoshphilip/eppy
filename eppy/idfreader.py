@@ -1,5 +1,6 @@
 # Copyright (c) 2012 Santosh Philip
 # Copyright (c) 2021  Dimitris Mantas
+# Copyright (c) 2022 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -56,31 +57,27 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get("field") for comm in commdct[obj_i]]
+    if debugidd:
+        if len(obj) > len(objfields):
+            n = len(obj) - len(objfields)
+            extlst = extension_of_extensible(commdct[obj_i], block[obj_i], n)
+            block[obj_i] = block[obj_i] + extlst
+            commdct[obj_i] = commdct[obj_i] + [{}] * len(extlst)
+            iddgaps.a_missingkey_standard(commdct, obj_i, obj[0], [])
+            objfields = [comm.get("field") for comm in commdct[obj_i]]
+            # -- convertfields start
+            key_i = obj_i
+            key_comm = commdct[obj_i]
+            try:
+                inblock = block[obj_i]
+            except TypeError as e:
+                inblock = None
+            obj = convertfields(key_comm, obj, inblock)
+            # -- convertfields end
     objfields[0] = ["key"]
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
     bobj = EpBunch(obj, obj_fields, objidd)
-    # TODO : test for len(obj) > len(obj_fields)
-    # that will be missing fields in idd file
-    # do we throw an exception here ????? YES !!!!!
-    if debugidd:
-        if len(obj) > len(obj_fields):
-            n = len(obj) - len(obj_fields)
-            extlst = extension_of_extensible(commdct[obj_i], block[obj_i], n)
-            errortext = "idfobject with key '{}' & first field '{}' has {} fields while the idd for '{}' has only {} fields. Add the following fields to the object '{}' in file Energy+.idd '{};'".format(
-                obj[0].upper(),
-                obj[1],
-                len(obj) - 1,
-                obj[0].upper(),
-                len(obj_fields) - 1,
-                obj[0].upper(),
-                ", ".join(extlst),
-            )
-            # "idfobject with key 'TIMESTEP' & first field '44' has 2 fields while the idd for 'TIMESTEP' has only 1 fields. Add the following fields to object 'TIMESTEP' in file Energy+.idd A5, A6;'"
-            # print(block[obj_i])
-            # print(errortext)
-            print(extlst)
-            raise NoIDDFieldsError(errortext)
     return bobj
 
 
@@ -142,29 +139,6 @@ class ConvInIDD(object):
         return dict(integer=self.integer, real=self.real, no_type=self.no_type)
 
 
-# remove this one
-def convertfields_old(key_comm, obj, inblock=None):
-    """convert the float and interger fields"""
-    convinidd = ConvInIDD()
-    typefunc = dict(integer=convinidd.integer, real=convinidd.real)
-    types = []
-    for comm in key_comm:
-        types.append(comm.get("type", [None])[0])
-    convs = [typefunc.get(typ, convinidd.no_type) for typ in types]
-    try:
-        inblock = list(inblock)
-    except TypeError as e:
-        inblock = ["does not start with N"] * len(obj)
-    for i, (val, conv, avar) in enumerate(zip(obj, convs, inblock)):
-        if i == 0:
-            # inblock[0] is the key
-            pass
-        else:
-            val = conv(val, inblock[i])
-        obj[i] = val
-    return obj
-
-
 def convertafield(field_comm, field_val, field_iddname):
     """convert field based on field info in IDD"""
     convinidd = ConvInIDD()
@@ -190,7 +164,6 @@ def convertfields(key_comm, obj, inblock=None):
 
 def convertallfields(data, commdct, block=None):
     """docstring for convertallfields"""
-    # import pdbdb; pdb.set_trace()
     for key in list(data.dt.keys()):
         objs = data.dt[key]
         for i, obj in enumerate(objs):
@@ -328,12 +301,8 @@ def endof_extensible(extensible, thisblock):
 def extension_of_extensible(objidd, objblock, n):
     """generate the list of new vars needed to extend by n"""
     ext = getextensible(objidd)
-    print(n, type(n), ext, type(ext))
-    # n = int(n / ext)
     n = n // ext
-    print(n, type(n))
     lastvars = endof_extensible(ext, objblock)
-    print("ext, lastvars", ext, lastvars)
     alpha_lastvars = [i[0] for i in lastvars]
     int_lastvars = [int(i[1:]) for i in lastvars]
     lst = []

@@ -5,6 +5,12 @@ History
 Changes
 ~~~~~~~
 
+Fixed issue #391
+````````````````
+
+:Problem: If the IDF files has more extensible fields than the IDD file for an idfobject, the read will fail
+:Solution: Increase the extensible fields of the IDD (in memory) to match the IDF file. It will not change the `Energy+.idd` on the disk.
+
 release r0.5.59
 ~~~~~~~~~~~~~~~
 
