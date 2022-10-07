@@ -34,5 +34,19 @@ def test_read_overextended():
     assert wm[0][f'Optical_Data_Temperature_{nn + 1}'] == nn - 1
     assert wm[0][f'Window_Material_Glazing_Name_{nn + 1}'] == f"G{nn - 1}"
 
-def test_nothing():
-    assert True
+def test_newidfobject_overextend():
+    """py.test when idf.newidfobject creates an object with more fields than avaliable in the IDD"""
+    idf = IDF(StringIO(""))
+    n = 2000
+    d1 = dict(Name="Gumby")
+    d2 = {f"Optical_Data_Temperature_{i}":i for i in range(1, n+1)}
+    d3 = {f"Window_Material_Glazing_Name_{i}":f"G{i}" for i in range(1, n+1)}
+    kwargs = dict()
+    kwargs.update(d1)
+    kwargs.update(d2)
+    kwargs.update(d3)
+    wm = idf.newidfobject("WindowMaterial:GlazingGroup:Thermochromic", **kwargs)
+    assert wm.Optical_Data_Temperature_2000 == 2000
+    assert wm.Window_Material_Glazing_Name_2000 == "G2000"
+
+
