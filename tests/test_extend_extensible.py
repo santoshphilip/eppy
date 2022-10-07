@@ -24,14 +24,15 @@ def test_read_overextended():
         55,
         G1,"""
     
-    extfields = ','.join([f"{i}, G{i}" for i in range(5000)])
+    nn = 5000
+    extfields = ','.join([f"{i}, G{i}" for i in range(nn)])
     newstr = f"{astr} {extfields};"    
 
     fhandle = StringIO(newstr)
     idf = IDF(fhandle)
     wm = idf.idfobjects["WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC"]
-    assert wm[0].Optical_Data_Temperature_5001 == 4999
-    assert wm[0].Window_Material_Glazing_Name_5001 == "G4999"
+    assert wm[0][f'Optical_Data_Temperature_{nn + 1}'] == nn - 1
+    assert wm[0][f'Window_Material_Glazing_Name_{nn + 1}'] == f"G{nn - 1}"
 
 def test_nothing():
     assert True

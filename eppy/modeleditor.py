@@ -29,6 +29,7 @@ from eppy.idfreader import convertafield
 from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
+from eppy import idfreader
 
 
 class NoObjectError(Exception):
@@ -731,7 +732,7 @@ class IDF(object):
 
     """Methods to do with manipulating the objects in an IDF object."""
 
-    def newidfobject(self, key, aname="", defaultvalues=True, **kwargs):
+    def newidfobject(self, key, defaultvalues=True, **kwargs):
         """
         Add a new idfobject to the model. If you don't specify a value for a
         field, the default value will be set.
@@ -748,9 +749,6 @@ class IDF(object):
         ----------
         key : str
             The type of IDF object.
-        aname : str, deprecated
-            This parameter is not used. It is left there for backward
-            compatibility.
         defaultvalues: boolean
             default is True. If True default values WILL be set.
             If False, default values WILL NOT be set
@@ -771,10 +769,24 @@ class IDF(object):
             block=self.block,
             defaultvalues=defaultvalues,
         )
+        
+        # add fields if there are not enough fields in the IDD to match the fields in kwargs 
+        dtls = self.model.dtls
+        key = obj[0].upper()
+        key_i = dtls.index(key)
+        objfields = [comm.get("field") for comm in self.idd_info[key_i]]
+        # check if there are enough fields in the IDD to match the kwargs        
+        if len(kwargs) > (len(objfields) - 1): # objfields has placeholder for key. So subtract 1
+            # -- increase the number of fields in the IDD (in block and commdct)
+            n = len(kwargs) - (len(objfields) - 1) # objfields has placeholder for key. So subtract 1
+            key_txt = key
+            obj_i = key_i
+            block = self.block
+            commdct = self.idd_info
+            objfields = idfreader.increaseIDDfields(block, commdct, obj_i, key_txt, n)
+            
+        
         abunch = obj2bunch(self.model, self.idd_info, obj)
-        if aname:
-            warnings.warn("The aname parameter should no longer be used.", UserWarning)
-            namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):
             abunch[k] = v
