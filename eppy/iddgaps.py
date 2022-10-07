@@ -83,7 +83,7 @@ def repeatingfieldsnames(fields):
 def a_missingkey_standard(commdct, key_i, key_txt, nofirstfields):
     """
     sometimes IDD has fields with no field description. This happens in extensible.
-    This functions picks up the previous field description and adds them 
+    This functions picks up the previous field description and adds them
     to the fields that have no field descriptions. This update is done in place to commdct
     commdct is not returned.
     missing field descriptions are actually mising keys of a dict
@@ -143,6 +143,7 @@ def a_missingkey_standard(commdct, key_i, key_txt, nofirstfields):
             comm[i] = afield
     commdct[key_i] = comm
     return nofirstfields
+
 
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
 def missingkeys_standard(commdct, dtls, skiplist=None):

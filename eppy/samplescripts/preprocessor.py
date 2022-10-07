@@ -5,10 +5,11 @@
 # =======================================================================
 """Sample script to run the pre-processor and then run the IDF file"""
 
+
 def preprocessor_run():
     """run the preprocessor and then run"""
     pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     preprocessor_run()

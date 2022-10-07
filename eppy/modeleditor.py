@@ -731,7 +731,7 @@ class IDF(object):
 
     """Methods to do with manipulating the objects in an IDF object."""
 
-    def newidfobject(self, key, aname="", defaultvalues=True, **kwargs):
+    def newidfobject(self, key, defaultvalues=True, **kwargs):
         """
         Add a new idfobject to the model. If you don't specify a value for a
         field, the default value will be set.
@@ -748,9 +748,6 @@ class IDF(object):
         ----------
         key : str
             The type of IDF object.
-        aname : str, deprecated
-            This parameter is not used. It is left there for backward
-            compatibility.
         defaultvalues: boolean
             default is True. If True default values WILL be set.
             If False, default values WILL NOT be set
@@ -772,9 +769,6 @@ class IDF(object):
             defaultvalues=defaultvalues,
         )
         abunch = obj2bunch(self.model, self.idd_info, obj)
-        if aname:
-            warnings.warn("The aname parameter should no longer be used.", UserWarning)
-            namebunch(abunch, aname)
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):
             abunch[k] = v

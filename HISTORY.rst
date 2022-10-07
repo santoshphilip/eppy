@@ -5,6 +5,17 @@ History
 Changes
 ~~~~~~~
 
+2022-10-07
+----------
+
+fixed issue #393
+
+:Problem: In idf.newidfobject(self, key, aname="", ... **kwargs), aname is depreceated
+:Solution: remove aname form newidfobject
+
+2022-10-06
+----------
+
 Fixed issue #391
 ````````````````
 

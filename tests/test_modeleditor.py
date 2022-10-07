@@ -339,29 +339,6 @@ def test_newidfobject():
     assert sim_deffalse.Do_Zone_Sizing_Calculation == ""
 
 
-def test_newidfobject_warning():
-    """Test that the warning for newidfobject created with `aname` is working.
-
-    Fails if the warning is not issued when `aname` is used, or if the warning
-    is issued when `aname` is not used.
-    """
-    # make a blank idf
-    # make a function for this and then continue.
-    idf = IDF()
-    idf.new()
-    objtype = "material:airgap".upper()
-    # expect warnings here
-    with pytest.warns(UserWarning):
-        idf.newidfobject(objtype, aname="Krypton")
-    with pytest.warns(UserWarning):
-        idf.newidfobject(objtype, "Krypton")
-
-    # expect no warnings here - we pass None so as not to trigger the `Failed: DID NOT WARN` message from pytest
-    with pytest.warns(None) as captured_warnings:
-        idf.newidfobject(objtype, Name="Krypton")
-    assert len(captured_warnings) == 0
-
-
 def test_save():
     """
     Test the IDF.save() function using a filehandle to avoid external effects.
