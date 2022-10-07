@@ -9,6 +9,14 @@ Changes
 ----------
 
 fixed issue #393
+````````````````
+
+:Problem: idf.newidfobject() will not work if you make it with more extensible fields than there are in the IDD
+:Solution: Increase the extensible fields of the IDD (in memory of eppy) to match the fields in idf.newidfobject()
+
+
+fixed issue #394
+````````````````
 
 :Problem: In idf.newidfobject(self, key, aname="", ... **kwargs), aname is depreceated
 :Solution: remove aname form newidfobject

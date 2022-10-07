@@ -53,19 +53,33 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
+def increaseIDDfields(block, commdct, key_i, key_txt, n):
+    """increase fields in IDD - ie in block and commdct"""
+    extlst = extension_of_extensible(commdct[key_i], block[key_i], n)
+    block[key_i] = block[key_i] + extlst
+    commdct[key_i] = commdct[key_i] + [{}] * len(extlst)
+    nofirstfields = []
+    iddgaps.a_missingkey_standard(commdct, key_i, key_txt, nofirstfields)
+    objfields = [comm.get("field") for comm in commdct[key_i]]
+    return objfields
+
+
 def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
     objfields = [comm.get("field") for comm in commdct[obj_i]]
     if debugidd:
         if len(obj) > len(objfields):
+            # there are not enough fields in the IDD to match the IDF
+            # -- increase the number of fields in the IDD (in block and commdct)
+            #       -- start
             n = len(obj) - len(objfields)
-            extlst = extension_of_extensible(commdct[obj_i], block[obj_i], n)
-            block[obj_i] = block[obj_i] + extlst
-            commdct[obj_i] = commdct[obj_i] + [{}] * len(extlst)
-            iddgaps.a_missingkey_standard(commdct, obj_i, obj[0], [])
-            objfields = [comm.get("field") for comm in commdct[obj_i]]
-            # -- convertfields start
+            key_txt = obj[0]
+            objfields = increaseIDDfields(block, commdct, obj_i, key_txt, n)
+            # -- increase the number of fields in the IDD (in block and commdct)
+            #       -- end
+            # 
+            # -- convertfields for added fields -  start
             key_i = obj_i
             key_comm = commdct[obj_i]
             try:
@@ -73,7 +87,7 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
             except TypeError as e:
                 inblock = None
             obj = convertfields(key_comm, obj, inblock)
-            # -- convertfields end
+            # -- convertfields for added fields -  end
     objfields[0] = ["key"]
     objfields = [field[0] for field in objfields]
     obj_fields = [bunchhelpers.makefieldname(field) for field in objfields]
