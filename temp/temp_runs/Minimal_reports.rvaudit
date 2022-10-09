@@ -1,8 +1,0 @@
- ReadVarsESO
- processing:/Users/santoshphilip/Documents/coolshadow/github/eppy/in.rvi
- input file:/Users/santoshphilip/Documents/coolshadow/github/eppy/temp/temp_runs/Minimal_reports.eso
- output file:/Users/santoshphilip/Documents/coolshadow/github/eppy/temp/temp_runs/Minimal_reports.csv
- getting all vars from:/Users/santoshphilip/Documents/coolshadow/github/eppy/temp/temp_runs/Minimal_reports.eso
-  number variables requested for output=           7
- ReadVars Run Time=00hr 00min  0.01sec
- ReadVarsESO program completed successfully.

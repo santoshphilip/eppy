@@ -10,6 +10,7 @@
 import pytest
 import eppy.ext_field_functions as extff
 
+
 def test_getextensible():
     """py.test for getextensible"""
     data = (
@@ -52,6 +53,7 @@ def test_getextensible():
     for objidd, expected in data:
         result = extff.getextensible(objidd)
         assert result == expected
+
 
 def test_extension_of_extensible():
     """py.test for extension_of_extensible"""
@@ -164,6 +166,7 @@ def test_extension_of_extensible():
         result = extff.extension_of_extensible(objidd, objblock, n)
         assert result == expected
 
+
 def test_endof_extensible():
     """py.test for endof_extensible"""
     data = (
@@ -184,49 +187,68 @@ def test_endof_extensible():
     "objidd, afieldname, expected",
     [
         (
-            [{'extensible:2': ['- repeat last two fields remembering to remove ; from "inner" fields.']},
-             {'field': ['Name']},
-             {'field': ['Optical Data Temperature 1'], 'begin-extensible': ['']},
-             {'field': ['Window Material Glazing Name 1']},
-             {'field': ['Optical Data Temperature 2']},
-             {'field': ['Window Material Glazing Name 2']}],
-             "Optical_Data_Temperature_32",
-             True,
-        ), # objidd, afieldname, expected
+            [
+                {
+                    "extensible:2": [
+                        '- repeat last two fields remembering to remove ; from "inner" fields.'
+                    ]
+                },
+                {"field": ["Name"]},
+                {"field": ["Optical Data Temperature 1"], "begin-extensible": [""]},
+                {"field": ["Window Material Glazing Name 1"]},
+                {"field": ["Optical Data Temperature 2"]},
+                {"field": ["Window Material Glazing Name 2"]},
+            ],
+            "Optical_Data_Temperature_32",
+            True,
+        ),  # objidd, afieldname, expected
         (
-            [{'extensible:2': ['- repeat last two fields remembering to remove ; from "inner" fields.']},
-             {'field': ['Name']},
-             {'field': ['Optical Data Temperature 1'], 'begin-extensible': ['']},
-             {'field': ['Window Material Glazing Name 1']},
-             {'field': ['Optical Data Temperature 2']},
-             {'field': ['Window Material Glazing Name 2']}],
-             "Gumby_800",
-             False,
-        ), # objidd, afieldname, expected
+            [
+                {
+                    "extensible:2": [
+                        '- repeat last two fields remembering to remove ; from "inner" fields.'
+                    ]
+                },
+                {"field": ["Name"]},
+                {"field": ["Optical Data Temperature 1"], "begin-extensible": [""]},
+                {"field": ["Window Material Glazing Name 1"]},
+                {"field": ["Optical Data Temperature 2"]},
+                {"field": ["Window Material Glazing Name 2"]},
+            ],
+            "Gumby_800",
+            False,
+        ),  # objidd, afieldname, expected
         (
-            [{'extensible:2': ['- repeat last two fields remembering to remove ; from "inner" fields.']},
-             {'field': ['Name']},
-             {'field': ['Optical Data Temperature 1'], 'begin-extensible': ['']},
-             {'field': ['Window Material Glazing Name 1']},
-             {'field': ['Optical Data Temperature 2']},
-             {'field': ['Window Material Glazing Name 2']}],
-             "Optical_Data Temperature 32",
-             False,
-        ), # objidd, afieldname, expected
-    ]
+            [
+                {
+                    "extensible:2": [
+                        '- repeat last two fields remembering to remove ; from "inner" fields.'
+                    ]
+                },
+                {"field": ["Name"]},
+                {"field": ["Optical Data Temperature 1"], "begin-extensible": [""]},
+                {"field": ["Window Material Glazing Name 1"]},
+                {"field": ["Optical Data Temperature 2"]},
+                {"field": ["Window Material Glazing Name 2"]},
+            ],
+            "Optical_Data Temperature 32",
+            False,
+        ),  # objidd, afieldname, expected
+    ],
 )
 def test_islegalextensiblefield(objidd, afieldname, expected):
     """py.test for islegalextensiblefield"""
     result = extff.islegalextensiblefield(objidd, afieldname)
     assert result == expected
 
+
 @pytest.mark.parametrize(
     "fname, expected",
     [
-        ("this_name_4", 4), # fname, expected
-        ("this_3_name_4", 4), # fname, expected
-        ("this_name", None), # fname, expected
-    ]
+        ("this_name_4", 4),  # fname, expected
+        ("this_3_name_4", 4),  # fname, expected
+        ("this_name", None),  # fname, expected
+    ],
 )
 def test_extfieldint(fname, expected):
     """py.test for extfieldint"""

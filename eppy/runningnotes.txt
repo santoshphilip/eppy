@@ -1,3 +1,15 @@
+2022-10-09
+----------
+
+- remove temp files
+- craft a fix issue commit message
+- add message to History
+- commit with message
+- merge into develop
+- remove 1395_extfield branch in local
+- in remote
+- close issue
+- ind issue #391 ask for a break it test
 
 2022-10-08
 ----------
@@ -6,13 +18,16 @@
 - these are in idfreader.py and bunch_subclass.py - DONE
 - confirm that the unit test work - DONE
 - then continue with issue #395
-    - bunch_subclass is updated
-    - it creastes extra fields. search for:
-        - # TODO - fix extra fields issue
-    - do unit tests for this
-    - cleanup code
+    - bunch_subclass is updated - DONE
+    - it creastes extra fields. search for: - DONE
+        - # TODO - fix extra fields issue - DONE
+    - do unit tests for this - DONE
+    - cleanup code - DONE
 - After that, check if issure #391 and #393 were unnecessary
-
+    - first check if skipping vars in newodfobject() will break it
+         - Does not break - unit tested - DONE
+- run black
+- full test
 
 
 

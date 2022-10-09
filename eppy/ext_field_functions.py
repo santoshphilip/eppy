@@ -11,6 +11,7 @@ Moving the functions here is a work in progress"""
 import eppy.iddgaps as iddgaps
 import eppy.bunchhelpers as bunchhelpers
 
+
 def getextensible(objidd):
     """return the extensible from the idd"""
     keys = objidd[0].keys()
@@ -20,6 +21,7 @@ def getextensible(objidd):
         return int(extens)
     else:
         return None
+
 
 def extension_of_extensible(objidd, objblock, n):
     """generate the list of new vars needed to extend by n"""
@@ -38,6 +40,7 @@ def extension_of_extensible(objidd, objblock, n):
 
     return list(chain(*zip(*lst)))
 
+
 def endof_extensible(extensible, thisblock):
     """get the vars from where extension happens"""
     return thisblock[-extensible:]
@@ -54,6 +57,7 @@ def increaseIDDfields(block, commdct, key_i, key_txt, n):
     objfields = [comm.get("field") for comm in commdct[key_i]]
     return objfields
 
+
 # def increaseIDDfields_1(o_block, o_commdct, key_txt, n):
 #     """increase fields in IDD - ie in block and commdct"""
 #     print(o_commdct)
@@ -68,12 +72,13 @@ def increaseIDDfields(block, commdct, key_i, key_txt, n):
 #     objfields = [comm.get("field") for comm in o_commdct]
 #     return objfields
 
+
 def islegalextensiblefield(objidd, fieldname):
     """return true if afieldname is an extensible field in objidd"""
     comm = objidd
     if getextensible(comm):
-        if (" " not in fieldname): # a space instead of a underscore will return True
-                                   # the code below is a little wierd
+        if " " not in fieldname:  # a space instead of a underscore will return True
+            # the code below is a little wierd
             fields = iddgaps.getfields(comm)
             repnames_tuples = iddgaps.repeatingfieldsnames(fields, "0")
             repnames = [bunchhelpers.makefieldname(item[0]) for item in repnames_tuples]
@@ -84,6 +89,7 @@ def islegalextensiblefield(objidd, fieldname):
         else:
             expected = False
     return expected
+
 
 def extfieldint(fieldname, sep=None):
     """return the integer in the extensible field

@@ -65,11 +65,10 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
             #       -- start
             n = len(obj) - len(objfields)
             key_txt = obj[0]
-            # objfields = extff.increaseIDDfields_1(block[obj_i], commdct[obj_i], key_txt, n)
-            objfields = extff.increaseIDDfields(block, commdct, obj_i,  key_txt, n)
+            objfields = extff.increaseIDDfields(block, commdct, obj_i, key_txt, n)
             # -- increase the number of fields in the IDD (in block and commdct)
             #       -- end
-            # 
+            #
             # -- convertfields for added fields -  start
             key_i = obj_i
             key_comm = commdct[obj_i]
@@ -77,7 +76,6 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
                 inblock = block[obj_i]
             except TypeError as e:
                 inblock = None
-            # print(key_comm, obj, inblock)
             obj = convertfields(key_comm, obj, inblock)
             # -- convertfields for added fields -  end
     objfields[0] = ["key"]
@@ -286,7 +284,6 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct, theidf, block)
     return bunchdt, block, data, commdct, idd_index, versiontuple
-
 
 
 # complete -- remove this junk below

@@ -169,8 +169,6 @@ def test_tilt():
 def test_vertex3tuple(vertices, expected):
     """py.test for vertex3tuple"""
     result = surface.vertex3tuple(vertices)
-    print(result)
-    print(expected)
     assert result == expected
 
 

@@ -22,6 +22,7 @@ from eppy.bunchhelpers import matchfieldnames, scientificnotation, makefieldname
 import eppy.function_helpers as fh
 import eppy.ext_field_functions as extff
 
+
 class BadEPFieldError(AttributeError):
     """An Exception"""
 
@@ -297,37 +298,30 @@ class EpBunch(Bunch):
         #     # do one field at a time - mto start with
         #     extendinIDD
         #     do the previous elif
-        elif extff.getextensible(self.objidd): # idfobject has extensible fields
-            if extff.islegalextensiblefield(self.objidd, name):
-                # is the field a legal extensible field 
-                print(f"{name} is a legal extensible field of {self.key}")
+        elif extff.getextensible(self.objidd):  # idfobject has extensible fields
+            if extff.islegalextensiblefield(
+                self.objidd, name
+            ):  # is the field a legal extensible field
                 # What is the integer on that field
                 name_int = extff.extfieldint(name)
-                print(name_int)
                 # get the int in the last extensible field
-                last_extfield = self.objidd[-1]['field'][0]
-                print(last_extfield)
+                last_extfield = self.objidd[-1]["field"][0]
                 last_extfield_int = extff.extfieldint(last_extfield, sep=" ")
-                print(last_extfield_int)
-                # calculate the number of new fields to be generated
-                newextensibles = name_int - last_extfield_int 
-                print(newextensibles)
+                # calculate the number of new field sets to be generated
+                newextensibles = name_int - last_extfield_int
                 # generate the new fileds in eppy's IDD
                 key_i = self.theidf.model.dtls.index(self.key)
-                extff.increaseIDDfields(self.theidf.block, 
-                    self.theidf.idd_info, 
-                    key_i, 
-                    self.key, 
-                    name_int * extff.getextensible(self.objidd) # newextensibles
-                                        # extra fields created
-                                        # includes count for fields before ext fields
-                                        # TODO - fix extra fields issue
+                mult = extff.getextensible(self.objidd)
+                extff.increaseIDDfields(
+                    self.theidf.block,
+                    self.theidf.idd_info,
+                    key_i,
+                    self.key,
+                    newextensibles * mult,
                 )
-                print(self.theidf.block[key_i])
-                print(self.theidf.idd_info[key_i][-1])
                 # need to update objls and objidd here
                 self.objidd = self.theidf.idd_info[key_i]
-                
+
                 objfields = [comm.get("field") for comm in self.objidd]
                 objfields[0] = ["key"]
                 objfields = [field[0] for field in objfields]
@@ -341,9 +335,8 @@ class EpBunch(Bunch):
                         extendlist(self.fieldvalues, i)
                         self.fieldvalues[i] = value
                 else:
-                    print("new fieldnames not added")
+                    pass
             else:
-                print(f"{name} is not a legal extensible field of {self.key}")
                 astr = "unable to find field %s" % (name,)
                 raise BadEPFieldError(astr)  # TODO: could raise AttributeError
         else:
@@ -373,20 +366,18 @@ class EpBunch(Bunch):
                 return self.fieldvalues[i]
             except IndexError:
                 return ""
-        elif extff.getextensible(self.objidd): # idfobject has extensible fields
-            if extff.islegalextensiblefield(self.objidd, name):
-                # is the field a legal extensible field 
-                print(f"{name} is a legal extensible field of {self.key}")
+        elif extff.getextensible(self.objidd):  # idfobject has extensible fields
+            if extff.islegalextensiblefield(
+                self.objidd, name
+            ):  # is the field a legal extensible field
+                # no point creating a field
                 return ""
             else:
-                print(f"{name} is not a legal extensible field of {self.key}")
                 astr = "unable to find field %s" % (name,)
                 raise BadEPFieldError(astr)  # TODO: could raise AttributeError
                 astr = "unable to find field %s" % (name,)
                 raise BadEPFieldError(astr)
         else:
-            # TODO: simply return a blank if it is an extensible field that is not there in the IDD
-            # Don't see a need to extend the IDD.
             astr = "unable to find field %s" % (name,)
             raise BadEPFieldError(astr)
 
@@ -399,15 +390,13 @@ class EpBunch(Bunch):
                 return self.fieldvalues[i]
             except IndexError:
                 return ""
-        elif extff.getextensible(self.objidd): # idfobject has extensible fields
-            if extff.islegalextensiblefield(self.objidd, key):
-                # is the field a legal extensible field 
-                print(f"{key} is a legal extensible field of {self.key}")
+        elif extff.getextensible(self.objidd):  # idfobject has extensible fields
+            if extff.islegalextensiblefield(
+                self.objidd, key
+            ):  # is the field a legal extensible field
+                # no point creating a field
                 return ""
             else:
-                print(f"{key} is not a legal extensible field of {self.key}")
-                astr = "unable to find field %s" % (key,)
-                raise BadEPFieldError(astr)  # TODO: could raise AttributeError
                 astr = "unable to find field %s" % (key,)
                 raise BadEPFieldError(astr)
         else:
@@ -426,37 +415,30 @@ class EpBunch(Bunch):
             except IndexError:
                 extendlist(self.fieldvalues, i)
                 self.fieldvalues[i] = value
-        elif extff.getextensible(self.objidd): # idfobject has extensible fields
-            if extff.islegalextensiblefield(self.objidd, key):
-                # is the field a legal extensible field 
-                print(f"{key} is a legal extensible field of {self.key}")
+        elif extff.getextensible(self.objidd):  # idfobject has extensible fields
+            if extff.islegalextensiblefield(
+                self.objidd, key
+            ):  # is the field a legal extensible field
                 # What is the integer on that field
                 name_int = extff.extfieldint(key)
-                print(name_int)
                 # get the int in the last extensible field
-                last_extfield = self.objidd[-1]['field'][0]
-                print(last_extfield)
+                last_extfield = self.objidd[-1]["field"][0]
                 last_extfield_int = extff.extfieldint(last_extfield, sep=" ")
-                print(last_extfield_int)
                 # calculate the number of new fields to be generated
-                newextensibles = name_int - last_extfield_int 
-                print(newextensibles)
+                newextensibles = name_int - last_extfield_int
                 # generate the new fileds in eppy's IDD
                 key_i = self.theidf.model.dtls.index(self.key)
-                extff.increaseIDDfields(self.theidf.block, 
-                    self.theidf.idd_info, 
-                    key_i, 
-                    self.key, 
-                    name_int * extff.getextensible(self.objidd) # newextensibles
-                                        # extra fields created
-                                        # includes count for fields before ext fields
-                                        # TODO - fix extra fields issue
+                mult = extff.getextensible(self.objidd)
+                extff.increaseIDDfields(
+                    self.theidf.block,
+                    self.theidf.idd_info,
+                    key_i,
+                    self.key,
+                    newextensibles * mult,
                 )
-                print(self.theidf.block[key_i])
-                print(self.theidf.idd_info[key_i][-1])
                 # need to update objls and objidd here
                 self.objidd = self.theidf.idd_info[key_i]
-                
+
                 objfields = [comm.get("field") for comm in self.objidd]
                 objfields[0] = ["key"]
                 objfields = [field[0] for field in objfields]
@@ -470,9 +452,11 @@ class EpBunch(Bunch):
                         extendlist(self.fieldvalues, i)
                         self.fieldvalues[i] = value
                 else:
-                    print("new fieldnames not added")
+                    pass
+            else:
+                astr = "unknown field %s" % (key,)
+                raise BadEPFieldError(astr)
         else:
-            # TODO: Do similar strategy as in __setattr__
             astr = "unknown field %s" % (key,)
             raise BadEPFieldError(astr)
 
@@ -698,4 +682,3 @@ def get_referenced_object(referring_object, fieldname):
                 referenced_obj_name = referring_object[fieldname]
                 if obj.Name == referenced_obj_name:
                     return obj
-

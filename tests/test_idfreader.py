@@ -82,6 +82,3 @@ def test_convertallfields():
         idfreader.convertallfields(data, commdct, block)
         result = data.dt[objkey][0]
         assert result == expected
-
-
-
