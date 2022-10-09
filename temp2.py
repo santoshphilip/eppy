@@ -14,6 +14,7 @@ from eppy.modeleditor import IDF
 # from pudb import set_trace; set_trace()
 IDF.setiddname(iddfile)
 idf = IDF(fname)
+idf.printidf()
 idf.saveas("./temp/mv_ext2.idf")
 
 # i = idf.model.dtls.index("ZoneList".upper())

@@ -69,12 +69,14 @@ def getfields(comm):
     return fields
 
 
-def repeatingfieldsnames(fields):
+def repeatingfieldsnames(fields, int_replace=None):
     """get the names of the repeating fields"""
+    if not int_replace:
+        int_replace = "%s"
     fnames = [field["field"][0] for field in fields]
     fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
-    fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
+    fnames = [(bunchhelpers.replaceint(fname, int_replace), None) for fname in fnames]
     dct = dict(fnames)
     repnames = fnames[: len(list(dct.keys()))]
     return repnames
@@ -145,6 +147,69 @@ def a_missingkey_standard(commdct, key_i, key_txt, nofirstfields):
     return nofirstfields
 
 
+# def a_missingkey_standard_1(comm, key_txt, nofirstfields):
+#     """
+#     sometimes IDD has fields with no field description. This happens in extensible.
+#     This functions picks up the previous field description and adds them
+#     to the fields that have no field descriptions. This update is done in place to commdct
+#     commdct is not returned.
+#     missing field descriptions are actually mising keys of a dict
+#     hence the function is called a missingkey
+#
+#     This is very old function. Not sure how it works now.
+#     """
+#
+#     # get all fields
+#     fields = getfields(comm)
+#
+#     # get repeating field names
+#     repnames = repeatingfieldsnames(fields)
+#
+#     try:
+#         first = repnames[0][0] % (1,)
+#     except IndexError:
+#         nofirstfields.append(key_txt)
+#         return nofirstfields
+#
+#     # get all comments of the first repeating field names
+#     firstnames = [repname[0] % (1,) for repname in repnames]
+#     fcomments = [
+#         field
+#         for field in fields
+#         if bunchhelpers.onlylegalchar(field["field"][0]) in firstnames
+#     ]
+#     fcomments = [dict(fcomment) for fcomment in fcomments]
+#     for cmt in fcomments:
+#         fld = cmt["field"][0]
+#         fld = bunchhelpers.onlylegalchar(fld)
+#         fld = bunchhelpers.replaceint(fld)
+#         cmt["field"] = [fld]
+#
+#     for i, cmt in enumerate(comm[1:]):
+#         thefield = cmt["field"][0]
+#         thefield = bunchhelpers.onlylegalchar(thefield)
+#         if thefield == first:
+#             break
+#     first_i = i + 1
+#
+#     newfields = []
+#     for i in range(1, len(comm[first_i:]) // len(repnames) + 1):
+#         for fcomment in fcomments:
+#             nfcomment = dict(fcomment)
+#             fld = nfcomment["field"][0]
+#             fld = fld % (i,)
+#             nfcomment["field"] = [fld]
+#             newfields.append(nfcomment)
+#
+#     for i, cmt in enumerate(comm):
+#         if i < first_i:
+#             continue
+#         else:
+#             afield = newfields.pop(0)
+#             comm[i] = afield
+#     return nofirstfields
+
+
 # TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
 def missingkeys_standard(commdct, dtls, skiplist=None):
     """put missing keys in commdct for standard objects
@@ -161,6 +226,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
             continue
             # return nofirstfields
         key_i = dtls.index(key_txt.upper())
+        # a_missingkey_standard_1(commdct[key_i], key_txt, nofirstfields)
         a_missingkey_standard(commdct, key_i, key_txt, nofirstfields)
     return nofirstfields
 

@@ -1,4 +1,21 @@
 
+2022-10-08
+----------
+
+- TODO: -- move extensible filed finctions to a new module called ext_field_functions - DONE
+- these are in idfreader.py and bunch_subclass.py - DONE
+- confirm that the unit test work - DONE
+- then continue with issue #395
+    - bunch_subclass is updated
+    - it creastes extra fields. search for:
+        - # TODO - fix extra fields issue
+    - do unit tests for this
+    - cleanup code
+- After that, check if issure #391 and #393 were unnecessary
+
+
+
+
 2022-10-06
 ----------
 

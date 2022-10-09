@@ -30,6 +30,7 @@ from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
 from eppy import idfreader
+import eppy.ext_field_functions as extff
 
 
 class NoObjectError(Exception):
@@ -783,7 +784,7 @@ class IDF(object):
             obj_i = key_i
             block = self.block
             commdct = self.idd_info
-            objfields = idfreader.increaseIDDfields(block, commdct, obj_i, key_txt, n)
+            objfields = extff.increaseIDDfields(block, commdct, obj_i, key_txt, n)
             
         
         abunch = obj2bunch(self.model, self.idd_info, obj)

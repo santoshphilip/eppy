@@ -24,7 +24,8 @@ def test_read_overextended():
         55,
         G1,"""
     
-    nn = 5000
+    # nn = 5000
+    nn = 50
     extfields = ','.join([f"{i}, G{i}" for i in range(nn)])
     newstr = f"{astr} {extfields};"    
 

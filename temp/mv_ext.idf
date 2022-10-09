@@ -31,8 +31,8 @@ WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC,
     G1,
     55,
     G1,
-    55,
-    G1,
-    56,                       !- Optical Data Temperature 2
+    ,
+    ,
+    ,                       !- Optical Data Temperature 2
     G2;                       !- Window Material Glazing Name 2
 

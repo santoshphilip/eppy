@@ -21,8 +21,3 @@ ZoneList,
     Living13,                 !- Zone 13 Name
     Living14;                 !- Zone 14 Name
     
-ENERGYMANAGEMENTSYSTEM:PROGRAM,
-emname,
-pline1,
-pline2,
-pline3;    
