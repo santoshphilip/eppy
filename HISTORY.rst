@@ -5,6 +5,16 @@ History
 Changes
 ~~~~~~~
 
+2022-10-09
+----------
+
+fixed issue #395
+
+:Problem: dunder of setattr, getattr, setitem, getitem fail for an extensible field that is not in the IDD
+:Solution: updated the dunders to extend the fields in IDD that is in eppy's memory
+
+dunder = double underscore such as `__setattr__`
+
 2022-10-07
 ----------
 

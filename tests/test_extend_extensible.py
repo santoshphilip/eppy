@@ -1,3 +1,9 @@
+# Copyright (c) 2022 Santosh Philip
+# =======================================================================
+#  Distributed under the MIT License.
+#  (See accompanying file LICENSE or copy at
+#  http://opensource.org/licenses/MIT)
+# =======================================================================
 """py.test to test extending extensible fields beyond what is in the IDD file"""
 
 from io import StringIO

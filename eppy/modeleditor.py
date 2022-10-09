@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
 # Copyright (c) 2021 Jeremy Lerond
 # =======================================================================

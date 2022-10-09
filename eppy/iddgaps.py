@@ -1,5 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
-# Copyright (c) 2022 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at

@@ -1,10 +1,11 @@
 2022-10-09
 ----------
 
-- remove temp files
-- craft a fix issue commit message
-- add message to History
-- commit with message
+- remove temp files - DONE
+- craft a fix issue commit message - DONE
+- add message to History - DONE
+- update any copyrights
+- commit with message 
 - merge into develop
 - remove 1395_extfield branch in local
 - in remote
