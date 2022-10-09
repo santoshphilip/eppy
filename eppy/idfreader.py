@@ -1,6 +1,5 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # Copyright (c) 2021  Dimitris Mantas
-# Copyright (c) 2022 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -24,6 +23,7 @@ from eppy.bunch_subclass import EpBunch
 import eppy.iddgaps as iddgaps
 import eppy.function_helpers as fh
 from eppy.idf_msequence import Idf_MSequence
+import eppy.ext_field_functions as extff
 
 
 class NoIDDFieldsError(Exception):
@@ -53,17 +53,6 @@ def iddversiontuple(afile):
     return versiontuple(vers)
 
 
-def increaseIDDfields(block, commdct, key_i, key_txt, n):
-    """increase fields in IDD - ie in block and commdct"""
-    extlst = extension_of_extensible(commdct[key_i], block[key_i], n)
-    block[key_i] = block[key_i] + extlst
-    commdct[key_i] = commdct[key_i] + [{}] * len(extlst)
-    nofirstfields = []
-    iddgaps.a_missingkey_standard(commdct, key_i, key_txt, nofirstfields)
-    objfields = [comm.get("field") for comm in commdct[key_i]]
-    return objfields
-
-
 def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
     """make a bunch from the object"""
     objidd = commdct[obj_i]
@@ -75,10 +64,10 @@ def makeabunch(commdct, obj, obj_i, debugidd=True, block=None):
             #       -- start
             n = len(obj) - len(objfields)
             key_txt = obj[0]
-            objfields = increaseIDDfields(block, commdct, obj_i, key_txt, n)
+            objfields = extff.increaseIDDfields(block, commdct, obj_i, key_txt, n)
             # -- increase the number of fields in the IDD (in block and commdct)
             #       -- end
-            # 
+            #
             # -- convertfields for added fields -  start
             key_i = obj_i
             key_comm = commdct[obj_i]
@@ -294,40 +283,6 @@ def idfreader1(fname, iddfile, theidf, conv=True, commdct=None, block=None):
     # bunchdt = makebunches(data, commdct)
     bunchdt = makebunches_alter(data, commdct, theidf, block)
     return bunchdt, block, data, commdct, idd_index, versiontuple
-
-
-def getextensible(objidd):
-    """return the extensible from the idd"""
-    keys = objidd[0].keys()
-    extkey = [key for key in keys if key.startswith("extensible")]
-    if extkey:
-        extens = extkey[0].split(":")[-1]
-        return int(extens)
-    else:
-        return None
-
-
-def endof_extensible(extensible, thisblock):
-    """get the vars from where extension happens"""
-    return thisblock[-extensible:]
-
-
-def extension_of_extensible(objidd, objblock, n):
-    """generate the list of new vars needed to extend by n"""
-    ext = getextensible(objidd)
-    n = n // ext
-    lastvars = endof_extensible(ext, objblock)
-    alpha_lastvars = [i[0] for i in lastvars]
-    int_lastvars = [int(i[1:]) for i in lastvars]
-    lst = []
-    for alpha, start in zip(alpha_lastvars, int_lastvars):
-        step = alpha_lastvars.count(alpha)
-        rng = range(start + step, start + 1 + n * step, step)
-        lst.append(["{}{}".format(alpha, item) for item in rng])
-
-    from itertools import chain
-
-    return list(chain(*zip(*lst)))
 
 
 # complete -- remove this junk below

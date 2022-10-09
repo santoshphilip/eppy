@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
 # Copyright (c) 2021 Jeremy Lerond
 # =======================================================================
@@ -30,6 +30,7 @@ from eppy.idfreader import makeabunch
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import wrapped_help_text
 from eppy import idfreader
+import eppy.ext_field_functions as extff
 
 
 class NoObjectError(Exception):
@@ -769,23 +770,26 @@ class IDF(object):
             block=self.block,
             defaultvalues=defaultvalues,
         )
-        
-        # add fields if there are not enough fields in the IDD to match the fields in kwargs 
+
+        # add fields if there are not enough fields in the IDD to match the fields in kwargs
         dtls = self.model.dtls
         key = obj[0].upper()
         key_i = dtls.index(key)
         objfields = [comm.get("field") for comm in self.idd_info[key_i]]
-        # check if there are enough fields in the IDD to match the kwargs        
-        if len(kwargs) > (len(objfields) - 1): # objfields has placeholder for key. So subtract 1
+        # check if there are enough fields in the IDD to match the kwargs
+        if len(kwargs) > (
+            len(objfields) - 1
+        ):  # objfields has placeholder for key. So subtract 1
             # -- increase the number of fields in the IDD (in block and commdct)
-            n = len(kwargs) - (len(objfields) - 1) # objfields has placeholder for key. So subtract 1
+            n = len(kwargs) - (
+                len(objfields) - 1
+            )  # objfields has placeholder for key. So subtract 1
             key_txt = key
             obj_i = key_i
             block = self.block
             commdct = self.idd_info
-            objfields = idfreader.increaseIDDfields(block, commdct, obj_i, key_txt, n)
-            
-        
+            objfields = extff.increaseIDDfields(block, commdct, obj_i, key_txt, n)
+
         abunch = obj2bunch(self.model, self.idd_info, obj)
         self.idfobjects[key].append(abunch)
         for k, v in list(kwargs.items()):

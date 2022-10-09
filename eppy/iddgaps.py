@@ -1,5 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
-# Copyright (c) 2022 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -69,12 +68,14 @@ def getfields(comm):
     return fields
 
 
-def repeatingfieldsnames(fields):
+def repeatingfieldsnames(fields, int_replace=None):
     """get the names of the repeating fields"""
+    if not int_replace:
+        int_replace = "%s"
     fnames = [field["field"][0] for field in fields]
     fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
-    fnames = [(bunchhelpers.replaceint(fname), None) for fname in fnames]
+    fnames = [(bunchhelpers.replaceint(fname, int_replace), None) for fname in fnames]
     dct = dict(fnames)
     repnames = fnames[: len(list(dct.keys()))]
     return repnames
@@ -145,7 +146,6 @@ def a_missingkey_standard(commdct, key_i, key_txt, nofirstfields):
     return nofirstfields
 
 
-# TODO : looks like "TABLE:MULTIVARIABLELOOKUP" will have to be skipped for now.
 def missingkeys_standard(commdct, dtls, skiplist=None):
     """put missing keys in commdct for standard objects
     return a list of keys where it is unable to do so
@@ -161,6 +161,7 @@ def missingkeys_standard(commdct, dtls, skiplist=None):
             continue
             # return nofirstfields
         key_i = dtls.index(key_txt.upper())
+        # a_missingkey_standard_1(commdct[key_i], key_txt, nofirstfields)
         a_missingkey_standard(commdct, key_i, key_txt, nofirstfields)
     return nofirstfields
 
