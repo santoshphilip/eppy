@@ -4,9 +4,9 @@
 - remove temp files - DONE
 - craft a fix issue commit message - DONE
 - add message to History - DONE
-- update any copyrights
-- commit with message 
-- merge into develop
+- update any copyrights - DONE
+- commit with message  - DONE
+- merge into develop 
 - remove 1395_extfield branch in local
 - in remote
 - close issue
