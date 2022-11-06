@@ -5,7 +5,7 @@ History
 Changes
 ~~~~~~~
 
-release r0.5.59
+release r0.5.60
 ~~~~~~~~~~~~~~~
 
 2022-10-09
