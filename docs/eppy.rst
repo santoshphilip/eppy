@@ -50,6 +50,14 @@ eppy.eppy module
    :undoc-members:
    :show-inheritance:
 
+eppy.ext\_field\_functions module
+---------------------------------
+
+.. automodule:: eppy.ext_field_functions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 eppy.fanpower module
 --------------------
 

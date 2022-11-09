@@ -8,6 +8,29 @@ Changes
 release r0.5.60
 ~~~~~~~~~~~~~~~
 
+2022-11-08
+----------
+
+issues #395, #393, #291 fixes the following problem
+
+:Problem: eppy reads IDD file  at the start of a script and uses it to understand the structure of the IDF file. 
+
+    - Some IDD/IDF objects have extensible fields. 
+    - For example the coordinates of a surface can have a large number of coordinates points X, Y, Z.
+    - The IDD file may list only 5 of these points (I just made up the number 5 to illustrate the problem)
+    - The fields in the IDD file will look like this:
+        - X1, Y1, Z1
+        - X2, Y2, Z2
+        - X3, Y3, Z3
+        - X4, Y4, Z4
+        - X5, Y5, Z5
+    - Now, it the IDF file has 6 coordinate points for a surface, eppy will not work, since eppy trusts the IDD file and thinks that a surface can have only 5 points
+    - To make this work, the IDD file would need to have X6, Y6, Z6 in it
+    - If you update the the IDD file with X6, Y6, Z6 and run the eppy script again, it would work
+    - Updating the IDD file is cumbersome. Can eppy work without updating the IDD file ?
+    
+:Solution: fixing issues #395, #393, #291 allows eppy to work without updating the IDD file. Eppy will automatically extend the extensible fields from the IDD when the IDF file has more fields than the IDD file. This modification is done in the memory of eppy and the original IDD file on disk is not touched.
+
 2022-10-09
 ----------
 
