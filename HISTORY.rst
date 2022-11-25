@@ -5,6 +5,16 @@ History
 Changes
 ~~~~~~~
 
+
+2022-11-24
+----------
+
+fixed issue # 397
+
+:Problem: runIDFs is hard to debug since temporary files are deleted
+:Solution: runIDFs( ... , debug=True) will retain those files
+
+
 release r0.5.60
 ~~~~~~~~~~~~~~~
 
