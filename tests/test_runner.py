@@ -670,7 +670,13 @@ class TestMultiprocessing(object):
 
         num_CPUs = -1
         runIDFs(runs, num_CPUs)
-
+        
+        # test for debug=True
+        runIDFs(runs, num_CPUs, debug=True)
+        multirunfolder = os.path.join(THIS_DIR, 'multi_runs')
+        assert os.path.exists(multirunfolder)
+        shutil.rmtree(multirunfolder, ignore_errors=True)
+        
     def test_multiprocess_run_IDF_from_generator(self):
         """
         Test that we can run a sequence passed as a generator of runs using
@@ -697,3 +703,17 @@ class TestMultiprocessing(object):
 
         num_CPUs = -1
         runIDFs(runs, num_CPUs)
+        
+        # test for debug=True
+        runs = (
+            (
+                modeleditor.IDF(open(fname1, "r"), TEST_EPW),
+                {"output_directory": "results_%i" % i, "ep_version": ep_version},
+            )
+            for i in range(4)
+        )
+        runIDFs(runs, num_CPUs, debug=True)
+        multirunfolder = os.path.join(THIS_DIR, 'multi_runs')
+        assert os.path.exists(multirunfolder)
+        shutil.rmtree(multirunfolder, ignore_errors=True)
+        

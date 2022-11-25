@@ -1,3 +1,11 @@
+2022-11-24
+----------
+
+write test for debug in 
+
+- test_multiprocess_run_IDF
+- test_multiprocess_run_IDF_from_generator
+
 2022-10-09
 ----------
 

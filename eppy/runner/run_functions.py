@@ -145,7 +145,7 @@ def wrapped_help_text(wrapped_func):
     return decorator
 
 
-def runIDFs(jobs, processors=1):
+def runIDFs(jobs, processors=1, debug=False):
     """Wrapper for run() to be used when running IDF5 runs in parallel.
 
     Parameters
@@ -156,7 +156,10 @@ def runIDFs(jobs, processors=1):
     processors : int, optional
         Number of processors to run on (default: 1). If 0 is passed then
         the process will run on all CPUs, -1 means one less than all CPUs, etc.
-
+    debug : bool, optional
+        The runs are done in folders multi_runs/idf_0, multi_runs/idf_1 etc.
+        if debug==False then multi_runs is deleted at the end of this function
+        if debug==True multi_runs is not deleted
     """
     if mp is None:
         processors = 1
@@ -184,7 +187,10 @@ def runIDFs(jobs, processors=1):
         # multiprocessing not present so pass the jobs one at a time
         for job in prepared_runs:
             multirunner([job])
-    shutil.rmtree("multi_runs", ignore_errors=True)
+    if debug:
+        pass # retains files for debugging
+    else:
+        shutil.rmtree("multi_runs", ignore_errors=True)
 
 
 def prepare_run(run_id, run_data):
