@@ -6,10 +6,20 @@ Changes
 ~~~~~~~
 
 
+2022-11-25
+----------
+
+fixed issue #396
+````````````````
+
+:Problem: documentation "Running EnergyPlus from Eppy" needs updating
+:Solution: Updated
+
 2022-11-24
 ----------
 
 fixed issue # 397
+`````````````````
 
 :Problem: runIDFs is hard to debug since temporary files are deleted
 :Solution: runIDFs( ... , debug=True) will retain those files
