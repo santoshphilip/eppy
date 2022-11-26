@@ -5,6 +5,15 @@ History
 Changes
 ~~~~~~~
 
+2022-11-26
+----------
+
+fixed issue #401
+````````````````
+
+:Problem: idf.run() does a saveas("in.idf") and does NOT go back to original name
+:Solution: do saveas("ranmdomname.idf") and go back to original name
+
 
 2022-11-25
 ----------
