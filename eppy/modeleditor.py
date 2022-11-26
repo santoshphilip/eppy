@@ -1055,14 +1055,46 @@ class IDF(object):
 
         """
         # write the IDF to the current directory
-        self.saveas("in.idf")
+        import uuid
+        t_suffix = uuid.uuid4().hex
+        temp_name = f"{t_suffix}.idf"
+        
+        idfname = self.idfname
+        idfabsname = self.idfabsname
+        
+        
+        self.saveas(temp_name)
+        
+        
         # if `idd` is not passed explicitly, use the IDF.iddname
         idd = kwargs.pop("idd", self.iddname)
         epw = kwargs.pop("weather", self.epw)
         try:
             run(self, weather=epw, idd=idd, **kwargs)
         finally:
-            os.remove("in.idf")
+            self.idfname = idfname
+            self.idfabsname = idfabsname
+            os.remove(temp_name)
+
+    def runfile(self, **kwargs):
+        """Run an IDF file on the disk with a given EnergyPlus weather file. This is a
+        wrapper for the EnergyPlus command line interface.
+        
+        This is different from run() which can run a file that is only in memory
+
+        Parameters
+        ----------
+        kwargs :
+            See eppy.runner.functions.run()
+
+        """
+        idd = kwargs.pop("idd", self.iddname)
+        epw = kwargs.pop("weather", self.epw)
+        try:
+            run(self, weather=epw, idd=idd, **kwargs)
+        finally:
+            # os.remove("in.idf")
+            pass
 
     def getiddgroupdict(self):
         """Return a idd group dictionary

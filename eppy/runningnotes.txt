@@ -1,3 +1,47 @@
+
+
+
+2022-11-26
+----------
+
+Plan:
+
+- don't change existing functions - idf.run and runIDFs
+- make new functions that will run files from the disk
+- idf.run -> idf.runfile
+- runIDFs -> runIDFfiles
+
+Status:
+
+- OK .. both of the above are working
+- TODO
+    - duplicate the tests
+    - Update doc strings for new function
+    - include these functions in user documentation.
+- need to restore idf.idfname to the original name
+- see
+- https://stackoverflow.com/questions/8577137/how-can-i-create-a-tmp-file-in-python
+- for temporary file names.
+
+
+2022-11-25
+----------
+
+- removed saveas("in.idf") from idf.run()
+- runs works and runIDFs() works
+- tests are failing - fix them.
+
+notes:
+
+- idf.run() should work only on a file that is on disk
+- So a file has to be saved onto disk before it can be run
+- The tests in tests_runner do not have this expaection. So they fail
+- ######
+- the fact that they have to saved has to in the documentation.
+- both function doc and readthedocs 
+
+
+
 2022-11-24
 ----------
 

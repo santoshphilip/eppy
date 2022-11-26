@@ -271,6 +271,17 @@ class TestIDFRunner(object):
         files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files)
 
+    def test_run_retain_idfname(self, test_idf):
+        """
+        idf.run() changes idfname. Confirm that the name is restored
+
+        """
+        idfname = test_idf.idfname
+        idfabsname = test_idf.idfabsname
+        test_idf.run(output_directory="run_outputs")
+        assert test_idf.idfname == idfname
+        assert test_idf.idfabsname == idfabsname
+
     def test_run_readvars(self, test_idf):
         """
         End to end test of idf.run function with readvars set True.
