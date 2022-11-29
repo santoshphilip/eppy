@@ -189,7 +189,7 @@ def runIDFs(jobs, processors=1, debug=False):
         for job in prepared_runs:
             multirunner([job])
     if debug:
-        pass # retains files for debugging
+        pass  # retains files for debugging
     else:
         shutil.rmtree("multi_runs", ignore_errors=True)
 
