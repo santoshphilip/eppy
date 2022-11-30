@@ -5,6 +5,16 @@ History
 Changes
 ~~~~~~~
 
+2022-11-30
+----------
+
+fixed issue #405
+
+:Problem: need a function to copy the entire idf
+:Solution: IDF.copyidf() does this
+
+
+
 release r0.5.61
 ~~~~~~~~~~~~~~~
 
