@@ -1,4 +1,4 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2022 Santosh Philip
 # Copyright (c) 2021 Jeremy Lerond
 # =======================================================================
 #  Distributed under the MIT License.
@@ -667,3 +667,25 @@ def test_idd_index():
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
     assert idf.idd_index == {}
+    
+def test_copyidf():
+    """py.test for idf.copyidf"""
+    # some random tidftxt
+    idftxt = """
+        Material,
+          G01a 19mm gypsum board,  !- Name
+          MediumSmooth,            !- Roughness
+          0.019,                   !- Thickness {m}
+          0.16,                    !- Conductivity {W/m-K}
+          800,                     !- Density {kg/m3}
+          1090;                    !- Specific Heat {J/kg-K}
+
+        Construction,
+          Interior Wall,           !- Name
+          G01a 19mm gypsum board,  !- Outside Layer
+          F04 Wall air space resistance,  !- Layer 2
+          G01a 19mm gypsum board;  !- Layer 3
+        """
+    idf = IDF(StringIO(idftxt))
+    new_idf = idf.copyidf()
+    assert idf.idfstr() == new_idf.idfstr()

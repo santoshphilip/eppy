@@ -498,6 +498,29 @@ def zonevolume(idf, zonename):
 def refname2key(idf, refname):
     """return all keys that have the reference name"""
     return [item[0] for item in getallobjlists(idf, refname)]
+    
+def copyidf(idf_source):
+    """returns an in memory copy of idf
+    
+    It copies only the idfobjects. epw, idfname are not copied
+
+    Parameters
+    ----------
+    idf_source : IDF
+        modelmaker.IDF object.
+
+    Returns
+    -------
+    modelmaker.IDF object
+    
+    """
+    new_idf = IDF(StringIO(""))
+    for key in idf_source.idfobjects:
+        if key.upper() != "version".upper():
+            for obj in idf_source.idfobjects[key]:
+                new_idf.copyidfobject(obj)
+    return new_idf
+    
 
 
 class IDF(object):
@@ -551,7 +574,7 @@ class IDF(object):
             try:
                 self.idfabsname = os.path.abspath(self.idfname)
             except TypeError as e:
-                # self.idfabsname = None
+                self.idfabsname = None
                 pass  # it is file handle. the code can handle that
             self.read()
             
@@ -1112,3 +1135,12 @@ class IDF(object):
         dict
         """
         return iddgroups.commdct2grouplist(self.idd_info)
+        
+    def copyidf(self):
+        """Return a copy of IDF
+        
+        Returns
+        -------
+        modeleditor.IDF object
+        """
+        return copyidf(self)
