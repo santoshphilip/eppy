@@ -9,14 +9,26 @@ Changes
 ----------
 
 fixed issued #404
+`````````````````
 
 :Problem: idf.run() does not run if there is no idf filename
 :Solution: fixed, so idf.run() works with no filename
 
 fixed issue #405
+````````````````
 
 :Problem: need a function to copy the entire idf
 :Solution: IDF.copyidf() does this
+
+fixed issue #403
+````````````````
+
+:Problem:
+
+- idf.run() obfuscates the filename while running the simulation
+- makes it hard to know which file is running in distributed system like zeppy
+
+:Solution: add the filename as a suffix to the obfuscated name
 
 
 
@@ -82,6 +94,7 @@ issues #395, #393, #291 fixes the following problem
 ----------
 
 fixed issue #395
+````````````````
 
 :Problem: dunder of setattr, getattr, setitem, getitem fail for an extensible field that is not in the IDD
 :Solution: updated the dunders to extend the fields in IDD that is in eppy's memory
@@ -146,6 +159,7 @@ Date:   Thu Dec 9 22:33:17 2021 -0800
 -------------------------------------
 
 fixed issue #368
+````````````````
     
     :Problem: docstrings in modeleditor.py ask for of ALL_CAPS.
     :Solution: eppy no longer needs ALL_CAPS keys. Removed ALL_CAPS from docstrings
@@ -154,6 +168,7 @@ Date:   Thu Dec 9 22:25:45 2021 -0800
 -------------------------------------
 
 fixed issue #361
+````````````````
     
     :Problem: DeprecationWarning: Using or importing the ABCs from 'collections'
     :Solution: import from 'collections.abc'
