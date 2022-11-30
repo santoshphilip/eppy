@@ -8,6 +8,11 @@ Changes
 2022-11-30
 ----------
 
+fixed issued #404
+
+:Problem: idf.run() does not run if there is no idf filename
+:Solution: fixed, so idf.run() works with no filename
+
 fixed issue #405
 
 :Problem: need a function to copy the entire idf
