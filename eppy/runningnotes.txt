@@ -1,5 +1,11 @@
+2022-11-30
+----------
 
+eppy.newidf() should not need a version number if it already has an IDD. Check this.Open an issue if needed. 
 
+can a newidf be created wthout the VERSION object (IDD knows whichobject it is)o
+
+Consider adding epw as an arg to eppy.newidf
 
 2022-11-26
 ----------

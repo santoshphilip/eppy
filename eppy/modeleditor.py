@@ -551,8 +551,10 @@ class IDF(object):
             try:
                 self.idfabsname = os.path.abspath(self.idfname)
             except TypeError as e:
+                # self.idfabsname = None
                 pass  # it is file handle. the code can handle that
             self.read()
+            
         if epw != None:
             self.epw = epw
         self.outputtype = "standard"
