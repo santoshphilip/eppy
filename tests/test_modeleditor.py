@@ -667,7 +667,8 @@ def test_idd_index():
     idftxt = """"""
     idf = IDF(StringIO(idftxt))
     assert idf.idd_index == {}
-    
+
+
 def test_copyidf():
     """py.test for idf.copyidf"""
     # some random tidftxt
