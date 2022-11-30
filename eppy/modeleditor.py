@@ -1079,15 +1079,21 @@ class IDF(object):
             See eppy.runner.functions.run()
 
         """
-        # write the IDF to the current directory
-        import uuid
 
-        t_suffix = uuid.uuid4().hex
-        temp_name = f"{t_suffix}.idf"
+        def _makerandomword(length=6):
+            import uuid
+
+            fullword = uuid.uuid4().hex
+            return fullword[:length]
+
+        # write the IDF to the current directory
 
         idfname = self.idfname
         idfabsname = self.idfabsname
 
+        t_suffix = _makerandomword()
+        randomname = f"{t_suffix}.idf"
+        temp_name = f"{idfname}_{randomname}"
         self.saveas(temp_name)
 
         # if `idd` is not passed explicitly, use the IDF.iddname
