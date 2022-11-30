@@ -272,6 +272,21 @@ class TestIDFRunner(object):
         files = os.listdir("run_outputs")
         assert set(files) == set(self.expected_files)
 
+    def test_run_no_filename(self, test_idf):
+        """
+        End to end test of idf.run function.
+        test to ensure that it runs even if there is no filename
+
+        """
+        # make an in memory copy of test_idf
+        noname_idf = test_idf.copyidf()
+        noname_idf.epw = test_idf.epw
+        # test in memory copy
+        noname_idf.run(output_directory="run_outputs")
+        assert not has_severe_errors()
+        files = os.listdir("run_outputs")
+        assert set(files) == set(self.expected_files)
+
     def test_run_retain_idfname(self, test_idf):
         """
         idf.run() changes idfname. Confirm that the name is restored
