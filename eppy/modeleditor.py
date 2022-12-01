@@ -1086,14 +1086,22 @@ class IDF(object):
             fullword = uuid.uuid4().hex
             return fullword[:length]
 
+        def _maketempname(idfname, randlength=6):
+            idfname = str(idfname)
+            t_suffix = _makerandomword(randlength)
+            randomname = f"{t_suffix}.idf"
+            if str(idfname[-4:]) == ".idf":
+                temp_name = f"{idfname[:-4]}_{randomname}"
+            else:
+                temp_name = randomname
+            return temp_name
+
         # write the IDF to the current directory
 
         idfname = self.idfname
         idfabsname = self.idfabsname
 
-        t_suffix = _makerandomword()
-        randomname = f"{t_suffix}.idf"
-        temp_name = f"{idfname}_{randomname}"
+        temp_name = _maketempname(idfname)
         self.saveas(temp_name)
 
         # if `idd` is not passed explicitly, use the IDF.iddname
