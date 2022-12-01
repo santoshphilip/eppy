@@ -5,6 +5,14 @@ History
 Changes
 ~~~~~~~
 
+2022-11-30
+----------
+
+fixed issue #407
+
+:Problem: idf.run() is broken on windows after fix of issue # 403
+:Solution: fixed idf.run() on windows
+
 release r0.5.62
 ~~~~~~~~~~~~~~~
 
