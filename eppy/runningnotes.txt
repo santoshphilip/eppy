@@ -1,4 +1,24 @@
 
+2022-12-02
+----------
+
+starting on issue $406. List the possible additions to docs
+
+- page on associated repositories - mine and others
+    - link to it from the READEME page
+- Does eppy.openidf, eppy.newidf
+    - point to this in the tutorial
+- copyidf()
+- verbose="s" in idf.run()
+- search for other function not in new functions - how?
+- make a note for all broken functions - ask for help to fix
+    - loopmaker
+    - loopbuilder
+- give pathway to read and learn
+    - tutorial
+    - what next
+    - other things
+    - other repositories
 
 2022-11-30
 ----------
@@ -6,6 +26,8 @@
 paused on issue #404
 
 Then go onto zeppy that triggered all these changes.
+
+issue #404 is fixed and closed
 
 2022-11-26
 ----------
