@@ -23,7 +23,7 @@ starting on issue #406. List the possible additions to docs
 - page on associated repositories - mine and others
     - link to it from the READEME page
 - Does eppy.openidf, eppy.newidf
-    - point to this in the tutorial
+    - point to this in the tutorial - HERE NOW
     - docs for eppy.openidf - DONE
 - copyidf()
 - verbose="s" in idf.run()

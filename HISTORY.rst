@@ -5,6 +5,26 @@ History
 Changes
 ~~~~~~~
 
+2022-12-03
+----------
+
+fixed issue #408
+
+:Problem:
+
+    the following code fails
+
+    ::
+
+        fhandle = StringIO("VERSION, 7.3;" )
+        idf = IDF(fhandle)
+        idf.idfname = "somefile.idf"
+        idf.save()
+
+:Solution: idf.save uses self.idfabsname, ensure that it is not None
+
+
+
 release r0.5.63
 ~~~~~~~~~~~~~~~
 
@@ -128,7 +148,7 @@ fixed issue #393
 fixed issue #394
 ````````````````
 
-:Problem: In idf.newidfobject(self, key, aname="", ... **kwargs), aname is depreceated
+:Problem: In ``idf.newidfobject(self, key, aname="", ... **kwargs)``, aname is depreceated
 :Solution: remove aname form newidfobject
 
 2022-10-06
