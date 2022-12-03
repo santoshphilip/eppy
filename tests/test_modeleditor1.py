@@ -4,7 +4,7 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for some functions of modeleditor"""
+"""py.test for some functions of modeleditor. Other tests are in test_modeleditor.py"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function

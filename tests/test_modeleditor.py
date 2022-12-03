@@ -5,7 +5,7 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for modeleditor"""
+"""Main py.test modeleditor. Other tests are in test_modeleditor.py"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -690,3 +690,20 @@ def test_copyidf():
     idf = IDF(StringIO(idftxt))
     new_idf = idf.copyidf()
     assert idf.idfstr() == new_idf.idfstr()
+
+
+def test_name_and_save_inmemoryidf():
+    """py.test to name and save a file that is created in memory"""
+    # fixing and testing an error from user documentation code
+    # fix for issue #408
+
+    idftxt = "VERSION, 7.3;"
+    fhandle = StringIO(idftxt)
+    idf_notemptyfile = IDF(fhandle)
+    idf_notemptyfile.idfname = "notemptyfile_randomchars_laksdfjl.idf"
+    try:
+        idf_notemptyfile.save()
+    except Exception as e:
+        raise e
+    finally:
+        os.remove("notemptyfile_randomchars_laksdfjl.idf")
