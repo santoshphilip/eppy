@@ -24,6 +24,7 @@ starting on issue #406. List the possible additions to docs
     - link to it from the READEME page
 - Does eppy.openidf, eppy.newidf
     - point to this in the tutorial
+    - docs for eppy.openidf - DONE
 - copyidf()
 - verbose="s" in idf.run()
 - search for other function not in new functions - how?
