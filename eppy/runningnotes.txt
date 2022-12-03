@@ -1,8 +1,24 @@
 
+2022-12-03
+----------
+
+paused on user documentation in newfntions at "Blank idf file"
+
+The code ::
+
+    # - give it a file name
+    idf_notemptyfile.idfname = "notemptyfile.idf"
+    # - Save it to the disk
+    idf_notemptyfile.save()
+
+does not work
+
+open it as an issue and fix it. Than go back to issue #406
+
 2022-12-02
 ----------
 
-starting on issue $406. List the possible additions to docs
+starting on issue #406. List the possible additions to docs
 
 - page on associated repositories - mine and others
     - link to it from the READEME page
