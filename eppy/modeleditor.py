@@ -996,6 +996,9 @@ class IDF(object):
             is compatible with the EnergyPlus IDFEditor.
 
         """
+        if self.idfabsname is None and isinstance(self.idfname, str):
+            # this happens when the user sets self.idfname to an in-memory idf
+            self.idfabsname = os.path.abspath(self.idfname)
         if filename is None:
             filename = self.idfabsname
         s = self.idfstr()
@@ -1022,6 +1025,13 @@ class IDF(object):
                 filename.write(s)
             except TypeError:
                 filename.write(s.decode(encoding))
+
+        try:
+            pass
+        except Exception as e:
+            raise e
+        else:
+            pass
 
     def saveas(self, filename, lineendings="default", encoding="latin-1"):
         """Save the IDF as a text file with the filename passed.
