@@ -5,10 +5,22 @@ History
 Changes
 ~~~~~~~
 
+
 2022-12-03
 ----------
 
+partial fix for issue #406 = #406.2
+```````````````````````````````````
+
+linked ```eppy.openidf()``` from the Tutorial
+
+partial fix for issue #406 = #406.1
+````````````````````````````````````
+
+Added user documentation for ``eppy.openidf()``
+
 fixed issue #408
+````````````````
 
 :Problem:
 
@@ -21,7 +33,7 @@ fixed issue #408
         idf.idfname = "somefile.idf"
         idf.save()
 
-:Solution: idf.save uses self.idfabsname, ensure that it is not None
+:Solution: idf.save uses ``self.idfabsname``, ensure that it is not ``None``
 
 
 
