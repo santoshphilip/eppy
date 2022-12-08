@@ -5,6 +5,19 @@ History
 Changes
 ~~~~~~~
 
+2022-12-07
+----------
+
+fixed issue #410
+````````````````
+
+:Problem: need a IDF.resetidd() function during testing
+:Solution: IDF.resetidd() will reset all related idd values
+
+    modified:   eppy/modeleditor.py
+    modified:   tests/test_runner.py
+
+
 release r0.5.63
 ~~~~~~~~~~~~~~~
 
