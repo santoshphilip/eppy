@@ -2,7 +2,7 @@ munch
 soupsieve
 beautifulsoup4
 pydot
-pyparsing
+pyparsing>=3.0.9
 pytest
 tinynumpy
 six

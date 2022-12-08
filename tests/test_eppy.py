@@ -12,17 +12,14 @@ import pytest
 import eppy
 from eppy.pytest_helpers import do_integration_tests
 import eppy.idd_helpers as idd_helpers
+from tests.pytest_helpers import safeIDDreset
 
 IDDVERSION = "8.4.0"
 
-
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
-    try:
-        eppy.modeleditor.IDF.resetidd()
-    except eppy.modeleditor.IDDResetError as e:
-        pass
-
+    safeIDDreset()
+    
 def versiontuple(vers):
     """version tuple"""
     return tuple([int(num) for num in vers.split(".")])
@@ -60,11 +57,7 @@ def test_newidf2():
     # 1. IDD is already set
     #     - if IDD has been set, it should use that IDD
 
-    # reload(eppy.modeleditor) # this will reset the IDD to None
-    try:
-        eppy.modeleditor.IDF.resetidd()
-    except eppy.modeleditor.IDDResetError as e:
-        pass # This is a way to change the IDD
+    safeIDDreset()
     iddversion = IDDVERSION
     idf1 = eppy.newidf(version=iddversion) # this will set the IDD version
     idf2 = eppy.newidf(version=None)
@@ -75,11 +68,7 @@ def test_newidf2():
         idf3 = eppy.newidf(version=wrongiddversion)
     # 2. IDD has not been set
     #     - if eppy.newidf(version=None), it should throw an exception
-    try:
-        eppy.modeleditor.IDF.resetidd()
-    except eppy.modeleditor.IDDResetError as e:
-        pass # This is a way to change the IDD
-    # reload(eppy.modeleditor) # this will reset the IDD to None
+    safeIDDreset()
     with pytest.raises(eppy.modeleditor.IDDNotSetError):
         idf4 = eppy.newidf(version=None)
     #     - if eppy.newidf(version=some_version), it shoule use that some_version of IDD

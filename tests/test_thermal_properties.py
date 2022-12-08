@@ -23,13 +23,18 @@ from eppy.pytest_helpers import almostequal
 
 
 def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
+    
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
     iddfhandle = StringIO(iddcurrent.iddtxt)
     if IDF.getiddname() == None:
         IDF.setiddname(iddfhandle)
-# iddfhandle = StringIO(iddcurrent.iddtxt)
-#
-# if IDF.getiddname() == None:
-#     IDF.setiddname(iddfhandle)
+
 
 class Data(object):
     """data"""
@@ -188,8 +193,6 @@ class Test_ThermalProperties(object):
 
     def test_rvalue_1_layer_construction(self):
         self.idf.initreadtxt(Data.single_layer)
-        print(1, self.idf.iddname)
-        print(2, list(self.idf.idfobjects.keys()))
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = INSIDE_FILM_R + m.Thickness / m.Conductivity + OUTSIDE_FILM_R

@@ -12,10 +12,15 @@ from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with
-# the old reading
 def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
+    
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
     iddfhandle = StringIO(iddcurrent.iddtxt)
     if IDF.getiddname() == None:
         IDF.setiddname(iddfhandle)
@@ -38,7 +43,6 @@ def test_read_overextended():
     newstr = f"{astr} {extfields};"
 
     fhandle = StringIO(newstr)
-    print(1, IDF.iddname)
     idf = IDF(fhandle)
     wm = idf.idfobjects["WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC"]
     assert wm[0][f"Optical_Data_Temperature_{nn + 1}"] == nn - 1

@@ -24,7 +24,6 @@ import re
 import shutil
 
 import pytest
-from importlib import reload
 
 import eppy
 from eppy import modeleditor
@@ -33,6 +32,7 @@ from eppy.runner.run_functions import install_paths, EnergyPlusRunError
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
+from tests.pytest_helpers import safeIDDreset
 
 
 def versiontuple(vers):
@@ -60,10 +60,7 @@ eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_I
 
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
-    try:
-        eppy.modeleditor.IDF.resetidd()
-    except eppy.modeleditor.IDDResetError as e:
-        pass
+    safeIDDreset()
 
 def has_severe_errors(results="run_outputs"):
     """Check for severe errors in the eplusout.end file."""
@@ -76,13 +73,7 @@ def has_severe_errors(results="run_outputs"):
 
 def test_version_reader():
     """Test that get the expected idd_version when reading an IDF/IDD."""
-    # We need to reload modeleditor since the IDF class may have had an IDD
-    # which causes problems.
-    # https://stackoverflow.com/questions/437589/how-do-i-unload-reload-a-python-module
-    try:
-        modeleditor.IDF.resetidd() # reload(modeleditor)
-    except modeleditor.IDDResetError as e:
-        pass # This is a way to change the IDD
+    safeIDDreset()
     iddfile = os.path.join(IDD_FILES, TEST_IDD)
     fname1 = os.path.join(IDF_FILES, TEST_IDF)
     modeleditor.IDF.setiddname(iddfile, testing=True)
@@ -91,7 +82,6 @@ def test_version_reader():
     assert ep_version == versiontuple(VERSION)
     ep_version = modeleditor.IDF.idd_version
     assert ep_version == versiontuple(VERSION)
-    # reload(modeleditor)
 
 
 @pytest.mark.skipif(
@@ -147,7 +137,6 @@ class TestRunFunction(object):
 
     def setup(self):
         """Tidy up just in case anything is left from previous test runs."""
-        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -157,7 +146,6 @@ class TestRunFunction(object):
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
-        # reload(modeleditor)
 
     def test_run_abs_paths(self):
         """
@@ -208,7 +196,6 @@ class TestIDFRunner(object):
 
     def setup(self):
         """Tidy up anything left from previous runs. Get an IDF object to run."""
-        # reload(modeleditor)
         shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
         self.expected_files = [
@@ -260,7 +247,6 @@ class TestIDFRunner(object):
         shutil.rmtree("run_outputs", ignore_errors=True)
         shutil.rmtree("other_run_outputs", ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
-        # reload(modeleditor)
         for f in {"eplusout.end", "eplusout.err", "in.idf"}:
             try:
                 os.remove(os.path.join(THIS_DIR, f))
@@ -616,7 +602,6 @@ class TestMultiprocessing(object):
 
     def setup(self):
         """Clear out any results from previous tests."""
-        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
         self.expected_files = [
@@ -640,7 +625,6 @@ class TestMultiprocessing(object):
             shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
-        # reload(modeleditor)
 
     def test_sequential_run(self):
         """
