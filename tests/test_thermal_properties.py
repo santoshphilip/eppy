@@ -22,158 +22,169 @@ from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 
 
-iddfhandle = StringIO(iddcurrent.iddtxt)
-
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
-
-single_layer = """
-  Construction,
-    TestConstruction,                       !- Name
-    TestMaterial;                           !- Inside Layer
-    
-  Material,
-    TestMaterial,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
+def setup_module(module):
     """
-
-expected_failure = """
-  Construction,
-    TestConstruction,                       !- Name
-    Skyhooks;                           !- Inside Layer
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
     
-  Boiler:HotWater,
-    Skyhooks,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
+    pytest run this before running the module
     """
+    from eppy.iddcurrent import iddcurrent
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
-double_layer = """
-  Construction,
-    TestConstruction,        !- Name
-    TestMaterial,            !- Inside Layer
-    TestMaterial;            !- Outside Layer
-    
-  Material,
-    TestMaterial,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
-    """
 
-air_gap = """
-  Construction,
-    TestConstruction,        !- Name
-    TestMaterial,            !- Inside Layer
-    AirGap,                  !- Layer 2
-    TestMaterial;            !- Outside Layer
+class Data(object):
+    """data"""
+    single_layer = """
+      Construction,
+        TestConstruction,                       !- Name
+        TestMaterial;                           !- Inside Layer
     
-  Material,
-    TestMaterial,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
-  Material:AirGap,
-    AirGap,
-    0.1;                     !- Thermal Resistance
-    """
+      Material,
+        TestMaterial,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+        """
 
-infrared_transparent = """
-  Construction,
-    TestConstruction,        !- Name
-    TestMaterial,            !- Inside Layer
-    InfraredTransparent,     !- Layer 2
-    TestMaterial;            !- Outside Layer
+    expected_failure = """
+      Construction,
+        TestConstruction,                       !- Name
+        Skyhooks;                           !- Inside Layer
     
-  Material,
-    TestMaterial,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
-  Material:InfraredTransparent,
-    InfraredTransparent;     !- Name
-    """
+      Boiler:HotWater,
+        Skyhooks,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+        """
 
-no_mass = """
-  Construction,
-    TestConstruction,        !- Name
-    TestMaterial,            !- Inside Layer
-    NoMass,                  !- Layer 2
-    TestMaterial;            !- Outside Layer
+    double_layer = """
+      Construction,
+        TestConstruction,        !- Name
+        TestMaterial,            !- Inside Layer
+        TestMaterial;            !- Outside Layer
     
-  Material,
-    TestMaterial,
-    Rough,                   !- Roughness
-    0.10,                    !- Thickness {m}
-    0.5,                     !- Conductivity {W/m-K}
-    1000.0,                  !- Density {kg/m3}
-    1200,                    !- Specific Heat {J/kg-K}
-    0.9,                     !- Thermal Absorptance
-    0.6,                     !- Solar Absorptance
-    0.6;                     !- Visible Absorptance
-  Material:NoMass,
-    NoMass,                  ! Material Name
-    ,                        ! Roughness
-    0.1,                     ! Resistance {M**2K/W}
-    ,                        ! Thermal Absorptance
-    ,                        ! Solar Absorptance
-    ;                        ! Visible Absorptance
-    """
+      Material,
+        TestMaterial,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+        """
 
-roof_vegetation = """
-  Construction,
-    TestConstruction,        !- Name
-    RoofVegetation;          !- Inside Layer
+    air_gap = """
+      Construction,
+        TestConstruction,        !- Name
+        TestMaterial,            !- Inside Layer
+        AirGap,                  !- Layer 2
+        TestMaterial;            !- Outside Layer
     
-  Material:RoofVegetation,
-    RoofVegetation,          !- Name
-    ,                        !- Height of Plants {m}
-    ,                        !- Leaf Area Index {dimensionless}
-    ,                        !- Leaf Reflectivity {dimensionless}
-    ,                        !- Leaf Emissivity
-    ,                        !- Minimum Stomatal Resistance {s/m}
-    ,                        !- Soil Layer Name
-    ,                        !- Roughness
-    0.1,                     !- Thickness {m}
-    0.5,                     !- Conductivity of Dry Soil {W/m-K}
-    1000,                    !- Density of Dry Soil {kg/m3}
-    1200,                    !- Specific Heat of Dry Soil {J/kg-K}
-    ,                        !- Thermal Absorptance
-    ,                        !- Solar Absorptance
-    ,                        !- Visible Absorptance
-    ,                        !- Saturation Volumetric Moisture Content of the Soil Layer
-    ,                        !- Residual Volumetric Moisture Content of the Soil Layer
-    ,                        !- Initial Volumetric Moisture Content of the Soil Layer
-    ;                        !- Moisture Diffusion Calculation Method
-    """
+      Material,
+        TestMaterial,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+      Material:AirGap,
+        AirGap,
+        0.1;                     !- Thermal Resistance
+        """
+
+    infrared_transparent = """
+      Construction,
+        TestConstruction,        !- Name
+        TestMaterial,            !- Inside Layer
+        InfraredTransparent,     !- Layer 2
+        TestMaterial;            !- Outside Layer
+    
+      Material,
+        TestMaterial,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+      Material:InfraredTransparent,
+        InfraredTransparent;     !- Name
+        """
+
+    no_mass = """
+      Construction,
+        TestConstruction,        !- Name
+        TestMaterial,            !- Inside Layer
+        NoMass,                  !- Layer 2
+        TestMaterial;            !- Outside Layer
+    
+      Material,
+        TestMaterial,
+        Rough,                   !- Roughness
+        0.10,                    !- Thickness {m}
+        0.5,                     !- Conductivity {W/m-K}
+        1000.0,                  !- Density {kg/m3}
+        1200,                    !- Specific Heat {J/kg-K}
+        0.9,                     !- Thermal Absorptance
+        0.6,                     !- Solar Absorptance
+        0.6;                     !- Visible Absorptance
+      Material:NoMass,
+        NoMass,                  ! Material Name
+        ,                        ! Roughness
+        0.1,                     ! Resistance {M**2K/W}
+        ,                        ! Thermal Absorptance
+        ,                        ! Solar Absorptance
+        ;                        ! Visible Absorptance
+        """
+
+    roof_vegetation = """
+      Construction,
+        TestConstruction,        !- Name
+        RoofVegetation;          !- Inside Layer
+    
+      Material:RoofVegetation,
+        RoofVegetation,          !- Name
+        ,                        !- Height of Plants {m}
+        ,                        !- Leaf Area Index {dimensionless}
+        ,                        !- Leaf Reflectivity {dimensionless}
+        ,                        !- Leaf Emissivity
+        ,                        !- Minimum Stomatal Resistance {s/m}
+        ,                        !- Soil Layer Name
+        ,                        !- Roughness
+        0.1,                     !- Thickness {m}
+        0.5,                     !- Conductivity of Dry Soil {W/m-K}
+        1000,                    !- Density of Dry Soil {kg/m3}
+        1200,                    !- Specific Heat of Dry Soil {J/kg-K}
+        ,                        !- Thermal Absorptance
+        ,                        !- Solar Absorptance
+        ,                        !- Visible Absorptance
+        ,                        !- Saturation Volumetric Moisture Content of the Soil Layer
+        ,                        !- Residual Volumetric Moisture Content of the Soil Layer
+        ,                        !- Initial Volumetric Moisture Content of the Soil Layer
+        ;                        !- Moisture Diffusion Calculation Method
+        """
 
 
 class Test_ThermalProperties(object):
@@ -181,7 +192,7 @@ class Test_ThermalProperties(object):
         self.idf = IDF()
 
     def test_rvalue_1_layer_construction(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = INSIDE_FILM_R + m.Thickness / m.Conductivity + OUTSIDE_FILM_R
@@ -189,7 +200,7 @@ class Test_ThermalProperties(object):
         assert c.rvalue == 0.35
 
     def test_rvalue_fails(self):
-        self.idf.initreadtxt(expected_failure)
+        self.idf.initreadtxt(Data.expected_failure)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         try:
             c.rvalue
@@ -198,7 +209,7 @@ class Test_ThermalProperties(object):
             assert str(e) == "Skyhooks material not found in IDF"
 
     def test_rvalue_2_layer_construction(self):
-        self.idf.initreadtxt(double_layer)
+        self.idf.initreadtxt(Data.double_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = (
@@ -211,7 +222,7 @@ class Test_ThermalProperties(object):
         assert c.rvalue == 0.55
 
     def test_rvalue_airgap_construction(self):
-        self.idf.initreadtxt(air_gap)
+        self.idf.initreadtxt(Data.air_gap)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         a = self.idf.getobject("MATERIAL:AIRGAP", "AirGap")
@@ -226,7 +237,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.rvalue, 0.65, places=2)
 
     def test_rvalue_infraredtransparent_construction(self):
-        self.idf.initreadtxt(infrared_transparent)
+        self.idf.initreadtxt(Data.infrared_transparent)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = (
@@ -239,7 +250,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.rvalue, 0.55, places=2)
 
     def test_rvalue_nomass_construction(self):
-        self.idf.initreadtxt(no_mass)
+        self.idf.initreadtxt(Data.no_mass)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         n = self.idf.getobject("MATERIAL:NOMASS", "NoMass")
@@ -254,7 +265,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.rvalue, 0.65, places=2)
 
     def test_rvalue_roofvegetation_construction(self):
-        self.idf.initreadtxt(roof_vegetation)
+        self.idf.initreadtxt(Data.roof_vegetation)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
         expected = (
@@ -268,14 +279,14 @@ class Test_ThermalProperties(object):
             assert issubclass(w[-1].category, UserWarning)
 
     def test_rvalue_material(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness / m.Conductivity
         assert m.rvalue == expected
         assert m.rvalue == 0.2
 
     def test_ufactor_1_layer_construction(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = 1 / (INSIDE_FILM_R + m.Thickness / m.Conductivity + OUTSIDE_FILM_R)
@@ -283,7 +294,7 @@ class Test_ThermalProperties(object):
         assert c.ufactor == 1 / 0.35
 
     def test_ufactor_2_layer_construction(self):
-        self.idf.initreadtxt(double_layer)
+        self.idf.initreadtxt(Data.double_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = 1 / (
@@ -296,7 +307,7 @@ class Test_ThermalProperties(object):
         assert c.ufactor == 1 / 0.55
 
     def test_ufactor_airgap_construction(self):
-        self.idf.initreadtxt(air_gap)
+        self.idf.initreadtxt(Data.air_gap)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         a = self.idf.getobject("MATERIAL:AIRGAP", "AirGap")
@@ -311,7 +322,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.ufactor, 1 / 0.65, places=2)
 
     def test_ufactor_infraredtransparent_construction(self):
-        self.idf.initreadtxt(infrared_transparent)
+        self.idf.initreadtxt(Data.infrared_transparent)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = 1 / (
@@ -324,7 +335,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.ufactor, 1 / 0.55, places=2)
 
     def test_ufactor_nomass_construction(self):
-        self.idf.initreadtxt(no_mass)
+        self.idf.initreadtxt(Data.no_mass)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         n = self.idf.getobject("MATERIAL:NOMASS", "NoMass")
@@ -339,7 +350,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.ufactor, 1 / 0.65, places=2)
 
     def test_ufactor_roofvegetation_construction(self):
-        self.idf.initreadtxt(roof_vegetation)
+        self.idf.initreadtxt(Data.roof_vegetation)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
         expected = 1 / (
@@ -353,14 +364,14 @@ class Test_ThermalProperties(object):
             assert issubclass(w[-1].category, UserWarning)
 
     def test_ufactor_material(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = 1 / (m.Thickness / m.Conductivity)
         assert m.ufactor == expected
         assert m.ufactor == 1 / 0.2
 
     def test_heatcapacity_1_layer_construction(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001
@@ -368,7 +379,7 @@ class Test_ThermalProperties(object):
         assert c.heatcapacity == 120
 
     def test_heatcapacity_2_layer_construction(self):
-        self.idf.initreadtxt(double_layer)
+        self.idf.initreadtxt(Data.double_layer)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
@@ -376,7 +387,7 @@ class Test_ThermalProperties(object):
         assert c.heatcapacity == 240
 
     def test_heatcapacity_airgap_construction(self):
-        self.idf.initreadtxt(air_gap)
+        self.idf.initreadtxt(Data.air_gap)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
@@ -384,7 +395,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.heatcapacity, 240, places=2)
 
     def test_heatcapacity_infraredtransparent_construction(self):
-        self.idf.initreadtxt(infrared_transparent)
+        self.idf.initreadtxt(Data.infrared_transparent)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
@@ -392,7 +403,7 @@ class Test_ThermalProperties(object):
         assert almostequal(c.heatcapacity, 240, places=2)
 
     def test_heatcapacity_nomass_construction(self):
-        self.idf.initreadtxt(no_mass)
+        self.idf.initreadtxt(Data.no_mass)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001 * 2
@@ -403,7 +414,7 @@ class Test_ThermalProperties(object):
             assert issubclass(w[-1].category, UserWarning)
 
     def test_heatcapacity_roofvegetation_construction(self):
-        self.idf.initreadtxt(roof_vegetation)
+        self.idf.initreadtxt(Data.roof_vegetation)
         c = self.idf.getobject("CONSTRUCTION", "TestConstruction")
         m = self.idf.getobject("MATERIAL:ROOFVEGETATION", "RoofVegetation")
         expected = (
@@ -417,7 +428,7 @@ class Test_ThermalProperties(object):
             assert issubclass(w[-1].category, UserWarning)
 
     def test_heatcapacity_material(self):
-        self.idf.initreadtxt(single_layer)
+        self.idf.initreadtxt(Data.single_layer)
         m = self.idf.getobject("MATERIAL", "TestMaterial")
         expected = m.Thickness * m.Specific_Heat * m.Density * 0.001
         assert m.heatcapacity == expected

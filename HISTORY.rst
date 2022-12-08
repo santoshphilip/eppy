@@ -5,6 +5,36 @@ History
 Changes
 ~~~~~~~
 
+2022-12-08
+----------
+
+fixed issue #409
+````````````````
+
+:Problem: eppy.newidf(version=None) does not work correctly
+:Solution:
+
+    There are starting conditions here:
+
+    1. IDD is already set
+        - if IDD has been set, it should use that IDD
+    2. IDD has not been set
+        - if eppy.newidf(version=None), it should throw an exception
+        - if eppy.newidf(version=some_version), it shoule use that some_version of IDD
+
+2022-12-07
+----------
+
+fixed issue #410
+````````````````
+
+:Problem: need a IDF.resetidd() function during testing
+:Solution: IDF.resetidd() will reset all related idd values
+
+    modified:   eppy/modeleditor.py
+    modified:   tests/test_runner.py
+
+
 
 2022-12-03
 ----------

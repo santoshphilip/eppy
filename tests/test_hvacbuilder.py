@@ -18,11 +18,18 @@ from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with the old reading
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
+    
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
 
 def test_flattencopy():
@@ -96,11 +103,6 @@ def test_makeplantloop():
         dloop = ["db0", ["db1", "db2", "db3"], "db4"]
         hvacbuilder.makeplantloop(idf1, loopname, sloop, dloop)
         idf2 = IDF(StringIO(nidf))
-        # print('=' * 15)
-        # print(idf1.model)
-        # print('-' * 15)
-        # print(idf2.model)
-        # print('=' * 15)
         assert str(idf1.model) == str(idf2.model)
 
 

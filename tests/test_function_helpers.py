@@ -20,10 +20,18 @@ from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 
-iddtxt = iddcurrent.iddtxt
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
+    
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
 idftxt = """Version,8.0;
 

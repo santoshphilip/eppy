@@ -21,8 +21,7 @@ from pathlib import Path
 
 
 import pytest
-from six import StringIO
-from six import string_types
+from io import StringIO
 
 from eppy import modeleditor
 from eppy.bunch_subclass import Bunch
@@ -32,19 +31,22 @@ from eppy.pytest_helpers import almostequal
 import eppy.snippet as snippet
 
 
-iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
 
-# idffhandle = StringIO(idfsnippet)
-# iddfhandle = StringIO(iddsnippet)
-# bunchdt, data, commdct, gdict = idfreader.idfreader(idffhandle, iddfhandle, None)
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with
-# the old reading
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue 
+    without reading it again
+    
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+
 
 
 def test_poptrailing():
@@ -516,14 +518,14 @@ def test_initread():
 
     # test fname as unicode
     fname = "tmp.idf"
-    assert isinstance(fname, string_types)
+    assert isinstance(fname, str)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject("BUILDING", "Building")
 
     # test fname as str
     fname = str("tmp.idf")
-    assert isinstance(fname, string_types)
+    assert isinstance(fname, str)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject("BUILDING", "Building")
