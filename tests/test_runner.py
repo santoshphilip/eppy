@@ -71,7 +71,10 @@ def test_version_reader():
     # We need to reload modeleditor since the IDF class may have had an IDD
     # which causes problems.
     # https://stackoverflow.com/questions/437589/how-do-i-unload-reload-a-python-module
-    reload(modeleditor)
+    try:
+        modeleditor.IDF.resetidd() # reload(modeleditor)
+    except modeleditor.IDDResetError as e:
+        pass
     iddfile = os.path.join(IDD_FILES, TEST_IDD)
     fname1 = os.path.join(IDF_FILES, TEST_IDF)
     modeleditor.IDF.setiddname(iddfile, testing=True)
@@ -478,7 +481,6 @@ class TestIDFRunner(object):
 
         expected_version = VERSION.replace("-", ".")
         version_string = "EnergyPlus, Version {}".format(expected_version)
-
         assert out.strip().startswith(version_string)
 
     def test_help(self, capfd, test_idf):
