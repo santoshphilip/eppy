@@ -10,8 +10,15 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from io import StringIO
+import eppy
 import eppy.simpleread as simpleread
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass
 
 def test_idf2txt():
     """py.test for idf2txt"""

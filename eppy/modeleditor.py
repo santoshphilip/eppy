@@ -630,13 +630,11 @@ class IDF(object):
         
         """
         cls.iddname = None
-        print(27, cls.iddname)
         cls.idd_info = None
         cls.block = None
         cls.idd_info = None
         cls.idd_index = None
         cls.idd_version = None
-        print(28, cls.iddname)
         raise IDDResetError("IDD should never be reset unless you are doing test runs")
         
 

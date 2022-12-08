@@ -22,9 +22,13 @@ from eppy import json_functions
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with
 # the old reading
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+# iddfhandle = StringIO(iddcurrent.iddtxt)
+# if IDF.getiddname() == None:
+#     IDF.setiddname(iddfhandle)
 
 
 def test_key2elements():

@@ -4,6 +4,7 @@ import pytest
 from io import StringIO
 from importlib import reload
 
+import eppy
 from eppy.modeleditor import IDF
 from eppy.iddcurrent import iddcurrent
 from eppy import modeleditor
@@ -25,11 +26,21 @@ TEST_IDD = "Energy+V{}.idd".format(VERSION.replace("-", "_"))
 TEST_OLD_IDD = "Energy+V7_2_0.idd"
 
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass
+
 @pytest.fixture()
 def test_idf():
     idd_file = os.path.join(IDD_FILES, TEST_IDD)
     idf_file = os.path.join(IDF_FILES, TEST_IDF)
-    reload(modeleditor)
+    try:
+        eppy.modeleditor.IDF.resetidd() # reload(modeleditor)
+    except eppy.modeleditor.IDDResetError as e:
+        pass # This is a way to change the IDD
     modeleditor.IDF.setiddname(idd_file, testing=True)
     idf = modeleditor.IDF(idf_file, TEST_EPW)
     try:

@@ -26,6 +26,7 @@ import shutil
 import pytest
 from importlib import reload
 
+import eppy
 from eppy import modeleditor
 from eppy.pytest_helpers import do_integration_tests
 from eppy.runner.run_functions import install_paths, EnergyPlusRunError
@@ -57,6 +58,13 @@ TEST_OLD_IDD = "Energy+V7_2_0.idd"
 eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_IDD))
 
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass
+
 def has_severe_errors(results="run_outputs"):
     """Check for severe errors in the eplusout.end file."""
     end_filename = glob("{}/*.end".format(results))[0]
@@ -74,7 +82,7 @@ def test_version_reader():
     try:
         modeleditor.IDF.resetidd() # reload(modeleditor)
     except modeleditor.IDDResetError as e:
-        pass
+        pass # This is a way to change the IDD
     iddfile = os.path.join(IDD_FILES, TEST_IDD)
     fname1 = os.path.join(IDF_FILES, TEST_IDF)
     modeleditor.IDF.setiddname(iddfile, testing=True)

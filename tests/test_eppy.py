@@ -16,6 +16,13 @@ import eppy.idd_helpers as idd_helpers
 IDDVERSION = "8.4.0"
 
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass
+
 def versiontuple(vers):
     """version tuple"""
     return tuple([int(num) for num in vers.split(".")])
@@ -35,7 +42,6 @@ def test_newidf1():
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
 )
 def test_newidf2():
-    from importlib import reload
     import eppy
     # Now test the following
     #
@@ -53,23 +59,29 @@ def test_newidf2():
 
     # 1. IDD is already set
     #     - if IDD has been set, it should use that IDD
-    reload(eppy.modeleditor) # this will reset the IDD to None
+
+    # reload(eppy.modeleditor) # this will reset the IDD to None
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass # This is a way to change the IDD
     iddversion = IDDVERSION
-    # iimport pdb; pdb.set_trace()
-    # from pudb import set_trace; set_trace() # does not work
     idf1 = eppy.newidf(version=iddversion) # this will set the IDD version
-    # idf2 = eppy.newidf(version=None)
-    # assert idf2.idd_version == versiontuple(iddversion)
-    # #     - eppy.newidf(version=wrongIDD): throw exception
-    # wrongiddversion = "8.9.9"
-    # with pytest.raises(eppy.easyopen.MissingIDDException):
-    #     idf3 = eppy.newidf(version=wrongiddversion)
-    # # 2. IDD has not been set
-    # #     - if eppy.newidf(version=None), it should throw an exception
+    idf2 = eppy.newidf(version=None)
+    assert idf2.idd_version == versiontuple(iddversion)
+    #     - eppy.newidf(version=wrongIDD): throw exception
+    wrongiddversion = "8.9.9"
+    with pytest.raises(eppy.easyopen.MissingIDDException):
+        idf3 = eppy.newidf(version=wrongiddversion)
+    # 2. IDD has not been set
+    #     - if eppy.newidf(version=None), it should throw an exception
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass # This is a way to change the IDD
     # reload(eppy.modeleditor) # this will reset the IDD to None
-    # with pytest.raises(eppy.modeleditor.IDDNotSetError):
-    #     idf4 = eppy.newidf(version=None)
-    # #     - if eppy.newidf(version=some_version), it shoule use that some_version of IDD
-    # idf5 = eppy.newidf(version=iddversion)
-    # assert idf5.idd_version == versiontuple(iddversion)
-    # reload(eppy.modeleditor) # this will reset the IDD to None
+    with pytest.raises(eppy.modeleditor.IDDNotSetError):
+        idf4 = eppy.newidf(version=None)
+    #     - if eppy.newidf(version=some_version), it shoule use that some_version of IDD
+    idf5 = eppy.newidf(version=iddversion)
+    assert idf5.idd_version == versiontuple(iddversion)

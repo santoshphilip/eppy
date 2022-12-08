@@ -17,10 +17,14 @@ from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 import eppy.idf_helpers as idf_helpers
 
-iddfhandle = StringIO(iddcurrent.iddtxt)
-
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+# iddfhandle = StringIO(iddcurrent.iddtxt)
+#
+# if IDF.getiddname() == None:
+#     IDF.setiddname(iddfhandle)
 
 
 def test_idfobjectkeys():

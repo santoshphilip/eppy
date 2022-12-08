@@ -20,9 +20,13 @@ from eppy.modeleditor import IDF
 
 # idd is read only once in this test
 # if it has already been read from some other test, it will continue with the old reading
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+# iddfhandle = StringIO(iddcurrent.iddtxt)
+# if IDF.getiddname() == None:
+#     IDF.setiddname(iddfhandle)
 
 
 def test_flattencopy():
@@ -101,6 +105,7 @@ def test_makeplantloop():
         # print('-' * 15)
         # print(idf2.model)
         # print('=' * 15)
+        print(1,idf2.getiddname())
         assert str(idf1.model) == str(idf2.model)
 
 

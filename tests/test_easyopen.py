@@ -26,6 +26,13 @@ from six import StringIO
 from importlib import reload
 
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass
+
 def test_cleanupversion():
     """py.test for cleanupversion"""
     data = (
@@ -49,9 +56,13 @@ def test_easyopen_idfopen():
     txt, result = ("  Version,{};".format(ver), "{}".format(ver))
     fhandle1 = StringIO(txt)
     fhandle2 = StringIO(txt)
-    reload(eppy)
-    reload(modeleditor)
-    reload(easyopen)
+    # reload(eppy)
+    # reload(modeleditor)
+    # reload(easyopen)
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass # This is a way to change the IDD
     idf1, idf2 = easyopen.easyopen(fhandle1), eppy.openidf(fhandle2)
     for idf in [idf1, idf2]:
         versions = idf.idfobjects["version"]
@@ -80,9 +91,13 @@ def test_easyopen_withidd():
     txt, result = ("  Version,{};".format(ver), "{}".format(ver))
     fhandle1 = StringIO(txt)
     fhandle2 = StringIO(txt)
-    reload(eppy)
-    reload(modeleditor)
-    reload(easyopen)
+    # reload(eppy)
+    # reload(modeleditor)
+    # reload(easyopen)
+    try:
+        eppy.modeleditor.IDF.resetidd()
+    except eppy.modeleditor.IDDResetError as e:
+        pass # This is a way to change the IDD
     idf1, idf2 = (
         easyopen.easyopen(fhandle1, idd=iddfile),
         eppy.openidf(fhandle2, idd=iddfile),

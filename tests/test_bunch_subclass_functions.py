@@ -18,10 +18,14 @@ from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 
 
-iddtxt = iddcurrent.iddtxt
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
+# iddtxt = iddcurrent.iddtxt
+# iddfhandle = StringIO(iddcurrent.iddtxt)
+# if IDF.getiddname() == None:
+#     IDF.setiddname(iddfhandle)
 
 idftxt = """Version,8.0;
 
