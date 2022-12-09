@@ -1,4 +1,10 @@
 
+2022-12-08
+----------
+
+- working on issue #406
+    - eppy.newidf() - DONE
+
 2022-12-03
 ----------
 
@@ -14,6 +20,9 @@ The code ::
 does not work
 
 open it as an issue and fix it. Than go back to issue #406
+
+DONE
+
 
 2022-12-02
 ----------
