@@ -5,6 +5,17 @@ History
 Changes
 ~~~~~~~
 
+
+2022-12-23
+----------
+
+Fixed issue #411
+````````````````
+
+:Problem: eppy run functions does not throw an exception if weather file is missing
+:Solution: eppy run function throws Exception "EnergyPlusRunError" with message saying weather file missing
+
+
 2022-12-08
 ----------
 
