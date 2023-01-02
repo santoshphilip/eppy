@@ -22,6 +22,8 @@ import shutil
 from subprocess import CalledProcessError, check_call
 import sys
 import tempfile
+import errno
+
 
 from io import StringIO
 
@@ -343,10 +345,21 @@ def run(
         return
 
     # convert paths to absolute paths if required
-    if os.path.isfile(args["weather"]):
-        args["weather"] = os.path.abspath(args["weather"])
+    hold_weather = args["weather"]
+    if os.path.isfile(hold_weather):
+        hold_weather = os.path.abspath(hold_weather)
     else:
-        args["weather"] = os.path.join(eplus_weather_path, args["weather"])
+        hold_weather = os.path.join(eplus_weather_path, hold_weather)
+    # this will still work with non-existent file - fix for issue #411
+    if not os.path.isfile(hold_weather):
+        # from https://stackoverflow.com/questions/36077266/how-do-i-raise-a-filenotfounderror-properly
+        raise EnergyPlusRunError(
+            f"ERROR: Could not find weather file: {hold_weather}"
+            )
+            # errno.ENOENT, os.strerror(errno.ENOENT), hold_weather)
+    args["weather"] = hold_weather
+    
+        
     output_dir = os.path.abspath(args["output_directory"])
     args["output_directory"] = output_dir
     if iddname is not None:

@@ -1,3 +1,22 @@
+2022-12-21
+----------
+
+issue #411
+
+- Looks like just a space in the weatherfile path tripped it up
+- confirm this
+- strip the space -> solution
+- check if it works with embedded spaces
+    - looks like embedded spaces are not an issue
+    
+- code to fix this issue - DONE
+    - test if file exists
+    - throw exception
+    - do unit test for this exception - TODO
+- check on unmethours issue
+- respond to this at 
+- https://unmethours.com/question/58548/eppy-error-in-running-simulation-using-idfrun/
+
 
 2022-12-08
 ----------
@@ -46,6 +65,24 @@ starting on issue #406. List the possible additions to docs
     - what next
     - other things
     - other repositories
+2022-12-21
+----------
+
+issue #411
+
+- Looks like just a space in the weatherfile path tripped it up
+- confirm this
+- strip the space -> solution
+- check if it works with embedded spaces
+    - looks like embedded spaces are not an issue
+    
+- code to fix this issue - DONE
+    - test if file exists
+    - throw exception
+    - do unit test for this exception - TODO
+- check on unmethours issue
+- respond to this at 
+- https://unmethours.com/question/58548/eppy-error-in-running-simulation-using-idfrun/
 
 2022-11-30
 ----------

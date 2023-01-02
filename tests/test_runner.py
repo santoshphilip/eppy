@@ -186,6 +186,15 @@ class TestRunFunction(object):
             out, _err = capfd.readouterr()
             assert "ERROR: Could not find input data file:" in out
 
+    def test_missing_weatherfile_raises_error(self, capfd):
+        """pytest for exception if weather file is missing"""
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        epw = os.path.join(eplus_weather, "XXXXXX_fake_weather_file.epw")
+        with pytest.raises(EnergyPlusRunError):
+            run(fname1, epw, output_directory="test_results", ep_version=VERSION)
+            out, _err = capfd.readouterr()
+            assert "No such file or directory" in out
+
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
@@ -737,3 +746,4 @@ class TestMultiprocessing(object):
         multirunfolder = os.path.join(THIS_DIR, "multi_runs")
         assert os.path.exists(multirunfolder)
         shutil.rmtree(multirunfolder, ignore_errors=True)
+
