@@ -12,7 +12,7 @@ issue #411
 - code to fix this issue - DONE
     - test if file exists
     - throw exception
-    - do unit test for this exception - TODO
+    - do unit test for this exception - DONE
 - check on unmethours issue
 - respond to this at 
 - https://unmethours.com/question/58548/eppy-error-in-running-simulation-using-idfrun/
@@ -38,7 +38,9 @@ The code ::
 
 does not work
 
-open it as an issue and fix it. Than go back to issue #406
+open it as an issue and fix it. Than go back to issue 406
+
+Opened as issue 408 and fixed - DONE
 
 DONE
 
@@ -65,6 +67,7 @@ starting on issue #406. List the possible additions to docs
     - what next
     - other things
     - other repositories
+    
 2022-12-21
 ----------
 
