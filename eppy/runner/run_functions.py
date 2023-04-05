@@ -410,6 +410,7 @@ def run(
     finally:
         sys.stderr = old_err
         os.chdir(cwd)
+        shutil.rmtree(run_dir, ignore_errors=True)
     return "OK"
 
 
