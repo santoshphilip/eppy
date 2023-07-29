@@ -238,7 +238,7 @@ def makeairplantloop(data, commdct):
     for br in branches:
         br_name = br[1]
         in_out = loops.branch_inlet_outlet(data, commdct, br_name)
-        branch_i_o[br_name] = dict(list(zip(["inlet", "outlet"], in_out)))
+        branch_i_o[br_name] = dict(list(zip([ "outlet","inlet"], in_out)))
     # for br_name, in_out in branch_i_o.items():
     #     edges.append(((in_out["inlet"], anode), br_name))
     #     edges.append((br_name, (in_out["outlet"], anode)))
