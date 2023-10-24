@@ -10,6 +10,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
+import copy
 
 from eppy.idfreader import idfreader
 import eppy.snippet as snippet
@@ -47,6 +48,7 @@ def test_readwrite():
 def test_pythonic():
     """py.test for ex_pythonic.py"""
     zones = bunchdt["zone"]  # all the zones
+    zones = copy.deepcopy(zones)
     zone0 = zones[0]
     # -
     printout = "PLENUM-1"
