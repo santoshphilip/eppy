@@ -35,6 +35,7 @@ def do_integration_tests():
     result =  os.getenv("EPPY_INTEGRATION", False)
     if result == "True": # github CI returns strings 9no booleans)
         result = True
+    print(f" **** EPPY_INTEGRATION = {result}")
     return result
 
 
