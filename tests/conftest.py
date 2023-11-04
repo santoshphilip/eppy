@@ -17,7 +17,7 @@ RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "eppy", "resources")
 IDD_FILES = os.path.join(RESOURCES_DIR, "iddfiles")
 IDF_FILES = os.path.join(RESOURCES_DIR, "idffiles")
 try:
-    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
+    VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION']  # used in CI files
 except KeyError:
     VERSION = "8-9-0"  # current default for integration tests on local system
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace("-", "_"))
