@@ -32,7 +32,12 @@ def do_integration_tests():
     bool
 
     """
-    result =  os.getenv("EPPY_INTEGRATION", False)
+    try:
+        result = os.environ["EPPY_INTEGRATION"]
+        print(f" Actual EPPY_INTEGRATION = {result}")
+    except KeyError as e:
+        result = False
+    # result =  os.getenv("EPPY_INTEGRATION", False)
     if result == "True": # github CI returns strings 9no booleans)
         result = True
     print(f" **** EPPY_INTEGRATION = {result}")
