@@ -55,4 +55,4 @@ jobs:
    
     - name: Test with pytest
       run: |
-        pytest -vx tests/test_runner.py
+        pytest -vs tests/test_runner.py
