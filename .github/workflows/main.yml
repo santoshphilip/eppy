@@ -10,14 +10,14 @@ on:
       energyplus-version:
         description: 'EnergyPlus major.minor.patch version'
         required: true
-        default: 9.0.1
+        default: 8.9.0
       energyplus-sha:
         description: 'EnergyPlus version SHA'
         required: true
         default: 921312fa1d
       energyplus-install:
         description: 'EnergyPlus major-minor-patch version'
-        default: 9-0-1
+        default: 8-9-0
         required: true
 
   
