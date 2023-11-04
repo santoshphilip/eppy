@@ -34,7 +34,7 @@ def do_integration_tests():
     """
     try:
         # print(f"{os.environ['LANG'] = }")
-        print(f"{os.environ['ENERGYPLUS_VERSION'] = }")
+        print(f"{os.environ['GITHUB_ACTION'] = }")
         result = os.environ['EPPY_INTEGRATION']
         print(f" Actual EPPY_INTEGRATION = {result}")
     except KeyError as e:
