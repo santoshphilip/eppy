@@ -7,6 +7,7 @@
 
 "py.test for functions in __init__"
 
+import os
 import pytest
 
 import eppy
@@ -14,7 +15,11 @@ from eppy.pytest_helpers import do_integration_tests
 import eppy.idd_helpers as idd_helpers
 from tests.pytest_helpers import safeIDDreset
 
-IDDVERSION = "8.4.0"
+try:
+    VERSION = os.environ['ENERGYPLUS_VERSION']  # used in CI files
+except KeyError:
+    VERSION = "8.9.0"  # current default for integration tests on local system
+IDDVERSION = VERSION
 
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
