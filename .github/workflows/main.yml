@@ -59,4 +59,4 @@ jobs:
         ENERGYPLUS_INSTALL_VERSION: 9-2-0
         EPPY_INTEGRATION: TRUE
       run: |
-        pytest -vs tests/test_runner.py
+        pytest -vsx tests/test_runner.py
