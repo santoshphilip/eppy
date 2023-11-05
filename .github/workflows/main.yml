@@ -54,9 +54,9 @@ jobs:
    
     - name: Test with pytest
       env:
-        ENERGYPLUS_VERSION: ${{ inputs.energyplus-version }}
+        ENERGYPLUS_VERSION: 8.9.0
         ENERGYPLUS_SHA: ${{ inputs.energyplus-sha }}
-        ENERGYPLUS_INSTALL_VERSION: ${{ inputs.energyplus-install }}
+        ENERGYPLUS_INSTALL_VERSION: 8-9-0
         EPPY_INTEGRATION: True
       run: |
         pytest -vs tests/test_runner.py
