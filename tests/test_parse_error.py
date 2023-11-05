@@ -25,20 +25,20 @@ def test_capture_stderr():
     sys.stderr = sys.__stderr__
 
 
-# def test_capture_real_error(test_idf):
-#     test_idf.newidfobject(
-#         "HVACTemplate:Thermostat",
-#         Name="thermostat VRF",
-#         Heating_Setpoint_Schedule_Name=15,
-#         Constant_Cooling_Setpoint=25,
-#     )
-#     rundir = "test_capture_real_error"
-#     os.mkdir(rundir)
-#     try:
-#         test_idf.run(output_directory=rundir)
-#     except EnergyPlusRunError as e:
-#         assert "invalid Heating Setpoint Temperature Schedule" in str(e)
-#     finally:
-#         shutil.rmtree(rundir)
-#         safeIDDreset()
+def test_capture_real_error(test_idf):
+    test_idf.newidfobject(
+        "HVACTemplate:Thermostat",
+        Name="thermostat VRF",
+        Heating_Setpoint_Schedule_Name=15,
+        Constant_Cooling_Setpoint=25,
+    )
+    rundir = "test_capture_real_error"
+    os.mkdir(rundir)
+    try:
+        test_idf.run(output_directory=rundir)
+    except EnergyPlusRunError as e:
+        assert "invalid Heating Setpoint Temperature Schedule" in str(e)
+    finally:
+        shutil.rmtree(rundir)
+        safeIDDreset()
     

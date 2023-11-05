@@ -1,3 +1,8 @@
+2023-11-05
+----------
+
+put double quote in VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION'] of conftest.py and test_runner.py
+
 2022-12-21
 ----------
 
