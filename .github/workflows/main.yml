@@ -57,6 +57,6 @@ jobs:
         ENERGYPLUS_VERSION: 9.2.0
         ENERGYPLUS_SHA: ${{ inputs.energyplus-sha }}
         ENERGYPLUS_INSTALL_VERSION: 9-2-0
-        EPPY_INTEGRATION: True
+        EPPY_INTEGRATION: TRUE
       run: |
         pytest -vs tests/test_runner.py

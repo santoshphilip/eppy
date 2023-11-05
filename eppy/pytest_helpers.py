@@ -33,18 +33,22 @@ def do_integration_tests():
 
     """
     try:
-        # print(f"{os.environ['LANG'] = }")
         print(f"{os.environ['GITHUB_ACTION'] = }")
         print(f"{os.environ['ENERGYPLUS_SHA'] = }")
         print(f"{os.environ['ENERGYPLUS_VERSION'] = }")
         print(f"{os.environ['ENERGYPLUS_INSTALL_VERSION'] = }")
         print(f"{os.environ['EPPY_INTEGRATION'] = }")
+    except KeyError as e:
+        print("not on CI - on local machine")
+    try:
+        print(f"{os.environ['EPPY_INTEGRATION'] = }")
         result = os.environ['EPPY_INTEGRATION']
         print(f" Actual EPPY_INTEGRATION = {result}")
+        # --- 
     except KeyError as e:
         result = False
     # result =  os.getenv("EPPY_INTEGRATION", False)
-    if result == "True": # github CI returns strings 9no booleans)
+    if result == "TRUE": # github CI returns strings 9no booleans)
         result = True
     print(f" **** EPPY_INTEGRATION = {result}")
     return result
