@@ -33,10 +33,10 @@ def do_integration_tests():
 
     """
     try:
-        result = os.environ['EPPY_INTEGRATION']
+        result = os.environ["EPPY_INTEGRATION"]
     except KeyError as e:
         result = False
-    if result == "TRUE": # github CI returns strings 9no booleans)
+    if result == "TRUE":  # github CI returns strings 9no booleans)
         result = True
     return result
 

@@ -32,15 +32,17 @@ iddtxt = iddcurrent.iddtxt
 def setup_module(module):
     """
     idd is read only once in this module
-    if it has already been read from some other module, it will continue 
+    if it has already been read from some other module, it will continue
     without reading it again
-    
+
     pytest run this before running the module
     """
     from eppy.iddcurrent import iddcurrent
+
     iddfhandle = StringIO(iddcurrent.iddtxt)
     if IDF.getiddname() == None:
         IDF.setiddname(iddfhandle)
+
 
 # This test is ugly because I have to send file names and not able to send file handles
 idftxt = """Version,6.0;

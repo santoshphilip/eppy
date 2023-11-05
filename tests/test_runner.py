@@ -47,7 +47,7 @@ RESOURCES_DIR = os.path.join(THIS_DIR, os.pardir, "eppy", "resources")
 IDD_FILES = os.path.join(RESOURCES_DIR, "iddfiles")
 IDF_FILES = os.path.join(RESOURCES_DIR, "idffiles")
 try:
-    VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION']  # used in CI files
+    VERSION = os.environ["ENERGYPLUS_INSTALL_VERSION"]  # used in CI files
 except KeyError:
     VERSION = "8-9-0"  # current default for integration tests on local system
 TEST_IDF = "V{}/smallfile.idf".format(VERSION[:3].replace("-", "_"))
@@ -61,6 +61,7 @@ eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_I
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
     safeIDDreset()
+
 
 def has_severe_errors(results="run_outputs"):
     """Check for severe errors in the eplusout.end file."""
@@ -746,4 +747,3 @@ class TestMultiprocessing(object):
         multirunfolder = os.path.join(THIS_DIR, "multi_runs")
         assert os.path.exists(multirunfolder)
         shutil.rmtree(multirunfolder, ignore_errors=True)
-

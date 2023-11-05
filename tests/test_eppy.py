@@ -16,18 +16,21 @@ import eppy.idd_helpers as idd_helpers
 from tests.pytest_helpers import safeIDDreset
 
 try:
-    VERSION = os.environ['ENERGYPLUS_VERSION']  # used in CI files
+    VERSION = os.environ["ENERGYPLUS_VERSION"]  # used in CI files
 except KeyError:
     VERSION = "8.9.0"  # current default for integration tests on local system
 IDDVERSION = VERSION
 
+
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
     safeIDDreset()
-    
+
+
 def versiontuple(vers):
     """version tuple"""
     return tuple([int(num) for num in vers.split(".")])
+
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
@@ -39,12 +42,14 @@ def test_newidf1():
         idf = eppy.newidf(ver)
         result = idf.idfobjects["version".upper()][0]
         assert result.Version_Identifier == expected
-        
+
+
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
 )
 def test_newidf2():
     import eppy
+
     # Now test the following
     #
     # :Problem: eppy.newidf(version=None) does not work correctly
@@ -64,7 +69,7 @@ def test_newidf2():
 
     safeIDDreset()
     iddversion = IDDVERSION
-    idf1 = eppy.newidf(version=iddversion) # this will set the IDD version
+    idf1 = eppy.newidf(version=iddversion)  # this will set the IDD version
     idf2 = eppy.newidf(version=None)
     assert idf2.idd_version == versiontuple(iddversion)
     #     - eppy.newidf(version=wrongIDD): throw exception

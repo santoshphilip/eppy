@@ -15,6 +15,7 @@ def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
     safeIDDreset()
 
+
 def test_capture_stderr():
     tmp_out = StringIO()
     sys.stderr = tmp_out
@@ -41,4 +42,3 @@ def test_capture_real_error(test_idf):
     finally:
         shutil.rmtree(rundir)
         safeIDDreset()
-    

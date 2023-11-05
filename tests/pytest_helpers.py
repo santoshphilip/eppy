@@ -9,10 +9,10 @@
 
 import eppy
 
+
 def safeIDDreset():
     """reset the IDD for testing and catch the exception"""
     try:
         eppy.modeleditor.IDF.resetidd()
     except eppy.modeleditor.IDDResetError as e:
         pass
-

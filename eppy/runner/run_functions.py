@@ -353,13 +353,10 @@ def run(
     # this will still work with non-existent file - fix for issue #411
     if not os.path.isfile(hold_weather):
         # from https://stackoverflow.com/questions/36077266/how-do-i-raise-a-filenotfounderror-properly
-        raise EnergyPlusRunError(
-            f"ERROR: Could not find weather file: {hold_weather}"
-            )
-            # errno.ENOENT, os.strerror(errno.ENOENT), hold_weather)
+        raise EnergyPlusRunError(f"ERROR: Could not find weather file: {hold_weather}")
+        # errno.ENOENT, os.strerror(errno.ENOENT), hold_weather)
     args["weather"] = hold_weather
-    
-        
+
     output_dir = os.path.abspath(args["output_directory"])
     args["output_directory"] = output_dir
     if iddname is not None:

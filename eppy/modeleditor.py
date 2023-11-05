@@ -59,9 +59,11 @@ class IDDAlreadySetError(Exception):
     """Exception Object"""
 
     pass
-    
+
+
 class IDDResetError(Exception):
     """Exception Object"""
+
     pass
 
 
@@ -617,17 +619,17 @@ class IDF(object):
             if testing == False:
                 errortxt = "IDD file is set to: %s" % (cls.iddname,)
                 raise IDDAlreadySetError(errortxt)
-                
+
     @classmethod
     def resetidd(cls):
         """resets the IDD for testing. Users should not use this
-        
+
         It will raise the exception IDDResetError
-        
+
         Returns
         -------
         None
-        
+
         """
         cls.iddname = None
         cls.idd_info = None
@@ -636,7 +638,6 @@ class IDF(object):
         cls.idd_index = None
         cls.idd_version = None
         raise IDDResetError("IDD should never be reset unless you are doing test runs")
-        
 
     @classmethod
     def getiddname(cls):

@@ -26,9 +26,11 @@ from io import StringIO
 
 from tests.pytest_helpers import safeIDDreset
 
+
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
     safeIDDreset()
+
 
 def test_cleanupversion():
     """py.test for cleanupversion"""

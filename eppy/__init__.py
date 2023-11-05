@@ -20,17 +20,18 @@ __version__ = "0.5.63"
 
 from io import StringIO
 import eppy
-from eppy import modeleditor 
+from eppy import modeleditor
 from eppy.modeleditor import IDF
+
 
 def newidf(version=None):
     """open a new idf file
 
     easy way to open a new idf file for particular version. Works only if Energyplus of that version is installed.
-    
+
     - newidf(version=None) or newidf() will workif the IDD has already been set
     - newidf(version=some_version) will work
-        - if some_version matches the IDD already set 
+        - if some_version matches the IDD already set
         - OR if no IDD has been set
 
     Parameters
@@ -44,10 +45,11 @@ def newidf(version=None):
        file of type eppy.modelmake.IDF
     """  # noqa: E501
     import eppy.easyopen as easyopen
+
     if not version:
         return IDF(StringIO(""))
         # return easyopen.easyopen(StringIO(""))
-        
+
     import eppy.easyopen as easyopen
 
     idfstring = "  Version,{};".format(str(version))

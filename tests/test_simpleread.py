@@ -14,10 +14,12 @@ import eppy
 import eppy.simpleread as simpleread
 from tests.pytest_helpers import safeIDDreset
 
+
 def teardown_module(module):
     """new IDD has been set in the module. Here you tear it down"""
     safeIDDreset()
-    
+
+
 def test_idf2txt():
     """py.test for idf2txt"""
     data = (
