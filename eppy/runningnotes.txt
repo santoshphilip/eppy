@@ -1,6 +1,17 @@
 2023-11-05
 ----------
 
+actions are doing the full tests at branch ``branchtest``. Pints to note
+
+- EPPY-INTEGRATION is set to True (can be st to true in master and false in develop)
+- install E+ version 9.2.0 in CI. This is harcoded in ./github/worflows/install.sh and ./samepath/main.yml
+- test are run in E+ version 8.9.0 in local
+
+
+- this branch can be merged into develop and master
+    - need to update history
+- worth coding to select local and remote E+ versions for tests.
+
 put double quote in VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION'] of conftest.py and test_runner.py
 
 2022-12-21
