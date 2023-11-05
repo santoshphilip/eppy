@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 
 __author__ = """Santosh Philip"""
 __email__ = "santosh@noemail.com"
-__version__ = "0.5.63"
+__version__ = "0.5.64"
 
 
 from io import StringIO
