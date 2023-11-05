@@ -37,7 +37,6 @@ from tests.pytest_helpers import safeIDDreset
 
 def versiontuple(vers):
     """version tuple"""
-    print(f"{vers = }")
     return tuple([int(num) for num in vers.split("-")])
 
 
