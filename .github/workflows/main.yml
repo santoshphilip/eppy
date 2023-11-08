@@ -10,14 +10,14 @@ on:
       energyplus-version:
         description: 'EnergyPlus major.minor.patch version'
         required: true
-        default: 23.2.0
+        default: 9.2.0
       energyplus-sha:
         description: 'EnergyPlus version SHA'
         required: true
-        default: 7636e6b3e9
+        default: 921312fa1d
       energyplus-install:
         description: 'EnergyPlus major-minor-patch version'
-        default: 23-2-0
+        default: 9-2-0
         required: true
 
   
@@ -54,9 +54,9 @@ jobs:
    
     - name: Test with pytest
       env:
-        ENERGYPLUS_VERSION: 23.2.0
+        ENERGYPLUS_VERSION: 9.2.0
         ENERGYPLUS_SHA: ${{ inputs.energyplus-sha }}
-        ENERGYPLUS_INSTALL_VERSION: 23-2-0
+        ENERGYPLUS_INSTALL_VERSION: 9-2-0
         EPPY_INTEGRATION: TRUE
       run: |
         pytest
