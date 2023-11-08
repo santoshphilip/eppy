@@ -14,6 +14,11 @@ actions are doing the full tests at branch ``branchtest``. Pints to note
 
 put double quote in VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION'] of conftest.py and test_runner.py
 
+Long term steps:
+
+- Install any versionf of E+ on CI
+- toggel for local and CI E+ version for testing.
+
 2022-12-21
 ----------
 
