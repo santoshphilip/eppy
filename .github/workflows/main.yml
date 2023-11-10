@@ -5,7 +5,7 @@ name: eppy package
 
 on:
   push:
-    branches: [ "branchtest" ]
+    branches: ["master", "develop" ] 
     inputs:
       energyplus-version:
         description: 'EnergyPlus major.minor.patch version'
