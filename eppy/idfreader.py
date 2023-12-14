@@ -42,6 +42,7 @@ def iddversiontuple(afile):
     except TypeError:
         fhandle = afile
     line1 = fhandle.readline()
+    fhandle.close()
     try:
         line1 = line1.decode("ISO-8859-2")
     except AttributeError:
