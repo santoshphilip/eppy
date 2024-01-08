@@ -25,7 +25,7 @@ def readidf(idfname):
     iddfile = "Energy+.idd"
     # iddfile = './EPlusInterfaceFunctions/E1.idd' # TODO : can the path name be not hard coded
     iddtxt = open(iddfile, "r").read()
-    block, commlst, commdct = parse_idd.extractidddata(iddfile)
+    block, commlst, commdct, idd_index = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
@@ -38,7 +38,7 @@ def readiddidf(idfname):
     iddfile = "Energy+.idd"
     # iddfile = './EPlusInterfaceFunctions/E1.idd' # TODO : can the path name be not hard coded
     iddtxt = open(iddfile, "r").read()
-    block, commlst, commdct = parse_idd.extractidddata(iddfile)
+    block, commlst, commdct, idd_index = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
@@ -51,7 +51,7 @@ def readiddstuff(idfname):
     iddfile = "Energy+.idd"
     # iddfile = './EPlusInterfaceFunctions/E1.idd' # TODO : can the path name be not hard coded
     iddtxt = open(iddfile, "r").read()
-    block, commlst, commdct = parse_idd.extractidddata(iddfile)
+    block, commlst, commdct, idd_index = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
@@ -64,7 +64,7 @@ def readdatacommlst(idfname):
     iddfile = "Energy+.idd"
     # iddfile = './EPlusInterfaceFunctions/E1.idd' # TODO : can the path name be not hard coded
     iddtxt = open(iddfile, "r").read()
-    block, commlst, commdct = parse_idd.extractidddata(iddfile)
+    block, commlst, commdct, idd_index = parse_idd.extractidddata(iddfile)
 
     theidd = eplusdata.Idd(block, 2)
     data = eplusdata.Eplusdata(theidd, idfname)
