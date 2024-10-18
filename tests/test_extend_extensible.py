@@ -45,9 +45,51 @@ def test_read_overextended():
 
     fhandle = StringIO(newstr)
     idf = IDF(fhandle)
+#     print(f"{idf.idd_version=}")
+#     print(idf.idfobjects.keys())
     wm = idf.idfobjects["WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC"]
     assert wm[0][f"Optical_Data_Temperature_{nn + 1}"] == nn - 1
     assert wm[0][f"Window_Material_Glazing_Name_{nn + 1}"] == f"G{nn - 1}"
+#     # 
+#     # test for fix of issue #444
+#     # WindowShadingControl has a field called "SetPoint 2" that was messing
+#     # the extensible fields generation
+#     astr = """
+#     Version, 9.6;                               !- Version Identifier
+# 
+#     WindowShadingControl,61013,                       
+#     BLOC85:RDCCLSSCNTRLC11X3,                      
+#     ,                                             
+#     InteriorBlind,                                
+#     Vitrage_externe_Ecole_De_Lagord - 2013,       
+#     OnIfScheduleAllows,                            
+#     PRESENCE_ClasseCentrale,                       
+#     ,                                              
+#     Yes,                                           
+#     No,                                            
+#     ,                                            
+#     FixedSlatAngle,                              
+#     ,                                            
+#     0,                                           
+#     ,                                            
+#     Group,                                         
+#     FedSurfName1, """
+# 
+#     # nn = 5000
+#     nn = 50
+#     extfields = ",".join([f"FedSurfName1{i}" for i in range(nn)])
+#     newstr = f"{astr} {extfields};"
+# 
+#     fhandle = StringIO(newstr)
+#     idf = IDF(fhandle)
+# #     print(idf.idfobjects.keys())
+#     if "WINDOWSHADINGCONTROL" in idf.idfobjects:
+#         print("WINDOWSHADINGCONTROL key is present")
+#     else:
+#         print("WINDOWSHADINGCONTROL key is NOT present")
+#     wm = idf.idfobjects["WINDOWSHADINGCONTROL"]
+#     assert wm[0][f"Fenestration Surface {nn + 1} Name"] == f"FedSurfName1{nn - 1}"
+    
 
 
 def test_newidfobject_overextend():

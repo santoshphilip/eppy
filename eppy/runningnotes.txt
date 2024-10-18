@@ -1,4 +1,16 @@
+Running notes for eppy
+======================
 
+
+
+2024-10-18
+----------
+
+Working on issue #444. fixed the issue. Need to make unit tests that would fail before the fix and succeed after the fix
+
+- The issue #444 is triggered with IDD > 9.4
+- need to see what version of IDD the pytests are using. It is idf.idd_version=(8, 0, 0, 8)
+- release this version in branch i444_hotfix without the tests, so it can be used
 
 2023-11-08
 ----------
