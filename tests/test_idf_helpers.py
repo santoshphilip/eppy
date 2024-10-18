@@ -36,14 +36,15 @@ def setup_module(module):
 def test_idfobjectkeys():
     """py.test for idfobjectkeys"""
     expected = [
-        "LEAD INPUT",
-        "SIMULATION DATA",
         "VERSION",
         "SIMULATIONCONTROL",
+        "PERFORMANCEPRECISIONTRADEOFFS",
         "BUILDING",
+        "SHADOWCALCULATION",
     ]
     idf = IDF(StringIO(""))
     result = idf_helpers.idfobjectkeys(idf)
+    print(result[:5])
     assert result[:5] == expected
 
 

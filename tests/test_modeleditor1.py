@@ -277,19 +277,7 @@ def test_iddofobject():
     thedata = (
         (
             "VERSION",
-            [
-                {
-                    "idfobj": "Version",
-                    "group": "Simulation Parameters",
-                    "format": ["singleLine"],
-                    "unique-object": [""],
-                },
-                {
-                    "default": ["7.0"],
-                    "field": ["Version Identifier"],
-                    "required-field": [""],
-                },
-            ],
+            [{'unique-object': [''], 'format': ['singleLine'], 'group': 'Simulation Parameters', 'idfobj': 'Version'}, {'field': ['Version Identifier'], 'default': ['9.4']}], 
         ),  # key, itsidd
     )
     for key, itsidd in thedata:

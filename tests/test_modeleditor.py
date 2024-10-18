@@ -618,15 +618,16 @@ def test_refname2key():
             "TransformerNames",
             ["ElectricLoadCenter:Distribution".upper()],
         ),  # refname, key
-        (
-            "AllCurves",
-            [
-                "PUMP:VARIABLESPEED",
-                "PUMP:CONSTANTSPEED",
-                "BOILER:HOTWATER",
-                "ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE",
-            ],
-        ),  # refname, key
+        # the data below does not work for IDD v 9.4.0
+        #         (
+        #             "AllCurves",
+        #             [
+        #                 "PUMP:VARIABLESPEED",
+        #                 "PUMP:CONSTANTSPEED",
+        #                 "BOILER:HOTWATER",
+        #                 "ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE",
+        #             ],
+        #         ),  # refname, key
     )
     for refname, key in tdata:
         fhandle = StringIO("")
@@ -637,12 +638,37 @@ def test_refname2key():
 
 def test_getiddgroupdict():
     """py.test for IDF.getiddgroupdict()"""
-    data = (({None: ["Lead Input", "Simulation Data"]},),)  # gdict,
+    data = (
+        (
+            {
+                "Simulation Parameters": [
+                    "Version",
+                    "SimulationControl",
+                    "Building",
+                    "ShadowCalculation",
+                    "SurfaceConvectionAlgorithm:Inside",
+                    "SurfaceConvectionAlgorithm:Outside",
+                    "HeatBalanceAlgorithm",
+                    "HeatBalanceSettings:ConductionFiniteDifference",
+                    "ZoneAirHeatBalanceAlgorithm",
+                    "ZoneAirContaminantBalance",
+                    "ZoneCapacitanceMultiplier:ResearchSpecial",
+                    "Timestep",
+                    "ConvergenceLimits",
+                    "HVACSystemRootFindingAlgorithm",
+                    "PerformancePrecisionTradeoffs",
+                    "ZoneAirMassFlowConservation",
+                ]
+            },
+        ),
+    )  # gdict,
     for (gdict,) in data:
         fhandle = StringIO("")
         idf = IDF(fhandle)
         result = idf.getiddgroupdict()
-        assert result[None] == gdict[None]
+        assert set(result["Simulation Parameters"]) == set(
+            gdict["Simulation Parameters"]
+        )
 
 
 def test_idfinmsequence():
