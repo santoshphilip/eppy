@@ -1,4 +1,4 @@
-# Copyright (c) 2012, 2022 Santosh Philip
+# Copyright (c) 2012, 2022, 2024 Santosh Philip
 # Copyright (c) 2021 Jeremy Lerond
 # =======================================================================
 #  Distributed under the MIT License.

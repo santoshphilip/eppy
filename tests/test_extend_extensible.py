@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Santosh Philip
+# Copyright (c) 2022, 2024 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -83,10 +83,17 @@ def test_getset_overextended():
     assert wm["Optical_Data_Temperature_2003"] == ""  # test __getitem__
 
 # test from fixing issue #444 
-# TODO: articulate whay and how
+# issue #444
+# 
+# :Problem: Extensible fields not expanding automatically in IDD for WINDOWSHADINGCONTROL 
+# :Solution: fixed how Extensible fields were identified
+# 
+# eppy was using the presence of an integer in the extensible field to identify it as extensible. Some non-extensible fields have integers in them. Now eppy identifies the Extensible field by key-words such as begin-extensible
+# 
+# Below are the tests specific to this issue
 
 def test_read_overextended_issue444():
-    """py.test when reading an IDD that has more fields than the IDD"""
+    """py.test when reading an IDD that has more fields than the IDD. Testing for the fix of issue #444"""
     # # test for fix of issue #444
     # WindowShadingControl has a field called "SetPoint 2" that was messing
     # the extensible fields generation
@@ -122,7 +129,7 @@ def test_read_overextended_issue444():
     assert wm[0][f"Fenestration_Surface_{nn + 1}_Name"] == f"FedSurfName1{nn - 1}"
 
 def test_newidfobject_overextend_issue444():
-    """py.test when idf.newidfobject creates an object with more fields than avaliable in the IDD"""
+    """py.test when idf.newidfobject creates an object with more fields than avaliable in the IDD. Testing for the fix of issue #444"""
     idf = IDF(StringIO(""))
     n = 2000
     d1 = dict(Name="Gumby")
@@ -138,7 +145,7 @@ def test_newidfobject_overextend_issue444():
     assert wm.Fenestration_Surface_2005_Name == ""  # test the skipped fields
 
 def test_getset_overextended_issue444():
-    """pytest when idfobject.fieldname and idfobject['fieldname'] is an overextended field"""
+    """pytest when idfobject.fieldname and idfobject['fieldname'] is an overextended field. Testing for the fix of issue #444"""
     idf = IDF(StringIO(""))
     wm = idf.newidfobject("WindowShadingControl", Name="Gumby")
     wm.Fenestration_Surface_2000_Name = 2000  # test __setattr__
