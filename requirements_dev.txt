@@ -8,8 +8,8 @@ coverage
 Sphinx
 twine
 
-pytest
-pytest-runner
+pytest=7.1.3
+pytest-runner=6.0.0
 black
 nbsphinx
 
