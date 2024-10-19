@@ -12,6 +12,8 @@ Working on issue #444. fixed the issue. Need to make unit tests that would fail 
 - need to see what version of IDD the pytests are using. It is idf.idd_version=(8, 0, 0, 8)
 - release this version in branch i444_hotfix without the tests, so it can be used
 
+- tests are passing with this fix. Do more tests for i444
+
 2023-11-08
 ----------
 

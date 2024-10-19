@@ -45,50 +45,9 @@ def test_read_overextended():
 
     fhandle = StringIO(newstr)
     idf = IDF(fhandle)
-#     print(f"{idf.idd_version=}")
-#     print(idf.idfobjects.keys())
     wm = idf.idfobjects["WINDOWMATERIAL:GLAZINGGROUP:THERMOCHROMIC"]
     assert wm[0][f"Optical_Data_Temperature_{nn + 1}"] == nn - 1
     assert wm[0][f"Window_Material_Glazing_Name_{nn + 1}"] == f"G{nn - 1}"
-#     # 
-#     # test for fix of issue #444
-#     # WindowShadingControl has a field called "SetPoint 2" that was messing
-#     # the extensible fields generation
-#     astr = """
-#     Version, 9.6;                               !- Version Identifier
-# 
-#     WindowShadingControl,61013,                       
-#     BLOC85:RDCCLSSCNTRLC11X3,                      
-#     ,                                             
-#     InteriorBlind,                                
-#     Vitrage_externe_Ecole_De_Lagord - 2013,       
-#     OnIfScheduleAllows,                            
-#     PRESENCE_ClasseCentrale,                       
-#     ,                                              
-#     Yes,                                           
-#     No,                                            
-#     ,                                            
-#     FixedSlatAngle,                              
-#     ,                                            
-#     0,                                           
-#     ,                                            
-#     Group,                                         
-#     FedSurfName1, """
-# 
-#     # nn = 5000
-#     nn = 50
-#     extfields = ",".join([f"FedSurfName1{i}" for i in range(nn)])
-#     newstr = f"{astr} {extfields};"
-# 
-#     fhandle = StringIO(newstr)
-#     idf = IDF(fhandle)
-# #     print(idf.idfobjects.keys())
-#     if "WINDOWSHADINGCONTROL" in idf.idfobjects:
-#         print("WINDOWSHADINGCONTROL key is present")
-#     else:
-#         print("WINDOWSHADINGCONTROL key is NOT present")
-#     wm = idf.idfobjects["WINDOWSHADINGCONTROL"]
-#     assert wm[0][f"Fenestration Surface {nn + 1} Name"] == f"FedSurfName1{nn - 1}"
     
 
 
@@ -122,3 +81,71 @@ def test_getset_overextended():
     assert wm.Optical_Data_Temperature_2001 == 2001
     assert wm.Optical_Data_Temperature_2002 == ""  # test __getattr__
     assert wm["Optical_Data_Temperature_2003"] == ""  # test __getitem__
+
+# test from fixing issue #444 
+# TODO: articulate whay and how
+
+def test_read_overextended_issue444():
+    """py.test when reading an IDD that has more fields than the IDD"""
+    # # test for fix of issue #444
+    # WindowShadingControl has a field called "SetPoint 2" that was messing
+    # the extensible fields generation
+    astr = """
+    Version, 9.6;                               !- Version Identifier
+
+    WindowShadingControl,61013,                       
+    BLOC85:RDCCLSSCNTRLC11X3,                      
+    ,                                             
+    InteriorBlind,                                
+    Vitrage_externe_Ecole_De_Lagord - 2013,       
+    OnIfScheduleAllows,                            
+    PRESENCE_ClasseCentrale,                       
+    ,                                              
+    Yes,                                           
+    No,                                            
+    ,                                            
+    FixedSlatAngle,                              
+    ,                                            
+    0,                                           
+    ,                                            
+    Group,                                         
+    FedSurfName1, """
+
+    # nn = 5000
+    nn = 50
+    extfields = ",".join([f"FedSurfName1{i}" for i in range(nn)])
+    newstr = f"{astr} {extfields};"
+
+    fhandle = StringIO(newstr)
+    idf = IDF(fhandle)
+    wm = idf.idfobjects["WINDOWSHADINGCONTROL"]
+    assert wm[0][f"Fenestration_Surface_{nn + 1}_Name"] == f"FedSurfName1{nn - 1}"
+
+def test_newidfobject_overextend_issue444():
+    """py.test when idf.newidfobject creates an object with more fields than avaliable in the IDD"""
+    idf = IDF(StringIO(""))
+    n = 2000
+    d1 = dict(Name="Gumby")
+    d2 = {f"Fenestration_Surface_{i}_Name": f"G{i}" for i in range(1, n + 1)}
+    kwargs = dict()
+    kwargs.update(d1)
+    kwargs.update(d2)
+    d4 = {"Fenestration_Surface_2010_Name": "G2010"}  # skip some numbers
+    kwargs.update(d4)
+    wm = idf.newidfobject("WindowShadingControl", **kwargs)
+    assert wm.Fenestration_Surface_2000_Name == "G2000"
+    assert wm.Fenestration_Surface_2010_Name  == "G2010"  # test after skiping
+    assert wm.Fenestration_Surface_2005_Name == ""  # test the skipped fields
+
+def test_getset_overextended_issue444():
+    """pytest when idfobject.fieldname and idfobject['fieldname'] is an overextended field"""
+    idf = IDF(StringIO(""))
+    wm = idf.newidfobject("WindowShadingControl", Name="Gumby")
+    wm.Fenestration_Surface_2000_Name = 2000  # test __setattr__
+    assert wm.Fenestration_Surface_2000_Name == 2000
+    wm["Fenestration_Surface_2001_Name"] = 2001  # rest __setitem__
+    assert wm.Fenestration_Surface_2001_Name == 2001
+    assert wm.Fenestration_Surface_2002_Name == ""  # test __getattr__
+    assert wm["Fenestration_Surface_2002_Name"] == ""  # test __getitem__
+
+
