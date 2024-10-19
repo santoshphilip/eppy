@@ -6,6 +6,44 @@ Changes
 ~~~~~~~
 
 
+Date:   Sat Oct 19 05:35:47 2024 -0700
+--------------------------------------
+
+fixed issue #444
+````````````````
+
+:Problem: Extensible fields not expanding automatically in IDD for WINDOWSHADINGCONTROL
+:Solution: fixed how Extensible fields were identified
+
+eppy was using the presence of an integer in the extensible field to identify it as extensible. Some non-extensible fields have integers in them. Now eppy identifies the Extensible field by key-words such as begin-extensible
+
+Date:   Sat Oct 19 05:16:43 2024 -0700
+--------------------------------------
+
+fixed issue #445
+````````````````
+
+:Problem: pytest running on old IDD version 8.0.0
+:Solution: pytest now running on version 9.4.0
+
+Date:   Fri Nov 10 15:40:03 2023 -0800
+--------------------------------------
+
+fixed issue #428
+````````````````
+
+:Problem: need CI for eppy
+:Solution: Use github actions for CI
+
+Date:   Thu Jun 29 19:16:41 2023 -0700
+--------------------------------------
+
+fixed issue #422
+````````````````
+
+:Problem: readthedocs.org needs a .readthedocs.yaml
+:Solution: added a .readthedocs.yaml file
+
 2022-12-23
 ----------
 
