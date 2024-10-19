@@ -3,6 +3,11 @@ Running notes for eppy
 
 
 
+2024-10-19
+----------
+
+test on github failing in develop. Try with master
+
 2024-10-18
 ----------
 
