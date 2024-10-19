@@ -13,8 +13,25 @@ from __future__ import unicode_literals
 
 from io import StringIO
 
-from eppy.iddcurrent import iddcurrent
 from eppy.modeleditor import IDF
+
+# Not sure why these tests are sitting in this file
+# Should it not be in test_modeleditor.py or test_modeleditor1.py
+
+
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue
+    without reading it again
+
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
 
 def test_IDF():
@@ -28,14 +45,6 @@ def test_IDF():
     assert IDF.iddname != "karamba"
     assert IDF.iddname == "gumby"
     IDF.iddname = stored_idd
-
-
-iddsnippet = iddcurrent.iddtxt
-iddfhandle = StringIO(iddsnippet)
-
-
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
 
 
 class TestIDF(object):

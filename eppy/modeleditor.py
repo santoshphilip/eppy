@@ -61,6 +61,12 @@ class IDDAlreadySetError(Exception):
     pass
 
 
+class IDDResetError(Exception):
+    """Exception Object"""
+
+    pass
+
+
 def almostequal(first, second, places=7, printit=True):
     """
     Test if two values are equal to a given number of places.
@@ -615,6 +621,25 @@ class IDF(object):
                 raise IDDAlreadySetError(errortxt)
 
     @classmethod
+    def resetidd(cls):
+        """resets the IDD for testing. Users should not use this
+
+        It will raise the exception IDDResetError
+
+        Returns
+        -------
+        None
+
+        """
+        cls.iddname = None
+        cls.idd_info = None
+        cls.block = None
+        cls.idd_info = None
+        cls.idd_index = None
+        cls.idd_version = None
+        raise IDDResetError("IDD should never be reset unless you are doing test runs")
+
+    @classmethod
     def getiddname(cls):
         """Get the name of the current IDD used by eppy.
 
@@ -996,6 +1021,9 @@ class IDF(object):
             is compatible with the EnergyPlus IDFEditor.
 
         """
+        if self.idfabsname is None and isinstance(self.idfname, str):
+            # this happens when the user sets self.idfname to an in-memory idf
+            self.idfabsname = os.path.abspath(self.idfname)
         if filename is None:
             filename = self.idfabsname
         s = self.idfstr()
@@ -1022,6 +1050,13 @@ class IDF(object):
                 filename.write(s)
             except TypeError:
                 filename.write(s.decode(encoding))
+
+        try:
+            pass
+        except Exception as e:
+            raise e
+        else:
+            pass
 
     def saveas(self, filename, lineendings="default", encoding="latin-1"):
         """Save the IDF as a text file with the filename passed.

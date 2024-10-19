@@ -5,6 +5,87 @@ History
 Changes
 ~~~~~~~
 
+release r0.5.66
+~~~~~~~~~~~~~~~
+
+Date:   Sat Oct 19 05:35:47 2024 -0700
+--------------------------------------
+
+fixed issue #444
+````````````````
+
+:Problem: Extensible fields not expanding automatically in IDD for WINDOWSHADINGCONTROL
+:Solution: fixed how Extensible fields were identified
+
+eppy was using the presence of an integer in the extensible field to identify it as extensible. Some non-extensible fields have integers in them. Now eppy identifies the Extensible field by key-words such as begin-extensible
+
+Date:   Sat Oct 19 05:16:43 2024 -0700
+--------------------------------------
+
+fixed issue #445
+````````````````
+
+:Problem: pytest running on old IDD version 8.0.0
+:Solution: pytest now running on version 9.4.0
+
+Date:   Fri Nov 10 15:40:03 2023 -0800
+--------------------------------------
+
+fixed issue #428
+````````````````
+
+:Problem: need CI for eppy
+:Solution: Use github actions for CI
+
+Date:   Thu Jun 29 19:16:41 2023 -0700
+--------------------------------------
+
+fixed issue #422
+````````````````
+
+:Problem: readthedocs.org needs a .readthedocs.yaml
+:Solution: added a .readthedocs.yaml file
+
+2022-12-23
+----------
+
+Fixed issue #411
+````````````````
+
+:Problem: eppy run functions does not throw an exception if weather file is missing
+:Solution: eppy run function throws Exception "EnergyPlusRunError" with message saying weather file missing
+
+
+2022-12-08
+----------
+
+fixed issue #409
+````````````````
+
+:Problem: eppy.newidf(version=None) does not work correctly
+:Solution:
+
+    There are starting conditions here:
+
+    1. IDD is already set
+        - if IDD has been set, it should use that IDD
+    2. IDD has not been set
+        - if eppy.newidf(version=None), it should throw an exception
+        - if eppy.newidf(version=some_version), it shoule use that some_version of IDD
+
+2022-12-07
+----------
+
+fixed issue #410
+````````````````
+
+:Problem: need a IDF.resetidd() function during testing
+:Solution: IDF.resetidd() will reset all related idd values
+
+    modified:   eppy/modeleditor.py
+    modified:   tests/test_runner.py
+
+
 release r0.5.63
 ~~~~~~~~~~~~~~~
 

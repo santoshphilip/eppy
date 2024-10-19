@@ -32,7 +32,13 @@ def do_integration_tests():
     bool
 
     """
-    return os.getenv("EPPY_INTEGRATION", False)
+    try:
+        result = os.environ["EPPY_INTEGRATION"]
+    except KeyError as e:
+        result = False
+    if result == "TRUE":  # github CI returns strings 9no booleans)
+        result = True
+    return result
 
 
 def almostequal(first, second, places=7, printit=True):

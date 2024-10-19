@@ -24,14 +24,15 @@ import re
 import shutil
 
 import pytest
-from importlib import reload
 
+import eppy
 from eppy import modeleditor
 from eppy.pytest_helpers import do_integration_tests
 from eppy.runner.run_functions import install_paths, EnergyPlusRunError
 from eppy.runner.run_functions import multirunner
 from eppy.runner.run_functions import run
 from eppy.runner.run_functions import runIDFs
+from tests.pytest_helpers import safeIDDreset
 
 
 def versiontuple(vers):
@@ -57,6 +58,11 @@ TEST_OLD_IDD = "Energy+V7_2_0.idd"
 eplus_exe, eplus_weather = install_paths(VERSION, os.path.join(IDD_FILES, TEST_IDD))
 
 
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    safeIDDreset()
+
+
 def has_severe_errors(results="run_outputs"):
     """Check for severe errors in the eplusout.end file."""
     end_filename = glob("{}/*.end".format(results))[0]
@@ -68,10 +74,7 @@ def has_severe_errors(results="run_outputs"):
 
 def test_version_reader():
     """Test that get the expected idd_version when reading an IDF/IDD."""
-    # We need to reload modeleditor since the IDF class may have had an IDD
-    # which causes problems.
-    # https://stackoverflow.com/questions/437589/how-do-i-unload-reload-a-python-module
-    reload(modeleditor)
+    safeIDDreset()
     iddfile = os.path.join(IDD_FILES, TEST_IDD)
     fname1 = os.path.join(IDF_FILES, TEST_IDF)
     modeleditor.IDF.setiddname(iddfile, testing=True)
@@ -80,7 +83,6 @@ def test_version_reader():
     assert ep_version == versiontuple(VERSION)
     ep_version = modeleditor.IDF.idd_version
     assert ep_version == versiontuple(VERSION)
-    # reload(modeleditor)
 
 
 @pytest.mark.skipif(
@@ -136,7 +138,6 @@ class TestRunFunction(object):
 
     def setup(self):
         """Tidy up just in case anything is left from previous test runs."""
-        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -146,7 +147,6 @@ class TestRunFunction(object):
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
-        # reload(modeleditor)
 
     def test_run_abs_paths(self):
         """
@@ -187,6 +187,15 @@ class TestRunFunction(object):
             out, _err = capfd.readouterr()
             assert "ERROR: Could not find input data file:" in out
 
+    def test_missing_weatherfile_raises_error(self, capfd):
+        """pytest for exception if weather file is missing"""
+        fname1 = os.path.join(IDF_FILES, TEST_IDF)
+        epw = os.path.join(eplus_weather, "XXXXXX_fake_weather_file.epw")
+        with pytest.raises(EnergyPlusRunError):
+            run(fname1, epw, output_directory="test_results", ep_version=VERSION)
+            out, _err = capfd.readouterr()
+            assert "No such file or directory" in out
+
 
 @pytest.mark.skipif(
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
@@ -197,7 +206,6 @@ class TestIDFRunner(object):
 
     def setup(self):
         """Tidy up anything left from previous runs. Get an IDF object to run."""
-        # reload(modeleditor)
         shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
         self.expected_files = [
@@ -249,7 +257,6 @@ class TestIDFRunner(object):
         shutil.rmtree("run_outputs", ignore_errors=True)
         shutil.rmtree("other_run_outputs", ignore_errors=True)
         shutil.rmtree("test_results", ignore_errors=True)
-        # reload(modeleditor)
         for f in {"eplusout.end", "eplusout.err", "in.idf"}:
             try:
                 os.remove(os.path.join(THIS_DIR, f))
@@ -478,7 +485,6 @@ class TestIDFRunner(object):
 
         expected_version = VERSION.replace("-", ".")
         version_string = "EnergyPlus, Version {}".format(expected_version)
-
         assert out.strip().startswith(version_string)
 
     def test_help(self, capfd, test_idf):
@@ -606,7 +612,6 @@ class TestMultiprocessing(object):
 
     def setup(self):
         """Clear out any results from previous tests."""
-        # reload(modeleditor)
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
         self.expected_files = [
@@ -630,7 +635,6 @@ class TestMultiprocessing(object):
             shutil.rmtree(results_dir)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
-        # reload(modeleditor)
 
     def test_sequential_run(self):
         """

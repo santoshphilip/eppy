@@ -1,10 +1,10 @@
-# Copyright (c) 2012 Santosh Philip
+# Copyright (c) 2012, 2024 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for some functions of modeleditor"""
+"""py.test for some functions of modeleditor. Other tests are in test_modeleditor.py"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -277,19 +277,7 @@ def test_iddofobject():
     thedata = (
         (
             "VERSION",
-            [
-                {
-                    "idfobj": "Version",
-                    "group": "Simulation Parameters",
-                    "format": ["singleLine"],
-                    "unique-object": [""],
-                },
-                {
-                    "default": ["7.0"],
-                    "field": ["Version Identifier"],
-                    "required-field": [""],
-                },
-            ],
+            [{'unique-object': [''], 'format': ['singleLine'], 'group': 'Simulation Parameters', 'idfobj': 'Version'}, {'field': ['Version Identifier'], 'default': ['9.4']}], 
         ),  # key, itsidd
     )
     for key, itsidd in thedata:

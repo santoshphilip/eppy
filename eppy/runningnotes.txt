@@ -1,4 +1,68 @@
+Running notes for eppy
+======================
 
+
+
+2024-10-19
+----------
+
+test on github failing in develop. Try with master
+
+2024-10-18
+----------
+
+Working on issue #444. fixed the issue. Need to make unit tests that would fail before the fix and succeed after the fix
+
+- The issue #444 is triggered with IDD > 9.4
+- need to see what version of IDD the pytests are using. It is idf.idd_version=(8, 0, 0, 8)
+- release this version in branch i444_hotfix without the tests, so it can be used
+
+- tests are passing with this fix. Do more tests for i444
+
+2023-11-08
+----------
+
+try to install another version of eppy in repository eppyactions
+
+2023-11-05
+----------
+
+actions are doing the full tests at branch ``branchtest``. Points to note
+
+- EPPY-INTEGRATION is set to True (can be st to true in master and false in develop)
+- install E+ version 9.2.0 in CI. This is harcoded in ./github/worflows/install.sh and ./samepath/main.yml
+- test are run in E+ version 8.9.0 in local
+
+
+- this branch can be merged into develop and master
+    - need to update history
+- worth coding to select local and remote E+ versions for tests.
+
+put double quote in VERSION = os.environ['ENERGYPLUS_INSTALL_VERSION'] of conftest.py and test_runner.py
+
+Long term steps:
+
+- Install any version of E+ on CI
+- toggle for local and CI E+ version for testing.
+
+2022-12-21
+----------
+
+issue #411
+
+- Looks like just a space in the weatherfile path tripped it up
+- confirm this
+- strip the space -> solution
+- check if it works with embedded spaces
+    - looks like embedded spaces are not an issue
+    
+- code to fix this issue - DONE
+    - test if file exists
+    - throw exception
+    - do unit test for this exception - TODO
+- check on unmethours issue
+- respond to this at 
+- https://unmethours.com/question/58548/eppy-error-in-running-simulation-using-idfrun/
 
 2022-11-30
 ----------

@@ -1,4 +1,4 @@
-# Copyright (c) 2012, 2022 Santosh Philip
+# Copyright (c) 2012, 2022, 2024 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -72,7 +72,13 @@ def repeatingfieldsnames(fields, int_replace=None):
     """get the names of the repeating fields"""
     if not int_replace:
         int_replace = "%s"
-    fnames = [field["field"][0] for field in fields]
+    i = 0
+    for i, field in enumerate(fields):
+        if "begin-extensible" in field:
+            break
+            # goto where extensible fields begin
+            # below we get fname for after that
+    fnames = [field["field"][0] for field in fields[i:]]
     fnames = [bunchhelpers.onlylegalchar(fname) for fname in fnames]
     fnames = [fname for fname in fnames if bunchhelpers.intinlist(fname.split())]
     fnames = [(bunchhelpers.replaceint(fname, int_replace), None) for fname in fnames]

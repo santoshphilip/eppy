@@ -1,4 +1,4 @@
-# Copyright (c) 2016 Santosh Philip
+# Copyright (c) 2016, 2024 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -17,23 +17,34 @@ from eppy.modeleditor import IDF
 from eppy.pytest_helpers import almostequal
 import eppy.idf_helpers as idf_helpers
 
-iddfhandle = StringIO(iddcurrent.iddtxt)
 
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue
+    without reading it again
+
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
 
 def test_idfobjectkeys():
     """py.test for idfobjectkeys"""
     expected = [
-        "LEAD INPUT",
-        "SIMULATION DATA",
         "VERSION",
         "SIMULATIONCONTROL",
+        "PERFORMANCEPRECISIONTRADEOFFS",
         "BUILDING",
+        "SHADOWCALCULATION",
     ]
     idf = IDF(StringIO(""))
     result = idf_helpers.idfobjectkeys(idf)
+    print(result[:5])
     assert result[:5] == expected
 
 

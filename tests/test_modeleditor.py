@@ -1,11 +1,11 @@
-# Copyright (c) 2012, 2022 Santosh Philip
+# Copyright (c) 2012, 2022, 2024 Santosh Philip
 # Copyright (c) 2021 Jeremy Lerond
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""py.test for modeleditor"""
+"""Main py.test modeleditor. Other tests are in test_modeleditor.py"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -21,8 +21,7 @@ from pathlib import Path
 
 
 import pytest
-from six import StringIO
-from six import string_types
+from io import StringIO
 
 from eppy import modeleditor
 from eppy.bunch_subclass import Bunch
@@ -32,19 +31,22 @@ from eppy.pytest_helpers import almostequal
 import eppy.snippet as snippet
 
 
-iddsnippet = iddcurrent.iddtxt
 idfsnippet = snippet.idfsnippet
 
-# idffhandle = StringIO(idfsnippet)
-# iddfhandle = StringIO(iddsnippet)
-# bunchdt, data, commdct, gdict = idfreader.idfreader(idffhandle, iddfhandle, None)
 
-# idd is read only once in this test
-# if it has already been read from some other test, it will continue with
-# the old reading
-iddfhandle = StringIO(iddcurrent.iddtxt)
-if IDF.getiddname() == None:
-    IDF.setiddname(iddfhandle)
+def setup_module(module):
+    """
+    idd is read only once in this module
+    if it has already been read from some other module, it will continue
+    without reading it again
+
+    pytest run this before running the module
+    """
+    from eppy.iddcurrent import iddcurrent
+
+    iddfhandle = StringIO(iddcurrent.iddtxt)
+    if IDF.getiddname() == None:
+        IDF.setiddname(iddfhandle)
 
 
 def test_poptrailing():
@@ -516,14 +518,14 @@ def test_initread():
 
     # test fname as unicode
     fname = "tmp.idf"
-    assert isinstance(fname, string_types)
+    assert isinstance(fname, str)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject("BUILDING", "Building")
 
     # test fname as str
     fname = str("tmp.idf")
-    assert isinstance(fname, string_types)
+    assert isinstance(fname, str)
     idf = IDF()
     idf.initread(fname)
     assert idf.getobject("BUILDING", "Building")
@@ -616,15 +618,16 @@ def test_refname2key():
             "TransformerNames",
             ["ElectricLoadCenter:Distribution".upper()],
         ),  # refname, key
-        (
-            "AllCurves",
-            [
-                "PUMP:VARIABLESPEED",
-                "PUMP:CONSTANTSPEED",
-                "BOILER:HOTWATER",
-                "ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE",
-            ],
-        ),  # refname, key
+        # the data below does not work for IDD v 9.4.0
+        #         (
+        #             "AllCurves",
+        #             [
+        #                 "PUMP:VARIABLESPEED",
+        #                 "PUMP:CONSTANTSPEED",
+        #                 "BOILER:HOTWATER",
+        #                 "ENERGYMANAGEMENTSYSTEM:CURVEORTABLEINDEXVARIABLE",
+        #             ],
+        #         ),  # refname, key
     )
     for refname, key in tdata:
         fhandle = StringIO("")
@@ -635,12 +638,37 @@ def test_refname2key():
 
 def test_getiddgroupdict():
     """py.test for IDF.getiddgroupdict()"""
-    data = (({None: ["Lead Input", "Simulation Data"]},),)  # gdict,
+    data = (
+        (
+            {
+                "Simulation Parameters": [
+                    "Version",
+                    "SimulationControl",
+                    "Building",
+                    "ShadowCalculation",
+                    "SurfaceConvectionAlgorithm:Inside",
+                    "SurfaceConvectionAlgorithm:Outside",
+                    "HeatBalanceAlgorithm",
+                    "HeatBalanceSettings:ConductionFiniteDifference",
+                    "ZoneAirHeatBalanceAlgorithm",
+                    "ZoneAirContaminantBalance",
+                    "ZoneCapacitanceMultiplier:ResearchSpecial",
+                    "Timestep",
+                    "ConvergenceLimits",
+                    "HVACSystemRootFindingAlgorithm",
+                    "PerformancePrecisionTradeoffs",
+                    "ZoneAirMassFlowConservation",
+                ]
+            },
+        ),
+    )  # gdict,
     for (gdict,) in data:
         fhandle = StringIO("")
         idf = IDF(fhandle)
         result = idf.getiddgroupdict()
-        assert result[None] == gdict[None]
+        assert set(result["Simulation Parameters"]) == set(
+            gdict["Simulation Parameters"]
+        )
 
 
 def test_idfinmsequence():
@@ -690,3 +718,20 @@ def test_copyidf():
     idf = IDF(StringIO(idftxt))
     new_idf = idf.copyidf()
     assert idf.idfstr() == new_idf.idfstr()
+
+
+def test_name_and_save_inmemoryidf():
+    """py.test to name and save a file that is created in memory"""
+    # fixing and testing an error from user documentation code
+    # fix for issue #408
+
+    idftxt = "VERSION, 7.3;"
+    fhandle = StringIO(idftxt)
+    idf_notemptyfile = IDF(fhandle)
+    idf_notemptyfile.idfname = "notemptyfile_randomchars_laksdfjl.idf"
+    try:
+        idf_notemptyfile.save()
+    except Exception as e:
+        raise e
+    finally:
+        os.remove("notemptyfile_randomchars_laksdfjl.idf")

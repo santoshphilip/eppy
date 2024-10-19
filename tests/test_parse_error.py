@@ -1,12 +1,19 @@
 import os
 import shutil
 import sys
-from importlib import reload
 
 from six import StringIO
 
+import eppy
 from eppy import modeleditor
 from eppy.runner.run_functions import parse_error, EnergyPlusRunError
+
+from tests.pytest_helpers import safeIDDreset
+
+
+def teardown_module(module):
+    """new IDD has been set in the module. Here you tear it down"""
+    safeIDDreset()
 
 
 def test_capture_stderr():
@@ -34,4 +41,4 @@ def test_capture_real_error(test_idf):
         assert "invalid Heating Setpoint Temperature Schedule" in str(e)
     finally:
         shutil.rmtree(rundir)
-        reload(modeleditor)
+        safeIDDreset()
