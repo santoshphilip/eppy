@@ -1,0 +1,52 @@
+Program Version,EnergyPlus, Version 23.2.0-7636e6b3e9, YMD=2025.01.17 14:49
+1,5,Environment Title[],Latitude[deg],Longitude[deg],Time Zone[],Elevation[m]
+2,8,Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],Hour[],StartMinute[],EndMinute[],DayType
+3,5,Cumulative Day of Simulation[],Month[],Day of Month[],DST Indicator[1=yes 0=no],DayType  ! When Daily Meters Requested
+4,2,Cumulative Days of Simulation[],Month[]  ! When Monthly Meters Requested
+5,1,Cumulative Days of Simulation[] ! When Run Period Meters Requested
+6,1,Calendar Year of Simulation[] ! When Annual Meters Requested
+12,9,Electricity:Facility [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+24,9,Electricity:Building [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+60,9,InteriorLights:Electricity [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+1393,9,Electricity:Plant [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+1356,9,NaturalGas:Plant [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+1344,9,NaturalGas:Facility [J] !Monthly [Value,Min,Day,Hour,Minute,Max,Day,Hour,Minute]
+14,11,Electricity:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+26,11,Electricity:Building [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+62,11,InteriorLights:Electricity [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+1395,11,Electricity:Plant [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+1358,11,NaturalGas:Plant [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+1346,11,NaturalGas:Facility [J] !RunPeriod [Value,Min,Month,Day,Hour,Minute,Max,Month,Day,Hour,Minute]
+End of Data Dictionary
+1,RUN PERIOD 1,  37.62,-122.40,  -8.00,   2.00
+4,1, 1
+12,467353387.8350581,427500.0,14, 1,15,10800000.0,14,11,15
+24,467156488.72977316,427500.0,14, 1,15,10800000.0,14,11,15
+60,309150000.0,337500.0,14, 1,15,6750000.0,14,11,15
+1344,9635860.855250582,0.0,14, 1,15,3738859.599179359,14, 8,15
+1356,9635860.855250582,0.0,14, 1,15,3738859.599179359,14, 8,15
+1393,196899.10528497404,0.0,14, 1,15,49224.77632124351,14, 8,30
+5,1
+14,467353387.8350581,427500.0, 1,14, 1,15,10800000.0, 1,14,11,15
+26,467156488.72977316,427500.0, 1,14, 1,15,10800000.0, 1,14,11,15
+62,309150000.0,337500.0, 1,14, 1,15,6750000.0, 1,14,11,15
+1346,9635860.855250582,0.0, 1,14, 1,15,3738859.599179359, 1,14, 8,15
+1358,9635860.855250582,0.0, 1,14, 1,15,3738859.599179359, 1,14, 8,15
+1395,196899.10528497404,0.0, 1,14, 1,15,49224.77632124351, 1,14, 8,30
+1,RUN PERIOD 2,  37.62,-122.40,  -8.00,   2.00
+4,1, 7
+12,481810536.28952926,99999999999999.0,14, 1,15,11207556.26148618, 7,11,60
+24,481810536.28952926,99999999999999.0,14, 1,15,11207556.26148618, 7,11,60
+60,309150000.0,99999999999999.0,14, 1,15,-99999999999999.0,14,11,15
+1344,0.0,99999999999999.0,14, 1,15,-99999999999999.0,14, 8,15
+1356,0.0,99999999999999.0,14, 1,15,-99999999999999.0,14, 8,15
+1393,0.0,99999999999999.0,14, 1,15,-99999999999999.0,14, 8,30
+5,1
+14,481810536.28952926,99999999999999.0, 1,14, 1,15,11207556.26148618, 7, 7,11,60
+26,481810536.28952926,99999999999999.0, 1,14, 1,15,11207556.26148618, 7, 7,11,60
+62,309150000.0,99999999999999.0, 1,14, 1,15,-99999999999999.0, 1,14,11,15
+1346,0.0,99999999999999.0, 1,14, 1,15,-99999999999999.0, 1,14, 8,15
+1358,0.0,99999999999999.0, 1,14, 1,15,-99999999999999.0, 1,14, 8,15
+1395,0.0,99999999999999.0, 1,14, 1,15,-99999999999999.0, 1,14, 8,30
+End of Data
+ Number of Records Written=          24
