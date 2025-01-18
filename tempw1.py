@@ -36,7 +36,7 @@ def main():
     # File is from the Examples Folder
     idfname1 = "temp/HVACTemplate-5ZoneBaseboardHeat.idf"
     # copy of previous file
-    idfname2 = "./temp/HVACTemplate-5ZoneBaseboardHeat1.idf"
+    idfname2 = "temp/HVACTemplate-5ZoneBaseboardHeat1.idf"
 
 
     fnames = [idfname1, idfname2]

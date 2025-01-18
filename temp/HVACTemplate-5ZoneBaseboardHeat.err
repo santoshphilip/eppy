@@ -1,4 +1,4 @@
-Program Version,EnergyPlus, Version 23.2.0-7636e6b3e9, YMD=2025.01.17 14:49,
+Program Version,EnergyPlus, Version 23.2.0-7636e6b3e9, YMD=2025.01.17 16:51,
    ************* Beginning Zone Sizing Calculations
    ** Warning ** Weather file location will be used rather than entered (IDF) Location object.
    **   ~~~   ** ..Location object=CHICAGO_IL_USA TMY2-94846
@@ -27,4 +27,4 @@ Program Version,EnergyPlus, Version 23.2.0-7636e6b3e9, YMD=2025.01.17 14:49,
    ************* Simulation Error Summary *************
    ************* EnergyPlus Warmup Error Summary. During Warmup: 0 Warning; 0 Severe Errors.
    ************* EnergyPlus Sizing Error Summary. During Sizing: 6 Warning; 0 Severe Errors.
-   ************* EnergyPlus Completed Successfully-- 6 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  0.44sec
+   ************* EnergyPlus Completed Successfully-- 6 Warning; 0 Severe Errors; Elapsed Time=00hr 00min  0.62sec
