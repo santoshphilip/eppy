@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: 
+#         [main, master, develop]
+  pull_request:
+    branches: 
+#         [main, master, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", ]   # ← adjust to what you support
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4   # v4+ is faster & more reliable in 2025
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3   # use latest stable version (v3 is current in late 2025 / early 2026)
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install 3.9
+
+      - name: Install dependencies
+        run: uv sync --frozen --all-extras --dev
+        # ────────────────────────────────────────────────
+        # --frozen   = respect uv.lock exactly (CI safety)
+        # --all-extras = install optional-dependencies e.g. [test], [dev], [all]
+        # --dev      = install uv tool dev-dependencies (PEP 735 style)
+
+      - name: Run tests
+        run: uv run pytest
+        # You can also be more explicit:  uv run pytest tests/ --cov --cov-report=xml

@@ -2,6 +2,14 @@ Running notes for eppy
 ======================
 
 
+2026-01-20
+----------
+
+- from /eppy/.github/workflows
+- mv install.sh ../../delete_oldworkflows/ 
+- mv main.yml ../../delete_oldworkflows 
+
+These files in delete_oldworkflows may have info on how to install E+ and run .run functions
 
 2024-10-19
 ----------

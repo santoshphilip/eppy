@@ -1,3 +1,93 @@
+==============
+Notes for eppy
+==============
+
+
+
+2026-01-20
+----------
+
+Notes on moving to uv from (and running with uv) https://x.com/i/grok?conversation=2002198771770290596
+
+
+Moving to uv
+============
+
+    uv init
+    uv add -r requirements.txt
+    uv add --dev -r requirements_dev.txt
+    uv sync
+
+Running on uv
+=============
+
+    uv run python your_script.py
+    uv run pytest                      # If you have tests
+    uv run ruff check .                # If you added ruff as a dev tool
+
+
+Updating on uv
+==============
+
+    uv lock --upgrade     # Update all packages to latest compatible versions
+    uv sync               # Apply the updates to the environment
+
+    uv add --dev ruff mypy pytest
+    uv add requests
+    
+    uv run pip install ipython # for internal dev
+                               # no need to publish in .toml
+    
+bumping a version and pushing branch and pushing tags
+=====================================================
+  
+::  
+
+    uv version --bump patch/minor/major
+
+    git commit -m "Bump version to $(uv version --short)"
+    git tag "v$(uv version --short)"
+    git push origin <branch>
+    git push origin tag "v$(uv version --short)"
+
+Now publish
+===========
+
+::
+  
+    uv build
+    uv publish --token # token comes here
+
+
+
+Lists of files changing when uv is used
+=======================================
+
+files changed::
+
+    .github/workflows/tests.yml # for github actions
+    eppy/__init__.py # version is got from pyproject.toml
+    docs/requirements.txt # needed for readthedocs
+    pyproject.toml # uv likes having everything here
+
+Once uv is set upthese files can be removed::
+
+    requirements.txt
+    requirements_dev.txt
+    setup.cfg
+    setup.py
+
+
+Webhooks from github to readthdocs
+==================================
+
+- login to readthedocs using github
+- copy webhooks and secret from readthedocs to github
+
+
+
+
+
 2021-09-07
 ----------
 

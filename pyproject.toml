@@ -1,0 +1,36 @@
+[project]
+name = "eppy"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "decorator>=5.2.1",
+    "future>=1.0.0",
+    "lxml>=6.0.2",
+    "munch>=4.0.0",
+    "nbsphinx>=0.9.8",
+    "pydot>=4.0.1",
+    "pyparsing>=3.0.9",
+    "pytest>=8.4.2",
+    "six>=1.17.0",
+    "soupsieve>=2.8.3",
+    "tinynumpy>=1.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.11.0",
+    "bump2version>=1.0.1",
+    "coverage>=7.10.7",
+    "flake8>=7.3.0",
+    "nbsphinx>=0.9.8",
+    "pip>=25.3",
+    "pytest>=8.4.2",
+    "sphinx>=7.4.7",
+    "tox>=4.30.3",
+    "twine>=6.2.0",
+    "watchdog>=6.0.0",
+    "wheel>=0.45.1",
+]
