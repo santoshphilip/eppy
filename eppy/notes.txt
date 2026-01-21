@@ -68,11 +68,12 @@ Lists of files changing when uv is used
 files changed::
 
     .github/workflows/tests.yml # for github actions
-    eppy/__init__.py # version is got from pyproject.toml
+    eppy/__init__.py # version is got from pyproject.toml - see Note: below
     docs/requirements.txt # needed for readthedocs
     pyproject.toml # uv likes having everything here
 
     Note: to test __init__.__version__ you have to do 'uv pip install -e .'
+    
 Once uv is set up these files can be removed::
 
     requirements.txt

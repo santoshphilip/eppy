@@ -6,14 +6,12 @@ eppy
 .. image:: https://img.shields.io/pypi/v/eppy.svg
         :target: https://pypi.python.org/pypi/eppy
 
-.. image:: https://img.shields.io/travis/santoshphilip/eppy.svg
-        :target: https://travis-ci.com/santoshphilip/eppy
-
 .. image:: https://readthedocs.org/projects/eppy/badge/?version=latest
         :target: https://eppy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
 
+Test Readthedocs1
 
 
 scripting language for E+, Energyplus
