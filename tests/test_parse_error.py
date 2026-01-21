@@ -1,12 +1,14 @@
 import os
 import shutil
 import sys
+import pytest
 
 from six import StringIO
 
 import eppy
 from eppy import modeleditor
 from eppy.runner.run_functions import parse_error, EnergyPlusRunError
+from eppy.pytest_helpers import do_integration_tests
 
 from tests.pytest_helpers import safeIDDreset
 
@@ -26,6 +28,9 @@ def test_capture_stderr():
     sys.stderr = sys.__stderr__
 
 
+@pytest.mark.skipif(
+    not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
+)
 def test_capture_real_error(test_idf):
     test_idf.newidfobject(
         "HVACTemplate:Thermostat",
