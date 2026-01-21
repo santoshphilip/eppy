@@ -15,7 +15,13 @@ from __future__ import unicode_literals
 
 __author__ = """Santosh Philip"""
 __email__ = "santosh@noemail.com"
-__version__ = "0.5.66"
+# __version__ = "0.5.66"
+from importlib.metadata import version, PackageNotFoundError
+
+try:
+    __version__ = version("eppy")   # must match [project] name =
+except PackageNotFoundError:
+    __version__ = "0.0.0.dev0"                   # fallback for editable installs / dev
 
 
 from io import StringIO

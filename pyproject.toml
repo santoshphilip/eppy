@@ -1,9 +1,23 @@
 [project]
 name = "eppy"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+version = "0.5.66"
+description = "Scripting language for E+ idf files, and E+ output files"
+readme = "README.rst"
 requires-python = ">=3.9"
+authors = [
+  { name = "Santosh Philip"  }
+]
+license = { text = "MIT License" }
+keywords = ["eppy", "EnergyPlus", "E+", "scripting"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License", 
+  "Natural Language :: English",
+]
 dependencies = [
     "beautifulsoup4>=4.14.3",
     "decorator>=5.2.1",
@@ -19,10 +33,14 @@ dependencies = [
     "tinynumpy>=1.2.1",
 ]
 
+[project.urls]
+Homepage =   "https://github.com/santoshphilip/eppy"
+Repository = "https://github.com/santoshphilip/eppy"
+Issues = "https://github.com/santoshphilip/eppy/issues"
+
 [dependency-groups]
 dev = [
     "black>=25.11.0",
-    "bump2version>=1.0.1",
     "coverage>=7.10.7",
     "flake8>=7.3.0",
     "nbsphinx>=0.9.8",
@@ -34,3 +52,6 @@ dev = [
     "watchdog>=6.0.0",
     "wheel>=0.45.1",
 ]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

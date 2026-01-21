@@ -2,6 +2,19 @@ Running notes for eppy
 ======================
 
 
+2026-01-21
+----------
+
+- skipped test in tests/test_runner.py
+- this test should run only when E+ is installed
+- do remaining steps of "move to uv" issue #453
+
+Change file::
+
+    eppy/__init__.py # version is got from pyproject.toml
+
+
+
 2026-01-20
 ----------
 
