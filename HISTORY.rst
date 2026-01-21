@@ -5,6 +5,15 @@ History
 Changes
 ~~~~~~~
 
+Date:   Wed Jan 21 10:32:31 2026 -0800
+--------------------------------------
+
+fixed issue #453
+
+:Problem: Need to start using uv
+:Solution: Moved to using uv
+
+
 release r0.5.66
 ~~~~~~~~~~~~~~~
 
