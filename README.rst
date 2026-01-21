@@ -3,7 +3,7 @@ eppy
 ====
 
 
-.. image:: https://img.shields.io/pypi/v/eppy.svg
+.. image:: https://img.shields.io/pypi/v/eppy.svg?cacheSeconds=300
         :target: https://pypi.python.org/pypi/eppy
 
 .. image:: https://readthedocs.org/projects/eppy/badge/?version=latest
@@ -11,7 +11,6 @@ eppy
         :alt: Documentation Status
 
 
-Test Readthedocs1
 
 
 scripting language for E+, Energyplus
