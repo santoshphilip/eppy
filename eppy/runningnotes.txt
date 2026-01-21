@@ -13,7 +13,9 @@ Change file::
 
     eppy/__init__.py # version is got from pyproject.toml
 
-
+- Readthedocs is working. 
+    - need to get it to trigget on master and develop
+- test the release to PyPi
 
 2026-01-20
 ----------

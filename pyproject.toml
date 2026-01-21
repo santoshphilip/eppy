@@ -1,6 +1,6 @@
 [project]
 name = "eppy"
-version = "0.5.66"
+version = "0.5.67"
 description = "Scripting language for E+ idf files, and E+ output files"
 readme = "README.rst"
 requires-python = ">=3.9"

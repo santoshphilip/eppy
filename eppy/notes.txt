@@ -48,9 +48,9 @@ Maybe update HISTORY.rst before the release
     uv version --bump patch/minor/major
 
     git commit -m "Bump version to $(uv version --short)"
-    git tag "v$(uv version --short)"
+    git tag "r$(uv version --short)"
     git push origin <branch>
-    git push origin tag "v$(uv version --short)"
+    git push origin tag "r$(uv version --short)"
 
 Now publish
 ===========
