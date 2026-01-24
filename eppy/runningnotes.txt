@@ -16,6 +16,11 @@ Change file::
 - Readthedocs is working. 
     - need to get it to trigget on master and develop
 - test the release to PyPi
+- issue #453 is complete
+    - cascading issues were opened as new issues.
+
+- likely readthe docs for pyephem_sunpath and pyclearsky are not working.
+- With Euclid dying, need to graphic interface is essential.
 
 2026-01-20
 ----------
