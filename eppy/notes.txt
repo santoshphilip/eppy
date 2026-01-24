@@ -7,6 +7,8 @@ Notes for eppy
 2026-01-20
 ----------
 
+uv cheatsheet https://mathspp.com/blog/uv-cheatsheet
+
 Notes on moving to uv from (and running with uv) https://x.com/i/grok?conversation=2002198771770290596
 
 
