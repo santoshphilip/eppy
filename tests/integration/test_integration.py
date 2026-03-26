@@ -43,7 +43,7 @@ def setversion(idf, newversion):
     not do_integration_tests(), reason="$EPPY_INTEGRATION env var not set"
 )
 class TestModeleditorIntegration:
-    def setup(self):
+    def setup_method(self):
         """Set the IDD and file paths, and make a copy of the original file."""
         iddfile = os.path.join(IDD_FILES, "Energy+V7_2_0.idd")
         IDF.setiddname(iddfile, testing=True)
@@ -58,7 +58,7 @@ class TestModeleditorIntegration:
         # make a copy of test file
         shutil.copy(self.origfile, self.startfile)
 
-    def teardown(self):
+    def teardown_method(self):
         """Clear up temp files so we don't accidentally check against them."""
         tempfiles = [self.startfile, self.saveasfile, self.copyfile]
         for f in tempfiles:

@@ -3,6 +3,7 @@ name: Tests
 on:
   push:
     branches: 
+    - develop
 #         [main, master, develop]
   pull_request:
     branches: 
@@ -32,6 +33,13 @@ jobs:
         # --all-extras = install optional-dependencies e.g. [test], [dev], [all]
         # --dev      = install uv tool dev-dependencies (PEP 735 style)
 
+      - name: Install EnergyPlus
+        run: |
+          wget -q https://github.com/NatLabRockies/EnergyPlus/releases/download/v8.9.0/EnergyPlus-8.9.0-40101eaafd-Linux-x86_64.sh -O /tmp/eplus_install.sh
+          chmod +x /tmp/eplus_install.sh
+          echo "y" | sudo /tmp/eplus_install.sh
+
       - name: Run tests
+        env:
+          EPPY_INTEGRATION: "TRUE"
         run: uv run pytest
-        # You can also be more explicit:  uv run pytest tests/ --cov --cov-report=xml
