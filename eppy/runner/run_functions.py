@@ -239,6 +239,7 @@ def run(
     version=False,
     verbose="v",
     ep_version=None,
+    convert_only=False,
 ):
     """
     Wrapper around the EnergyPlus command line interface.
@@ -294,6 +295,11 @@ def run(
         EnergyPlus version, used to find install directory. Required if run() is
         called with an IDF file path rather than an IDF object.
 
+    convert_only : bool, optional
+        Only convert IDF->epJSON or epJSON->IDF, dependent on input file type.
+        No simulation is run (default: False). Weather file is not required
+        when this option is set.
+
     Returns
     -------
     str : status
@@ -345,17 +351,21 @@ def run(
         return
 
     # convert paths to absolute paths if required
-    hold_weather = args["weather"]
-    if os.path.isfile(hold_weather):
-        hold_weather = os.path.abspath(hold_weather)
+    if convert_only:
+        # No weather file needed for conversion
+        args.pop("weather", None)
     else:
-        hold_weather = os.path.join(eplus_weather_path, hold_weather)
-    # this will still work with non-existent file - fix for issue #411
-    if not os.path.isfile(hold_weather):
-        # from https://stackoverflow.com/questions/36077266/how-do-i-raise-a-filenotfounderror-properly
-        raise EnergyPlusRunError(f"ERROR: Could not find weather file: {hold_weather}")
-        # errno.ENOENT, os.strerror(errno.ENOENT), hold_weather)
-    args["weather"] = hold_weather
+        hold_weather = args["weather"]
+        if os.path.isfile(hold_weather):
+            hold_weather = os.path.abspath(hold_weather)
+        else:
+            hold_weather = os.path.join(eplus_weather_path, hold_weather)
+        # this will still work with non-existent file - fix for issue #411
+        if not os.path.isfile(hold_weather):
+            # from https://stackoverflow.com/questions/36077266/how-do-i-raise-a-filenotfounderror-properly
+            raise EnergyPlusRunError(f"ERROR: Could not find weather file: {hold_weather}")
+            # errno.ENOENT, os.strerror(errno.ENOENT), hold_weather)
+        args["weather"] = hold_weather
 
     output_dir = os.path.abspath(args["output_directory"])
     args["output_directory"] = output_dir
