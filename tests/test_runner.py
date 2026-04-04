@@ -136,13 +136,13 @@ class TestRunFunction(object):
 
     """Tests for simple running of EnergyPlus from Eppy."""
 
-    def setup(self):
+    def setup_method(self):
         """Tidy up just in case anything is left from previous test runs."""
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
         shutil.rmtree("run_outputs", ignore_errors=True)
 
-    def teardown(self):
+    def teardown_method(self):
         """Tidy up after tests."""
         os.chdir(THIS_DIR)
         shutil.rmtree("test_results", ignore_errors=True)
@@ -204,7 +204,7 @@ class TestIDFRunner(object):
 
     """Tests for running EnergyPlus from an IDF object."""
 
-    def setup(self):
+    def setup_method(self):
         """Tidy up anything left from previous runs. Get an IDF object to run."""
         shutil.rmtree(os.path.join(THIS_DIR, "run_outputs"), ignore_errors=True)
 
@@ -251,7 +251,7 @@ class TestIDFRunner(object):
             "eplus.rdd",
         ]
 
-    def teardown(self):
+    def teardown_method(self):
         """Destroy temp dir, reset working directory, destroy outputs."""
         os.chdir(THIS_DIR)
         shutil.rmtree("run_outputs", ignore_errors=True)
@@ -610,7 +610,7 @@ class TestMultiprocessing(object):
 
     """Tests for running multiple EnergyPlus jobs simultaneously."""
 
-    def setup(self):
+    def setup_method(self):
         """Clear out any results from previous tests."""
         os.chdir(THIS_DIR)
         shutil.rmtree("multirun_outputs", ignore_errors=True)
@@ -629,7 +629,7 @@ class TestMultiprocessing(object):
             "sqlite.err",
         ]
 
-    def teardown(self):
+    def teardown_method(self):
         """Remove the multiprocessing results folders."""
         for results_dir in glob("results_*"):
             shutil.rmtree(results_dir)
