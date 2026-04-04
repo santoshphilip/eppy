@@ -122,6 +122,14 @@ eppy.iddv800 module
    :undoc-members:
    :show-inheritance:
 
+eppy.iddv940 module
+-------------------
+
+.. automodule:: eppy.iddv940
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 eppy.idf\_helpers module
 ------------------------
 
