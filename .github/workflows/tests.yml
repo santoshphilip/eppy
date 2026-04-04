@@ -41,4 +41,4 @@ jobs:
       - name: Run tests
         env:
           EPPY_INTEGRATION: "TRUE"
-        run: uv run pytest
+        run: uv run pytest -v
