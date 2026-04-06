@@ -50,6 +50,7 @@ def iddversiontuple(afile):
     if line1 == "":
         return (0,)
     vers = line.split()[-1]
+    fhandle.close()
     return versiontuple(vers)
 
 
