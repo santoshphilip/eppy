@@ -10,6 +10,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import copy
 from io import StringIO
 import eppy.EPlusInterfaceFunctions.iddgroups as iddgroups
 
@@ -272,7 +273,7 @@ def test_group2commlst():
     )
     for (groupcommlst,) in data:
         glist = iddgroups.iddtxt2grouplist(iddtxt)
-        result = iddgroups.group2commlst(idd_commlst, glist)
+        result = iddgroups.group2commlst(copy.deepcopy(idd_commlst), glist)
         assert result == groupcommlst
 
 
