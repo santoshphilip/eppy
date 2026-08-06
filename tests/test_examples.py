@@ -128,6 +128,7 @@ def test_addobject():
         "",
         "Yes",
     ]
+    del zones[-1]
 
 
 def test_functions():
