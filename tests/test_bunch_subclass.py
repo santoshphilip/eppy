@@ -749,6 +749,29 @@ class TestEpBunch(object):
             result = idfobject.getrange(fieldname)
             assert result == theranges
 
+    def test_getunits_real_idf(self):
+        """py.test for getunits using a real IDF object"""
+        idf = IDF(StringIO("""
+            Version, 9.0;
+            Building,
+                Test Building,           !- Name
+                45.0;                    !- North Axis {deg}
+            Zone,
+                West Zone,               !- Name
+                30,                      !- Direction of Relative North {deg}
+                0, 0, 0;                 !- X,Y,Z {m}
+        """))
+
+        building = idf.idfobjects["BUILDING"][0]
+        assert building.getunits("North_Axis") == "deg"
+        assert building.getunits("Name") is None
+
+        zone = idf.idfobjects["ZONE"][0]
+        assert zone.getunits("Direction_of_Relative_North") == "deg"
+        assert zone.getunits("X_Origin") == "m"
+        assert zone.getunits("Name") is None
+        assert zone.getunits("NonExistentField") is None
+
     def test_checkrange(self):
         data = (
             ("Minimum_Number_of_Warmup_Days", 4, False, None),
@@ -1117,3 +1140,4 @@ ScheduleTypeLimits,
     sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected
+
