@@ -216,6 +216,10 @@ class EpBunch(Bunch):
         """Get the allowed range of values for a field."""
         return getrange(self, fieldname)
 
+    def getunits(self, fieldname):
+        """Get the units of a field."""
+        return getunits(self, fieldname)
+
     def getfieldidd(self, fieldname):
         """get the idd dict for this field
         Will return {} if the fieldname does not exist"""
@@ -523,6 +527,14 @@ def getrange(bch, fieldname):
             if therange[key]:
                 therange[key] = int(therange[key][0])
     return therange
+
+
+def getunits(bch, fieldname):
+    """Return the units string for this field, or None if the field has no units."""
+    units = getfieldidd_item(bch, fieldname, "units")
+    if units:
+        return units[0]
+    return None
 
 
 def checkrange(bch, fieldname):
