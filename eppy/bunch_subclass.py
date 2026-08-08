@@ -478,7 +478,12 @@ class EpBunch(Bunch):
                 value = val
             lines.append(value)
         # ------------
-        comments = [comm.replace("_", " ") for comm in self.objls]
+        justcomments = [comm.replace("_", " ") for comm in self.objls]
+        units = [self.getunits(comm) for comm in self.objls]
+        comments = [
+            f"{justcomment} {{{unit}}}" if unit else justcomment
+            for justcomment, unit in zip(justcomments, units)
+        ]
         lines[0] = "%s," % (lines[0],)  # comma after first line
         for i, line in enumerate(lines[1:-1]):
             line = scientificnotation(

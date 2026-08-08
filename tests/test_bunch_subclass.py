@@ -1107,17 +1107,15 @@ def test_EpBunch1():
     result = """
 BUILDING,
     Kutub Minar,              !- Name
-    30.0,                     !- North Axis
+    30.0,                     !- North Axis {deg}
     City,                     !- Terrain
-    0.04,                     !- Loads Convergence Tolerance Value
-    0.4,                      !- Temperature Convergence Tolerance Value
+    0.04,                     !- Loads Convergence Tolerance Value {W}
+    0.4,                      !- Temperature Convergence Tolerance Value {deltaC}
     FullExterior,             !- Solar Distribution
     25,                       !- Maximum Number of Warmup Days
     6;                        !- Minimum Number of Warmup Days
 """
     assert prnt == result
-    # print bunchobj.objidd
-    # assert 1 == 0
 
 
 def test_scientificnotation():
