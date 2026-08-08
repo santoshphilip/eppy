@@ -771,6 +771,42 @@ class TestEpBunch(object):
         assert zone.getunits("X_Origin") == "m"
         assert zone.getunits("Name") is None
         assert zone.getunits("NonExistentField") is None
+        
+    def test_get_ipvalue(self):
+        """py.test for EpBunch.get_ipvalue"""
+        idf = IDF(StringIO("""
+            Version, 9.0;
+            Building,
+                Test Building,           !- Name
+                45.0;                    !- North Axis {deg}
+            Zone,
+                West Zone,               !- Name
+                30,                      !- Direction of Relative North {deg}
+                0, 0, 3.048;             !- X,Y,Z {m}
+        """))
+
+        building = idf.idfobjects["BUILDING"][0]
+        zone = idf.idfobjects["ZONE"][0]
+
+        # Field with no units → original value returned
+        assert building.get_ipvalue("Name") == "Test Building"
+        assert zone.get_ipvalue("Name") == "West Zone"
+
+        # "deg" is not converted (stays the same)
+        assert building.get_ipvalue("North_Axis") == 45.0
+        assert zone.get_ipvalue("Direction_of_Relative_North") == 30
+
+        # Length conversion: m → ft (factor ≈ 3.28083989501312)
+        # 3.048 m should become exactly 10 ft
+        assert almostequal(zone.get_ipvalue("Z_Origin"), 10.0)
+
+        # Blank / empty numeric field
+        zone.X_Origin = ""
+        assert zone.get_ipvalue("X_Origin") == ""
+
+        # Non-existent field must raise BadEPFieldError
+        with pytest.raises(bunch_subclass.BadEPFieldError):
+            zone.get_ipvalue("NonExistentField")
 
     def test_checkrange(self):
         data = (

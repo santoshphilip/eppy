@@ -220,6 +220,40 @@ class EpBunch(Bunch):
     def getunits(self, fieldname):
         """Get the units of a field."""
         return getunits(self, fieldname)
+        
+    def get_ipvalue(self, fieldname):
+        """Return the value of the field in IP units.
+
+        Gets the SI units via EPBunch.getunits and converts the value
+        to IP units using epconversions.convert2ip.
+
+        - If the field has no units, the original value is returned.
+        - If the value is non-numeric or conversion fails, the original
+          value is returned.
+        - Integer values that convert cleanly are returned as int.
+        """
+        val = self[fieldname]
+        unit = self.getunits(fieldname)
+
+        if unit is None:
+            return val
+
+        try:
+            fval = float(val)
+            ip_val = epc.convert2ip(fval, unit, unitstr=False)
+
+            # Prefer a clean integer when the converted value is integral
+            try:
+                ival = int(ip_val)
+                if ival == ip_val:
+                    return ival
+            except (ValueError, TypeError):
+                pass
+
+            return ip_val
+        except (ValueError, TypeError, KeyError, AttributeError):
+            # non-numeric value or unit that cannot be converted
+            return val
 
     def getfieldidd(self, fieldname):
         """get the idd dict for this field
