@@ -17,6 +17,7 @@ import copy
 import itertools
 
 from munch import Munch as Bunch
+from epconversions import epconversions as epc
 
 from eppy.bunchhelpers import matchfieldnames, scientificnotation, makefieldname
 import eppy.function_helpers as fh
@@ -512,6 +513,88 @@ class EpBunch(Bunch):
         return super(EpBunch, self).__dir__() + fnames + func_names
 
 
+    def print_ip(self):
+        """Print this object as an IDF snippet with field values converted to IP units.
+
+        Uses EPBunch.getunits to obtain the SI unit of each field, then
+        epconversions.convert2ip to obtain the IP value (and corresponding IP unit).
+        For fields that have a unit but no value, the IP unit is obtained with
+        epconversions.defaultipunit so the comment still shows the IP unit.
+        Non-numeric values and fields without units are left unchanged.
+        """
+        lines = []
+        for val in self.obj:
+            try:
+                value = int(val)
+                if value != val:
+                    value = val
+            except (ValueError, TypeError):
+                value = val
+            lines.append(value)
+
+        justcomments = [comm.replace("_", " ") for comm in self.objls]
+        units = [self.getunits(comm) for comm in self.objls]
+
+        ip_lines = []
+        ip_comments = []
+        for val, unit, justcomment in zip(lines, units, justcomments):
+            if unit is None:
+                # no units at all
+                ip_lines.append(val)
+                ip_comments.append(justcomment)
+                continue
+
+            # We have an SI unit. Decide what IP unit (and value) to show.
+            empty = val in ("", None)
+
+            if empty:
+                # no value → keep empty, but show the default IP unit
+                try:
+                    ip_unit = epc.defaultipunit(unit)
+                except (KeyError, AttributeError, TypeError):
+                    ip_unit = unit  # fallback if unit is not convertible
+                ip_lines.append(val)
+                ip_comments.append(f"{justcomment} {{{ip_unit}}}")
+                continue
+
+            # value present → try to convert
+            try:
+                ip_val, ip_unit = epc.convert2ip(float(val), unit)
+                # prefer clean integer representation when possible
+                try:
+                    ival = int(ip_val)
+                    if ival == ip_val:
+                        ip_val = ival
+                except (ValueError, TypeError):
+                    pass
+                ip_lines.append(ip_val)
+                ip_comments.append(f"{justcomment} {{{ip_unit}}}")
+            except (ValueError, TypeError, KeyError, AttributeError):
+                # conversion failed → keep original value, still try for IP unit
+                try:
+                    ip_unit = epc.defaultipunit(unit)
+                except (KeyError, AttributeError, TypeError):
+                    ip_unit = unit
+                ip_lines.append(val)
+                ip_comments.append(f"{justcomment} {{{ip_unit}}}")
+
+        # Format exactly like __repr__
+        ip_lines[0] = "%s," % (ip_lines[0],)
+        for i, line in enumerate(ip_lines[1:-1]):
+            line = scientificnotation(line, width=18)
+            ip_lines[i + 1] = "    %s," % (line,)
+        ip_lines[-1] = "    %s;" % (ip_lines[-1],)
+        ip_lines = ip_lines[:1] + [line.ljust(26) for line in ip_lines[1:]]
+
+        filler = "%s    !- %s"
+        nlines = [
+            filler % (line, comm)
+            for line, comm in zip(ip_lines[1:], ip_comments[1:])
+        ]
+        nlines.insert(0, ip_lines[0])
+        astr = "\n".join(nlines)
+        print("\n%s\n" % (astr,))
+    
 def getrange(bch, fieldname):
     """get the ranges for this field"""
     keys = ["maximum", "minimum", "maximum<", "minimum>", "type"]

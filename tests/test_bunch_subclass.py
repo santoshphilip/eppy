@@ -1052,6 +1052,77 @@ class TestEpBunch(object):
 
         material = glazing_group.get_referenced_object("Window_Material_Glazing_Name_1")
         assert material == expected
+        
+    def test_print_ip(self, capsys):
+        """py.test for EpBunch.print_ip
+
+        Checks that:
+        - numeric SI values are converted to IP
+        - comments show IP units
+        - fields with units but no value still show the IP unit
+          (via epconversions.defaultipunit)
+        - fields without units are left unchanged
+        """
+        idf = IDF(
+            StringIO(
+                """
+            Version, 9.0;
+            Material,
+                TestMat,                 !- Name
+                MediumSmooth,            !- Roughness
+                0.1,                     !- Thickness {m}
+                0.5,                     !- Conductivity {W/m-K}
+                800,                     !- Density {kg/m3}
+                1000,                    !- Specific Heat {J/kg-K}
+                0.9,                     !- Thermal Absorptance
+                0.7,                     !- Solar Absorptance
+                0.7;                     !- Visible Absorptance
+            """
+            )
+        )
+        mat = idf.idfobjects["MATERIAL"][0]
+
+        # leave one unit-bearing field empty so we can test defaultipunit
+        # (Thermal Absorptance has no units; Thickness / Conductivity etc. do)
+        # Force an empty value on a field that has units by clearing a later
+        # optional-style numeric if present, or just rely on a field we blank.
+        # Here we blank Density after creation to exercise the empty-value path.
+        mat.Density = ""
+
+        mat.print_ip()
+        captured = capsys.readouterr()
+        out = captured.out
+
+        # object type line present
+        assert "Material," in out or "MATERIAL," in out
+
+        # Name has no units → no {unit} annotation expected for Name
+        assert "TestMat" in out
+        assert "!- Name" in out
+
+        # Thickness 0.1 m → ~0.328084 ft (default IP for m is ft)
+        assert "{ft}" in out
+        # value should be converted (allow a little formatting flexibility)
+        assert "0.328" in out or "0.32808" in out
+
+        # Conductivity 0.5 W/m-K → IP (default is Btu-in/h-ft2-F)
+        assert "{Btu-in/h-ft2-F}" in out or "Btu-in" in out
+
+        # Density was blanked → value empty, but comment must still show IP unit
+        # default IP for kg/m3 is lb/ft3
+        assert "{lb/ft3}" in out
+        # and the empty field line should still exist with the IP unit comment
+        assert "Density" in out or "Density {" in out or "Density {" in out.replace(
+            " ", ""
+        )
+
+        # Specific Heat 1000 J/kg-K → IP (Btu/lb-F)
+        assert "{Btu/lb-F}" in out or "Btu/lb-F" in out
+
+        # Thermal / Solar / Visible Absorptance have no units in IDD
+        # → comments should not invent units for them
+        assert "Thermal Absorptance {" not in out
+        assert "Solar Absorptance {" not in out
 
 
 bldfidf = """
