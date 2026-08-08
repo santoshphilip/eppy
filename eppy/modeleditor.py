@@ -962,6 +962,20 @@ class IDF(object):
         """Print the IDF."""
         print(self.idfstr())
 
+    def printidf_ip(self):
+        """Print the entire IDF in IP units.
+
+        Iterates over all objects in the IDF (in the same order used by
+        ``idfstr`` / ``printidf``) and calls ``EPBunch.print_ip()`` on each
+        one.  ``print_ip`` converts numeric field values from SI to IP units
+        (where a conversion is defined) and shows the corresponding IP unit
+        in the comment.
+        """
+        dtls = self.model.dtls
+        for objname in dtls:
+            for obj in self.idfobjects[objname]:
+                obj.print_ip()
+
     def idfstr(self):
         """String representation of the IDF.
 

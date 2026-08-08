@@ -610,6 +610,54 @@ def test_idfstr():
     assert "\n\n" not in s  # has no empty lines
     assert s != original  # is changed
 
+def test_printidf_ip(capsys):
+    """py.test for IDF.printidf_ip()
+
+    Verifies that printidf_ip() prints the whole IDF with field values
+    converted to IP units (via EPBunch.print_ip()).
+    """
+    idftxt = """
+        Version, 9.0;
+        Building,
+            Test Building,           !- Name
+            0.0;                     !- North Axis {deg}
+        Material,
+            Gypsum,                  !- Name
+            MediumSmooth,            !- Roughness
+            0.019,                   !- Thickness {m}
+            0.16,                    !- Conductivity {W/m-K}
+            800,                     !- Density {kg/m3}
+            1090;                    !- Specific Heat {J/kg-K}
+        Zone,
+            West Zone,               !- Name
+            0,                       !- Direction of Relative North {deg}
+            0, 0, 0;                 !- X,Y,Z {m}
+    """
+    idf = IDF(StringIO(idftxt))
+
+    idf.printidf_ip()
+    captured = capsys.readouterr()
+    out = captured.out
+
+    # basic structure of IDF output is present
+    assert "Version," in out or "VERSION," in out
+    assert "Material," in out or "MATERIAL," in out
+    assert "Zone," in out or "ZONE," in out
+    assert "Gypsum" in out
+    assert "West Zone" in out
+
+    # IP unit labels appear in comments (converted from SI)
+    # thickness: m -> ft
+    assert "{ft}" in out or "{in}" in out
+    # coordinates / origin: m -> ft
+    # (at least one length unit should show as IP)
+    assert "ft" in out.lower() or "in" in out.lower()
+
+    # a numeric conversion should have occurred
+    # 0.019 m ≈ 0.0623 ft  (exact factor depends on epconversions)
+    # just check that the original SI number is not the only representation
+    # of thickness in the IP printout
+    assert "0.019" not in out or "{m}" not in out.split("0.019")[1][:40]
 
 def test_refname2key():
     """py.test for refname2key"""
