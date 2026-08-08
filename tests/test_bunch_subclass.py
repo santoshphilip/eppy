@@ -1159,6 +1159,81 @@ class TestEpBunch(object):
         # → comments should not invent units for them
         assert "Thermal Absorptance {" not in out
         assert "Solar Absorptance {" not in out
+        
+    def test_set_ipvalue(self):
+        """py.test for EpBunch.set_ipvalue
+
+        Checks that:
+        - an IP value is converted to the field's SI unit and stored
+        - fields with no units are set unchanged
+        - non-numeric / unconvertible values are stored unchanged
+        - round-trip via print_ip / convert2ip is consistent
+        """
+        from epconversions import epconversions as epc
+
+        idf = IDF(
+            StringIO(
+                """
+            Version, 9.0;
+            Material,
+                TestMat,                 !- Name
+                MediumSmooth,            !- Roughness
+                0.1,                     !- Thickness {m}
+                0.5,                     !- Conductivity {W/m-K}
+                800,                     !- Density {kg/m3}
+                1000,                    !- Specific Heat {J/kg-K}
+                0.9,                     !- Thermal Absorptance
+                0.7,                     !- Solar Absorptance
+                0.7;                     !- Visible Absorptance
+            """
+            )
+        )
+        mat = idf.idfobjects["MATERIAL"][0]
+
+        # --- Thickness: default IP for m is ft ---
+        # 1 ft → 0.3048 m
+        mat.set_ipvalue("Thickness", 1.0)
+        assert almostequal(mat.Thickness, 0.3048, places=6)
+        assert mat.getunits("Thickness") == "m"
+
+        # 0.5 ft → 0.1524 m
+        mat.set_ipvalue("Thickness", 0.5)
+        assert almostequal(mat.Thickness, 0.1524, places=6)
+
+        # --- Density: default IP for kg/m3 is lb/ft3 ---
+        # Convert known SI value to IP, then set that IP value and check SI returns
+        si_density = 800.0
+        ip_density, ip_unit = epc.convert2ip(si_density, "kg/m3")
+        assert ip_unit == "lb/ft3"
+        mat.set_ipvalue("Density", ip_density)
+        assert almostequal(mat.Density, si_density, places=4)
+
+        # --- Conductivity: default IP for W/m-K is Btu-in/h-ft2-F ---
+        si_cond = 0.5
+        ip_cond, ip_unit = epc.convert2ip(si_cond, "W/m-K")
+        mat.set_ipvalue("Conductivity", ip_cond)
+        assert almostequal(mat.Conductivity, si_cond, places=4)
+
+        # --- Specific Heat: default IP for J/kg-K is Btu/lb-F ---
+        si_sh = 1000.0
+        ip_sh, _ = epc.convert2ip(si_sh, "J/kg-K")
+        mat.set_ipvalue("Specific_Heat", ip_sh)
+        assert almostequal(mat.Specific_Heat, si_sh, places=4)
+
+        # --- Field with no units: value stored as-is ---
+        mat.set_ipvalue("Name", "NewName")
+        assert mat.Name == "NewName"
+        mat.set_ipvalue("Thermal_Absorptance", 0.85)
+        assert mat.Thermal_Absorptance == 0.85
+
+        # --- Non-numeric value on a unit field: stored unchanged ---
+        mat.set_ipvalue("Thickness", "not-a-number")
+        assert mat.Thickness == "not-a-number"
+
+        # restore a numeric thickness for cleanliness
+        mat.set_ipvalue("Thickness", 1.0)
+        assert almostequal(mat.Thickness, 0.3048, places=6)
+        
 
 
 bldfidf = """

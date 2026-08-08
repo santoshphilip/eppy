@@ -221,6 +221,42 @@ class EpBunch(Bunch):
         """Get the units of a field."""
         return getunits(self, fieldname)
         
+    def set_ipvalue(self, fieldname, ipvalue):
+        """Convert an IP value to SI and store it in the field.
+
+        The field's SI unit is obtained with ``getunits``.  The matching
+        default IP unit is obtained with ``epconversions.defaultipunit``.
+        The conversion itself is performed by ``epconversions.convert2si``.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the IDF field (e.g. ``"Thickness"``).
+        ipvalue : float or int
+            Numeric value expressed in the default IP unit that corresponds
+            to the field's SI unit.
+
+        Notes
+        -----
+        - If the field has no units the value is stored unchanged.
+        - If the conversion cannot be performed the original ``ipvalue``
+          is stored unchanged (same graceful fallback used by ``print_ip``).
+        """
+        siunit = self.getunits(fieldname)
+        if siunit is None:
+            self[fieldname] = ipvalue
+            return
+
+        try:
+            ipunit = epc.defaultipunit(siunit)
+            sivalue = epc.convert2si(
+                float(ipvalue), ipunit, siunit, unitstr=False
+            )
+            self[fieldname] = sivalue
+        except (KeyError, AttributeError, TypeError, ValueError):
+            # unit unknown or value non-numeric → leave as-is
+            self[fieldname] = ipvalue
+
     def get_ipvalue(self, fieldname):
         """Return the value of the field in IP units.
 
