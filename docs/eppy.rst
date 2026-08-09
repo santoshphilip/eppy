@@ -9,6 +9,7 @@ Subpackages
 
    eppy.EPlusInterfaceFunctions
    eppy.constructions
+   eppy.experimental
    eppy.geometry
    eppy.results
    eppy.runner
