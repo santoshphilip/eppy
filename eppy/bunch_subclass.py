@@ -6,8 +6,7 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""Sub class Bunch to represent an IDF object.
-"""
+"""Sub class Bunch to represent an IDF object."""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -220,7 +219,7 @@ class EpBunch(Bunch):
     def getunits(self, fieldname):
         """Get the units of a field."""
         return getunits(self, fieldname)
-        
+
     def set_ipvalue(self, fieldname, ipvalue):
         """Convert an IP value to SI and store it in the field.
 
@@ -249,9 +248,7 @@ class EpBunch(Bunch):
 
         try:
             ipunit = epc.defaultipunit(siunit)
-            sivalue = epc.convert2si(
-                float(ipvalue), ipunit, siunit, unitstr=False
-            )
+            sivalue = epc.convert2si(float(ipvalue), ipunit, siunit, unitstr=False)
             self[fieldname] = sivalue
         except (KeyError, AttributeError, TypeError, ValueError):
             # unit unknown or value non-numeric → leave as-is
@@ -582,7 +579,6 @@ class EpBunch(Bunch):
         func_names = list(self["__functions"].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
 
-
     def print_ip(self):
         """Print this object as an IDF snippet with field values converted to IP units.
 
@@ -658,13 +654,13 @@ class EpBunch(Bunch):
 
         filler = "%s    !- %s"
         nlines = [
-            filler % (line, comm)
-            for line, comm in zip(ip_lines[1:], ip_comments[1:])
+            filler % (line, comm) for line, comm in zip(ip_lines[1:], ip_comments[1:])
         ]
         nlines.insert(0, ip_lines[0])
         astr = "\n".join(nlines)
         print("\n%s\n" % (astr,))
-    
+
+
 def getrange(bch, fieldname):
     """get the ranges for this field"""
     keys = ["maximum", "minimum", "maximum<", "minimum>", "type"]

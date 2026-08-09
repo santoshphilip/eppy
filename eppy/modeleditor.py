@@ -34,28 +34,24 @@ import eppy.ext_field_functions as extff
 
 
 class NoObjectError(Exception):
-
     """Exception Object"""
 
     pass
 
 
 class NotSameObjectError(Exception):
-
     """Exception Object"""
 
     pass
 
 
 class IDDNotSetError(Exception):
-
     """Exception Object"""
 
     pass
 
 
 class IDDAlreadySetError(Exception):
-
     """Exception Object"""
 
     pass
@@ -530,7 +526,6 @@ def copyidf(idf_source):
 
 
 class IDF(object):
-
     """
     The IDF class holds all the information about an EnergyPlus IDF.
 

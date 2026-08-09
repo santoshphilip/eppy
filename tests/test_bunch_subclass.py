@@ -751,7 +751,9 @@ class TestEpBunch(object):
 
     def test_getunits_real_idf(self):
         """py.test for getunits using a real IDF object"""
-        idf = IDF(StringIO("""
+        idf = IDF(
+            StringIO(
+                """
             Version, 9.0;
             Building,
                 Test Building,           !- Name
@@ -760,7 +762,9 @@ class TestEpBunch(object):
                 West Zone,               !- Name
                 30,                      !- Direction of Relative North {deg}
                 0, 0, 0;                 !- X,Y,Z {m}
-        """))
+        """
+            )
+        )
 
         building = idf.idfobjects["BUILDING"][0]
         assert building.getunits("North_Axis") == "deg"
@@ -771,10 +775,12 @@ class TestEpBunch(object):
         assert zone.getunits("X_Origin") == "m"
         assert zone.getunits("Name") is None
         assert zone.getunits("NonExistentField") is None
-        
+
     def test_get_ipvalue(self):
         """py.test for EpBunch.get_ipvalue"""
-        idf = IDF(StringIO("""
+        idf = IDF(
+            StringIO(
+                """
             Version, 9.0;
             Building,
                 Test Building,           !- Name
@@ -783,7 +789,9 @@ class TestEpBunch(object):
                 West Zone,               !- Name
                 30,                      !- Direction of Relative North {deg}
                 0, 0, 3.048;             !- X,Y,Z {m}
-        """))
+        """
+            )
+        )
 
         building = idf.idfobjects["BUILDING"][0]
         zone = idf.idfobjects["ZONE"][0]
@@ -1088,7 +1096,7 @@ class TestEpBunch(object):
 
         material = glazing_group.get_referenced_object("Window_Material_Glazing_Name_1")
         assert material == expected
-        
+
     def test_print_ip(self, capsys):
         """py.test for EpBunch.print_ip
 
@@ -1148,8 +1156,10 @@ class TestEpBunch(object):
         # default IP for kg/m3 is lb/ft3
         assert "{lb/ft3}" in out
         # and the empty field line should still exist with the IP unit comment
-        assert "Density" in out or "Density {" in out or "Density {" in out.replace(
-            " ", ""
+        assert (
+            "Density" in out
+            or "Density {" in out
+            or "Density {" in out.replace(" ", "")
         )
 
         # Specific Heat 1000 J/kg-K → IP (Btu/lb-F)
@@ -1159,7 +1169,7 @@ class TestEpBunch(object):
         # → comments should not invent units for them
         assert "Thermal Absorptance {" not in out
         assert "Solar Absorptance {" not in out
-        
+
     def test_set_ipvalue(self):
         """py.test for EpBunch.set_ipvalue
 
@@ -1233,7 +1243,6 @@ class TestEpBunch(object):
         # restore a numeric thickness for cleanliness
         mat.set_ipvalue("Thickness", 1.0)
         assert almostequal(mat.Thickness, 0.3048, places=6)
-        
 
 
 bldfidf = """
@@ -1320,4 +1329,3 @@ ScheduleTypeLimits,
     sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected
-

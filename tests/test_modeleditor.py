@@ -610,6 +610,7 @@ def test_idfstr():
     assert "\n\n" not in s  # has no empty lines
     assert s != original  # is changed
 
+
 def test_printidf_ip(capsys):
     """py.test for IDF.printidf_ip()
 
@@ -658,6 +659,7 @@ def test_printidf_ip(capsys):
     # just check that the original SI number is not the only representation
     # of thickness in the IP printout
     assert "0.019" not in out or "{m}" not in out.split("0.019")[1][:40]
+
 
 def test_refname2key():
     """py.test for refname2key"""
