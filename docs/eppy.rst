@@ -27,6 +27,14 @@ eppy.bunch\_subclass module
    :undoc-members:
    :show-inheritance:
 
+eppy.bunch\_subclass1 module
+----------------------------
+
+.. automodule:: eppy.bunch_subclass1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 eppy.bunchhelpers module
 ------------------------
 

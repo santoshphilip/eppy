@@ -1,4 +1,4 @@
-# Copyright (c) 2012, 2020, 2022 Santosh Philip
+# Copyright (c) 2012, 2020, 2022, 2026 Santosh Philip
 # Copyright (c) 2016 Jamie Bull
 # Copyright (c) 2020 Cheng Cui
 # =======================================================================
@@ -6,7 +6,12 @@
 #  (See accompanying file LICENSE or copy at
 #  http://opensource.org/licenses/MIT)
 # =======================================================================
-"""Sub class Bunch to represent an IDF object."""
+"""Sub-class of Bunch that represents a single EnergyPlus IDF object.
+
+This module provides the ``EpBunch`` class (a dict-like object that also
+supports attribute access) together with a collection of helper
+functions that operate on ``EpBunch`` instances.
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -24,23 +29,41 @@ import eppy.ext_field_functions as extff
 
 
 class BadEPFieldError(AttributeError):
-    """An Exception"""
+    """Raised when an unknown or illegal field name is accessed on an EpBunch."""
 
     pass
 
 
 class RangeError(ValueError):
-    """An Exception"""
+    """Raised when a field value lies outside the range defined in the IDD."""
 
     pass
 
 
 def almostequal(first, second, places=7, printit=True):
-    """
-    Test if two values are equal to a given number of places.
-    This is based on python's unittest so may be covered by Python's
-    license.
+    """Test whether two numeric values are equal to a given number of places.
 
+    This implementation is based on the corresponding method in Python’s
+    ``unittest`` module and may therefore be covered by the Python licence.
+
+    Parameters
+    ----------
+    first : float or int
+        First value to compare.
+    second : float or int
+        Second value to compare.
+    places : int, optional
+        Number of decimal places to which the values must agree
+        (default is 7).
+    printit : bool, optional
+        If ``True`` (default) print a diagnostic message when the values
+        are not almost equal.
+
+    Returns
+    -------
+    bool
+        ``True`` if the values agree to the requested number of places,
+        ``False`` otherwise.
     """
     if first == second:
         return True
@@ -55,12 +78,40 @@ def almostequal(first, second, places=7, printit=True):
 
 
 def somevalues(ddtt):
-    """returns some values"""
+    """Return a tuple of a few commonly-used fields from an EpBunch.
+
+    Parameters
+    ----------
+    ddtt : EpBunch
+        The object from which the values are taken.
+
+    Returns
+    -------
+    tuple
+        ``(Name, Construction_Name, obj)``.
+    """
     return ddtt.Name, ddtt.Construction_Name, ddtt.obj
 
 
 def extendlist(lst, i, value=""):
-    """extend the list so that you have i-th value"""
+    """Extend a list so that index ``i`` becomes a valid index.
+
+    If ``i`` is already inside the list nothing is done; otherwise the
+    list is padded with ``value`` up to (and including) index ``i``.
+
+    Parameters
+    ----------
+    lst : list
+        The list to be extended (modified in-place).
+    i : int
+        Desired index that must become valid.
+    value : object, optional
+        Fill value used for the new elements (default is the empty string).
+
+    Returns
+    -------
+    None
+    """
     if i < len(lst):
         pass
     else:
@@ -68,13 +119,28 @@ def extendlist(lst, i, value=""):
 
 
 def return42(self, *args, **kwargs):
+    """Proof-of-concept stub that always returns 42 (to be removed)."""
     # proof of concept - to be removed
     return 42
 
 
 def addfunctions(abunch):
-    """add functions to epbunch"""
+    """Attach specialised helper methods to an EpBunch instance.
 
+    Depending on the object type (surface, material, fan, zone, …)
+    the appropriate calculation functions (area, r-value, fan power,
+    etc.) are added to the instance’s ``__functions`` dictionary.
+
+    Parameters
+    ----------
+    abunch : EpBunch
+        The object that will receive the extra methods.
+
+    Returns
+    -------
+    EpBunch
+        The same object, now with additional functions attached.
+    """
     key = abunch.obj[0].upper()
 
     # -----------------
@@ -180,14 +246,28 @@ def addfunctions(abunch):
 
 
 class EpBunch(Bunch):
-    """
-    Fields, values, and descriptions of fields in an EnergyPlus IDF object
-    stored in a `bunch` which is a `dict` extended to allow access to dict
-    fields as attributes as well as by keys.
+    """Dict-like container for a single EnergyPlus IDF object.
 
+    Fields, values and the corresponding IDD metadata are stored so that
+    they can be accessed both by key and by attribute.  A number of
+    convenience methods for range checking, unit conversion, object
+    references, etc. are also provided.
     """
 
     def __init__(self, obj, objls, objidd, *args, **kwargs):
+        """Initialise an EpBunch.
+
+        Parameters
+        ----------
+        obj : list
+            Field values (the first element is the object type).
+        objls : list of str
+            Field names that correspond one-to-one with ``obj``.
+        objidd : list of dict
+            IDD metadata dictionaries for each field.
+        *args, **kwargs
+            Passed through to the underlying Bunch constructor.
+        """
         super(EpBunch, self).__init__(*args, **kwargs)
         self.obj = obj  # field names
         self.objls = objls  # field values
@@ -200,30 +280,79 @@ class EpBunch(Bunch):
 
     @property
     def fieldnames(self):
-        """Friendly name for objls."""
+        """List of field names (friendly alias for ``objls``).
+
+        Returns
+        -------
+        list of str
+        """
         return self.objls
 
     @property
     def fieldvalues(self):
-        """Friendly name for obj."""
+        """List of field values (friendly alias for ``obj``).
+
+        Returns
+        -------
+        list
+        """
         return self.obj
 
     def checkrange(self, fieldname):
-        """Check if the value for a field is within the allowed range."""
+        """Check whether the current value of a field lies inside its IDD range.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field to validate.
+
+        Returns
+        -------
+        object
+            The field value itself (unchanged).
+
+        Raises
+        ------
+        RangeError
+            If the value is outside the allowed range.
+        """
         return checkrange(self, fieldname)
 
     def getrange(self, fieldname):
-        """Get the allowed range of values for a field."""
+        """Return the numeric range constraints defined for a field in the IDD.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+
+        Returns
+        -------
+        dict
+            Dictionary containing the keys ``maximum``, ``minimum``,
+            ``maximum<``, ``minimum>`` and ``type`` (or ``None`` when a
+            constraint is not present).
+        """
         return getrange(self, fieldname)
 
     def getunits(self, fieldname):
-        """Get the units of a field."""
+        """Return the SI unit string of a field, or ``None`` if none is defined.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+
+        Returns
+        -------
+        str or None
+        """
         return getunits(self, fieldname)
 
     def set_ipvalue(self, fieldname, ipvalue):
         """Convert an IP value to SI and store it in the field.
 
-        The field's SI unit is obtained with ``getunits``.  The matching
+        The field’s SI unit is obtained with ``getunits``.  The matching
         default IP unit is obtained with ``epconversions.defaultipunit``.
         The conversion itself is performed by ``epconversions.convert2si``.
 
@@ -233,7 +362,7 @@ class EpBunch(Bunch):
             Name of the IDF field (e.g. ``"Thickness"``).
         ipvalue : float or int
             Numeric value expressed in the default IP unit that corresponds
-            to the field's SI unit.
+            to the field’s SI unit.
 
         Notes
         -----
@@ -255,15 +384,18 @@ class EpBunch(Bunch):
             self[fieldname] = ipvalue
 
     def get_ipvalue(self, fieldname):
-        """Return the value of the field in IP units.
+        """Return the value of the field converted to IP units.
 
-        Gets the SI units via EPBunch.getunits and converts the value
-        to IP units using epconversions.convert2ip.
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
 
-        - If the field has no units, the original value is returned.
-        - If the value is non-numeric or conversion fails, the original
-          value is returned.
-        - Integer values that convert cleanly are returned as int.
+        Returns
+        -------
+        float, int or original type
+            The value expressed in the corresponding IP unit, or the
+            original value when conversion is not possible.
         """
         val = self[fieldname]
         unit = self.getunits(fieldname)
@@ -289,58 +421,115 @@ class EpBunch(Bunch):
             return val
 
     def getfieldidd(self, fieldname):
-        """get the idd dict for this field
-        Will return {} if the fieldname does not exist"""
+        """Return the complete IDD metadata dictionary for a field.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+
+        Returns
+        -------
+        dict
+            The IDD dictionary for the field, or an empty dict if the
+            field does not exist.
+        """
         return getfieldidd(self, fieldname)
 
     def getfieldidd_item(self, fieldname, iddkey):
-        """return an item from the fieldidd, given the iddkey
-        will return and empty list if it does not have the iddkey
-        or if the fieldname does not exist"""
+        """Return a single item from a field’s IDD dictionary.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the IDF field.
+        iddkey : str
+            Key inside the field’s IDD dictionary
+            (e.g. ``"units"``, ``"type"``, ``"minimum"``, ``"retaincase"``).
+
+        Returns
+        -------
+        list
+            The value stored under ``iddkey`` (normally a list), or an
+            empty list if the field or the key does not exist.
+        """
         return getfieldidd_item(self, fieldname, iddkey)
 
     def get_retaincase(self, fieldname):
-        """check if the field should retain case"""
+        """Return whether the field should retain case in comparisons.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+
+        Returns
+        -------
+        bool
+            ``True`` if the IDD entry for the field contains the key
+            ``retaincase``, ``False`` otherwise.
+        """
         return get_retaincase(self, fieldname)
 
     def isequal(self, fieldname, value, places=7):
-        """return True if the field == value
-        Will retain case if get_retaincase == True
-        for real value will compare to decimal 'places'
+        """Test whether a field is equal to a given value.
+
+        String comparisons respect the ``retaincase`` flag; numeric
+        comparisons use a tolerance of ``places`` decimal places.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+        value : object
+            Value to compare against.
+        places : int, optional
+            Decimal places used for real/integer comparison (default 7).
+
+        Returns
+        -------
+        bool
         """
         return isequal(self, fieldname, value, places=places)
 
     def getreferingobjs(self, iddgroups=None, fields=None):
-        """Get a list of objects that refer to this object"""
-        return getreferingobjs(self, iddgroups=iddgroups, fields=fields)
-
-    def get_referenced_object(self, fieldname):
-        """
-        Get an object referred to by a field in another object.
-
-        For example an object of type Construction has fields for each layer, each
-        of which refers to a Material. This functions allows the object
-        representing a Material to be fetched using the name of the layer.
-
-        Returns the first item found since if there is more than one matching item,
-        it is a malformed IDF.
+        """Return a list of objects that refer to this object.
 
         Parameters
         ----------
-        referring_object : EpBunch
-            The object which contains a reference to another object,
-        fieldname : str
-            The name of the field in the referring object which contains the
-            reference to another object.
+        iddgroups : list of str, optional
+            Restrict the search to objects belonging to these IDD groups.
+        fields : list of str, optional
+            Restrict the search to these field names.
 
         Returns
         -------
-        EpBunch
+        list of EpBunch
+            All objects that contain a reference to the current object.
+        """
+        return getreferingobjs(self, iddgroups=iddgroups, fields=fields)
 
+    def get_referenced_object(self, fieldname):
+        """Return the object that is referenced by a field of this object.
+
+        For example, a Construction layer field points to a Material;
+        this method returns that Material object.
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field that holds the reference.
+
+        Returns
+        -------
+        EpBunch or None
+            The first matching referenced object, or ``None`` if none is
+            found.  (More than one match indicates a malformed IDF.)
         """
         return get_referenced_object(self, fieldname)
 
     def __setattr__(self, name, value):
+        """Set an attribute / field value on the EpBunch."""
         try:
             origname = self["__functions"][name]
             # TODO: unit test never hits here so what is it for?
@@ -416,6 +605,7 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)  # TODO: could raise AttributeError
 
     def __getattr__(self, name):
+        """Get an attribute / field value from the EpBunch."""
         try:
             func = self["__functions"][name]
             return func(self)
@@ -454,6 +644,7 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
 
     def __getitem__(self, key):
+        """Get an item by key (supports both special keys and field names)."""
         if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
             return super(EpBunch, self).__getitem__(key)
         elif key in self.fieldnames:
@@ -477,6 +668,7 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
 
     def __setitem__(self, key, value):
+        """Set an item by key (supports both special keys and field names)."""
         if key in ("obj", "objls", "objidd", "__functions", "__aliases", "theidf"):
             super(EpBunch, self).__setitem__(key, value)
             return None
@@ -533,7 +725,7 @@ class EpBunch(Bunch):
             raise BadEPFieldError(astr)
 
     def __repr__(self):
-        """print this as an idf snippet"""
+        """Return a string representation of the object as an IDF snippet."""
         # lines = [str(val) for val in self.obj]
         # replace the above line with code that will print an integer without decimals
         lines = []
@@ -569,24 +761,23 @@ class EpBunch(Bunch):
         return "\n%s\n" % (astr,)
 
     def __str__(self):
-        """same as __repr__"""
+        """Return the same string as ``__repr__`` (needed when YAML is installed)."""
         # needed if YAML is installed. See issue 67
         # unit test
         return self.__repr__()
 
     def __dir__(self):
+        """Return a list of valid attributes (including field names and functions)."""
         fnames = self.fieldnames
         func_names = list(self["__functions"].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
 
     def print_ip(self):
-        """Print this object as an IDF snippet with field values converted to IP units.
+        """Print the object as an IDF snippet with all values converted to IP units.
 
-        Uses EPBunch.getunits to obtain the SI unit of each field, then
-        epconversions.convert2ip to obtain the IP value (and corresponding IP unit).
-        For fields that have a unit but no value, the IP unit is obtained with
-        epconversions.defaultipunit so the comment still shows the IP unit.
-        Non-numeric values and fields without units are left unchanged.
+        Uses ``getunits`` and ``epconversions.convert2ip``.  Fields without
+        units or non-numeric values are left unchanged; empty fields still
+        show the appropriate IP unit in the comment.
         """
         lines = []
         for val in self.obj:
@@ -662,7 +853,22 @@ class EpBunch(Bunch):
 
 
 def getrange(bch, fieldname):
-    """get the ranges for this field"""
+    """Return the numeric range constraints for a field (see EpBunch.getrange).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field.
+
+    Returns
+    -------
+    dict
+        Dictionary containing the keys ``maximum``, ``minimum``,
+        ``maximum<``, ``minimum>`` and ``type`` (or ``None`` when a
+        constraint is not present).
+    """
     keys = ["maximum", "minimum", "maximum<", "minimum>", "type"]
     index = bch.objls.index(fieldname)
     fielddct_orig = bch.objidd[index]
@@ -684,7 +890,19 @@ def getrange(bch, fieldname):
 
 
 def getunits(bch, fieldname):
-    """Return the units string for this field, or None if the field has no units."""
+    """Return the SI unit string of a field, or ``None`` if the field has no units.
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field.
+
+    Returns
+    -------
+    str or None
+    """
     units = getfieldidd_item(bch, fieldname, "units")
     if units:
         return units[0]
@@ -692,7 +910,25 @@ def getunits(bch, fieldname):
 
 
 def checkrange(bch, fieldname):
-    """throw exception if the out of range"""
+    """Validate that a field value lies inside its IDD range (see EpBunch.checkrange).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field to validate.
+
+    Returns
+    -------
+    object
+        The field value itself (unchanged).
+
+    Raises
+    ------
+    RangeError
+        If the value is outside the allowed limits.
+    """
     fieldvalue = bch[fieldname]
     therange = bch.getrange(fieldname)
     if therange["maximum"] != None:
@@ -716,13 +952,24 @@ def checkrange(bch, fieldname):
             astr = astr % (fieldvalue, therange["minimum>"])
             raise RangeError(astr)
     return fieldvalue
-    """get the idd dict for this field
-    Will return {} if the fieldname does not exist"""
 
 
 def getfieldidd(bch, fieldname):
-    """get the idd dict for this field
-    Will return {} if the fieldname does not exist"""
+    """Return the IDD metadata dictionary for a field (see EpBunch.getfieldidd).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field.
+
+    Returns
+    -------
+    dict
+        The IDD dictionary for the field, or an empty dict if the
+        field does not exist.
+    """
     # print(bch)
     try:
         fieldindex = bch.objls.index(fieldname)
@@ -734,9 +981,25 @@ def getfieldidd(bch, fieldname):
 
 
 def getfieldidd_item(bch, fieldname, iddkey):
-    """return an item from the fieldidd, given the iddkey
-    will return and empty list if it does not have the iddkey
-    or if the fieldname does not exist"""
+    """Return a single item from a field’s IDD dictionary
+    (see EpBunch.getfieldidd_item).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the IDF field.
+    iddkey : str
+        Key inside the field’s IDD dictionary
+        (e.g. ``"units"``, ``"type"``, ``"minimum"``, ``"retaincase"``).
+
+    Returns
+    -------
+    list
+        The value stored under ``iddkey`` (normally a list), or an
+        empty list if the field or the key does not exist.
+    """
     fieldidd = getfieldidd(bch, fieldname)
     try:
         return fieldidd[iddkey]
@@ -745,13 +1008,43 @@ def getfieldidd_item(bch, fieldname, iddkey):
 
 
 def get_retaincase(bch, fieldname):
-    """Check if the field should retain case"""
+    """Return whether the field should retain case (see EpBunch.get_retaincase).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field.
+
+    Returns
+    -------
+    bool
+        ``True`` if the IDD entry for the field contains the key
+        ``retaincase``, ``False`` otherwise.
+    """
     fieldidd = bch.getfieldidd(fieldname)
     return "retaincase" in fieldidd
 
 
 def isequal(bch, fieldname, value, places=7):
-    """return True if the field is equal to value"""
+    """Test whether a field equals a value (see EpBunch.isequal).
+
+    Parameters
+    ----------
+    bch : EpBunch
+        The EnergyPlus object that contains the field.
+    fieldname : str
+        Name of the field.
+    value : object
+        Value to compare against.
+    places : int, optional
+        Decimal places used for real/integer comparison (default 7).
+
+    Returns
+    -------
+    bool
+    """
 
     def equalalphanumeric(bch, fieldname, value):
         if bch.get_retaincase(fieldname):
@@ -771,7 +1064,23 @@ def isequal(bch, fieldname, value, places=7):
 
 
 def getreferingobjs(referedobj, iddgroups=None, fields=None):
-    """Get a list of objects that refer to this object"""
+    """Return objects that refer to ``referedobj``
+    (see EpBunch.getreferingobjs).
+
+    Parameters
+    ----------
+    referedobj : EpBunch
+        The object that is being referred to.
+    iddgroups : list of str, optional
+        Restrict the search to objects belonging to these IDD groups.
+    fields : list of str, optional
+        Restrict the search to these field names.
+
+    Returns
+    -------
+    list of EpBunch
+        All objects that contain a reference to ``referedobj``.
+    """
     # pseudocode for code below
     # referringobjs = []
     # referedobj has: -> Name
@@ -816,8 +1125,8 @@ def getreferingobjs(referedobj, iddgroups=None, fields=None):
 
 
 def get_referenced_object(referring_object, fieldname):
-    """
-    Get an object referred to by a field in another object.
+    """Return the object referenced by a field of ``referring_object``
+    (see EpBunch.get_referenced_object).
 
     For example an object of type Construction has fields for each layer, each
     of which refers to a Material. This functions allows the object
@@ -829,15 +1138,15 @@ def get_referenced_object(referring_object, fieldname):
     Parameters
     ----------
     referring_object : EpBunch
-        The object which contains a reference to another object,
+        The object which contains a reference to another object.
     fieldname : str
         The name of the field in the referring object which contains the
         reference to another object.
 
     Returns
     -------
-    EpBunch
-
+    EpBunch or None
+        The first matching referenced object, or ``None`` if none is found.
     """
     idf = referring_object.theidf
     object_list = referring_object.getfieldidd_item(fieldname, "object-list")
