@@ -5,6 +5,93 @@ History
 Changes
 ~~~~~~~
 
+release 0.6.1
+~~~~~~~~~~~~~
+
+Changing release names to plain 0.5.69 rather than r0.5.69
+
+
+Date:   Mon Aug 10 22:40:16 2026 -0700
+--------------------------------------
+
+fixed issue # 462
+
+:Problem: Need Integrated IP and SI c onversions
+:Solution: coded print_ip(), printidf_ip(), set_ipvalue, get_ipvalue
+
+Date:   Sun Aug 9 03:15:12 2026 -0700
+--------------------------------------
+
+fixed issue #468
+
+:Problem: Need Documentation for IP/SI conversions within eppy
+:Solution: This documentation is in page "New Functions"
+
+Date:   Sat Aug 8 10:18:16 2026 -0700
+--------------------------------------
+
+fixed issue #467
+
+:Problem: Need method will take the ipvalue and convert it to si units within EPBunch field
+:Solution: Grok coded and unit tested EPBunch.set_ipvalue(fieldname, ipvalue)
+
+Date:   Sat Aug 8 10:00:34 2026 -0700
+--------------------------------------
+
+fixed issue #466
+
+:Problem: need a method EPBunch.get_ipvalue(fieldname)
+:Solution: Added method to EPBunch with unit tests
+
+Date:   Fri Aug 7 23:51:55 2026 -0700
+--------------------------------------
+
+fixed issue #465
+
+:Problem: need IDF.printidf_ip() that prints the entire idf in ip units
+:Solution: Grok coded IDF.printidf_ip() and it's unit test
+
+Date:   Fri Aug 7 23:31:37 2026 -0700
+--------------------------------------
+
+fixed issue # 464
+
+:Problem: need EPBunch.print_ip() that will print the object in IP units
+:Solution: AI coded EPBunch.print_ip() with unit tests
+
+Date:   Fri Aug 7 20:21:07 2026 -0700
+--------------------------------------
+
+fixed issue # 463
+
+:Problem: Need to have the units next to the field
+:Solution: updated __repr__ in EPBunch to put in units next to field
+
+Date:   Wed Jun 17 11:46:57 2026 -0700
+--------------------------------------
+
+fixed issue #461
+
+:Problem: Need a place to put in new experimental code
+:Solution: created  eppy/experimental/__init__.py
+
+    new file:   eppy/experimental/__init__.py
+
+Date:   Sat Apr 4 14:34:31 2026 -0700
+--------------------------------------
+
+fixed issue #459
+
+:Problem: Page on Contributing should link and use the C4 contract
+:Solution: Page on Contributing updated to use C4 contract
+
+
+Changing release names to plain 0.5.69 rather than r0.5.69
+
+release r0.5.69
+~~~~~~~~~~~~~~~
+
+
 Date:   Wed Jan 21 10:32:31 2026 -0800
 --------------------------------------
 
