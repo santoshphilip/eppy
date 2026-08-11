@@ -3,6 +3,66 @@ Notes for eppy
 ==============
 
 
+2026-08-11
+----------
+
+Notes for release of a new version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+see:
+
+https://x.com/i/grok/share/5c670016b2b44c8e89da2c95fa26b1c9
+
+1. Prepare
+
+git checkout master
+git pull origin master
+
+Update HISTORY.rst with the changes for the new release
+
+# Run tests
+uv run pytest
+# (optional) uv run flake8 eppy tests
+
+2. Bump the version
+
+uv version --bump patch          # 0.6.0 → 0.6.1
+# or: uv version 0.6.1
+uv lock
+
+3. Commit
+
+git add .
+git commit -m "Release 0.6.1"
+
+4. Tag and push
+
+git tag 0.6.1
+git push origin master
+git push origin 0.6.1
+
+5. Build
+
+rm -rf dist/ build/          # optional clean
+uv build
+
+6. Publish to PyPI
+
+create a token for eppy on https://pypi.org/manage/project/eppy/settings/
+
+export UV_PUBLISH_TOKEN=pypi-...your-token...
+uv publish
+
+7. Create the GitHub Release
+
+Or with GitHub CLI:
+gh release create 0.6.1 --title "0.6.1" --notes-file HISTORY.rst
+
+8. Read the Docs
+
+The new tag 0.5.70 appears in the Versions list on your Read the Docs project.
+
+
 
 2026-01-20
 ----------
