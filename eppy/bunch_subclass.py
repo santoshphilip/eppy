@@ -22,6 +22,7 @@ import itertools
 
 from munch import Munch as Bunch
 from epconversions import epconversions as epc
+from eppy.units_proxy import UnitsProxy
 
 from eppy.bunchhelpers import matchfieldnames, scientificnotation, makefieldname
 import eppy.function_helpers as fh
@@ -383,43 +384,62 @@ class EpBunch(Bunch):
             # unit unknown or value non-numeric → leave as-is
             self[fieldname] = ipvalue
 
-    def get_ipvalue(self, fieldname):
+    def get_ipvalue(self, fieldname, verbose=False):
         """Return the value of the field converted to IP units.
 
         Parameters
         ----------
         fieldname : str
             Name of the field.
+        verbose : bool, optional
+            If True, return a string that includes the IP value together with
+            a comment in the same style as ``EpBunch.__repr__`` /
+            ``print_ip`` (e.g. ``"39.37    !- Thickness {in}"``).
+            Default is False (return only the numeric/IP value).
 
         Returns
         -------
-        float, int or original type
-            The value expressed in the corresponding IP unit, or the
-            original value when conversion is not possible.
+        float, int, original type, or str
+            The value expressed in the corresponding IP unit (or the original
+            value when conversion is not possible).  When ``verbose=True`` a
+            formatted comment string is returned instead.
         """
         val = self[fieldname]
         unit = self.getunits(fieldname)
+        justcomment = fieldname.replace("_", " ")
 
         if unit is None:
+            if verbose:
+                return f"{val}    !- {justcomment}"
             return val
 
         try:
             fval = float(val)
-            ip_val = epc.convert2ip(fval, unit, unitstr=False)
+            # convert2ip returns (value, unit_str) when unitstr=True
+            ip_val, ip_unit = epc.convert2ip(fval, unit, unitstr=True)
 
             # Prefer a clean integer when the converted value is integral
             try:
                 ival = int(ip_val)
                 if ival == ip_val:
-                    return ival
+                    ip_val = ival
             except (ValueError, TypeError):
                 pass
 
+            if verbose:
+                return f"{ip_val}    !- {justcomment} {{{ip_unit}}}"
             return ip_val
+
         except (ValueError, TypeError, KeyError, AttributeError):
             # non-numeric value or unit that cannot be converted
+            if verbose:
+                try:
+                    ip_unit = epc.defaultipunit(unit)
+                except (KeyError, AttributeError, TypeError):
+                    ip_unit = unit
+                return f"{val}    !- {justcomment} {{{ip_unit}}}"
             return val
-
+    
     def getfieldidd(self, fieldname):
         """Return the complete IDD metadata dictionary for a field.
 
@@ -850,6 +870,16 @@ class EpBunch(Bunch):
         nlines.insert(0, ip_lines[0])
         astr = "\n".join(nlines)
         print("\n%s\n" % (astr,))
+        
+    @property
+    def ip(self):
+        """Access fields in IP units:  site.ip.Elevation"""
+        return UnitsProxy(self, mode="ip")
+
+    @property
+    def si(self):
+        """Access fields in SI units (same as normal attribute access)."""
+        return UnitsProxy(self, mode="si")
 
 
 def getrange(bch, fieldname):

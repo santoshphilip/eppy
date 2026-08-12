@@ -777,7 +777,18 @@ class TestEpBunch(object):
         assert zone.getunits("NonExistentField") is None
 
     def test_get_ipvalue(self):
-        """py.test for EpBunch.get_ipvalue"""
+        """py.test for EpBunch.get_ipvalue
+
+        Checks:
+        - fields with no units return the original value
+        - units that do not convert (e.g. deg) stay the same
+        - length conversion m → ft works
+        - blank / empty fields are returned unchanged
+        - non-existent field raises BadEPFieldError
+        - verbose=False (default) returns the numeric/IP value
+        - verbose=True returns a string in the same style as
+          EpBunch.__repr__ / print_ip:  "value    !- Field Name {ip_unit}"
+        """
         idf = IDF(
             StringIO(
                 """
@@ -796,6 +807,7 @@ class TestEpBunch(object):
         building = idf.idfobjects["BUILDING"][0]
         zone = idf.idfobjects["ZONE"][0]
 
+        # ---------- non-verbose (default) behaviour ----------
         # Field with no units → original value returned
         assert building.get_ipvalue("Name") == "Test Building"
         assert zone.get_ipvalue("Name") == "West Zone"
@@ -804,8 +816,7 @@ class TestEpBunch(object):
         assert building.get_ipvalue("North_Axis") == 45.0
         assert zone.get_ipvalue("Direction_of_Relative_North") == 30
 
-        # Length conversion: m → ft (factor ≈ 3.28083989501312)
-        # 3.048 m should become exactly 10 ft
+        # Length conversion: m → ft (3.048 m → 10 ft)
         assert almostequal(zone.get_ipvalue("Z_Origin"), 10.0)
 
         # Blank / empty numeric field
@@ -815,6 +826,45 @@ class TestEpBunch(object):
         # Non-existent field must raise BadEPFieldError
         with pytest.raises(bunch_subclass.BadEPFieldError):
             zone.get_ipvalue("NonExistentField")
+
+        # Explicit verbose=False is identical to the default
+        assert almostequal(zone.get_ipvalue("Z_Origin", verbose=False), 10.0)
+        assert building.get_ipvalue("Name", verbose=False) == "Test Building"
+
+        # ---------- verbose=True behaviour ----------
+        # Restore a clean numeric Z_Origin for the verbose checks
+        zone.X_Origin = 0
+        zone.Z_Origin = 3.048
+
+        # Length field → value + comment with IP unit
+        verbose_z = zone.get_ipvalue("Z_Origin", verbose=True)
+        assert isinstance(verbose_z, str)
+        result = verbose_z.split()[0]
+        assert almostequal(float(result), 10)
+        assert "!- Z Origin" in verbose_z or "!- Z_Origin" in verbose_z.replace("_", " ")
+        assert "{ft}" in verbose_z        # IP unit for m
+
+        # Field with no units → value + comment, no {unit}
+        verbose_name = building.get_ipvalue("Name", verbose=True)
+        assert isinstance(verbose_name, str)
+        assert "Test Building" in verbose_name
+        assert "!- Name" in verbose_name
+        assert "{" not in verbose_name    # no unit braces
+
+        # deg field (no conversion) still shows the unit when present
+        verbose_axis = building.get_ipvalue("North_Axis", verbose=True)
+        assert isinstance(verbose_axis, str)
+        assert "45" in verbose_axis
+        assert "!- North Axis" in verbose_axis or "!- North_Axis" in verbose_axis.replace("_", " ")
+        # deg is the same in SI/IP, so expect {deg}
+        assert "{deg}" in verbose_axis
+
+        # Empty field with units still produces a comment that includes the IP unit
+        zone.X_Origin = ""
+        verbose_empty = zone.get_ipvalue("X_Origin", verbose=True)
+        assert isinstance(verbose_empty, str)
+        assert "!-" in verbose_empty
+        assert "{ft}" in verbose_empty    # default IP unit for m
 
     def test_checkrange(self):
         data = (
@@ -1329,3 +1379,25 @@ ScheduleTypeLimits,
     sch = idf.idfobjects["ScheduleTypeLimits"][0]
     result = sch.__repr__()
     assert result == expected
+
+def test_ip_proxy():
+    idf = IDF(            StringIO(
+                """
+            Version, 9.0;
+            Site:Location,
+                DENVER_STAPLETON_CO_USA_WMO_724690,  !- Name
+                39.77,                   !- Latitude {deg}
+                -104.87,                 !- Longitude {deg}
+                -7.00,                   !- Time Zone {hr}
+                1611.00;                 !- Elevation {m}
+            """)
+)
+    site = idf.idfobjects["Site:Location"][0]
+    assert site.ip.Elevation == pytest.approx(site.get_ipvalue("Elevation"))
+    assert site.ip["Elevation"] == site.ip.Elevation
+
+    # setting
+    old = site.Elevation
+    site.ip.Elevation = 10          # 10 ft
+    assert site.Elevation == pytest.approx(3.048)
+    site.Elevation = old            # restore
