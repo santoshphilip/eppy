@@ -60,7 +60,7 @@ gh release create 0.6.1 --title "0.6.1" --notes-file HISTORY.rst
 
 8. Read the Docs
 
-The new tag 0.5.70 appears in the Versions list on your Read the Docs project.
+The new tag 0.6.1 appears in the Versions list on your Read the Docs project.
 
 
 
