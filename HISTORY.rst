@@ -5,6 +5,18 @@ History
 Changes
 ~~~~~~~
 
+release 0.6.2
+~~~~~~~~~~~~~
+
+Date:   Tue Aug 11 19:07:32 2026 -0700
+--------------------------------------
+
+fixed issue #469
+
+:Problem: Need a simpler interface to enter IP values to a field
+:Solution: Added ip, ipv, si, siv functionality to EPBunch
+
+
 release 0.6.1
 ~~~~~~~~~~~~~
 
