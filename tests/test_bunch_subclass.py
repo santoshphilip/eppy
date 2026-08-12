@@ -1294,6 +1294,61 @@ class TestEpBunch(object):
         mat.set_ipvalue("Thickness", 1.0)
         assert almostequal(mat.Thickness, 0.3048, places=6)
 
+    def test_unitsproxy_str_and_repr(self, capsys):
+        """py.test for UnitsProxy.__str__ / __repr__
+
+        After the change, site.ip (and str(site.ip) / repr(site.ip))
+        should produce the same text that print_ip() prints.
+        """
+        idf = IDF(
+            StringIO(
+                """
+            Version, 9.0;
+            Site:Location,
+                Test Site,               !- Name
+                40.0,                    !- Latitude {deg}
+                -105.0,                  !- Longitude {deg}
+                -7.0,                    !- Time Zone {hr}
+                1609.0;                  !- Elevation {m}
+            Material,
+                TestMat,                 !- Name
+                MediumSmooth,            !- Roughness
+                0.1016,                  !- Thickness {m}
+                0.115,                   !- Conductivity {W/m-K}
+                513,                     !- Density {kg/m3}
+                1000;                    !- Specific Heat {J/kg-K}
+        """
+            )
+        )
+
+        site = idf.idfobjects["SITE:LOCATION"][0]
+        mat = idf.idfobjects["MATERIAL"][0]
+
+        # ---------- capture what print_ip currently produces ----------
+        site.print_ip()
+        site_ip_text = capsys.readouterr().out.strip()
+
+        mat.print_ip()
+        mat_ip_text = capsys.readouterr().out.strip()
+
+        # ---------- str() and repr() of the proxy must match ----------
+        assert str(site.ip).strip() == site_ip_text
+        assert repr(site.ip).strip() == site_ip_text
+
+        assert str(mat.ip).strip() == mat_ip_text
+        assert repr(mat.ip).strip() == mat_ip_text
+
+        # Optional: also exercise the verbose proxy if you have .ipv
+        # (only if your UnitsProxy supports mode "ipv")
+        if hasattr(site, "ipv"):
+            # ipv is field-level verbose; the whole-object string is still the
+            # same as print_ip, so the same assertion is fine
+            assert str(site.ipv).strip() == site_ip_text
+
+        # Sanity: SI proxy should still look like the normal object
+        assert "Site:Location," in str(site.si) or "SITE:LOCATION," in str(site.si)
+        assert "Test Site" in str(site.si)
+
 
 bldfidf = """
 Version,

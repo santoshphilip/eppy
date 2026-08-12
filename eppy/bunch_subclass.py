@@ -822,13 +822,10 @@ class EpBunch(Bunch):
         func_names = list(self["__functions"].keys())
         return super(EpBunch, self).__dir__() + fnames + func_names
 
-    def print_ip(self):
-        """Print the object as an IDF snippet with all values converted to IP units.
-
-        Uses ``getunits`` and ``epconversions.convert2ip``.  Fields without
-        units or non-numeric values are left unchanged; empty fields still
-        show the appropriate IP unit in the comment.
-        """
+            
+    # in EpBunch
+    def ip_str(self):
+        """Return the IDF-snippet string with values in IP units."""
         lines = []
         for val in self.obj:
             try:
@@ -899,8 +896,12 @@ class EpBunch(Bunch):
         ]
         nlines.insert(0, ip_lines[0])
         astr = "\n".join(nlines)
-        print("\n%s\n" % (astr,))
-        
+        # print("\n%s\n" % (astr,))
+        return astr
+
+    def print_ip(self):
+        print("\n%s\n" % self.ip_str())
+
     @property
     def ip(self):
         """Access fields in IP units:  site.ip.Elevation → numeric IP value"""

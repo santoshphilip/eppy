@@ -75,5 +75,10 @@ class UnitsProxy:
         """Make tab-completion show the field names."""
         return list(self._epbunch.fieldnames)
 
+    def __str__(self):
+        if self._mode in ("ip", "ipv"):
+            return self._epbunch.ip_str()
+        return str(self._epbunch)
+
     def __repr__(self):
-        return f"<UnitsProxy mode={self._mode!r} for {self._epbunch.key}>"
+        return self.__str__()
