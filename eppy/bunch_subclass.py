@@ -440,6 +440,36 @@ class EpBunch(Bunch):
                 return f"{val}    !- {justcomment} {{{ip_unit}}}"
             return val
     
+
+    def get_sivalue(self, fieldname, verbose=False):
+        """Return the SI value of the field (optionally with a comment).
+
+        Parameters
+        ----------
+        fieldname : str
+            Name of the field.
+        verbose : bool, optional
+            If True, return a string that includes the SI value together with
+            a comment in the same style as ``EpBunch.__repr__``
+            (e.g. ``"1.0    !- Thickness {m}"``).
+            Default is False (return only the raw SI value).
+
+        Returns
+        -------
+        float, int, original type, or str
+            The field value, or a formatted comment string when ``verbose=True``.
+        """
+        val = self[fieldname]
+        if not verbose:
+            return val
+
+        unit = self.getunits(fieldname)
+        justcomment = fieldname.replace("_", " ")
+
+        if unit is None:
+            return f"{val}    !- {justcomment}"
+        return f"{val}    !- {justcomment} {{{unit}}}"
+    
     def getfieldidd(self, fieldname):
         """Return the complete IDD metadata dictionary for a field.
 
@@ -873,14 +903,27 @@ class EpBunch(Bunch):
         
     @property
     def ip(self):
-        """Access fields in IP units:  site.ip.Elevation"""
+        """Access fields in IP units:  site.ip.Elevation → numeric IP value"""
         return UnitsProxy(self, mode="ip")
+
+    @property
+    def ipv(self):
+        """Access fields in IP units with comment:
+        site.ipv.Elevation → e.g. '123.0    !- Elevation {ft}'
+        """
+        return UnitsProxy(self, mode="ipv")
 
     @property
     def si(self):
         """Access fields in SI units (same as normal attribute access)."""
         return UnitsProxy(self, mode="si")
 
+    @property
+    def siv(self):
+        """Access fields in SI units with comment:
+        site.siv.Elevation → e.g. '37.5    !- Elevation {m}'
+        """
+        return UnitsProxy(self, mode="siv")
 
 def getrange(bch, fieldname):
     """Return the numeric range constraints for a field (see EpBunch.getrange).

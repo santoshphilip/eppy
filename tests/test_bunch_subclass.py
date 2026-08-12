@@ -1380,24 +1380,65 @@ ScheduleTypeLimits,
     result = sch.__repr__()
     assert result == expected
 
-def test_ip_proxy():
-    idf = IDF(            StringIO(
-                """
-            Version, 9.0;
-            Site:Location,
-                DENVER_STAPLETON_CO_USA_WMO_724690,  !- Name
-                39.77,                   !- Latitude {deg}
-                -104.87,                 !- Longitude {deg}
-                -7.00,                   !- Time Zone {hr}
-                1611.00;                 !- Elevation {m}
-            """)
-)
+def test_units_proxy():
+    idf = IDF(
+        StringIO(
+            """
+        Version, 9.0;
+        Site:Location,
+            DENVER_STAPLETON_CO_USA_WMO_724690,  !- Name
+            39.77,                   !- Latitude {deg}
+            -104.87,                 !- Longitude {deg}
+            -7.00,                   !- Time Zone {hr}
+            1611.00;                 !- Elevation {m}
+        """
+        )
+    )
     site = idf.idfobjects["Site:Location"][0]
+
+    # --- numeric IP ---
     assert site.ip.Elevation == pytest.approx(site.get_ipvalue("Elevation"))
     assert site.ip["Elevation"] == site.ip.Elevation
 
-    # setting
+    # --- verbose IP ---
+    ipv = site.ipv.Elevation
+    assert isinstance(ipv, str)
+    assert "!-" in ipv
+    assert "{ft}" in ipv
+    assert almostequal(float(ipv.split()[0]), site.get_ipvalue("Elevation"))
+    assert site.ipv["Elevation"] == ipv
+
+    # --- numeric SI (same as normal access) ---
+    assert site.si.Elevation == site.Elevation
+    assert site.si["Elevation"] == site.Elevation
+
+    # --- verbose SI ---
+    siv = site.siv.Elevation
+    assert isinstance(siv, str)
+    assert "!-" in siv
+    assert "{m}" in siv
+    assert "1611" in siv
+    assert site.siv["Elevation"] == siv
+
+    # also exercise get_sivalue directly
+    assert site.get_sivalue("Elevation") == site.Elevation
+    assert site.get_sivalue("Elevation", verbose=True) == siv
+    assert site.get_sivalue("Name", verbose=True).startswith(
+        site.Name
+    )  # no unit braces
+
+    # --- assignment ---
     old = site.Elevation
-    site.ip.Elevation = 10          # 10 ft
+    site.ip.Elevation = 10  # 10 ft
     assert site.Elevation == pytest.approx(3.048)
-    site.Elevation = old            # restore
+
+    site.si.Elevation = 50.0
+    assert site.Elevation == 50.0
+
+    site.siv.Elevation = 60.0  # siv writes like si
+    assert site.Elevation == 60.0
+
+    site.ipv.Elevation = 10  # ipv writes like ip
+    assert site.Elevation == pytest.approx(3.048)
+
+    site.Elevation = old  # restore
