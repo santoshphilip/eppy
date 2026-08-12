@@ -5,6 +5,18 @@ History
 Changes
 ~~~~~~~
 
+release 0.6.3
+~~~~~~~~~~~~~
+
+Date:   Wed Aug 12 16:36:28 2026 -0700
+--------------------------------------
+
+fixed issue #470
+
+:Problem: IP and SI conversions need a clean up
+:Solution: Conversions cleaned up using only .ip, .si, .ipv, .siv
+
+
 release 0.6.2
 ~~~~~~~~~~~~~
 
