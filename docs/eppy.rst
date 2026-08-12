@@ -211,6 +211,14 @@ eppy.snippet module
    :undoc-members:
    :show-inheritance:
 
+eppy.units\_proxy module
+------------------------
+
+.. automodule:: eppy.units_proxy
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 eppy.walk\_hvac module
 ----------------------
 
