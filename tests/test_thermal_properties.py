@@ -1,4 +1,5 @@
 # Copyright (c) 2016 Jamie Bull
+# Copyright (c) 2026 Santosh Philip
 # =======================================================================
 #  Distributed under the MIT License.
 #  (See accompanying file LICENSE or copy at
@@ -41,11 +42,11 @@ class Data(object):
     """data"""
 
     single_layer = """
-      Construction,
+      ConstructioN,
         TestConstruction,                       !- Name
         TestMaterial;                           !- Inside Layer
     
-      Material,
+      MateriaL,
         TestMaterial,
         Rough,                   !- Roughness
         0.10,                    !- Thickness {m}
