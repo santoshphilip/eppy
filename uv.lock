@@ -818,7 +818,7 @@ wheels = [
 
 [[package]]
 name = "eppy"
-version = "0.6.3"
+version = "0.6.4"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },

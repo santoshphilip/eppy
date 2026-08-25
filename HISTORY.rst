@@ -5,6 +5,19 @@ History
 Changes
 ~~~~~~~
 
+
+release 0.6.4
+~~~~~~~~~~~~~
+
+Date:   Mon Aug 24 21:46:24 2026 -0700
+--------------------------------------
+
+fixed issue #471
+
+:Problem: thermal_properties.py had some case sensitive functions for idfobjects
+:Solution: Made those functions case-insensitive and pytested them
+
+
 release 0.6.3
 ~~~~~~~~~~~~~
 
