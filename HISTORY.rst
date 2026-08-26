@@ -5,6 +5,17 @@ History
 Changes
 ~~~~~~~
 
+release 0.6.7
+~~~~~~~~~~~~~
+
+Date:   Wed Aug 26 08:49:05 2026 -0700
+--------------------------------------
+
+fixed issue #472
+
+:Problem: epconversions install breaks the current eppy-core package
+:Solution: avoided an install by included epconversion.py in eppy
+
 
 release 0.6.4
 ~~~~~~~~~~~~~
