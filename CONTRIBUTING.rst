@@ -17,7 +17,7 @@ Steps for making updates to the software, based on C4 document above:
 - *Contributer*:
     - forks the repository
     - makes changes
-    - commits with appropriate commit following message
+    - commits with appropriate commit message
       ::
       
         fixed issue #n (*on first line*)
