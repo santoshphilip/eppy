@@ -21,9 +21,9 @@ import copy
 import itertools
 
 from munch import Munch as Bunch
-from epconversions import epconversions as epc
 from eppy.units_proxy import UnitsProxy
 
+import eppy.epconversions as epc
 from eppy.bunchhelpers import matchfieldnames, scientificnotation, makefieldname
 import eppy.function_helpers as fh
 import eppy.ext_field_functions as extff

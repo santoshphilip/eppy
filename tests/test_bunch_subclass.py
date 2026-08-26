@@ -1229,7 +1229,7 @@ class TestEpBunch(object):
         - non-numeric / unconvertible values are stored unchanged
         - round-trip via print_ip / convert2ip is consistent
         """
-        from epconversions import epconversions as epc
+        import eppy.epconversions as epc
 
         idf = IDF(
             StringIO(

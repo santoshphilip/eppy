@@ -1,0 +1,9 @@
+This project is primarily licensed under the MIT License.
+See the LICENSE file for the full MIT text.
+
+The following components / files are licensed under the Mozilla Public License 2.0:
+- eppy/epconversions.py
+  Copyright (c) 2023-2024 Santosh Philip
+  Full license text: licenses/LICENSES/MPL-2.0.txt (or link to https://mozilla.org/MPL/2.0/)
+
+Recipients must comply with the MPL-2.0 terms for those portions.

@@ -52,3 +52,10 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+License
+-------
+
+This project is licensed under the MIT License, with the exception of
+eppy/epconversion.py, which are under the Mozilla Public License 2.0.
+See the LICENSE and NOTICE files for details.

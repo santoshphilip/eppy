@@ -21,7 +21,6 @@ classifiers = [
 dependencies = [
     "beautifulsoup4>=4.14.3",
     "decorator>=5.2.1",
-    "epconversions>=0.2.2",
     "future>=1.0.0",
     "lxml>=6.0.2",
     "munch>=4.0.0",

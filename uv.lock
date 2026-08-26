@@ -808,22 +808,12 @@ wheels = [
 ]
 
 [[package]]
-name = "epconversions"
-version = "0.2.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/89/33/0390c20ef692a62d6240d6c5e106e9b9b7b5393181036ba12d3b051a7270/epconversions-0.2.2.tar.gz", hash = "sha256:f6cd0e7941b0dea4fde70c8c2ce820520a0b92ea2e36182d6fe94755022b7bd0", size = 28457, upload-time = "2024-05-12T14:43:41.75Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/01/f0/f5a15a47e18b292bb457a2dd50c4784c545a5f650cda191119c2801192d0/epconversions-0.2.2-py2.py3-none-any.whl", hash = "sha256:008cd89030ad7c2e0258bda0250df88da1579caab9a4463e9e80dc745b23a435", size = 18224, upload-time = "2024-05-12T14:43:39.819Z" },
-]
-
-[[package]]
 name = "eppy"
 version = "0.6.4"
 source = { editable = "." }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "decorator" },
-    { name = "epconversions" },
     { name = "future" },
     { name = "lxml" },
     { name = "munch" },
@@ -866,7 +856,6 @@ dev = [
 requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.14.3" },
     { name = "decorator", specifier = ">=5.2.1" },
-    { name = "epconversions", specifier = ">=0.2.2" },
     { name = "future", specifier = ">=1.0.0" },
     { name = "lxml", specifier = ">=6.0.2" },
     { name = "munch", specifier = ">=4.0.0" },
